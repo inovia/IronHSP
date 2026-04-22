@@ -638,14 +638,15 @@ WriteResult write_mv1(const ModelIR &ir) {
     hdr.TriangleListNormalPositionNum = static_cast<std::int32_t>(normalNum);
     hdr.MeshPositionSize    = static_cast<std::int32_t>(positionNum * 12);
     hdr.MeshNormalNum       = static_cast<std::int32_t>(normalNum);
-    // MeshVertexSize = sum(mesh.VertexNum × VertUnitSize) where
-    //   VertUnitSize = 20 + UVSetUnitNum × UVUnitNum × 4   (DxModel.cpp L15172)
+    // MeshVertexSize = sum(Mesh.VertexNum × VertUnitSize) where
+    //   Mesh.VertexNum = **per-corner** count (= m.indices.size())、
+    //   VertUnitSize   = 20 + UVSetUnitNum × UVUnitNum × 4   (DxModel.cpp L15172)
     std::int32_t totalMeshVertexSize = 0;
     for (const auto &m : ir.meshes) {
         int uvSets = m.uvs.empty() ? 0 : 1;
         int uvComp = m.uvs.empty() ? 0 : 2;
         int vertUnit = 20 + uvSets * uvComp * 4;
-        totalMeshVertexSize += static_cast<std::int32_t>((m.positions.size() / 3)) * vertUnit;
+        totalMeshVertexSize += static_cast<std::int32_t>(m.indices.size()) * vertUnit;
     }
     hdr.MeshVertexSize      = totalMeshVertexSize;
     hdr.StringSize          = static_cast<std::int32_t>(stringSize);
