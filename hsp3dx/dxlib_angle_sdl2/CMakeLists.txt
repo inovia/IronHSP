@@ -172,6 +172,10 @@ add_subdirectory(extlib/libopus)
 # upstream from https://github.com/xiph/opusfile (BSD-2)
 add_subdirectory(extlib/opusfile)
 
+# --- libtheora (decoder-only, pure-C) バンドル --------------------------
+# upstream from https://github.com/xiph/theora (BSD-3)
+add_subdirectory(extlib/libtheora)
+
 # --- 共通: DxLib desktop 用コンパイル設定 ------------------------------
 function(dxlib_desktop_settings target)
     target_include_directories(${target} PRIVATE ${DXLIB_PORTABLE_DIR})
