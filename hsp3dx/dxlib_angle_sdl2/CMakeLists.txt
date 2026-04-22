@@ -180,6 +180,17 @@ add_subdirectory(extlib/libtheora)
 # upstream from https://gitlab.com/libtiff/libtiff (libtiff license)
 add_subdirectory(extlib/libtiff)
 
+# --- Live2D Cubism SDK (L2): Core (prebuilt) + Framework (source) ---------
+# Live2D Proprietary + MIT (LICENSE_Core.md / LICENSE_Framework.md 参照)
+# extlib/cubism/lib に prebuilt static lib があれば有効化、無ければ skip
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/extlib/cubism/include/Live2DCubismCore.h")
+    add_subdirectory(extlib/cubism)
+    set(HAVE_LIVE2D_CUBISM4 TRUE)
+    message(STATUS "Live2D Cubism SDK found — dx_cubism_framework enabled")
+else()
+    set(HAVE_LIVE2D_CUBISM4 FALSE)
+endif()
+
 # --- 共通: DxLib desktop 用コンパイル設定 ------------------------------
 function(dxlib_desktop_settings target)
     target_include_directories(${target} PRIVATE ${DXLIB_PORTABLE_DIR})
