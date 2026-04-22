@@ -331,6 +331,18 @@ WriteResult write_mv1(const ModelIR &ir) {
             b.append_bytes(&u, 4);
             b.append_bytes(&vv, 4);
         }
+        // NON_TOON_OUTLINE bit data: 全 vertex の ToonOutLineScale > 0 か否か 1 bit/vertex。
+        // 我々はすべて "outline なし" (ToonOutLineScale=0 → bit=1) なので全 1 で埋める。
+        std::size_t bitBytes = (vn + 7) / 8;
+        for (std::size_t i = 0; i < bitBytes; ++i) {
+            std::uint8_t all1 = 0xFF;
+            b.append_bytes(&all1, 1);
+        }
+        // 4 byte align
+        while (b.pos() & 3u) {
+            std::uint8_t z = 0;
+            b.append_bytes(&z, 1);
+        }
     }
 
     // ====== 9. TriangleList.MeshVertexIndexAndIndexData ======
@@ -611,12 +623,13 @@ WriteResult write_mv1(const ModelIR &ir) {
         // Index type 選定: 65535 以下なら U16、超過時のみ U32
         const bool useU32 = meshVN > 65535;
         const std::uint32_t idxType = useU32 ? e::MESH_VERT_INDEX_TYPE_U32 : e::MESH_VERT_INDEX_TYPE_U16;
-        // VertFlag:
-        //   COMMON_COLOR      = 0x20  1 色共通 (頂点カラー個別出さない)
-        //   NON_TOON_OUTLINE  = 0x40  ★DxLib loader L15987 参照: **立てると per-vertex bit
-        //                             データが必要**。無しで OK (立てない)。
+        // VertFlag (DxLib save L18995 準拠):
+        //   COMMON_COLOR     = 0x20  常時 (頂点カラー個別出さない)
+        //   NON_TOON_OUTLINE = 0x40  ★常時立てて、末尾に per-vertex bit データを書く
+        //                             (VertexNum/8 byte、全 1 = outline なし)
         //   pos index U16/U32 + nrm index 同型
         std::uint32_t vf = e::MESH_VERT_FLAG_COMMON_COLOR
+                         | e::MESH_VERT_FLAG_NON_TOON_OUTLINE
                          | idxType
                          | (hasNormals && !m.normals.empty() ? (idxType << 2) : 0);
         mesh.VertFlag = static_cast<std::int32_t>(vf);
