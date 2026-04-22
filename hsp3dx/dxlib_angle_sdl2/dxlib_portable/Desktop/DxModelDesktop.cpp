@@ -168,17 +168,50 @@ static GLuint desktop_mv1_tex_from_graph( int graphHandle )
     return ( GLuint )tex->PF->Texture.TextureBuffer ;
 }
 
-// 単一トライアングルリストを描画。MV1_VERTEX_TYPE_NORMAL 専用。
-// テクスチャ・頂点カラー・材質 Diffuse を合成。
+// 頂点 index vi における world 空間位置を取得する (vertex type 毎に分岐)。
+// MV1_VERTEX_TYPE_NORMAL は NormalPosition、スキニング付きは bone 動作を
+// 完全に反映できないため base position (= T ポーズ) で静的に描画する。
+// 完全なアニメーション反映は v5 (CPU skinning) で対応予定。
+static void desktop_mv1_get_vertex_pos(
+    MV1_TRIANGLE_LIST *TList, unsigned short vi, float out[ 3 ] )
+{
+    MV1_TRIANGLE_LIST_BASE *bd = TList->BaseData ;
+    switch ( bd->VertexType ) {
+    case MV1_VERTEX_TYPE_NORMAL:
+        out[ 0 ] = TList->NormalPosition[ vi ].Position.x ;
+        out[ 1 ] = TList->NormalPosition[ vi ].Position.y ;
+        out[ 2 ] = TList->NormalPosition[ vi ].Position.z ;
+        return ;
+    case MV1_VERTEX_TYPE_SKIN_4BONE:
+        out[ 0 ] = TList->SkinPosition4B[ vi ].Position.x ;
+        out[ 1 ] = TList->SkinPosition4B[ vi ].Position.y ;
+        out[ 2 ] = TList->SkinPosition4B[ vi ].Position.z ;
+        return ;
+    case MV1_VERTEX_TYPE_SKIN_8BONE:
+        out[ 0 ] = TList->SkinPosition8B[ vi ].Position.x ;
+        out[ 1 ] = TList->SkinPosition8B[ vi ].Position.y ;
+        out[ 2 ] = TList->SkinPosition8B[ vi ].Position.z ;
+        return ;
+    case MV1_VERTEX_TYPE_SKIN_FREEBONE:
+        out[ 0 ] = TList->SkinPositionFREEB[ vi ].Position.x ;
+        out[ 1 ] = TList->SkinPositionFREEB[ vi ].Position.y ;
+        out[ 2 ] = TList->SkinPositionFREEB[ vi ].Position.z ;
+        return ;
+    default:
+        out[ 0 ] = out[ 1 ] = out[ 2 ] = 0.0f ;
+        return ;
+    }
+}
+
+// 単一トライアングルリストを描画。全 VertexType 対応。
 static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TList )
 {
     if ( !TList || !TList->BaseData ) return ;
     MV1_TRIANGLE_LIST_BASE *bd = TList->BaseData ;
-    if ( bd->VertexType != MV1_VERTEX_TYPE_NORMAL ) {
-        // skinning 版 (4BONE / 8BONE / FREEBONE) は v4 で対応
-        return ;
-    }
-    if ( !TList->NormalPosition || !bd->Index || bd->IndexNum < 3 ) return ;
+    if ( !bd->Index || bd->IndexNum < 3 ) return ;
+    if ( !Mesh || !Mesh->BaseData ) return ;
+    // NormalPosition (union) ポインタが無効なら描画不可
+    if ( !TList->NormalPosition ) return ;
     if ( !Mesh || !Mesh->BaseData ) return ;
 
     // マテリアルから Diffuse と DiffuseLayer[0] (diffuse texture) を取得
@@ -247,8 +280,9 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
                 glColor4ub( mR, mG, mB, mA ) ;
             }
 
-            FLOAT4 &p = TList->NormalPosition[ vi ].Position ;
-            glVertex3f( p.x, p.y, p.z ) ;
+            float p[ 3 ] ;
+            desktop_mv1_get_vertex_pos( TList, vi, p ) ;
+            glVertex3f( p[ 0 ], p[ 1 ], p[ 2 ] ) ;
         }
     }
     glEnd() ;
