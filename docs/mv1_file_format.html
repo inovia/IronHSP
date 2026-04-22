@@ -111,19 +111,21 @@ em { color: #666; }
 <pre><code>+-------+-----------------------------+
 | off   | 内容                        |
 +-------+-----------------------------+
-| 0x00  | Magic  &quot;MV11&quot; (4 bytes)     |
+| 0x00  | Magic  &quot;MV11&quot; (4 bytes)     |   ← MV1MODEL_FILEHEADER_F1.CheckID[4] と同一のバイト列
 +-------+-----------------------------+
 | 0x04  | DXA 圧縮ブロック            |
 |       |   伸長すると                |
-|       |   MV1MODEL_FILEHEADER_F1    |
-|       |   + 可変長データ群          |
+|       |   MV1MODEL_FILEHEADER_F1 の |
+|       |   Version 以降 + 可変長     |
+|       |   データ群                  |
 +-------+-----------------------------+
 </code></pre>
 <ul>
-<li><strong>Magic</strong>: ASCII 4 バイト <code>M V 1 1</code>。<code>1</code> = バージョン 1 相当。これ以外は即 <code>-1</code> エラー。</li>
-<li><strong>DXA 圧縮</strong>: <code>DXA_Decode(src + 4, NULL)</code> で伸長後サイズを取得、バッファ確保、再 <code>DXA_Decode</code> で実データ展開。アルゴリズムは DxLib 独自の LZSS 派生 (本文参照: <code>DxArchive_.cpp</code>)。</li>
+<li><strong>Magic</strong>: ASCII 4 バイト <code>M V 1 1</code>。これ以外は即 <code>-1</code> エラー。この 4 byte は「<code>MV1MODEL_FILEHEADER_F1</code> の <code>CheckID[4]</code>」でもある — つまり <strong>CheckID は DXA 圧縮に含まれず、ファイル magic をそのまま <code>FHeader</code> の先頭 4 byte に流用する</strong> 設計 (<code>DxModel.cpp</code> L14921: <code>DXA_Decode( file+4, (BYTE*)FHeader + 4 )</code>)。</li>
+<li><strong>DXA 圧縮</strong>: <code>DXA_Decode(src + 4, NULL)</code> で伸長後サイズを取得、バッファ確保、再 <code>DXA_Decode</code> で <code>FHeader+4</code> 以降に実データ展開。アルゴリズムは DxLib 独自の LZSS 派生 (本文参照: <code>DxArchive_.cpp</code>)。</li>
+<li><strong><code>Version</code> は <code>0</code></strong> (DxLib 3.24f 時点)。古い記述の「Version = 1」は誤り。Magic の <code>'1'</code> はバージョンではなく形式識別子。</li>
 </ul>
-<p>伸長されたデータの先頭 (= <code>off = 0</code> + 4 byte 分の magic は含まず <code>MV11</code> 後から) に <code>MV1MODEL_FILEHEADER_F1</code> が置かれ、同じバッファ内の後続オフセットに各種配列やポインタ先が連続配置される。構造体メンバー内の <strong>ポインタ相当の DWORD は「このバッファ先頭からのバイトオフセット」を格納</strong> (ロード時にポインタへ変換される)。</p>
+<p>伸長されたデータは「<code>MV1MODEL_FILEHEADER_F1</code> の <code>Version</code> フィールド (offset 4) 以降」としてメモリに貼られ、同じバッファ内の後続オフセットに各種配列やポインタ先が連続配置される。従って <strong>パーサ実装側は decode 結果の先頭に <code>&quot;MV11&quot;</code> 4 byte を自前で補って <code>FHeader</code> として reinterpret する</strong> のが簡単 (<code>mv1conv</code> はこの方式)。構造体メンバー内の <strong>ポインタ相当の DWORD は「このバッファ (CheckID 込み) 先頭からのバイトオフセット」を格納</strong> (ロード時にポインタへ変換される)。ポインタ値 <code>0</code> は null。</p>
 <hr />
 <h2>DXA 圧縮アルゴリズム詳細</h2>
 <p>出典: <code>DxArchive_.cpp</code> の <code>DXA_Encode</code> / <code>DXA_Decode</code>。純粋 LZSS (Huffman 併用なし)。<code>.mv1</code> の magic <code>&quot;MV11&quot;</code> 直後から始まるバイト列がこの形式。</p>
@@ -288,7 +290,7 @@ int DXA_Decode( const uint8_t *src, uint8_t *dst )
 <p>本セクションで扱う <code>DXA_Encode/Decode</code> は <strong>ファイル内部圧縮</strong> 専用で、<code>.dxa</code> アーカイブの鍵付き暗号化 (<code>DXArchive</code> クラス内蔵) とは <strong>別物</strong>。<code>.mv1</code> には暗号化はない。</p>
 <hr />
 <h2>ルートヘッダ <code>MV1MODEL_FILEHEADER_F1</code></h2>
-<p>128 バイト程度の固定長ヘッダ。主要フィールド:</p>
+<p><strong>正確に 304 バイト (0x130)</strong> の固定長ヘッダ (4 byte align)。主要フィールド:</p>
 <table>
 <thead>
 <tr>
@@ -303,13 +305,13 @@ int DXA_Decode( const uint8_t *src, uint8_t *dst )
 <td>0x00</td>
 <td>BYTE[4]</td>
 <td><code>CheckID[4]</code></td>
-<td><code>&quot;MV11&quot;</code> (DXA 伸長後にも同じ magic が入る)</td>
+<td><code>&quot;MV11&quot;</code> — <strong>ファイル magic を流用、DXA ブロックには含まれない</strong></td>
 </tr>
 <tr>
 <td>0x04</td>
 <td>DWORD</td>
 <td><code>Version</code></td>
-<td>1</td>
+<td><code>0</code> (DxLib 3.24f 現行。旧仕様書の「1」は誤り)</td>
 </tr>
 <tr>
 <td>0x08</td>
@@ -625,6 +627,10 @@ int DXA_Decode( const uint8_t *src, uint8_t *dst )
 </tr>
 </tbody>
 </table>
+<p>ヘッダ全長: <strong>304 byte (0x130)</strong>。<code>mv1conv</code> の <code>static_assert(sizeof(MV1MODEL_FILEHEADER_F1) == 304)</code> で確認可能。</p>
+<blockquote>
+<p><strong>検証済サンプル</strong> (mv1conv reader 通過): <code>SimpleModel.mv1</code> / <code>SimpleModelVertexColor.mv1</code> / <code>SimplePillarStage.mv1</code> / <code>ColTestStage.mv1</code> / <code>DxChara.mv1</code> (DxLib_VC3_24f 同梱)。全てで magic <code>MV11</code> / <code>Version=0</code> / <code>IsStringUTF8=1</code> / <code>MaterialNumberOrderDraw=0</code> を確認。</p>
+</blockquote>
 <hr />
 <h2>階層データ <code>MV1_FRAME_F1</code></h2>
 <p>モデルの骨格 (ボーン) + メッシュコンテナ。親子ツリー構造:</p>

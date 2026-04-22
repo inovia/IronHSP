@@ -52,19 +52,21 @@
 +-------+-----------------------------+
 | off   | 内容                        |
 +-------+-----------------------------+
-| 0x00  | Magic  "MV11" (4 bytes)     |
+| 0x00  | Magic  "MV11" (4 bytes)     |   ← MV1MODEL_FILEHEADER_F1.CheckID[4] と同一のバイト列
 +-------+-----------------------------+
 | 0x04  | DXA 圧縮ブロック            |
 |       |   伸長すると                |
-|       |   MV1MODEL_FILEHEADER_F1    |
-|       |   + 可変長データ群          |
+|       |   MV1MODEL_FILEHEADER_F1 の |
+|       |   Version 以降 + 可変長     |
+|       |   データ群                  |
 +-------+-----------------------------+
 ```
 
-- **Magic**: ASCII 4 バイト `M V 1 1`。`1` = バージョン 1 相当。これ以外は即 `-1` エラー。
-- **DXA 圧縮**: `DXA_Decode(src + 4, NULL)` で伸長後サイズを取得、バッファ確保、再 `DXA_Decode` で実データ展開。アルゴリズムは DxLib 独自の LZSS 派生 (本文参照: `DxArchive_.cpp`)。
+- **Magic**: ASCII 4 バイト `M V 1 1`。これ以外は即 `-1` エラー。この 4 byte は「`MV1MODEL_FILEHEADER_F1` の `CheckID[4]`」でもある — つまり **CheckID は DXA 圧縮に含まれず、ファイル magic をそのまま `FHeader` の先頭 4 byte に流用する** 設計 (`DxModel.cpp` L14921: `DXA_Decode( file+4, (BYTE*)FHeader + 4 )`)。
+- **DXA 圧縮**: `DXA_Decode(src + 4, NULL)` で伸長後サイズを取得、バッファ確保、再 `DXA_Decode` で `FHeader+4` 以降に実データ展開。アルゴリズムは DxLib 独自の LZSS 派生 (本文参照: `DxArchive_.cpp`)。
+- **`Version` は `0`** (DxLib 3.24f 時点)。古い記述の「Version = 1」は誤り。Magic の `'1'` はバージョンではなく形式識別子。
 
-伸長されたデータの先頭 (= `off = 0` + 4 byte 分の magic は含まず `MV11` 後から) に `MV1MODEL_FILEHEADER_F1` が置かれ、同じバッファ内の後続オフセットに各種配列やポインタ先が連続配置される。構造体メンバー内の **ポインタ相当の DWORD は「このバッファ先頭からのバイトオフセット」を格納** (ロード時にポインタへ変換される)。
+伸長されたデータは「`MV1MODEL_FILEHEADER_F1` の `Version` フィールド (offset 4) 以降」としてメモリに貼られ、同じバッファ内の後続オフセットに各種配列やポインタ先が連続配置される。従って **パーサ実装側は decode 結果の先頭に `"MV11"` 4 byte を自前で補って `FHeader` として reinterpret する** のが簡単 (`mv1conv` はこの方式)。構造体メンバー内の **ポインタ相当の DWORD は「このバッファ (CheckID 込み) 先頭からのバイトオフセット」を格納** (ロード時にポインタへ変換される)。ポインタ値 `0` は null。
 
 ---
 
@@ -208,12 +210,12 @@ uint32_t get_dxa_size( const uint8_t *file, size_t fileLen )
 
 ## ルートヘッダ `MV1MODEL_FILEHEADER_F1`
 
-128 バイト程度の固定長ヘッダ。主要フィールド:
+**正確に 304 バイト (0x130)** の固定長ヘッダ (4 byte align)。主要フィールド:
 
 | offset | type | name | 意味 |
 |---|---|---|---|
-| 0x00 | BYTE[4] | `CheckID[4]` | `"MV11"` (DXA 伸長後にも同じ magic が入る) |
-| 0x04 | DWORD | `Version` | 1 |
+| 0x00 | BYTE[4] | `CheckID[4]` | `"MV11"` — **ファイル magic を流用、DXA ブロックには含まれない** |
+| 0x04 | DWORD | `Version` | `0` (DxLib 3.24f 現行。旧仕様書の「1」は誤り) |
 | 0x08 | int | `RightHandType` | TRUE=右手系 / FALSE=左手系 |
 | 0x0C | int | `AutoCreateNormal` | 法線自動計算使用 |
 | 0x10 | int | `ChangeDrawMaterialTableSize` | 描画マテリアル変更管理用ビット数 |
@@ -266,6 +268,10 @@ uint32_t get_dxa_size( const uint8_t *file, size_t fileLen )
 | ... | BYTE | `IsStringUTF8` | `StringBuffer` が UTF-8 か (1) / Shift-JIS か (0) |
 | ... | BYTE[2] | `Padding1[2]` | 0 |
 | ... | DWORD[13] | `Padding2[13]` | 0 (将来拡張用) |
+
+ヘッダ全長: **304 byte (0x130)**。`mv1conv` の `static_assert(sizeof(MV1MODEL_FILEHEADER_F1) == 304)` で確認可能。
+
+> **検証済サンプル** (mv1conv reader 通過): `SimpleModel.mv1` / `SimpleModelVertexColor.mv1` / `SimplePillarStage.mv1` / `ColTestStage.mv1` / `DxChara.mv1` (DxLib_VC3_24f 同梱)。全てで magic `MV11` / `Version=0` / `IsStringUTF8=1` / `MaterialNumberOrderDraw=0` を確認。
 
 ---
 
