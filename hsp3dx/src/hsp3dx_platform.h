@@ -55,6 +55,28 @@ double  hsp3dx_pref_get_double( const char *section, const char *key, double def
 //  section 内のキー一覧を \n 区切りで out に書く。戻り値 = 見つかった数 (-1=失敗)
 int  hsp3dx_pref_list_keys( const char *section, char *out, size_t out_cap );
 
+//  ================================================================
+//  Phase M.4: デバイス情報 / 制御 (権限不要な基本のみ)
+//  ================================================================
+
+//  バイブレーション (ms ミリ秒、未対応プラットフォームは no-op)。
+//  Android は AndroidManifest の VIBRATE 権限必要。iOS は ms 無視で固定短パルス。
+void hsp3dx_dev_vibrate( int ms );
+
+//  ダークモード判定: 1=ダーク, 0=ライト (or 取得不能)
+int  hsp3dx_dev_is_dark( void );
+
+//  バッテリー残量 (0-100, -1=取得不能) と充電状態
+//    state: 0=not charging, 1=charging, 2=full, -1=unknown
+void hsp3dx_dev_battery( int *level, int *state );
+
+//  画面向き: 0=portrait, 1=landscape-left, 2=portrait-upside-down, 3=landscape-right
+int  hsp3dx_dev_orientation( void );
+
+//  システムサウンド再生 (短いビープ等、権限不要)。
+//    id: iOS の SystemSoundID (1000〜 予約済 UI サウンド) 相当、他 OS は無視可
+void hsp3dx_dev_sound( int id );
+
 #ifdef __cplusplus
 }
 #endif

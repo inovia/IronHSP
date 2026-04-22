@@ -10,12 +10,20 @@ import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.media.ToneGenerator;
+import android.media.AudioManager;
 import android.net.Uri;
+import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
+import android.view.Surface;
 
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -249,6 +257,84 @@ public class HspUtil {
             first = false;
         }
         return sb.toString();
+    }
+
+    //  ================================================================
+    //  Phase M.4: デバイス情報 / 制御
+    //  ================================================================
+
+    public static void devVibrate( int ms )
+    {
+        if ( sActivity == null || ms <= 0 ) return;
+        try {
+            Vibrator v = (Vibrator) sActivity.getSystemService( Context.VIBRATOR_SERVICE );
+            if ( v == null || !v.hasVibrator() ) return;
+            if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
+                v.vibrate( VibrationEffect.createOneShot( ms, VibrationEffect.DEFAULT_AMPLITUDE ) );
+            } else {
+                v.vibrate( ms );
+            }
+        } catch ( Exception e ) {
+            Log.w( TAG, "vibrate: " + e );
+        }
+    }
+
+    public static int devIsDark()
+    {
+        if ( sActivity == null ) return 0;
+        int m = sActivity.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        return m == Configuration.UI_MODE_NIGHT_YES ? 1 : 0;
+    }
+
+    //  level[0] = 0-100 (-1=取得不能)、state[1] = 0/1/2 (-1=unknown)
+    public static int[] devBattery()
+    {
+        int[] r = new int[] { -1, -1 };
+        if ( sActivity == null ) return r;
+        try {
+            IntentFilter f = new IntentFilter( Intent.ACTION_BATTERY_CHANGED );
+            Intent bat = sActivity.registerReceiver( null, f );
+            if ( bat == null ) return r;
+            int lv = bat.getIntExtra( BatteryManager.EXTRA_LEVEL, -1 );
+            int sc = bat.getIntExtra( BatteryManager.EXTRA_SCALE, -1 );
+            if ( lv >= 0 && sc > 0 ) r[0] = (int)( lv * 100 / sc );
+            int st = bat.getIntExtra( BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN );
+            switch ( st ) {
+            case BatteryManager.BATTERY_STATUS_CHARGING:     r[1] = 1; break;
+            case BatteryManager.BATTERY_STATUS_FULL:         r[1] = 2; break;
+            case BatteryManager.BATTERY_STATUS_DISCHARGING:
+            case BatteryManager.BATTERY_STATUS_NOT_CHARGING: r[1] = 0; break;
+            default:                                         r[1] = -1; break;
+            }
+        } catch ( Exception e ) {
+            Log.w( TAG, "battery: " + e );
+        }
+        return r;
+    }
+
+    public static int devOrientation()
+    {
+        if ( sActivity == null ) return 0;
+        int rot = sActivity.getWindowManager().getDefaultDisplay().getRotation();
+        switch ( rot ) {
+        case Surface.ROTATION_0:   return 0;
+        case Surface.ROTATION_90:  return 1;
+        case Surface.ROTATION_180: return 2;
+        case Surface.ROTATION_270: return 3;
+        default:                   return 0;
+        }
+    }
+
+    public static void devSound( int id )
+    {
+        try {
+            //  id は iOS 互換を意識して無視。Android は TONE_PROP_BEEP 固定で鳴らす
+            ToneGenerator tg = new ToneGenerator( AudioManager.STREAM_NOTIFICATION, 100 );
+            tg.startTone( ToneGenerator.TONE_PROP_BEEP, 150 );
+            tg.release();
+        } catch ( Exception e ) {
+            Log.w( TAG, "sound: " + e );
+        }
     }
 
     public static int prefClear( String section )

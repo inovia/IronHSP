@@ -231,4 +231,62 @@ extern "C" int hsp3dx_pref_clear( const char *section )
     return ( DeleteFileW( ini ) || GetLastError() == ERROR_FILE_NOT_FOUND ) ? 0 : -1;
 }
 
+//  ================================================================
+//  Phase M.4: デバイス情報 / 制御
+//  ================================================================
+
+extern "C" void hsp3dx_dev_vibrate( int /*ms*/ )
+{
+    //  Windows Desktop にはバイブデバイスがない (ゲームパッド振動は別経路)
+}
+
+extern "C" int hsp3dx_dev_is_dark( void )
+{
+    //  HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize
+    //  AppsUseLightTheme DWORD: 0=ダーク、1=ライト
+    HKEY hk;
+    if ( RegOpenKeyExW( HKEY_CURRENT_USER,
+        L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+        0, KEY_READ, &hk ) != ERROR_SUCCESS ) return 0;
+    DWORD v = 1, sz = sizeof(v);
+    LONG r = RegQueryValueExW( hk, L"AppsUseLightTheme", nullptr, nullptr,
+                                (BYTE *)&v, &sz );
+    RegCloseKey( hk );
+    if ( r != ERROR_SUCCESS ) return 0;
+    return v == 0 ? 1 : 0;
+}
+
+extern "C" void hsp3dx_dev_battery( int *level, int *state )
+{
+    SYSTEM_POWER_STATUS sps;
+    if ( GetSystemPowerStatus( &sps ) ) {
+        if ( level ) *level = ( sps.BatteryLifePercent == 255 ) ? -1 : (int)sps.BatteryLifePercent;
+        if ( state ) {
+            //  sps.ACLineStatus: 0=on battery, 1=plugged in, 255=unknown
+            //  sps.BatteryFlag: 128=no battery, 8=charging, ...
+            int s = -1;
+            if ( sps.BatteryFlag != 255 ) {
+                if ( sps.BatteryFlag & 8 ) s = 1;           // 充電中
+                else if ( sps.ACLineStatus == 1 )  s = 2;   // 満充電扱い (AC 接続)
+                else s = 0;                                  // バッテリ駆動
+            }
+            *state = s;
+        }
+    } else {
+        if ( level ) *level = -1;
+        if ( state ) *state = -1;
+    }
+}
+
+extern "C" int hsp3dx_dev_orientation( void )
+{
+    //  Win Desktop は基本 portrait=0 固定
+    return 0;
+}
+
+extern "C" void hsp3dx_dev_sound( int /*id*/ )
+{
+    MessageBeep( MB_OK );
+}
+
 #endif  // _WIN32

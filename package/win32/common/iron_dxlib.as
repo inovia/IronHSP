@@ -103,6 +103,13 @@
 #const global DX_EVT_APP_LOW_MEMORY      3
 #const global DX_EVT_ORIENTATION_CHANGED 4
 
+;  ---- Phase M.4: デバイス情報 / 制御 (権限不要系) ----
+#cmd dx_dev_vibrate      $1b0  ; dx_dev_vibrate ms  (Android は VIBRATE 権限、iOS は ms 無視)
+#cmd dx_dev_is_dark      $1b1  ; dx_dev_is_dark  (stat=1 ダーク / 0 ライト)
+#cmd dx_dev_battery      $1b2  ; dx_dev_battery var_level, var_state  (level=0..100 / -1、state=0..2 / -1)
+#cmd dx_dev_orientation  $1b3  ; dx_dev_orientation  (stat=0..3: portrait/landscapeL/upside/landscapeR)
+#cmd dx_dev_sound        $1b4  ; dx_dev_sound id  (iOS SystemSoundID、他は無視して短ビープ)
+
 ;  ---- Phase 5.4a+: multipart/form-data ファイルアップロード ----
 #cmd dx_http_mp_begin      $170   ; dx_http_mp_begin
 #cmd dx_http_mp_add_text   $171   ; dx_http_mp_add_text "name", "value"

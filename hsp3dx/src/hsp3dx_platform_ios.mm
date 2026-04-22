@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <AudioToolbox/AudioToolbox.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -232,6 +233,67 @@ extern "C" int hsp3dx_pref_clear( const char *section )
         }
     }
     return 0;
+}
+
+//  ================================================================
+//  Phase M.4: デバイス情報 / 制御
+//  ================================================================
+
+extern "C" void hsp3dx_dev_vibrate( int /*ms*/ )
+{
+    //  iOS は ms 指定のパターン振動が非公開。標準の短い振動のみ。
+    AudioServicesPlaySystemSound( kSystemSoundID_Vibrate );
+}
+
+extern "C" int hsp3dx_dev_is_dark( void )
+{
+    if ( @available( iOS 13.0, * ) ) {
+        UITraitCollection *tc = [UITraitCollection currentTraitCollection];
+        return tc.userInterfaceStyle == UIUserInterfaceStyleDark ? 1 : 0;
+    }
+    return 0;
+}
+
+extern "C" void hsp3dx_dev_battery( int *level, int *state )
+{
+    UIDevice *dev = [UIDevice currentDevice];
+    BOOL prev = dev.batteryMonitoringEnabled;
+    dev.batteryMonitoringEnabled = YES;
+    float lv = dev.batteryLevel;
+    UIDeviceBatteryState st = dev.batteryState;
+    dev.batteryMonitoringEnabled = prev;
+
+    if ( level ) *level = ( lv < 0 ) ? -1 : (int)( lv * 100 );
+    if ( state ) {
+        int s = -1;
+        switch ( st ) {
+        case UIDeviceBatteryStateUnplugged: s = 0; break;
+        case UIDeviceBatteryStateCharging:  s = 1; break;
+        case UIDeviceBatteryStateFull:      s = 2; break;
+        default:                            s = -1; break;
+        }
+        *state = s;
+    }
+}
+
+extern "C" int hsp3dx_dev_orientation( void )
+{
+    UIDeviceOrientation o = [UIDevice currentDevice].orientation;
+    switch ( o ) {
+    case UIDeviceOrientationPortrait:            return 0;
+    case UIDeviceOrientationLandscapeLeft:       return 1;
+    case UIDeviceOrientationPortraitUpsideDown:  return 2;
+    case UIDeviceOrientationLandscapeRight:      return 3;
+    default:                                      return 0;
+    }
+}
+
+extern "C" void hsp3dx_dev_sound( int id )
+{
+    //  id==0 はデフォルトの短いビープ (kSystemSoundID_Vibrate はバイブのみ)
+    //  1000 番台以降は iOS 予約済み UI サウンド ID
+    SystemSoundID sid = ( id > 0 ) ? (SystemSoundID)id : 1104;  // 1104 = Tock
+    AudioServicesPlaySystemSound( sid );
 }
 
 #endif  // __APPLE__

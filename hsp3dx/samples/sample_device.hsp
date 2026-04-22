@@ -1,0 +1,82 @@
+;============================================================
+;   sample_device.hsp — Phase M.4: dx_dev_* (デバイス情報/制御)
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    screen 0, 720, 1280
+    sw = ginfo_winx : sh = ginfo_winy
+
+    prev_n = 0
+
+    repeat
+        getkey esc_p, 27
+        if esc_p : break
+
+        ;  デバイス情報取得
+        dx_dev_is_dark : is_dark = stat
+        dx_dev_battery lv, bstate
+        dx_dev_orientation : ori = stat
+
+        dx_getmtouchnum : n = stat
+
+        ;  描画
+        redraw 0
+        color 20, 30, 60
+        boxf 0, 0, sw, sh
+
+        color 255, 255, 255
+        font "MS Gothic", 30
+        pos 30, 30
+        mes "hsp3dx device test"
+
+        font "MS Gothic", 22
+        pos 30, 100
+        mes "dark mode      : " + is_dark + "  (1=dark / 0=light)"
+        pos 30, 140
+        mes "battery level  : " + lv + " %"
+        pos 30, 180
+        mes "battery state  : " + bstate + "  (0=放電 1=充電 2=満)"
+        pos 30, 220
+        mes "orientation    : " + ori + "  (0..3)"
+
+        ;  ボタン: vibrate
+        color 80, 120, 200
+        boxf 30, 320, 350, 400
+        color 255, 255, 255
+        font "MS Gothic", 24
+        pos 60, 345
+        mes "[TAP] vibrate"
+
+        ;  ボタン: sound
+        color 60, 160, 100
+        boxf 380, 320, 690, 400
+        color 255, 255, 255
+        pos 410, 345
+        mes "[TAP] sound"
+
+        color 255, 220, 80
+        font "MS Gothic", 20
+        pos 30, 500
+        mes "[ESC/BACK] quit"
+
+        redraw 1
+
+        ;  タッチ判定
+        if n > 0 : if prev_n = 0 {
+            dx_getmtouch 0, tx, ty
+            if ty >= 320 : if ty < 400 {
+                if tx >= 30 : if tx < 350 {
+                    dx_dev_vibrate 200
+                }
+                if tx >= 380 : if tx < 690 {
+                    dx_dev_sound 1104
+                }
+            }
+        }
+        prev_n = n
+
+        await 100
+    loop
+    end

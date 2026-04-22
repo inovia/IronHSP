@@ -35,6 +35,11 @@ static jmethodID s_mid_prefRemove  = nullptr;
 static jmethodID s_mid_prefClear   = nullptr;
 static jmethodID s_mid_prefExists    = nullptr;
 static jmethodID s_mid_prefListKeys  = nullptr;
+static jmethodID s_mid_devVibrate    = nullptr;
+static jmethodID s_mid_devIsDark     = nullptr;
+static jmethodID s_mid_devBattery    = nullptr;
+static jmethodID s_mid_devOrientation= nullptr;
+static jmethodID s_mid_devSound      = nullptr;
 
 static JNIEnv *jni_env( bool *needs_detach )
 {
@@ -90,6 +95,11 @@ static bool ensure_jni_init()
     s_mid_prefClear   = env->GetStaticMethodID( s_HspUtil_class, "prefClear",   "(Ljava/lang/String;)I" );
     s_mid_prefExists  = env->GetStaticMethodID( s_HspUtil_class, "prefExists",  "(Ljava/lang/String;Ljava/lang/String;)I" );
     s_mid_prefListKeys= env->GetStaticMethodID( s_HspUtil_class, "prefListKeys","(Ljava/lang/String;)Ljava/lang/String;" );
+    s_mid_devVibrate    = env->GetStaticMethodID( s_HspUtil_class, "devVibrate",    "(I)V" );
+    s_mid_devIsDark     = env->GetStaticMethodID( s_HspUtil_class, "devIsDark",     "()I" );
+    s_mid_devBattery    = env->GetStaticMethodID( s_HspUtil_class, "devBattery",    "()[I" );
+    s_mid_devOrientation= env->GetStaticMethodID( s_HspUtil_class, "devOrientation","()I" );
+    s_mid_devSound      = env->GetStaticMethodID( s_HspUtil_class, "devSound",      "(I)V" );
 
     //  setActivity(act->clazz) で HspUtil にアプリ Activity を渡す
     if ( s_mid_setActivity ) {
@@ -268,6 +278,73 @@ extern "C" int hsp3dx_pref_list_keys( const char *section, char *out, size_t out
 extern "C" void hsp3dx_platform_init_jni( void )
 {
     ensure_jni_init();
+}
+
+//  ================================================================
+//  Phase M.4: デバイス制御 (HspUtil の Java メソッドを呼ぶ)
+//  ================================================================
+extern "C" void hsp3dx_dev_vibrate( int ms )
+{
+    if ( !ensure_jni_init() ) return;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return;
+    env->CallStaticVoidMethod( s_HspUtil_class, s_mid_devVibrate, (jint)ms );
+    if ( detach ) s_vm->DetachCurrentThread();
+}
+
+extern "C" int hsp3dx_dev_is_dark( void )
+{
+    if ( !ensure_jni_init() ) return 0;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return 0;
+    jint rc = env->CallStaticIntMethod( s_HspUtil_class, s_mid_devIsDark );
+    if ( detach ) s_vm->DetachCurrentThread();
+    return (int)rc;
+}
+
+extern "C" void hsp3dx_dev_battery( int *level, int *state )
+{
+    if ( level ) *level = -1;
+    if ( state ) *state = -1;
+    if ( !ensure_jni_init() ) return;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return;
+    jintArray arr = (jintArray)env->CallStaticObjectMethod( s_HspUtil_class, s_mid_devBattery );
+    if ( arr ) {
+        jsize n = env->GetArrayLength( arr );
+        if ( n >= 2 ) {
+            jint buf[2];
+            env->GetIntArrayRegion( arr, 0, 2, buf );
+            if ( level ) *level = (int)buf[0];
+            if ( state ) *state = (int)buf[1];
+        }
+        env->DeleteLocalRef( arr );
+    }
+    if ( detach ) s_vm->DetachCurrentThread();
+}
+
+extern "C" int hsp3dx_dev_orientation( void )
+{
+    if ( !ensure_jni_init() ) return 0;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return 0;
+    jint rc = env->CallStaticIntMethod( s_HspUtil_class, s_mid_devOrientation );
+    if ( detach ) s_vm->DetachCurrentThread();
+    return (int)rc;
+}
+
+extern "C" void hsp3dx_dev_sound( int id )
+{
+    if ( !ensure_jni_init() ) return;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return;
+    env->CallStaticVoidMethod( s_HspUtil_class, s_mid_devSound, (jint)id );
+    if ( detach ) s_vm->DetachCurrentThread();
 }
 
 //  HspUtil.nativeFireEvent(int) の実装 (Java → C への通知)

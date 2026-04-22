@@ -1583,6 +1583,30 @@ static int cmdfunc_extcmd( int cmd )
             break;
         }
 
+    //  ---- Phase M.4: デバイス制御 ----
+    case 0x1b0:                     // dx_dev_vibrate ms
+        hsp3dx_dev_vibrate( code_getdi( 100 ) );
+        break;
+    case 0x1b1:                     // dx_dev_is_dark  (stat=1/0)
+        ctx->stat = hsp3dx_dev_is_dark();
+        break;
+    case 0x1b2:                     // dx_dev_battery var_level, var_state
+        {
+            PVal *pvl; APTR apl = code_getva( &pvl );
+            PVal *pvs; APTR aps = code_getva( &pvs );
+            int level = -1, state = -1;
+            hsp3dx_dev_battery( &level, &state );
+            code_setva( pvl, apl, TYPE_INUM, &level );
+            code_setva( pvs, aps, TYPE_INUM, &state );
+            break;
+        }
+    case 0x1b3:                     // dx_dev_orientation  (stat=0..3)
+        ctx->stat = hsp3dx_dev_orientation();
+        break;
+    case 0x1b4:                     // dx_dev_sound id
+        hsp3dx_dev_sound( code_getdi( 0 ) );
+        break;
+
     //  ---- multipart/form-data ----
     case 0x170:                     // dx_http_mp_begin
         hsp3dx_http_mp_begin();
