@@ -711,11 +711,80 @@ extern int Graphics_Hardware_DrawRotaGraphFast_PF( int x, int y, float xf, float
     return Graphics_Hardware_DrawRotaGraph_PF( x, y, xf, yf, ( double )ExtendRate, ( double )Angle, Image, BlendImage, TransFlag, ReverseXFlag, ReverseYFlag, IntFlag ) ;
 }
 
+// --- Stage 19: 汎用 2D プリミティブ描画 (font atlas 用) ------------------
+// DxLib の NS_DrawString は内部で atlas texture を持ち、この PF で描画する。
+// VERTEX_2D は pos(VECTOR) + rhw + color(ARGB8) + u,v。座標は既にスクリーン。
+//
+// PrimitiveType (DxLib 定数):
+//   DX_PRIMTYPE_POINTLIST=1 LINELIST=2 LINESTRIP=3 TRIANGLELIST=4 TRIANGLESTRIP=5 TRIANGLEFAN=6
+
+extern int Graphics_Hardware_DrawPrimitive2D_PF( VERTEX_2D *Vertex, int VertexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag, int BillboardFlag, int Is3D, int ReverseXFlag, int ReverseYFlag, int TextureNo, int IsShadowMap )
+{
+    (void)BillboardFlag; (void)Is3D; (void)ReverseXFlag; (void)ReverseYFlag; (void)TextureNo; (void)IsShadowMap;
+    if ( !Vertex || VertexNum <= 0 ) return 0 ;
+
+    Desktop_SetOrtho2D() ;
+
+    if ( TransFlag ) {
+        glEnable( GL_BLEND ) ;
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ;
+    }
+
+    GLenum mode = GL_TRIANGLES ;
+    switch ( PrimitiveType ) {
+        case 1: mode = GL_POINTS        ; break ;
+        case 2: mode = GL_LINES         ; break ;
+        case 3: mode = GL_LINE_STRIP    ; break ;
+        case 4: mode = GL_TRIANGLES     ; break ;
+        case 5: mode = GL_TRIANGLE_STRIP; break ;
+        case 6: mode = GL_TRIANGLE_FAN  ; break ;
+        default: mode = GL_TRIANGLES    ; break ;
+    }
+
+    // テクスチャ指定があればバインド
+    bool hasTex = false ;
+    if ( Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
+        IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
+        if ( tex->PF ) {
+            glEnable( GL_TEXTURE_2D ) ;
+            glBindTexture( GL_TEXTURE_2D, ( GLuint )tex->PF->Texture.TextureBuffer ) ;
+            hasTex = true ;
+        }
+    }
+
+    glBegin( mode ) ;
+    for ( int i = 0 ; i < VertexNum ; ++i )
+    {
+        const VERTEX_2D &v = Vertex[ i ] ;
+        // color は DxLib 内部 ARGB8 (DxLib GetColor 形式)
+        int R, G, B ;
+        NS_GetColor2( v.color, &R, &G, &B ) ;
+        GLubyte A = ( GLubyte )( ( v.color >> 24 ) & 0xFF ) ;
+        if ( A == 0 && ( v.color & 0x00FFFFFF ) != 0 ) A = 255 ;  // 色があって α=0 は不透明扱い
+        glColor4ub( ( GLubyte )R, ( GLubyte )G, ( GLubyte )B, A ) ;
+        if ( hasTex ) glTexCoord2f( v.u, v.v ) ;
+        glVertex2f( v.pos.x, v.pos.y ) ;
+    }
+    glEnd() ;
+
+    if ( hasTex ) {
+        glBindTexture( GL_TEXTURE_2D, 0 ) ;
+        glDisable( GL_TEXTURE_2D ) ;
+    }
+    return 0 ;
+}
+
 // --- その他 (Stage 5 から継続) -------------------------------------------
 
 extern int Graphics_Hardware_RenderVertex( int Param ) { (void)Param; return 0 ; }
 
-int ( *DefaultImageLoadFunc_PF[] )( STREAMDATA *, BASEIMAGE *, int ) = { nullptr } ;
+// DxImageDesktop.cpp で提供 (stb_image による PNG/JPEG/BMP/GIF/TGA/PSD 読み込み)
+extern int LoadStbImage( STREAMDATA *Src, BASEIMAGE *BaseImage, int GetFormatOnly ) ;
+
+int ( *DefaultImageLoadFunc_PF[] )( STREAMDATA *, BASEIMAGE *, int ) = {
+    LoadStbImage ,
+    nullptr
+} ;
 
 #ifndef DX_NON_NAMESPACE
 }

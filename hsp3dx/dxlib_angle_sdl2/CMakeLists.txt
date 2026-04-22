@@ -155,8 +155,8 @@ function(dxlib_desktop_settings target)
         DX_NON_KEYEX=1       # 高機能キー入力は未対応
         DX_NON_INPUTSTRING=1 # 文字列入力 API は未対応
         DX_NON_TIFFREAD=1
-        DX_NON_JPEGREAD=1
-        DX_NON_PNGREAD=1
+        # DX_NON_JPEGREAD=1 / DX_NON_PNGREAD=1 は lib 側のみで付与する
+        # (user 側の DxLib::LoadGraph 呼び出しはそのまま通し、stb_image 実装へ)
         DX_NON_OGGVORBIS=1
         DX_NON_OGGTHEORA=1
         DX_NON_OPUS=1
@@ -226,10 +226,18 @@ add_library(dxlib_portable_stage3 STATIC
     ${DXLIB_PORTABLE_DIR}/Desktop/DxFontDesktop.cpp
     # Stage 20: Sound (Desktop 自前実装)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxSoundDesktop.cpp
+    # Stage 21: Image (stb_image: PNG/JPEG/BMP/GIF/TGA/PSD)
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxImageDesktop.cpp
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxImageDesktop_stb.cpp
 )
 dxlib_desktop_settings(dxlib_portable_stage3)
-# lib 側は DxGateway.cpp の sound wrapper を殺して NS_* 未参照にする
-target_compile_definitions(dxlib_portable_stage3 PRIVATE DX_NON_SOUND=1)
+# lib 側は DxGateway.cpp の sound wrapper / libpng/jpeg 部分を殺して
+# stub 未参照にする。user 側 exe はこれらを外して DxLib.h の宣言を通す。
+target_compile_definitions(dxlib_portable_stage3 PRIVATE
+    DX_NON_SOUND=1
+    DX_NON_JPEGREAD=1
+    DX_NON_PNGREAD=1
+)
 target_link_libraries(dxlib_portable_stage3 PUBLIC SDL2::SDL2 SDL2::SDL2main)
 if(HAS_SDL2_TTF)
     target_link_libraries(dxlib_portable_stage3 PUBLIC SDL2::ttf)
@@ -275,6 +283,7 @@ dxlib_stage_exe(stage17_texture           src/stage17_texture.cpp)
 dxlib_stage_exe(stage18_rotagraph         src/stage18_rotagraph.cpp)
 dxlib_stage_exe(stage19_font              src/stage19_font.cpp)
 dxlib_stage_exe(stage20_sound             src/stage20_sound.cpp)
+dxlib_stage_exe(stage21_image             src/stage21_image.cpp)
 
 # --- Stage 1 (pure SDL2, no DxLib) ---------------------------------------
 if(WIN32)

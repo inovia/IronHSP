@@ -69,7 +69,7 @@ extern int Graphics_Hardware_DrawPixel3D_PF(struct tagVECTOR,unsigned int,int,st
 // Graphics_Hardware_DrawPixel_PF: impl in DxGraphicsDesktop.cpp (Stage 7)
 extern int Graphics_Hardware_DrawPrimitive2DToShader_PF(struct tagVERTEX2DSHADER const *,int,int) { return 0; }
 extern int Graphics_Hardware_DrawPrimitive2DUser_PF(struct tagVERTEX2D const *,int,int,struct IMAGEDATA *,int,int,int,int,int) { return 0; }
-extern int Graphics_Hardware_DrawPrimitive2D_PF(struct tagVERTEX_2D *,int,int,struct IMAGEDATA *,int,int,int,int,int,int,int) { return 0; }
+// moved to DxGraphicsDesktop.cpp (Stage 19)
 extern int Graphics_Hardware_DrawPrimitive32bitIndexed2DToShader_PF(struct tagVERTEX2DSHADER const *,int,unsigned int const *,int,int) { return 0; }
 extern int Graphics_Hardware_DrawPrimitive32bitIndexed3DToShader_PF(struct tagVERTEX3DSHADER const *,int,unsigned int const *,int,int) { return 0; }
 extern int Graphics_Hardware_DrawPrimitive3DToShader_PF(struct tagVERTEX3DSHADER const *,int,int) { return 0; }
