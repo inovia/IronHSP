@@ -63,3 +63,26 @@ if(MSVC)
 else()
     target_compile_options(mv1conv PRIVATE -Wall -Wextra -Wpedantic)
 endif()
+
+# ===== mv1_ref_gen (test oracle、DxLib 本家で正解 .mv1 生成) =====
+# Windows + x64 + VS2015+ の組合わせのみ (プリビルト lib の関係)
+option(MV1CONV_BUILD_REF_GEN "Build DxLib-linked MV1 reference generator (Windows only)" ON)
+
+if(MV1CONV_BUILD_REF_GEN AND WIN32 AND MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(DXLIB_ROOT "${CMAKE_SOURCE_DIR}/../../hsp3dx/extlib/dxlib_win/DxLib_VC")
+    add_executable(mv1_ref_gen WIN32 test_ref/ref_gen.cpp)
+    target_include_directories(mv1_ref_gen PRIVATE "${DXLIB_ROOT}")
+    target_link_directories(mv1_ref_gen PRIVATE "${DXLIB_ROOT}")
+    target_link_libraries(mv1_ref_gen PRIVATE
+        DxLibW_vs2015_x64_MT
+        DxUseCLibW_vs2015_x64_MT
+        DxDrawFunc_vs2015_x64_MT
+    )
+    # DxLib は /MT 前提 (マルチスレッド静的) — assimp (通常 /MD) と分けるため別 exe
+    target_compile_options(mv1_ref_gen PRIVATE /utf-8 /MT)
+    target_compile_definitions(mv1_ref_gen PRIVATE _UNICODE UNICODE)
+    set_target_properties(mv1_ref_gen PROPERTIES
+        LINK_FLAGS "/SUBSYSTEM:WINDOWS"
+        MSVC_RUNTIME_LIBRARY "MultiThreaded"
+    )
+endif()

@@ -1,0 +1,27 @@
+; DxLib 本家で OBJ を MV1 に保存 (正解サンプル生成)
+#include "iron_dxlib.as"
+
+notesel log
+noteadd "reference mv1 generator"
+
+; 単純な triangle (OBJ)
+notesel src
+noteadd "v 0 0 0"
+noteadd "v 1 0 0"
+noteadd "v 0 1 0"
+noteadd "vn 0 0 1"
+noteadd "f 1//1 2//1 3//1"
+notesave "ref_src.obj"
+notesel log
+
+; DxLib で OBJ をロード
+dx_mv1load "ref_src.obj"
+h = stat
+noteadd "load: h=" + h
+if h < 0 : notesave "reference_result.txt": end
+
+; save as MV1
+; Note: dx_mv1load は wrapper だが、mv1save 相当の wrapper が無ければ直接バインドできないか要調査
+; ひとまず handle を取得できたことを確認
+notesave "reference_result.txt"
+end

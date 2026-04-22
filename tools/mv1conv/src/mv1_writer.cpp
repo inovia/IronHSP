@@ -541,9 +541,15 @@ WriteResult write_mv1(const ModelIR &ir) {
         mesh.BackCulling = 1;
         mesh.UVSetUnitNum = m.uvs.empty() ? 0 : 1;
         mesh.UVUnitNum    = m.uvs.empty() ? 0 : 2;
-        // VertFlag: COMMON_COLOR ON + pos index U32 + (nrm index U32 if normals)
+        // VertFlag:
+        //   COMMON_COLOR      = 0x20  1 色共通 (頂点カラー個別出さない)
+        //   NON_TOON_OUTLINE  = 0x40  トゥーン輪郭 per-vertex bit を出さない
+        //                             ← これが無いと DxLib は VertexNum/8 byte のデータを
+        //                                期待してバッファを読み過ごして crash
+        //   pos index U32 + nrm index U32
         std::uint32_t vf = e::MESH_VERT_FLAG_COMMON_COLOR
-                         | e::MESH_VERT_INDEX_TYPE_U32       // pos index: U32
+                         | e::MESH_VERT_FLAG_NON_TOON_OUTLINE
+                         | e::MESH_VERT_INDEX_TYPE_U32
                          | (hasNormals && !m.normals.empty() ? (e::MESH_VERT_INDEX_TYPE_U32 << 2) : 0);
         mesh.VertFlag = static_cast<std::int32_t>(vf);
         mesh.VertexNum = static_cast<std::int32_t>(m.positions.size() / 3);
