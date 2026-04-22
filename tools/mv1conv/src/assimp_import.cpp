@@ -2,8 +2,10 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <algorithm>
 #include <cstring>
 #include <string>
+#include <unordered_map>
 
 namespace mv1conv {
 
@@ -59,7 +61,9 @@ MaterialIR convert_material(const aiMaterial *m, std::vector<TextureIR> &texture
     return mat;
 }
 
-void convert_mesh(const aiMesh *m, MeshIR &out) {
+void convert_mesh(const aiMesh *m, MeshIR &out,
+                  const std::unordered_map<std::string, int> &boneNameToIR)
+{
     out.name = std::string(m->mName.C_Str(), m->mName.length);
     if (out.name.empty()) out.name = "mesh";
     out.material = static_cast<int>(m->mMaterialIndex);
@@ -98,6 +102,120 @@ void convert_mesh(const aiMesh *m, MeshIR &out) {
             out.indices.push_back(f.mIndices[k+1]);
         }
     }
+
+    // スキニング: aiBone (ボーン名) + weights[i] (vertexId + weight) から
+    // 頂点単位に再編成。上位 4 本だけ採用。
+    if (m->mNumBones > 0 && !boneNameToIR.empty()) {
+        out.bone_weights.resize(m->mNumVertices);
+        for (std::uint32_t b = 0; b < m->mNumBones; ++b) {
+            const aiBone *bone = m->mBones[b];
+            std::string bname(bone->mName.C_Str(), bone->mName.length);
+            auto it = boneNameToIR.find(bname);
+            if (it == boneNameToIR.end()) continue;
+            int boneIdx = it->second;
+            for (std::uint32_t w = 0; w < bone->mNumWeights; ++w) {
+                const auto &vw = bone->mWeights[w];
+                if (vw.mVertexId >= m->mNumVertices) continue;
+                auto &vb = out.bone_weights[vw.mVertexId];
+                // 空スロットを探す
+                int slot = -1;
+                for (int s = 0; s < 4; ++s) if (vb.bone[s] < 0) { slot = s; break; }
+                if (slot >= 0) {
+                    vb.bone[slot] = boneIdx;
+                    vb.weight[slot] = vw.mWeight;
+                } else {
+                    // 既に 4 本埋まっている: 最小重みと比較して置き換え
+                    int minSlot = 0;
+                    for (int s = 1; s < 4; ++s) if (vb.weight[s] < vb.weight[minSlot]) minSlot = s;
+                    if (vw.mWeight > vb.weight[minSlot]) {
+                        vb.bone[minSlot] = boneIdx;
+                        vb.weight[minSlot] = vw.mWeight;
+                    }
+                }
+            }
+        }
+        // 各頂点でウェイトを正規化
+        for (auto &vb : out.bone_weights) {
+            float sum = 0;
+            for (int s = 0; s < 4; ++s) if (vb.bone[s] >= 0) sum += vb.weight[s];
+            if (sum > 1e-6f) {
+                for (int s = 0; s < 4; ++s) vb.weight[s] /= sum;
+            }
+        }
+    }
+}
+
+// aiNode ツリー全体を flat な BoneIR 配列として収集 (assimp の全 node が
+// 潜在的ボーン候補。実際に mesh のボーンで参照される node だけ使う)。
+struct NodeRec {
+    std::string name;
+    int parentIR = -1;
+    aiMatrix4x4 localTransform;  // node→parent (bind pose)
+};
+
+void collect_nodes(const aiNode *node, int parentIR,
+                   std::vector<NodeRec> &out,
+                   std::unordered_map<std::string, int> &nameMap)
+{
+    NodeRec r;
+    r.name = std::string(node->mName.C_Str(), node->mName.length);
+    r.parentIR = parentIR;
+    r.localTransform = node->mTransformation;
+    int myIR = static_cast<int>(out.size());
+    out.push_back(r);
+    if (!r.name.empty()) nameMap[r.name] = myIR;
+    for (std::uint32_t c = 0; c < node->mNumChildren; ++c) {
+        collect_nodes(node->mChildren[c], myIR, out, nameMap);
+    }
+}
+
+void fill_bones_from_nodes(const std::vector<NodeRec> &nodes, ModelIR &ir) {
+    ir.bones.reserve(nodes.size());
+    for (const auto &n : nodes) {
+        BoneIR b;
+        b.name = n.name;
+        b.parent = n.parentIR;
+        // 分解: local transform を translate + rotation(quaternion) + scale へ
+        aiVector3D t, s;
+        aiQuaternion q;
+        n.localTransform.Decompose(s, q, t);
+        b.translate[0] = t.x; b.translate[1] = t.y; b.translate[2] = t.z;
+        b.scale[0] = s.x;     b.scale[1] = s.y;     b.scale[2] = s.z;
+        b.quaternion[0] = q.x; b.quaternion[1] = q.y; b.quaternion[2] = q.z; b.quaternion[3] = q.w;
+        // inv_bind は aiBone 側で記録されるが、ここでは default (identity + node 位置)
+        // aiBone::mOffsetMatrix を後段で fill_inv_bind で上書きする
+        ir.bones.push_back(b);
+    }
+}
+
+void fill_inv_bind(const aiScene *scene,
+                   const std::unordered_map<std::string, int> &boneNameToIR,
+                   ModelIR &ir)
+{
+    // 各 aiMesh の各 aiBone で mOffsetMatrix (model→bone local) を採取
+    for (std::uint32_t mi = 0; mi < scene->mNumMeshes; ++mi) {
+        const aiMesh *m = scene->mMeshes[mi];
+        for (std::uint32_t b = 0; b < m->mNumBones; ++b) {
+            const aiBone *bone = m->mBones[b];
+            std::string bn(bone->mName.C_Str(), bone->mName.length);
+            auto it = boneNameToIR.find(bn);
+            if (it == boneNameToIR.end()) continue;
+            auto &dst = ir.bones[it->second];
+            const aiMatrix4x4 &M = bone->mOffsetMatrix;
+            // MATRIX_4X4CT_F は行優先 4x3。assimp は列優先 4x4 なので転置して取り出し
+            // m[row][col] の aiMatrix は行優先なので a1..d4 で row-major:
+            //  a1 a2 a3 a4    = row 0 (usually rotation row 0)
+            //  b1 b2 b3 b4    = row 1
+            //  c1 c2 c3 c4    = row 2
+            //  d1 d2 d3 d4    = row 3 (0 0 0 1)
+            // MATRIX_4X4CT_F: m[0..2][0..2] = rotation/scale、m[3][0..2] = translate
+            // → 転置して m[col][row] に詰める
+            dst.inv_bind[0][0] = M.a1; dst.inv_bind[0][1] = M.b1; dst.inv_bind[0][2] = M.c1;
+            dst.inv_bind[1][0] = M.a2; dst.inv_bind[1][1] = M.b2; dst.inv_bind[1][2] = M.c2;
+            dst.inv_bind[2][0] = M.a3; dst.inv_bind[2][1] = M.b3; dst.inv_bind[2][2] = M.c3;
+            dst.inv_bind[3][0] = M.a4; dst.inv_bind[3][1] = M.b4; dst.inv_bind[3][2] = M.c4;
+        }
+    }
 }
 
 }
@@ -130,13 +248,25 @@ LoadResult load_via_assimp(const std::string &path) {
         r.ir.materials.push_back(m);
     }
 
-    // Meshes (scene 全体の meshes[] を flat に展開。node hierarchy は無視)
+    // ノード階層を BoneIR として収集
+    std::vector<NodeRec> nodes;
+    std::unordered_map<std::string, int> nameToIR;
+    collect_nodes(scene->mRootNode, -1, nodes, nameToIR);
+    fill_bones_from_nodes(nodes, r.ir);
+    fill_inv_bind(scene, nameToIR, r.ir);
+
+    // Meshes (scene 全体の meshes[] を flat に展開)
     for (std::uint32_t i = 0; i < scene->mNumMeshes; ++i) {
         MeshIR mesh;
-        convert_mesh(scene->mMeshes[i], mesh);
+        convert_mesh(scene->mMeshes[i], mesh, nameToIR);
         if (mesh.positions.empty() || mesh.indices.empty()) continue;
         r.ir.meshes.push_back(std::move(mesh));
     }
+
+    // スキンが 1 つも無ければ bones をクリアして静的扱い (無意味な階層を出さない)
+    bool anySkin = false;
+    for (const auto &m : r.ir.meshes) if (!m.bone_weights.empty()) { anySkin = true; break; }
+    if (!anySkin) r.ir.bones.clear();
 
     if (r.ir.meshes.empty()) {
         r.error = "assimp: no usable mesh in scene";
