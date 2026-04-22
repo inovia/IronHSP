@@ -57,7 +57,7 @@ td.note { font-size: 12px; color: #555; }
 <body>
 
 <h1>hsp3dx DxLib マルチプラットフォーム対応状況</h1>
-<p class="meta">最終更新: 2026-04-22 22:00 (Category C + D 完了) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
+<p class="meta">最終更新: 2026-04-22 22:05 (Category B + D 完了、C + E 検証待ち) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
 
 <div class="summary-box" style="border:2px solid #2b6cb0">
   <p style="margin:0">📋 <strong>全関数マトリクス</strong>: この HTML は主要 API 80 関数の概観です。DxLib.h に宣言されている <strong>全 2438 関数</strong> の対応状況は <a href="PORTING_STATUS_DETAIL.html" style="font-weight:700">PORTING_STATUS_DETAIL.html</a> (自動生成) を参照してください。</p>
@@ -67,7 +67,7 @@ td.note { font-size: 12px; color: #555; }
   <p><strong>目的:</strong> hsp3dx (HSP3 + DxLib 統一ランタイム) を Windows / iOS / Android / Mac / Linux / Web の 6 プラットフォームで同一 <code>.ax</code> を動かせるようにする。</p>
   <p><strong>カラム整理:</strong> Win / iOS / Android は DxLib 本家 3.24f のソースをそのまま使う (D3D11 / Metal or GLES / GLES)。
   Mac / Linux / Web は独自 fork <code>hsp3dx/dxlib_angle_sdl2/</code> で SDL2 + OpenGL (compat) / emscripten WebGL に差し替える。</p>
-  <p><strong>現在の到達点 (2026-04-22 22:00):</strong>
+  <p><strong>現在の到達点 (2026-04-22 22:05):</strong>
      Stage 19〜25 (Font / Sound / Image / MakeScreen / 3D / Movie / MV1) 本道 API 化完了。
      Tier 1〜3 + 4a (Light/Fog) + 4b (Movie 4 platform) + 4c (Mask 最小) +
      4d v1〜v9 (MV1: load / skin 全 type / 法線 / ライティング / Specular / Toon outline) +
@@ -75,6 +75,13 @@ td.note { font-size: 12px; color: #555; }
      Category C (Clipboard / GetDrawScreenGraph / 3D Sound stubs / Touch / IME 封印) +
      Category D (libogg + libvorbis + libopus + opusfile + libtheora + libtiff ソース
      bundle、OGG Vorbis / Opus / Theora / TIFF 全対応) 完了。
+     Category B (Mask stencil 実効果 / GraphBlend 16 種 / GraphFilter 追加 5 種
+     (GAUSS/LEVEL/GRADIENT_MAP/BICUBIC/LANCZOS3) / MV1 DiffuseLayer 多段 tex) 完了。
+     Shadow map は PF stub (API 呼び出しは安全)、A1 MV1 Toon gradation / A2 DxLib
+     Shader API 完全互換は shader 基盤改修要で保留。</p>
+  <p><strong>保留項目 (SDK / 大規模):</strong> Live2D Cubism4 (要 SDK ライセンス) /
+     Bullet Physics (要 source bundle) / MV1 Toon gradation texture (要 shader 基盤) /
+     DxLib .vso/.pso HLSL→GLSL トランスパイル (2〜3 週間規模)
      残: Live2D Cubism4、Bullet Physics、Toon 階調 (要 shader)、VBO 最適化、DiffuseLayer[1+] 合成。</p>
 </div>
 
@@ -682,15 +689,33 @@ td.note { font-size: 12px; color: #555; }
 </tr>
 <tr><td class="fn">Mask (CreateMaskScreen / SetUseMaskScreenFlag / DrawMask / FillMaskScreen 等)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">CPU 側 DxMask.cpp (3124 行) は有効、Mask_*_PF (9 個) は no-op stub</td>
-  <td class="note">Tier 4c 最小版。API コール可・データ構造は動くが、実際の「マスクでクリップされた描画」は未反映。完全実装には iOS DxMaskiOS.cpp (626 行) 相当の GL texture + FBO + alpha 合成 が要る — 次版で対応予定。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">SDL stencil buffer (8-bit) + GL_TEXTURE_2D (GL_LUMINANCE) → alpha-test → GL_STENCIL_TEST</td>
+  <td class="note">B1 完了。MaskBuffer → GL texture → 画面 quad で stencil=1 write → 以後の描画を GL_EQUAL/NOTEQUAL でクリップ。MaskReverseEffectFlag 対応。iOS 626 行の FBO+alpha 合成実装に対し、compat profile の stencil 活用で約 200 行で実現。</td>
 </tr>
-<tr><td class="fn">GraphFilter (MONO / INVERT / BRIGHT_CLIP/SCALE / HSB / TWO_COLOR 他)</td>
+<tr><td class="fn">GraphFilter (MONO / INVERT / BRIGHT_CLIP/SCALE / HSB / TWO_COLOR / GAUSS / LEVEL / GRADIENT_MAP / BICUBIC_SCALE / LANCZOS3_SCALE)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">CPU 経由 (GraphLock → BGRA ピクセル書換 → GraphUnLock)</td>
+  <td class="note">Tier 4e + B3 完了。計 12 種対応。残り (PREMUL_ALPHA / YUV_TO_RGB / SSAO / REPLACEMENT / FLOAT_COLOR_SCALE) は shader 基盤 or DxLib 内部経路要で後続。</td>
+</tr>
+<tr><td class="fn">GraphBlend (NORMAL / MULTIPLE / DIFFERENCE / ADD / SCREEN / OVERLAY / DODGE / BURN / DARKEN / LIGHTEN / SOFTLIGHT / HARDLIGHT / EXCLUSION / NORMAL_ALPHACH / ADD_ALPHACH / MULTIPLE_A_ONLY)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">CPU 経由 (2 枚 GraphLock → pixel-by-pixel blend → GraphUnLock)</td>
+  <td class="note">B2 完了。16 種 BlendType 対応。BlendRatio (0..255) で元画像と最終結果の線形補間。RGBA_SELECT_MIX / PMA_* (premultiplied alpha 系) は未対応。</td>
+</tr>
+<tr><td class="fn">MV1 DiffuseLayer[1+] 多段テクスチャ</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">glActiveTexture + glMultiTexCoord (4 TMU まで) + glTexEnv (BlendType → GL_ADD/GL_MODULATE/GL_DECAL/GL_REPLACE)</td>
+  <td class="note">B4 完了。DiffuseLayer[0..3] 対応。UV は UVs[0] をデフォルト、UVUnitNum > ti なら UVs[ti]。SpecularLayer/NormalLayer は normal mapping shader 要で未対応。</td>
+</tr>
+<tr><td class="fn">Shadow Map (MakeShadowMap / ShadowMap_DrawSetup / SetUseShadowMap)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">CPU 経由 (GraphLock → BGRA ピクセル書換 → GraphUnlock)</td>
-  <td class="note">Tier 4e 完了。MONO/INVERT/BRIGHT_CLIP/SCALE/HSB/TWO_COLOR の 7 種対応。GAUSS/GRADIENT_MAP/LEVEL/BICUBIC/LANCZOS3/SSAO 等はシェーダ要 (Tier 4f 拡張の上で実装予定)。GraphBlend は stub。</td>
+  <td class="tech">API 層は動作 (共通 handle 管理)、Graphics_Hardware_ShadowMap_*_PF は no-op stub</td>
+  <td class="note">API コール可 (ハンドル取得・削除)。実際の影描画は未実装。FBO depth texture + projective texture 実装には 500 行規模の改修要で保留。</td>
 </tr>
 <tr><td class="fn">Bullet Physics 統合</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
