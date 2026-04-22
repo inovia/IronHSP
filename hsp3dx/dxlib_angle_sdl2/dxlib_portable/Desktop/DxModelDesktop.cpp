@@ -156,58 +156,107 @@ static void desktop_mv1_apply_frame_world( MV1_FRAME *frame )
     (void)m ; (void)frame ;
 }
 
-// 単一トライアングルリストを描画 (MV1_VERTEX_TYPE_NORMAL のみ、material color で塗る)
+// 指定 DxLib GraphHandle から GL テクスチャ ID を取得 (0 なら失敗)
+static GLuint desktop_mv1_tex_from_graph( int graphHandle )
+{
+    if ( graphHandle <= 0 ) return 0 ;
+    IMAGEDATA *img = nullptr ;
+    if ( GRAPHCHK( graphHandle, img ) ) return 0 ;
+    if ( !img || !img->Orig || img->Orig->Hard.TexNum == 0 ) return 0 ;
+    IMAGEDATA_ORIG_HARD_TEX *tex = &img->Orig->Hard.Tex[ 0 ] ;
+    if ( !tex->PF ) return 0 ;
+    return ( GLuint )tex->PF->Texture.TextureBuffer ;
+}
+
+// 単一トライアングルリストを描画。MV1_VERTEX_TYPE_NORMAL 専用。
+// テクスチャ・頂点カラー・材質 Diffuse を合成。
 static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TList )
 {
     if ( !TList || !TList->BaseData ) return ;
     MV1_TRIANGLE_LIST_BASE *bd = TList->BaseData ;
     if ( bd->VertexType != MV1_VERTEX_TYPE_NORMAL ) {
-        // skinning 版は未実装 (4BONE / 8BONE / FREEBONE)。スキニング無しの
-        // NORMAL タイプのみ描画する。
+        // skinning 版 (4BONE / 8BONE / FREEBONE) は v4 で対応
         return ;
     }
     if ( !TList->NormalPosition || !bd->Index || bd->IndexNum < 3 ) return ;
+    if ( !Mesh || !Mesh->BaseData ) return ;
 
-    // マテリアル色 (diffuse) を取得
-    GLubyte r = 200, g = 200, b = 200, a = 255 ;
-    if ( Mesh && Mesh->Material && Mesh->Material->BaseData ) {
-        COLOR_F &d = Mesh->Material->BaseData->Diffuse ;
+    // マテリアルから Diffuse と DiffuseLayer[0] (diffuse texture) を取得
+    GLubyte mR = 200, mG = 200, mB = 200, mA = 255 ;
+    GLuint texId = 0 ;
+    bool useVertexColor = Mesh->BaseData->UseVertexDiffuseColor != 0 ;
+    if ( Mesh->Material && Mesh->Material->BaseData ) {
+        MV1_MATERIAL_BASE *mb = Mesh->Material->BaseData ;
+        COLOR_F &d = mb->Diffuse ;
         float ds = Mesh->DrawMaterial.UseColorScale ? Mesh->DrawMaterial.DiffuseScale.r : 1.0f ;
         float dg = Mesh->DrawMaterial.UseColorScale ? Mesh->DrawMaterial.DiffuseScale.g : 1.0f ;
         float db = Mesh->DrawMaterial.UseColorScale ? Mesh->DrawMaterial.DiffuseScale.b : 1.0f ;
         float op = Mesh->DrawMaterial.OpacityRate ;
         if ( op <= 0 ) op = 1.0f ;
-        r = ( GLubyte )( fminf( d.r * ds, 1.0f ) * 255 ) ;
-        g = ( GLubyte )( fminf( d.g * dg, 1.0f ) * 255 ) ;
-        b = ( GLubyte )( fminf( d.b * db, 1.0f ) * 255 ) ;
-        a = ( GLubyte )( fminf( d.a * op, 1.0f ) * 255 ) ;
+        mR = ( GLubyte )( fminf( d.r * ds, 1.0f ) * 255 ) ;
+        mG = ( GLubyte )( fminf( d.g * dg, 1.0f ) * 255 ) ;
+        mB = ( GLubyte )( fminf( d.b * db, 1.0f ) * 255 ) ;
+        mA = ( GLubyte )( fminf( d.a * op, 1.0f ) * 255 ) ;
+        if ( mb->DiffuseLayerNum > 0 ) {
+            texId = desktop_mv1_tex_from_graph( mb->DiffuseLayer[ 0 ].GraphHandle ) ;
+        }
     }
 
-    // BackCulling (mesh base 側フラグ) を尊重
-    int bc = Mesh && Mesh->BaseData ? Mesh->BaseData->BackCulling : 1 ;
+    // BackCulling
+    int bc = Mesh->BaseData->BackCulling ;
     if ( bc ) { glEnable( GL_CULL_FACE ) ; glCullFace( GL_BACK ) ; }
     else     { glDisable( GL_CULL_FACE ) ; }
 
-    glDisable( GL_TEXTURE_2D ) ;
-    glColor4ub( r, g, b, a ) ;
+    // テクスチャバインド
+    if ( texId ) {
+        glEnable( GL_TEXTURE_2D ) ;
+        glBindTexture( GL_TEXTURE_2D, texId ) ;
+        // GL_MODULATE で glColor と乗算 (デフォルト設定だが明示)
+        glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE ) ;
+    } else {
+        glDisable( GL_TEXTURE_2D ) ;
+    }
+
+    // 頂点データ配列 (UV / DiffuseColor を引くのに使う)。VertUnitSize 可変なので
+    // ポインタ算術で要素取得する
+    MV1_MESH_BASE *mb = Mesh->BaseData ;
+    unsigned char *vraw = ( unsigned char * )mb->Vertex ;
+    int vsize = mb->VertUnitSize ;
+    bool hasUV = ( mb->UVUnitNum > 0 ) ;
 
     glBegin( GL_TRIANGLES ) ;
     for ( int i = 0 ; i + 2 < bd->IndexNum ; i += 3 ) {
-        unsigned short i0 = bd->Index[ i + 0 ] ;
-        unsigned short i1 = bd->Index[ i + 1 ] ;
-        unsigned short i2 = bd->Index[ i + 2 ] ;
-        if ( i0 >= bd->VertexNum || i1 >= bd->VertexNum || i2 >= bd->VertexNum ) continue ;
-        glVertex3f( TList->NormalPosition[ i0 ].Position.x,
-                    TList->NormalPosition[ i0 ].Position.y,
-                    TList->NormalPosition[ i0 ].Position.z ) ;
-        glVertex3f( TList->NormalPosition[ i1 ].Position.x,
-                    TList->NormalPosition[ i1 ].Position.y,
-                    TList->NormalPosition[ i1 ].Position.z ) ;
-        glVertex3f( TList->NormalPosition[ i2 ].Position.x,
-                    TList->NormalPosition[ i2 ].Position.y,
-                    TList->NormalPosition[ i2 ].Position.z ) ;
+        for ( int k = 0 ; k < 3 ; ++k ) {
+            unsigned short vi = bd->Index[ i + k ] ;
+            if ( vi >= bd->VertexNum ) { glEnd() ; glBegin( GL_TRIANGLES ) ; continue ; }
+
+            // トライアングルリスト vi → メッシュ vertex メタ index
+            DWORD meshVi = bd->MeshVertexIndex ? bd->MeshVertexIndex[ vi ] : ( DWORD )vi ;
+            MV1_MESH_VERTEX *mv = ( vraw && vsize > 0 )
+                ? ( MV1_MESH_VERTEX * )( vraw + meshVi * vsize )
+                : nullptr ;
+
+            if ( mv && hasUV && texId ) {
+                glTexCoord2f( mv->UVs[ 0 ][ 0 ], mv->UVs[ 0 ][ 1 ] ) ;
+            }
+            if ( useVertexColor && mv ) {
+                // COLOR_U8 は b,g,r,a 順 (DxLib 内部)
+                glColor4ub( mv->DiffuseColor.r, mv->DiffuseColor.g,
+                            mv->DiffuseColor.b, mv->DiffuseColor.a ) ;
+            } else {
+                glColor4ub( mR, mG, mB, mA ) ;
+            }
+
+            FLOAT4 &p = TList->NormalPosition[ vi ].Position ;
+            glVertex3f( p.x, p.y, p.z ) ;
+        }
     }
     glEnd() ;
+
+    if ( texId ) {
+        glBindTexture( GL_TEXTURE_2D, 0 ) ;
+        glDisable( GL_TEXTURE_2D ) ;
+    }
 }
 
 extern void MV1_DrawMesh_PF( MV1_MESH *Mesh, int TriangleListIndex )
