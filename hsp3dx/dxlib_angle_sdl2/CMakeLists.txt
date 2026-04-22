@@ -141,7 +141,7 @@ function(dxlib_desktop_settings target)
         DX_NON_INLINE_ASM=1
         DX_NON_MOVIE=1
         DX_NON_LIVE2D_CUBISM4=1
-        DX_NON_MODEL=1
+        DX_NON_MODEL=1  # Tier 4d: DxUseCLib 側 zlib 依存 + MV1_TRIANGLE_LIST_BASE_PF 等 struct 不足のため保留
         DX_NON_BULLET_PHYSICS=1
         DX_NON_FILTER=1
         # DX_NON_MASK=1 を外した (Tier 4c)。DxMask.cpp の CPU 側が動作、
@@ -233,6 +233,17 @@ add_library(dxlib_portable_stage3 STATIC
     # Tier 4c: Mask (CPU 側 DxMask.cpp + 空の PF stub)
     ${DXLIB_PORTABLE_DIR}/DxMask.cpp
     ${DXLIB_PORTABLE_DIR}/Desktop/DxMaskDesktop.cpp
+    # Tier 4d: Model は DX_NON_MODEL=1 のまま保留 (zlib + struct 不足)。
+    # DxModelDesktop.cpp は stub 実装のみ先行コミット。
+    # ${DXLIB_PORTABLE_DIR}/DxModel.cpp
+    # ${DXLIB_PORTABLE_DIR}/DxModelRead.cpp
+    # ${DXLIB_PORTABLE_DIR}/DxModelLoader0.cpp
+    # ${DXLIB_PORTABLE_DIR}/DxModelLoader1.cpp
+    # ${DXLIB_PORTABLE_DIR}/DxModelLoader2.cpp
+    # ${DXLIB_PORTABLE_DIR}/DxModelLoader3.cpp
+    # ${DXLIB_PORTABLE_DIR}/DxModelLoader4.cpp
+    # ${DXLIB_PORTABLE_DIR}/DxModelLoaderVMD.cpp
+    # ${DXLIB_PORTABLE_DIR}/Desktop/DxModelDesktop.cpp
 )
 dxlib_desktop_settings(dxlib_portable_stage3)
 # lib 側は DxGateway.cpp の sound wrapper / libpng/jpeg 部分を殺して

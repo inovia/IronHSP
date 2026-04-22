@@ -597,20 +597,20 @@ td.note { font-size: 12px; color: #555; }
 <tr><td class="fn">MV1LoadModel (MV1/X/PMD/PMX/FBX)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-pen">⏳</span></td><td class="center"><span class="badge b-pen">⏳</span></td>
-  <td class="tech">DX_NON_MODEL=1 で封印中</td>
-  <td class="note">Tier 4。DxModel.cpp は巨大 (数千行)。MV1 内部 parser を DX_NON_MODEL 外して移植するのが最短。シェーダまわりで手間。</td>
+  <td class="tech">DX_NON_MODEL=1 で封印中。MV1_*_PF stub は <code>Desktop/DxModelDesktop.cpp</code> に先行投入済 (未コンパイル)</td>
+  <td class="note">Tier 4d: 規模調査済。DxModel.cpp 34113 行 + Loader 計 16000 行 + Read 8039 行 = 約 60K 行。enable 時に zlib 依存 (DxUseCLib L4725-4743: inflate / z_stream / Bytef) と <code>MV1_TRIANGLE_LIST_BASE_PF</code> 等プラットフォーム固有 struct が未整備で即コンパイル不可。完全実装には zlib バンドル + <code>DxModelDesktop.h</code> を iOS 相当に拡張 + 14 個 PF を GL VBO/シェーダ/スキン実装、計 1 週間前後の工数。</td>
 </tr>
 <tr><td class="fn">MV1DrawModel</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-pen">⏳</span></td><td class="center"><span class="badge b-pen">⏳</span></td>
-  <td class="tech">インデックスバッファ + glDrawElements</td>
-  <td class="note">DX_NON_MODEL 解除必要。</td>
+  <td class="tech">glDrawElements + skinning (CPU or shader)</td>
+  <td class="note">Tier 4d と連動。</td>
 </tr>
 <tr><td class="fn">MV1SetPosition / Rotation / Scale / MV1SetupFrameAnim</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-pen">⏳</span></td><td class="center"><span class="badge b-pen">⏳</span></td>
-  <td class="tech">DxLib 本体 (CPU 側)</td>
-  <td class="note">Draw が動けばここは既に動く。</td>
+  <td class="tech">CPU 側で行列計算</td>
+  <td class="note">Draw が動けばここは自動的に動く (CPU 側は DxModel.cpp のみで完結)。</td>
 </tr>
 </table>
 
