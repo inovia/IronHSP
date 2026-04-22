@@ -178,6 +178,15 @@ static inline void desktop_mv1_mul_mat4x4ct(
     oz = M->mf.m[ 2 ][ 0 ] * p.x + M->mf.m[ 2 ][ 1 ] * p.y + M->mf.m[ 2 ][ 2 ] * p.z + M->mf.m[ 2 ][ 3 ] ;
 }
 
+// 法線変換用 (平行移動は除外、3x3 回転/スケール成分のみ)
+static inline void desktop_mv1_mul_mat4x4ct_dir(
+    const MATRIX_4X4CT *M, const VECTOR &n, float &ox, float &oy, float &oz )
+{
+    ox = M->mf.m[ 0 ][ 0 ] * n.x + M->mf.m[ 0 ][ 1 ] * n.y + M->mf.m[ 0 ][ 2 ] * n.z ;
+    oy = M->mf.m[ 1 ][ 0 ] * n.x + M->mf.m[ 1 ][ 1 ] * n.y + M->mf.m[ 1 ][ 2 ] * n.z ;
+    oz = M->mf.m[ 2 ][ 0 ] * n.x + M->mf.m[ 2 ][ 1 ] * n.y + M->mf.m[ 2 ][ 2 ] * n.z ;
+}
+
 // CPU スキニング。各頂点タイプごとに MatrixWeight × BoneMatrix を合成する。
 static void desktop_mv1_skin_vertex(
     MV1_FRAME *Frame, MV1_TRIANGLE_LIST_BASE *bd,
@@ -252,11 +261,37 @@ static void desktop_mv1_get_vertex_pos(
             nullptr, &TList->SkinPosition8B[ vi ],
             MV1_VERTEX_TYPE_SKIN_8BONE, out ) ;
         return ;
-    case MV1_VERTEX_TYPE_SKIN_FREEBONE:
-        out[ 0 ] = TList->SkinPositionFREEB[ vi ].Position.x ;
-        out[ 1 ] = TList->SkinPositionFREEB[ vi ].Position.y ;
-        out[ 2 ] = TList->SkinPositionFREEB[ vi ].Position.z ;
+    case MV1_VERTEX_TYPE_SKIN_FREEBONE: {
+        // FREEBONE は可変長構造体 (MV1_SKINBONE_BLEND の weight 配列が最低 4、
+        // 超過分は構造体直後に続く)。実単位サイズは bd->PosUnitSize。
+        const unsigned char *base = ( const unsigned char * )TList->SkinPositionFREEB ;
+        int unitSize = bd->PosUnitSize ;
+        const MV1_TLIST_SKIN_POS_FREEB *v =
+            ( const MV1_TLIST_SKIN_POS_FREEB * )( base + ( size_t )vi * unitSize ) ;
+        out[ 0 ] = out[ 1 ] = out[ 2 ] = 0.0f ;
+        if ( !Frame || !Frame->UseSkinBoneMatrix ) {
+            // フォールバック: base position
+            out[ 0 ] = v->Position.x ; out[ 1 ] = v->Position.y ; out[ 2 ] = v->Position.z ;
+            return ;
+        }
+        const MV1_SKINBONE_BLEND *b = v->MatrixWeight ;
+        int maxBones = bd->MaxBoneNum > 0 ? bd->MaxBoneNum : 256 ;
+        for ( int k = 0 ; k < maxBones && b[ k ].Index != -1 ; ++k ) {
+            float w = b[ k ].W ;
+            if ( w <= 0.0f ) continue ;
+            int idx = b[ k ].Index ;
+            // FREEBONE の Index は Frame->UseSkinBoneMatrix へ直接のインデックス
+            // (4BONE/8BONE のような UseBone[] 経由ではない)
+            MATRIX_4X4CT *M = Frame->UseSkinBoneMatrix[ idx ] ;
+            if ( !M ) continue ;
+            float tx, ty, tz ;
+            desktop_mv1_mul_mat4x4ct( M, v->Position, tx, ty, tz ) ;
+            out[ 0 ] += tx * w ;
+            out[ 1 ] += ty * w ;
+            out[ 2 ] += tz * w ;
+        }
         return ;
+    }
     default:
         out[ 0 ] = out[ 1 ] = out[ 2 ] = 0.0f ;
         return ;
