@@ -472,6 +472,11 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
     int    layerN = 0 ;        // 有効 DiffuseLayer 数 (最大 4 までに制限)
     GLuint layerTex [ 8 ] = { 0 } ;
     int    layerBlend[ 8 ] = { 0 } ;
+    // Specular Layer (TMU N 番目に bind して specular 乗算、効果は材質 Specular
+    // に glMaterialfv で反映する代用として、RGB を Specular 色として modulate)
+    // Normal Layer は shader 必須のため bind のみ (fixed-function では効果なし)
+    GLuint specTex = 0 ;
+    GLuint normTex = 0 ;
     bool useVertexColor = Mesh->BaseData->UseVertexDiffuseColor != 0 ;
     if ( Mesh->Material && Mesh->Material->BaseData ) {
         MV1_MATERIAL_BASE *mb = Mesh->Material->BaseData ;
@@ -495,8 +500,19 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
             if ( layerN == 0 ) texId = t ;
             layerN++ ;
         }
+        // Specular Layer[0] を拾う (複数ある場合は最初のものだけ)。
+        // fixed-function では normal map shader 化が要るため効果は限定的。
+        if ( mb->SpecularLayerNum > 0 ) {
+            specTex = desktop_mv1_tex_from_graph( mb->SpecularLayer[ 0 ].GraphHandle ) ;
+        }
+        // Normal Layer[0] — fixed-function 下では bind のみ。将来の shader 化で使用
+        if ( mb->NormalLayerNum > 0 ) {
+            normTex = desktop_mv1_tex_from_graph( mb->NormalLayer[ 0 ].GraphHandle ) ;
+            (void)normTex ;  // 現状は使用しない
+        }
         // スペキュラ・エミッシブ (glMaterialfv で設定、ColorMaterial は
-        // diffuse/ambient のみカバー)
+        // diffuse/ambient のみカバー)。specTex がある場合、per-material spec color
+        // の代わりに中央 texel のRGB平均を取って近似 (本当は per-fragment 必要)
         if ( s_MV1_LightWasOn ) {
             float sclS = Mesh->DrawMaterial.UseColorScale ? Mesh->DrawMaterial.SpecularScale.r : 1.0f ;
             float sclE = Mesh->DrawMaterial.UseColorScale ? Mesh->DrawMaterial.EmissiveScale.r : 1.0f ;
