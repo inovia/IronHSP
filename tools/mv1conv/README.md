@@ -80,8 +80,9 @@ bash tests/roundtrip.sh
 | 入力: X (DirectX) | ✓ (ASCII のみ、Frame 階層探索) |
 | 入力: GLB (glTF 2.0) | ✓ (静的、POSITION/NORMAL/TEXCOORD_0/baseColorFactor) |
 | 入力: VRML 2.0 (.wrl) | ✓ (IndexedFaceSet の point + coordIndex) |
+| 入力: PMD (MikuMikuDance) | ✓ (静的、Shift-JIS → UTF-8) |
 | 入力: FBX | 未対応 |
-| 入力: VRM / USD / 3MF / GPB | 未対応 |
+| 入力: VRM / USD / 3MF / GPB / PMX | 未対応 |
 | スキンメッシュ書き出し | 未対応 |
 | アニメーション書き出し | 未対応 |
 

@@ -7,6 +7,7 @@
 #include "x_import.hpp"
 #include "glb_import.hpp"
 #include "wrl_import.hpp"
+#include "pmd_import.hpp"
 #include "mv1_writer.hpp"
 #include "dxa.hpp"
 #include <cstdio>
@@ -47,12 +48,16 @@ static int convert_generic(const char *in, const char *out) {
         lr = load_wrl(in);
         if (!lr.ok()) { err = lr.error; }
         else ir = &lr.ir;
+    } else if (ext == "pmd") {
+        lr = load_pmd(in);
+        if (!lr.ok()) { err = lr.error; }
+        else ir = &lr.ir;
     } else if (ext == "obj") {
         olr = load_obj(in);
         if (!olr.ok()) { err = olr.error; }
         else ir = &olr.ir;
     } else {
-        std::fprintf(stderr, "unsupported extension: %s (supported: .obj .stl .ply .x .glb .wrl)\n", ext.c_str());
+        std::fprintf(stderr, "unsupported extension: %s (supported: .obj .stl .ply .x .glb .wrl .pmd)\n", ext.c_str());
         return 2;
     }
 
