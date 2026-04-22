@@ -659,9 +659,17 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
     if ( useGLSL && glslH > 0 ) {
         DesktopShader_SetUniform1i( glslH, "u_diffuse0",    0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_shadowMap",   4 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_normalMap",   2 ) ;
         DesktopShader_SetUniform1i( glslH, "u_useTexture",  texId ? 1 : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_useLighting", ( s_MV1_LightWasOn && !isToon ) ? 1 : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_useShadow",   useShadow ? 1 : 0 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_useNormalMap", normTex ? 1 : 0 ) ;
+        // normal map は TMU 2 に bind
+        if ( normTex && p_glActiveTexture ) {
+            p_glActiveTexture( GL_TEXTURE0 + 2 ) ;
+            glBindTexture( GL_TEXTURE_2D, normTex ) ;
+            p_glActiveTexture( GL_TEXTURE0 ) ;
+        }
         float alphaTh = 0.0f ;
         if ( Mesh->Material && Mesh->Material->BaseData &&
              Mesh->Material->BaseData->UseAlphaTest ) {

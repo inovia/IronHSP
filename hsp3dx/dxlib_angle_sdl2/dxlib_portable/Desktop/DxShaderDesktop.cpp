@@ -224,7 +224,7 @@ extern "C" int DesktopShader_SetUniformMatrix4f( int h, const char *name, const 
 
 static const char *s_mv1_vs = R"GLSL(
 #version 120
-
+#extension GL_EXT_gpu_shader4 : enable
 varying vec2 v_uv0 ;
 varying vec3 v_normal ;
 varying vec4 v_color ;
@@ -237,26 +237,43 @@ void main( void )
     v_normal    = normalize( gl_NormalMatrix * gl_Normal ) ;
     v_color     = gl_Color ;
     v_eyePos    = ( gl_ModelViewMatrix * gl_Vertex ).xyz ;
-    // TMU 4: shadow projective coord (GL_OBJECT_LINEAR で自動生成されるが
-    // shader では gl_TexCoord[4] 経由でアクセスできるよう ftransform)
     gl_TexCoord[ 4 ] = gl_TextureMatrix[ 4 ] * gl_Vertex ;
 }
 )GLSL" ;
 
 static const char *s_mv1_fs = R"GLSL(
 #version 120
+#extension GL_OES_standard_derivatives : enable
 
 uniform sampler2D       u_diffuse0 ;
 uniform int             u_useTexture ;
 uniform int             u_useLighting ;
 uniform int             u_useShadow ;
 uniform sampler2DShadow u_shadowMap ;
+uniform sampler2D       u_normalMap ;
+uniform int             u_useNormalMap ;
 uniform float           u_alphaThreshold ;
 
 varying vec2 v_uv0 ;
 varying vec3 v_normal ;
 varying vec4 v_color ;
 varying vec3 v_eyePos ;
+
+// tangent basis を derivative chain rule で求める (tangent attribute 不要)
+// Christian Schüler, "Followup: Normal Mapping Without Precomputed Tangents"
+mat3 derive_tbn( vec3 N, vec3 p, vec2 uv )
+{
+    vec3 dp1 = dFdx( p  ) ;
+    vec3 dp2 = dFdy( p  ) ;
+    vec2 du1 = dFdx( uv ) ;
+    vec2 du2 = dFdy( uv ) ;
+    vec3 dp2p = cross( dp2, N ) ;
+    vec3 dp1p = cross( N, dp1 ) ;
+    vec3 T = dp2p * du1.x + dp1p * du2.x ;
+    vec3 B = dp2p * du1.y + dp1p * du2.y ;
+    float invmax = inversesqrt( max( dot( T, T ), dot( B, B ) ) ) ;
+    return mat3( T * invmax, B * invmax, N ) ;
+}
 
 void main( void )
 {
@@ -266,11 +283,18 @@ void main( void )
 
     if ( u_alphaThreshold > 0.0 && base.a < u_alphaThreshold ) discard ;
 
+    vec3 N = normalize( v_normal ) ;
+    if ( u_useNormalMap == 1 ) {
+        // tangent-space normal map を eye-space normal に変換
+        mat3 TBN = derive_tbn( N, -v_eyePos, v_uv0 ) ;
+        vec3 nm  = texture2D( u_normalMap, v_uv0 ).xyz * 2.0 - 1.0 ;
+        N = normalize( TBN * nm ) ;
+    }
+
     if ( u_useLighting == 1 ) {
-        vec3 L   = normalize( gl_LightSource[ 0 ].position.xyz - v_eyePos ) ;
-        vec3 V   = normalize( -v_eyePos ) ;
-        vec3 H   = normalize( L + V ) ;
-        vec3 N   = normalize( v_normal ) ;
+        vec3 L = normalize( gl_LightSource[ 0 ].position.xyz - v_eyePos ) ;
+        vec3 V = normalize( -v_eyePos ) ;
+        vec3 H = normalize( L + V ) ;
         float ndl = max( dot( N, L ), 0.0 ) ;
         float ndh = max( dot( N, H ), 0.0 ) ;
 
