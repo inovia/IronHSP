@@ -93,6 +93,16 @@
 #cmd dx_pref_get_double $194  ; dx_pref_get_double "section", "key", var_double [, default]
 #cmd dx_pref_list_keys  $195  ; dx_pref_list_keys "section", var_str  (stat=件数、var に \n 区切りで格納)
 
+;  ---- Phase M.3: アプリライフサイクルイベント ----
+;      onevents <DX_EVT_*>, *label  で登録。通知時に *label へ gosub で飛ぶ。
+#cmd onevents           $196  ; onevents event_id, *label  (label 省略で登録解除)
+
+#const global DX_EVT_APP_BACKGROUND      0
+#const global DX_EVT_APP_FOREGROUND      1
+#const global DX_EVT_APP_WILL_TERMINATE  2
+#const global DX_EVT_APP_LOW_MEMORY      3
+#const global DX_EVT_ORIENTATION_CHANGED 4
+
 ;  ---- Phase 5.4a+: multipart/form-data ファイルアップロード ----
 #cmd dx_http_mp_begin      $170   ; dx_http_mp_begin
 #cmd dx_http_mp_add_text   $171   ; dx_http_mp_add_text "name", "value"

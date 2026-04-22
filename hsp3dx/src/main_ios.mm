@@ -8,6 +8,7 @@
 //  同梱し、起動時に DxLib FileRead_open 経由で読み出して内部 dir にコピーする。
 //
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,6 +18,35 @@
 #include "DxLib.h"
 #include "hgio_dx.h"
 #include "hsp3dxcl.h"
+#include "hsp3dx_events.h"
+
+//  アプリライフサイクル通知 → hsp3dx_events_fire のブリッジ
+//  通知ハンドラは実際にはメインスレッドで呼ばれるが、fire は atomic queue で安全。
+static void hsp3dx_install_event_observers( void )
+{
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserverForName:UIApplicationDidEnterBackgroundNotification
+                    object:nil queue:nil usingBlock:^( NSNotification *n ) {
+        hsp3dx_events_fire( HSP3DX_EVT_APP_BACKGROUND );
+    }];
+    [nc addObserverForName:UIApplicationWillEnterForegroundNotification
+                    object:nil queue:nil usingBlock:^( NSNotification *n ) {
+        hsp3dx_events_fire( HSP3DX_EVT_APP_FOREGROUND );
+    }];
+    [nc addObserverForName:UIApplicationWillTerminateNotification
+                    object:nil queue:nil usingBlock:^( NSNotification *n ) {
+        hsp3dx_events_fire( HSP3DX_EVT_APP_WILL_TERMINATE );
+    }];
+    [nc addObserverForName:UIApplicationDidReceiveMemoryWarningNotification
+                    object:nil queue:nil usingBlock:^( NSNotification *n ) {
+        hsp3dx_events_fire( HSP3DX_EVT_APP_LOW_MEMORY );
+    }];
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [nc addObserverForName:UIDeviceOrientationDidChangeNotification
+                    object:nil queue:nil usingBlock:^( NSNotification *n ) {
+        hsp3dx_events_fire( HSP3DX_EVT_ORIENTATION_CHANGED );
+    }];
+}
 
 //  1 ファイルを DxLib FileRead 経由で読み出し fopen で書き出す
 static int extract_bundle_asset( const char *name, const char *dst_dir )
@@ -46,7 +76,10 @@ static int extract_bundle_asset( const char *name, const char *dst_dir )
 
 //  bundle Resources 直下のアセットを Documents にコピーする (拡張子で絞り込み)。
 //  DxLib 内部ファイル (*.strings, *.nib, Info.plist 等) は除外。
-//  既に Documents に同名のファイルがある場合は上書きしない (override を尊重)。
+//  毎起動で bundle の内容を Documents に同期 (bundle を build 時に更新した場合に
+//  Documents 側の古いファイルが残り続けないようにするため)。
+//  Documents/start_override.ax は extract_all の対象外 (拡張子は ax だが
+//  bundle に存在しないので展開されない)。このあとの override 処理で rename 消費。
 static void extract_all_bundle_assets( const char *dst_dir )
 {
     NSString *resDir = [[NSBundle mainBundle] resourcePath];
@@ -68,11 +101,7 @@ static void extract_all_bundle_assets( const char *dst_dir )
         strncpy( utf8Name, [file UTF8String], sizeof(utf8Name) - 1 );
         utf8Name[sizeof(utf8Name) - 1] = 0;
 
-        //  既存ファイルがあればスキップ (毎起動コピーの無駄を避ける)
-        char dst[1024];
-        snprintf( dst, sizeof(dst), "%s/%s", dst_dir, utf8Name );
-        if ( access( dst, F_OK ) == 0 ) continue;
-
+        //  毎起動で上書き (bundle の最新内容を反映)
         extract_bundle_asset( utf8Name, dst_dir );
     }
 }
@@ -87,6 +116,9 @@ int ios_main( void )
         NSLog( @"hgio_dx_init failed" );
         return -1;
     }
+
+    //  Phase M.3: アプリライフサイクル通知を events queue にブリッジ
+    hsp3dx_install_event_observers();
 
     //  参考: 物理画面サイズ (hgio_dx 側で letterbox 計算に使う)
     int disp_w = 0, disp_h = 0;
@@ -149,6 +181,7 @@ int ios_main( void )
     //  iOS は ESC キーがないので ProcessMessage の終了通知を待つ
     //  (Home ボタンでバックグラウンド → タスクキルで終了)
     while ( hgio_dx_process_message() == 0 ) {
+        hsp3dx_events_poll();
         WaitTimer( 16 );
     }
 

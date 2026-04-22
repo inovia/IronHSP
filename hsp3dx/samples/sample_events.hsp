@@ -1,0 +1,73 @@
+;============================================================
+;   sample_events.hsp — Phase M.3: onevents 動作確認
+;
+;   アプリを background → foreground、画面回転などすると
+;   カウンタが増える。
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    screen 0, 720, 1280
+    sw = ginfo_winx : sh = ginfo_winy
+
+    bg_count  = 0
+    fg_count  = 0
+    rot_count = 0
+    mem_count = 0
+
+    onevents DX_EVT_APP_BACKGROUND,      *on_bg
+    onevents DX_EVT_APP_FOREGROUND,      *on_fg
+    onevents DX_EVT_ORIENTATION_CHANGED, *on_rot
+    onevents DX_EVT_APP_LOW_MEMORY,      *on_mem
+
+    repeat
+        getkey esc_p, 27
+        if esc_p : break
+
+        redraw 0
+        color 20, 30, 60
+        boxf 0, 0, sw, sh
+
+        color 255, 255, 255
+        font "MS Gothic", 32
+        pos 30, 30
+        mes "hsp3dx onevents test"
+
+        font "MS Gothic", 24
+        pos 30, 100
+        mes "BACKGROUND   : " + bg_count
+        pos 30, 140
+        mes "FOREGROUND   : " + fg_count
+        pos 30, 180
+        mes "ORIENTATION  : " + rot_count
+        pos 30, 220
+        mes "LOW_MEMORY   : " + mem_count
+
+        pos 30, 320
+        color 255, 220, 80
+        font "MS Gothic", 22
+        mes "ホームボタンで BG 切替、再度開くと FG ++"
+        pos 30, 360
+        mes "端末を回すと ORIENTATION ++"
+
+        redraw 1
+        await 16
+    loop
+    end
+
+*on_bg
+    bg_count++
+    return
+
+*on_fg
+    fg_count++
+    return
+
+*on_rot
+    rot_count++
+    return
+
+*on_mem
+    mem_count++
+    return

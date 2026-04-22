@@ -117,6 +117,7 @@
     <ClCompile Include="..\src\hsp3dx_ws_win.cpp" />
     <ClCompile Include="..\src\hsp3dx_platform_win.cpp" />
     <ClCompile Include="..\src\hsp3dx_platform_common.cpp" />
+    <ClCompile Include="..\src\hsp3dx_events.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\hgio_dx.h" />

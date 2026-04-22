@@ -113,6 +113,7 @@ targets:
           - "hsp3dx_ios_dxlib_override.cpp"
           - "hsp3dx_platform_ios.mm"
           - "hsp3dx_platform_common.cpp"
+          - "hsp3dx_events.cpp"
           - "hsp3dx_json.cpp"
           - "main_ios.mm"
           - "hsp3dx_http_ios.mm"

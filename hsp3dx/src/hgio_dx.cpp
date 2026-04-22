@@ -6,6 +6,7 @@
 //
 #include "hgio_dx.h"
 #include "hsp3dx_compat.h"
+#include "hsp3dx_events.h"
 #include "DxLib.h"    // hsp3dx/extlib/dxlib_win/include/DxLib.h
 #if defined(_WIN32)
 #include <windows.h>
@@ -79,6 +80,8 @@ int hgio_dx_flip( void )
 
 int hgio_dx_process_message( void )
 {
+    //  登録済 onevents ラベルがあれば発火 (HSP VM 実行スレッド内で安全に gosub)
+    hsp3dx_events_poll();
     return ProcessMessage();    // 0=正常、-1=終了要求
 }
 

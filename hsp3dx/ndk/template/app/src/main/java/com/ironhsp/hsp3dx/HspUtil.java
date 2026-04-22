@@ -5,11 +5,15 @@ package com.ironhsp.hsp3dx;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
+import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 
@@ -19,14 +23,59 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class HspUtil {
 
+    static {
+        try { System.loadLibrary( "hsp3dx" ); }
+        catch ( UnsatisfiedLinkError e ) { /* NativeActivity 経由で既に load 済の場合は無視 */ }
+    }
+
     private static final String TAG = "HspUtil";
     private static final String PREFS_NAME = "hsp3dx_prefs";
 
     //  NativeActivity が起動直後にセットする (hsp3dx_platform_init)
     private static Activity  sActivity = null;
 
-    public static void setActivity( Activity a ) { sActivity = a; }
+    public static void setActivity( Activity a ) {
+        sActivity = a;
+        installEventHooks();
+    }
     public static Activity getActivity() { return sActivity; }
+
+    //  ================================================================
+    //  Phase M.3: アプリライフサイクル通知を JNI 経由で hsp3dx_events_fire へ
+    //  event ID は hsp3dx_events.h の定数と揃える:
+    //    0=BACKGROUND / 1=FOREGROUND / 2=WILL_TERMINATE
+    //    3=LOW_MEMORY / 4=ORIENTATION_CHANGED
+    //  ================================================================
+    public static native void nativeFireEvent( int eventId );
+
+    private static boolean sHooksInstalled = false;
+
+    private static void installEventHooks()
+    {
+        if ( sHooksInstalled || sActivity == null ) return;
+        Application app = sActivity.getApplication();
+        if ( app == null ) return;
+
+        app.registerActivityLifecycleCallbacks(
+            new Application.ActivityLifecycleCallbacks() {
+                @Override public void onActivityResumed( Activity a )  { Log.i(TAG, "onResume"); nativeFireEvent( 1 ); }
+                @Override public void onActivityPaused( Activity a )   { Log.i(TAG, "onPause");  nativeFireEvent( 0 ); }
+                @Override public void onActivityDestroyed( Activity a ){ Log.i(TAG, "onDestroy"); nativeFireEvent( 2 ); }
+                @Override public void onActivityCreated( Activity a, Bundle b ) {}
+                @Override public void onActivityStarted( Activity a ) {}
+                @Override public void onActivityStopped( Activity a ) {}
+                @Override public void onActivitySaveInstanceState( Activity a, Bundle b ) {}
+            }
+        );
+        app.registerComponentCallbacks( new ComponentCallbacks2() {
+            @Override public void onConfigurationChanged( Configuration c ) { Log.i(TAG, "onCfg"); nativeFireEvent( 4 ); }
+            @Override public void onLowMemory() { Log.i(TAG, "onLowMem"); nativeFireEvent( 3 ); }
+            @Override public void onTrimMemory( int level ) {}
+        } );
+
+        sHooksInstalled = true;
+        Log.i( TAG, "lifecycle/component hooks installed" );
+    }
 
     //  ================================================================
     //  exec: URL を Intent で開く (http/https/mailto/tel 等)

@@ -7,6 +7,7 @@
 #ifdef __ANDROID__
 
 #include "hsp3dx_platform.h"
+#include "hsp3dx_events.h"
 
 #include <jni.h>
 #include <stdlib.h>
@@ -261,6 +262,19 @@ extern "C" int hsp3dx_pref_list_keys( const char *section, char *out, size_t out
     }
     if ( detach ) s_vm->DetachCurrentThread();
     return count;
+}
+
+//  main_ndk から起動時に呼ばれる: HspUtil のロード + setActivity + lifecycle hook
+extern "C" void hsp3dx_platform_init_jni( void )
+{
+    ensure_jni_init();
+}
+
+//  HspUtil.nativeFireEvent(int) の実装 (Java → C への通知)
+extern "C" JNIEXPORT void JNICALL
+Java_com_ironhsp_hsp3dx_HspUtil_nativeFireEvent( JNIEnv *, jclass, jint eventId )
+{
+    hsp3dx_events_fire( (int)eventId );
 }
 
 extern "C" int hsp3dx_pref_clear( const char *section )

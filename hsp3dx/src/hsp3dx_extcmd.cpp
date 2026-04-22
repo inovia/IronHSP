@@ -76,6 +76,7 @@
 #include "hsp3dx_ws.h"
 #include "hgio_dx.h"
 #include "hsp3dx_platform.h"
+#include "hsp3dx_events.h"
 #include "DxLib.h"
 
 //  Phase 5.3 自動生成 DxLib binding (opcode 0x200〜)
@@ -1570,6 +1571,15 @@ static int cmdfunc_extcmd( int cmd )
             code_setva( pv, ap, HSPVAR_FLAG_STR, buf );
             ctx->stat = n;
             free( sec_c );
+            break;
+        }
+
+    case 0x196:                     // onevents event_id, *label
+        {
+            int eid = code_getdi( 0 );
+            unsigned short *lb = code_getlb();
+            code_next();
+            hsp3dx_events_register( eid, lb );
             break;
         }
 

@@ -25,6 +25,7 @@
 
 #include "hsp3dxcl.h"
 #include "hsp3dx_console.h"   // hsp3dx_msgbox_utf8
+#include "hgio_dx.h"          // hgio_dx_process_message (events_poll 経由で onevents 発火)
 #include "DxLib.h"
 
 //  Windows 固有 API のクロスプラットフォーム薄皮
@@ -61,7 +62,9 @@ static void hsp3dxcl_msgfunc( HSPCTX *hspctx )
     while ( true ) {
         //  VM が wait/await に入っている間も Windows メッセージを処理する。
         //  これをしないと X ボタンが効かない/マウスキー入力がペンディングになる。
-        if ( ProcessMessage() == -1 ) {
+        //  hgio_dx_process_message は内部で hsp3dx_events_poll も実行するので
+        //  onevents で登録したラベルがここで発火する。
+        if ( hgio_dx_process_message() == -1 ) {
             //  ウィンドウ閉じ要求 → VM を終了扱いに
             hspctx->runmode = RUNMODE_END;
             throw HSPERR_NONE;
