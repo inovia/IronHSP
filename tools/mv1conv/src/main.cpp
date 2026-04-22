@@ -1,10 +1,24 @@
 #include "mv1_reader.hpp"
 #include "mv1_dump.hpp"
+#include "obj_export.hpp"
 #include <cstdio>
 #include <cstring>
 #include <string>
 
 using namespace mv1conv;
+
+static int cmd_obj(int argc, char **argv) {
+    if (argc < 2) {
+        std::fprintf(stderr, "usage: mv1conv obj <file.mv1> <out.obj>\n");
+        return 2;
+    }
+    auto f = Mv1File::load(argv[0]);
+    if (!f.ok()) {
+        std::fprintf(stderr, "ERROR: %s\n", f.error().c_str());
+        return 1;
+    }
+    return export_obj(f, argv[1]);
+}
 
 static int cmd_dump(int argc, char **argv) {
     if (argc < 1) {
@@ -48,6 +62,7 @@ int main(int argc, char **argv) {
     const char *sub = argv[1];
     if (std::strcmp(sub, "dump") == 0)   return cmd_dump(argc - 2, argv + 2);
     if (std::strcmp(sub, "decode") == 0) return cmd_decode(argc - 2, argv + 2);
+    if (std::strcmp(sub, "obj") == 0)    return cmd_obj(argc - 2, argv + 2);
     std::fprintf(stderr, "unknown subcommand: %s\n", sub);
     return 2;
 }
