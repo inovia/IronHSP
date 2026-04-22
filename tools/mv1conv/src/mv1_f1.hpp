@@ -98,6 +98,149 @@ struct MV1_TRIANGLE_LIST_F1 {
 };
 static_assert(sizeof(MV1_TRIANGLE_LIST_F1) == 0x24, "MV1_TRIANGLE_LIST_F1 size should be 36 bytes");
 
+struct MV1_CHANGE_F1 {
+    DWORD Target;
+    DWORD Fill;
+    DWORD CheckBit;
+    DWORD Size;
+};
+
+struct MV1_SKIN_BONE_USE_FRAME_F1 {
+    std::int32_t Index;
+    std::int32_t MatrixIndex;
+};
+
+struct MV1_SKIN_BONE_F1 {
+    DWORD DimPrev, DimNext;
+    std::int32_t Index;
+    std::int32_t BoneFrame;
+    MATRIX_4X4CT_F ModelLocalMatrix;
+    std::int32_t ModelLocalMatrixIsTranslateOnly;
+    std::int32_t UseFrameNum;
+    DWORD UseFrame;
+    DWORD Padding[2];
+};
+
+struct MV1_MESH_F1 {
+    DWORD DimPrev, DimNext;
+    std::int32_t Index;
+    DWORD Container;
+    DWORD Material;
+    MV1_CHANGE_F1 ChangeInfo;
+    std::int32_t UseVertexDiffuseColor, UseVertexSpecularColor;
+    BYTE NotOneDiffuseAlpha, Shape, Padding2[2];
+    std::int32_t TriangleListNum;
+    DWORD TriangleList;
+    BYTE Visible, BackCulling, UVSetUnitNum, UVUnitNum;
+    std::int32_t VertFlag;
+    std::int32_t VertexNum, FaceNum;
+    DWORD VertexData;
+    DWORD UserData[4];
+    DWORD Padding[4];
+};
+
+struct MV1_FRAME_F1 {
+    DWORD DimPrev, DimNext;
+    DWORD Name;
+    std::int32_t Index;
+    MV1_CHANGE_F1 ChangeDrawMaterialInfo;
+    MV1_CHANGE_F1 ChangeMatrixInfo;
+    std::int32_t TotalMeshNum, TotalChildNum;
+    DWORD Parent, FirstChild, LastChild, Prev, Next;
+    VECTOR Translate, Scale, Rotate;
+    std::int32_t RotateOrder;
+    FLOAT4 Quaternion;
+    DWORD Flag;
+    std::int32_t IsSkinMesh, TriangleNum, VertexNum, MeshNum;
+    DWORD Mesh;
+    std::int32_t SkinBoneNum;
+    DWORD SkinBone;
+    std::int32_t UseSkinBoneNum;
+    DWORD UseSkinBone;
+    DWORD Light;
+    WORD VertFlag, MaxBoneBlendNum;
+    float SmoothingAngle;
+    std::int32_t AutoCreateNormal;
+    std::int32_t PositionNum, NormalNum;
+    DWORD PositionAndNormalData;
+    DWORD UserData[4];
+    DWORD FrameShape;
+    VECTOR PreRotate, PostRotate;
+    DWORD Padding[8];
+};
+
+struct MV1_ANIM_KEYSET_F1 {
+    std::int8_t Type;
+    std::int8_t DataType;
+    WORD Flag;
+    DWORD KeyData;
+    DWORD UserData[1];
+    DWORD Padding[2];
+};
+static_assert(sizeof(MV1_ANIM_KEYSET_F1) == 20, "MV1_ANIM_KEYSET_F1 size should be 20 bytes (matches header AnimKeySetUnitSize)");
+
+struct MV1_ANIM_F1 {
+    std::int32_t Index;
+    DWORD Container;
+    std::int32_t TargetFrameIndex;
+    float MaxTime;
+    std::int32_t RotateOrder;
+    std::int32_t KeySetNum;
+    DWORD KeySet;
+    DWORD UserData[2];
+    DWORD Padding[2];
+};
+static_assert(sizeof(MV1_ANIM_F1) == 44, "MV1_ANIM_F1 size should be 44 bytes (matches header AnimUnitSize)");
+
+struct MV1_ANIMSET_F1 {
+    DWORD DimPrev, DimNext;
+    DWORD Name;
+    std::int32_t Index;
+    float MaxTime;
+    std::int32_t AnimNum;
+    DWORD Anim;
+    DWORD UserData[4];
+    DWORD Flag;
+    DWORD Padding[3];
+};
+
+struct MV1_FRAME_SHAPE_F1 {
+    std::int32_t ShapeNum;
+    DWORD Shape;
+};
+
+struct MV1_SHAPE_F1 {
+    DWORD DimPrev, DimNext;
+    DWORD Name;
+    std::int32_t Index;
+    DWORD Container;
+    std::int32_t MeshNum;
+    DWORD Mesh;
+    DWORD UserData[4];
+    DWORD Padding[4];
+};
+
+struct MV1_FILEHEAD_SHAPE_F1 {
+    std::int32_t FrameNum;
+    DWORD Frame;
+    std::int32_t DataNum;
+    DWORD Data;
+    std::int32_t MeshNum;
+    DWORD Mesh;
+    std::int32_t VertexNum;
+    DWORD Vertex;
+    std::int32_t PressVertexDataSize;
+    DWORD PressVertexData;
+    std::int32_t TargetMeshVertexNum;
+    std::int32_t ShapeVertexUnitSize;
+    std::int32_t NormalPositionNum;
+    std::int32_t SkinPosition4BNum;
+    std::int32_t SkinPosition8BNum;
+    std::int32_t SkinPositionFREEBSize;
+    DWORD UserData[4];
+    DWORD Padding[4];
+};
+
 struct MV1MODEL_FILEHEADER_F1 {
     BYTE  CheckID[4];
     DWORD Version;
