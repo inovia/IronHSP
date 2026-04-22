@@ -309,6 +309,7 @@ dxlib_stage_exe(stage20_sound             src/stage20_sound.cpp)
 dxlib_stage_exe(stage21_image             src/stage21_image.cpp)
 dxlib_stage_exe(stage22_makescreen        src/stage22_makescreen.cpp)
 dxlib_stage_exe(stage23_3d                src/stage23_3d.cpp)
+dxlib_stage_exe(stage24_movie             src/stage24_movie.cpp)
 
 # --- Stage 1 (pure SDL2, no DxLib) ---------------------------------------
 if(WIN32)
