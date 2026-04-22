@@ -63,6 +63,11 @@ extern "C" int DxDesktop_MakeWinAndGL( int w, int h, const char *title )
         }
     }
 
+#ifdef __EMSCRIPTEN__
+    // emscripten では profile/version を指定しない (LEGACY_GL_EMULATION が自動)
+    SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 ) ;
+    SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 ) ;
+#else
     // Stage 7 暫定: Windows では compat profile を指定して fixed-function も
     // 使えるようにする (glBegin/glEnd 可)。ES context は ANGLE 差し替え時に戻す。
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY ) ;
@@ -70,6 +75,7 @@ extern "C" int DxDesktop_MakeWinAndGL( int w, int h, const char *title )
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 ) ;
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 ) ;
     SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 24 ) ;
+#endif
 
     s_WinW = w ;
     s_WinH = h ;

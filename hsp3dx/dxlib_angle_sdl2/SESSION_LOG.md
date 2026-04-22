@@ -743,6 +743,131 @@ with socketserver.TCPServer(('127.0.0.1', 8766), H) as s: s.serve_forever()
 # Open Chrome: http://127.0.0.1:8766/stage4_web.html
 ```
 
+---
+
+### 2026-04-22 — Day 1 追補 (Stage 13 完了 🎉🎉🎉 — DxLib 2D on Web 動作)
+
+#### 結論: **DxLib の 2D 描画が WebAssembly + WebGL で動作**
+
+スクショ: [stage13_v4.png](stage13_v4.png) / [stage13_v4_small.png](stage13_v4_small.png)
+
+Chrome ブラウザの canvas 上に stage7 の描画結果が表示された:
+- 紺色背景
+- 四隅の色付き矩形 (赤/緑/青/黄)
+- 中央に時間で横移動する水色矩形
+- 白い対角線 2 本
+
+コンソール出力:
+```
+[Stage7Web] DxLib_Init...
+[Stage7Web] Starting main loop (60fps)
+```
+
+#### 達成した工夫
+
+1. **emscripten 向けに `-s LEGACY_GL_EMULATION=1`** を追加 (fixed-function GL を WebGL にエミュ)
+   - `FULL_ES2=1` と両立しないので外す必要あり (両方指定すると "cannot emulate both" エラー)
+2. **MSVC 固有型を可搬型に**: `unsigned __int64` → `unsigned long long` (clang 非対応)
+3. **emscripten-aware main loop**: busy loop は browser で blocking → `emscripten_set_main_loop` 版の
+   [web/stage7_web.cpp](web/stage7_web.cpp) を新規作成
+4. **SDL_GL context attr を emscripten 分岐**: `DxDesktop_MakeWinAndGL` 内で
+   `#ifdef __EMSCRIPTEN__` 時は PROFILE_MASK/VERSION を設定しない (COMPAT profile は WebGL 非対応)
+
+#### 動作状況 (最終)
+
+| Target | stage1 | stage4 | stage7 (2D) | stage8+ |
+|--------|--------|--------|-------------|---------|
+| Windows Desktop | ✓ | ✓ | ✓ | ✓ |
+| **Web (WASM/WebGL)** | ✓ | ✓ | **✓** | 未検証 (同じ仕組みで動くはず) |
+
+**hsp3dx の DxLib 2D 描画が Windows Desktop と Web ブラウザで稼働**。
+Mac/Linux も SDL2 + 同コードなので同じく動く見込み。
+
+#### 次回即時再開コマンド
+
+```bash
+# Web ビルド (2D 描画デモ):
+cd j:/HNWorks/IronHSP_2026/hsp3dx/dxlib_angle_sdl2/web/build
+bash ../build_web.sh stage7
+
+# Chrome で: http://127.0.0.1:8766/stage7_web.html
+#   → 四隅の色矩形 + 白対角線 + 横移動水色矩形 が 60fps で描画
+```
+
+---
+
+### 2026-04-22 — Day 1 追補 (Stage 14 完了 — 自動キャプチャ + stage8/9 Web)
+
+#### 課題と解決
+
+Chrome を手動で何度も開き直す必要があり不便だった
+→ **ブラウザから canvas と console をローカルサーバーに POST する仕組み**を構築。
+
+#### 作ったもの
+
+1. **[web/capture_shell.html](web/capture_shell.html)**: emscripten の `--shell-file` テンプレ
+   - `Module.print` / `Module.printErr` をオーバーライドして `POST /log` で送信
+   - `?capture=N&interval=MS&close=1` クエリで N 枚スナップショット後自動閉じ
+   - **重要**: `WebGL` context 生成前に `getContext` を wrap して
+     `preserveDrawingBuffer: true` を強制しないと `canvas.toDataURL()` が
+     真っ黒になる (WebGL デフォは SwapBuffers 後に buffer クリア)
+
+2. **[web/capture_server.py](web/capture_server.py)**: 静的ファイル配信 + POST 受信
+   - `POST /log` → `build/captures/<stage>/log.txt` に追記
+   - `POST /screenshot` → base64 PNG を `frame_NNNN.png` に保存
+   - `.wasm` MIME type を `application/wasm` に (streaming instantiation 用)
+
+3. **build_web.sh 更新**: `--shell-file ../capture_shell.html` 追加
+
+#### 使い方
+
+```bash
+# サーバー起動
+python web/capture_server.py stage7
+
+# Chrome を 1 度だけ開く (incognito 推奨)
+chrome --incognito --new-window \
+  "http://127.0.0.1:8766/stage7_web.html?capture=5&interval=1000&close=1"
+
+# 20 秒ほど待つ → captures/stage7/frame_NNNN.png + log.txt
+```
+
+#### stage7/8/9 の Web 版キャプチャ結果
+
+ブラウザをパタパタさせず、サーバー側の PNG ファイルを読むだけで確認可能:
+
+| Stage | PNG | 内容 |
+|-------|-----|------|
+| stage7 | captures/stage7/frame_0008.png | 四隅矩形 + 対角線 + 動く矩形 |
+| stage8 | captures/stage8/frame_0003.png | 円/楕円/三角/ひし形/枠 全種 |
+| stage9 | captures/stage9/frame_0003.png | 50 矩形帯 + 螺旋線 + 同心円 |
+
+全部きれいに Chrome/WebGL で描画されてる。
+
+#### log.txt サンプル (stage7/log.txt 実物)
+
+```
+[Stage7Web] DxLib_Init...
+[err] [DxLib Desktop] NS_DxLib_Init
+[err] WARNING: using emscripten GL immediate mode emulation.
+[err] [DxLib Desktop] GL_VENDOR:   WebKit
+[err] [DxLib Desktop] GL_VERSION:  OpenGL ES 2.0 (WebGL 1.0 (OpenGL ES 2.0 Chromium))
+[Stage7Web] Starting main loop (60fps)
+```
+
+#### 次回即時再開コマンド
+
+```bash
+cd j:/HNWorks/IronHSP_2026/hsp3dx/dxlib_angle_sdl2
+
+# 任意 stage を Web ビルド + capture
+bash web/build_web.sh stage7   # or stage8, stage9
+python web/capture_server.py stage7 &
+sleep 3
+chrome --incognito --new-window "http://127.0.0.1:8766/stage7_web.html?capture=5&interval=1000&close=1"
+# → web/build/captures/stage7/ に PNG 5 枚 + log.txt が出る
+```
+
 #### 次回即時再開用コマンド
 
 ```bash

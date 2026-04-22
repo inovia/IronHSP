@@ -83,7 +83,7 @@ extern int Graphics_Hardware_DrawTriangle3D_PF(struct tagVECTOR,struct tagVECTOR
 extern int Graphics_Hardware_FillGraph_PF(struct IMAGEDATA *,int,int,int,int,int) { return 0; }
 extern int Graphics_Hardware_GetDrawScreenGraphBase_PF(struct IMAGEDATA *,struct IMAGEDATA *,int,int,int,int,int,int,int,int,int,int,int) { return 0; }
 extern int Graphics_Hardware_GetMultiSampleQuality_PF(int) { return 0; }
-extern int Graphics_Hardware_GetVideoMemorySizeEx_PF(unsigned __int64 *,unsigned __int64 *) { return 0; }
+extern int Graphics_Hardware_GetVideoMemorySizeEx_PF(unsigned long long *,unsigned long long *) { return 0; }
 extern int Graphics_Hardware_GraphLock_PF(struct IMAGEDATA *,struct tagCOLORDATA * *,int) { return 0; }
 extern int Graphics_Hardware_GraphUnlock_PF(struct IMAGEDATA *) { return 0; }
 extern int Graphics_Hardware_IndexBuffer_Create_PF(struct INDEXBUFFERHANDLEDATA *) { return 0; }
@@ -98,7 +98,7 @@ extern int Graphics_Hardware_Light_SetState_PF(int,struct tagLIGHTPARAM *) { ret
 extern int Graphics_Hardware_Light_SetUseHalfLambert_PF(int) { return 0; }
 extern int Graphics_Hardware_Light_SetUse_PF(int) { return 0; }
 extern int Graphics_Hardware_LockDrawScreenBuffer_PF(struct tagRECT *,struct tagBASEIMAGE *,int,struct IMAGEDATA *,int,int,int,int) { return 0; }
-extern int Graphics_Hardware_Paint_PF(int,int,unsigned int,unsigned __int64) { return 0; }
+extern int Graphics_Hardware_Paint_PF(int,int,unsigned int,unsigned long long) { return 0; }
 // Graphics_Hardware_RefreshAlphaChDrawMode_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 extern int Graphics_Hardware_ReleaseOrigTexture_PF(struct IMAGEDATA_ORIG *) { return 0; }
 extern int Graphics_Hardware_ScreenCopy_PF(int) { return 0; }

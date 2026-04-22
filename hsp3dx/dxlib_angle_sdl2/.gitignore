@@ -7,3 +7,4 @@ build.log
 pf_syms.txt
 other_syms.txt
 web/build/
+web/build/captures/

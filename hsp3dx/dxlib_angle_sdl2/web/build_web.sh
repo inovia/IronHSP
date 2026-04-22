@@ -39,10 +39,14 @@ COMMON="-DDX_PLATFORM_DESKTOP_SDL2=1 \
 -Wno-invalid-source-encoding"
 
 # Graphics 有効/無効 (stage4 stubのみは GRAPHICS disable、stage6+ は enable)
+# stage6+ は fixed-function pipeline 使用のため LEGACY_GL_EMULATION が必要
 if [ "$STAGE" == "stage4" ]; then
     GFX="-DDX_NON_GRAPHICS=1"
+    GL_EMUL=""
 else
     GFX=""
+    # WebGL は fixed-function 無し。emscripten のエミュで対応試行
+    GL_EMUL="-s LEGACY_GL_EMULATION=1 -s GL_UNSAFE_OPTS=0"
 fi
 
 # ソースリスト
@@ -80,13 +84,21 @@ ${PORTABLE}/Desktop/DxGraphicsDesktop.cpp \
 ${PORTABLE}/Desktop/DxGraphicsDesktop_stubs.cpp"
 
 MAIN="../../src/${STAGE}_*.cpp"
+# Web 専用ソースが存在すればそちらを優先 (emscripten_set_main_loop 版)
+if [ -f "../${STAGE}_web.cpp" ]; then
+    MAIN="../${STAGE}_web.cpp"
+fi
 
 echo "Building ${STAGE}_web.html..."
+# --shell-file でカスタム shell を指定 (canvas/log 自動 POST 対応)
+SHELL_FILE=../capture_shell.html
+
 $EMCC $COMMON $GFX $CORE $DESKTOP $MAIN \
     -o ${STAGE}_web.html \
+    --shell-file ${SHELL_FILE} \
     -s ALLOW_MEMORY_GROWTH=1 \
     -s INITIAL_MEMORY=64MB \
-    -s FULL_ES2=1 \
-    -s MIN_WEBGL_VERSION=2 \
-    -s MAX_WEBGL_VERSION=2
+    -s MIN_WEBGL_VERSION=1 \
+    -s MAX_WEBGL_VERSION=2 \
+    $GL_EMUL
 echo "Done: $(ls -la ${STAGE}_web.wasm)"

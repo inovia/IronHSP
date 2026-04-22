@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>hsp3dx dxlib_angle_sdl2 capture shell</title>
+<style>body{font-family:sans-serif;margin:0;padding:8px;background:#222;color:#eee}
+#output{width:100%;height:160px;background:#000;color:#0f0;border:0;font-family:monospace}
+#status{color:#ff0}
+canvas{border:1px solid #444;background:#000}</style>
+</head>
+<body>
+<h3>hsp3dx dxlib_angle_sdl2 — auto capture shell</h3>
+<div id="status">starting…</div>
+<canvas id="canvas" width="640" height="480" tabindex="-1"></canvas>
+<textarea id="output" readonly></textarea>
+<script>
+// ?capture=N で N 枚スナップショット送信、?interval=MS で間隔指定
+const q = new URLSearchParams(location.search);
+const CAPTURE_N = parseInt(q.get('capture') || '3', 10);
+const INTERVAL  = parseInt(q.get('interval') || '1000', 10);
+const AUTO_CLOSE = q.has('close');
+
+const statusEl = document.getElementById('status');
+const outputEl = document.getElementById('output');
+const canvasEl = document.getElementById('canvas');
+
+// WebGL デフォは preserveDrawingBuffer=false で、次フレームで canvas が
+// クリアされるため toDataURL() が黒になる。emscripten/SDL2 が context を
+// 生成する前に getContext を wrap して preserveDrawingBuffer:true を強制。
+(function() {
+    const orig = canvasEl.getContext.bind(canvasEl);
+    canvasEl.getContext = function(type, attrs) {
+        if (type === 'webgl' || type === 'webgl2' || type === 'experimental-webgl') {
+            attrs = Object.assign({}, attrs || {}, { preserveDrawingBuffer: true });
+        }
+        return orig(type, attrs);
+    };
+})();
+
+function post(path, body) {
+    return fetch(path, {method:'POST', body: body, headers:{'Content-Type':'text/plain'}})
+        .catch(e => console.error('post err', path, e));
+}
+
+let shotsTaken = 0;
+function takeShot() {
+    try {
+        const url = canvasEl.toDataURL('image/png');
+        post('/screenshot', url).then(() => {
+            shotsTaken++;
+            statusEl.textContent = `captured ${shotsTaken}/${CAPTURE_N}`;
+            if (shotsTaken >= CAPTURE_N) {
+                post('/done', 'ok').then(() => {
+                    statusEl.textContent = 'DONE';
+                    if (AUTO_CLOSE) setTimeout(() => window.close(), 500);
+                });
+            } else {
+                setTimeout(takeShot, INTERVAL);
+            }
+        });
+    } catch (e) {
+        statusEl.textContent = 'canvas read err: ' + e;
+    }
+}
+
+var Module = {
+    canvas: canvasEl,
+    print(...args) {
+        const text = args.join(' ');
+        outputEl.value += text + '\n';
+        outputEl.scrollTop = outputEl.scrollHeight;
+        post('/log', text + '\n');
+    },
+    printErr(...args) {
+        const text = '[err] ' + args.join(' ');
+        outputEl.value += text + '\n';
+        outputEl.scrollTop = outputEl.scrollHeight;
+        post('/log', text + '\n');
+    },
+    onRuntimeInitialized() {
+        statusEl.textContent = 'runtime ready, waiting ' + INTERVAL + 'ms before first shot';
+        setTimeout(takeShot, INTERVAL);
+    }
+};
+</script>
+{{{ SCRIPT }}}
+</body></html>
