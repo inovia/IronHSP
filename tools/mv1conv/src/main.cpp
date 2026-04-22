@@ -1,12 +1,45 @@
 #include "mv1_reader.hpp"
 #include "mv1_dump.hpp"
 #include "obj_export.hpp"
+#include "obj_import.hpp"
+#include "mv1_writer.hpp"
 #include "dxa.hpp"
 #include <cstdio>
 #include <cstring>
 #include <string>
 
 using namespace mv1conv;
+
+static int cmd_from_obj(int argc, char **argv) {
+    if (argc < 2) {
+        std::fprintf(stderr, "usage: mv1conv from-obj <input.obj> <output.mv1>\n");
+        return 2;
+    }
+    auto obj = load_obj(argv[0]);
+    if (!obj.ok()) {
+        std::fprintf(stderr, "ERROR: %s\n", obj.error.c_str());
+        return 1;
+    }
+    auto w = save_mv1(obj.ir, argv[1]);
+    if (!w.ok()) {
+        std::fprintf(stderr, "ERROR: %s\n", w.error.c_str());
+        return 1;
+    }
+    std::fprintf(stderr, "wrote %s (%zu bytes)  meshes=%zu tris=%zu\n",
+                 argv[1], w.bytes.size(), obj.ir.meshes.size(),
+                 obj.ir.meshes[0].indices.size() / 3);
+
+    // 再読込 check
+    auto check = Mv1File::load(argv[1]);
+    if (!check.ok()) {
+        std::fprintf(stderr, "FAIL re-load: %s\n", check.error().c_str());
+        return 1;
+    }
+    auto h = check.header();
+    std::fprintf(stderr, "re-load OK: frames=%d meshes=%d mats=%d tris=%d\n",
+                 h->FrameNum, h->MeshNum, h->MaterialNum, h->TriangleNum);
+    return 0;
+}
 
 static int cmd_repack(int argc, char **argv) {
     if (argc < 2) {
@@ -111,6 +144,7 @@ int main(int argc, char **argv) {
     if (std::strcmp(sub, "decode") == 0) return cmd_decode(argc - 2, argv + 2);
     if (std::strcmp(sub, "obj") == 0)    return cmd_obj(argc - 2, argv + 2);
     if (std::strcmp(sub, "repack") == 0) return cmd_repack(argc - 2, argv + 2);
+    if (std::strcmp(sub, "from-obj") == 0) return cmd_from_obj(argc - 2, argv + 2);
     std::fprintf(stderr, "unknown subcommand: %s\n", sub);
     return 2;
 }
