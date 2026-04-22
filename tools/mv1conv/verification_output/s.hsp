@@ -1,8 +1,8 @@
 #include "iron_dxlib.as"
 notesel n
-dx_mv1load "7mesh.mv1"
+dx_mv1load "simple3mesh.mv1"
 h = stat
-noteadd "7mesh h=" + h
+noteadd "h=" + h
 if h >= 0 : dx_mv1delete h
 notesave "r.txt"
 end
