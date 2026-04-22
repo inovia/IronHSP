@@ -921,3 +921,284 @@ p4 : 分割数
 p5 : 拡散色
 p6 : 鏡面色
 p7 : 塗りつぶし
+
+
+;--------------------------------------------------------------
+;  Phase M.1: exec / dialog (標準 HSP 互換拡張)
+;--------------------------------------------------------------
+%index
+exec
+外部 URL / ファイルを既定ハンドラで開く
+%group
+hsp3dx Platform
+%prm
+p1 : URL or ファイルパス
+p2 : mode (現状未使用、0 推奨)
+p3 : Win の ShellExecute 用 parameter 文字列 (iOS/Android 無視)
+%inst
+Win は ShellExecute、iOS は UIApplication.open、Android は Intent(ACTION_VIEW)。
+^p
+stat に 0=成功 / -1=失敗。
+
+%index
+dialog
+モーダルメッセージボックス
+%group
+hsp3dx Platform
+%prm
+p1 : text (UTF-8)
+p2 : mode (0=OK / 1=OK+Cancel / 2=Yes+No / 3=Yes+No+Cancel)
+p3 : title (省略時 "hsp3dx")
+%inst
+Win は MessageBoxW、iOS は UIAlertController、Android は AlertDialog.Builder。
+^p
+stat に 1=OK/Yes、2=Cancel/No、3=Cancel (mode 3 のみ)、-1=失敗。
+
+;--------------------------------------------------------------
+;  Phase M.2: dx_pref_* (Key-Value 設定永続)
+;--------------------------------------------------------------
+;  Win: EXE 同名 .ini (セクション対応)
+;  iOS: NSUserDefaults ("section/key" 結合キー)
+;  Android: SharedPreferences ("hsp3dx_prefs")
+%index
+dx_pref_set_str
+設定文字列を保存
+%group
+hsp3dx Pref
+%prm
+p1 : "section"
+p2 : "key"
+p3 : "value"
+
+%index
+dx_pref_set_int
+設定整数を保存
+%group
+hsp3dx Pref
+%prm
+p1 : "section" / p2 : "key" / p3 : int_value
+
+%index
+dx_pref_set_double
+設定浮動小数を保存 (内部 "%.17g" 文字列化)
+%group
+hsp3dx Pref
+%prm
+p1 : "section" / p2 : "key" / p3 : double_value
+
+%index
+dx_pref_get_str
+設定文字列を取得
+%group
+hsp3dx Pref
+%prm
+p1 : "section"
+p2 : "key"
+p3 : 結果を受け取る変数
+p4 : デフォルト値文字列 (省略可)
+
+%index
+dx_pref_get_int
+設定整数を取得
+%group
+hsp3dx Pref
+%prm
+p1 : "section" / p2 : "key" / p3 : デフォルト値
+%inst
+stat に値を格納 (存在しない場合は p3 の default)。
+
+%index
+dx_pref_get_double
+設定浮動小数を取得
+%group
+hsp3dx Pref
+%prm
+p1 : "section" / p2 : "key" / p3 : 結果変数 / p4 : default
+
+%index
+dx_pref_exists
+キーの存在チェック
+%group
+hsp3dx Pref
+%prm
+p1 : "section" / p2 : "key"
+%inst
+stat = 1 存在 / 0 無し。
+
+%index
+dx_pref_list_keys
+セクション内キー一覧取得
+%group
+hsp3dx Pref
+%prm
+p1 : "section" / p2 : 結果を受け取る文字列変数 (改行区切りでキー名)
+%inst
+stat にキー数を返す。
+
+%index
+dx_pref_remove
+特定キーを削除
+%group
+hsp3dx Pref
+%prm
+p1 : "section" / p2 : "key"
+
+%index
+dx_pref_clear
+セクション全削除 (空 "" で全消去)
+%group
+hsp3dx Pref
+%prm
+p1 : "section" (空文字列で全削除)
+
+;--------------------------------------------------------------
+;  Phase M.3: onevents (アプリライフサイクル)
+;--------------------------------------------------------------
+%index
+onevents
+アプリ/端末イベントに HSP ラベルを登録
+%group
+hsp3dx Events
+%prm
+p1 : event_id (DX_EVT_APP_BACKGROUND = 0, FOREGROUND=1, WILL_TERMINATE=2, LOW_MEMORY=3, ORIENTATION_CHANGED=4)
+p2 : *label (空で登録解除)
+%inst
+イベント発生時に gosub 相当で *label へ飛ぶ。
+^p
+iOS: UIApplication 通知 (NSNotificationCenter) と UIDeviceOrientationDidChange を購読。
+Android: Application.ActivityLifecycleCallbacks (onPause/onResume/onDestroy) と
+ComponentCallbacks2 (onConfigurationChanged / onLowMemory) 経由。
+
+;--------------------------------------------------------------
+;  Phase M.4: dx_dev_* 基本 (権限不要)
+;--------------------------------------------------------------
+%index
+dx_dev_vibrate
+バイブレーション実行 (ms)
+%group
+hsp3dx Device
+%prm
+p1 : 時間 (ms)
+%inst
+Android: VIBRATE 権限必要 / iOS: ms 無視、固定短パルス / Win: no-op。
+
+%index
+dx_dev_is_dark
+ダークモード判定
+%group
+hsp3dx Device
+%inst
+stat = 1 (ダーク) / 0 (ライト or 取得不能)。
+
+%index
+dx_dev_battery
+バッテリー残量と充電状態
+%group
+hsp3dx Device
+%prm
+p1 : 残量 (0..100、-1=取得不能) を受ける変数
+p2 : 充電状態 (0=放電、1=充電中、2=満、-1=不明) を受ける変数
+
+%index
+dx_dev_orientation
+現在の画面向きを取得
+%group
+hsp3dx Device
+%inst
+stat = 0 portrait / 1 landscape-left / 2 upside-down / 3 landscape-right。
+
+%index
+dx_dev_sound
+システムサウンド再生
+%group
+hsp3dx Device
+%prm
+p1 : サウンド ID (iOS SystemSoundID 1000+、他 OS は無視し短ビープ)
+
+;--------------------------------------------------------------
+;  Phase M.5: dx_dev_* センサー
+;--------------------------------------------------------------
+;  初回呼び出し時に auto-start。未対応プラットフォーム / 未搭載時は 0.0 を返す。
+%index
+dx_dev_accel
+加速度センサーの最新値 (x, y, z) を取得
+%group
+hsp3dx Device
+%prm
+p1 : x (double、iOS=g単位、Android=m/s^2)
+p2 : y (double)
+p3 : z (double)
+
+%index
+dx_dev_gyro
+ジャイロセンサーの最新値 (x, y, z) を取得
+%group
+hsp3dx Device
+%prm
+p1 : x (double、rad/s)
+p2 : y
+p3 : z
+
+%index
+dx_dev_attitude
+端末姿勢 (roll, pitch, yaw) を取得
+%group
+hsp3dx Device
+%prm
+p1 : roll (double、radian)
+p2 : pitch
+p3 : yaw
+
+;--------------------------------------------------------------
+;  Phase M.6: dx_dev_* 権限要 (GPS / トーチ)
+;--------------------------------------------------------------
+%index
+dx_dev_gps_start
+位置情報取得を開始 (初回で OS の権限プロンプト)
+%group
+hsp3dx Device
+%inst
+iOS: CLLocationManager.requestWhenInUseAuthorization / Android: ACCESS_FINE_LOCATION 要求。
+
+%index
+dx_dev_gps_stop
+位置情報取得を停止
+%group
+hsp3dx Device
+
+%index
+dx_dev_gps_get
+最新の緯度経度を取得
+%group
+hsp3dx Device
+%prm
+p1 : lat (double)
+p2 : lng (double)
+%inst
+未 fix 時は 0, 0。
+
+%index
+dx_dev_gps_status
+位置情報取得状態を取得
+%group
+hsp3dx Device
+%inst
+stat = 0 未開始 / 1 要求中 / 2 稼働 (fix あり) / 3 denied or エラー。
+
+%index
+dx_dev_torch
+背面ライト (トーチ) を ON/OFF
+%group
+hsp3dx Device
+%prm
+p1 : 0=off, 1=on
+%inst
+iOS: AVCaptureDevice.torchMode / Android: CameraManager.setTorchMode (CAMERA 権限)。
+
+%index
+dx_dev_torch_supported
+トーチ対応判定
+%group
+hsp3dx Device
+%inst
+stat = 1 対応 / 0 非対応。

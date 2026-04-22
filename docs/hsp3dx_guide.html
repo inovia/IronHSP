@@ -37,7 +37,7 @@ kbd { background: #f0f0f0; border: 1px solid #aaa; border-radius: 3px; padding: 
   HSP3Dish と違い、DxLib の 2000 関数超の API をモバイルでもそのまま呼べることを目指しています。
 </p>
 
-<p>本ドキュメントは <strong>2026-04-21 時点 (Phase 5.5n / Phase 4 Android 完了)</strong> が対象です。</p>
+<p>本ドキュメントは <strong>2026-04-22 時点 (Phase 5.5n + Phase 3 iOS + Phase 4 Android + Phase M.1〜M.6 完了)</strong> が対象です。</p>
 
 <div class="toc">
   <strong>目次</strong>
@@ -622,7 +622,77 @@ adb shell am start -n com.ironhsp.hsp3dx/android.app.NativeActivity
 </ul>
 
 <hr>
-<p style="color:#888; font-size: 12px;">IronHSP Project / hsp3dx Phase 5.5n guide — 最終更新 2026-04-21</p>
+
+<h2>Phase M — プラットフォーム統合機能 (2026-04-22)</h2>
+<p>モバイル OS のライフサイクル/設定永続/デバイス制御を統一 API で提供する一連のコマンド群。Win/iOS/Android 共通シグネチャで、対応機能のないプラットフォームは無害な no-op か stub 値を返します。</p>
+
+<h3>M.1 — <code>exec</code> / <code>dialog</code></h3>
+<p>標準 HSP と同名で、モバイル対応版に差し替え。</p>
+<pre><code>exec "https://example.com"            ; Win=ShellExecute / iOS=UIApplication.open / Android=Intent
+exec "mailto:foo@example.com"
+
+dialog "削除しますか？", 2, "確認"     ; mode 2 = Yes/No
+if stat = 1 : mes "Yes 選択"</code></pre>
+<p><code>dialog</code> の戻り値 <code>stat</code>: 1=OK/Yes、2=Cancel/No、3=Cancel (mode 3 のみ)。</p>
+
+<h3>M.2 — <code>dx_pref_*</code> (設定の永続保存)</h3>
+<p>セクション + キーで値を保存する Key-Value ストア。Win は EXE 同名 <code>.ini</code>、iOS は <code>NSUserDefaults</code>、Android は <code>SharedPreferences</code> にマップ。</p>
+<pre><code>dx_pref_set_str  "General", "username", "alice"
+dx_pref_set_int  "General", "launch_count", 42
+dx_pref_set_double "Audio", "volume", 0.75
+
+dx_pref_get_str  "General", "username", name, "anon"
+dx_pref_get_int  "General", "launch_count", 0
+v = stat
+
+dx_pref_exists   "General", "username"    ; stat=1/0
+dx_pref_list_keys "General", keys         ; 改行区切り、stat=件数
+dx_pref_remove   "General", "username"
+dx_pref_clear    ""                        ; 全消去</code></pre>
+
+<h3>M.3 — <code>onevents</code> (アプリライフサイクル)</h3>
+<p>OS 通知をフックして HSP ラベルへ gosub 相当で飛ばす。</p>
+<pre><code>onevents DX_EVT_APP_BACKGROUND,    *on_bg
+onevents DX_EVT_APP_FOREGROUND,    *on_fg
+onevents DX_EVT_ORIENTATION_CHANGED, *on_rot
+
+*on_bg
+  ; バックグラウンドへ遷移 (セーブ処理等)
+  return</code></pre>
+<p>定義済イベント: <code>APP_BACKGROUND</code> (0), <code>APP_FOREGROUND</code> (1), <code>APP_WILL_TERMINATE</code> (2), <code>APP_LOW_MEMORY</code> (3), <code>ORIENTATION_CHANGED</code> (4)。iOS=NSNotificationCenter、Android=Application.ActivityLifecycleCallbacks + ComponentCallbacks2 で購読。</p>
+
+<h3>M.4 — <code>dx_dev_*</code> 基本 (権限不要)</h3>
+<pre><code>dx_dev_vibrate 200             ; 200ms バイブ (Android は VIBRATE 権限)
+dx_dev_is_dark                  ; stat=1/0
+dx_dev_battery lv, bs           ; 残量%、状態 (0/1/2/-1)
+dx_dev_orientation              ; stat=0..3
+dx_dev_sound 1104               ; iOS SystemSoundID (他 OS は短ビープ)</code></pre>
+
+<h3>M.5 — <code>dx_dev_*</code> センサー</h3>
+<p>初回呼び出し時に自動 start、以降は最新値を取得する方式。</p>
+<pre><code>dx_dev_accel    ax, ay, az        ; 加速度 (iOS=g単位、Android=m/s²)
+dx_dev_gyro     gx, gy, gz        ; 角速度 (rad/s)
+dx_dev_attitude roll, pitch, yaw  ; 姿勢 (radian)</code></pre>
+
+<h3>M.6 — <code>dx_dev_*</code> 権限要 (GPS / トーチ)</h3>
+<pre><code>dx_dev_gps_start                   ; 初回は OS が権限プロンプト
+dx_dev_gps_status                   ; 0=未開始 / 1=要求中 / 2=稼働 / 3=denied
+dx_dev_gps_get lat, lng             ; 未 fix 時 0, 0
+
+dx_dev_torch_supported              ; stat=1 対応 / 0 非対応
+dx_dev_torch 1                      ; ON
+dx_dev_torch 0                      ; OFF</code></pre>
+<p>iOS: <code>NSLocationWhenInUseUsageDescription</code> を Info.plist に記載必須。Android: <code>ACCESS_FINE_LOCATION</code> / <code>CAMERA</code> を AndroidManifest に記載 + 実行時権限要求。</p>
+
+<h3>M.x 未実装 (今後の予定)</h3>
+<ul>
+  <li>カメラ撮影 (intent / AVCaptureSession)</li>
+  <li>マイク録音 / 音量レベル取得</li>
+  <li>生体認証 (Touch ID / Face ID / BiometricPrompt)</li>
+</ul>
+
+<hr>
+<p style="color:#888; font-size: 12px;">IronHSP Project / hsp3dx Phase M guide — 最終更新 2026-04-22</p>
 
 </body>
 </html>
