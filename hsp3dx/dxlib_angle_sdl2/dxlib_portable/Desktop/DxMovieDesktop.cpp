@@ -428,12 +428,15 @@ static void desktop_movie_cleanup_for_graph( int GraphHandle )
     g_Movies.erase( it ) ;
 }
 
+#elif defined(__EMSCRIPTEN__) // -----------------------------------------
+// Web の実装は DxMovieDesktopWeb.cpp (HTML5 <video>) に在る。
 #elif defined(__APPLE__) // ----------------------------------------------
 // Mac の実装は DxMovieDesktopMac.mm (Obj-C++ / AVFoundation) に在る。
-// こちらでは何も定義しない。
-#else  // Linux / Web ---------------------------------------------------
+#elif defined(__linux__) // ----------------------------------------------
+// Linux の実装は DxMovieDesktopLinux.cpp (GStreamer 1.0) に在る。
+#else  // その他 ---------------------------------------------------------
 
-// Linux/Web: stub (GStreamer / HTML5 <video> 版は次段)
+// その他: stub
 extern int OpenMovieToGraph( const TCHAR *FileName, int FullColor ) { (void)FileName; (void)FullColor; return -1 ; }
 extern int OpenMovieToGraphWithStrLen( const TCHAR *FileName, size_t FileNameLength, int FullColor ) { (void)FileName; (void)FileNameLength; (void)FullColor; return -1 ; }
 extern int PlayMovieToGraph( int GraphHandle, int PlayType, int SysPlay ) { (void)GraphHandle; (void)PlayType; (void)SysPlay; return -1 ; }
