@@ -1105,6 +1105,221 @@ extern int Graphics_Hardware_GraphUnlock_PF( IMAGEDATA *Image )
     return 0 ;
 }
 
+// --- Tier 3: 3D 描画 (Matrix / Line3D / Triangle3D / Pixel3D / Billboard3D / Primitive3D) ---
+
+static MATRIX s_ViewMat    = { { { 1,0,0,0 },{ 0,1,0,0 },{ 0,0,1,0 },{ 0,0,0,1 } } } ;
+static MATRIX s_ProjMat    = { { { 1,0,0,0 },{ 0,1,0,0 },{ 0,0,1,0 },{ 0,0,0,1 } } } ;
+static MATRIX s_WorldMat   = { { { 1,0,0,0 },{ 0,1,0,0 },{ 0,0,1,0 },{ 0,0,0,1 } } } ;
+
+extern int Graphics_Hardware_SetTransformToView_PF      ( const MATRIX *m ) { if ( m ) s_ViewMat  = *m ; return 0 ; }
+extern int Graphics_Hardware_SetTransformToProjection_PF( const MATRIX *m ) { if ( m ) s_ProjMat  = *m ; return 0 ; }
+extern int Graphics_Hardware_SetTransformToWorld_PF     ( const MATRIX *m ) { if ( m ) s_WorldMat = *m ; return 0 ; }
+extern int Graphics_Hardware_SetTransformToViewport_PF  ( const MATRIX *m ) { (void)m; return 0 ; }
+
+// DxLib の行 major MATRIX を glLoadMatrixf に渡すと自動的に転置されて GL 列 major
+// として解釈される。結果、ベクトル変換ルールの違いが相殺され、意図通りに動く。
+// (DxLib: v' = v*M, GL: v' = M*v — storage layout が逆で整合)
+static void Desktop_Apply3DMatrices( void )
+{
+    glViewport( 0, 0, s_DrawTargetW, s_DrawTargetH ) ;
+    glMatrixMode( GL_PROJECTION ) ;
+    glLoadMatrixf( ( const float * )s_ProjMat.m ) ;
+    glMatrixMode( GL_MODELVIEW ) ;
+    glLoadMatrixf( ( const float * )s_ViewMat.m ) ;
+    glMultMatrixf( ( const float * )s_WorldMat.m ) ;
+    Desktop_ApplyScissor() ;
+}
+
+extern int Graphics_Hardware_DrawLine3D_PF( VECTOR Pos1, VECTOR Pos2, unsigned int Color, int WriteZBufferFlag, RECT *DrawArea )
+{
+    (void)DrawArea;
+    Desktop_Apply3DMatrices() ;
+    if ( WriteZBufferFlag ) glEnable( GL_DEPTH_TEST ) ; else glDisable( GL_DEPTH_TEST ) ;
+    Desktop_SetGLColor( Color ) ;
+    glBegin( GL_LINES ) ;
+        glVertex3f( Pos1.x, Pos1.y, Pos1.z ) ;
+        glVertex3f( Pos2.x, Pos2.y, Pos2.z ) ;
+    glEnd() ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_DrawPixel3D_PF( VECTOR Pos, unsigned int Color, int WriteZBufferFlag, RECT *DrawArea )
+{
+    (void)DrawArea;
+    Desktop_Apply3DMatrices() ;
+    if ( WriteZBufferFlag ) glEnable( GL_DEPTH_TEST ) ; else glDisable( GL_DEPTH_TEST ) ;
+    Desktop_SetGLColor( Color ) ;
+    glBegin( GL_POINTS ) ;
+        glVertex3f( Pos.x, Pos.y, Pos.z ) ;
+    glEnd() ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_DrawTriangle3D_PF( VECTOR Pos1, VECTOR Pos2, VECTOR Pos3, unsigned int Color, int FillFlag, int WriteZBufferFlag, RECT *DrawArea )
+{
+    (void)DrawArea;
+    Desktop_Apply3DMatrices() ;
+    if ( WriteZBufferFlag ) glEnable( GL_DEPTH_TEST ) ; else glDisable( GL_DEPTH_TEST ) ;
+    Desktop_SetGLColor( Color ) ;
+    glBegin( FillFlag ? GL_TRIANGLES : GL_LINE_LOOP ) ;
+        glVertex3f( Pos1.x, Pos1.y, Pos1.z ) ;
+        glVertex3f( Pos2.x, Pos2.y, Pos2.z ) ;
+        glVertex3f( Pos3.x, Pos3.y, Pos3.z ) ;
+    glEnd() ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_DrawBillboard3D_PF( VECTOR Pos, float cx, float cy, float Size, float Angle, IMAGEDATA *Image, IMAGEDATA *BlendImage, int TransFlag, int WriteZBufferFlag, int Is3D, int IntFlag, RECT *DrawArea )
+{
+    (void)BlendImage; (void)Is3D; (void)IntFlag; (void)DrawArea;
+    if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) return -1 ;
+    IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
+    if ( !tex->PF ) return -1 ;
+
+    Desktop_Apply3DMatrices() ;
+    if ( WriteZBufferFlag ) glEnable( GL_DEPTH_TEST ) ; else glDisable( GL_DEPTH_TEST ) ;
+
+    // View 行列の逆から「右ベクトル (X)」「上ベクトル (Y)」をワールド空間で取り出し、
+    // billboard quad に適用する。回転 Angle は view 前の quad を Z 軸周りに回転。
+    // DxLib MATRIX は row-major なので view[0][0..2] = view の第1行 (ワールド→view 射影の x 軸成分)。
+    // 視野座標系: 右 = view 第 1 列 = view[0][0], view[1][0], view[2][0] をワールドへ。
+    // Row-major 逆転/転置関係より、ここでは view_row[i][0..2] を「ワールドの基底」と解釈する。
+    // DxLib 互換動作のため: カメラ行列の右ベクトルは s_ViewMat.m[0][*]、上ベクトルは s_ViewMat.m[1][*]。
+    float rx = s_ViewMat.m[ 0 ][ 0 ], ry = s_ViewMat.m[ 1 ][ 0 ], rz = s_ViewMat.m[ 2 ][ 0 ] ;
+    float ux = s_ViewMat.m[ 0 ][ 1 ], uy = s_ViewMat.m[ 1 ][ 1 ], uz = s_ViewMat.m[ 2 ][ 1 ] ;
+
+    float hw = Size * 0.5f, hh = Size * 0.5f ;
+    // Angle 適用 (local 2D 回転)
+    float c = std::cos( Angle ), s = std::sin( Angle ) ;
+    // quad ローカル座標 4 隅 (中心基準)
+    float lx[ 4 ] = { -hw - cx, +hw - cx, -hw - cx, +hw - cx } ;
+    float ly[ 4 ] = { -hh - cy, -hh - cy, +hh - cy, +hh - cy } ;
+
+    float wpx[ 4 ], wpy[ 4 ], wpz[ 4 ] ;
+    for ( int i = 0 ; i < 4 ; ++i ) {
+        float lrx =  lx[ i ] * c - ly[ i ] * s ;
+        float lry =  lx[ i ] * s + ly[ i ] * c ;
+        wpx[ i ] = Pos.x + rx * lrx + ux * lry ;
+        wpy[ i ] = Pos.y + ry * lrx + uy * lry ;
+        wpz[ i ] = Pos.z + rz * lrx + uz * lry ;
+    }
+    float u0 = ( float )tex->OrigPosX / ( float )tex->TexWidth ;
+    float v0 = ( float )tex->OrigPosY / ( float )tex->TexHeight ;
+    float u1 = u0 + ( float )tex->UseWidth  / ( float )tex->TexWidth ;
+    float v1 = v0 + ( float )tex->UseHeight / ( float )tex->TexHeight ;
+
+    if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
+    glEnable( GL_TEXTURE_2D ) ;
+    glBindTexture( GL_TEXTURE_2D, ( GLuint )tex->PF->Texture.TextureBuffer ) ;
+    glColor4ub( 255, 255, 255, 255 ) ;
+    glBegin( GL_TRIANGLE_STRIP ) ;
+        glTexCoord2f( u0, v0 ) ; glVertex3f( wpx[ 0 ], wpy[ 0 ], wpz[ 0 ] ) ;
+        glTexCoord2f( u1, v0 ) ; glVertex3f( wpx[ 1 ], wpy[ 1 ], wpz[ 1 ] ) ;
+        glTexCoord2f( u0, v1 ) ; glVertex3f( wpx[ 2 ], wpy[ 2 ], wpz[ 2 ] ) ;
+        glTexCoord2f( u1, v1 ) ; glVertex3f( wpx[ 3 ], wpy[ 3 ], wpz[ 3 ] ) ;
+    glEnd() ;
+    glBindTexture( GL_TEXTURE_2D, 0 ) ;
+    glDisable( GL_TEXTURE_2D ) ;
+    return 0 ;
+}
+
+// DxLib VERTEX_3D は pos(x,y,z) + b,g,r,a + u,v。PrimitiveType:
+//   1: POINTLIST, 2: LINELIST, 3: LINESTRIP, 4: TRIANGLELIST, 5: TRIANGLESTRIP, 6: TRIANGLEFAN
+extern int Graphics_Hardware_DrawPrimitive_PF( const VERTEX_3D *Vertex, int VertexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag )
+{
+    if ( !Vertex || VertexNum <= 0 ) return 0 ;
+    Desktop_Apply3DMatrices() ;
+
+    GLenum mode = GL_TRIANGLES ;
+    switch ( PrimitiveType ) {
+        case 1: mode = GL_POINTS        ; break ;
+        case 2: mode = GL_LINES         ; break ;
+        case 3: mode = GL_LINE_STRIP    ; break ;
+        case 4: mode = GL_TRIANGLES     ; break ;
+        case 5: mode = GL_TRIANGLE_STRIP; break ;
+        case 6: mode = GL_TRIANGLE_FAN  ; break ;
+        default: mode = GL_TRIANGLES    ; break ;
+    }
+
+    bool hasTex = false ;
+    if ( Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
+        IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
+        if ( tex->PF ) {
+            glEnable( GL_TEXTURE_2D ) ;
+            glBindTexture( GL_TEXTURE_2D, ( GLuint )tex->PF->Texture.TextureBuffer ) ;
+            hasTex = true ;
+        }
+    }
+    if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
+
+    glBegin( mode ) ;
+    for ( int i = 0 ; i < VertexNum ; ++i ) {
+        const VERTEX_3D &v = Vertex[ i ] ;
+        glColor4ub( v.r, v.g, v.b, v.a ) ;
+        if ( hasTex ) glTexCoord2f( v.u, v.v ) ;
+        glVertex3f( v.pos.x, v.pos.y, v.pos.z ) ;
+    }
+    glEnd() ;
+    if ( hasTex ) { glBindTexture( GL_TEXTURE_2D, 0 ) ; glDisable( GL_TEXTURE_2D ) ; }
+    return 0 ;
+}
+
+// DrawPrimitiveLight: VERTEX3D (pos/norm/dif/spc/uv) 版。ライティングは未実装
+// なので diffuse 色のみ使用 (dif) して DrawPrimitive と同等の fallback に。
+extern int Graphics_Hardware_DrawPrimitiveLight_PF( const VERTEX3D *Vertex, int VertexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag )
+{
+    if ( !Vertex || VertexNum <= 0 ) return 0 ;
+    Desktop_Apply3DMatrices() ;
+
+    GLenum mode = GL_TRIANGLES ;
+    switch ( PrimitiveType ) {
+        case 1: mode = GL_POINTS        ; break ;
+        case 2: mode = GL_LINES         ; break ;
+        case 3: mode = GL_LINE_STRIP    ; break ;
+        case 4: mode = GL_TRIANGLES     ; break ;
+        case 5: mode = GL_TRIANGLE_STRIP; break ;
+        case 6: mode = GL_TRIANGLE_FAN  ; break ;
+        default: mode = GL_TRIANGLES    ; break ;
+    }
+    bool hasTex = false ;
+    if ( Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
+        IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
+        if ( tex->PF ) {
+            glEnable( GL_TEXTURE_2D ) ;
+            glBindTexture( GL_TEXTURE_2D, ( GLuint )tex->PF->Texture.TextureBuffer ) ;
+            hasTex = true ;
+        }
+    }
+    if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
+
+    glBegin( mode ) ;
+    for ( int i = 0 ; i < VertexNum ; ++i ) {
+        const VERTEX3D &v = Vertex[ i ] ;
+        glColor4ub( v.dif.r, v.dif.g, v.dif.b, v.dif.a ) ;
+        if ( hasTex ) glTexCoord2f( v.u, v.v ) ;
+        glVertex3f( v.pos.x, v.pos.y, v.pos.z ) ;
+    }
+    glEnd() ;
+    if ( hasTex ) { glBindTexture( GL_TEXTURE_2D, 0 ) ; glDisable( GL_TEXTURE_2D ) ; }
+    return 0 ;
+}
+
+// Z バッファ
+extern int Graphics_Hardware_ClearDrawScreenZBuffer_PF( const RECT *ClearRect )
+{
+    (void)ClearRect;
+    glClearDepth( 1.0 ) ;
+    glClear( GL_DEPTH_BUFFER_BIT ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetDrawZBuffer_PF( int Flag, IMAGEDATA *Image )
+{
+    (void)Image;
+    if ( Flag ) glEnable( GL_DEPTH_TEST ) ; else glDisable( GL_DEPTH_TEST ) ;
+    return 0 ;
+}
+
 extern int Graphics_Hardware_RenderVertex( int Param ) { (void)Param; return 0 ; }
 
 // DxImageDesktop.cpp で提供 (stb_image による PNG/JPEG/BMP/GIF/TGA/PSD 読み込み)

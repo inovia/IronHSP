@@ -35,7 +35,7 @@ extern int Graphics_GetRefreshRate_PF(void) { return 0; }
 extern int Graphics_Hardware_ApplyLigFogToHardware_PF(void) { return 0; }
 // moved to DxGraphicsDesktop.cpp (Stage 17)
 extern int Graphics_Hardware_CheckValid_PF(void) { return 0; }
-extern int Graphics_Hardware_ClearDrawScreenZBuffer_PF(struct tagRECT const *) { return 0; }
+// Graphics_Hardware_ClearDrawScreenZBuffer_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 // Graphics_Hardware_ClearDrawScreen_PF: impl in DxGraphicsDesktop.cpp (Stage 6)
 extern int Graphics_Hardware_CopyGraphZBufferImage_PF(struct IMAGEDATA *,struct IMAGEDATA *) { return 0; }
 // moved to DxGraphicsDesktop.cpp (Stage 17)
@@ -44,7 +44,7 @@ extern int Graphics_Hardware_DeviceDirect_SetWorldMatrix_PF(struct tagMATRIX con
 extern int Graphics_Hardware_Draw32bitIndexedPrimitive2DUser_PF(struct tagVERTEX2D const *,int,DWORD const *,int,int,struct IMAGEDATA *,int) { return 0; }
 extern int Graphics_Hardware_Draw32bitIndexedPrimitiveLight_PF(struct tagVERTEX3D const *,int,DWORD const *,int,int,struct IMAGEDATA *,int) { return 0; }
 extern int Graphics_Hardware_Draw32bitIndexedPrimitive_PF(struct tagVERTEX_3D const *,int,DWORD const *,int,int,struct IMAGEDATA *,int) { return 0; }
-extern int Graphics_Hardware_DrawBillboard3D_PF(struct tagVECTOR,float,float,float,float,struct IMAGEDATA *,struct IMAGEDATA *,int,int,int,int,struct tagRECT *) { return 0; }
+// Graphics_Hardware_DrawBillboard3D_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 // Graphics_Hardware_DrawBoxSet_PF: impl in DxGraphicsDesktop.cpp (Stage 9)
 // Graphics_Hardware_DrawCircle_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 // Graphics_Hardware_DrawCircle_Thickness_PF: impl in DxGraphicsDesktop.cpp (Stage 9)
@@ -55,7 +55,7 @@ extern int Graphics_Hardware_DrawIndexedPrimitive2DUser_PF(struct tagVERTEX2D co
 extern int Graphics_Hardware_DrawIndexedPrimitiveLight_PF(struct tagVERTEX3D const *,int,unsigned short const *,int,int,struct IMAGEDATA *,int) { return 0; }
 extern int Graphics_Hardware_DrawIndexedPrimitiveLight_UseVertexBuffer_PF(struct VERTEXBUFFERHANDLEDATA *,struct INDEXBUFFERHANDLEDATA *,int,int,int,int,int,int,struct IMAGEDATA *,int) { return 0; }
 extern int Graphics_Hardware_DrawIndexedPrimitive_PF(struct tagVERTEX_3D const *,int,unsigned short const *,int,int,struct IMAGEDATA *,int) { return 0; }
-extern int Graphics_Hardware_DrawLine3D_PF(struct tagVECTOR,struct tagVECTOR,unsigned int,int,struct tagRECT *) { return 0; }
+// Graphics_Hardware_DrawLine3D_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 // Graphics_Hardware_DrawLineBox_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 // Graphics_Hardware_DrawLineSet_PF: impl in DxGraphicsDesktop.cpp (Stage 9)
 // Graphics_Hardware_DrawLine_PF: impl in DxGraphicsDesktop.cpp (Stage 7)
@@ -63,7 +63,7 @@ extern int Graphics_Hardware_DrawModiBillboard3D_PF(struct tagVECTOR,float,float
 // Graphics_Hardware_DrawModiGraph_PF / DrawModiGraphF_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 // Graphics_Hardware_DrawOval_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 // Graphics_Hardware_DrawOval_Thickness_PF: impl in DxGraphicsDesktop.cpp (Stage 9)
-extern int Graphics_Hardware_DrawPixel3D_PF(struct tagVECTOR,unsigned int,int,struct tagRECT *) { return 0; }
+// Graphics_Hardware_DrawPixel3D_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 // Graphics_Hardware_DrawPixelSet_PF: impl in DxGraphicsDesktop.cpp (Stage 9)
 // Graphics_Hardware_DrawPixel_PF: impl in DxGraphicsDesktop.cpp (Stage 7)
 extern int Graphics_Hardware_DrawPrimitive2DToShader_PF(struct tagVERTEX2DSHADER const *,int,int) { return 0; }
@@ -76,16 +76,16 @@ extern int Graphics_Hardware_DrawPrimitive3DToShader_UseVertexBuffer2_PF(int,int
 extern int Graphics_Hardware_DrawPrimitiveIndexed2DToShader_PF(struct tagVERTEX2DSHADER const *,int,unsigned short const *,int,int) { return 0; }
 extern int Graphics_Hardware_DrawPrimitiveIndexed3DToShader_PF(struct tagVERTEX3DSHADER const *,int,unsigned short const *,int,int) { return 0; }
 extern int Graphics_Hardware_DrawPrimitiveIndexed3DToShader_UseVertexBuffer2_PF(int,int,int,int,int,int,int,int) { return 0; }
-extern int Graphics_Hardware_DrawPrimitiveLight_PF(struct tagVERTEX3D const *,int,int,struct IMAGEDATA *,int) { return 0; }
+// Graphics_Hardware_DrawPrimitiveLight_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 extern int Graphics_Hardware_DrawPrimitiveLight_UseVertexBuffer_PF(struct VERTEXBUFFERHANDLEDATA *,int,int,int,struct IMAGEDATA *,int) { return 0; }
-extern int Graphics_Hardware_DrawPrimitive_PF(struct tagVERTEX_3D const *,int,int,struct IMAGEDATA *,int) { return 0; }
+// Graphics_Hardware_DrawPrimitive_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 // Graphics_Hardware_DrawQuadrangleF_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 // Graphics_Hardware_DrawQuadrangle_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 // moved to DxGraphicsDesktop.cpp (Stage 18)
 // moved to DxGraphicsDesktop.cpp (Stage 18)
 extern int Graphics_Hardware_DrawSimpleQuadrangleGraphF_PF(struct tagGRAPHICS_DRAW_DRAWSIMPLEQUADRANGLEGRAPHF_PARAM const *,struct IMAGEDATA *,struct IMAGEDATA *) { return 0; }
 extern int Graphics_Hardware_DrawSimpleTriangleGraphF_PF(struct tagGRAPHICS_DRAW_DRAWSIMPLETRIANGLEGRAPHF_PARAM const *,struct IMAGEDATA *,struct IMAGEDATA *) { return 0; }
-extern int Graphics_Hardware_DrawTriangle3D_PF(struct tagVECTOR,struct tagVECTOR,struct tagVECTOR,unsigned int,int,int,struct tagRECT *) { return 0; }
+// Graphics_Hardware_DrawTriangle3D_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 // Graphics_Hardware_DrawTriangle_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 // Graphics_Hardware_FillGraph_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 extern int Graphics_Hardware_GetDrawScreenGraphBase_PF(struct IMAGEDATA *,struct IMAGEDATA *,int,int,int,int,int,int,int,int,int,int,int) { return 0; }
@@ -119,7 +119,7 @@ extern int Graphics_Hardware_SetDrawAlphaTest_PF(int,int) { return 0; }
 extern int Graphics_Hardware_SetDrawCustomBlendMode_PF(int,int,int,int,int,int,int,int) { return 0; }
 extern int Graphics_Hardware_SetDrawMode_PF(int) { return 0; }
 // Graphics_Hardware_SetDrawScreen_PF / _Post_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
-extern int Graphics_Hardware_SetDrawZBuffer_PF(int,struct IMAGEDATA *) { return 0; }
+// Graphics_Hardware_SetDrawZBuffer_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 extern int Graphics_Hardware_SetFogColor_PF(DWORD) { return 0; }
 extern int Graphics_Hardware_SetFogDensity_PF(float) { return 0; }
 extern int Graphics_Hardware_SetFogEnable_PF(int) { return 0; }
@@ -132,10 +132,7 @@ extern int Graphics_Hardware_SetRenderTargetToShader_PF(int,int,int,int) { retur
 extern int Graphics_Hardware_SetTextureAddressModeUV_PF(int,int,int) { return 0; }
 extern int Graphics_Hardware_SetTextureAddressMode_PF(int,int) { return 0; }
 extern int Graphics_Hardware_SetTextureAddressTransformMatrix_PF(int,struct tagMATRIX *,int) { return 0; }
-extern int Graphics_Hardware_SetTransformToProjection_PF(struct tagMATRIX const *) { return 0; }
-extern int Graphics_Hardware_SetTransformToView_PF(struct tagMATRIX const *) { return 0; }
-extern int Graphics_Hardware_SetTransformToViewport_PF(struct tagMATRIX const *) { return 0; }
-extern int Graphics_Hardware_SetTransformToWorld_PF(struct tagMATRIX const *) { return 0; }
+// Graphics_Hardware_SetTransformTo*_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 extern int Graphics_Hardware_SetUseHardwareVertexProcessing_PF(int) { return 0; }
 extern int Graphics_Hardware_SetUseNormalDrawShader_PF(int) { return 0; }
 extern int Graphics_Hardware_SetUseOldDrawModiGraphCodeFlag_PF(int) { return 0; }

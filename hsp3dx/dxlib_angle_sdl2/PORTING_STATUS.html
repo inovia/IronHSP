@@ -64,10 +64,10 @@ td.note { font-size: 12px; color: #555; }
   <p><strong>カラム整理:</strong> Win / iOS / Android は DxLib 本家 3.24f のソースをそのまま使う (D3D11 / Metal or GLES / GLES)。
   Mac / Linux / Web は独自 fork <code>hsp3dx/dxlib_angle_sdl2/</code> で SDL2 + OpenGL (compat) / emscripten WebGL に差し替える。</p>
   <p><strong>現在の到達点 (2026-04-22):</strong>
-     Stage 19 Font / Stage 20 Sound / Stage 21 Image / Stage 22 MakeScreen 本道 API 化完了。
-     Tier 1 (MakeScreen, SetDrawScreen, SetDrawArea, FillGraph, GraphLock/Unlock, DrawModiGraph) と
-     Tier 2 (Joypad, MouseWheel, GetDrawStringWidth) 完了。
-     次は Tier 3 (3D primitives: DrawLine3D / DrawTriangle3D / DrawBillboard3D) と Tier 4 (MV1 model, Movie)。</p>
+     Stage 19〜23 (Font / Sound / Image / MakeScreen / 3D primitives) 本道 API 化完了。
+     Tier 1〜3 全完了: 2D コア + Input + 3D 基盤 (Matrix/Line3D/Triangle3D/Pixel3D/Billboard3D/
+     Primitive3D/Z buffer)。
+     残: Tier 4 (MV1 モデル、Movie、Shader 基盤、Mask/Filter、Light/Fog) — SDK or 大規模移植が必要。</p>
 </div>
 
 <div class="legend">
@@ -542,39 +542,39 @@ td.note { font-size: 12px; color: #555; }
 <tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
 <tr><td class="fn">SetCameraPositionAndTarget_UpVecY / SetCameraNearFar</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">DxLib 本体で行列計算 → Graphics_Hardware_SetTransformToView_PF へ</td>
-  <td class="note">PF が stub なので行列は保持されるが GL には反映されない。Tier 3。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">DxLib 本体で行列計算 → SetTransformToView_PF が glMatrixMode(GL_MODELVIEW)+glLoadMatrixf で反映</td>
+  <td class="note">Tier 3 完了。DxLib MATRIX は row-major、GL は column-major だが glLoadMatrixf に渡すと自動転置で整合。</td>
 </tr>
 <tr><td class="fn">SetupCamera_Perspective / SetupCamera_Ortho</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">同上</td>
-  <td class="note">SetTransformToProjection_PF が stub。Tier 3。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">SetTransformToProjection_PF で GL_PROJECTION へ反映</td>
+  <td class="note">Tier 3 完了。</td>
 </tr>
 <tr><td class="fn">DrawLine3D / DrawTriangle3D / DrawPixel3D</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
-  <td class="tech">glMatrixMode(GL_PROJECTION) / glMultMatrix + glBegin</td>
-  <td class="note"><strong>Tier 3:</strong> 次期実装予定。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">glLoadMatrixf 行列再適用 + glBegin(GL_LINES/GL_TRIANGLES/GL_POINTS)</td>
+  <td class="note">Tier 3 完了 (stage23)。</td>
 </tr>
 <tr><td class="fn">DrawBillboard3D</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
-  <td class="tech">view 行列から X/Y 軸抽出 → texture quad</td>
-  <td class="note">Tier 3。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">view 行列の列から右/上ベクトル抽出 → quad 展開</td>
+  <td class="note">Tier 3 完了。Angle (local 2D 回転) 対応。</td>
 </tr>
-<tr><td class="fn">DrawPolygon3D / DrawPolygonIndexed3D</td>
-  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
-  <td class="tech">VERTEX_3D → glBegin(GL_TRIANGLES)</td>
-  <td class="note">Tier 3。</td>
-</tr>
-<tr><td class="fn">SetWriteZBuffer / ClearDrawScreenZBuffer</td>
+<tr><td class="fn">DrawPolygon3D / DrawPrimitive / DrawPrimitiveLight</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">glDepthMask / glClear(GL_DEPTH_BUFFER_BIT)</td>
-  <td class="note">ClearDrawScreen で一緒に clear しているが SetWriteZBuffer は stub。</td>
+  <td class="tech">VERTEX_3D / VERTEX3D → glBegin(各 PrimitiveType)</td>
+  <td class="note">Tier 3 完了。Light 版は diffuse 色のみ使用 (光源計算は未実装)。</td>
+</tr>
+<tr><td class="fn">SetWriteZBuffer3D / SetUseZBuffer3D / ClearDrawScreenZBuffer / SetDrawZBuffer</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">glEnable(GL_DEPTH_TEST) / glClearDepth + glClear / glDepthMask</td>
+  <td class="note">Tier 3 完了。</td>
 </tr>
 <tr><td class="fn">SetLightEnable / CreateDirLightHandle</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
