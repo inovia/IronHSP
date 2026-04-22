@@ -261,6 +261,8 @@ add_library(dxlib_portable_stage3 STATIC
     ${DXLIB_PORTABLE_DIR}/Desktop/DxMovieDesktop.cpp
     # Tier 4e: GraphFilter (CPU 版 override)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxGraphicsFilterDesktop.cpp
+    # Tier 4f: Shader 基盤 (Desktop 固有 GLSL API、DxLib 本家 API は stub)
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxShaderDesktop.cpp
     # Tier 4d: Model (zlib + DxModel CPU 側 + 全 loader + PF stub)
     ${DXLIB_PORTABLE_DIR}/DxModel.cpp
     ${DXLIB_PORTABLE_DIR}/DxModelRead.cpp
