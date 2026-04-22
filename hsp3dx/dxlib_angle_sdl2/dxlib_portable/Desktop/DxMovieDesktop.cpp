@@ -428,9 +428,12 @@ static void desktop_movie_cleanup_for_graph( int GraphHandle )
     g_Movies.erase( it ) ;
 }
 
-#else  // !_WIN32 ---------------------------------------------------------
+#elif defined(__APPLE__) // ----------------------------------------------
+// Mac の実装は DxMovieDesktopMac.mm (Obj-C++ / AVFoundation) に在る。
+// こちらでは何も定義しない。
+#else  // Linux / Web ---------------------------------------------------
 
-// Mac/Linux/Web: stub (AVFoundation / GStreamer / HTML5 <video> 版は次段)
+// Linux/Web: stub (GStreamer / HTML5 <video> 版は次段)
 extern int OpenMovieToGraph( const TCHAR *FileName, int FullColor ) { (void)FileName; (void)FullColor; return -1 ; }
 extern int OpenMovieToGraphWithStrLen( const TCHAR *FileName, size_t FileNameLength, int FullColor ) { (void)FileName; (void)FileNameLength; (void)FullColor; return -1 ; }
 extern int PlayMovieToGraph( int GraphHandle, int PlayType, int SysPlay ) { (void)GraphHandle; (void)PlayType; (void)SysPlay; return -1 ; }
