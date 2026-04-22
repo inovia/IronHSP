@@ -1,8 +1,8 @@
 #include "iron_dxlib.as"
 notesel n
-dx_mv1load "duck_from_gpb.mv1"
+dx_mv1load "cat_from_usdz.mv1"
 h = stat
-noteadd "duck_from_gpb.mv1 : h=" + h
+noteadd "h=" + h
 if h >= 0 : dx_mv1delete h
-notesave "r_duck_from_gpb.mv1.txt"
+notesave "r.txt"
 end

@@ -195,16 +195,18 @@ WriteResult write_mv1(const ModelIR &ir) {
         b.align4();
         meshFramePandNOff[mi] = b.pos();
         std::uint32_t pn = static_cast<std::uint32_t>(m.positions.size() / 3);
-        std::uint32_t nn = static_cast<std::uint32_t>(m.normals.size() / 3);
+        // DxLib 慣習: NormalNum = per-corner count (mesh.indices.size())、
+        // 各 corner が独自 normal を持つ (ハードエッジ対応)
+        std::uint32_t nn = static_cast<std::uint32_t>(m.normals.empty() ? 0 : m.indices.size());
         meshFramePosNum[mi]    = pn;
         meshFrameNormalNum[mi] = nn;
         positionNum += pn;
         normalNum   += nn;
 
-        // Position: float3
+        // Position: float3 (unique、m.positions そのまま)
         for (float f : m.positions) b.append_bytes(&f, 4);
 
-        // Weight block (skin 時)
+        // Weight block (skin 時、per-unique-position 単位)
         if (isSkin) {
             const auto &weights = m.bone_weights;
             for (std::uint32_t v = 0; v < pn; ++v) {
@@ -224,8 +226,22 @@ WriteResult write_mv1(const ModelIR &ir) {
             }
         }
 
-        // Normal: float3 (NORMAL_TYPE_F32)
-        for (float f : m.normals) b.append_bytes(&f, 4);
+        // Normal: float3、per-corner (m.indices.size() 個)
+        // IR のノーマルは per-unique-position なので m.indices[i] で引き直して展開
+        if (!m.normals.empty()) {
+            for (std::size_t i = 0; i < m.indices.size(); ++i) {
+                std::uint32_t vi = m.indices[i];
+                if (vi * 3 + 2 < m.normals.size()) {
+                    b.append_bytes(&m.normals[vi * 3 + 0], 4);
+                    b.append_bytes(&m.normals[vi * 3 + 1], 4);
+                    b.append_bytes(&m.normals[vi * 3 + 2], 4);
+                } else {
+                    float zero = 0.0f; b.append_bytes(&zero, 4);
+                    float one = 1.0f;  b.append_bytes(&one, 4);
+                    b.append_bytes(&zero, 4);
+                }
+            }
+        }
     }
 
     // ====== 8. Mesh.VertexData (mesh ごと) ======
@@ -244,17 +260,19 @@ WriteResult write_mv1(const ModelIR &ir) {
         b.append_bytes(&white, 4);
         b.append_bytes(&white, 4);
 
-        // Per-corner loop: i in 0..m.indices.size()-1
-        // pos index (u32) = m.indices[i] (points to unique position in Frame.PandN)
+        const bool useU32_2 = meshVN > 65535;
+        const std::size_t idxSize = useU32_2 ? 4 : 2;
+        // Per-corner loop
+        // pos index = m.indices[i] (points to unique position in Frame.PandN)
         for (std::size_t i = 0; i < vn; ++i) {
             std::uint32_t posIdx = m.indices[i];
-            b.append_bytes(&posIdx, 4);
+            b.append_bytes(&posIdx, idxSize);
         }
-        // nrm index (u32) — same lookup as position (per-vertex normal)
+        // nrm index: per-corner 恒等 (Frame.NormalNum = per-corner count)
         if (hasNormals && !m.normals.empty()) {
             for (std::size_t i = 0; i < vn; ++i) {
-                std::uint32_t nrmIdx = m.indices[i];
-                b.append_bytes(&nrmIdx, 4);
+                std::uint32_t nrmIdx = static_cast<std::uint32_t>(i);
+                b.append_bytes(&nrmIdx, idxSize);
             }
         }
         // 頂点カラー: COMMON_COLOR 立っているので省略
@@ -543,16 +561,19 @@ WriteResult write_mv1(const ModelIR &ir) {
         mesh.UVUnitNum    = m.uvs.empty() ? 0 : 2;
         // DxLib 慣習: Mesh.VertexNum = per-corner count = m.indices.size()
         const std::int32_t meshVN = static_cast<std::int32_t>(m.indices.size());
+        // Index type 選定: 65535 以下なら U16、超過時のみ U32
+        const bool useU32 = meshVN > 65535;
+        const std::uint32_t idxType = useU32 ? e::MESH_VERT_INDEX_TYPE_U32 : e::MESH_VERT_INDEX_TYPE_U16;
         // VertFlag:
         //   COMMON_COLOR      = 0x20  1 色共通 (頂点カラー個別出さない)
         //   NON_TOON_OUTLINE  = 0x40  トゥーン輪郭 per-vertex bit を出さない
         //                             ← これが無いと DxLib は VertexNum/8 byte のデータを
         //                                期待してバッファを読み過ごして crash
-        //   pos index U32 + nrm index U32
+        //   pos index U16/U32 + nrm index 同型
         std::uint32_t vf = e::MESH_VERT_FLAG_COMMON_COLOR
                          | e::MESH_VERT_FLAG_NON_TOON_OUTLINE
-                         | e::MESH_VERT_INDEX_TYPE_U32
-                         | (hasNormals && !m.normals.empty() ? (e::MESH_VERT_INDEX_TYPE_U32 << 2) : 0);
+                         | idxType
+                         | (hasNormals && !m.normals.empty() ? (idxType << 2) : 0);
         mesh.VertFlag = static_cast<std::int32_t>(vf);
         mesh.VertexNum = meshVN;  // per-corner count
         mesh.FaceNum   = static_cast<std::int32_t>(m.indices.size() / 3);

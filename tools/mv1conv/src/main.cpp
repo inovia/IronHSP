@@ -106,6 +106,14 @@ static int convert_generic(const char *in, const char *out, bool noBones = false
         ir->bones.clear();
         for (auto &m : ir->meshes) m.bone_weights.clear();
     }
+    // TEMP debug: --no-tex flag でテクスチャ bind を消す
+    if (std::getenv("MV1CONV_NO_TEX")) {
+        ir->textures.clear();
+        for (auto &mat : ir->materials) mat.diffuse_texture = -1;
+    }
+    if (std::getenv("MV1CONV_NO_UV")) {
+        for (auto &m : ir->meshes) m.uvs.clear();
+    }
     auto w = save_mv1(*ir, out);
     if (!w.ok()) {
         std::fprintf(stderr, "ERROR: %s\n", w.error.c_str());
