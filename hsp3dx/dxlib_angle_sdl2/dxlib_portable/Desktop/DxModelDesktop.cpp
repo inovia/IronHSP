@@ -395,9 +395,12 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
     if ( !TList->NormalPosition ) return ;
     if ( !Mesh || !Mesh->BaseData ) return ;
 
-    // マテリアルから Diffuse と DiffuseLayer[0] (diffuse texture) を取得
+    // マテリアルから Diffuse と DiffuseLayer[0..N-1] (multi-texture) を取得
     GLubyte mR = 200, mG = 200, mB = 200, mA = 255 ;
-    GLuint texId = 0 ;
+    GLuint texId  = 0 ;        // layer 0 (メイン texture、multi-tex 無し経路と互換)
+    int    layerN = 0 ;        // 有効 DiffuseLayer 数 (最大 4 までに制限)
+    GLuint layerTex [ 8 ] = { 0 } ;
+    int    layerBlend[ 8 ] = { 0 } ;
     bool useVertexColor = Mesh->BaseData->UseVertexDiffuseColor != 0 ;
     if ( Mesh->Material && Mesh->Material->BaseData ) {
         MV1_MATERIAL_BASE *mb = Mesh->Material->BaseData ;
@@ -411,8 +414,15 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
         mG = ( GLubyte )( fminf( d.g * dg, 1.0f ) * 255 ) ;
         mB = ( GLubyte )( fminf( d.b * db, 1.0f ) * 255 ) ;
         mA = ( GLubyte )( fminf( d.a * op, 1.0f ) * 255 ) ;
-        if ( mb->DiffuseLayerNum > 0 ) {
-            texId = desktop_mv1_tex_from_graph( mb->DiffuseLayer[ 0 ].GraphHandle ) ;
+        int maxLayers = mb->DiffuseLayerNum ;
+        if ( maxLayers > 4 ) maxLayers = 4 ;  // fixed-function は 4 TMU 程度まで安全
+        for ( int li = 0 ; li < maxLayers ; ++li ) {
+            GLuint t = desktop_mv1_tex_from_graph( mb->DiffuseLayer[ li ].GraphHandle ) ;
+            if ( t == 0 ) continue ;
+            layerTex  [ layerN ] = t ;
+            layerBlend[ layerN ] = mb->DiffuseLayer[ li ].BlendType ;
+            if ( layerN == 0 ) texId = t ;
+            layerN++ ;
         }
         // スペキュラ・エミッシブ (glMaterialfv で設定、ColorMaterial は
         // diffuse/ambient のみカバー)
@@ -439,15 +449,40 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
     if ( bc ) { glEnable( GL_CULL_FACE ) ; glCullFace( GL_BACK ) ; }
     else     { glDisable( GL_CULL_FACE ) ; }
 
-    // テクスチャバインド
+    // テクスチャバインド (multi-texture 対応、最大 4 unit)
+    //   Layer 0 : GL_MODULATE (glColor × tex)
+    //   Layer 1+ : BlendType に応じて GL_ADD / GL_MODULATE / GL_DECAL
+    //     DX_MATERIAL_BLENDTYPE_TRANSLUCENT(0) → GL_DECAL (tex alpha で混合)
+    //     DX_MATERIAL_BLENDTYPE_ADDITIVE   (1) → GL_ADD
+    //     DX_MATERIAL_BLENDTYPE_MODULATE   (2) → GL_MODULATE
+    //     DX_MATERIAL_BLENDTYPE_NONE       (3) → GL_REPLACE
+#ifdef GL_TEXTURE0
+    auto to_tex_env = []( int bt ) -> GLenum {
+        switch ( bt ) {
+        case 1 /*ADDITIVE*/:   return GL_ADD ;
+        case 2 /*MODULATE*/:   return GL_MODULATE ;
+        case 3 /*NONE*/:       return GL_REPLACE ;
+        default /*TRANSLUCENT*/: return GL_DECAL ;
+        }
+    } ;
+    for ( int li = 0 ; li < layerN ; ++li ) {
+        glActiveTexture( GL_TEXTURE0 + li ) ;
+        glEnable( GL_TEXTURE_2D ) ;
+        glBindTexture( GL_TEXTURE_2D, layerTex[ li ] ) ;
+        GLenum mode = ( li == 0 ) ? GL_MODULATE : to_tex_env( layerBlend[ li ] ) ;
+        glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, mode ) ;
+    }
+    glActiveTexture( GL_TEXTURE0 ) ;  // 頂点属性送信は TMU 0 を主とする
+    if ( layerN == 0 ) glDisable( GL_TEXTURE_2D ) ;
+#else
     if ( texId ) {
         glEnable( GL_TEXTURE_2D ) ;
         glBindTexture( GL_TEXTURE_2D, texId ) ;
-        // GL_MODULATE で glColor と乗算 (デフォルト設定だが明示)
         glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE ) ;
     } else {
         glDisable( GL_TEXTURE_2D ) ;
     }
+#endif
 
     // 頂点データ配列 (UV / DiffuseColor を引くのに使う)。VertUnitSize 可変なので
     // ポインタ算術で要素取得する
@@ -470,6 +505,18 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
 
             if ( mv && hasUV && texId ) {
                 glTexCoord2f( mv->UVs[ 0 ][ 0 ], mv->UVs[ 0 ][ 1 ] ) ;
+#ifdef GL_TEXTURE0
+                // multi-texture layer 1+ にも同じ UV を供給 (UV1 が別にあれば UVs[1] を使用)
+                for ( int ti = 1 ; ti < layerN ; ++ti ) {
+                    float u = mv->UVs[ 0 ][ 0 ] ;
+                    float v = mv->UVs[ 0 ][ 1 ] ;
+                    // UV unit が複数あれば対応する UV をバインド (2 段以上の tex UV)
+                    if ( mb->UVUnitNum > ti ) {
+                        u = mv->UVs[ ti ][ 0 ] ; v = mv->UVs[ ti ][ 1 ] ;
+                    }
+                    glMultiTexCoord2f( GL_TEXTURE0 + ti, u, v ) ;
+                }
+#endif
             }
             if ( useVertexColor && mv ) {
                 // COLOR_U8 は b,g,r,a 順 (DxLib 内部)
@@ -487,10 +534,20 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
     }
     glEnd() ;
 
+    // テクスチャアンバインド (multi-texture 対応)
+#ifdef GL_TEXTURE0
+    for ( int li = 0 ; li < layerN ; ++li ) {
+        glActiveTexture( GL_TEXTURE0 + li ) ;
+        glBindTexture( GL_TEXTURE_2D, 0 ) ;
+        glDisable( GL_TEXTURE_2D ) ;
+    }
+    glActiveTexture( GL_TEXTURE0 ) ;
+#else
     if ( texId ) {
         glBindTexture( GL_TEXTURE_2D, 0 ) ;
         glDisable( GL_TEXTURE_2D ) ;
     }
+#endif
 }
 
 extern void MV1_DrawMesh_PF( MV1_MESH *Mesh, int TriangleListIndex )
