@@ -261,20 +261,27 @@ WriteResult write_mv1(const ModelIR &ir) {
             }
         }
 
-        // Normal: float3、per-corner (m.indices.size() 個)
-        // IR のノーマルは per-unique-position なので m.indices[i] で引き直して展開
+        // Normal: S16 quantize、per-corner (m.indices.size() 個)
+        // NORMAL_TYPE_S16 (VertFlag bit 0=0, bit 1=1) を使う。各成分 short * 3 = 6 byte、
+        // 値は -32767..32767 にスケール。DxLib 本家の save も S16 なので hsp3dx
+        // 側 runtime のパスがこれを期待する。
         if (!m.normals.empty()) {
+            auto to_s16 = [](float v) -> std::int16_t {
+                float c = std::clamp(v, -1.0f, 1.0f);
+                return static_cast<std::int16_t>(c * 32767.0f);
+            };
             for (std::size_t i = 0; i < m.indices.size(); ++i) {
                 std::uint32_t vi = m.indices[i];
+                float nx = 0, ny = 1, nz = 0;
                 if (vi * 3 + 2 < m.normals.size()) {
-                    b.append_bytes(&m.normals[vi * 3 + 0], 4);
-                    b.append_bytes(&m.normals[vi * 3 + 1], 4);
-                    b.append_bytes(&m.normals[vi * 3 + 2], 4);
-                } else {
-                    float zero = 0.0f; b.append_bytes(&zero, 4);
-                    float one = 1.0f;  b.append_bytes(&one, 4);
-                    b.append_bytes(&zero, 4);
+                    nx = m.normals[vi * 3 + 0];
+                    ny = m.normals[vi * 3 + 1];
+                    nz = m.normals[vi * 3 + 2];
                 }
+                std::int16_t sx = to_s16(nx), sy = to_s16(ny), sz = to_s16(nz);
+                b.append_bytes(&sx, 2);
+                b.append_bytes(&sy, 2);
+                b.append_bytes(&sz, 2);
             }
         }
     }
@@ -311,15 +318,18 @@ WriteResult write_mv1(const ModelIR &ir) {
             }
         }
         // 頂点カラー: COMMON_COLOR 立っているので省略
-        // UV: 1 set × 2 comp、per-corner で展開
-        if (!m.uvs.empty()) {
-            for (std::size_t i = 0; i < vn; ++i) {
+        // UV: 常に 1 set × 2 comp、per-corner で展開 (UV なしでも (0, 0))
+        for (std::size_t i = 0; i < vn; ++i) {
+            float u = 0.0f, vv = 0.0f;
+            if (!m.uvs.empty()) {
                 std::uint32_t vi = m.indices[i];
-                float u  = m.uvs[vi*2+0];
-                float vv = m.uvs[vi*2+1];
-                b.append_bytes(&u, 4);
-                b.append_bytes(&vv, 4);
+                if (vi * 2 + 1 < m.uvs.size()) {
+                    u  = m.uvs[vi*2+0];
+                    vv = m.uvs[vi*2+1];
+                }
             }
+            b.append_bytes(&u, 4);
+            b.append_bytes(&vv, 4);
         }
     }
 
@@ -469,7 +479,7 @@ WriteResult write_mv1(const ModelIR &ir) {
         mf.PositionAndNormalData = meshFramePandNOff[mi];
         if (isSkin) {
             mf.VertFlag = static_cast<std::uint16_t>(
-                (hasNormals ? e::FRAME_NORMAL_TYPE_F32 : e::FRAME_NORMAL_TYPE_NONE));
+                (hasNormals ? e::FRAME_NORMAL_TYPE_S16 : e::FRAME_NORMAL_TYPE_NONE));
             mf.MaxBoneBlendNum = 4;
             mf.IsSkinMesh = 1;
             mf.UseSkinBoneNum = static_cast<std::int32_t>(ir.bones.size());
@@ -479,7 +489,7 @@ WriteResult write_mv1(const ModelIR &ir) {
         } else {
             mf.VertFlag = static_cast<std::uint16_t>(
                 e::FRAME_VERT_FLAG_MATRIX_WEIGHT_NONE |
-                (hasNormals ? e::FRAME_NORMAL_TYPE_F32 : e::FRAME_NORMAL_TYPE_NONE));
+                (hasNormals ? e::FRAME_NORMAL_TYPE_S16 : e::FRAME_NORMAL_TYPE_NONE));
             mf.MaxBoneBlendNum = 0;
         }
         mf.SmoothingAngle = 0.0f;
@@ -593,8 +603,9 @@ WriteResult write_mv1(const ModelIR &ir) {
         mesh.TriangleList = tlOffsets[i];
         mesh.Visible = 1;
         mesh.BackCulling = 1;
-        mesh.UVSetUnitNum = m.uvs.empty() ? 0 : 1;
-        mesh.UVUnitNum    = m.uvs.empty() ? 0 : 2;
+        // DxLib は UVSet を 1 以上を期待する模様 (UV なし mesh でも 1 set × 2 comp)
+        mesh.UVSetUnitNum = 1;
+        mesh.UVUnitNum    = 2;
         // DxLib 慣習: Mesh.VertexNum = per-corner count = m.indices.size()
         const std::int32_t meshVN = static_cast<std::int32_t>(m.indices.size());
         // Index type 選定: 65535 以下なら U16、超過時のみ U32
@@ -677,11 +688,10 @@ WriteResult write_mv1(const ModelIR &ir) {
     // MeshVertexSize = sum(Mesh.VertexNum × VertUnitSize) where
     //   Mesh.VertexNum = **per-corner** count (= m.indices.size())、
     //   VertUnitSize   = 20 + UVSetUnitNum × UVUnitNum × 4   (DxModel.cpp L15172)
+    // UVSets=1 UVComp=2 固定なので vertUnit = 20 + 1*2*4 = 28
     std::int32_t totalMeshVertexSize = 0;
     for (const auto &m : ir.meshes) {
-        int uvSets = m.uvs.empty() ? 0 : 1;
-        int uvComp = m.uvs.empty() ? 0 : 2;
-        int vertUnit = 20 + uvSets * uvComp * 4;
+        int vertUnit = 28;
         totalMeshVertexSize += static_cast<std::int32_t>(m.indices.size()) * vertUnit;
     }
     hdr.MeshVertexSize      = totalMeshVertexSize;
