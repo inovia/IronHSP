@@ -183,30 +183,36 @@ LoadResult load_gpb(const std::string &path) {
         }
 
         // MeshParts
+        // GPB v1.5 の実フォーマット (duck.gpb / tamane.gpb / sphaceship.gpb で確認):
+        //   prim_type     : uint
+        //   idx_format    : uint
+        //   idx_byte_count: uint     ← インデックス配列の **バイト数** (count ではない)
+        //   data          : [idx_byte_count]
         std::uint32_t partN = M.u32();
         if (!M.err.empty()) continue;
         for (std::uint32_t pi = 0; pi < partN; ++pi) {
             std::uint32_t primType  = M.u32();
             std::uint32_t idxFormat = M.u32();
-            std::uint32_t idxCount  = M.u32();
             std::uint32_t idxBytes  = M.u32();
-            if (!M.avail(idxBytes)) break;
-            const std::uint8_t *ip = M.p;
-            M.p += idxBytes;
-
-            if (primType != GPB_PRIM_TRIANGLES) continue;
 
             std::size_t idxSz = 0;
             if      (idxFormat == GPB_IDX_UBYTE  || idxFormat == GPB_IDX_UBYTE_ALT)  idxSz = 1;
             else if (idxFormat == GPB_IDX_USHORT || idxFormat == GPB_IDX_USHORT_ALT) idxSz = 2;
             else if (idxFormat == GPB_IDX_UINT   || idxFormat == GPB_IDX_UINT_ALT)   idxSz = 4;
-            else continue;
+            else { break; }
 
-            for (std::uint32_t k = 0; k < idxCount; ++k) {
+            if (!M.avail(idxBytes)) break;
+            const std::uint8_t *ip = M.p;
+            M.p += idxBytes;
+
+            if (primType != GPB_PRIM_TRIANGLES) continue;
+            std::size_t idxCount = idxBytes / idxSz;
+
+            for (std::size_t k = 0; k < idxCount; ++k) {
                 std::uint32_t v = 0;
-                if (idxSz == 1) v = ip[k];
+                if      (idxSz == 1) v = ip[k];
                 else if (idxSz == 2) { std::uint16_t w; std::memcpy(&w, ip + k*2, 2); v = w; }
-                else { std::memcpy(&v, ip + k*4, 4); }
+                else                 { std::memcpy(&v, ip + k*4, 4); }
                 outMesh.indices.push_back(vBase + v);
             }
         }

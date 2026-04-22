@@ -202,6 +202,26 @@ if [[ -d "$ASSIMP_TEST_ROOT" ]]; then
     done
 fi
 
+# GPB (hgimg4 サンプル、5 ファイル)
+GPB_ROOT=../../package/win32/sample/hgimg4/res
+if [[ -d "$GPB_ROOT" ]]; then
+    echo ""
+    echo "=== 6. GPB (GamePlay Binary) → .mv1 ==="
+    for g in duck sphaceship tamane tamane2; do
+        src="$GPB_ROOT/${g}.gpb"
+        if [[ -f "$src" ]]; then
+            out="$OUT/${g}_from_gpb.mv1"
+            if "$MV1CONV" convert "$src" "$out" 2>&1 | grep -q "re-load OK"; then
+                tri=$("$MV1CONV" dump "$out" | grep "TriangleNum " | awk '{print $3}')
+                printf "  %-20s → %s (tri=%s)\n" "${g}.gpb" "$(basename "$out")" "$tri"
+            else
+                printf "  %-20s FAIL\n" "${g}.gpb" >&2
+                exit 1
+            fi
+        fi
+    done
+fi
+
 for fmt in tet.obj tri.stl quad.ply tet.x tet.glb tet.wrl tet.pmd; do
     out=$OUT/${fmt%.*}_from_${fmt##*.}.mv1
     if "$MV1CONV" convert "$OUT/$fmt" "$out" 2>&1 | grep -q "re-load OK"; then
