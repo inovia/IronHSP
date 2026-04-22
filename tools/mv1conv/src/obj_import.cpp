@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
+#include <filesystem>
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -10,6 +11,80 @@
 namespace mv1conv {
 
 namespace {
+
+// .mtl ファイルをパースして MaterialIR / TextureIR を追加、
+// マテリアル名 → IR index のマップを返す
+void load_mtl(const std::string &mtl_path, ModelIR &ir,
+              std::unordered_map<std::string, int> &name_to_material)
+{
+    std::FILE *fp = std::fopen(mtl_path.c_str(), "r");
+    if (!fp) return;  // optional
+
+    auto add_texture = [&](const std::string &path) -> int {
+        for (std::size_t i = 0; i < ir.textures.size(); ++i) {
+            if (ir.textures[i].color_path == path) return static_cast<int>(i);
+        }
+        TextureIR t;
+        t.name = std::filesystem::path(path).stem().string();
+        t.color_path = path;
+        ir.textures.push_back(t);
+        return static_cast<int>(ir.textures.size() - 1);
+    };
+
+    MaterialIR cur;
+    bool has_cur = false;
+    std::string cur_name;
+
+    auto flush_material = [&]() {
+        if (has_cur) {
+            name_to_material[cur_name] = static_cast<int>(ir.materials.size());
+            ir.materials.push_back(cur);
+        }
+        cur = MaterialIR{};
+        has_cur = false;
+    };
+
+    char line[1024];
+    while (std::fgets(line, sizeof(line), fp)) {
+        std::size_t n = std::strlen(line);
+        while (n && (line[n-1] == '\n' || line[n-1] == '\r' || line[n-1] == ' ')) line[--n] = 0;
+        char *p = line;
+        while (*p == ' ' || *p == '\t') ++p;
+        if (*p == 0 || *p == '#') continue;
+
+        if (std::strncmp(p, "newmtl", 6) == 0) {
+            flush_material();
+            cur_name = p + 7;
+            while (!cur_name.empty() && (cur_name.front() == ' ' || cur_name.front() == '\t')) cur_name.erase(0, 1);
+            cur.name = cur_name;
+            has_cur = true;
+        } else if (std::strncmp(p, "Kd", 2) == 0 && (p[2] == ' ' || p[2] == '\t')) {
+            std::sscanf(p + 3, "%f %f %f", &cur.diffuse[0], &cur.diffuse[1], &cur.diffuse[2]);
+            cur.diffuse[3] = 1.0f;
+        } else if (std::strncmp(p, "Ka", 2) == 0 && (p[2] == ' ' || p[2] == '\t')) {
+            std::sscanf(p + 3, "%f %f %f", &cur.ambient[0], &cur.ambient[1], &cur.ambient[2]);
+            cur.ambient[3] = 1.0f;
+        } else if (std::strncmp(p, "Ks", 2) == 0 && (p[2] == ' ' || p[2] == '\t')) {
+            std::sscanf(p + 3, "%f %f %f", &cur.specular[0], &cur.specular[1], &cur.specular[2]);
+            cur.specular[3] = 1.0f;
+        } else if (std::strncmp(p, "Ke", 2) == 0 && (p[2] == ' ' || p[2] == '\t')) {
+            std::sscanf(p + 3, "%f %f %f", &cur.emissive[0], &cur.emissive[1], &cur.emissive[2]);
+        } else if (std::strncmp(p, "Ns", 2) == 0 && (p[2] == ' ' || p[2] == '\t')) {
+            std::sscanf(p + 3, "%f", &cur.power);
+        } else if (std::strncmp(p, "d ", 2) == 0 || std::strncmp(p, "Tr ", 3) == 0) {
+            // 不透明度 (d) または透明度 (Tr) の扱いは簡略化
+            float v = 1.0f;
+            std::sscanf(p + (p[0] == 'T' ? 3 : 2), "%f", &v);
+            cur.alpha = (p[0] == 'T') ? v : (1.0f - v);
+        } else if (std::strncmp(p, "map_Kd", 6) == 0 && (p[6] == ' ' || p[6] == '\t')) {
+            std::string path = p + 7;
+            while (!path.empty() && (path.front() == ' ' || path.front() == '\t')) path.erase(0, 1);
+            if (!path.empty()) cur.diffuse_texture = add_texture(path);
+        }
+    }
+    flush_material();
+    std::fclose(fp);
+}
 
 struct FaceKey {
     int v, vt, vn;
@@ -65,17 +140,23 @@ ObjLoadResult load_obj(const std::string &path) {
     std::vector<float> normals;    // 3n
     std::vector<float> uvs;        // 2n
 
+    std::unordered_map<std::string, int> mtlMap;  // material name -> IR index
+    int curMaterialIndex = -1;  // flush 時にメッシュに焼く
+
     std::unordered_map<FaceKey, std::uint32_t, FaceKeyHash> unique;
     MeshIR mesh;
     mesh.name = "mesh";
 
     auto flush_mesh = [&](){
         if (!mesh.positions.empty() && !mesh.indices.empty()) {
+            if (curMaterialIndex >= 0) mesh.material = curMaterialIndex;
             r.ir.meshes.push_back(std::move(mesh));
         }
         mesh = MeshIR{};
         unique.clear();
     };
+
+    std::filesystem::path obj_dir = std::filesystem::path(path).parent_path();
 
     char line[4096];
     while (std::fgets(line, sizeof(line), fp)) {
@@ -98,6 +179,22 @@ ObjLoadResult load_obj(const std::string &path) {
             float u, v;
             if (std::sscanf(line + 3, "%f %f", &u, &v) >= 2) {
                 uvs.push_back(u); uvs.push_back(v);
+            }
+        } else if (std::strncmp(line, "mtllib", 6) == 0 && (line[6] == ' ' || line[6] == '\t')) {
+            std::string mtl = line + 7;
+            while (!mtl.empty() && (mtl.front() == ' ' || mtl.front() == '\t')) mtl.erase(0, 1);
+            auto mtl_path = obj_dir / mtl;
+            load_mtl(mtl_path.string(), r.ir, mtlMap);
+        } else if (std::strncmp(line, "usemtl", 6) == 0 && (line[6] == ' ' || line[6] == '\t')) {
+            std::string mn = line + 7;
+            while (!mn.empty() && (mn.front() == ' ' || mn.front() == '\t')) mn.erase(0, 1);
+            auto it = mtlMap.find(mn);
+            if (it != mtlMap.end()) {
+                // 別マテリアルに切り替わる場合はメッシュを分割
+                if (curMaterialIndex >= 0 && it->second != curMaterialIndex) {
+                    flush_mesh();
+                }
+                curMaterialIndex = it->second;
             }
         } else if (line[0] == 'g' && line[1] == ' ') {
             flush_mesh();
@@ -164,11 +261,13 @@ ObjLoadResult load_obj(const std::string &path) {
         return r;
     }
 
-    // デフォルトマテリアル 1 個
-    MaterialIR mat;
-    mat.name = "default";
-    r.ir.materials.push_back(mat);
-    for (auto &m : r.ir.meshes) m.material = 0;
+    // MTL 由来のマテリアルが 1 個もなければデフォルト 1 個追加
+    if (r.ir.materials.empty()) {
+        MaterialIR mat;
+        mat.name = "default";
+        r.ir.materials.push_back(mat);
+        for (auto &m : r.ir.meshes) m.material = 0;
+    }
     return r;
 }
 
