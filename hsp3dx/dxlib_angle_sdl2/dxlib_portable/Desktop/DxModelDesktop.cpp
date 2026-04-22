@@ -332,6 +332,58 @@ static void desktop_mv1_get_vertex_pos(
     }
 }
 
+// Toon outline (inverted-hull 法): 頂点を法線方向に押し出した「反転殻」を
+// 前面カリングで描画して輪郭線を作る。drawModel の 1 回目のパスとして呼ぶ。
+static void desktop_mv1_draw_outline_pass( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TList )
+{
+    if ( !TList || !TList->BaseData ) return ;
+    if ( !Mesh || !Mesh->BaseData || !Mesh->Material || !Mesh->Material->BaseData ) return ;
+    MV1_MATERIAL_BASE *mb = Mesh->Material->BaseData ;
+    float width = mb->OutLineWidth ;
+    if ( width <= 0.0f ) return ;  // outline 無効なマテリアル
+    MV1_TRIANGLE_LIST_BASE *bd = TList->BaseData ;
+    if ( !bd->Index || bd->IndexNum < 3 ) return ;
+
+    // 前面カリング (inverted-hull)
+    glEnable( GL_CULL_FACE ) ;
+    glCullFace( GL_FRONT ) ;
+    glDisable( GL_TEXTURE_2D ) ;
+
+    COLOR_F &oc = mb->OutLineColor ;
+    glColor4f( oc.r, oc.g, oc.b, oc.a > 0 ? oc.a : 1.0f ) ;
+
+    // Vertex-scale 係数: 頂点の ToonOutLineScale を material width に掛ける
+    MV1_MESH_BASE *mbase = Mesh->BaseData ;
+    unsigned char *vraw = ( unsigned char * )mbase->Vertex ;
+    int vsize = mbase->VertUnitSize ;
+
+    glBegin( GL_TRIANGLES ) ;
+    for ( int i = 0 ; i + 2 < bd->IndexNum ; i += 3 ) {
+        for ( int k = 0 ; k < 3 ; ++k ) {
+            unsigned short vi = bd->Index[ i + k ] ;
+            if ( vi >= bd->VertexNum ) continue ;
+            float p[ 3 ], n[ 3 ] ;
+            desktop_mv1_get_vertex_pos( Mesh, TList, vi, p, n ) ;
+
+            // 頂点毎 scale
+            DWORD meshVi = bd->MeshVertexIndex ? bd->MeshVertexIndex[ vi ] : ( DWORD )vi ;
+            float vscale = 1.0f ;
+            if ( vraw && vsize > 0 ) {
+                MV1_MESH_VERTEX *mv = ( MV1_MESH_VERTEX * )( vraw + meshVi * vsize ) ;
+                if ( mv->ToonOutLineScale > 0 ) vscale = mv->ToonOutLineScale ;
+            }
+            float w = width * vscale ;
+            glVertex3f( p[ 0 ] + n[ 0 ] * w,
+                        p[ 1 ] + n[ 1 ] * w,
+                        p[ 2 ] + n[ 2 ] * w ) ;
+        }
+    }
+    glEnd() ;
+
+    // 元のカリング設定に戻す (呼び側が CullFace(GL_BACK) を改めて指定する想定)
+    glCullFace( GL_BACK ) ;
+}
+
 // 単一トライアングルリストを描画。全 VertexType 対応。
 static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TList )
 {
@@ -447,6 +499,23 @@ extern void MV1_DrawMesh_PF( MV1_MESH *Mesh, int TriangleListIndex )
     if ( !Mesh->BaseData->Visible ) return ;
 
     MV1_MESH_BASE *mb = Mesh->BaseData ;
+    // マテリアルに OutLineWidth > 0 があれば Toon 輪郭パス (inverted-hull) を先に
+    bool hasOutline = ( Mesh->Material && Mesh->Material->BaseData &&
+                         Mesh->Material->BaseData->OutLineWidth > 0.0f ) ;
+    if ( hasOutline ) {
+        // ライティング無しで単色塗り (outline 色)
+        GLboolean wasLit = glIsEnabled( GL_LIGHTING ) ;
+        if ( wasLit ) glDisable( GL_LIGHTING ) ;
+        if ( TriangleListIndex < 0 ) {
+            for ( int k = 0 ; k < mb->TriangleListNum ; ++k ) {
+                desktop_mv1_draw_outline_pass( Mesh, &Mesh->TriangleList[ k ] ) ;
+            }
+        } else if ( TriangleListIndex < mb->TriangleListNum ) {
+            desktop_mv1_draw_outline_pass( Mesh, &Mesh->TriangleList[ TriangleListIndex ] ) ;
+        }
+        if ( wasLit ) glEnable( GL_LIGHTING ) ;
+    }
+
     if ( TriangleListIndex < 0 ) {
         // 全トライアングルリスト描画
         for ( int k = 0 ; k < mb->TriangleListNum ; ++k ) {
