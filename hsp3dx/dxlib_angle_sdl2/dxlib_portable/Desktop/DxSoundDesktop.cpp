@@ -24,6 +24,7 @@
 // bundled libvorbisfile (extlib/libvorbis/include) で OGG Vorbis を decode
 extern "C" {
 #include <vorbis/vorbisfile.h>
+#include <opusfile.h>
 }
 
 #include <cstdio>
@@ -112,16 +113,66 @@ static Uint8 *desktop_decode_ogg_to_pcm( const char *path, int *OutBytes )
     return out ;
 }
 
-static bool desktop_path_is_ogg( const char *path )
+static bool desktop_path_ext_is( const char *path, const char *ext )
 {
-    if ( !path ) return false ;
-    size_t n = std::strlen( path ) ;
-    if ( n < 4 ) return false ;
-    const char *ext = path + n - 4 ;
-    return ( ext[0] == '.' &&
-             std::tolower( ( unsigned char )ext[1] ) == 'o' &&
-             std::tolower( ( unsigned char )ext[2] ) == 'g' &&
-             std::tolower( ( unsigned char )ext[3] ) == 'g' ) ;
+    if ( !path || !ext ) return false ;
+    size_t pn = std::strlen( path ) ;
+    size_t en = std::strlen( ext ) ;
+    if ( pn < en + 1 ) return false ;
+    const char *p = path + pn - en ;
+    if ( *( p - 1 ) != '.' ) return false ;
+    for ( size_t i = 0 ; i < en ; ++i ) {
+        if ( std::tolower( ( unsigned char )p[ i ] ) !=
+             std::tolower( ( unsigned char )ext[ i ] ) )
+            return false ;
+    }
+    return true ;
+}
+
+static bool desktop_path_is_ogg ( const char *path ) { return desktop_path_ext_is( path, "ogg"  ) ; }
+static bool desktop_path_is_opus( const char *path ) { return desktop_path_ext_is( path, "opus" ) ; }
+
+// bundled opusfile で Opus (.opus) → PCM S16LE stereo 48kHz に decode。
+// 成功時 malloc バッファ (呼び出し側 free 必須)、失敗時 nullptr。
+static Uint8 *desktop_decode_opus_to_pcm( const char *path, int *OutBytes )
+{
+    int err = 0 ;
+    OggOpusFile *of = op_open_file( path, &err ) ;
+    if ( !of || err != 0 ) return nullptr ;
+
+    // Opus はネイティブ 48kHz、op_read_stereo で 16-bit stereo を返す
+    std::vector<Uint8> pcm ;
+    pcm.reserve( 1 << 20 ) ;
+    opus_int16 buf[ 120 * 48 * 2 ] ;  // 最大 120ms * 48kHz * 2ch
+    for ( ; ; )
+    {
+        int n = op_read_stereo( of, buf, ( int )( sizeof( buf ) / sizeof( buf[0] ) ) ) ;
+        if ( n == 0 ) break ;
+        if ( n <  0 ) { op_free( of ) ; return nullptr ; }
+        // n = per-channel 16-bit samples
+        pcm.insert( pcm.end(), ( Uint8 * )buf, ( Uint8 * )buf + n * 4 /* 2ch * 2byte */ ) ;
+    }
+    op_free( of ) ;
+
+    // 48kHz → 44.1kHz にリサンプル (SDL_mixer は 44100 で open されてる前提)
+    SDL_AudioCVT cvt ;
+    if ( SDL_BuildAudioCVT( &cvt, AUDIO_S16LSB, 2, 48000,
+                                   AUDIO_S16LSB, 2, 44100 ) < 0 )
+    {
+        return nullptr ;
+    }
+    cvt.len = ( int )pcm.size() ;
+    std::vector<Uint8> tmp( ( size_t )( cvt.len * cvt.len_mult ) ) ;
+    std::memcpy( tmp.data(), pcm.data(), pcm.size() ) ;
+    cvt.buf = tmp.data() ;
+    if ( SDL_ConvertAudio( &cvt ) < 0 ) return nullptr ;
+    pcm.assign( tmp.begin(), tmp.begin() + cvt.len_cvt ) ;
+
+    Uint8 *out = ( Uint8 * )std::malloc( pcm.size() ) ;
+    if ( !out ) return nullptr ;
+    std::memcpy( out, pcm.data(), pcm.size() ) ;
+    *OutBytes = ( int )pcm.size() ;
+    return out ;
 }
 
 static int g_MixInited = 0 ;
@@ -181,6 +232,18 @@ extern int LoadSoundMem( const TCHAR *FileName, int BufferNum, int UnionHandle )
         raw = desktop_decode_ogg_to_pcm( path, &bytes ) ;
         if ( !raw ) {
             std::fprintf( stderr, "[DxSoundDesktop] OGG decode fail: %s\n", path ) ;
+            return -1 ;
+        }
+        c = Mix_QuickLoad_RAW( raw, ( Uint32 )bytes ) ;
+        if ( !c ) { std::free( raw ) ; return -1 ; }
+    }
+    else if ( desktop_path_is_opus( path ) )
+    {
+        // bundled opusfile で Opus → PCM 48kHz → 44.1kHz にリサンプル
+        int bytes = 0 ;
+        raw = desktop_decode_opus_to_pcm( path, &bytes ) ;
+        if ( !raw ) {
+            std::fprintf( stderr, "[DxSoundDesktop] Opus decode fail: %s\n", path ) ;
             return -1 ;
         }
         c = Mix_QuickLoad_RAW( raw, ( Uint32 )bytes ) ;

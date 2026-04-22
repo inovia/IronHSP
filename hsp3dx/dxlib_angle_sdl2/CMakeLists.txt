@@ -165,6 +165,13 @@ endif()
 # upstream from https://github.com/xiph/vorbis (BSD-3)
 add_subdirectory(extlib/libvorbis)
 
+# --- libopus バンドル (float-only, no SIMD) -------------------------------
+# upstream from https://github.com/xiph/opus (BSD-3)
+add_subdirectory(extlib/libopus)
+# --- opusfile バンドル (opus + ogg の高レベル wrapper、http は無効化) ----
+# upstream from https://github.com/xiph/opusfile (BSD-2)
+add_subdirectory(extlib/opusfile)
+
 # --- 共通: DxLib desktop 用コンパイル設定 ------------------------------
 function(dxlib_desktop_settings target)
     target_include_directories(${target} PRIVATE ${DXLIB_PORTABLE_DIR})
@@ -291,6 +298,8 @@ add_library(dxlib_portable_stage3 STATIC
 target_link_libraries(dxlib_portable_stage3 PUBLIC dx_zlib)
 # libogg / libvorbis / libvorbisfile を DxSoundDesktop.cpp の OGG decode で使う
 target_link_libraries(dxlib_portable_stage3 PUBLIC dx_vorbisfile)
+# opusfile を DxSoundDesktop.cpp の Opus decode で使う
+target_link_libraries(dxlib_portable_stage3 PUBLIC dx_opusfile)
 dxlib_desktop_settings(dxlib_portable_stage3)
 # lib 側は DxGateway.cpp の sound / movie / libpng/jpeg 部分を殺して
 # stub 未参照にする。user 側 exe はこれらを外して DxLib.h の宣言を通す。
