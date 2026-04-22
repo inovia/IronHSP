@@ -171,6 +171,125 @@ static int desktop_filter_process_in_place( int gh, int filterType, va_list ap )
         }
         break ;
     }
+    case DX_GRAPH_FILTER_GAUSS: {
+        // 引数: int PixelWidth (4/8/16), int Param (係数、通常 1000)
+        int pw = va_arg( ap, int ) ;
+        int param = va_arg( ap, int ) ;
+        (void)param;
+        int radius = pw > 0 ? pw / 2 : 1 ;
+        if ( radius < 1 ) radius = 1 ;
+        // separable Gaussian: σ = radius/2 相当で 1D kernel を作成
+        double sigma = radius * 0.5 ;
+        std::vector<float> kernel( 2 * radius + 1 ) ;
+        double sum = 0 ;
+        for ( int i = -radius ; i <= radius ; ++i ) {
+            double v = std::exp( -( i * i ) / ( 2.0 * sigma * sigma ) ) ;
+            kernel[ i + radius ] = ( float )v ;
+            sum += v ;
+        }
+        for ( float &v : kernel ) v = ( float )( v / sum ) ;
+
+        std::vector<unsigned char> tmp( ( size_t )w * h * 4 ) ;
+        // horizontal pass
+        for ( int y = 0 ; y < h ; ++y ) {
+            for ( int x = 0 ; x < w ; ++x ) {
+                float r = 0, g = 0, b = 0, a = 0 ;
+                for ( int k = -radius ; k <= radius ; ++k ) {
+                    int sx = x + k ; if ( sx < 0 ) sx = 0 ; if ( sx >= w ) sx = w - 1 ;
+                    const unsigned char *p = pixels + y * pitch + sx * 4 ;
+                    float kk = kernel[ k + radius ] ;
+                    b += p[0] * kk ; g += p[1] * kk ; r += p[2] * kk ; a += p[3] * kk ;
+                }
+                unsigned char *o = tmp.data() + ( ( size_t )y * w + x ) * 4 ;
+                o[0] = ( unsigned char )( b + 0.5f ) ; o[1] = ( unsigned char )( g + 0.5f ) ;
+                o[2] = ( unsigned char )( r + 0.5f ) ; o[3] = ( unsigned char )( a + 0.5f ) ;
+            }
+        }
+        // vertical pass → pixels に書き戻し
+        for ( int y = 0 ; y < h ; ++y ) {
+            for ( int x = 0 ; x < w ; ++x ) {
+                float r = 0, g = 0, b = 0, a = 0 ;
+                for ( int k = -radius ; k <= radius ; ++k ) {
+                    int sy = y + k ; if ( sy < 0 ) sy = 0 ; if ( sy >= h ) sy = h - 1 ;
+                    const unsigned char *p = tmp.data() + ( ( size_t )sy * w + x ) * 4 ;
+                    float kk = kernel[ k + radius ] ;
+                    b += p[0] * kk ; g += p[1] * kk ; r += p[2] * kk ; a += p[3] * kk ;
+                }
+                unsigned char *o = pixels + y * pitch + x * 4 ;
+                o[0] = ( unsigned char )( b + 0.5f ) ; o[1] = ( unsigned char )( g + 0.5f ) ;
+                o[2] = ( unsigned char )( r + 0.5f ) ; o[3] = ( unsigned char )( a + 0.5f ) ;
+            }
+        }
+        break ;
+    }
+    case DX_GRAPH_FILTER_LEVEL: {
+        // 引数: int MinIn, int MaxIn, double Gamma, int MinOut, int MaxOut
+        int mnIn  = va_arg( ap, int ) ;
+        int mxIn  = va_arg( ap, int ) ;
+        double gm = va_arg( ap, double ) ;
+        int mnOut = va_arg( ap, int ) ;
+        int mxOut = va_arg( ap, int ) ;
+        if ( mxIn == mnIn ) mxIn = mnIn + 1 ;
+        if ( gm < 0.01 ) gm = 1.0 ;
+        unsigned char lut[ 256 ] ;
+        for ( int i = 0 ; i < 256 ; ++i ) {
+            double t = ( double )( i - mnIn ) / ( mxIn - mnIn ) ;
+            if ( t < 0 ) t = 0 ; if ( t > 1 ) t = 1 ;
+            t = std::pow( t, 1.0 / gm ) ;
+            int out = ( int )( mnOut + t * ( mxOut - mnOut ) ) ;
+            if ( out < 0 ) out = 0 ; if ( out > 255 ) out = 255 ;
+            lut[ i ] = ( unsigned char )out ;
+        }
+        for ( int y = 0 ; y < h ; ++y ) {
+            unsigned char *row = pixels + y * pitch ;
+            for ( int x = 0 ; x < w ; ++x ) {
+                unsigned char *p = row + x * 4 ;
+                p[0] = lut[ p[0] ] ; p[1] = lut[ p[1] ] ; p[2] = lut[ p[2] ] ;
+            }
+        }
+        break ;
+    }
+    case DX_GRAPH_FILTER_GRADIENT_MAP: {
+        // 引数: int MapGrHandle (0..255 の 1D グラデーション画像、色マップ),
+        //        int Reverse (TRUE=右から)
+        int mapH = va_arg( ap, int ) ;
+        int reverse = va_arg( ap, int ) ;
+        // グラデーション画像を取得 (256 色テーブル化)
+        int mw = 0, mh = 0 ;
+        NS_GetGraphSize( mapH, &mw, &mh ) ;
+        if ( mw <= 0 ) break ;
+        int mpitch = 0 ; void *mdata = nullptr ; COLORDATA *mcd = nullptr ;
+        // 一旦 base を解放
+        NS_GraphUnLock( gh ) ;
+        if ( NS_GraphLock( mapH, &mpitch, &mdata, &mcd, FALSE ) != 0 ) {
+            NS_GraphLock( gh, &pitch, &data, &cd, FALSE ) ;
+            pixels = ( unsigned char * )data ;
+            break ;
+        }
+        // 256 バケットに compress (nearest)
+        unsigned char palette[ 256 ][ 4 ] ;
+        for ( int i = 0 ; i < 256 ; ++i ) {
+            int u = ( i * ( mw - 1 ) ) / 255 ;
+            if ( reverse ) u = mw - 1 - u ;
+            const unsigned char *mp = ( const unsigned char * )mdata + u * 4 ;
+            palette[ i ][ 0 ] = mp[ 0 ] ; palette[ i ][ 1 ] = mp[ 1 ] ;
+            palette[ i ][ 2 ] = mp[ 2 ] ; palette[ i ][ 3 ] = mp[ 3 ] ;
+        }
+        NS_GraphUnLock( mapH ) ;
+        // 再 lock
+        if ( NS_GraphLock( gh, &pitch, &data, &cd, FALSE ) != 0 ) return -1 ;
+        pixels = ( unsigned char * )data ;
+        for ( int y = 0 ; y < h ; ++y ) {
+            unsigned char *row = pixels + y * pitch ;
+            for ( int x = 0 ; x < w ; ++x ) {
+                unsigned char *p = row + x * 4 ;
+                int lum = ( p[0] * 29 + p[1] * 150 + p[2] * 77 ) >> 8 ;
+                p[0] = palette[ lum ][ 0 ] ; p[1] = palette[ lum ][ 1 ] ;
+                p[2] = palette[ lum ][ 2 ] ;
+            }
+        }
+        break ;
+    }
     case DX_GRAPH_FILTER_TWO_COLOR: {
         // 引数: int Threshold, int LowR, LowG, LowB, LowA, HighR, HighG, HighB, HighA
         int th = va_arg( ap, int ) ;
@@ -214,13 +333,100 @@ extern int GraphFilter( int GrHandle, int FilterType, ... )
     return r ;
 }
 
-// Src → Dst コピー + フィルタ。Dst が Src と同じサイズならまず copy、
-// その後 Dst を in-place 処理。
+// ----- BICUBIC / LANCZOS3 scaling helper (dst サイズ != src サイズ 対応) ----
+
+static inline float bicubic_weight( float t )
+{
+    // Catmull-Rom (a = -0.5) の bicubic カーネル
+    float at = t < 0 ? -t : t ;
+    if ( at < 1.0f ) return 1.5f * at * at * at - 2.5f * at * at + 1.0f ;
+    if ( at < 2.0f ) return -0.5f * at * at * at + 2.5f * at * at - 4.0f * at + 2.0f ;
+    return 0 ;
+}
+
+static inline float lanczos3_weight( float t )
+{
+    if ( t == 0 ) return 1.0f ;
+    if ( t < 0 ) t = -t ;
+    if ( t >= 3.0f ) return 0 ;
+    float px = 3.14159265f * t ;
+    return 3.0f * std::sin( px ) * std::sin( px / 3.0f ) / ( px * px ) ;
+}
+
+static int desktop_resample(
+    const unsigned char *src, int srcPitch, int srcW, int srcH,
+          unsigned char *dst, int dstPitch, int dstW, int dstH,
+    float (*kern)( float ), int support )
+{
+    float sx_ratio = ( float )srcW / dstW ;
+    float sy_ratio = ( float )srcH / dstH ;
+    for ( int y = 0 ; y < dstH ; ++y )
+    {
+        float syf = ( y + 0.5f ) * sy_ratio - 0.5f ;
+        int   syi = ( int )std::floor( syf ) ;
+        for ( int x = 0 ; x < dstW ; ++x )
+        {
+            float sxf = ( x + 0.5f ) * sx_ratio - 0.5f ;
+            int   sxi = ( int )std::floor( sxf ) ;
+            float acc[ 4 ] = { 0, 0, 0, 0 } ;
+            float wsum = 0 ;
+            for ( int j = -support + 1 ; j <= support ; ++j )
+            {
+                int yy = syi + j ; if ( yy < 0 ) yy = 0 ; if ( yy >= srcH ) yy = srcH - 1 ;
+                float wy = kern( syf - ( syi + j ) ) ;
+                for ( int i = -support + 1 ; i <= support ; ++i )
+                {
+                    int xx = sxi + i ; if ( xx < 0 ) xx = 0 ; if ( xx >= srcW ) xx = srcW - 1 ;
+                    float wx = kern( sxf - ( sxi + i ) ) ;
+                    float w = wx * wy ;
+                    const unsigned char *p = src + yy * srcPitch + xx * 4 ;
+                    acc[ 0 ] += p[0] * w ; acc[ 1 ] += p[1] * w ;
+                    acc[ 2 ] += p[2] * w ; acc[ 3 ] += p[3] * w ;
+                    wsum += w ;
+                }
+            }
+            if ( wsum <= 0 ) wsum = 1 ;
+            unsigned char *o = dst + y * dstPitch + x * 4 ;
+            for ( int c = 0 ; c < 4 ; ++c ) {
+                int v = ( int )( acc[ c ] / wsum + 0.5f ) ;
+                if ( v < 0 ) v = 0 ; if ( v > 255 ) v = 255 ;
+                o[ c ] = ( unsigned char )v ;
+            }
+        }
+    }
+    return 0 ;
+}
+
+// Src → Dst コピー + フィルタ。
+// BICUBIC / LANCZOS3 は Src != Dst サイズで resample、それ以外は同サイズ in-place。
 extern int GraphFilterBlt( int SrcGrHandle, int DestGrHandle, int FilterType, ... )
 {
     int sw = 0, sh = 0, dw = 0, dh = 0 ;
     NS_GetGraphSize( SrcGrHandle, &sw, &sh ) ;
     NS_GetGraphSize( DestGrHandle, &dw, &dh ) ;
+
+    // BICUBIC / LANCZOS3 は resample フィルタ (サイズ変更可)
+    if ( FilterType == DX_GRAPH_FILTER_BICUBIC_SCALE ||
+         FilterType == DX_GRAPH_FILTER_LANCZOS3_SCALE )
+    {
+        if ( sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0 ) return -1 ;
+        int srcP = 0 ; void *srcD = nullptr ; COLORDATA *srcCD = nullptr ;
+        if ( NS_GraphLock( SrcGrHandle, &srcP, &srcD, &srcCD, FALSE ) != 0 ) return -1 ;
+        std::vector<unsigned char> src_copy( ( size_t )srcP * sh ) ;
+        std::memcpy( src_copy.data(), srcD, src_copy.size() ) ;
+        NS_GraphUnLock( SrcGrHandle ) ;
+
+        int dstP = 0 ; void *dstD = nullptr ; COLORDATA *dstCD = nullptr ;
+        if ( NS_GraphLock( DestGrHandle, &dstP, &dstD, &dstCD, FALSE ) != 0 ) return -1 ;
+        float (*kern)( float ) = ( FilterType == DX_GRAPH_FILTER_BICUBIC_SCALE ) ? bicubic_weight : lanczos3_weight ;
+        int support = ( FilterType == DX_GRAPH_FILTER_BICUBIC_SCALE ) ? 2 : 3 ;
+        desktop_resample( src_copy.data(), srcP, sw, sh,
+                          ( unsigned char * )dstD, dstP, dw, dh,
+                          kern, support ) ;
+        NS_GraphUnLock( DestGrHandle ) ;
+        return 0 ;
+    }
+
     if ( sw != dw || sh != dh ) {
         std::fprintf( stderr, "[DxGraphicsFilterDesktop] GraphFilterBlt: size mismatch (src=%dx%d dst=%dx%d)\n", sw, sh, dw, dh ) ;
         return -1 ;
