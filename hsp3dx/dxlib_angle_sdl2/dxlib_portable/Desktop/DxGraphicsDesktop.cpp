@@ -1401,6 +1401,10 @@ extern int Graphics_Hardware_Light_SetEnable_PF( int index, int Flag )
     return 0 ;
 }
 
+// Toon gradation 用に directional light 0 の方向を保存 (光源の位置ベクトル、
+// GL 規約: 点から光源へのベクトル = -Direction)
+float g_MainLightDirX = 0.0f, g_MainLightDirY = -1.0f, g_MainLightDirZ = 0.0f ;
+
 extern int Graphics_Hardware_Light_SetState_PF( int index, LIGHTPARAM *p )
 {
     if ( !p || index < 0 || index >= 8 ) return -1 ;
@@ -1420,6 +1424,12 @@ extern int Graphics_Hardware_Light_SetState_PF( int index, LIGHTPARAM *p )
         // GL は「光線の方向」ではなく「光源のある方向」を渡す必要あり (方向反転)
         float dir[4] = { -p->Direction.x, -p->Direction.y, -p->Direction.z, 0.0f } ;
         glLightfv( lg, GL_POSITION, dir ) ;
+        // Toon: 主光源 (index 0) のみ保存
+        if ( index == 0 ) {
+            g_MainLightDirX = -p->Direction.x ;
+            g_MainLightDirY = -p->Direction.y ;
+            g_MainLightDirZ = -p->Direction.z ;
+        }
     } else {
         float pos[4] = { p->Position.x, p->Position.y, p->Position.z, 1.0f } ;
         glLightfv( lg, GL_POSITION, pos ) ;

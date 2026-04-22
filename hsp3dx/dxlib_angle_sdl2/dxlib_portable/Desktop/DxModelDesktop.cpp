@@ -421,6 +421,51 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
 
     desktop_mv1_load_mt_funcs() ;
 
+    // Toon 用の情報 (Material Type 1/2 = DX_MATERIAL_TYPE_TOON / TOON_2)
+    bool    isToon    = false ;
+    int     toonRampGraph = -1 ;   // Diffuse ramp の GraphHandle (ModelBase->Texture[] より引く)
+    if ( Mesh->Material && Mesh->Material->BaseData ) {
+        int mtype = Mesh->Material->BaseData->Type ;
+        if ( mtype == 1 /*DX_MATERIAL_TYPE_TOON*/ || mtype == 2 /*TOON_2*/ ) {
+            isToon = true ;
+            int texIdx = Mesh->Material->BaseData->DiffuseGradTexture ;
+            if ( texIdx >= 0 && Mesh->Container && Mesh->Container->BaseData &&
+                 Mesh->Container->BaseData->Container ) {
+                MV1_MODEL_BASE *modelBase = Mesh->Container->BaseData->Container ;
+                if ( texIdx < modelBase->TextureNum && modelBase->Texture ) {
+                    toonRampGraph = modelBase->Texture[ texIdx ].GraphHandle ;
+                }
+            }
+        }
+    }
+
+    // Toon ramp LUT を CPU 側で作成 (テクスチャを GraphLock → 横軸 [0,1] の色に
+    // サンプリングして 256 段階の ARGB LUT を作る)。このループ内で 1 回だけ。
+    unsigned char toonRampLUT[ 256 ][ 4 ] = {} ;
+    bool toonRampReady = false ;
+    if ( isToon && toonRampGraph > 0 ) {
+        int rw = 0, rh = 0 ;
+        NS_GetGraphSize( toonRampGraph, &rw, &rh ) ;
+        if ( rw > 0 && rh > 0 ) {
+            int rp = 0 ; void *rd = nullptr ; COLORDATA *rcd = nullptr ;
+            if ( NS_GraphLock( toonRampGraph, &rp, &rd, &rcd, FALSE ) == 0 ) {
+                const unsigned char *pix = ( const unsigned char * )rd ;
+                // 縦方向は中央行を使う (ramp は通常 1 行)
+                int y0 = rh / 2 ;
+                for ( int i = 0 ; i < 256 ; ++i ) {
+                    int x = ( i * ( rw - 1 ) ) / 255 ;
+                    const unsigned char *p = pix + y0 * rp + x * 4 ;
+                    toonRampLUT[ i ][ 0 ] = p[ 0 ] ;
+                    toonRampLUT[ i ][ 1 ] = p[ 1 ] ;
+                    toonRampLUT[ i ][ 2 ] = p[ 2 ] ;
+                    toonRampLUT[ i ][ 3 ] = p[ 3 ] ;
+                }
+                NS_GraphUnLock( toonRampGraph ) ;
+                toonRampReady = true ;
+            }
+        }
+    }
+
     // マテリアルから Diffuse と DiffuseLayer[0..N-1] (multi-texture) を取得
     GLubyte mR = 200, mG = 200, mB = 200, mA = 255 ;
     GLuint texId  = 0 ;        // layer 0 (メイン texture、multi-tex 無し経路と互換)
@@ -468,6 +513,14 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
             if ( power > 128.0f ) power = 128.0f ;
             glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, power ) ;
         }
+    }
+
+    // Toon 材質はライティングを自前で (per-vertex dot + ramp)。
+    // GL_LIGHTING を無効化し、描画後に復元する。
+    GLboolean prevLighting = GL_FALSE ;
+    if ( isToon ) {
+        prevLighting = glIsEnabled( GL_LIGHTING ) ;
+        if ( prevLighting ) glDisable( GL_LIGHTING ) ;
     }
 
     // BackCulling
@@ -544,7 +597,37 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
                 }
 #endif
             }
-            if ( useVertexColor && mv ) {
+            float p[ 3 ], n[ 3 ] ;
+            desktop_mv1_get_vertex_pos( Mesh, TList, vi, p, n ) ;
+
+            if ( isToon ) {
+                // Toon: 主光源ベクトルとの dot product → ramp サンプリング → glColor
+                extern float g_MainLightDirX, g_MainLightDirY, g_MainLightDirZ ;
+                float lx = g_MainLightDirX, ly = g_MainLightDirY, lz = g_MainLightDirZ ;
+                float dot = n[0] * lx + n[1] * ly + n[2] * lz ;
+                if ( dot < 0 ) dot = 0 ;
+                if ( dot > 1 ) dot = 1 ;
+                int lutIdx = ( int )( dot * 255.0f + 0.5f ) ;
+                if ( lutIdx < 0 ) lutIdx = 0 ; if ( lutIdx > 255 ) lutIdx = 255 ;
+                unsigned char rR, rG, rB ;
+                if ( toonRampReady ) {
+                    // ramp は BGRA バイト順 (DxLib ARGB8)
+                    rB = toonRampLUT[ lutIdx ][ 0 ] ;
+                    rG = toonRampLUT[ lutIdx ][ 1 ] ;
+                    rR = toonRampLUT[ lutIdx ][ 2 ] ;
+                } else {
+                    // ramp 無し: 3 段階量子化で toon-like
+                    float q = ( dot < 0.3f ) ? 0.3f : ( ( dot < 0.7f ) ? 0.65f : 1.0f ) ;
+                    rR = ( unsigned char )( mR * q ) ;
+                    rG = ( unsigned char )( mG * q ) ;
+                    rB = ( unsigned char )( mB * q ) ;
+                }
+                // マテリアル diffuse と乗算
+                unsigned char cR = ( rR * mR ) / 255 ;
+                unsigned char cG = ( rG * mG ) / 255 ;
+                unsigned char cB = ( rB * mB ) / 255 ;
+                glColor4ub( cR, cG, cB, mA ) ;
+            } else if ( useVertexColor && mv ) {
                 // COLOR_U8 は b,g,r,a 順 (DxLib 内部)
                 glColor4ub( mv->DiffuseColor.r, mv->DiffuseColor.g,
                             mv->DiffuseColor.b, mv->DiffuseColor.a ) ;
@@ -552,8 +635,6 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
                 glColor4ub( mR, mG, mB, mA ) ;
             }
 
-            float p[ 3 ], n[ 3 ] ;
-            desktop_mv1_get_vertex_pos( Mesh, TList, vi, p, n ) ;
             glNormal3f( n[ 0 ], n[ 1 ], n[ 2 ] ) ;
             glVertex3f( p[ 0 ], p[ 1 ], p[ 2 ] ) ;
         }
@@ -574,6 +655,9 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
         glDisable( GL_TEXTURE_2D ) ;
     }
 #endif
+
+    // Toon で GL_LIGHTING を無効化した場合、復元
+    if ( isToon && prevLighting ) glEnable( GL_LIGHTING ) ;
 }
 
 extern void MV1_DrawMesh_PF( MV1_MESH *Mesh, int TriangleListIndex )
