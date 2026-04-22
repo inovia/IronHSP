@@ -224,6 +224,13 @@ extern int Graphics_Hardware_Initialize_PF( void )
     // NS_DxLib_Init ですでに window/context は作られている想定。
     // ここでは GL 側の追加セットアップを行うべきだが、Stage 6 では何もしない。
     std::fprintf( stderr, "[DxLib Desktop] Graphics_Hardware_Initialize_PF\n" ) ;
+
+    // L1: DxLib Shader API compat。Graphics_Shader_CreateHandle() が
+    // UseShader FALSE で失敗するのを避けるため TRUE にする。
+    // ただし Graphics_Hardware_Shader_Create_PF と Draw*PrimitiveToShader_PF は
+    // 全て no-op stub のままなので、shader を使った描画は無効化される
+    // (LoadVertexShader は成功するが SetUseVertexShader 後の描画は fixed-function)。
+    GSYS.HardInfo.UseShader   = TRUE ;
     return 0 ;
 }
 
