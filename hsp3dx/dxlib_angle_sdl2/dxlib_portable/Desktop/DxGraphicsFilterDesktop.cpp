@@ -311,6 +311,133 @@ static int desktop_filter_process_in_place( int gh, int filterType, va_list ap )
         }
         break ;
     }
+    case DX_GRAPH_FILTER_PREMUL_ALPHA:
+    case DX_GRAPH_FILTER_INTERP_ALPHA: {
+        // PREMUL_ALPHA: 通常 alpha → 乗算済みα (RGB × alpha/255)
+        // INTERP_ALPHA: 乗算済み → 通常 (RGB / (alpha/255))
+        bool toPremul = ( filterType == DX_GRAPH_FILTER_PREMUL_ALPHA ) ;
+        for ( int y = 0 ; y < h ; ++y ) {
+            unsigned char *row = pixels + y * pitch ;
+            for ( int x = 0 ; x < w ; ++x ) {
+                unsigned char *p = row + x * 4 ;
+                int a = p[ 3 ] ;
+                if ( toPremul ) {
+                    p[ 0 ] = ( unsigned char )( p[ 0 ] * a / 255 ) ;
+                    p[ 1 ] = ( unsigned char )( p[ 1 ] * a / 255 ) ;
+                    p[ 2 ] = ( unsigned char )( p[ 2 ] * a / 255 ) ;
+                } else if ( a > 0 ) {
+                    int b = p[ 0 ] * 255 / a ; if ( b > 255 ) b = 255 ; p[ 0 ] = ( unsigned char )b ;
+                    int g = p[ 1 ] * 255 / a ; if ( g > 255 ) g = 255 ; p[ 1 ] = ( unsigned char )g ;
+                    int r = p[ 2 ] * 255 / a ; if ( r > 255 ) r = 255 ; p[ 2 ] = ( unsigned char )r ;
+                }
+            }
+        }
+        break ;
+    }
+    case DX_GRAPH_FILTER_YUV_TO_RGB:
+    case DX_GRAPH_FILTER_YUV_TO_RGB_RRA: {
+        // BGRA で解釈されている BASEIMAGE を (Y, U, V, _) と再解釈して RGB に変換。
+        // RRA は R/R/A として 2 成分画像に変換 (B チャンネルを A として扱う)。
+        bool rra = ( filterType == DX_GRAPH_FILTER_YUV_TO_RGB_RRA ) ;
+        for ( int y = 0 ; y < h ; ++y ) {
+            unsigned char *row = pixels + y * pitch ;
+            for ( int x = 0 ; x < w ; ++x ) {
+                unsigned char *p = row + x * 4 ;
+                // B=V, G=U, R=Y の想定 (DxLib 内部 BGRA で格納)
+                int Y = p[ 2 ], U = p[ 1 ] - 128, V = p[ 0 ] - 128 ;
+                int R = Y + ( ( 91881 * V ) >> 16 ) ;
+                int G = Y - ( ( 22554 * U + 46802 * V ) >> 16 ) ;
+                int B = Y + ( (116130 * U ) >> 16 ) ;
+                if ( R < 0 ) R = 0 ; if ( R > 255 ) R = 255 ;
+                if ( G < 0 ) G = 0 ; if ( G > 255 ) G = 255 ;
+                if ( B < 0 ) B = 0 ; if ( B > 255 ) B = 255 ;
+                p[ 0 ] = ( unsigned char )B ;
+                p[ 1 ] = ( unsigned char )G ;
+                p[ 2 ] = ( unsigned char )R ;
+                if ( rra ) p[ 3 ] = ( unsigned char )R ;  // alpha = R 成分
+            }
+        }
+        break ;
+    }
+    case DX_GRAPH_FILTER_REPLACEMENT: {
+        // 引数: int TargetR, int TargetG, int TargetB, int TargetA,
+        //        int NewR, int NewG, int NewB, int NewA
+        int tR = va_arg( ap, int ), tG = va_arg( ap, int ), tB = va_arg( ap, int ), tA = va_arg( ap, int ) ;
+        int nR = va_arg( ap, int ), nG = va_arg( ap, int ), nB = va_arg( ap, int ), nA = va_arg( ap, int ) ;
+        for ( int y = 0 ; y < h ; ++y ) {
+            unsigned char *row = pixels + y * pitch ;
+            for ( int x = 0 ; x < w ; ++x ) {
+                unsigned char *p = row + x * 4 ;
+                if ( p[ 0 ] == tB && p[ 1 ] == tG && p[ 2 ] == tR && p[ 3 ] == tA ) {
+                    p[ 0 ] = ( unsigned char )nB ; p[ 1 ] = ( unsigned char )nG ;
+                    p[ 2 ] = ( unsigned char )nR ; p[ 3 ] = ( unsigned char )nA ;
+                }
+            }
+        }
+        break ;
+    }
+    case DX_GRAPH_FILTER_FLOAT_COLOR_SCALE: {
+        // 引数: float SclR, SclG, SclB, SclA
+        float sR = ( float )va_arg( ap, double ) ;
+        float sG = ( float )va_arg( ap, double ) ;
+        float sB = ( float )va_arg( ap, double ) ;
+        float sA = ( float )va_arg( ap, double ) ;
+        for ( int y = 0 ; y < h ; ++y ) {
+            unsigned char *row = pixels + y * pitch ;
+            for ( int x = 0 ; x < w ; ++x ) {
+                unsigned char *p = row + x * 4 ;
+                int b = ( int )( p[ 0 ] * sB ) ; if ( b < 0 ) b = 0 ; if ( b > 255 ) b = 255 ;
+                int g = ( int )( p[ 1 ] * sG ) ; if ( g < 0 ) g = 0 ; if ( g > 255 ) g = 255 ;
+                int r = ( int )( p[ 2 ] * sR ) ; if ( r < 0 ) r = 0 ; if ( r > 255 ) r = 255 ;
+                int a = ( int )( p[ 3 ] * sA ) ; if ( a < 0 ) a = 0 ; if ( a > 255 ) a = 255 ;
+                p[ 0 ] = ( unsigned char )b ; p[ 1 ] = ( unsigned char )g ;
+                p[ 2 ] = ( unsigned char )r ; p[ 3 ] = ( unsigned char )a ;
+            }
+        }
+        break ;
+    }
+    case DX_GRAPH_FILTER_SSAO: {
+        // Screen-Space Ambient Occlusion: 本来は depth buffer を要するシェーダ
+        // 処理。CPU 上で近似として、輝度に基づく局所暗化を施す。
+        // 引数: int Radius, float DepthRange, float OcclusionStrength
+        int   radius = va_arg( ap, int ) ;
+        double dpr   = va_arg( ap, double ) ;
+        double stren = va_arg( ap, double ) ;
+        (void)dpr; (void)stren;
+        if ( radius < 1 ) radius = 2 ;
+        // 簡易 SSAO: 近傍ピクセルとの輝度差から陰影を生成
+        std::vector<unsigned char> src( ( size_t )w * h * 4 ) ;
+        for ( int y = 0 ; y < h ; ++y ) std::memcpy( &src[ ( size_t )y * w * 4 ], pixels + y * pitch, ( size_t )w * 4 ) ;
+        for ( int y = 0 ; y < h ; ++y ) {
+            for ( int x = 0 ; x < w ; ++x ) {
+                const unsigned char *p = &src[ ( ( size_t )y * w + x ) * 4 ] ;
+                int lum = ( p[ 0 ] * 29 + p[ 1 ] * 150 + p[ 2 ] * 77 ) >> 8 ;
+                int darker = 0 ;
+                int samples = 0 ;
+                for ( int dy = -radius ; dy <= radius ; dy += radius ) {
+                    for ( int dx = -radius ; dx <= radius ; dx += radius ) {
+                        if ( dx == 0 && dy == 0 ) continue ;
+                        int nx = x + dx, ny = y + dy ;
+                        if ( nx < 0 ) nx = 0 ; if ( nx >= w ) nx = w - 1 ;
+                        if ( ny < 0 ) ny = 0 ; if ( ny >= h ) ny = h - 1 ;
+                        const unsigned char *q = &src[ ( ( size_t )ny * w + nx ) * 4 ] ;
+                        int qlum = ( q[ 0 ] * 29 + q[ 1 ] * 150 + q[ 2 ] * 77 ) >> 8 ;
+                        if ( qlum < lum ) darker++ ;
+                        samples++ ;
+                    }
+                }
+                float occ = 1.0f - ( darker * 0.5f / samples ) ;
+                unsigned char *o = pixels + y * pitch + x * 4 ;
+                for ( int c = 0 ; c < 3 ; ++c ) {
+                    int v = ( int )( p[ c ] * occ ) ;
+                    if ( v < 0 ) v = 0 ; if ( v > 255 ) v = 255 ;
+                    o[ c ] = ( unsigned char )v ;
+                }
+                o[ 3 ] = p[ 3 ] ;
+            }
+        }
+        break ;
+    }
     default:
         // 未対応 FilterType: 何もしない (no-op) + ログ
         std::fprintf( stderr, "[DxGraphicsFilterDesktop] unsupported FilterType %d\n", filterType ) ;
