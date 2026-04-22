@@ -176,6 +176,10 @@ add_subdirectory(extlib/opusfile)
 # upstream from https://github.com/xiph/theora (BSD-3)
 add_subdirectory(extlib/libtheora)
 
+# --- libtiff (minimal: LZW/PackBits/Deflate/CCITT/Thunder/NeXT/LogLuv) ---
+# upstream from https://gitlab.com/libtiff/libtiff (libtiff license)
+add_subdirectory(extlib/libtiff)
+
 # --- 共通: DxLib desktop 用コンパイル設定 ------------------------------
 function(dxlib_desktop_settings target)
     target_include_directories(${target} PRIVATE ${DXLIB_PORTABLE_DIR})
@@ -201,12 +205,11 @@ function(dxlib_desktop_settings target)
         # DX_NON_INPUT=1  ← Stage 16 で input 有効化
         DX_NON_KEYEX=1       # 高機能キー入力は未対応
         DX_NON_INPUTSTRING=1 # 文字列入力 API は未対応
-        DX_NON_TIFFREAD=1
-        # DX_NON_JPEGREAD=1 / DX_NON_PNGREAD=1 は lib 側のみで付与する
-        # (user 側の DxLib::LoadGraph 呼び出しはそのまま通し、stb_image 実装へ)
-        DX_NON_OGGVORBIS=1
-        DX_NON_OGGTHEORA=1
-        DX_NON_OPUS=1
+        # DX_NON_TIFFREAD   : D5 で bundled libtiff により有効化
+        # DX_NON_OGGVORBIS  : D2 で bundled libogg+libvorbis により有効化
+        # DX_NON_OGGTHEORA  : D4 で bundled libtheora により有効化
+        # DX_NON_OPUS       : D3 で bundled libopus+opusfile により有効化
+        # DX_NON_JPEGREAD / DX_NON_PNGREAD は lib 側のみで付与 (stb_image 経路)
     )
     if(MSVC)
         target_compile_options(${target} PRIVATE
@@ -308,6 +311,8 @@ target_link_libraries(dxlib_portable_stage3 PUBLIC dx_vorbisfile)
 target_link_libraries(dxlib_portable_stage3 PUBLIC dx_opusfile)
 # libtheoradec を DxMovieTheoraDesktop.cpp の Theora decode で使う
 target_link_libraries(dxlib_portable_stage3 PUBLIC dx_theoradec)
+# libtiff を DxBaseImage.cpp の LoadTiffImage で使う
+target_link_libraries(dxlib_portable_stage3 PUBLIC dx_tiff)
 dxlib_desktop_settings(dxlib_portable_stage3)
 # lib 側は DxGateway.cpp の sound / movie / libpng/jpeg 部分を殺して
 # stub 未参照にする。user 側 exe はこれらを外して DxLib.h の宣言を通す。
