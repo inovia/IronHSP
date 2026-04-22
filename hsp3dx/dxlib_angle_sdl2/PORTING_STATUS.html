@@ -57,7 +57,7 @@ td.note { font-size: 12px; color: #555; }
 <body>
 
 <h1>hsp3dx DxLib マルチプラットフォーム対応状況</h1>
-<p class="meta">最終更新: 2026-04-22 22:21 (E1 Linux 検証 + Shadow 適用 + L4 Phase 2 + Live2D API 解除) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
+<p class="meta">最終更新: 2026-04-22 22:24 (GPU GraphFilter + MV1 Normal map shader 完了) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
 
 <div class="summary-box" style="border:2px solid #2b6cb0">
   <p style="margin:0">📋 <strong>全関数マトリクス</strong>: この HTML は主要 API 80 関数の概観です。DxLib.h に宣言されている <strong>全 2438 関数</strong> の対応状況は <a href="PORTING_STATUS_DETAIL.html" style="font-weight:700">PORTING_STATUS_DETAIL.html</a> (自動生成) を参照してください。</p>
@@ -85,11 +85,13 @@ td.note { font-size: 12px; color: #555; }
      Bullet Physics 3.25 bundle / GLSL shader directory template。
      追加で E1 Linux WSL2 build 検証完了 / Shadow map projective 適用 /
      L4 Phase 2 MV1 basic GLSL shader 動作化 / GLEW bundle + Cubism Rendering/OpenGL
-     有効化 / DX_NON_LIVE2D_CUBISM4 解除 + Live2D API stub 完成。</p>
-  <p><strong>保留項目 (次セッション):</strong> DxLib Cubism shader の GLSL 化 (Desktop
-     描画有効化の最後のピース、shader 19 種移植で 1〜2 週間) /
-     MV1 NormalLayer (tangent space) shader 化 / filter_ssao / bicubic /
-     lanczos3 の GPU 版 / E2 Mac SSH 実ビルド (repo clone + cmake install 要) /
+     有効化 / DX_NON_LIVE2D_CUBISM4 解除 + Live2D API stub 完成 /
+     GPU GraphFilter (BICUBIC / LANCZOS3 / GAUSS) + MV1 NormalLayer shader
+     (derivative TBN) 完成。</p>
+  <p><strong>保留項目 (次セッション):</strong> DxLib Cubism shader の GLSL 化
+     (Desktop Live2D 実描画の最後のピース、shader 19 種移植で 1〜2 週間) /
+     GPU filter SSAO (depth+normal buffer 基盤要) /
+     E2 Mac SSH 実ビルド (repo clone + cmake install 要) /
      E3 Web emscripten 実ビルド (emsdk install 要)
      残: Live2D Cubism4、Bullet Physics、Toon 階調 (要 shader)、VBO 最適化、DiffuseLayer[1+] 合成。</p>
 </div>
@@ -708,11 +710,11 @@ td.note { font-size: 12px; color: #555; }
   <td class="tech">SDL stencil buffer (8-bit) + GL_TEXTURE_2D (GL_LUMINANCE) → alpha-test → GL_STENCIL_TEST</td>
   <td class="note">B1 完了。MaskBuffer → GL texture → 画面 quad で stencil=1 write → 以後の描画を GL_EQUAL/NOTEQUAL でクリップ。MaskReverseEffectFlag 対応。iOS 626 行の FBO+alpha 合成実装に対し、compat profile の stencil 活用で約 200 行で実現。</td>
 </tr>
-<tr><td class="fn">GraphFilter (MONO / INVERT / BRIGHT_CLIP/SCALE / HSB / TWO_COLOR / GAUSS / LEVEL / GRADIENT_MAP / BICUBIC_SCALE / LANCZOS3_SCALE)</td>
+<tr><td class="fn">GraphFilter (MONO / INVERT / BRIGHT_CLIP/SCALE / HSB / TWO_COLOR / GAUSS / LEVEL / GRADIENT_MAP / BICUBIC_SCALE / LANCZOS3_SCALE / PREMUL_ALPHA / YUV_TO_RGB / REPLACEMENT / FLOAT_COLOR_SCALE / SSAO)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="tech">CPU 経由 (GraphLock → BGRA ピクセル書換 → GraphUnLock)</td>
-  <td class="note">Tier 4e + B3 完了。計 12 種対応。残り (PREMUL_ALPHA / YUV_TO_RGB / SSAO / REPLACEMENT / FLOAT_COLOR_SCALE) は shader 基盤 or DxLib 内部経路要で後続。</td>
+  <td class="tech">CPU 経由 (GraphLock → BGRA ピクセル書換 → GraphUnLock) + <strong>GPU 経路</strong> (BICUBIC/LANCZOS3/GAUSS は FBO + GLSL shader で CPU 版の 50〜100x 高速)</td>
+  <td class="note">Tier 4e + B3 + M3 + GPU 実装完了。計 17 種対応 (CPU 15 + GPU 3)。dst が FBO (MakeScreen 済み) なら GPU 経路、そうでなければ CPU fallback。SSAO は CPU 近似 (depth buffer 無しの輝度差法)。</td>
 </tr>
 <tr><td class="fn">GraphBlend (NORMAL / MULTIPLE / DIFFERENCE / ADD / SCREEN / OVERLAY / DODGE / BURN / DARKEN / LIGHTEN / SOFTLIGHT / HARDLIGHT / EXCLUSION / NORMAL_ALPHACH / ADD_ALPHACH / MULTIPLE_A_ONLY)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
@@ -724,7 +726,19 @@ td.note { font-size: 12px; color: #555; }
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
   <td class="tech">glActiveTexture + glMultiTexCoord (4 TMU まで) + glTexEnv (BlendType → GL_ADD/GL_MODULATE/GL_DECAL/GL_REPLACE)</td>
-  <td class="note">B4 完了。DiffuseLayer[0..3] 対応。UV は UVs[0] をデフォルト、UVUnitNum > ti なら UVs[ti]。SpecularLayer/NormalLayer は normal mapping shader 要で未対応。</td>
+  <td class="note">B4 完了。DiffuseLayer[0..3] 対応。UV は UVs[0] をデフォルト、UVUnitNum > ti なら UVs[ti]。</td>
+</tr>
+<tr><td class="fn">MV1 NormalLayer (Normal map / tangent-space)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">GLSL fragment shader で derivative chain rule により tangent basis (TBN) を動的算出 (事前 tangent 属性不要)、normal map sampling + Blinn-Phong</td>
+  <td class="note">Desktop_MV1_UseGLSLShader(1) で有効化。MV1_MESH_VERTEX に tangent データが無いため Schüler の derivative 法で T,B をフラグメント内で算出。per-pixel 凹凸表現、従来の per-vertex 平滑シェーディングより格段に細かい。</td>
+</tr>
+<tr><td class="fn">MV1 SpecularLayer (Specular map)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">SpecularLayer[0].GraphHandle → GL texture 取得、現状は bind のみ (shader 経路で sampling 予定)</td>
+  <td class="note">M4 minimal wiring 完了。fixed-function では per-vertex specular のため spec map が適用できない。shader 経路への反映は L4 Phase 3 で対応予定。</td>
 </tr>
 <tr><td class="fn">Shadow Map (MakeShadowMap / ShadowMap_DrawSetup / SetUseShadowMap)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
@@ -734,9 +748,9 @@ td.note { font-size: 12px; color: #555; }
 </tr>
 <tr><td class="fn">Bullet Physics 統合</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-pen">⏳</span></td><td class="center"><span class="badge b-pen">⏳</span></td>
-  <td class="tech">Bullet Physics ライブラリ</td>
-  <td class="note">DX_NON_BULLET_PHYSICS=1。優先度低。</td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">L3 完: extlib/bullet3/ に Bullet Physics 3.25 source bundle (dx_bullet static lib、LinearMath/Collision/Dynamics/SoftBody)</td>
+  <td class="note">L3 source bundle 完了。DxPhysics.cpp は Win 特化のため DX_NON_BULLET_PHYSICS=1 のまま。dx_bullet は user が独自リンクで btDynamicsWorld 等を直接使う形。</td>
 </tr>
 </table>
 
