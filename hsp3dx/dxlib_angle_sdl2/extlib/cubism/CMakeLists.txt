@@ -43,10 +43,11 @@ endif()
 file(GLOB_RECURSE CUBISM_FW_SRC CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/framework/*.cpp"
 )
-# Rendering backend は全て除外 (core logic のみ build)
-# OpenGL backend は GLEW 依存、D3D/Metal/Vulkan は別 API 要求
-# 描画は MV1 draw 側との自前統合で対応予定 (L2 infrastructure のみ)
-list(FILTER CUBISM_FW_SRC EXCLUDE REGEX "Rendering/")
+# D3D / Metal / Vulkan の rendering backend は除外、OpenGL は GLEW 付きで有効化
+list(FILTER CUBISM_FW_SRC EXCLUDE REGEX "Rendering/D3D11/")
+list(FILTER CUBISM_FW_SRC EXCLUDE REGEX "Rendering/D3D9/")
+list(FILTER CUBISM_FW_SRC EXCLUDE REGEX "Rendering/Metal/")
+list(FILTER CUBISM_FW_SRC EXCLUDE REGEX "Rendering/Vulkan/")
 
 add_library(dx_cubism_framework STATIC ${CUBISM_FW_SRC})
 target_include_directories(dx_cubism_framework PUBLIC
@@ -54,6 +55,10 @@ target_include_directories(dx_cubism_framework PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 target_link_libraries(dx_cubism_framework PUBLIC dx_cubism_core)
+# OpenGL backend を有効化する場合 GLEW 必須
+if(TARGET dx_glew)
+    target_link_libraries(dx_cubism_framework PUBLIC dx_glew)
+endif()
 target_compile_definitions(dx_cubism_framework PUBLIC
     # OpenGL backend を使用 (platform 別に正しいマクロを選択)
     #   CSM_TARGET_WIN_GL  — Windows MSVC 専用 (_snprintf_s 等を使う)

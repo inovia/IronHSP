@@ -180,6 +180,9 @@ add_subdirectory(extlib/libtheora)
 # upstream from https://gitlab.com/libtiff/libtiff (libtiff license)
 add_subdirectory(extlib/libtiff)
 
+# --- GLEW (GL extension loader, Live2D Rendering/OpenGL 用) ---------------
+add_subdirectory(extlib/glew)
+
 # --- Live2D Cubism SDK (L2): Core (prebuilt) + Framework (source) ---------
 # Live2D Proprietary + MIT (LICENSE_Core.md / LICENSE_Framework.md 参照)
 # extlib/cubism/lib に prebuilt static lib があれば有効化、無ければ skip
