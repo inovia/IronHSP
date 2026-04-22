@@ -40,6 +40,9 @@ static jmethodID s_mid_devIsDark     = nullptr;
 static jmethodID s_mid_devBattery    = nullptr;
 static jmethodID s_mid_devOrientation= nullptr;
 static jmethodID s_mid_devSound      = nullptr;
+static jmethodID s_mid_devAccel      = nullptr;
+static jmethodID s_mid_devGyro       = nullptr;
+static jmethodID s_mid_devAttitude   = nullptr;
 
 static JNIEnv *jni_env( bool *needs_detach )
 {
@@ -100,6 +103,9 @@ static bool ensure_jni_init()
     s_mid_devBattery    = env->GetStaticMethodID( s_HspUtil_class, "devBattery",    "()[I" );
     s_mid_devOrientation= env->GetStaticMethodID( s_HspUtil_class, "devOrientation","()I" );
     s_mid_devSound      = env->GetStaticMethodID( s_HspUtil_class, "devSound",      "(I)V" );
+    s_mid_devAccel      = env->GetStaticMethodID( s_HspUtil_class, "devAccel",      "()[F" );
+    s_mid_devGyro       = env->GetStaticMethodID( s_HspUtil_class, "devGyro",       "()[F" );
+    s_mid_devAttitude   = env->GetStaticMethodID( s_HspUtil_class, "devAttitude",   "()[F" );
 
     //  setActivity(act->clazz) で HspUtil にアプリ Activity を渡す
     if ( s_mid_setActivity ) {
@@ -345,6 +351,42 @@ extern "C" void hsp3dx_dev_sound( int id )
     if ( !env ) return;
     env->CallStaticVoidMethod( s_HspUtil_class, s_mid_devSound, (jint)id );
     if ( detach ) s_vm->DetachCurrentThread();
+}
+
+//  センサー値取得 (jfloatArray[3] を double[3] に変換)
+static void get_sensor_triple( jmethodID mid, double *a, double *b, double *c )
+{
+    if ( a ) *a = 0; if ( b ) *b = 0; if ( c ) *c = 0;
+    if ( !ensure_jni_init() || !mid ) return;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return;
+    jfloatArray arr = (jfloatArray)env->CallStaticObjectMethod( s_HspUtil_class, mid );
+    if ( arr ) {
+        jsize n = env->GetArrayLength( arr );
+        if ( n >= 3 ) {
+            jfloat buf[3];
+            env->GetFloatArrayRegion( arr, 0, 3, buf );
+            if ( a ) *a = (double)buf[0];
+            if ( b ) *b = (double)buf[1];
+            if ( c ) *c = (double)buf[2];
+        }
+        env->DeleteLocalRef( arr );
+    }
+    if ( detach ) s_vm->DetachCurrentThread();
+}
+
+extern "C" void hsp3dx_dev_accel( double *x, double *y, double *z )
+{
+    get_sensor_triple( s_mid_devAccel, x, y, z );
+}
+extern "C" void hsp3dx_dev_gyro( double *x, double *y, double *z )
+{
+    get_sensor_triple( s_mid_devGyro, x, y, z );
+}
+extern "C" void hsp3dx_dev_attitude( double *roll, double *pitch, double *yaw )
+{
+    get_sensor_triple( s_mid_devAttitude, roll, pitch, yaw );
 }
 
 //  HspUtil.nativeFireEvent(int) の実装 (Java → C への通知)

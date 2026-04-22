@@ -13,6 +13,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.ToneGenerator;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -336,6 +340,61 @@ public class HspUtil {
             Log.w( TAG, "sound: " + e );
         }
     }
+
+    //  ================================================================
+    //  Phase M.5: センサー (SensorManager、初回取得で auto-start)
+    //  ================================================================
+    private static SensorManager sSensorMgr = null;
+    private static float[] sAccel = new float[3];
+    private static float[] sGyro  = new float[3];
+    private static float[] sRot   = new float[3];  // roll/pitch/yaw (attitude)
+    private static boolean sSensorsStarted = false;
+
+    private static final SensorEventListener sSensorListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged( SensorEvent e ) {
+            switch ( e.sensor.getType() ) {
+            case Sensor.TYPE_ACCELEROMETER:
+                sAccel[0] = e.values[0]; sAccel[1] = e.values[1]; sAccel[2] = e.values[2];
+                break;
+            case Sensor.TYPE_GYROSCOPE:
+                sGyro[0] = e.values[0]; sGyro[1] = e.values[1]; sGyro[2] = e.values[2];
+                break;
+            case Sensor.TYPE_ROTATION_VECTOR:
+                //  rotation vector → rotation matrix → orientation (roll/pitch/yaw)
+                float[] R = new float[9];
+                SensorManager.getRotationMatrixFromVector( R, e.values );
+                float[] o = new float[3];
+                SensorManager.getOrientation( R, o );
+                //  o[0]=yaw (azimuth), o[1]=pitch, o[2]=roll  (iOS との対応に合わせて並べ替え)
+                sRot[0] = o[2];   // roll
+                sRot[1] = o[1];   // pitch
+                sRot[2] = o[0];   // yaw
+                break;
+            }
+        }
+        @Override public void onAccuracyChanged( Sensor s, int accuracy ) {}
+    };
+
+    private static void ensureSensorsStarted()
+    {
+        if ( sSensorsStarted || sActivity == null ) return;
+        sSensorMgr = (SensorManager) sActivity.getSystemService( Context.SENSOR_SERVICE );
+        if ( sSensorMgr == null ) return;
+        int rate = SensorManager.SENSOR_DELAY_GAME;
+        Sensor sa = sSensorMgr.getDefaultSensor( Sensor.TYPE_ACCELEROMETER );
+        Sensor sg = sSensorMgr.getDefaultSensor( Sensor.TYPE_GYROSCOPE );
+        Sensor sr = sSensorMgr.getDefaultSensor( Sensor.TYPE_ROTATION_VECTOR );
+        if ( sa != null ) sSensorMgr.registerListener( sSensorListener, sa, rate );
+        if ( sg != null ) sSensorMgr.registerListener( sSensorListener, sg, rate );
+        if ( sr != null ) sSensorMgr.registerListener( sSensorListener, sr, rate );
+        sSensorsStarted = true;
+        Log.i( TAG, "sensors started: accel=" + (sa!=null) + " gyro=" + (sg!=null) + " rot=" + (sr!=null) );
+    }
+
+    public static float[] devAccel()    { ensureSensorsStarted(); return sAccel; }
+    public static float[] devGyro()     { ensureSensorsStarted(); return sGyro; }
+    public static float[] devAttitude() { ensureSensorsStarted(); return sRot; }
 
     public static int prefClear( String section )
     {

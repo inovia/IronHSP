@@ -1606,6 +1606,22 @@ static int cmdfunc_extcmd( int cmd )
     case 0x1b4:                     // dx_dev_sound id
         hsp3dx_dev_sound( code_getdi( 0 ) );
         break;
+    case 0x1b5:                     // dx_dev_accel var_x, var_y, var_z (double)
+    case 0x1b6:                     // dx_dev_gyro ...
+    case 0x1b7:                     // dx_dev_attitude ...
+        {
+            PVal *px; APTR ax = code_getva( &px );
+            PVal *py; APTR ay = code_getva( &py );
+            PVal *pz; APTR az = code_getva( &pz );
+            double a = 0, b = 0, c = 0;
+            if      ( cmd == 0x1b5 ) hsp3dx_dev_accel( &a, &b, &c );
+            else if ( cmd == 0x1b6 ) hsp3dx_dev_gyro(  &a, &b, &c );
+            else                     hsp3dx_dev_attitude( &a, &b, &c );
+            code_setva( px, ax, HSPVAR_FLAG_DOUBLE, &a );
+            code_setva( py, ay, HSPVAR_FLAG_DOUBLE, &b );
+            code_setva( pz, az, HSPVAR_FLAG_DOUBLE, &c );
+            break;
+        }
 
     //  ---- multipart/form-data ----
     case 0x170:                     // dx_http_mp_begin

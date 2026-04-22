@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import <CoreMotion/CoreMotion.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -294,6 +295,70 @@ extern "C" void hsp3dx_dev_sound( int id )
     //  1000 番台以降は iOS 予約済み UI サウンド ID
     SystemSoundID sid = ( id > 0 ) ? (SystemSoundID)id : 1104;  // 1104 = Tock
     AudioServicesPlaySystemSound( sid );
+}
+
+//  ================================================================
+//  Phase M.5: センサー (CMMotionManager)
+//  ================================================================
+static CMMotionManager *g_motion = nil;
+
+static void ensure_motion_started()
+{
+    if ( g_motion != nil ) return;
+    @autoreleasepool {
+        g_motion = [[CMMotionManager alloc] init];
+        g_motion.accelerometerUpdateInterval = 1.0 / 60.0;
+        g_motion.gyroUpdateInterval          = 1.0 / 60.0;
+        g_motion.deviceMotionUpdateInterval  = 1.0 / 60.0;
+        if ( g_motion.accelerometerAvailable ) {
+            [g_motion startAccelerometerUpdates];
+        }
+        if ( g_motion.gyroAvailable ) {
+            [g_motion startGyroUpdates];
+        }
+        if ( g_motion.deviceMotionAvailable ) {
+            [g_motion startDeviceMotionUpdates];
+        }
+    }
+}
+
+extern "C" void hsp3dx_dev_accel( double *x, double *y, double *z )
+{
+    ensure_motion_started();
+    if ( x ) *x = 0; if ( y ) *y = 0; if ( z ) *z = 0;
+    if ( !g_motion ) return;
+    CMAccelerometerData *d = g_motion.accelerometerData;
+    if ( d ) {
+        if ( x ) *x = d.acceleration.x;
+        if ( y ) *y = d.acceleration.y;
+        if ( z ) *z = d.acceleration.z;
+    }
+}
+
+extern "C" void hsp3dx_dev_gyro( double *x, double *y, double *z )
+{
+    ensure_motion_started();
+    if ( x ) *x = 0; if ( y ) *y = 0; if ( z ) *z = 0;
+    if ( !g_motion ) return;
+    CMGyroData *d = g_motion.gyroData;
+    if ( d ) {
+        if ( x ) *x = d.rotationRate.x;
+        if ( y ) *y = d.rotationRate.y;
+        if ( z ) *z = d.rotationRate.z;
+    }
+}
+
+extern "C" void hsp3dx_dev_attitude( double *roll, double *pitch, double *yaw )
+{
+    ensure_motion_started();
+    if ( roll ) *roll = 0; if ( pitch ) *pitch = 0; if ( yaw ) *yaw = 0;
+    if ( !g_motion ) return;
+    CMDeviceMotion *d = g_motion.deviceMotion;
+    if ( d ) {
+        if ( roll )  *roll  = d.attitude.roll;
+        if ( pitch ) *pitch = d.attitude.pitch;
+        if ( yaw )   *yaw   = d.attitude.yaw;
+    }
 }
 
 #endif  // __APPLE__

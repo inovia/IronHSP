@@ -77,6 +77,15 @@ int  hsp3dx_dev_orientation( void );
 //    id: iOS の SystemSoundID (1000〜 予約済 UI サウンド) 相当、他 OS は無視可
 void hsp3dx_dev_sound( int id );
 
+//  センサー: 初回呼び出し時に自動 start、以降は最新値を返す。
+//  未対応プラットフォーム / センサー未搭載時は 0.0 を返す (要 start 判定は省略)。
+//    accel    : x,y,z (m/s^2 or g 単位は OS 依存、iOS=g、Android=m/s^2)
+//    gyro     : x,y,z 回転速度 (rad/s)
+//    attitude : roll, pitch, yaw (radian、iOS は deviceMotion、Android は rotationVector から計算)
+void hsp3dx_dev_accel   ( double *x, double *y, double *z );
+void hsp3dx_dev_gyro    ( double *x, double *y, double *z );
+void hsp3dx_dev_attitude( double *roll, double *pitch, double *yaw );
+
 #ifdef __cplusplus
 }
 #endif

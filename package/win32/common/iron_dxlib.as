@@ -109,6 +109,9 @@
 #cmd dx_dev_battery      $1b2  ; dx_dev_battery var_level, var_state  (level=0..100 / -1、state=0..2 / -1)
 #cmd dx_dev_orientation  $1b3  ; dx_dev_orientation  (stat=0..3: portrait/landscapeL/upside/landscapeR)
 #cmd dx_dev_sound        $1b4  ; dx_dev_sound id  (iOS SystemSoundID、他は無視して短ビープ)
+#cmd dx_dev_accel        $1b5  ; dx_dev_accel var_x, var_y, var_z    (double、初回呼び出しで自動 start)
+#cmd dx_dev_gyro         $1b6  ; dx_dev_gyro  var_x, var_y, var_z    (double、rad/s)
+#cmd dx_dev_attitude     $1b7  ; dx_dev_attitude var_roll, var_pitch, var_yaw (double、radian)
 
 ;  ---- Phase 5.4a+: multipart/form-data ファイルアップロード ----
 #cmd dx_http_mp_begin      $170   ; dx_http_mp_begin

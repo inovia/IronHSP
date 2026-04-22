@@ -1,0 +1,72 @@
+;============================================================
+;   sample_sensor.hsp — Phase M.5: センサー (加速度 / ジャイロ / 姿勢)
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    screen 0, 720, 1280
+    sw = ginfo_winx : sh = ginfo_winy
+
+    ddim ax, 3
+    ddim gx, 3
+    ddim at, 3
+
+    repeat
+        getkey esc_p, 27
+        if esc_p : break
+
+        dx_dev_accel    ax, ay, az
+        dx_dev_gyro     gx, gy, gz
+        dx_dev_attitude r_roll, r_pitch, r_yaw
+
+        redraw 0
+        color 20, 30, 60
+        boxf 0, 0, sw, sh
+
+        color 255, 255, 255
+        font "MS Gothic", 30
+        pos 30, 30
+        mes "hsp3dx sensor test"
+
+        font "MS Gothic", 22
+        pos 30, 100
+        mes "accel x : " + strf("%+.3f", ax)
+        pos 30, 140
+        mes "      y : " + strf("%+.3f", ay)
+        pos 30, 180
+        mes "      z : " + strf("%+.3f", az)
+
+        pos 30, 240
+        mes "gyro  x : " + strf("%+.3f", gx)
+        pos 30, 280
+        mes "      y : " + strf("%+.3f", gy)
+        pos 30, 320
+        mes "      z : " + strf("%+.3f", gz)
+
+        pos 30, 380
+        mes "roll    : " + strf("%+.3f", r_roll)
+        pos 30, 420
+        mes "pitch   : " + strf("%+.3f", r_pitch)
+        pos 30, 460
+        mes "yaw     : " + strf("%+.3f", r_yaw)
+
+        ;  姿勢を視覚化: 中央に十字、roll/pitch で傾ける
+        cx = sw/2 : cy = 780
+        color 80, 120, 200
+        boxf cx-200, cy-10, cx+200, cy+10        ;  水平線 (roll 参照のため固定描画)
+        ;  pitch に応じて垂直線を傾ける (roll がゼロ基準)
+        color 255, 220, 80
+        dx = int(cos(r_roll) * 200)
+        dy = int(sin(r_roll) * 200)
+        line cx-dx, cy-dy, cx+dx, cy+dy
+
+        color 255, 220, 80
+        font "MS Gothic", 20
+        pos 30, 1100
+        mes "[ESC/BACK] quit"
+
+        redraw 1
+        await 33
+    loop
+    end
