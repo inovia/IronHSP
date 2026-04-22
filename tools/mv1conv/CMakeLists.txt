@@ -20,6 +20,8 @@ add_executable(mv1conv
     src/mv1_writer.cpp
     src/obj_export.cpp
     src/obj_import.cpp
+    src/stl_import.cpp
+    src/ply_import.cpp
 )
 
 target_include_directories(mv1conv PRIVATE src)

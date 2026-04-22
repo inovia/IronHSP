@@ -2,6 +2,8 @@
 #include "mv1_dump.hpp"
 #include "obj_export.hpp"
 #include "obj_import.hpp"
+#include "stl_import.hpp"
+#include "ply_import.hpp"
 #include "mv1_writer.hpp"
 #include "dxa.hpp"
 #include <cstdio>
@@ -9,6 +11,69 @@
 #include <string>
 
 using namespace mv1conv;
+
+static int convert_generic(const char *in, const char *out) {
+    // 拡張子で判別
+    std::string path(in);
+    auto ext_pos = path.find_last_of('.');
+    std::string ext = (ext_pos == std::string::npos) ? "" : path.substr(ext_pos + 1);
+    for (auto &c : ext) c = static_cast<char>(std::tolower(c));
+
+    LoadResult lr;
+    ObjLoadResult olr;
+    ModelIR *ir = nullptr;
+    std::string err;
+
+    if (ext == "stl") {
+        lr = load_stl(in);
+        if (!lr.ok()) { err = lr.error; }
+        else ir = &lr.ir;
+    } else if (ext == "ply") {
+        lr = load_ply(in);
+        if (!lr.ok()) { err = lr.error; }
+        else ir = &lr.ir;
+    } else if (ext == "obj") {
+        olr = load_obj(in);
+        if (!olr.ok()) { err = olr.error; }
+        else ir = &olr.ir;
+    } else {
+        std::fprintf(stderr, "unsupported extension: %s (supported: .obj .stl .ply)\n", ext.c_str());
+        return 2;
+    }
+
+    if (!err.empty()) {
+        std::fprintf(stderr, "ERROR: %s\n", err.c_str());
+        return 1;
+    }
+
+    auto w = save_mv1(*ir, out);
+    if (!w.ok()) {
+        std::fprintf(stderr, "ERROR: %s\n", w.error.c_str());
+        return 1;
+    }
+    std::size_t totalTri = 0;
+    for (const auto &m : ir->meshes) totalTri += m.indices.size() / 3;
+    std::fprintf(stderr, "wrote %s (%zu bytes)  meshes=%zu tris=%zu\n",
+                 out, w.bytes.size(), ir->meshes.size(), totalTri);
+
+    auto check = Mv1File::load(out);
+    if (!check.ok()) {
+        std::fprintf(stderr, "FAIL re-load: %s\n", check.error().c_str());
+        return 1;
+    }
+    auto h = check.header();
+    std::fprintf(stderr, "re-load OK: frames=%d meshes=%d mats=%d tris=%d\n",
+                 h->FrameNum, h->MeshNum, h->MaterialNum, h->TriangleNum);
+    return 0;
+}
+
+static int cmd_convert(int argc, char **argv) {
+    if (argc < 2) {
+        std::fprintf(stderr, "usage: mv1conv convert <input.{obj|stl|ply}> <output.mv1>\n");
+        return 2;
+    }
+    return convert_generic(argv[0], argv[1]);
+}
 
 static int cmd_from_obj(int argc, char **argv) {
     if (argc < 2) {
@@ -145,6 +210,7 @@ int main(int argc, char **argv) {
     if (std::strcmp(sub, "obj") == 0)    return cmd_obj(argc - 2, argv + 2);
     if (std::strcmp(sub, "repack") == 0) return cmd_repack(argc - 2, argv + 2);
     if (std::strcmp(sub, "from-obj") == 0) return cmd_from_obj(argc - 2, argv + 2);
+    if (std::strcmp(sub, "convert") == 0)  return cmd_convert(argc - 2, argv + 2);
     std::fprintf(stderr, "unknown subcommand: %s\n", sub);
     return 2;
 }
