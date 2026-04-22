@@ -68,8 +68,35 @@ em { color: #666; }
 <body>
 <h1>DxLib <code>.mv1</code> ファイル形式仕様書</h1>
 <p><strong>対象:</strong> DxLib 3.24f の MV1 モデルファイル (Ver.1)
-<strong>出典:</strong> <code>DxModel.cpp</code> (loader) + <code>DxModelFile.h</code> (バイナリ構造体 <code>*_F1</code>)
-<strong>文字コード表記:</strong> リトルエンディアン、C 構造体の直接シリアライズ</p>
+<strong>出典:</strong> <code>DxModel.cpp</code> / <code>DxArchive_.cpp</code> (loader) + <code>DxModelFile.h</code> / <code>DxLib.h</code> / <code>DxModel.h</code> (バイナリ構造体と enum)
+<strong>文字コード表記:</strong> リトルエンディアン、C 構造体の直接シリアライズ (padding は明示)</p>
+<h2>目次</h2>
+<ol>
+<li><a href="#%E6%A6%82%E8%A6%81">概要</a></li>
+<li><a href="#%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%85%A8%E4%BD%93%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88">ファイル全体レイアウト</a></li>
+<li><a href="#dxa-%E5%9C%A7%E7%B8%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E8%A9%B3%E7%B4%B0">DXA 圧縮アルゴリズム詳細</a> ★</li>
+<li><a href="#%E3%83%AB%E3%83%BC%E3%83%88%E3%83%98%E3%83%83%E3%83%80-mv1model_fileheader_f1">ルートヘッダ <code>MV1MODEL_FILEHEADER_F1</code></a></li>
+<li><a href="#%E9%9A%8E%E5%B1%A4%E3%83%87%E3%83%BC%E3%82%BF-mv1_frame_f1">階層データ <code>MV1_FRAME_F1</code></a></li>
+<li><a href="#%E3%83%A1%E3%83%83%E3%82%B7%E3%83%A5-mv1_mesh_f1">メッシュ <code>MV1_MESH_F1</code></a></li>
+<li><a href="#%E3%83%9E%E3%83%86%E3%83%AA%E3%82%A2%E3%83%AB-mv1_material_f1">マテリアル <code>MV1_MATERIAL_F1</code></a></li>
+<li><a href="#%E3%83%86%E3%82%AF%E3%82%B9%E3%83%81%E3%83%A3-mv1_texture_f1">テクスチャ <code>MV1_TEXTURE_F1</code></a></li>
+<li><a href="#%E3%83%88%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%AA%E3%82%B9%E3%83%88-mv1_triangle_list_f1">トライアングルリスト <code>MV1_TRIANGLE_LIST_F1</code></a></li>
+<li><a href="#%E3%82%B9%E3%82%AD%E3%83%B3%E3%83%9C%E3%83%BC%E3%83%B3-mv1_skin_bone_f1">スキンボーン <code>MV1_SKIN_BONE_F1</code></a></li>
+<li><a href="#%E3%83%A9%E3%82%A4%E3%83%88-mv1_light_f1">ライト <code>MV1_LIGHT_F1</code></a></li>
+<li><a href="#%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">アニメーション</a></li>
+<li><a href="#%E3%82%B7%E3%82%A7%E3%82%A4%E3%83%97-%E3%83%A2%E3%83%BC%E3%83%95-mv1_filehead_shape_f1">シェイプ (モーフ)</a></li>
+<li><a href="#%E7%89%A9%E7%90%86%E6%BC%94%E7%AE%97-mv1_filehead_physics_f1">物理演算</a></li>
+<li><a href="#%E5%BA%A7%E6%A8%99%E7%B3%BB%E3%81%AE%E6%B3%A8%E6%84%8F">座標系の注意</a></li>
+<li><a href="#%E6%96%87%E5%AD%97%E5%88%97%E3%83%97%E3%83%BC%E3%83%AB-stringbuffer">文字列プール</a></li>
+<li><a href="#%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%8B%E3%83%B3%E3%82%B0">バージョニング</a></li>
+<li><a href="#%E5%88%B6%E9%99%90%E4%BA%8B%E9%A0%85--%E6%B3%A8%E6%84%8F%E7%82%B9">制限事項</a></li>
+<li><a href="#%E4%BB%98%E9%8C%B2-a-%E5%85%A8-enum-%E5%80%A4%E4%B8%80%E8%A6%A7">付録 A: 全 enum 値一覧</a> ★</li>
+<li><a href="#%E4%BB%98%E9%8C%B2-b-%E5%8F%AF%E5%A4%89%E9%95%B7%E3%82%BB%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE-byte-%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E8%A9%B3%E7%B4%B0">付録 B: 可変長セクションの byte レイアウト詳細</a> ★</li>
+<li><a href="#%E4%BB%98%E9%8C%B2-c-16bit-%E5%9C%A7%E7%B8%AE%E5%80%A4%E3%81%AE%E3%83%87%E3%82%B3%E3%83%BC%E3%83%89%E5%BC%8F">付録 C: 16bit 圧縮値のデコード式</a> ★</li>
+<li><a href="#%E4%BB%98%E9%8C%B2-d-matrix_4x4ct_f--float4-%E3%81%AE%E5%AE%9F%E3%83%A1%E3%83%A2%E3%83%AA%E9%85%8D%E7%BD%AE">付録 D: MATRIX_4X4CT_F / FLOAT4 の実メモリ配置</a> ★</li>
+<li><a href="#%E4%BB%98%E9%8C%B2-e-%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9-c-%E3%83%91%E3%83%BC%E3%82%B5-%E6%9C%80%E5%B0%8F%E8%AA%AD%E3%81%BF%E5%8F%96%E3%82%8A%E5%AE%9F%E8%A3%85">付録 E: リファレンス C パーサ (最小読み取り実装)</a> ★</li>
+</ol>
+<p>★印 = 拡充版で追加された章</p>
 <hr />
 <h2>概要</h2>
 <p><code>.mv1</code> は DxLib 独自の 3D モデルファイル形式で、他形式 (<code>.mqo</code> / <code>.pmd</code> / <code>.pmx</code> / <code>.x</code> / <code>.fbx</code> / <code>.vmd</code>) を読み込んだ後のランタイム構造体を丸ごとバイナリ化したキャッシュ的なフォーマット。利点:</p>
@@ -97,6 +124,168 @@ em { color: #666; }
 <li><strong>DXA 圧縮</strong>: <code>DXA_Decode(src + 4, NULL)</code> で伸長後サイズを取得、バッファ確保、再 <code>DXA_Decode</code> で実データ展開。アルゴリズムは DxLib 独自の LZSS 派生 (本文参照: <code>DxArchive_.cpp</code>)。</li>
 </ul>
 <p>伸長されたデータの先頭 (= <code>off = 0</code> + 4 byte 分の magic は含まず <code>MV11</code> 後から) に <code>MV1MODEL_FILEHEADER_F1</code> が置かれ、同じバッファ内の後続オフセットに各種配列やポインタ先が連続配置される。構造体メンバー内の <strong>ポインタ相当の DWORD は「このバッファ先頭からのバイトオフセット」を格納</strong> (ロード時にポインタへ変換される)。</p>
+<hr />
+<h2>DXA 圧縮アルゴリズム詳細</h2>
+<p>出典: <code>DxArchive_.cpp</code> の <code>DXA_Encode</code> / <code>DXA_Decode</code>。純粋 LZSS (Huffman 併用なし)。<code>.mv1</code> の magic <code>&quot;MV11&quot;</code> 直後から始まるバイト列がこの形式。</p>
+<h3>9 byte 固定ヘッダ</h3>
+<table>
+<thead>
+<tr>
+<th>offset</th>
+<th>type</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>DWORD (LE)</td>
+<td><code>OriginalSize</code> 元のバイト数</td>
+</tr>
+<tr>
+<td>4</td>
+<td>DWORD (LE)</td>
+<td><code>CompressedSize</code> 圧縮後バイト数 (この 9 byte ヘッダを含む)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>BYTE</td>
+<td><code>KeyCode</code> マッチ開始マーカ (圧縮元データに存在しないバイト値が選ばれる)</td>
+</tr>
+</tbody>
+</table>
+<h3>本体 (stream)</h3>
+<p>リテラル byte と backref の混在列。どちらかの判別は「現バイトが <code>KeyCode</code> か否か」で行う:</p>
+<ul>
+<li><strong>リテラル</strong> (通常バイト): <code>byte != KeyCode</code> → そのまま出力</li>
+<li><strong>エスケープ済みリテラル</strong> (<code>KeyCode</code> そのもの): <code>KeyCode KeyCode</code> → 1 個の <code>KeyCode</code> を出力</li>
+<li><strong>マッチ参照</strong>: <code>KeyCode &lt;flags&gt; [&lt;extlen&gt;] &lt;addr...&gt;</code> → 過去データからコピー</li>
+</ul>
+<h3>マッチ参照エンコード</h3>
+<p><code>KeyCode</code> の直後のバイトを <code>flags</code> と呼ぶ (値が <code>KeyCode</code> 以上の場合は <strong>デコード時に -1 する</strong> 補正あり):</p>
+<pre><code>bit 7-3: (match_length - 4) の下位 5 bit (0..31)
+bit 2  : 拡張長フラグ (1 なら次 1 byte で長さ bit 8-5 を追加)
+bit 1-0: アドレス byte 数
+           00 = 1 byte  (1..256 back)
+           01 = 2 byte  (1..65536 back)
+           10 = 3 byte  (1..16777216 back)
+</code></pre>
+<p><code>flags</code> の次は:</p>
+<ul>
+<li>拡張長が立っていれば <code>extlen</code> (1 byte): これで <code>length |= (extlen &lt;&lt; 5)</code> し、合計 13 bit の長さを扱える</li>
+<li>アドレス byte 数分の little-endian 整数 (保存時 -1 のバイアス付き、デコード時 +1)</li>
+</ul>
+<h3>パラメータ定数</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MIN_COMPRESS</code></td>
+<td>4</td>
+<td>これ以上のマッチ長のみ圧縮に使う</td>
+</tr>
+<tr>
+<td><code>MAX_COPYSIZE</code></td>
+<td>0x7FFF (32,767)</td>
+<td>最大マッチ長 (拡張長込み)</td>
+</tr>
+<tr>
+<td><code>MAX_POSITION</code></td>
+<td>16 MB (1&lt;&lt;24)</td>
+<td>最大 lookback 距離</td>
+</tr>
+</tbody>
+</table>
+<h3>デコード疑似コード</h3>
+<pre><code class="language-c">uint32_t DXA_Decode_Size( const uint8_t *src )
+{
+    return read_u32_le( src + 0 ) ;   // OriginalSize
+}
+
+int DXA_Decode( const uint8_t *src, uint8_t *dst )
+{
+    uint32_t origSize = read_u32_le( src + 0 ) ;
+    uint32_t compSize = read_u32_le( src + 4 ) ;
+    uint8_t  key      = src[ 8 ] ;
+    const uint8_t *sp = src + 9 ;
+    const uint8_t *spEnd = src + compSize ;
+    uint8_t  *dp = dst ;
+
+    while ( sp &lt; spEnd ) {
+        if ( *sp != key ) {                 /* リテラル */
+            *dp++ = *sp++ ;
+            continue ;
+        }
+        if ( sp[ 1 ] == key ) {             /* エスケープ済 KeyCode */
+            *dp++ = key ;
+            sp += 2 ;
+            continue ;
+        }
+
+        /* マッチ参照 */
+        uint8_t flags = sp[ 1 ] ;
+        if ( flags &gt; key ) flags-- ;        /* デコード補正 */
+        sp += 2 ;
+
+        uint32_t length = ( flags &gt;&gt; 3 ) &amp; 0x1F ;
+        if ( flags &amp; 0x04 ) {               /* 拡張長 */
+            length |= ( uint32_t )( *sp++ ) &lt;&lt; 5 ;
+        }
+        length += 4 ;                        /* MIN_COMPRESS 加算 */
+
+        uint32_t distance = 0 ;
+        switch ( flags &amp; 0x03 ) {
+        case 0 : distance =   *sp++ ;                                       break ;
+        case 1 : distance =   read_u16_le( sp ) ;                 sp += 2 ; break ;
+        case 2 : distance =   read_u16_le( sp ) | ( sp[ 2 ] &lt;&lt; 16 ) ; sp += 3 ; break ;
+        }
+        distance += 1 ;                      /* デコード補正 */
+
+        /* 自己参照コピー (distance &lt; length) の場合、少しずつ展開 */
+        if ( distance &lt; length ) {
+            uint32_t part = distance ;
+            while ( length &gt; part ) {
+                memcpy( dp, dp - part, part ) ;
+                dp     += part ;
+                length -= part ;
+                part   += part ;              /* 2 倍ずつ広げる */
+            }
+            memcpy( dp, dp - distance * 2, length ) ;  /* 残り */
+            dp += length ;
+        } else {
+            memcpy( dp, dp - distance, length ) ;
+            dp += length ;
+        }
+    }
+    return ( int )origSize ;
+}
+</code></pre>
+<h3><code>.mv1</code> ファイルから DXA ブロックを取り出す</h3>
+<pre><code class="language-c">uint32_t get_dxa_size( const uint8_t *file, size_t fileLen )
+{
+    if ( fileLen &lt; 4 + 9 ) return 0 ;
+    if ( memcmp( file, &quot;MV11&quot;, 4 ) != 0 ) return 0 ;
+    return read_u32_le( file + 4 + 4 ) ;  /* DXA ヘッダの CompressedSize */
+}
+</code></pre>
+<ul>
+<li>ファイル全体のサイズ = <code>4 (magic) + CompressedSize (DXA 圧縮部分含む)</code></li>
+<li>伸長後サイズ = <code>OriginalSize</code> (DXA ヘッダの先頭 4 byte)</li>
+</ul>
+<h3>Encode 側の注意</h3>
+<ul>
+<li><code>KeyCode</code> の選定 = 入力データ中に最も少ないバイト値を 0..255 から線形探索 (<code>DXA_GetKeyCode</code>)。稀な値ほど stream が短くなる。</li>
+<li><code>match_length</code> が <code>MIN_COMPRESS</code> 未満 or match が見つからない場合はリテラル書き出し。</li>
+<li>長い一致を優先 (greedy LZSS)、backtrack や lazy matching は実装されていない。</li>
+</ul>
+<h3>暗号化について</h3>
+<p>本セクションで扱う <code>DXA_Encode/Decode</code> は <strong>ファイル内部圧縮</strong> 専用で、<code>.dxa</code> アーカイブの鍵付き暗号化 (<code>DXArchive</code> クラス内蔵) とは <strong>別物</strong>。<code>.mv1</code> には暗号化はない。</p>
 <hr />
 <h2>ルートヘッダ <code>MV1MODEL_FILEHEADER_F1</code></h2>
 <p>128 バイト程度の固定長ヘッダ。主要フィールド:</p>
@@ -905,6 +1094,1408 @@ em { color: #666; }
 <p>圧縮フラグを立てるとファイル容量は 40〜60% 削減されるが精度低下に注意。</p>
 <hr />
 <p><em>このドキュメントは DxLib 3.24f 時点の <code>.mv1</code> フォーマット (Version 1, <code>&quot;MV11&quot;</code> magic) を対象とする。将来のバージョン拡張には未対応。</em></p>
+<hr />
+<h2>付録 A: 全 enum 値一覧</h2>
+<p>本文で参照する定数の実数値。出典: <code>DxLib.h</code> / <code>DxModel.h</code> / <code>DxModelFile.h</code>。</p>
+<h3>A.1 <code>MV1_VERTEX_TYPE_*</code> — 頂点型 (<code>MV1_TRIANGLE_LIST_F1.VertexType</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_VERTEX_TYPE_NORMAL</code></td>
+<td>0</td>
+<td>通常メッシュ (スキンなし)</td>
+</tr>
+<tr>
+<td><code>MV1_VERTEX_TYPE_SKIN_4BONE</code></td>
+<td>1</td>
+<td>スキンメッシュ 1〜4 ボーン</td>
+</tr>
+<tr>
+<td><code>MV1_VERTEX_TYPE_SKIN_8BONE</code></td>
+<td>2</td>
+<td>スキンメッシュ 5〜8 ボーン</td>
+</tr>
+<tr>
+<td><code>MV1_VERTEX_TYPE_SKIN_FREEBONE</code></td>
+<td>3</td>
+<td>9 ボーン以上の可変長スキン</td>
+</tr>
+</tbody>
+</table>
+<h3>A.2 <code>MV1_ROTATE_TYPE_*</code> — 回転表現</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_ROTATE_TYPE_XYZROT</code></td>
+<td>0</td>
+<td>Euler 角 (XYZ 軸)</td>
+</tr>
+<tr>
+<td><code>MV1_ROTATE_TYPE_QUATERNION</code></td>
+<td>1</td>
+<td>クォータニオン</td>
+</tr>
+<tr>
+<td><code>MV1_ROTATE_TYPE_MATRIX</code></td>
+<td>2</td>
+<td>行列 (MATRIX_4X4CT_F)</td>
+</tr>
+<tr>
+<td><code>MV1_ROTATE_TYPE_ZAXIS</code></td>
+<td>3</td>
+<td>Z 軸 + ローカルベクトル + スケール</td>
+</tr>
+</tbody>
+</table>
+<h3>A.3 <code>MV1_ROTATE_ORDER_*</code> — Euler 角オーダー</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_ROTATE_ORDER_XYZ</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>MV1_ROTATE_ORDER_XZY</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>MV1_ROTATE_ORDER_YZX</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>MV1_ROTATE_ORDER_YXZ</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>MV1_ROTATE_ORDER_ZXY</code></td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>MV1_ROTATE_ORDER_ZYX</code></td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<h3>A.4 <code>MV1_ANIMKEY_TYPE_*</code> — アニメキーのデータエンコード</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_ANIMKEY_TYPE_QUATERNION_X</code></td>
+<td>0</td>
+<td>クォータニオン (X ファイル形式)</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_TYPE_VECTOR</code></td>
+<td>1</td>
+<td>ベクトル</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_TYPE_MATRIX4X4C</code></td>
+<td>2</td>
+<td>4x4 行列 (4 行目固定)</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_TYPE_MATRIX3X3</code></td>
+<td>3</td>
+<td>3x3 行列</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_TYPE_FLAT</code></td>
+<td>4</td>
+<td>定数補間 (階段関数)</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_TYPE_LINEAR</code></td>
+<td>5</td>
+<td>線形補間</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_TYPE_BLEND</code></td>
+<td>6</td>
+<td>スプライン補間</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_TYPE_QUATERNION_VMD</code></td>
+<td>7</td>
+<td>クォータニオン (VMD 形式)</td>
+</tr>
+</tbody>
+</table>
+<h3>A.5 <code>MV1_ANIMKEY_DATATYPE_*</code> — アニメキーの対象</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_ROTATE</code></td>
+<td>0</td>
+<td>全軸回転</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_ROTATE_X</code></td>
+<td>1</td>
+<td>X 軸回転</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_ROTATE_Y</code></td>
+<td>2</td>
+<td>Y 軸回転</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_ROTATE_Z</code></td>
+<td>3</td>
+<td>Z 軸回転</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_SCALE</code></td>
+<td>5</td>
+<td>全軸スケール</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_SCALE_X</code></td>
+<td>6</td>
+<td>X スケール</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_SCALE_Y</code></td>
+<td>7</td>
+<td>Y スケール</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_SCALE_Z</code></td>
+<td>8</td>
+<td>Z スケール</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_TRANSLATE</code></td>
+<td>10</td>
+<td>全軸並進</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_TRANSLATE_X</code></td>
+<td>11</td>
+<td>X 並進</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_TRANSLATE_Y</code></td>
+<td>12</td>
+<td>Y 並進</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_TRANSLATE_Z</code></td>
+<td>13</td>
+<td>Z 並進</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_MATRIX4X4C</code></td>
+<td>15</td>
+<td>4x4 行列</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_MATRIX3X3</code></td>
+<td>17</td>
+<td>3x3 行列</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_SHAPE</code></td>
+<td>18</td>
+<td>シェイプ (モーフ) ウェイト</td>
+</tr>
+<tr>
+<td><code>MV1_ANIMKEY_DATATYPE_OTHRE</code></td>
+<td>20</td>
+<td>その他 (typo は原文ママ: OTHER ではなく OTHRE)</td>
+</tr>
+</tbody>
+</table>
+<h3>A.6 <code>MV1_LIGHT_TYPE_*</code></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_LIGHT_TYPE_POINT</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>MV1_LIGHT_TYPE_SPOT</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>MV1_LIGHT_TYPE_DIRECTIONAL</code></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h3>A.7 <code>MV1_FRAMEFLAG_*</code> (ビットフラグ)</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>bit</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_FRAMEFLAG_VISIBLE</code></td>
+<td>0x0001</td>
+<td>表示</td>
+</tr>
+<tr>
+<td><code>MV1_FRAMEFLAG_IGNOREPARENTTRANS</code></td>
+<td>0x0002</td>
+<td>親の変換を無視</td>
+</tr>
+<tr>
+<td><code>MV1_FRAMEFLAG_PREROTATE</code></td>
+<td>0x0004</td>
+<td>前回転 (PreRotate) 有効</td>
+</tr>
+<tr>
+<td><code>MV1_FRAMEFLAG_POSTROTATE</code></td>
+<td>0x0008</td>
+<td>後回転 (PostRotate) 有効</td>
+</tr>
+<tr>
+<td><code>MV1_FRAMEFLAG_TANGENT_BINORMAL</code></td>
+<td>0x0010</td>
+<td>接線 / 従法線データあり</td>
+</tr>
+</tbody>
+</table>
+<h3>A.8 <code>DX_MATERIAL_TYPE_*</code> (<code>MV1_MATERIAL_TOON_F1.Type</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DX_MATERIAL_TYPE_NORMAL</code></td>
+<td>0</td>
+<td>通常</td>
+</tr>
+<tr>
+<td><code>DX_MATERIAL_TYPE_TOON</code></td>
+<td>1</td>
+<td>トゥーン</td>
+</tr>
+<tr>
+<td><code>DX_MATERIAL_TYPE_TOON_2</code></td>
+<td>2</td>
+<td>トゥーン (MMD 互換)</td>
+</tr>
+<tr>
+<td><code>DX_MATERIAL_TYPE_MAT_SPEC_LUMINANCE_UNORM</code></td>
+<td>3</td>
+<td>スペキュラ輝度 (0..1 正規化)</td>
+</tr>
+<tr>
+<td><code>DX_MATERIAL_TYPE_MAT_SPEC_LUMINANCE_CLIP_UNORM</code></td>
+<td>4</td>
+<td>同 (クリップ付き)</td>
+</tr>
+<tr>
+<td><code>DX_MATERIAL_TYPE_MAT_SPEC_LUMINANCE_CMP_GREATEREQUAL</code></td>
+<td>5</td>
+<td>同 (≥ 比較)</td>
+</tr>
+<tr>
+<td><code>DX_MATERIAL_TYPE_MAT_SPEC_POWER_UNORM</code></td>
+<td>6</td>
+<td>スペキュラ強度</td>
+</tr>
+<tr>
+<td><code>DX_MATERIAL_TYPE_MAT_SPEC_POWER_CLIP_UNORM</code></td>
+<td>7</td>
+<td>同 (クリップ付き)</td>
+</tr>
+<tr>
+<td><code>DX_MATERIAL_TYPE_MAT_SPEC_POWER_CMP_GREATEREQUAL</code></td>
+<td>8</td>
+<td>同 (≥ 比較)</td>
+</tr>
+</tbody>
+</table>
+<h3>A.9 <code>DX_MATERIAL_BLENDTYPE_*</code> (レイヤブレンド種別)</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DX_MATERIAL_BLENDTYPE_TRANSLUCENT</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>DX_MATERIAL_BLENDTYPE_ADDITIVE</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>DX_MATERIAL_BLENDTYPE_MODULATE</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>DX_MATERIAL_BLENDTYPE_NONE</code></td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<h3>A.10 <code>MV1_LAYERBLEND_TYPE_*</code></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_LAYERBLEND_TYPE_TRANSLUCENT</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>MV1_LAYERBLEND_TYPE_ADDITIVE</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>MV1_LAYERBLEND_TYPE_MODULATE</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>MV1_LAYERBLEND_TYPE_MODULATE2</code></td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<h3>A.11 <code>DX_BLENDMODE_*</code> (描画時ブレンド、<code>MV1_MATERIAL_F1.DrawBlendMode</code>)</h3>
+<p>主要値のみ (全 38 種):</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DX_BLENDMODE_NOBLEND</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>DX_BLENDMODE_ALPHA</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>DX_BLENDMODE_ADD</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>DX_BLENDMODE_SUB</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>DX_BLENDMODE_MUL</code></td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>DX_BLENDMODE_INVSRC</code></td>
+<td>10</td>
+</tr>
+<tr>
+<td><code>DX_BLENDMODE_PMA_ALPHA</code></td>
+<td>17</td>
+</tr>
+<tr>
+<td><code>DX_BLENDMODE_PMA_ADD</code></td>
+<td>18</td>
+</tr>
+<tr>
+<td><code>DX_BLENDMODE_CUSTOM</code></td>
+<td>32</td>
+</tr>
+</tbody>
+</table>
+<h3>A.12 <code>MV1_TEXTURE_ADDRESS_MODE_*</code></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_TEXTURE_ADDRESS_MODE_WRAP</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>MV1_TEXTURE_ADDRESS_MODE_MIRROR</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>MV1_TEXTURE_ADDRESS_MODE_CLAMP</code></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h3>A.13 <code>MV1_TEXTURE_FILTER_MODE_*</code></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_TEXTURE_FILTER_MODE_POINT</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>MV1_TEXTURE_FILTER_MODE_LINEAR</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>MV1_TEXTURE_FILTER_MODE_ANISOTROPIC</code></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h3>A.14 <code>MV1_ANIM_KEYSET_FLAG_*</code> (16bit ビットフラグ)</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>bit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_ANIM_KEYSET_FLAG_KEY_ONE</code></td>
+<td>0x0001</td>
+</tr>
+<tr>
+<td><code>MV1_ANIM_KEYSET_FLAG_KEYNUM_B</code></td>
+<td>0x0002</td>
+</tr>
+<tr>
+<td><code>MV1_ANIM_KEYSET_FLAG_KEYNUM_W</code></td>
+<td>0x0004</td>
+</tr>
+<tr>
+<td><code>MV1_ANIM_KEYSET_FLAG_TIME_UNIT</code></td>
+<td>0x0008</td>
+</tr>
+<tr>
+<td><code>MV1_ANIM_KEYSET_FLAG_TIME_UNIT_ST_W</code></td>
+<td>0x0010</td>
+</tr>
+<tr>
+<td><code>MV1_ANIM_KEYSET_FLAG_TIME_UNIT_ST_Z</code></td>
+<td>0x0020</td>
+</tr>
+<tr>
+<td><code>MV1_ANIM_KEYSET_FLAG_TIME_UNIT_UN_W</code></td>
+<td>0x0040</td>
+</tr>
+<tr>
+<td><code>MV1_ANIM_KEYSET_FLAG_TIME_BIT16</code></td>
+<td>0x0080</td>
+</tr>
+<tr>
+<td><code>MV1_ANIM_KEYSET_FLAG_KEY_BIT16</code></td>
+<td>0x0100</td>
+</tr>
+<tr>
+<td><code>MV1_ANIM_KEYSET_FLAG_KEY_MP_PP</code></td>
+<td>0x0200</td>
+</tr>
+<tr>
+<td><code>MV1_ANIM_KEYSET_FLAG_KEY_Z_TP</code></td>
+<td>0x0400</td>
+</tr>
+</tbody>
+</table>
+<h3>A.15 <code>MV1_FRAME_VERT_FLAG_*</code></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>bit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_FRAME_VERT_FLAG_NORMAL_TYPE_MASK</code></td>
+<td>0x0003</td>
+</tr>
+<tr>
+<td><code>MV1_FRAME_VERT_FLAG_POSITION_B16</code></td>
+<td>0x0004</td>
+</tr>
+<tr>
+<td><code>MV1_FRAME_VERT_FLAG_MATRIX_WEIGHT_NONE</code></td>
+<td>0x0008</td>
+</tr>
+<tr>
+<td><code>MV1_FRAME_VERT_FLAG_MATRIX_INDEX_MASK</code></td>
+<td>0x0010</td>
+</tr>
+<tr>
+<td><code>MV1_FRAME_VERT_FLAG_MATRIX_WEIGHT_MASK</code></td>
+<td>0x0020</td>
+</tr>
+<tr>
+<td><code>MV1_FRAME_VERT_FLAG_NOMRAL_TANGENT_BINORMAL</code></td>
+<td>0x0040</td>
+</tr>
+</tbody>
+</table>
+<h3>A.16 <code>MV1_MESH_VERT_FLAG_*</code></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>bit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_MESH_VERT_FLAG_POS_IND_TYPE_MASK</code></td>
+<td>0x0003</td>
+</tr>
+<tr>
+<td><code>MV1_MESH_VERT_FLAG_NRM_IND_TYPE_MASK</code></td>
+<td>0x000c</td>
+</tr>
+<tr>
+<td><code>MV1_MESH_VERT_FLAG_UV_U16</code></td>
+<td>0x0010</td>
+</tr>
+<tr>
+<td><code>MV1_MESH_VERT_FLAG_COMMON_COLOR</code></td>
+<td>0x0020</td>
+</tr>
+<tr>
+<td><code>MV1_MESH_VERT_FLAG_NON_TOON_OUTLINE</code></td>
+<td>0x0040</td>
+</tr>
+</tbody>
+</table>
+<h3>A.17 <code>MV1_TRIANGLE_LIST_FLAG_*</code></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>bit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_TRIANGLE_LIST_FLAG_MVERT_INDEX_MASK</code></td>
+<td>0x0003</td>
+</tr>
+<tr>
+<td><code>MV1_TRIANGLE_LIST_FLAG_INDEX_MASK</code></td>
+<td>0x000c</td>
+</tr>
+</tbody>
+</table>
+<h3>A.18 <code>MV1_TEXTURE_FLAG_*</code></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>bit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MV1_TEXTURE_FLAG_REVERSE</code></td>
+<td>0x0001</td>
+</tr>
+<tr>
+<td><code>MV1_TEXTURE_FLAG_BMP32_ALL_ZERO_ALPHA_TO_XRGB8</code></td>
+<td>0x0002</td>
+</tr>
+<tr>
+<td><code>MV1_TEXTURE_FLAG_VALID_SCALE_UV</code></td>
+<td>0x0004</td>
+</tr>
+</tbody>
+</table>
+<h3>A.19 各種型コード</h3>
+<p><strong><code>MV1_FRAME_NORMAL_TYPE_*</code></strong> (2 bit):</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+<th>サイズ/頂点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NONE</code></td>
+<td>0</td>
+<td>0 (自動計算)</td>
+</tr>
+<tr>
+<td><code>S8</code></td>
+<td>1</td>
+<td>3 byte</td>
+</tr>
+<tr>
+<td><code>S16</code></td>
+<td>2</td>
+<td>6 byte</td>
+</tr>
+<tr>
+<td><code>F32</code></td>
+<td>3</td>
+<td>12 byte</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>MV1_FRAME_MATRIX_INDEX_TYPE_*</code> / <code>MV1_FRAME_MATRIX_WEIGHT_TYPE_*</code></strong> (各 1 bit):</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+<th>サイズ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>U8</code></td>
+<td>0</td>
+<td>1 byte</td>
+</tr>
+<tr>
+<td><code>U16</code></td>
+<td>1</td>
+<td>2 byte</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>MV1_MESH_VERT_INDEX_TYPE_*</code></strong> (2 bit):</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+<th>サイズ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NONE</code></td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>U8</code></td>
+<td>1</td>
+<td>1 byte</td>
+</tr>
+<tr>
+<td><code>U16</code></td>
+<td>2</td>
+<td>2 byte</td>
+</tr>
+<tr>
+<td><code>U32</code></td>
+<td>3</td>
+<td>4 byte</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>MV1_TRIANGLE_LIST_INDEX_TYPE_*</code></strong> (2 bit):</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+<th>サイズ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>U8</code></td>
+<td>0</td>
+<td>1 byte</td>
+</tr>
+<tr>
+<td><code>U16</code></td>
+<td>1</td>
+<td>2 byte</td>
+</tr>
+<tr>
+<td><code>U32</code></td>
+<td>2</td>
+<td>4 byte</td>
+</tr>
+</tbody>
+</table>
+<h3>A.20 ハンドル型</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DX_HANDLETYPE_MODEL_BASE</code></td>
+<td>13</td>
+</tr>
+<tr>
+<td><code>DX_HANDLETYPE_MODEL</code></td>
+<td>14</td>
+</tr>
+</tbody>
+</table>
+<p><code>MATERIAL_TYPEPARAM_MAX_NUM</code> = 4 (MV1_MATERIAL_BASE.TypeParam の要素数)</p>
+<hr />
+<h2>付録 B: 可変長セクションの byte レイアウト詳細</h2>
+<h3>B.1 <code>MV1_MESH_F1.VertexData</code></h3>
+<p><code>MV1_MESH_F1.VertFlag</code> と <code>UVUnitNum</code> / <code>UVSetUnitNum</code> に応じて可変長。
+<code>VertexData</code> の読み出し順序:</p>
+<pre><code>┌─────────────────────────────────────────────────────┐
+│ [step 1] 共通色 (VertFlag &amp; COMMON_COLOR が true)   │
+│    COLOR_U8 DiffuseColor ;  // 4 byte (B,G,R,A)     │
+│    COLOR_U8 SpecularColor ; // 4 byte               │
+├─────────────────────────────────────────────────────┤
+│ [step 2] 位置インデックス × VertexNum               │
+│    size_per_elem = sizeof_index_type(               │
+│        VertFlag &amp; MV1_MESH_VERT_FLAG_POS_IND_TYPE_MASK)│
+│    合計サイズ = VertexNum * size_per_elem           │
+├─────────────────────────────────────────────────────┤
+│ [step 3] 法線インデックス × VertexNum               │
+│    size_per_elem = sizeof_index_type(               │
+│        (VertFlag &amp; MV1_MESH_VERT_FLAG_NRM_IND_TYPE_MASK) &gt;&gt; 2)│
+├─────────────────────────────────────────────────────┤
+│ [step 4] 頂点色 × VertexNum (COMMON_COLOR が false) │
+│    COLOR_U8 Diffuse + COLOR_U8 Specular = 8 byte/頂点│
+├─────────────────────────────────────────────────────┤
+│ [step 5] UV 値 × VertexNum × (UVUnitNum * UVSetUnitNum)│
+│    UV_U16 フラグ立ち: WORD (16bit 固定少数、65535=1.0) │
+│    UV_U16 フラグ無し: float                         │
+│    各 UV ペアは (u, v) の 2 成分                    │
+│    合計 = VertexNum * UVUnitNum * UVSetUnitNum * 2 *│
+│           (UV_U16 ? 2 : 4)                          │
+├─────────────────────────────────────────────────────┤
+│ [step 6] トゥーン輪郭抑止ビット × VertexNum         │
+│    (NON_TOON_OUTLINE フラグが立っている場合のみ)    │
+│    1 頂点 1 bit、LSB から詰める                     │
+│    合計 = ceil( VertexNum / 8 ) byte                │
+└─────────────────────────────────────────────────────┘
+</code></pre>
+<p>疑似コード:</p>
+<pre><code class="language-c">size_t sizeof_index_type( int type_code ) {
+    switch ( type_code ) {
+    case 0 /*NONE*/: return 0 ;
+    case 1 /*U8*/  : return 1 ;
+    case 2 /*U16*/ : return 2 ;
+    case 3 /*U32*/ : return 4 ;
+    }
+    return 0 ;
+}
+
+size_t calc_vertex_data_size( MV1_MESH_F1 *m ) {
+    size_t s = 0 ;
+    if ( m-&gt;VertFlag &amp; 0x0020 /*COMMON_COLOR*/ ) s += 8 ;
+    int posType = m-&gt;VertFlag &amp; 0x3 ;
+    int nrmType = ( m-&gt;VertFlag &gt;&gt; 2 ) &amp; 0x3 ;
+    s += (size_t)m-&gt;VertexNum * sizeof_index_type( posType ) ;
+    s += (size_t)m-&gt;VertexNum * sizeof_index_type( nrmType ) ;
+    if ( !( m-&gt;VertFlag &amp; 0x0020 ) ) s += (size_t)m-&gt;VertexNum * 8 ;
+    int uvUnit = m-&gt;UVUnitNum * m-&gt;UVSetUnitNum ;
+    size_t uvElem = ( m-&gt;VertFlag &amp; 0x0010 /*UV_U16*/ ) ? 2 : 4 ;
+    s += (size_t)m-&gt;VertexNum * uvUnit * 2 * uvElem ;
+    if ( m-&gt;VertFlag &amp; 0x0040 /*NON_TOON_OUTLINE*/ )
+        s += ( (size_t)m-&gt;VertexNum + 7 ) / 8 ;
+    return s ;
+}
+</code></pre>
+<h3>B.2 <code>MV1_FRAME_F1.PositionAndNormalData</code></h3>
+<p><code>VertFlag</code> + <code>PositionNum</code> / <code>NormalNum</code> / <code>MaxBoneBlendNum</code> に応じて可変:</p>
+<pre><code>┌─────────────────────────────────────────────────────┐
+│ [step 1] POSITION_B16 フラグ立ちの時のみ            │
+│    MV1_POSITION_16BIT_SUBINFO_F1 xSubinfo ; /* 8B */│
+│    MV1_POSITION_16BIT_SUBINFO_F1 ySubinfo ; /* 8B */│
+│    MV1_POSITION_16BIT_SUBINFO_F1 zSubinfo ; /* 8B */│
+│       struct { float Min; float Width; } ;          │
+├─────────────────────────────────────────────────────┤
+│ [step 2] 座標データ × PositionNum                   │
+│    POSITION_B16 立っていれば WORD[3] (6 byte)       │
+│                 立っていなければ float[3] (12 byte) │
+│                                                     │
+│    WORD 値 w (0..65535) からの復元:                 │
+│       x = xSubinfo.Min + (w / 65535.0) * xSubinfo.Width│
+│       (y, z も同様)                                 │
+├─────────────────────────────────────────────────────┤
+│ [step 3] スキニング情報 (!MATRIX_WEIGHT_NONE の場合)│
+│    座標 × PositionNum 回:                           │
+│      MaxBoneBlendNum ボーンぶん or インデックス=-1ま│
+│       {                                             │
+│         bone_index (U8 or U16, MATRIX_INDEX_MASK 依存)│
+│         weight     (U8 or U16, MATRIX_WEIGHT_MASK 依存)│
+│       }                                             │
+│    終端条件: -1 (U8=0xFF, U16=0xFFFF) を bone_index │
+│              で読んだら、その weight は読まず次頂点へ│
+├─────────────────────────────────────────────────────┤
+│ [step 4] 法線データ × NormalNum                     │
+│    (VertFlag &amp; NORMAL_TYPE_MASK) に応じて型:        │
+│      NONE (0) = スキップ                            │
+│      S8   (1) = s8 × 3    (3 byte)                  │
+│      S16  (2) = s16 × 3   (6 byte)                  │
+│      F32  (3) = float × 3 (12 byte)                 │
+│                                                     │
+│    S8/S16 の場合は (-1.0 .. +1.0) を (-127..127) /  │
+│    (-32767..32767) にマップ。デコード時に正規化要。 │
+│                                                     │
+│    TANGENT_BINORMAL フラグ立ち時は法線 3 成分の後に │
+│    接線 + 従法線の 2 ベクトル (同じ型) が続く       │
+└─────────────────────────────────────────────────────┘
+</code></pre>
+<h3>B.3 <code>MV1_TRIANGLE_LIST_F1.MeshVertexIndexAndIndexData</code></h3>
+<pre><code>┌─────────────────────────────────────────────────────┐
+│ [step 1] 使用ボーン情報 (VertexType 依存)           │
+│                                                     │
+│   NORMAL (0):        なし (0 byte)                  │
+│                                                     │
+│   SKIN_4BONE (1):                                   │
+│     WORD UseBoneNum ;                               │
+│     WORD BoneIndices[ UseBoneNum ] ;                │
+│                                                     │
+│   SKIN_8BONE (2):                                   │
+│     WORD UseBoneNum ;                               │
+│     WORD BoneIndices[ UseBoneNum ] ;                │
+│                                                     │
+│   SKIN_FREEBONE (3):                                │
+│     WORD MaxBoneNum ;  /* 1 頂点あたりの最大使用数 */│
+├─────────────────────────────────────────────────────┤
+│ [step 2] メッシュ頂点インデックス × VertexNum       │
+│     型: (Flag &amp; MVERT_INDEX_MASK) に応じて U8/U16/U32│
+├─────────────────────────────────────────────────────┤
+│ [step 3] 頂点インデックス × IndexNum                │
+│     型: ((Flag &amp; INDEX_MASK) &gt;&gt; 2) に応じて U8/U16/U32│
+│     3 個で 1 三角形                                 │
+└─────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>SKIN_FREEBONE の追加情報</strong>: <code>MaxBoneNum</code> は 1 頂点が参照する最大ボーン数。各頂点のボーン並びは別途 <code>MV1_FRAME_F1.PositionAndNormalData</code> 内に格納される (step 3 の可変長スキニング情報、<code>-1</code> 終端)。</p>
+<h3>B.4 文字列プール <code>StringBuffer</code> のアクセス</h3>
+<pre><code class="language-c">const char *get_string( uint8_t *base, uint32_t strOffset ) {
+    return (const char *)( base + header-&gt;StringBuffer + strOffset ) ;
+}
+</code></pre>
+<ul>
+<li><code>strOffset</code> は <code>StringBuffer</code> 先頭からの byte 単位オフセット</li>
+<li>各文字列は null 終端</li>
+<li><code>IsStringUTF8 == 1</code> なら UTF-8、<code>0</code> なら Shift-JIS (CP932)</li>
+<li><code>Name = 0</code> の場合は無名 (NULL 文字列扱い)</li>
+</ul>
+<hr />
+<h2>付録 C: 16bit 圧縮値のデコード式</h2>
+<p>アニメキー値を 16bit で格納する場合、<code>MV1_ANIM_KEY_16BIT_F1</code> 補助構造体 2 byte で「最小値」と「単位」を記述し、16bit index からの浮動小数復元は以下のビットパック:</p>
+<h3>C.1 <code>MV1_ANIM_KEY_16BIT_F1</code></h3>
+<pre><code class="language-c">struct MV1_ANIM_KEY_16BIT_F1 {
+    uint8_t Min  ;   /* 最小値の符号付き浮動小数 (ビットパック) */
+    uint8_t Unit ;   /* 16bit 値 1 あたりの刻み値 (ビットパック)   */
+} ;
+</code></pre>
+<p><strong><code>Min</code> のビットレイアウト</strong> (1 byte):</p>
+<table>
+<thead>
+<tr>
+<th>ビット</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bit 7</td>
+<td>ゼロフラグ (1=Min が 0、以下無視)</td>
+</tr>
+<tr>
+<td>bit 6</td>
+<td>符号 (0=正, 1=負)</td>
+</tr>
+<tr>
+<td>bit 5</td>
+<td>指数符号 (0=正指数, 1=負指数)</td>
+</tr>
+<tr>
+<td>bit 4-0</td>
+<td>指数値 (0..31、実指数は 0..15)</td>
+</tr>
+</tbody>
+</table>
+<p>復元式:</p>
+<pre><code>if ( bit7 == 1 ) : minVal = 0.0
+else            : sign = ( bit6 ? -1.0 : +1.0 )
+                  expSign = ( bit5 ? -1 : +1 )
+                  exponent = (bit4..bit0) &amp; 0x1F
+                  minVal = sign * 10^( expSign * exponent )
+</code></pre>
+<p><strong><code>Unit</code> のビットレイアウト</strong> (1 byte):</p>
+<table>
+<thead>
+<tr>
+<th>ビット</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bit 7</td>
+<td>指数符号 (0=正, 1=負)</td>
+</tr>
+<tr>
+<td>bit 6-4</td>
+<td>指数値 (0..7、実指数は 0..7)</td>
+</tr>
+<tr>
+<td>bit 3-0</td>
+<td>乗算整数値 (0..15)</td>
+</tr>
+</tbody>
+</table>
+<p>復元式:</p>
+<pre><code>expSign = ( bit7 ? -1 : +1 )
+exponent = (bit6..bit4) &amp; 0x07
+mulInt   = (bit3..bit0) &amp; 0x0F     /* 0 の場合は 1 扱い */
+unitVal  = mulInt * 10^( expSign * exponent )
+</code></pre>
+<h3>C.2 16bit キー index から実値へ</h3>
+<pre><code>u16 rawIndex ;   /* 0..65535 */
+float realValue = minVal + rawIndex * unitVal ;
+</code></pre>
+<h3>C.3 特別エンコード (<code>MV1_ANIM_KEYSET_FLAG_KEY_MP_PP</code> / <code>_Z_TP</code>)</h3>
+<p><code>MP_PP</code> フラグが立っている場合、16bit index 0..65535 は <code>[-π, +π]</code> に直接マッピングされる:</p>
+<pre><code>angle = ( rawIndex / 65535.0 ) * 2π - π
+</code></pre>
+<p><code>Z_TP</code> フラグが立っている場合は <code>[0, 2π]</code>:</p>
+<pre><code>angle = ( rawIndex / 65535.0 ) * 2π
+</code></pre>
+<p>これらのフラグ時は <code>Min</code>/<code>Unit</code> 補助情報は <strong>省略される</strong> (2 byte 節約)。</p>
+<h3>C.4 時間値の 16bit 圧縮</h3>
+<p><code>TIME_BIT16</code> フラグ立ちで、時間軸も 16bit 化:</p>
+<ul>
+<li>補助情報 <code>MV1_ANIM_KEY_16BIT_F1 timeSubInfo</code> が前置 (2 byte)</li>
+<li>各キー時刻 = <code>timeSubInfo.Min + rawTime16 * timeSubInfo.Unit</code></li>
+</ul>
+<p><code>TIME_UNIT</code> フラグ立ちで、全キーが等間隔 (= 個別時刻記録を省略):</p>
+<ul>
+<li><code>TIME_UNIT_ST_W</code> → 開始時刻を WORD (2 byte)</li>
+<li><code>TIME_UNIT_ST_Z</code> → 開始時刻は 0</li>
+<li>(どちらも無い場合) → 開始時刻は float (4 byte)</li>
+<li><code>TIME_UNIT_UN_W</code> → 単位時間を WORD、無ければ float</li>
+<li>i 番目のキー時刻 = <code>startTime + i * unitTime</code></li>
+</ul>
+<h3>C.5 キー数の可変長圧縮</h3>
+<table>
+<thead>
+<tr>
+<th>フラグ</th>
+<th>キー数の格納</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>KEY_ONE</code></td>
+<td>キー数 = 1 (格納なし)</td>
+</tr>
+<tr>
+<td><code>KEYNUM_B</code></td>
+<td>1 byte (0..255)</td>
+</tr>
+<tr>
+<td><code>KEYNUM_W</code></td>
+<td>2 byte (0..65535)</td>
+</tr>
+<tr>
+<td>(どれも立ってない)</td>
+<td>4 byte (DWORD)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>付録 D: <code>MATRIX_4X4CT_F</code> / <code>FLOAT4</code> の実メモリ配置</h2>
+<h3>D.1 <code>MATRIX_4X4CT_F</code></h3>
+<p>4 行 3 列の row-major レイアウト。4 行目は暗黙的に <code>(0, 0, 0, 1)</code> 固定。</p>
+<pre><code class="language-c">typedef struct {
+    float m[ 4 ][ 3 ] ;   /* row-major: m[row][col] */
+} MATRIX_4X4CT_F ;
+</code></pre>
+<p><strong>メモリ上の並び</strong> (48 byte = 12 float):</p>
+<pre><code>Offset  Element
+0x00    m[0][0]   Basis X axis .x
+0x04    m[0][1]   Basis X axis .y
+0x08    m[0][2]   Basis X axis .z
+0x0C    m[1][0]   Basis Y axis .x
+0x10    m[1][1]   Basis Y axis .y
+0x14    m[1][2]   Basis Y axis .z
+0x18    m[2][0]   Basis Z axis .x
+0x1C    m[2][1]   Basis Z axis .y
+0x20    m[2][2]   Basis Z axis .z
+0x24    m[3][0]   Translation .x
+0x28    m[3][1]   Translation .y
+0x2C    m[3][2]   Translation .z
+</code></pre>
+<p>並進成分は <code>m[3][0..2]</code> (4 行目の最初の 3 要素)。</p>
+<h3>D.2 完全 4x4 への展開</h3>
+<pre><code>[m[0][0]  m[0][1]  m[0][2]  0]
+[m[1][0]  m[1][1]  m[1][2]  0]
+[m[2][0]  m[2][1]  m[2][2]  0]
+[m[3][0]  m[3][1]  m[3][2]  1]
+</code></pre>
+<p>DxLib の変換規約は <strong>行ベクトル × 行列</strong> (<code>v' = v * M</code>)。すなわち、点 <code>p = (px, py, pz, 1)</code> を左から掛けると:</p>
+<pre><code>p' = p * M
+p'.x = px*m[0][0] + py*m[1][0] + pz*m[2][0] + 1*m[3][0]
+p'.y = px*m[0][1] + py*m[1][1] + pz*m[2][1] + 1*m[3][1]
+p'.z = px*m[0][2] + py*m[1][2] + pz*m[2][2] + 1*m[3][2]
+</code></pre>
+<h3>D.3 <code>FLOAT4</code> (クォータニオン用)</h3>
+<pre><code class="language-c">typedef struct {
+    float x, y, z, w ;
+} FLOAT4 ;
+</code></pre>
+<p><strong><code>MV1_FRAME_F1.Quaternion</code> の格納順は <code>(x, y, z, w)</code></strong>。w が最後。ほとんどの 3D ライブラリと同じ順だが、一部の他形式 (例えば <code>.x</code> ファイル) は <code>(w, x, y, z)</code> なので変換時注意。</p>
+<h3>D.4 <code>COLOR_F</code> と <code>COLOR_U8</code></h3>
+<pre><code class="language-c">typedef struct { float r, g, b, a ; } COLOR_F ;   /* 16 byte */
+</code></pre>
+<pre><code class="language-c">typedef struct { uint8_t r, g, b, a ; } COLOR_U8 ; /* 4 byte */
+</code></pre>
+<p><strong>警告</strong>: <code>COLOR_U8</code> は DxLib 内部では実際には <strong><code>b, g, r, a</code> の順でメモリに格納</strong> される (BGRA バイト順。DirectX ARGB と互換)。この順序は <code>DxLib.h</code> の定義で確認済。<code>.mv1</code> 内の頂点色でもこの BGRA 順で書き出される。</p>
+<h3>D.5 <code>VECTOR</code></h3>
+<pre><code class="language-c">typedef struct { float x, y, z ; } VECTOR ;   /* 12 byte */
+</code></pre>
+<h3>D.6 Endian / alignment</h3>
+<ul>
+<li>全て little-endian</li>
+<li>構造体は通常 4 byte alignment、<code>DWORD Padding[]</code> で調整済</li>
+<li>32bit / 64bit ビルド両対応 (struct 内の <code>DWORD</code> は pointer 型でも 4 byte を維持、load 時にポインタ化)</li>
+</ul>
+<hr />
+<h2>付録 E: リファレンス C パーサ (最小読み取り実装)</h2>
+<p><code>.mv1</code> ファイルを開いて、モデルの主要情報 (頂点数 / 三角形数 / マテリアル数 / テクスチャパス) を標準出力する最小コード例。C99 移植性を重視し外部依存なし。</p>
+<pre><code class="language-c">/* mv1_dump.c - .mv1 ファイルの最小ダンパ */
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* ---- DXA decode (付録 A の疑似コード実装) ---- */
+
+static uint32_t rd_u32( const uint8_t *p ) {
+    return ( uint32_t )p[ 0 ]
+         | ( ( uint32_t )p[ 1 ] &lt;&lt; 8 )
+         | ( ( uint32_t )p[ 2 ] &lt;&lt; 16 )
+         | ( ( uint32_t )p[ 3 ] &lt;&lt; 24 ) ;
+}
+static uint16_t rd_u16( const uint8_t *p ) {
+    return ( uint16_t )p[ 0 ] | ( ( uint16_t )p[ 1 ] &lt;&lt; 8 ) ;
+}
+
+static int dxa_decode( const uint8_t *src, size_t srcLen, uint8_t *dst, uint32_t *origSizeOut )
+{
+    if ( srcLen &lt; 9 ) return -1 ;
+    uint32_t origSize = rd_u32( src ) ;
+    uint32_t compSize = rd_u32( src + 4 ) ;
+    uint8_t  key      = src[ 8 ] ;
+    if ( origSizeOut ) *origSizeOut = origSize ;
+    if ( dst == NULL )   return 0 ;
+    if ( srcLen &lt; compSize ) return -1 ;
+
+    const uint8_t *sp = src + 9 ;
+    const uint8_t *spEnd = src + compSize ;
+    uint8_t *dp = dst ;
+
+    while ( sp &lt; spEnd ) {
+        if ( *sp != key ) { *dp++ = *sp++ ; continue ; }
+        if ( sp[ 1 ] == key ) { *dp++ = key ; sp += 2 ; continue ; }
+
+        uint8_t flags = sp[ 1 ] ;
+        if ( flags &gt; key ) flags-- ;
+        sp += 2 ;
+
+        uint32_t length = ( uint32_t )( flags &gt;&gt; 3 ) ;
+        if ( flags &amp; 0x04 ) { length |= ( uint32_t )( *sp++ ) &lt;&lt; 5 ; }
+        length += 4 ;
+
+        uint32_t dist = 0 ;
+        switch ( flags &amp; 0x03 ) {
+            case 0: dist = *sp++ ; break ;
+            case 1: dist = rd_u16( sp ) ; sp += 2 ; break ;
+            case 2: dist = rd_u16( sp ) | ( ( uint32_t )sp[ 2 ] &lt;&lt; 16 ) ; sp += 3 ; break ;
+        }
+        dist += 1 ;
+
+        if ( dist &lt; length ) {
+            uint32_t part = dist ;
+            while ( length &gt; part ) {
+                memmove( dp, dp - part, part ) ;
+                dp += part ; length -= part ; part += part ;
+            }
+            memmove( dp, dp - ( part / 2 ) - ( dist &gt; part / 2 ? ( dist - part / 2 ) : 0 ), length ) ;
+            dp += length ;
+        } else {
+            memmove( dp, dp - dist, length ) ;
+            dp += length ;
+        }
+    }
+    return 0 ;
+}
+
+/* ---- MV1 主要構造体 (read-only、padding は必要最小限まで無視) ---- */
+
+#pragma pack(push, 4)
+typedef struct { float r, g, b, a ; } COLOR_F ;
+
+typedef struct {
+    uint8_t CheckID[ 4 ] ;
+    uint32_t Version ;
+    int32_t  RightHandType ;
+    int32_t  AutoCreateNormal ;
+    int32_t  ChangeDrawMaterialTableSize ;
+    int32_t  ChangeMatrixTableSize ;
+    uint32_t ChangeDrawMaterialTable ;
+    uint32_t ChangeMatrixTable ;
+    int32_t  FrameNum ;
+    uint32_t Frame ;
+    int32_t  TopFrameNum ;
+    uint32_t FirstTopFrame ;
+    uint32_t LastTopFrame ;
+    int32_t  FrameUseSkinBoneNum ;
+    uint32_t FrameUseSkinBone ;
+    int32_t  MaterialNum ;
+    uint32_t Material ;
+    int32_t  TextureNum ;
+    uint32_t Texture ;
+    int32_t  MeshNum ;
+    uint32_t Mesh ;
+    int32_t  LightNum ;
+    uint32_t Light ;
+    int32_t  SkinBoneNum ;
+    uint32_t SkinBone ;
+    int32_t  SkinBoneUseFrameNum ;
+    uint32_t SkinBoneUseFrame ;
+    int32_t  TriangleListNum ;
+    uint32_t TriangleList ;
+    uint32_t VertexData ;
+    uint32_t VertexDataSize ;
+    int32_t  TriangleListNormalPositionNum ;
+    int32_t  TriangleListSkinPosition4BNum ;
+    int32_t  TriangleListSkinPosition8BNum ;
+    int32_t  TriangleListSkinPositionFREEBSize ;
+    int32_t  MeshPositionSize ;
+    int32_t  MeshNormalNum ;
+    int32_t  MeshVertexSize ;
+    int32_t  MeshFaceNum ;
+    int32_t  MeshVertexIndexNum ;
+    int32_t  TriangleListIndexNum ;
+    int32_t  TriangleNum ;
+    int32_t  TriangleListVertexNum ;
+    int32_t  StringSize ;
+    uint32_t StringBuffer ;
+    /* 以降は省略可 (この demo では使わない) */
+} MV1MODEL_FILEHEADER_F1 ;
+
+typedef struct {
+    uint32_t DimPrev, DimNext ;
+    uint32_t Name ;
+    int32_t  Index ;
+    uint32_t ColorFilePath ;
+    uint32_t AlphaFilePath ;
+    int32_t  BumpImageFlag ;
+    float    BumpImageNextPixelLength ;
+    int32_t  AddressModeU ;
+    int32_t  AddressModeV ;
+    int32_t  FilterMode ;
+    uint32_t UserData[ 2 ] ;
+    uint8_t  Flag ;
+    uint8_t  Padding1[ 3 ] ;
+    float    ScaleU, ScaleV ;
+    uint32_t Padding ;
+} MV1_TEXTURE_F1 ;
+
+typedef struct {
+    uint32_t DimPrev, DimNext ;
+    uint32_t Name ;
+    int32_t  Index ;
+    COLOR_F  Diffuse ;
+    COLOR_F  Ambient ;
+    COLOR_F  Specular ;
+    COLOR_F  Emissive ;
+    float    Power ;
+    float    Alpha ;
+    int32_t  DiffuseLayerNum ;
+    struct { int32_t Texture ; int32_t BlendType ; uint32_t Padding[ 4 ] ; } DiffuseLayer[ 8 ] ;
+    /* 以降省略 */
+} MV1_MATERIAL_F1_HEAD ;
+#pragma pack(pop)
+
+/* ---- メイン ---- */
+
+int main( int argc, char **argv ) {
+    if ( argc != 2 ) { fprintf( stderr, &quot;usage: %s file.mv1\n&quot;, argv[ 0 ] ) ; return 1 ; }
+
+    FILE *fp = fopen( argv[ 1 ], &quot;rb&quot; ) ;
+    if ( !fp ) { perror( argv[ 1 ] ) ; return 1 ; }
+    fseek( fp, 0, SEEK_END ) ;
+    size_t fileLen = ( size_t )ftell( fp ) ;
+    fseek( fp, 0, SEEK_SET ) ;
+    uint8_t *fileBuf = malloc( fileLen ) ;
+    fread( fileBuf, 1, fileLen, fp ) ;
+    fclose( fp ) ;
+
+    if ( memcmp( fileBuf, &quot;MV11&quot;, 4 ) != 0 ) {
+        fprintf( stderr, &quot;Not a MV11 file\n&quot; ) ; return 1 ;
+    }
+
+    /* DXA 伸長 */
+    uint32_t origSize = 0 ;
+    dxa_decode( fileBuf + 4, fileLen - 4, NULL, &amp;origSize ) ;
+    uint8_t *base = malloc( origSize ) ;
+    dxa_decode( fileBuf + 4, fileLen - 4, base, NULL ) ;
+    free( fileBuf ) ;
+
+    /* ルートヘッダ */
+    MV1MODEL_FILEHEADER_F1 *h = ( MV1MODEL_FILEHEADER_F1 * )base ;
+
+    printf( &quot;=== MV1 Dump ===\n&quot; ) ;
+    printf( &quot;Version:       %u\n&quot;, h-&gt;Version ) ;
+    printf( &quot;RightHand:     %s\n&quot;, h-&gt;RightHandType ? &quot;yes&quot; : &quot;no&quot; ) ;
+    printf( &quot;Frames:        %d\n&quot;, h-&gt;FrameNum ) ;
+    printf( &quot;Meshes:        %d\n&quot;, h-&gt;MeshNum ) ;
+    printf( &quot;Materials:     %d\n&quot;, h-&gt;MaterialNum ) ;
+    printf( &quot;Textures:      %d\n&quot;, h-&gt;TextureNum ) ;
+    printf( &quot;SkinBones:     %d\n&quot;, h-&gt;SkinBoneNum ) ;
+    printf( &quot;Triangles:     %d\n&quot;, h-&gt;TriangleNum ) ;
+    printf( &quot;TotalVertices: %d\n&quot;, h-&gt;TriangleListVertexNum ) ;
+    printf( &quot;StringPool:    %d bytes\n&quot;, h-&gt;StringSize ) ;
+
+    /* テクスチャ一覧 */
+    MV1_TEXTURE_F1 *tex = ( MV1_TEXTURE_F1 * )( base + h-&gt;Texture ) ;
+    const char *strPool = ( const char * )( base + h-&gt;StringBuffer ) ;
+    printf( &quot;\n--- Textures ---\n&quot; ) ;
+    for ( int i = 0 ; i &lt; h-&gt;TextureNum ; ++i ) {
+        const char *name = tex[ i ].Name ? ( strPool + tex[ i ].Name ) : &quot;(null)&quot; ;
+        const char *path = tex[ i ].ColorFilePath ? ( strPool + tex[ i ].ColorFilePath ) : &quot;(null)&quot; ;
+        printf( &quot;  [%d] name=%s  path=%s\n&quot;, i, name, path ) ;
+    }
+
+    /* マテリアル一覧 */
+    printf( &quot;\n--- Materials ---\n&quot; ) ;
+    MV1_MATERIAL_F1_HEAD *mat = ( MV1_MATERIAL_F1_HEAD * )( base + h-&gt;Material ) ;
+    /* 注: MV1_MATERIAL_F1 の実サイズを調べて stride 計算が必要。このデモでは先頭のみ表示 */
+    const char *mname = mat[ 0 ].Name ? ( strPool + mat[ 0 ].Name ) : &quot;(null)&quot; ;
+    printf( &quot;  [0] name=%s  Diffuse=(%.2f,%.2f,%.2f,%.2f)  DiffuseLayerNum=%d\n&quot;,
+            mname,
+            mat[ 0 ].Diffuse.r, mat[ 0 ].Diffuse.g, mat[ 0 ].Diffuse.b, mat[ 0 ].Diffuse.a,
+            mat[ 0 ].DiffuseLayerNum ) ;
+
+    free( base ) ;
+    return 0 ;
+}
+</code></pre>
+<h3>コンパイル例</h3>
+<pre><code class="language-bash">gcc -O2 -std=c99 -o mv1_dump mv1_dump.c
+./mv1_dump model.mv1
+</code></pre>
+<h3>想定出力</h3>
+<pre><code>=== MV1 Dump ===
+Version:       1
+RightHand:     yes
+Frames:        42
+Meshes:        8
+Materials:     8
+Textures:      5
+SkinBones:     38
+Triangles:     12480
+TotalVertices: 38450
+StringPool:    1024 bytes
+
+--- Textures ---
+  [0] name=body  path=textures/body.png
+  [1] name=face  path=textures/face.png
+  ...
+</code></pre>
+<h3>このコードの限界</h3>
+<ul>
+<li><code>MV1_MATERIAL_F1_HEAD</code> は先頭一致の部分定義。全フィールドを読むには <code>DxModelFile.h</code> の完全定義に合わせる。</li>
+<li>頂点 / 三角形データの展開は本格的な実装を要する (可変長セクション B.1〜B.3 参照)。</li>
+<li>アニメーション読み取りは 16bit 圧縮デコードロジック (付録 C) が必要。</li>
+<li><code>_pragma pack(4)</code> は MSVC / GCC / Clang で互換。他コンパイラは <code>__attribute__((packed))</code> に書き換え。</li>
+</ul>
+<hr />
+<h2>改訂履歴</h2>
+<table>
+<thead>
+<tr>
+<th>日時</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-04-22 22:29</td>
+<td>初版 (概観 + 主要構造体)</td>
+</tr>
+<tr>
+<td>2026-04-22 22:32</td>
+<td>拡充版: DXA 圧縮仕様 + 全 enum 値 + 可変長 byte 図 + 16bit 圧縮式 + MATRIX 詳細 + リファレンス C パーサを追加</td>
+</tr>
+</tbody>
+</table>
 
 <div class="footer">Generated from mv1_file_format.md &nbsp;|&nbsp; DxLib 3.24f based &nbsp;|&nbsp; 2026-04-22</div>
 </body>
