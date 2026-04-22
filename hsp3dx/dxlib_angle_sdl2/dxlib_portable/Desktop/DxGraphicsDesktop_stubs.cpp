@@ -89,7 +89,7 @@ extern int Graphics_Hardware_DrawSimpleTriangleGraphF_PF(struct tagGRAPHICS_DRAW
 // Graphics_Hardware_DrawTriangle_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 // Graphics_Hardware_FillGraph_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 // Graphics_Hardware_GetDrawScreenGraphBase_PF: impl in DxGraphicsDesktop.cpp (Category C)
-extern int Graphics_Hardware_GetMultiSampleQuality_PF(int) { return 0; }
+// Graphics_Hardware_GetMultiSampleQuality_PF: impl in DxGraphicsDesktop.cpp
 extern int Graphics_Hardware_GetVideoMemorySizeEx_PF(unsigned long long *,unsigned long long *) { return 0; }
 // Graphics_Hardware_GraphLock_PF / GraphUnlock_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 // Graphics_Hardware_IndexBuffer_*_PF: impl in DxGraphicsDesktop.cpp (no-op but present)
@@ -100,7 +100,7 @@ extern int Graphics_Hardware_LockDrawScreenBuffer_PF(struct tagRECT *,struct tag
 extern int Graphics_Hardware_Paint_PF(int,int,unsigned int,unsigned long long) { return 0; }
 // Graphics_Hardware_RefreshAlphaChDrawMode_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 // moved to DxGraphicsDesktop.cpp (Stage 17)
-extern int Graphics_Hardware_ScreenCopy_PF(int) { return 0; }
+// Graphics_Hardware_ScreenCopy_PF: impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_SetBackgroundColor_PF: impl in DxGraphicsDesktop.cpp (glClearColor 予約)
 extern int Graphics_Hardware_SetBlendGraphParamBase_PF(struct IMAGEDATA *,int,int *) { return 0; }
 // Graphics_Hardware_SetDrawAddColor_PF: impl in DxGraphicsDesktop.cpp (placeholder)
@@ -110,7 +110,7 @@ extern int Graphics_Hardware_SetBlendGraphParamBase_PF(struct IMAGEDATA *,int,in
 // Graphics_Hardware_SetDrawBrightToOneParam_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 // Graphics_Hardware_SetDrawBright_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 extern int Graphics_Hardware_SetDrawCustomBlendMode_PF(int,int,int,int,int,int,int,int) { return 0; }
-extern int Graphics_Hardware_SetDrawMode_PF(int) { return 0; }
+// Graphics_Hardware_SetDrawMode_PF: impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_SetMaxAnisotropy_PF / SetTextureAddressMode* / SetDrawAlphaTest:
 //   impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_SetDrawScreen_PF / _Post_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
@@ -123,12 +123,12 @@ extern int Graphics_Hardware_SetRenderTargetToShader_PF(int,int,int,int) { retur
 // Graphics_Hardware_SetTextureAddressMode{,UV}_PF: impl in DxGraphicsDesktop.cpp
 extern int Graphics_Hardware_SetTextureAddressTransformMatrix_PF(int,struct tagMATRIX *,int) { return 0; }
 // Graphics_Hardware_SetTransformTo*_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
-extern int Graphics_Hardware_SetUseHardwareVertexProcessing_PF(int) { return 0; }
-extern int Graphics_Hardware_SetUseNormalDrawShader_PF(int) { return 0; }
-extern int Graphics_Hardware_SetUseOldDrawModiGraphCodeFlag_PF(int) { return 0; }
+// Graphics_Hardware_SetUseHardwareVertexProcessing_PF / SetUseNormalDrawShader_PF /
+// SetUseOldDrawModiGraphCodeFlag_PF / SetUsePlatformTextureFormat_PF:
+//   impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_SetUsePixelLighting_PF / SetVerticalFog* / SetZBufferMode_PF /
 // SetupUseZBuffer_PF: impl in DxGraphicsDesktop.cpp
-extern int Graphics_Hardware_SetUsePlatformTextureFormat_PF(int) { return 0; }
+// SetUsePlatformTextureFormat_PF: impl in DxGraphicsDesktop.cpp
 extern int Graphics_Hardware_ShaderConstantBuffer_Create_PF(int,int,int) { return 0; }
 extern int Graphics_Hardware_ShaderConstantBuffer_Set_PF(struct SHADERCONSTANTBUFFERHANDLEDATA *,int,int) { return 0; }
 extern int Graphics_Hardware_ShaderConstantBuffer_TerminateHandle_PF(struct SHADERCONSTANTBUFFERHANDLEDATA *) { return 0; }

@@ -1075,6 +1075,56 @@ extern int Graphics_Hardware_SetVerticalFogDensity_PF  ( float /*Start*/, float 
 extern int Graphics_Hardware_SetVerticalFogMode_PF     ( int /*Mode*/ )             { return 0 ; }
 extern int Graphics_Hardware_SetVerticalFogStartEnd_PF ( float /*Start*/, float /*End*/ ) { return 0 ; }
 
+extern int Graphics_Hardware_SetDrawMode_PF( int Mode )
+{
+    // DX_DRAWMODE_NEAREST=0 (filter なし) / BILINEAR=1 / ANISOTROPIC=2
+    GLenum filter = ( Mode == 0 ) ? GL_NEAREST : GL_LINEAR ;
+    // Current bound texture に適用 (default filter 切替の意図)
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetUseHardwareVertexProcessing_PF( int /*Flag*/ )
+{
+    // GL は常に HW vertex processing、flag 保存のみ (no-op)
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetUsePlatformTextureFormat_PF( int /*Flag*/ )
+{
+    // Desktop では internal format = GL_RGBA8 固定。flag 保存のみ。
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetUseOldDrawModiGraphCodeFlag_PF( int /*Flag*/ )
+{
+    return 0 ;
+}
+
+extern int Graphics_Hardware_GetMultiSampleQuality_PF( int /*MultiSample*/ )
+{
+    // MSAA は SDL_GL_SetAttribute で 1 サンプル (non-MSAA)、level=0 を返す
+    return 0 ;
+}
+
+extern int Graphics_Hardware_ScreenCopy_PF( int /*Mode*/ )
+{
+    // Front/Back buffer copy は SDL_GL_SwapWindow の副作用で発生。
+    // 明示 copy は不要 (GL の double buffer は自動)。
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetUseNormalDrawShader_PF( int Flag )
+{
+    // 通常描画 (Draw*Primitive*) で shader を使うか固定機能パイプラインかの
+    // 切替え。DxLib 本家は DirectX だと shader が default だが、Desktop は
+    // compat profile の fixed-function を主としているので、この flag は
+    // MV1 描画の Desktop_MV1_UseGLSLShader と独立。ここでは保存のみ。
+    (void)Flag ;
+    return 0 ;
+}
+
 // --- stub から実機能化した PF 群 (stub 整理) ----------------------------
 
 extern int Graphics_Hardware_CheckValid_PF( void )
