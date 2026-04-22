@@ -99,6 +99,18 @@ int  hsp3dx_dev_gps_status( void );
 int  hsp3dx_dev_torch_supported( void );   //  1=対応, 0=非対応
 void hsp3dx_dev_torch          ( int on ); //  0/1 で off/on
 
+//  マイク録音レベル (音量メータ。実際の録音データは保存しない)
+//    mic_start で permission 要求 + 録音セッション開始、mic_level で 0..100 の瞬間レベル
+void hsp3dx_dev_mic_start( void );
+void hsp3dx_dev_mic_stop ( void );
+int  hsp3dx_dev_mic_level( void );   // 0..100 (-1 = 未開始)
+
+//  生体認証 (Touch ID / Face ID / BiometricPrompt)
+//    reason は UI に表示する説明文 (UTF-8)
+//    同期 blocking で、戻り値:
+//      1 = 認証成功、0 = キャンセル/失敗、-1 = 未対応/デバイス非搭載
+int  hsp3dx_dev_biometric_auth( const char *reason );
+
 #ifdef __cplusplus
 }
 #endif

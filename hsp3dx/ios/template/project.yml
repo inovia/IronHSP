@@ -179,3 +179,4 @@ targets:
       - sdk: CoreText.framework
       - sdk: ImageIO.framework
       - sdk: OpenAL.framework
+      - sdk: LocalAuthentication.framework

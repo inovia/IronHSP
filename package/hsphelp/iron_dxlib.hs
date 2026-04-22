@@ -1202,3 +1202,48 @@ dx_dev_torch_supported
 hsp3dx Device
 %inst
 stat = 1 対応 / 0 非対応。
+
+
+;--------------------------------------------------------------
+;  Phase M.8: マイク録音レベル
+;--------------------------------------------------------------
+%index
+dx_dev_mic_start
+マイク入力レベル測定を開始 (録音自体は保存されない)
+%group
+hsp3dx Device
+%inst
+初回呼び出しで Android=RECORD_AUDIO 権限要求、iOS=マイク権限要求。
+^p
+iOS: AVAudioRecorder を /dev/null 向けに起動 / Android: AudioRecord + ワーカースレッドで RMS 計算。
+
+%index
+dx_dev_mic_stop
+マイク入力レベル測定を停止
+%group
+hsp3dx Device
+
+%index
+dx_dev_mic_level
+最新マイクレベルを取得
+%group
+hsp3dx Device
+%inst
+stat = 0..100 の瞬間音量 (RMS ベース、-60dB を 0、0dB を 100 として線形)。未開始は -1。
+
+;--------------------------------------------------------------
+;  Phase M.9: 生体認証 (Touch ID / Face ID)
+;--------------------------------------------------------------
+%index
+dx_dev_biometric_auth
+生体認証ダイアログを表示 (同期ブロック)
+%group
+hsp3dx Device
+%prm
+p1 : UI 表示用の理由文字列 (UTF-8)
+%inst
+iOS は LAContext.evaluatePolicy(DeviceOwnerAuthenticationWithBiometrics) を
+dispatch_semaphore で同期ブロックで呼ぶ。Android は AppCompat 依存を避けるため
+現状 stub (必ず -1)。
+^p
+stat = 1 成功 / 0 失敗または取り消し / -1 未対応・デバイス非搭載

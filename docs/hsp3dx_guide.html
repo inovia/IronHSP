@@ -684,11 +684,28 @@ dx_dev_torch 1                      ; ON
 dx_dev_torch 0                      ; OFF</code></pre>
 <p>iOS: <code>NSLocationWhenInUseUsageDescription</code> を Info.plist に記載必須。Android: <code>ACCESS_FINE_LOCATION</code> / <code>CAMERA</code> を AndroidManifest に記載 + 実行時権限要求。</p>
 
+<h3>M.8 — マイクレベル</h3>
+<p>マイクからの瞬間音量を RMS で 0〜100 に正規化した数値で取得します(録音データ自体は保存されません)。</p>
+<pre><code>dx_dev_mic_start          ; 初回で OS 権限プロンプト (RECORD_AUDIO / Microphone)
+repeat 100
+    dx_dev_mic_level      ; stat = 0..100 (-1=未開始)
+    mes "level: " + stat
+    await 100
+loop
+dx_dev_mic_stop</code></pre>
+<p>iOS: <code>AVAudioRecorder</code> を <code>/dev/null</code> に record 開始 + <code>averagePowerForChannel</code>。Android: <code>AudioRecord</code> + 別スレッドで RMS 連続計算。</p>
+
+<h3>M.9 — 生体認証 (iOS のみ)</h3>
+<pre><code>dx_dev_biometric_auth "ログイン認証のため"
+if stat = 1 : mes "成功"
+if stat = 0 : mes "失敗/キャンセル"
+if stat = -1 : mes "未対応デバイス"</code></pre>
+<p>iOS は <code>LAContext.evaluatePolicy(DeviceOwnerAuthenticationWithBiometrics)</code> を dispatch_semaphore で同期化。Info.plist に <code>NSFaceIDUsageDescription</code> が必要。Android は AppCompat 依存を避けるため現状 stub (常に -1)。</p>
+
 <h3>M.x 未実装 (今後の予定)</h3>
 <ul>
   <li>カメラ撮影 (intent / AVCaptureSession)</li>
-  <li>マイク録音 / 音量レベル取得</li>
-  <li>生体認証 (Touch ID / Face ID / BiometricPrompt)</li>
+  <li>Android 生体認証 (BiometricPrompt / androidx.biometric 導入時)</li>
 </ul>
 
 <hr>

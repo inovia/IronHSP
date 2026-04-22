@@ -36,6 +36,12 @@
     <false/>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>hsp3dx アプリ内で位置情報を利用します</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>hsp3dx アプリ内でマイク音量を測定します</string>
+    <key>NSCameraUsageDescription</key>
+    <string>hsp3dx アプリ内でカメラ/トーチを利用します</string>
+    <key>NSFaceIDUsageDescription</key>
+    <string>hsp3dx アプリ内で生体認証を利用します</string>
     <key>NSAppTransportSecurity</key>
     <dict>
         <key>NSAllowsArbitraryLoads</key>

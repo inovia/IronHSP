@@ -1647,6 +1647,21 @@ static int cmdfunc_extcmd( int cmd )
     case 0x1bd:                     // dx_dev_torch_supported (stat=0/1)
         ctx->stat = hsp3dx_dev_torch_supported();
         break;
+    case 0x1be:                     // dx_dev_mic_start
+        hsp3dx_dev_mic_start();
+        break;
+    case 0x1bf:                     // dx_dev_mic_stop
+        hsp3dx_dev_mic_stop();
+        break;
+    case 0x1c0:                     // dx_dev_mic_level  (stat=0..100 / -1)
+        ctx->stat = hsp3dx_dev_mic_level();
+        break;
+    case 0x1c1:                     // dx_dev_biometric_auth "reason"  (stat=1/0/-1)
+        {
+            const char *reason = code_gets();
+            ctx->stat = hsp3dx_dev_biometric_auth( reason ? reason : "" );
+            break;
+        }
 
     //  ---- multipart/form-data ----
     case 0x170:                     // dx_http_mp_begin

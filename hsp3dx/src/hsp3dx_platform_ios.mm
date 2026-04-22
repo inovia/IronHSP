@@ -11,6 +11,7 @@
 #import <CoreMotion/CoreMotion.h>
 #import <CoreLocation/CoreLocation.h>
 #import <AVFoundation/AVFoundation.h>
+#import <LocalAuthentication/LocalAuthentication.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -448,6 +449,80 @@ extern "C" void hsp3dx_dev_torch( int on )
         dev.torchMode = on ? AVCaptureTorchModeOn : AVCaptureTorchModeOff;
         [dev unlockForConfiguration];
     }
+}
+
+//  ================================================================
+//  Phase M.8: マイク録音レベル
+//  ================================================================
+static AVAudioRecorder *g_mic = nil;
+
+extern "C" void hsp3dx_dev_mic_start( void )
+{
+    if ( g_mic != nil ) return;
+    @autoreleasepool {
+        AVAudioSession *sess = [AVAudioSession sharedInstance];
+        [sess setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+        [sess setActive:YES error:nil];
+        [sess requestRecordPermission:^(BOOL granted) {}];
+
+        NSURL *url = [NSURL fileURLWithPath:@"/dev/null"];
+        NSDictionary *settings = @{
+            AVFormatIDKey:         @(kAudioFormatAppleIMA4),
+            AVSampleRateKey:       @44100.0,
+            AVNumberOfChannelsKey: @1,
+            AVEncoderAudioQualityKey: @(AVAudioQualityMin)
+        };
+        NSError *err = nil;
+        g_mic = [[AVAudioRecorder alloc] initWithURL:url settings:settings error:&err];
+        if ( g_mic ) {
+            g_mic.meteringEnabled = YES;
+            [g_mic record];
+        }
+    }
+}
+
+extern "C" void hsp3dx_dev_mic_stop( void )
+{
+    if ( g_mic ) {
+        [g_mic stop];
+        g_mic = nil;
+    }
+}
+
+extern "C" int hsp3dx_dev_mic_level( void )
+{
+    if ( g_mic == nil ) return -1;
+    [g_mic updateMeters];
+    float p = [g_mic averagePowerForChannel:0];   // -160..0 dB
+    //  -60dB を下限 (ほぼ無音)、0dB を 100 として線形化
+    if ( p < -60.0f ) return 0;
+    if ( p > 0.0f )   p = 0.0f;
+    return (int)( ( p + 60.0f ) * 100.0f / 60.0f );
+}
+
+//  ================================================================
+//  Phase M.9: 生体認証 (Touch ID / Face ID)
+//  ================================================================
+extern "C" int hsp3dx_dev_biometric_auth( const char *reason )
+{
+    __block int result = -1;
+    dispatch_semaphore_t sem = dispatch_semaphore_create( 0 );
+    @autoreleasepool {
+        LAContext *ctx = [[LAContext alloc] init];
+        NSError *err = nil;
+        if ( ![ctx canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&err] ) {
+            return -1;
+        }
+        NSString *r = reason ? [NSString stringWithUTF8String:reason] : @"認証";
+        [ctx evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+             localizedReason:r
+                       reply:^( BOOL ok, NSError *e ) {
+            result = ok ? 1 : 0;
+            dispatch_semaphore_signal( sem );
+        }];
+    }
+    dispatch_semaphore_wait( sem, DISPATCH_TIME_FOREVER );
+    return result;
 }
 
 #endif  // __APPLE__

@@ -120,6 +120,10 @@
 #cmd dx_dev_gps_status     $1bb ; dx_dev_gps_status  (stat=0 未開始 / 1 要求中 / 2 稼働 / 3 denied)
 #cmd dx_dev_torch          $1bc ; dx_dev_torch on  (0=off, 1=on)
 #cmd dx_dev_torch_supported $1bd ; dx_dev_torch_supported (stat=1 対応/0 非対応)
+#cmd dx_dev_mic_start      $1be ; dx_dev_mic_start  (マイクレベル測定開始、RECORD_AUDIO 権限)
+#cmd dx_dev_mic_stop       $1bf ; dx_dev_mic_stop
+#cmd dx_dev_mic_level      $1c0 ; dx_dev_mic_level  (stat=0..100 瞬間音量、未開始は -1)
+#cmd dx_dev_biometric_auth $1c1 ; dx_dev_biometric_auth "reason"  (stat=1 成功/0 失敗/-1 未対応)
 
 ;  ---- Phase 5.4a+: multipart/form-data ファイルアップロード ----
 #cmd dx_http_mp_begin      $170   ; dx_http_mp_begin

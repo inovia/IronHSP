@@ -49,6 +49,10 @@ static jmethodID s_mid_devGpsGet     = nullptr;
 static jmethodID s_mid_devGpsStatus  = nullptr;
 static jmethodID s_mid_devTorchSupported = nullptr;
 static jmethodID s_mid_devTorch      = nullptr;
+static jmethodID s_mid_devMicStart   = nullptr;
+static jmethodID s_mid_devMicStop    = nullptr;
+static jmethodID s_mid_devMicLevel   = nullptr;
+static jmethodID s_mid_devBiometric  = nullptr;
 
 static JNIEnv *jni_env( bool *needs_detach )
 {
@@ -118,6 +122,10 @@ static bool ensure_jni_init()
     s_mid_devGpsStatus  = env->GetStaticMethodID( s_HspUtil_class, "devGpsStatus",  "()I" );
     s_mid_devTorchSupported = env->GetStaticMethodID( s_HspUtil_class, "devTorchSupported","()I" );
     s_mid_devTorch      = env->GetStaticMethodID( s_HspUtil_class, "devTorch",      "(I)V" );
+    s_mid_devMicStart   = env->GetStaticMethodID( s_HspUtil_class, "devMicStart",   "()V" );
+    s_mid_devMicStop    = env->GetStaticMethodID( s_HspUtil_class, "devMicStop",    "()V" );
+    s_mid_devMicLevel   = env->GetStaticMethodID( s_HspUtil_class, "devMicLevel",   "()I" );
+    s_mid_devBiometric  = env->GetStaticMethodID( s_HspUtil_class, "devBiometricAuth", "(Ljava/lang/String;)I" );
 
     //  setActivity(act->clazz) で HspUtil にアプリ Activity を渡す
     if ( s_mid_setActivity ) {
@@ -473,6 +481,50 @@ extern "C" void hsp3dx_dev_torch( int on )
     if ( !env ) return;
     env->CallStaticVoidMethod( s_HspUtil_class, s_mid_devTorch, (jint)on );
     if ( detach ) s_vm->DetachCurrentThread();
+}
+
+extern "C" void hsp3dx_dev_mic_start( void )
+{
+    if ( !ensure_jni_init() ) return;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return;
+    env->CallStaticVoidMethod( s_HspUtil_class, s_mid_devMicStart );
+    if ( detach ) s_vm->DetachCurrentThread();
+}
+
+extern "C" void hsp3dx_dev_mic_stop( void )
+{
+    if ( !ensure_jni_init() ) return;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return;
+    env->CallStaticVoidMethod( s_HspUtil_class, s_mid_devMicStop );
+    if ( detach ) s_vm->DetachCurrentThread();
+}
+
+extern "C" int hsp3dx_dev_mic_level( void )
+{
+    if ( !ensure_jni_init() ) return -1;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return -1;
+    jint rc = env->CallStaticIntMethod( s_HspUtil_class, s_mid_devMicLevel );
+    if ( detach ) s_vm->DetachCurrentThread();
+    return (int)rc;
+}
+
+extern "C" int hsp3dx_dev_biometric_auth( const char *reason )
+{
+    if ( !ensure_jni_init() ) return -1;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return -1;
+    jstring jr = env->NewStringUTF( reason ? reason : "" );
+    jint rc = env->CallStaticIntMethod( s_HspUtil_class, s_mid_devBiometric, jr );
+    env->DeleteLocalRef( jr );
+    if ( detach ) s_vm->DetachCurrentThread();
+    return (int)rc;
 }
 
 //  HspUtil.nativeFireEvent(int) の実装 (Java → C への通知)

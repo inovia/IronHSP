@@ -301,4 +301,14 @@ extern "C" int  hsp3dx_dev_gps_status( void ) { return 0; }
 extern "C" int  hsp3dx_dev_torch_supported( void ) { return 0; }
 extern "C" void hsp3dx_dev_torch( int /*on*/ ) {}
 
+extern "C" void hsp3dx_dev_mic_start( void ) {}
+extern "C" void hsp3dx_dev_mic_stop ( void ) {}
+extern "C" int  hsp3dx_dev_mic_level( void ) { return -1; }
+
+extern "C" int  hsp3dx_dev_biometric_auth( const char * /*reason*/ )
+{
+    //  Windows Hello 統合は未実装
+    return -1;
+}
+
 #endif  // _WIN32

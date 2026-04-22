@@ -22,6 +22,9 @@ import android.hardware.camera2.CameraManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.MediaRecorder;
 import android.Manifest;
 import android.media.ToneGenerator;
 import android.media.AudioManager;
@@ -482,6 +485,72 @@ public class HspUtil {
         } catch ( Exception e ) {
             Log.w( TAG, "torch: " + e );
         }
+    }
+
+    //  ================================================================
+    //  Phase M.8: マイクレベル (AudioRecord で RMS 計算、別スレッドで連続 sampling)
+    //  ================================================================
+    private static AudioRecord sMicRec = null;
+    private static Thread      sMicThread = null;
+    private static volatile boolean sMicRunning = false;
+    private static volatile int     sMicLevel = -1;
+
+    public static void devMicStart()
+    {
+        if ( sActivity == null || sMicRec != null ) return;
+        if ( sActivity.checkSelfPermission( Manifest.permission.RECORD_AUDIO ) != PackageManager.PERMISSION_GRANTED ) {
+            sActivity.requestPermissions( new String[]{ Manifest.permission.RECORD_AUDIO }, 1002 );
+            return;
+        }
+        try {
+            int sampleRate = 44100;
+            int bufSize = AudioRecord.getMinBufferSize( sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT );
+            if ( bufSize <= 0 ) bufSize = 8192;
+            sMicRec = new AudioRecord( MediaRecorder.AudioSource.MIC, sampleRate,
+                AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, bufSize );
+            if ( sMicRec.getState() != AudioRecord.STATE_INITIALIZED ) { sMicRec = null; return; }
+            sMicRec.startRecording();
+            sMicRunning = true; sMicLevel = 0;
+            sMicThread = new Thread( new Runnable() {
+                @Override public void run() {
+                    short[] buf = new short[1024];
+                    while ( sMicRunning ) {
+                        int n = sMicRec.read( buf, 0, buf.length );
+                        if ( n > 0 ) {
+                            long sum = 0;
+                            for ( int i = 0; i < n; i++ ) sum += (long) buf[i] * buf[i];
+                            double rms = Math.sqrt( (double) sum / n );
+                            int lv = (int) ( rms * 100.0 / 32768.0 );
+                            if ( lv > 100 ) lv = 100;
+                            sMicLevel = lv;
+                        }
+                    }
+                }
+            } );
+            sMicThread.start();
+        } catch ( Exception e ) {
+            Log.w( TAG, "mic_start: " + e );
+        }
+    }
+
+    public static void devMicStop()
+    {
+        sMicRunning = false;
+        if ( sMicThread != null ) { try { sMicThread.join( 300 ); } catch ( Exception e ) {} sMicThread = null; }
+        if ( sMicRec != null ) { try { sMicRec.stop(); sMicRec.release(); } catch ( Exception e ) {} sMicRec = null; }
+        sMicLevel = -1;
+    }
+
+    public static int devMicLevel() { return sMicLevel; }
+
+    //  ================================================================
+    //  Phase M.9: 生体認証 (stub。FragmentActivity 依存回避のため Android 版は今回未実装)
+    //  ================================================================
+    public static int devBiometricAuth( String reason )
+    {
+        //  NativeActivity + BiometricPrompt は AppCompat を要求する構成で導入コスト高。
+        //  将来の Phase で androidx.biometric 依存を足すか、KeyguardManager 経由で対応予定。
+        return -1;
     }
 
     public static int prefClear( String section )
