@@ -209,7 +209,9 @@ function(dxlib_desktop_settings target)
         DX_NON_INLINE_ASM=1
         # DX_NON_MOVIE=1 は lib (dxlib_portable_stage3) にのみ。user 側 exe では
         # 外して DxLib::OpenMovieToGraph 等の宣言を通す (Sound/Image と同じパターン)。
-        DX_NON_LIVE2D_CUBISM4=1
+        # DX_NON_LIVE2D_CUBISM4 は外して Cubism SDK との統合を有効化する。
+        # DxLive2DCubism4.cpp + DxUseCLibLive2DCubism4.cpp が lib に入り、
+        # Live2DCubism4_*_PF は Desktop/DxLive2DCubism4Desktop.cpp の stub で満たす。
         # DX_NON_MODEL=1 を外した (Tier 4d v1 最小版: MV1 load は動くが描画は未実装)
         DX_NON_BULLET_PHYSICS=1
         # DX_NON_FILTER=1 は lib 側のみ。user 側は宣言を通して
@@ -319,6 +321,11 @@ add_library(dxlib_portable_stage3 STATIC
     ${DXLIB_PORTABLE_DIR}/DxModelLoader4.cpp
     ${DXLIB_PORTABLE_DIR}/DxModelLoaderVMD.cpp
     ${DXLIB_PORTABLE_DIR}/Desktop/DxModelDesktop.cpp
+    # Live2D Cubism4 (DxLib 本家の integration + Desktop PF stub)
+    ${DXLIB_PORTABLE_DIR}/DxLive2DCubism4.cpp
+    ${DXLIB_PORTABLE_DIR}/DxUseCLibLive2DCubism4.cpp
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxLive2DCubism4Desktop.cpp
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxLive2DCubism4Shader_stub.cpp
 )
 # HAS_SDL2_TTF の時だけ DxFontDesktop.cpp を追加
 if(HAS_SDL2_TTF)
@@ -338,6 +345,10 @@ target_link_libraries(dxlib_portable_stage3 PUBLIC dx_opusfile)
 target_link_libraries(dxlib_portable_stage3 PUBLIC dx_theoradec)
 # libtiff を DxBaseImage.cpp の LoadTiffImage で使う
 target_link_libraries(dxlib_portable_stage3 PUBLIC dx_tiff)
+# Live2D Cubism SDK (L2 で bundle 済) と link
+if(HAVE_LIVE2D_CUBISM4)
+    target_link_libraries(dxlib_portable_stage3 PUBLIC dx_cubism_framework)
+endif()
 dxlib_desktop_settings(dxlib_portable_stage3)
 # lib 側は DxGateway.cpp の sound / movie / libpng/jpeg 部分を殺して
 # stub 未参照にする。user 側 exe はこれらを外して DxLib.h の宣言を通す。

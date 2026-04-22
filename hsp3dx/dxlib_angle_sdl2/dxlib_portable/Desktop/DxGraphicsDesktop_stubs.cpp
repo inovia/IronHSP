@@ -150,6 +150,10 @@ extern int Graphics_Hardware_Shader_TerminateHandle_PF(struct SHADERHANDLEDATA *
 extern int Graphics_Hardware_Shader_ModelCode_Init_PF(void) { return 0; }
 extern int Graphics_Hardware_Shader_ModelCode_Terminate_PF(void) { return 0; }
 // Graphics_Hardware_ShadowMap_*_PF: impl in DxGraphicsDesktop.cpp (M2)
+// Live2D Cubism4 が参照する Graphics_Hardware_RefreshSetting_PF (描画 state を
+// 全再送する) は、Desktop では fixed-function の state が常に即時反映される
+// ため no-op で OK。
+extern int Graphics_Hardware_RefreshSetting_PF(void) { return 0; }
 extern int Graphics_Hardware_UnlockDrawScreenBuffer_PF(void) { return 0; }
 extern int Graphics_Hardware_VertexBuffer_Create_PF(struct VERTEXBUFFERHANDLEDATA *) { return 0; }
 extern int Graphics_Hardware_VertexBuffer_SetData_PF(struct VERTEXBUFFERHANDLEDATA *,int,void const *,int) { return 0; }
