@@ -27,6 +27,7 @@
 #include <cstring>
 #include <unordered_map>
 #include <vector>
+#include <string>
 
 #ifndef DX_NON_NAMESPACE
 namespace DxLib
@@ -49,6 +50,9 @@ struct MacMovieEntry {
     int                        loop_flag    = 0 ;
     int                        last_update_ms = 0 ;
     std::vector<unsigned char> frame_argb ;
+    // Seek / Loop 用: AVAssetReader は forward-only、reader を閉じて再作成する
+    // 必要があるので元のファイルパスを保持する。
+    std::string                file_path ;
 } ;
 
 static std::unordered_map<int, MacMovieEntry *> g_MacMovies ;
@@ -118,6 +122,39 @@ static void mac_close_reader( MacMovieEntry *m )
     m->asset = nil ;
 }
 
+// reader を閉じて file_path から新しい reader を作成する (seek/loop 用)。
+// 失敗したら false。
+static bool mac_rebuild_reader( MacMovieEntry *m )
+{
+    if ( !m || m->file_path.empty() ) return false ;
+    mac_close_reader( m ) ;
+    @autoreleasepool {
+        NSString *nspath = [NSString stringWithUTF8String:m->file_path.c_str()] ;
+        if ( !nspath ) return false ;
+        NSURL *url = [NSURL fileURLWithPath:nspath] ;
+        AVAsset *asset = [AVURLAsset URLAssetWithURL:url options:nil] ;
+        if ( !asset ) return false ;
+        NSArray<AVAssetTrack *> *videoTracks = [asset tracksWithMediaType:AVMediaTypeVideo] ;
+        if ( videoTracks.count == 0 ) return false ;
+        AVAssetTrack *vt = videoTracks.firstObject ;
+        NSError *err = nil ;
+        AVAssetReader *reader = [AVAssetReader assetReaderWithAsset:asset error:&err] ;
+        if ( !reader ) return false ;
+        NSDictionary *settings = @{
+            (NSString *)kCVPixelBufferPixelFormatTypeKey : @( kCVPixelFormatType_32BGRA )
+        } ;
+        AVAssetReaderTrackOutput *trackOut =
+            [[AVAssetReaderTrackOutput alloc] initWithTrack:vt outputSettings:settings] ;
+        if ( ![reader canAddOutput:trackOut] ) return false ;
+        [reader addOutput:trackOut] ;
+        if ( ![reader startReading] ) return false ;
+        m->asset        = [asset retain] ;
+        m->reader       = [reader retain] ;
+        m->track_output = [trackOut retain] ;
+        return true ;
+    }
+}
+
 // 次フレーム取得 (BGRA を buf に入れる、eof なら 1)
 static int mac_read_frame( MacMovieEntry *m, std::vector<unsigned char> &buf, int64_t *out_time_ms )
 {
@@ -177,6 +214,7 @@ extern int OpenMovieToGraph( const TCHAR *FileName, int FullColor )
     int gh = NS_MakeGraph( m->width, m->height, TRUE ) ;
     if ( gh < 0 ) { mac_close_reader( m ) ; delete m ; return -1 ; }
     m->graph_handle = gh ;
+    m->file_path    = path ;  // seek / loop 用に保持
     g_MacMovies[ gh ] = m ;
 
     // 先読み
@@ -237,13 +275,7 @@ extern int UpdateMovieToGraph( int GraphHandle )
     int64_t target_ms = m->play_offset_ms + ( SDL_GetTicks() - m->play_start_ms ) ;
     if ( m->duration_ms > 0 && target_ms >= m->duration_ms ) {
         if ( m->loop_flag ) {
-            // AVAssetReader はシーク不可なので reader を作り直す
-            mac_close_reader( m ) ;
-            @autoreleasepool {
-                NSString *p = [NSString stringWithUTF8String:
-                    "" ] ; // stored path がないので実装時に別途保持する必要あり
-                // TODO: OpenMovieToGraph で path を保持、ここで再利用
-            }
+            if ( !mac_rebuild_reader( m ) ) { m->state = 0 ; return -1 ; }
             m->play_start_ms = SDL_GetTicks() ;
             m->play_offset_ms = 0 ;
             m->last_time_ms = 0 ;
@@ -260,8 +292,16 @@ extern int UpdateMovieToGraph( int GraphHandle )
         int r = mac_read_frame( m, m->frame_argb, &t ) ;
         if ( r < 0 ) { m->state = 0 ; return -1 ; }
         if ( r == 1 ) {  // EOS
-            if ( !m->loop_flag ) { m->state = 0 ; return 0 ; }
-            break ;  // ループはシーク再作成必要、今回は loop 不完全
+            if ( m->loop_flag ) {
+                if ( !mac_rebuild_reader( m ) ) { m->state = 0 ; return -1 ; }
+                m->play_start_ms = SDL_GetTicks() ;
+                m->play_offset_ms = 0 ;
+                m->last_time_ms = 0 ;
+                target_ms = 0 ;
+                continue ;
+            }
+            m->state = 0 ;
+            return 0 ;
         }
         if ( m->frame_argb.empty() ) break ;
         m->last_time_ms = t ;
@@ -283,13 +323,31 @@ extern int TellMovieToGraph( int GraphHandle )
 
 extern int SeekMovieToGraph( int GraphHandle, int Time )
 {
-    (void)Time;
     auto it = g_MacMovies.find( GraphHandle ) ;
     if ( it == g_MacMovies.end() ) return -1 ;
-    // AVAssetReader は単方向読み出しのみ。Seek は reader 再作成が必要。
-    // 現バージョンでは未対応 (TODO)。
-    std::fprintf( stderr, "[DxMovieMac] SeekMovieToGraph: not yet supported (AVAssetReader is forward-only)\n" ) ;
-    return -1 ;
+    MacMovieEntry *m = it->second ;
+    // AVAssetReader は forward-only なので reader を作り直して、
+    // 指定時刻 (ミリ秒) まで空読みで進める。
+    if ( !mac_rebuild_reader( m ) ) return -1 ;
+    m->play_start_ms  = SDL_GetTicks() ;
+    m->play_offset_ms = Time ;
+    m->last_time_ms   = 0 ;
+
+    // Time まで空読み (逐次 decode)。
+    int64_t t = 0 ;
+    while ( m->last_time_ms < Time ) {
+        int r = mac_read_frame( m, m->frame_argb, &t ) ;
+        if ( r == 1 ) break ;   // EOS
+        if ( r < 0  ) return -1 ;
+        if ( m->frame_argb.empty() ) break ;
+        m->last_time_ms = t ;
+    }
+    // シーク後の最新フレームを graph に反映
+    if ( !m->frame_argb.empty() ) {
+        mac_upload_frame( m ) ;
+        m->last_update_ms = ( int )SDL_GetTicks() ;
+    }
+    return 0 ;
 }
 
 extern int SetMovieVolumeToGraph( int Volume, int GraphHandle )
