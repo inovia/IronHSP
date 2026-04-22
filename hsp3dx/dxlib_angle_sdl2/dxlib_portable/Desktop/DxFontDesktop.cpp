@@ -406,6 +406,21 @@ extern int Desktop_DrawString_Hook(
     return 0 ;
 }
 
+// DxFont.cpp の GetDrawStringWidthToHandle_WCHAR_T からフック。
+// SDL_ttf の TTF_SizeUTF8 で文字幅を実測して返す。失敗時は -1。
+extern int Desktop_GetStringWidth_Hook( const wchar_t *String, int StrLen, FONTMANAGE *Font )
+{
+    if ( !String || StrLen <= 0 || !Font || !Font->PF ) return -1 ;
+    if ( !s_TtfInited ) return -1 ;
+    TTF_Font *font = as_ttf( Font->PF->FontData ) ;
+    if ( !font ) return -1 ;
+    std::string utf8 = desktop_wchar_to_utf8( String, ( size_t )StrLen ) ;
+    if ( utf8.empty() ) return 0 ;
+    int w = 0, h = 0 ;
+    if ( TTF_SizeUTF8( font, utf8.c_str(), &w, &h ) != 0 ) return -1 ;
+    return w ;
+}
+
 #ifndef DX_NON_NAMESPACE
 } // end namespace DxLib
 #endif

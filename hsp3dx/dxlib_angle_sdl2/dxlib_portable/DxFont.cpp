@@ -13697,6 +13697,11 @@ extern int NS_GetDrawNStringWidthToHandle( const TCHAR *String, size_t StringLen
 #endif
 }
 
+#if defined(DX_PLATFORM_DESKTOP_SDL2)
+// Desktop hook: SDL_ttf の TTF_SizeUTF8 で実測
+extern int Desktop_GetStringWidth_Hook( const wchar_t *String, int StrLen, FONTMANAGE *Font ) ;
+#endif
+
 // ������̕��𓾂�
 extern int GetDrawStringWidthToHandle_WCHAR_T( const wchar_t *String, size_t StringLength, int StrLen, int FontHandle, int VerticalFlag )
 {
@@ -13707,6 +13712,17 @@ extern int GetDrawStringWidthToHandle_WCHAR_T( const wchar_t *String, size_t Str
 	{
 		return -1 ;
 	}
+
+#if defined(DX_PLATFORM_DESKTOP_SDL2)
+	if( !VerticalFlag )
+	{
+		int len = StrLen ;
+		if( StringLength > 0 ) len = ( int )StringLength ;
+		else if( len <= 0 )    len = ( int )_WCSLEN( String ) ;
+		int w = Desktop_GetStringWidth_Hook( String, len, ManageData ) ;
+		if( w >= 0 ) return w ;
+	}
+#endif
 
 	if( StringLength > 0 )
 	{
