@@ -187,7 +187,10 @@ if [[ -d "$ASSIMP_TEST_ROOT" ]]; then
     for pair in \
         "FBX/animation_with_skeleton.fbx:fbx1" \
         "Collada/duck.dae:dae1" \
-        "3DS/cubes_with_alpha.3DS:3ds1"; do
+        "3DS/cubes_with_alpha.3DS:3ds1" \
+        "../../contrib/tinyusdz/autoclone/tinyusdz_repo-src/models/cube.usdz:cube_usd" \
+        "../../contrib/tinyusdz/autoclone/tinyusdz_repo-src/models/texture-cat-plane.usdz:cat_usd" \
+        "../models-nonbsd/MMD/Alicia_blade.pmx:alicia_pmx"; do
         src="${pair%%:*}"
         tag="${pair##*:}"
         if [[ -f "$ASSIMP_TEST_ROOT/$src" ]]; then

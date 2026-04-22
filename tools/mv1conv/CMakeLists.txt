@@ -22,6 +22,7 @@ if(MV1CONV_USE_ASSIMP)
     set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
     # export only reasonable formats (inbound のみ必要)
     set(ASSIMP_BUILD_ALL_EXPORTERS_BY_DEFAULT OFF CACHE BOOL "" FORCE)
+    set(ASSIMP_BUILD_USD_IMPORTER ON CACHE BOOL "" FORCE)
     FetchContent_Declare(
         assimp
         GIT_REPOSITORY https://github.com/assimp/assimp.git
@@ -45,6 +46,7 @@ add_executable(mv1conv
     src/glb_import.cpp
     src/wrl_import.cpp
     src/pmd_import.cpp
+    src/pmx_import.cpp
     src/gpb_import.cpp
 )
 

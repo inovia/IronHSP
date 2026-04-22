@@ -8,6 +8,7 @@
 #include "glb_import.hpp"
 #include "wrl_import.hpp"
 #include "pmd_import.hpp"
+#include "pmx_import.hpp"
 #include "gpb_import.hpp"
 #ifdef MV1CONV_HAVE_ASSIMP
 #include "assimp_import.hpp"
@@ -44,16 +45,29 @@ static int convert_generic(const char *in, const char *out) {
         lr = load_x(in);
         if (!lr.ok()) { err = lr.error; }
         else ir = &lr.ir;
-    } else if (ext == "glb" || ext == "gltf") {
+    } else if (ext == "glb" || ext == "gltf" || ext == "vrm") {
+        // .vrm は GLB ベース: 基礎 geometry + スキン + マテリアル色は取り込める。
+        // VRM 固有拡張 (humanoid mapping / SpringBone / MToon) は現状未対応。
+#ifdef MV1CONV_HAVE_ASSIMP
+        // assimp の glTF importer は VRM を GLB として扱えてボーン抽出できる
+        lr = load_via_assimp(in);
+        if (!lr.ok()) { err = lr.error; }
+        else ir = &lr.ir;
+#else
         lr = load_glb(in);
         if (!lr.ok()) { err = lr.error; }
         else ir = &lr.ir;
+#endif
     } else if (ext == "wrl" || ext == "vrml") {
         lr = load_wrl(in);
         if (!lr.ok()) { err = lr.error; }
         else ir = &lr.ir;
     } else if (ext == "pmd") {
         lr = load_pmd(in);
+        if (!lr.ok()) { err = lr.error; }
+        else ir = &lr.ir;
+    } else if (ext == "pmx") {
+        lr = load_pmx(in);
         if (!lr.ok()) { err = lr.error; }
         else ir = &lr.ir;
     } else if (ext == "gpb") {
@@ -64,7 +78,8 @@ static int convert_generic(const char *in, const char *out) {
     } else if (ext == "fbx" || ext == "dae" || ext == "3ds" ||
                ext == "blend" || ext == "ase" || ext == "ifc" ||
                ext == "ms3d" || ext == "lwo" || ext == "lws" ||
-               ext == "3mf" || ext == "m3d" || ext == "b3d") {
+               ext == "3mf" || ext == "m3d" || ext == "b3d" ||
+               ext == "usd" || ext == "usda" || ext == "usdc" || ext == "usdz") {
         lr = load_via_assimp(in);
         if (!lr.ok()) { err = lr.error; }
         else ir = &lr.ir;
@@ -74,7 +89,7 @@ static int convert_generic(const char *in, const char *out) {
         if (!olr.ok()) { err = olr.error; }
         else ir = &olr.ir;
     } else {
-        std::fprintf(stderr, "unsupported extension: %s\n  built-in: .obj .stl .ply .x .glb .wrl .pmd .gpb\n"
+        std::fprintf(stderr, "unsupported extension: %s\n  built-in: .obj .stl .ply .x .glb .gltf .vrm .wrl .pmd .pmx .gpb\n"
 #ifdef MV1CONV_HAVE_ASSIMP
                      "  assimp:   .fbx .dae .3ds .blend .3mf .ase .ifc .ms3d .lwo .m3d .b3d\n"
 #endif

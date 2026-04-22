@@ -90,10 +90,12 @@ bash tests/roundtrip.sh
 | 入力: GLB (glTF 2.0) | ✓ (静的、POSITION/NORMAL/TEXCOORD_0/baseColorFactor) |
 | 入力: VRML 2.0 (.wrl) | ✓ (IndexedFaceSet の point + coordIndex) |
 | 入力: PMD (MikuMikuDance) | ✓ (静的、Shift-JIS → UTF-8) |
-| 入力: GPB (GamePlay Binary) | ✓ (静的メッシュ、ノード階層未対応) |
+| 入力: GPB (GamePlay Binary) | ✓ hgimg4 サンプル 4/4 OK |
+| 入力: PMX (MikuMikuDance 2.0/2.1) | ✓ 静的 + ボーン階層 + スキンウェイト (BDEF1/2/4, SDEF, QDEF) |
+| 入力: VRM (glTF 拡張) | ✓ assimp 経由で geometry + bones、humanoid/SpringBone/MToon は未抽出 |
+| 入力: USD / USDA / USDC / USDZ | ✓ assimp 5.4 + tinyusdz (静的、アニメは未対応) |
 | 入力: FBX (2011+) / DAE (Collada) / 3DS / 3MF / Blend / その他 40+ | ✓ assimp 経由 |
-| 入力: USD / USDZ | 未対応 (tinyusdz 組込予定) |
-| 入力: VRM / PMX | 未対応 (VRM は glTF として geometry のみ可) |
+| スキンメッシュ Writer | ✓ MV1_VERTEX_TYPE_SKIN_4BONE + SkinBone + UseSkinBone 配列 |
 | スキンメッシュ書き出し | 未対応 |
 | アニメーション書き出し | 未対応 |
 
