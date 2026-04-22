@@ -44,6 +44,16 @@ if(WIN32)
             INTERFACE_INCLUDE_DIRECTORIES "${SDL2_TTF_ROOT}/include")
         set(HAS_SDL2_TTF 1)
     endif()
+    # SDL2_mixer
+    set(SDL2_MIXER_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/extlib/SDL2_mixer")
+    if(EXISTS "${SDL2_MIXER_ROOT}/include/SDL_mixer.h")
+        add_library(SDL2::mixer SHARED IMPORTED)
+        set_target_properties(SDL2::mixer PROPERTIES
+            IMPORTED_LOCATION             "${SDL2_MIXER_ROOT}/lib/x64/SDL2_mixer.dll"
+            IMPORTED_IMPLIB               "${SDL2_MIXER_ROOT}/lib/x64/SDL2_mixer.lib"
+            INTERFACE_INCLUDE_DIRECTORIES "${SDL2_MIXER_ROOT}/include")
+        set(HAS_SDL2_MIXER 1)
+    endif()
     set(GL_LIB opengl32)
 else()
     # Linux / Mac: pkg-config か find_package で探す
@@ -88,12 +98,35 @@ else()
             endif()
         endif()
     endif()
+    # SDL2_mixer (optional)
+    find_package(SDL2_mixer QUIET)
+    if(TARGET SDL2_mixer::SDL2_mixer)
+        add_library(SDL2::mixer ALIAS SDL2_mixer::SDL2_mixer)
+        set(HAS_SDL2_MIXER 1)
+    else()
+        find_package(PkgConfig QUIET)
+        if(PkgConfig_FOUND)
+            pkg_check_modules(SDL2_MIXER QUIET SDL2_mixer)
+            if(SDL2_MIXER_FOUND)
+                add_library(SDL2::mixer INTERFACE IMPORTED)
+                target_include_directories(SDL2::mixer INTERFACE ${SDL2_MIXER_INCLUDE_DIRS})
+                target_link_libraries(SDL2::mixer INTERFACE ${SDL2_MIXER_LIBRARIES})
+                target_link_directories(SDL2::mixer INTERFACE ${SDL2_MIXER_LIBRARY_DIRS})
+                set(HAS_SDL2_MIXER 1)
+            endif()
+        endif()
+    endif()
 endif()
 
 if(HAS_SDL2_TTF)
     message(STATUS "SDL2_ttf found — font support enabled")
 else()
     message(STATUS "SDL2_ttf NOT found — font support disabled")
+endif()
+if(HAS_SDL2_MIXER)
+    message(STATUS "SDL2_mixer found — sound support enabled")
+else()
+    message(STATUS "SDL2_mixer NOT found — sound support disabled")
 endif()
 
 # --- DxLib portable fork ------------------------------------------------
@@ -187,11 +220,16 @@ add_library(dxlib_portable_stage3 STATIC
     # Stage 19: Font
     ${DXLIB_PORTABLE_DIR}/DxFont.cpp
     ${DXLIB_PORTABLE_DIR}/Desktop/DxFontDesktop.cpp
+    # Stage 20: Sound (bypass)
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxSoundDesktop.cpp
 )
 dxlib_desktop_settings(dxlib_portable_stage3)
 target_link_libraries(dxlib_portable_stage3 PUBLIC SDL2::SDL2 SDL2::SDL2main)
 if(HAS_SDL2_TTF)
     target_link_libraries(dxlib_portable_stage3 PUBLIC SDL2::ttf)
+endif()
+if(HAS_SDL2_MIXER)
+    target_link_libraries(dxlib_portable_stage3 PUBLIC SDL2::mixer)
 endif()
 
 # --- 共通: stage exe 設定ヘルパ ------------------------------------------
@@ -211,6 +249,12 @@ function(dxlib_stage_exe name src)
                     "${SDL2_TTF_ROOT}/lib/x64/SDL2_ttf.dll"
                     "$<TARGET_FILE_DIR:${name}>/SDL2_ttf.dll")
         endif()
+        if(HAS_SDL2_MIXER)
+            add_custom_command(TARGET ${name} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    "${SDL2_MIXER_ROOT}/lib/x64/SDL2_mixer.dll"
+                    "$<TARGET_FILE_DIR:${name}>/SDL2_mixer.dll")
+        endif()
     endif()
 endfunction()
 
@@ -224,6 +268,7 @@ dxlib_stage_exe(stage16_input             src/stage16_input.cpp)
 dxlib_stage_exe(stage17_texture           src/stage17_texture.cpp)
 dxlib_stage_exe(stage18_rotagraph         src/stage18_rotagraph.cpp)
 dxlib_stage_exe(stage19_font              src/stage19_font.cpp)
+dxlib_stage_exe(stage20_sound             src/stage20_sound.cpp)
 
 # --- Stage 1 (pure SDL2, no DxLib) ---------------------------------------
 if(WIN32)
