@@ -53,7 +53,21 @@ for mv1 in samples/*.mv1; do
     fi
 done
 
-echo "=== 4. External formats (STL / PLY) → .mv1 → dump ==="
+echo "=== 4. External formats → .mv1 ==="
+
+# OBJ (4 面体)
+cat >"$OUT/tet.obj" <<'EOF'
+v 0 0 0
+v 1 0 0
+v 0 1 0
+v 0 0 1
+f 1 2 3
+f 1 2 4
+f 1 3 4
+f 2 3 4
+EOF
+
+# STL ASCII (三角形 1 枚)
 cat >"$OUT/tri.stl" <<'EOF'
 solid tri
 facet normal 0 1 0
@@ -66,6 +80,7 @@ endfacet
 endsolid tri
 EOF
 
+# PLY ASCII (矩形 2 triangle)
 cat >"$OUT/quad.ply" <<'EOF'
 ply
 format ascii 1.0
@@ -84,8 +99,63 @@ end_header
 3 0 2 3
 EOF
 
-"$MV1CONV" convert "$OUT/tri.stl"  "$OUT/tri.mv1"  2>&1 | grep "re-load OK"
-"$MV1CONV" convert "$OUT/quad.ply" "$OUT/quad.mv1" 2>&1 | grep "re-load OK"
+# X ASCII (4 面体)
+cat >"$OUT/tet.x" <<'EOF'
+xof 0303txt 0032
+Mesh {
+    4;
+    0.0;0.0;0.0;,
+    1.0;0.0;0.0;,
+    0.0;1.0;0.0;,
+    0.0;0.0;1.0;;
+    4;
+    3;0,1,2;,
+    3;0,1,3;,
+    3;0,2,3;,
+    3;1,2,3;;
+}
+EOF
+
+# GLB 生成 (Python)
+python - <<'PY'
+import struct, json
+positions = [(0,0,0),(1,0,0),(0,1,0),(0,0,1)]
+indices = [0,1,2, 0,1,3, 0,2,3, 1,2,3]
+pos_bytes = b''.join(struct.pack('<fff', *p) for p in positions)
+idx_bytes = b''.join(struct.pack('<H', i) for i in indices)
+pad = (4 - len(idx_bytes) % 4) % 4
+bin_data = pos_bytes + idx_bytes + b'\x00'*pad
+gltf = {
+  "asset": {"version":"2.0"}, "scene":0, "scenes":[{"nodes":[0]}], "nodes":[{"mesh":0}],
+  "meshes":[{"primitives":[{"attributes":{"POSITION":0},"indices":1}]}],
+  "accessors":[
+    {"bufferView":0,"componentType":5126,"count":4,"type":"VEC3"},
+    {"bufferView":1,"componentType":5123,"count":12,"type":"SCALAR"}],
+  "bufferViews":[
+    {"buffer":0,"byteOffset":0,"byteLength":len(pos_bytes)},
+    {"buffer":0,"byteOffset":len(pos_bytes),"byteLength":len(idx_bytes)}],
+  "buffers":[{"byteLength":len(bin_data)}]
+}
+js = json.dumps(gltf, separators=(',',':'))
+js += ' '*((4-len(js)%4)%4)
+jb = js.encode('utf-8')
+total = 12 + 8 + len(jb) + 8 + len(bin_data)
+with open(r'build/test_out/tet.glb','wb') as f:
+    f.write(b'glTF' + struct.pack('<II',2,total))
+    f.write(struct.pack('<I', len(jb)) + b'JSON' + jb)
+    f.write(struct.pack('<I', len(bin_data)) + b'BIN\x00' + bin_data)
+PY
+
+for fmt in tet.obj tri.stl quad.ply tet.x tet.glb; do
+    out=$OUT/${fmt%.*}_from_${fmt##*.}.mv1
+    if "$MV1CONV" convert "$OUT/$fmt" "$out" 2>&1 | grep -q "re-load OK"; then
+        tri=$("$MV1CONV" dump "$out" | grep "TriangleNum " | awk '{print $3}')
+        printf "  %-24s → %s (tri=%s)\n" "$fmt" "$(basename "$out")" "$tri"
+    else
+        printf "  %-24s FAIL\n" "$fmt" >&2
+        exit 1
+    fi
+done
 
 echo ""
 echo "ALL TESTS PASSED"

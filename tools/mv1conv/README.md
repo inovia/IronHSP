@@ -74,12 +74,13 @@ bash tests/roundtrip.sh
 | DXA decoder (literal + backref + 自己参照) | ✓ |
 | DXA greedy LZSS encoder | ✓ (DxLib と同等圧縮率) |
 | MV1 Writer (静的メッシュ) | ✓ |
-| 入力: OBJ | ✓ (v/vn/vt/f、MTL 未対応) |
+| 入力: OBJ + MTL | ✓ (v/vn/vt/f + Kd/Ka/Ks/Ke/Ns/d/map_Kd) |
 | 入力: STL | ✓ (Binary + ASCII) |
 | 入力: PLY | ✓ (ASCII + binary_little_endian) |
-| 入力: GLB/GLTF | 未対応 |
+| 入力: X (DirectX) | ✓ (ASCII のみ、Frame 階層探索) |
+| 入力: GLB (glTF 2.0) | ✓ (静的、POSITION/NORMAL/TEXCOORD_0/baseColorFactor) |
 | 入力: FBX | 未対応 |
-| 入力: X / VRM / USD / 3MF / VRML / GPB | 未対応 |
+| 入力: VRM / USD / 3MF / VRML / GPB | 未対応 |
 | スキンメッシュ書き出し | 未対応 |
 | アニメーション書き出し | 未対応 |
 
