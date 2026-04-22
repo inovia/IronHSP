@@ -1405,6 +1405,121 @@ extern int Graphics_Hardware_Light_SetEnable_PF( int index, int Flag )
 // GL 規約: 点から光源へのベクトル = -Direction)
 float g_MainLightDirX = 0.0f, g_MainLightDirY = -1.0f, g_MainLightDirZ = 0.0f ;
 
+// ---- Shadow Map infrastructure (M2) --------------------------------------
+//   SHADOWMAPDATA_PF { FrameBuffer, Texture, DepthBuffer } を確保し、
+//   DrawSetup で shadow FBO にバインド、DrawEnd で元に戻す。
+//   実際の projective shadow 適用 (TMU + GL_TEXTURE_COMPARE_MODE) は次段。
+
+#include "DxGraphicsDesktop.h"  // SHADOWMAPDATA_PF の定義
+
+// Shadow FBO 切替用の状態保存
+static GLuint s_ShadowPrevFBO   = 0 ;
+static int    s_ShadowPrevVP[4] = { 0 } ;
+static int    s_ShadowActive    = 0 ;
+static GLuint s_ShadowCurrTex   = 0 ;   // SetUse で bind 中のシャドウ depth tex
+static int    s_ShadowCurrSlot  = -1 ;
+
+extern int Graphics_Hardware_ShadowMap_CreateTexture_PF( SHADOWMAPDATA *sm, int /*ASyncThread*/ )
+{
+    if ( !sm || !sm->PF ) return -1 ;
+    int w = sm->BaseSizeX, h = sm->BaseSizeY ;
+    if ( w <= 0 || h <= 0 ) return -1 ;
+
+    GLuint depth = 0 ;
+    glGenTextures( 1, &depth ) ;
+    glBindTexture( GL_TEXTURE_2D, depth ) ;
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, w, h, 0,
+                  GL_DEPTH_COMPONENT, GL_FLOAT, nullptr ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE ) ;
+    glBindTexture( GL_TEXTURE_2D, 0 ) ;
+
+    GLuint fbo = 0 ;
+    glGenFramebuffers( 1, &fbo ) ;
+    glBindFramebuffer( GL_FRAMEBUFFER, fbo ) ;
+    glFramebufferTexture2D( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depth, 0 ) ;
+    // 色バッファは無し (depth only)
+#ifdef GL_NONE
+    glDrawBuffer( GL_NONE ) ;
+    glReadBuffer( GL_NONE ) ;
+#endif
+    glBindFramebuffer( GL_FRAMEBUFFER, 0 ) ;
+
+    sm->PF->FrameBuffer              = fbo ;
+    sm->PF->Texture.TextureBuffer    = depth ;
+    sm->PF->Texture.Width            = w ;
+    sm->PF->Texture.Height           = h ;
+    sm->PF->DepthBuffer              = 0 ;  // 別途の renderbuffer 無し (depth tex が兼ねる)
+    return 0 ;
+}
+
+extern int Graphics_Hardware_ShadowMap_ReleaseTexture_PF( SHADOWMAPDATA *sm )
+{
+    if ( !sm || !sm->PF ) return -1 ;
+    if ( sm->PF->FrameBuffer ) { GLuint f = ( GLuint )sm->PF->FrameBuffer ; glDeleteFramebuffers( 1, &f ) ; sm->PF->FrameBuffer = 0 ; }
+    if ( sm->PF->Texture.TextureBuffer ) {
+        GLuint t = ( GLuint )sm->PF->Texture.TextureBuffer ;
+        glDeleteTextures( 1, &t ) ;
+        sm->PF->Texture.TextureBuffer = 0 ;
+    }
+    return 0 ;
+}
+
+extern int Graphics_Hardware_ShadowMap_DrawSetup_PF( SHADOWMAPDATA *sm )
+{
+    if ( !sm || !sm->PF || !sm->PF->FrameBuffer ) return -1 ;
+    GLint prev = 0 ;
+    glGetIntegerv( GL_FRAMEBUFFER_BINDING, &prev ) ;
+    s_ShadowPrevFBO = ( GLuint )prev ;
+    glGetIntegerv( GL_VIEWPORT, s_ShadowPrevVP ) ;
+
+    glBindFramebuffer( GL_FRAMEBUFFER, ( GLuint )sm->PF->FrameBuffer ) ;
+    glViewport( 0, 0, sm->BaseSizeX, sm->BaseSizeY ) ;
+    // depth only
+    glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE ) ;
+    glEnable ( GL_DEPTH_TEST ) ;
+    glDepthFunc( GL_LEQUAL ) ;
+    glDepthMask( GL_TRUE ) ;
+    glClear( GL_DEPTH_BUFFER_BIT ) ;
+
+    // ShadowMapViewMatrix / ProjectionMatrix は common 層で計算済
+    glMatrixMode( GL_PROJECTION ) ;
+    glLoadMatrixf( ( const float * )sm->ShadowMapProjectionMatrix.m ) ;
+    glMatrixMode( GL_MODELVIEW ) ;
+    glLoadMatrixf( ( const float * )sm->ShadowMapViewMatrix.m ) ;
+
+    s_ShadowActive = 1 ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_ShadowMap_DrawEnd_PF( SHADOWMAPDATA * /*sm*/ )
+{
+    if ( !s_ShadowActive ) return 0 ;
+    glBindFramebuffer( GL_FRAMEBUFFER, s_ShadowPrevFBO ) ;
+    glViewport( s_ShadowPrevVP[ 0 ], s_ShadowPrevVP[ 1 ], s_ShadowPrevVP[ 2 ], s_ShadowPrevVP[ 3 ] ) ;
+    glColorMask( GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE ) ;
+    s_ShadowActive = 0 ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_ShadowMap_SetUse_PF( int SlotIndex, SHADOWMAPDATA *sm )
+{
+    // SlotIndex 0..2 の shadow texture を TMU 2+ にバインドする
+    //   TMU 0 = diffuse, TMU 1 = multi-layer diffuse, TMU 2.. = shadow
+    // 実際の projective sampling + compare は MV1 draw path 側で今後対応。
+    // ここでは texture の bind のみ行い、グローバル状態として記録する。
+    if ( !sm || !sm->PF || !sm->PF->Texture.TextureBuffer ) {
+        s_ShadowCurrTex  = 0 ;
+        s_ShadowCurrSlot = -1 ;
+        return 0 ;
+    }
+    s_ShadowCurrTex  = ( GLuint )sm->PF->Texture.TextureBuffer ;
+    s_ShadowCurrSlot = SlotIndex ;
+    return 0 ;
+}
+
 extern int Graphics_Hardware_Light_SetState_PF( int index, LIGHTPARAM *p )
 {
     if ( !p || index < 0 || index >= 8 ) return -1 ;

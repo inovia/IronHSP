@@ -149,11 +149,7 @@ extern int Graphics_Hardware_Shader_SetConst_PF(int,int,int,void const *,int,int
 extern int Graphics_Hardware_Shader_TerminateHandle_PF(struct SHADERHANDLEDATA *) { return 0; }
 extern int Graphics_Hardware_Shader_ModelCode_Init_PF(void) { return 0; }
 extern int Graphics_Hardware_Shader_ModelCode_Terminate_PF(void) { return 0; }
-extern int Graphics_Hardware_ShadowMap_CreateTexture_PF(struct SHADOWMAPDATA *,int) { return 0; }
-extern int Graphics_Hardware_ShadowMap_DrawEnd_PF(struct SHADOWMAPDATA *) { return 0; }
-extern int Graphics_Hardware_ShadowMap_DrawSetup_PF(struct SHADOWMAPDATA *) { return 0; }
-extern int Graphics_Hardware_ShadowMap_ReleaseTexture_PF(struct SHADOWMAPDATA *) { return 0; }
-extern int Graphics_Hardware_ShadowMap_SetUse_PF(int,struct SHADOWMAPDATA *) { return 0; }
+// Graphics_Hardware_ShadowMap_*_PF: impl in DxGraphicsDesktop.cpp (M2)
 extern int Graphics_Hardware_UnlockDrawScreenBuffer_PF(void) { return 0; }
 extern int Graphics_Hardware_VertexBuffer_Create_PF(struct VERTEXBUFFERHANDLEDATA *) { return 0; }
 extern int Graphics_Hardware_VertexBuffer_SetData_PF(struct VERTEXBUFFERHANDLEDATA *,int,void const *,int) { return 0; }
