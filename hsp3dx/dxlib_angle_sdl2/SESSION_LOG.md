@@ -868,6 +868,68 @@ chrome --incognito --new-window "http://127.0.0.1:8766/stage7_web.html?capture=5
 # → web/build/captures/stage7/ に PNG 5 枚 + log.txt が出る
 ```
 
+---
+
+### 2026-04-22 — Day 1 追補 (Stage 15 — Linux + Mac ネイティブビルド 🎉)
+
+#### 結論: **Windows / Web / Linux / Mac の 4 プラットフォーム全部で stage4 以上が動作**
+
+| Target | stage4 | stage7 (2D) |
+|--------|:---:|:---:|
+| Windows Desktop (MSVC) | ✓ | ✓ |
+| Web (emscripten WASM + WebGL) | ✓ | ✓ |
+| **Linux (WSL2 Ubuntu GCC 13.3)** | **✓ (Mesa 25)** | ビルド ✓ / GUI は WSLg 待ち |
+| **Mac (arm64 AppleClang 17 + Metal)** | **✓ (Metal 90.5)** | **✓ 221 frames 完走** |
+
+#### CMakeLists.txt を cross-platform 化
+
+`WIN32` / `APPLE` / `UNIX` ブランチで:
+- Windows: `extlib/SDL2` prebuilt + `opengl32`
+- Linux/Mac: `find_package(SDL2 REQUIRED)` + `find_package(OpenGL REQUIRED)`
+- MSVC 以外では `-Wno-invalid-source-encoding -Wno-macro-redefined` で ShiftJIS 混在許容
+
+#### ネイティブビルドで判明した修正点
+
+1. **`__cdecl` は MSVC 固有** (GCC/Clang で未知) — stubs.cpp 内で `#if !defined(_MSC_VER) #define __cdecl` を先頭に追加
+2. **`MailApp_Send_WCHAR_T_PF` が Mac link で unresolved** (Win では呼ばれない path) — stub 追加
+
+#### 確認済の動作ログ
+
+**Linux (WSL2, Mesa 25.2.8):**
+```
+[DxLib Desktop] NS_DxLib_Init
+[DxLib Desktop] GL_VENDOR:   Mesa
+[DxLib Desktop] GL_VERSION:  4.5 (Compatibility Profile) Mesa 25.2.8-0ubuntu0.24.04.1
+[Stage4] DxLib_Init returned 0
+```
+
+**Mac (arm64, AppleGL+Metal backend):**
+```
+[DxLib Desktop] NS_DxLib_Init
+[DxLib Desktop] GL_VENDOR:   Apple
+[DxLib Desktop] GL_VERSION:  2.1 Metal - 90.5
+[Stage7] rendered 221 frames
+```
+
+→ **Apple Silicon で OpenGL が Metal 経由で動く** (ANGLE 無しで)。Metal backend は macOS 10.14+ で自動有効。
+
+#### 参考: 環境情報 memory
+
+環境情報は [reference_mac_wsl_cross_build_env.md](.../memory/reference_mac_wsl_cross_build_env.md) に保存済:
+- Mac: `ssh -i ~/.ssh/id_hsp3dx_mac inovia@192.168.0.208`
+- Mac プロジェクト: `/Volumes/karyl/HNWorks/IronHSP_2026/` (SMB マウント)
+- WSL Ubuntu: `wsl -d Ubuntu`、`/mnt/j/HNWorks/IronHSP_2026/`
+
+#### 次回即時再開コマンド
+
+```bash
+# Linux (WSL2):
+wsl -d Ubuntu -- bash -c "cd ~/build_hsp3dx_linux && make stage4_init_test -j4 && ./stage4_init_test"
+
+# Mac (SSH):
+ssh -i ~/.ssh/id_hsp3dx_mac inovia@192.168.0.208 "cd ~/build_hsp3dx_mac && PATH=/opt/homebrew/bin:\$PATH make stage7_draw_primitives -j4 && ./stage7_draw_primitives"
+```
+
 #### 次回即時再開用コマンド
 
 ```bash

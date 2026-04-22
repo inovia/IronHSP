@@ -10,6 +10,14 @@
 
 #include "../DxCompileConfig.h"
 
+
+// __cdecl は MSVC 固有の calling convention。GCC/Clang では空にする。
+#if !defined(_MSC_VER)
+  #ifndef __cdecl
+  #define __cdecl
+  #endif
+#endif
+
 #ifndef DX_NON_GRAPHICS
 
 #include "DxGraphicsDesktop.h"
@@ -180,6 +188,8 @@ extern DWORD Graphics_Hardware_GetPixel_PF(int,int) { return 0; }
 extern void * Graphics_Hardware_ShaderConstantBuffer_GetBuffer_PF(struct SHADERCONSTANTBUFFERHANDLEDATA *) { return nullptr; }
 extern void Graphics_Hardware_ShadowMap_RefreshPSParam_PF(void) { }
 extern void Graphics_Hardware_ShadowMap_RefreshVSParam_PF(void) { }
+
+extern int MailApp_Send_WCHAR_T_PF(const wchar_t *,const wchar_t *,const wchar_t *,const wchar_t *,const wchar_t *) { return 0; }
 
 // --- end of stubs --------------------------------------------------------
 
