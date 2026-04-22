@@ -1,6 +1,8 @@
 #include "iron_dxlib.as"
 notesel n
-dx_mv1load "tet_ours.mv1"
-noteadd "stat=" + stat
-notesave "r_tet.txt"
+dx_mv1load "duck_from_gpb.mv1"
+h = stat
+noteadd "duck_from_gpb.mv1 : h=" + h
+if h >= 0 : dx_mv1delete h
+notesave "r_duck_from_gpb.mv1.txt"
 end
