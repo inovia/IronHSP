@@ -57,7 +57,7 @@ td.note { font-size: 12px; color: #555; }
 <body>
 
 <h1>hsp3dx DxLib マルチプラットフォーム対応状況</h1>
-<p class="meta">最終更新: 2026-04-22 22:15 (M1〜M5 + L1〜L4 完了) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
+<p class="meta">最終更新: 2026-04-22 22:21 (E1 Linux 検証 + Shadow 適用 + L4 Phase 2 + Live2D API 解除) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
 
 <div class="summary-box" style="border:2px solid #2b6cb0">
   <p style="margin:0">📋 <strong>全関数マトリクス</strong>: この HTML は主要 API 80 関数の概観です。DxLib.h に宣言されている <strong>全 2438 関数</strong> の対応状況は <a href="PORTING_STATUS_DETAIL.html" style="font-weight:700">PORTING_STATUS_DETAIL.html</a> (自動生成) を参照してください。</p>
@@ -82,11 +82,15 @@ td.note { font-size: 12px; color: #555; }
      さらに M1〜M5 + L1〜L4 完了: Toon gradation / Shadow FBO infrastructure /
      GraphFilter 残 5 種 / MV1 SpecularLayer+NormalLayer wire / Mac Movie Seek+Loop /
      DxLib Shader API UseShader=TRUE / Live2D Cubism SDK 5-r.5 bundle /
-     Bullet Physics 3.25 bundle / GLSL shader directory template。</p>
-  <p><strong>保留項目 (次セッション):</strong> Live2D 実描画統合 (GLEW + Rendering/OpenGL +
-     DxLibEnableLive2D パッチ) / DxLib 内蔵 shader の GLSL 版本実装 (2〜3 週間) /
-     Shadow map projective texture 適用 / MV1 NormalLayer shader 化 /
-     Category E (Linux WSL2 / Mac SSH / Web emscripten 実ビルド検証)
+     Bullet Physics 3.25 bundle / GLSL shader directory template。
+     追加で E1 Linux WSL2 build 検証完了 / Shadow map projective 適用 /
+     L4 Phase 2 MV1 basic GLSL shader 動作化 / GLEW bundle + Cubism Rendering/OpenGL
+     有効化 / DX_NON_LIVE2D_CUBISM4 解除 + Live2D API stub 完成。</p>
+  <p><strong>保留項目 (次セッション):</strong> DxLib Cubism shader の GLSL 化 (Desktop
+     描画有効化の最後のピース、shader 19 種移植で 1〜2 週間) /
+     MV1 NormalLayer (tangent space) shader 化 / filter_ssao / bicubic /
+     lanczos3 の GPU 版 / E2 Mac SSH 実ビルド (repo clone + cmake install 要) /
+     E3 Web emscripten 実ビルド (emsdk install 要)
      残: Live2D Cubism4、Bullet Physics、Toon 階調 (要 shader)、VBO 最適化、DiffuseLayer[1+] 合成。</p>
 </div>
 
@@ -677,8 +681,8 @@ td.note { font-size: 12px; color: #555; }
 <tr><td class="fn">Live2D Cubism4 API</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
   <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">L2 完: extlib/cubism/ に Cubism SDK 5-r.5 (Core prebuilt lib + Framework source) を bundle、dx_cubism_core + dx_cubism_framework を build 可</td>
-  <td class="note">L2 infrastructure 完了。Framework は Rendering/ 除外で core logic のみコンパイル (GLEW 依存回避)。実 Live2D モデル描画は DxLibEnableLive2D_3_24f.zip のパッチ適用 + Rendering/OpenGL 再有効化 + MV1 draw hook が次段。</td>
+  <td class="tech">L2 Cubism SDK 5-r.5 bundle + GLEW bundle + DxLive2DCubism4.cpp (DxLib 本家 1751 行) + DxUseCLibLive2DCubism4.cpp (11666 行) を lib に含め DX_NON_LIVE2D_CUBISM4 解除、Rendering/OpenGL backend 有効化</td>
+  <td class="note">Live2DModel_LoadXFromMem 等の API call は通る。但し shader は stub (LoadShaderProgram return true / Live2DCubism4_SetupShader_PF no-op) のため実描画は no-op。本描画には CubismFramework OpenGL renderer と Desktop GLSL shader template (D_ShaderNames_Normal 他 19 種) の hook-up が要る (L4 Phase 4)。</td>
 </tr>
 <tr><td class="fn">Bullet Physics (剛体 / Soft Body)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
@@ -724,9 +728,9 @@ td.note { font-size: 12px; color: #555; }
 </tr>
 <tr><td class="fn">Shadow Map (MakeShadowMap / ShadowMap_DrawSetup / SetUseShadowMap)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">API 層は動作 (共通 handle 管理)、Graphics_Hardware_ShadowMap_*_PF は no-op stub</td>
-  <td class="note">API コール可 (ハンドル取得・削除)。実際の影描画は未実装。FBO depth texture + projective texture 実装には 500 行規模の改修要で保留。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">M2 完: FBO + GL_DEPTH_COMPONENT texture (DrawSetup/End で render target swap) + projective texture 適用 (glTexGen OBJECT_LINEAR + Bias*VP texture matrix + GL_COMPARE_R_TO_TEXTURE)</td>
+  <td class="note">ShadowMap_DrawSetup → ジオメトリ描画 → DrawEnd → 通常描画 の pipeline で影が落ちる。fixed-function で完結、GLSL shader なしで動作。GLSL 版は Desktop_MV1_UseGLSLShader(1) で sampler2DShadow + shadow2DProj 経路も有効化。</td>
 </tr>
 <tr><td class="fn">Bullet Physics 統合</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
