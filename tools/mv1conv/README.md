@@ -79,8 +79,9 @@ bash tests/roundtrip.sh
 | 入力: PLY | ✓ (ASCII + binary_little_endian) |
 | 入力: X (DirectX) | ✓ (ASCII のみ、Frame 階層探索) |
 | 入力: GLB (glTF 2.0) | ✓ (静的、POSITION/NORMAL/TEXCOORD_0/baseColorFactor) |
+| 入力: VRML 2.0 (.wrl) | ✓ (IndexedFaceSet の point + coordIndex) |
 | 入力: FBX | 未対応 |
-| 入力: VRM / USD / 3MF / VRML / GPB | 未対応 |
+| 入力: VRM / USD / 3MF / GPB | 未対応 |
 | スキンメッシュ書き出し | 未対応 |
 | アニメーション書き出し | 未対応 |
 

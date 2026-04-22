@@ -25,6 +25,7 @@ add_executable(mv1conv
     src/x_import.cpp
     src/mini_json.cpp
     src/glb_import.cpp
+    src/wrl_import.cpp
 )
 
 target_include_directories(mv1conv PRIVATE src)

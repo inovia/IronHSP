@@ -146,7 +146,20 @@ with open(r'build/test_out/tet.glb','wb') as f:
     f.write(struct.pack('<I', len(bin_data)) + b'BIN\x00' + bin_data)
 PY
 
-for fmt in tet.obj tri.stl quad.ply tet.x tet.glb; do
+# VRML (4 面体)
+cat >"$OUT/tet.wrl" <<'EOF'
+#VRML V2.0 utf8
+Shape {
+  geometry IndexedFaceSet {
+    coord Coordinate {
+      point [ 0 0 0, 1 0 0, 0 1 0, 0 0 1 ]
+    }
+    coordIndex [ 0 1 2 -1  0 1 3 -1  0 2 3 -1  1 2 3 -1 ]
+  }
+}
+EOF
+
+for fmt in tet.obj tri.stl quad.ply tet.x tet.glb tet.wrl; do
     out=$OUT/${fmt%.*}_from_${fmt##*.}.mv1
     if "$MV1CONV" convert "$OUT/$fmt" "$out" 2>&1 | grep -q "re-load OK"; then
         tri=$("$MV1CONV" dump "$out" | grep "TriangleNum " | awk '{print $3}')
