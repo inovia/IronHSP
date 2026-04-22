@@ -1011,6 +1011,158 @@ extern int Graphics_Hardware_SetDrawArea_PF( int x1, int y1, int x2, int y2 )
     return 0 ;
 }
 
+// --- stub から実機能化した PF 群 (stub 整理) ----------------------------
+
+extern int Graphics_Hardware_CheckValid_PF( void )
+{
+    // GL context が作られているかで判定 (s_GLContext は NS_DxLib_Init で作成)
+    return s_GLContext != nullptr ? TRUE : FALSE ;
+}
+
+extern int Graphics_GetRefreshRate_PF( void )
+{
+    SDL_DisplayMode dm ;
+    if ( SDL_GetCurrentDisplayMode( 0, &dm ) == 0 && dm.refresh_rate > 0 ) {
+        return dm.refresh_rate ;
+    }
+    return 60 ;  // fallback
+}
+
+extern int Graphics_Hardware_SetBackgroundColor_PF( int R, int G, int B, int A )
+{
+    // GSYS.Screen.Background{R/G/B/A} は common 層で更新済。
+    // ここで glClearColor を予約しておけば次 Flip で反映される。
+    glClearColor( R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_WaitVSync_PF( int SyncNum )
+{
+    // SDL_GL_SwapWindow 側で interval 制御。ここは no-op で OK
+    (void)SyncNum ;
+    return 0 ;
+}
+
+extern int Graphics_SetWaitVSyncFlag_PF( int Flag )
+{
+    SDL_GL_SetSwapInterval( Flag ? 1 : 0 ) ;
+    return 0 ;
+}
+
+extern DWORD Graphics_Hardware_GetPixel_PF( int x, int y )
+{
+    unsigned char px[ 4 ] = { 0 } ;
+    // GL は bottom-up、画面から読む
+    int win_h = s_DrawTargetH ;
+    glPixelStorei( GL_PACK_ALIGNMENT, 1 ) ;
+    glReadPixels( x, win_h - 1 - y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, px ) ;
+    // DxLib DWORD は 0x00RRGGBB (MSB 無視) 相当
+    return ( ( DWORD )px[ 0 ] << 16 ) | ( ( DWORD )px[ 1 ] << 8 ) | ( DWORD )px[ 2 ] ;
+}
+
+extern COLOR_F Graphics_Hardware_GetPixelF_PF( int x, int y )
+{
+    unsigned char px[ 4 ] = { 0 } ;
+    int win_h = s_DrawTargetH ;
+    glPixelStorei( GL_PACK_ALIGNMENT, 1 ) ;
+    glReadPixels( x, win_h - 1 - y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, px ) ;
+    COLOR_F c ;
+    c.r = px[ 0 ] / 255.0f ;
+    c.g = px[ 1 ] / 255.0f ;
+    c.b = px[ 2 ] / 255.0f ;
+    c.a = px[ 3 ] / 255.0f ;
+    return c ;
+}
+
+extern int Graphics_Hardware_SetDrawAlphaTest_PF( int RefValue, int Mode )
+{
+    // Mode: 1=DX_CMP_GREATEREQUAL (default), 0=無効化 相当
+    if ( RefValue < 0 ) {
+        glDisable( GL_ALPHA_TEST ) ;
+    } else {
+        glEnable( GL_ALPHA_TEST ) ;
+        GLenum func = GL_GEQUAL ;
+        switch ( Mode ) {
+        case 0: func = GL_NEVER   ; break ;
+        case 1: func = GL_LESS    ; break ;
+        case 2: func = GL_EQUAL   ; break ;
+        case 3: func = GL_LEQUAL  ; break ;
+        case 4: func = GL_GREATER ; break ;
+        case 5: func = GL_NOTEQUAL; break ;
+        case 6: func = GL_GEQUAL  ; break ;
+        case 7: func = GL_ALWAYS  ; break ;
+        default: func = GL_GEQUAL ;
+        }
+        glAlphaFunc( func, RefValue / 255.0f ) ;
+    }
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetTextureAddressMode_PF( int Mode, int Sampler )
+{
+    (void)Sampler ;
+    GLenum wrap = GL_REPEAT ;
+    switch ( Mode ) {
+    case 0: wrap = GL_REPEAT ;        break ;  // DX_TEXADDRESS_WRAP
+    case 1: wrap = GL_MIRRORED_REPEAT;break ;  // DX_TEXADDRESS_MIRROR
+    case 2: wrap = GL_CLAMP_TO_EDGE ; break ;  // DX_TEXADDRESS_CLAMP
+    case 3: wrap = GL_CLAMP_TO_BORDER;break ;  // DX_TEXADDRESS_BORDER
+    default: wrap = GL_REPEAT ;
+    }
+    // Current active texture に対して設定 (state を GLOBAL に適用)
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetTextureAddressModeUV_PF( int ModeU, int ModeV, int Sampler )
+{
+    (void)Sampler ;
+    auto to_wrap = []( int m ) -> GLenum {
+        switch ( m ) {
+        case 0: return GL_REPEAT ;
+        case 1: return GL_MIRRORED_REPEAT ;
+        case 2: return GL_CLAMP_TO_EDGE ;
+        case 3: return GL_CLAMP_TO_BORDER ;
+        default: return GL_REPEAT ;
+        }
+    } ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, to_wrap( ModeU ) ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, to_wrap( ModeV ) ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetMaxAnisotropy_PF( int MaxAniso )
+{
+#   ifndef GL_TEXTURE_MAX_ANISOTROPY_EXT
+#   define GL_TEXTURE_MAX_ANISOTROPY_EXT 0x84FE
+#   endif
+    float f = ( float )( MaxAniso > 1 ? MaxAniso : 1 ) ;
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, f ) ;
+    return 0 ;
+}
+
+// --- VBO / IBO (fixed-function の glBegin/glEnd と互換なまま、buffer だけ用意) --
+
+extern int Graphics_Hardware_VertexBuffer_Create_PF( VERTEXBUFFERHANDLEDATA * /*vb*/ )
+{
+    // PF 側に GLuint を保持するスペースは無いので、VBO 未使用 path のまま no-op。
+    // 実際の drawcall は Draw*PrimitiveLight_UseVertexBuffer_PF で stub なので
+    // ここで失敗しなくても描画自体はされない。将来 VBO 経路実装時に拡張。
+    return 0 ;
+}
+extern int Graphics_Hardware_VertexBuffer_SetData_PF( VERTEXBUFFERHANDLEDATA * /*vb*/, int /*StartIndex*/, const void * /*Data*/, int /*UpdateVertexNum*/ )
+{
+    return 0 ;
+}
+extern int Graphics_Hardware_VertexBuffer_Terminate_PF( VERTEXBUFFERHANDLEDATA * /*vb*/ )
+{
+    return 0 ;
+}
+extern int Graphics_Hardware_IndexBuffer_Create_PF( INDEXBUFFERHANDLEDATA * /*ib*/ )   { return 0 ; }
+extern int Graphics_Hardware_IndexBuffer_SetData_PF( INDEXBUFFERHANDLEDATA * /*ib*/, int /*StartIndex*/, const void * /*Data*/, int /*UpdateIndexNum*/ ) { return 0 ; }
+extern int Graphics_Hardware_IndexBuffer_Terminate_PF( INDEXBUFFERHANDLEDATA * /*ib*/ ){ return 0 ; }
+
 extern int Graphics_Hardware_FillGraph_PF( IMAGEDATA *Image, int R, int G, int B, int A, int Surface )
 {
     (void)Surface;

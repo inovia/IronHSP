@@ -31,10 +31,10 @@ namespace DxLib
 
 // --- stubs (auto-generated from build log) -------------------------------
 extern int Graphics_CheckRequiredNormalImageConv_BaseImageFormat_PF(struct IMAGEDATA_ORIG *,int,int *,int,int *) { return 0; }
-extern int Graphics_GetRefreshRate_PF(void) { return 0; }
+// Graphics_GetRefreshRate_PF: impl in DxGraphicsDesktop.cpp (SDL_GetCurrentDisplayMode)
 // Graphics_Hardware_ApplyLigFogToHardware_PF: impl in DxGraphicsDesktop.cpp (Tier 4a)
 // moved to DxGraphicsDesktop.cpp (Stage 17)
-extern int Graphics_Hardware_CheckValid_PF(void) { return 0; }
+// Graphics_Hardware_CheckValid_PF: impl in DxGraphicsDesktop.cpp (GL context 判定)
 // Graphics_Hardware_ClearDrawScreenZBuffer_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 // Graphics_Hardware_ClearDrawScreen_PF: impl in DxGraphicsDesktop.cpp (Stage 6)
 extern int Graphics_Hardware_CopyGraphZBufferImage_PF(struct IMAGEDATA *,struct IMAGEDATA *) { return 0; }
@@ -92,9 +92,7 @@ extern int Graphics_Hardware_DrawSimpleTriangleGraphF_PF(struct tagGRAPHICS_DRAW
 extern int Graphics_Hardware_GetMultiSampleQuality_PF(int) { return 0; }
 extern int Graphics_Hardware_GetVideoMemorySizeEx_PF(unsigned long long *,unsigned long long *) { return 0; }
 // Graphics_Hardware_GraphLock_PF / GraphUnlock_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
-extern int Graphics_Hardware_IndexBuffer_Create_PF(struct INDEXBUFFERHANDLEDATA *) { return 0; }
-extern int Graphics_Hardware_IndexBuffer_SetData_PF(struct INDEXBUFFERHANDLEDATA *,int,void const *,int) { return 0; }
-extern int Graphics_Hardware_IndexBuffer_Terminate_PF(struct INDEXBUFFERHANDLEDATA *) { return 0; }
+// Graphics_Hardware_IndexBuffer_*_PF: impl in DxGraphicsDesktop.cpp (no-op but present)
 extern int Graphics_Hardware_InitGraph_PF(void) { return 0; }
 // Graphics_Hardware_Initialize_PF: impl in DxGraphicsDesktop.cpp (Stage 6)
 // Graphics_Hardware_Light_*_PF: impl in DxGraphicsDesktop.cpp (Tier 4a)
@@ -103,25 +101,26 @@ extern int Graphics_Hardware_Paint_PF(int,int,unsigned int,unsigned long long) {
 // Graphics_Hardware_RefreshAlphaChDrawMode_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 // moved to DxGraphicsDesktop.cpp (Stage 17)
 extern int Graphics_Hardware_ScreenCopy_PF(int) { return 0; }
-extern int Graphics_Hardware_SetBackgroundColor_PF(int,int,int,int) { return 0; }
+// Graphics_Hardware_SetBackgroundColor_PF: impl in DxGraphicsDesktop.cpp (glClearColor 予約)
 extern int Graphics_Hardware_SetBlendGraphParamBase_PF(struct IMAGEDATA *,int,int *) { return 0; }
 extern int Graphics_Hardware_SetDrawAddColor_PF(int,int,int) { return 0; }
-extern int Graphics_Hardware_SetDrawAlphaTest_PF(int,int) { return 0; }
+// Graphics_Hardware_SetDrawAlphaTest_PF: impl in DxGraphicsDesktop.cpp (GL_ALPHA_TEST + glAlphaFunc)
 // Graphics_Hardware_SetDrawArea_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 // Graphics_Hardware_SetDrawBlendMode_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 // Graphics_Hardware_SetDrawBrightToOneParam_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 // Graphics_Hardware_SetDrawBright_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 extern int Graphics_Hardware_SetDrawCustomBlendMode_PF(int,int,int,int,int,int,int,int) { return 0; }
 extern int Graphics_Hardware_SetDrawMode_PF(int) { return 0; }
+// Graphics_Hardware_SetMaxAnisotropy_PF / SetTextureAddressMode* / SetDrawAlphaTest:
+//   impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_SetDrawScreen_PF / _Post_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 // Graphics_Hardware_SetDrawZBuffer_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 // Graphics_Hardware_SetFog*_PF: impl in DxGraphicsDesktop.cpp (Tier 4a)
 extern int Graphics_Hardware_SetGraphicsDeviceLostCallbackFunction_PF(void (__cdecl*)(void *),void *) { return 0; }
 extern int Graphics_Hardware_SetGraphicsDeviceRestoreCallbackFunction_PF(void (__cdecl*)(void *),void *) { return 0; }
-extern int Graphics_Hardware_SetMaxAnisotropy_PF(int) { return 0; }
+// Graphics_Hardware_SetMaxAnisotropy_PF: impl in DxGraphicsDesktop.cpp
 extern int Graphics_Hardware_SetRenderTargetToShader_PF(int,int,int,int) { return 0; }
-extern int Graphics_Hardware_SetTextureAddressModeUV_PF(int,int,int) { return 0; }
-extern int Graphics_Hardware_SetTextureAddressMode_PF(int,int) { return 0; }
+// Graphics_Hardware_SetTextureAddressMode{,UV}_PF: impl in DxGraphicsDesktop.cpp
 extern int Graphics_Hardware_SetTextureAddressTransformMatrix_PF(int,struct tagMATRIX *,int) { return 0; }
 // Graphics_Hardware_SetTransformTo*_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 extern int Graphics_Hardware_SetUseHardwareVertexProcessing_PF(int) { return 0; }
@@ -155,23 +154,20 @@ extern int Graphics_Hardware_Shader_ModelCode_Terminate_PF(void) { return 0; }
 // ため no-op で OK。
 extern int Graphics_Hardware_RefreshSetting_PF(void) { return 0; }
 extern int Graphics_Hardware_UnlockDrawScreenBuffer_PF(void) { return 0; }
-extern int Graphics_Hardware_VertexBuffer_Create_PF(struct VERTEXBUFFERHANDLEDATA *) { return 0; }
-extern int Graphics_Hardware_VertexBuffer_SetData_PF(struct VERTEXBUFFERHANDLEDATA *,int,void const *,int) { return 0; }
-extern int Graphics_Hardware_VertexBuffer_Terminate_PF(struct VERTEXBUFFERHANDLEDATA *) { return 0; }
-extern int Graphics_Hardware_WaitVSync_PF(int) { return 0; }
+// Graphics_Hardware_VertexBuffer_*_PF / WaitVSync_PF: impl in DxGraphicsDesktop.cpp
 extern int Graphics_Initialize_Timing0_PF(void) { return 0; }
 extern int Graphics_Initialize_Timing1_PF(void) { return 0; }
 extern int Graphics_RestoreOrChangeSetupGraphSystem_PF(int,int,int,int,int) { return 0; }
 // Graphics_ScreenFlipBase_PF: impl in DxGraphicsDesktop.cpp (Stage 6)
-extern int Graphics_SetWaitVSyncFlag_PF(int) { return 0; }
+// Graphics_SetWaitVSyncFlag_PF: impl in DxGraphicsDesktop.cpp (SDL_GL_SetSwapInterval)
 extern int Graphics_SetupDisplayInfo_PF(void) { return 0; }
 extern int Graphics_Terminate_PF(void) { return 0; }
 extern int InitializeBaseImageManage_PF(void) { return 0; }
 extern int TerminateBaseImageManage_PF(void) { return 0; }
 extern struct DxLib::tagCOLORDATA const * Graphics_Hardware_GetDispColorData_PF(void) { return nullptr; }
-extern struct DxLib::tagCOLOR_F Graphics_Hardware_GetPixelF_PF(int,int) { tagCOLOR_F r = {0,0,0,0}; return r; }
+// Graphics_Hardware_GetPixelF_PF: impl in DxGraphicsDesktop.cpp (glReadPixels 1x1)
 extern struct DxLib::tagFLOAT4 const * Graphics_Hardware_Shader_GetConstDefaultParamF_PF(wchar_t const *,struct SHADERHANDLEDATA *) { return nullptr; }
-extern DWORD Graphics_Hardware_GetPixel_PF(int,int) { return 0; }
+// Graphics_Hardware_GetPixel_PF: impl in DxGraphicsDesktop.cpp
 extern void * Graphics_Hardware_ShaderConstantBuffer_GetBuffer_PF(struct SHADERCONSTANTBUFFERHANDLEDATA *) { return nullptr; }
 extern void Graphics_Hardware_ShadowMap_RefreshPSParam_PF(void) { }
 extern void Graphics_Hardware_ShadowMap_RefreshVSParam_PF(void) { }
