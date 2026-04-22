@@ -5,6 +5,9 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <inttypes.h>
+#ifndef _WIN32
+#  include <sys/types.h>   /* ssize_t 用 */
+#endif
 
 #define TIFF_INT8_T   int8_t
 #define TIFF_UINT8_T  uint8_t

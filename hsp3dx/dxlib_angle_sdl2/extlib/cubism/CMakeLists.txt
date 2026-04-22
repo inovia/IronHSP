@@ -55,8 +55,18 @@ target_include_directories(dx_cubism_framework PUBLIC
 )
 target_link_libraries(dx_cubism_framework PUBLIC dx_cubism_core)
 target_compile_definitions(dx_cubism_framework PUBLIC
-    CSM_TARGET_WIN_GL=1      # OpenGL backend を使用
+    # OpenGL backend を使用 (platform 別に正しいマクロを選択)
+    #   CSM_TARGET_WIN_GL  — Windows MSVC 専用 (_snprintf_s 等を使う)
+    #   CSM_TARGET_MAC_GL  — Mac
+    #   CSM_TARGET_LINUX_GL — Linux
 )
+if(WIN32)
+    target_compile_definitions(dx_cubism_framework PUBLIC CSM_TARGET_WIN_GL=1)
+elseif(APPLE)
+    target_compile_definitions(dx_cubism_framework PUBLIC CSM_TARGET_MAC_GL=1)
+elseif(UNIX)
+    target_compile_definitions(dx_cubism_framework PUBLIC CSM_TARGET_LINUX_GL=1)
+endif()
 if(MSVC)
     target_compile_definitions(dx_cubism_framework PRIVATE _CRT_SECURE_NO_WARNINGS)
     target_compile_options(dx_cubism_framework PRIVATE

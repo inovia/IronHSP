@@ -288,11 +288,8 @@ add_library(dxlib_portable_stage3 STATIC
     # Stage 16: Input
     ${DXLIB_PORTABLE_DIR}/DxInput.cpp
     ${DXLIB_PORTABLE_DIR}/Desktop/DxInputDesktop.cpp
-    # Stage 19: Font
+    # Stage 19: Font (DxFont.cpp は常にビルド、DxFontDesktop.cpp は HAS_SDL2_TTF 時のみ)
     ${DXLIB_PORTABLE_DIR}/DxFont.cpp
-    ${DXLIB_PORTABLE_DIR}/Desktop/DxFontDesktop.cpp
-    # Stage 20: Sound (Desktop 自前実装)
-    ${DXLIB_PORTABLE_DIR}/Desktop/DxSoundDesktop.cpp
     # Stage 21: Image (stb_image: PNG/JPEG/BMP/GIF/TGA/PSD)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxImageDesktop.cpp
     ${DXLIB_PORTABLE_DIR}/Desktop/DxImageDesktop_stb.cpp
@@ -320,6 +317,14 @@ add_library(dxlib_portable_stage3 STATIC
     ${DXLIB_PORTABLE_DIR}/DxModelLoaderVMD.cpp
     ${DXLIB_PORTABLE_DIR}/Desktop/DxModelDesktop.cpp
 )
+# HAS_SDL2_TTF の時だけ DxFontDesktop.cpp を追加
+if(HAS_SDL2_TTF)
+    target_sources(dxlib_portable_stage3 PRIVATE ${DXLIB_PORTABLE_DIR}/Desktop/DxFontDesktop.cpp)
+endif()
+# HAS_SDL2_MIXER の時だけ DxSoundDesktop.cpp を追加
+if(HAS_SDL2_MIXER)
+    target_sources(dxlib_portable_stage3 PRIVATE ${DXLIB_PORTABLE_DIR}/Desktop/DxSoundDesktop.cpp)
+endif()
 # zlib を model/PMX 関連ソースから使う
 target_link_libraries(dxlib_portable_stage3 PUBLIC dx_zlib)
 # libogg / libvorbis / libvorbisfile を DxSoundDesktop.cpp の OGG decode で使う
