@@ -57,7 +57,7 @@ td.note { font-size: 12px; color: #555; }
 <body>
 
 <h1>hsp3dx DxLib マルチプラットフォーム対応状況</h1>
-<p class="meta">最終更新: 2026-04-22 (Tier 1 完了) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
+<p class="meta">最終更新: 2026-04-22 22:00 (Category C + D 完了) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
 
 <div class="summary-box" style="border:2px solid #2b6cb0">
   <p style="margin:0">📋 <strong>全関数マトリクス</strong>: この HTML は主要 API 80 関数の概観です。DxLib.h に宣言されている <strong>全 2438 関数</strong> の対応状況は <a href="PORTING_STATUS_DETAIL.html" style="font-weight:700">PORTING_STATUS_DETAIL.html</a> (自動生成) を参照してください。</p>
@@ -67,11 +67,14 @@ td.note { font-size: 12px; color: #555; }
   <p><strong>目的:</strong> hsp3dx (HSP3 + DxLib 統一ランタイム) を Windows / iOS / Android / Mac / Linux / Web の 6 プラットフォームで同一 <code>.ax</code> を動かせるようにする。</p>
   <p><strong>カラム整理:</strong> Win / iOS / Android は DxLib 本家 3.24f のソースをそのまま使う (D3D11 / Metal or GLES / GLES)。
   Mac / Linux / Web は独自 fork <code>hsp3dx/dxlib_angle_sdl2/</code> で SDL2 + OpenGL (compat) / emscripten WebGL に差し替える。</p>
-  <p><strong>現在の到達点 (2026-04-22 21:53):</strong>
+  <p><strong>現在の到達点 (2026-04-22 22:00):</strong>
      Stage 19〜25 (Font / Sound / Image / MakeScreen / 3D / Movie / MV1) 本道 API 化完了。
      Tier 1〜3 + 4a (Light/Fog) + 4b (Movie 4 platform) + 4c (Mask 最小) +
      4d v1〜v9 (MV1: load / skin 全 type / 法線 / ライティング / Specular / Toon outline) +
      4e (GraphFilter 7 種 CPU) + 4f (GLSL Shader 拡張 API) 完了。
+     Category C (Clipboard / GetDrawScreenGraph / 3D Sound stubs / Touch / IME 封印) +
+     Category D (libogg + libvorbis + libopus + opusfile + libtheora + libtiff ソース
+     bundle、OGG Vorbis / Opus / Theora / TIFF 全対応) 完了。
      残: Live2D Cubism4、Bullet Physics、Toon 階調 (要 shader)、VBO 最適化、DiffuseLayer[1+] 合成。</p>
 </div>
 
@@ -296,8 +299,26 @@ td.note { font-size: 12px; color: #555; }
 <tr><td class="fn">LoadGraph / LoadReverseGraph (PNG/JPEG/BMP/GIF/TGA/PSD)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">Win: WIC / iOS: CoreGraphics / Android: BitmapFactory / SDL2+Web: <code>stb_image</code> via <code>DefaultImageLoadFunc_PF[]</code></td>
+  <td class="tech">Win: libpng+libjpeg / iOS/Android: 同梱 .a / SDL2+Web: <code>stb_image</code> via <code>DefaultImageLoadFunc_PF[]</code></td>
   <td class="note">Stage 21 で導入。stb_image は PNG/JPEG/BMP/GIF/TGA/PSD 対応。Web は Desktop と同じコードだが未検証。</td>
+</tr>
+<tr><td class="fn">LoadGraph (DDS)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">DxBaseImage.cpp 内蔵 <code>LoadDDSImage</code> パーサ (全 platform 共通、外部依存なし)</td>
+  <td class="note">D1 確認済。DXT1/3/5 + 非圧縮 BGRA/RGB 全対応。</td>
+</tr>
+<tr><td class="fn">LoadGraph (TIFF)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">Win: libtiff prebuilt / Android: libtiff.a / SDL2 fork: bundled libtiff 4.7 (D5)</td>
+  <td class="note">D5 完了。同梱 codec: LZW / PackBits / Deflate / CCITT / Thunder / NeXT / LogLuv。iOS は DxLib 本家が libtiff_iOS.a を含めていないため非対応。</td>
+</tr>
+<tr><td class="fn">LoadGraph (WebP)</td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">—</td>
+  <td class="note">DxLib 本家が全 platform 非対応 (DxLib.h に WebP API なし)。SDL2 fork も互換性優先で非対応。</td>
 </tr>
 <tr><td class="fn">LoadDivGraph / LoadDivBmpToGraph</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
@@ -431,11 +452,11 @@ td.note { font-size: 12px; color: #555; }
 <h2 id="sound">5. サウンド</h2>
 <table>
 <tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
-<tr><td class="fn">LoadSoundMem (WAV / OGG / MP3)</td>
+<tr><td class="fn">LoadSoundMem (WAV / OGG / Opus / MP3)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">Mix_LoadWAV (SDL2_mixer)。DxSoundDesktop.cpp で直接提供。</td>
-  <td class="note">Web は SDL2_mixer が emscripten ports にあるが未検証。MP3 は libmpg123 リンク要。</td>
+  <td class="tech">Mix_LoadWAV (WAV) / bundled libvorbisfile (.ogg, D2) / bundled opusfile (.opus, D3) を DxSoundDesktop.cpp で dispatch。</td>
+  <td class="note">OGG Vorbis / Opus は source bundle で vcpkg 非依存。MP3 は未対応 (libmpg123 リンク要)。Win/iOS/Android は libvorbis/libopus prebuilt .lib リンク、SDL2 fork は bundled source 経由。</td>
 </tr>
 <tr><td class="fn">LoadSoundMem2 / LoadSoundMemByMemImage / LoadSoundMem2ByMemImage</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
@@ -629,11 +650,17 @@ td.note { font-size: 12px; color: #555; }
 <h2 id="movie">9. ムービー / Live2D</h2>
 <table>
 <tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
-<tr><td class="fn">PlayMovie / PlayMovieToGraph (Open / Pause / Update / Seek / Tell / Volume / State)</td>
+<tr><td class="fn">PlayMovie / PlayMovieToGraph (MP4 等)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
   <td class="tech">Win: Media Foundation (IMFSourceReader) / Mac: AVFoundation (AVAssetReader, Obj-C++) / Linux: GStreamer 1.0 (appsink, pkg-config 経由) / Web: HTML5 &lt;video&gt; + canvas getImageData (emscripten ブリッジ)</td>
   <td class="note">Tier 4b 全プラットフォーム video-only 実装済。音声は全部ミュート (Mac/Linux/Web は backend 側で鳴る可能性あり、音量は SetMovieVolumeToGraph で制御)。Windows/Linux は Seek 可、Mac は AVAssetReader forward-only で Seek 要 reader 再作成。Web は user gesture + CORS 制約あり。ffmpeg は不使用 (LGPL + H.264 パテント + 20MB 肥大回避)。</td>
+</tr>
+<tr><td class="fn">PlayMovieToGraph (Ogg Theora .ogv)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">Win/iOS/Android: libtheora_static prebuilt / SDL2 fork: bundled libogg + libtheoradec (D4)</td>
+  <td class="note">D4b 完了。DxMovieTheoraDesktop.cpp が Ogg demux + YUV→BGRA 変換を実行。拡張子 .ogv / .ogg で自動 dispatch (MF backend と並列)。音声 Vorbis は未統合 (D4 次段で対応予定)。</td>
 </tr>
 <tr><td class="fn">Live2D Cubism4 API</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
