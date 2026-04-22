@@ -42,9 +42,20 @@ static int convert_generic(const char *in, const char *out, bool noBones = false
         if (!lr.ok()) { err = lr.error; }
         else ir = &lr.ir;
     } else if (ext == "x") {
-        lr = load_x(in);
-        if (!lr.ok()) { err = lr.error; }
-        else ir = &lr.ir;
+#ifdef MV1CONV_HAVE_ASSIMP
+        // assimp の X importer は multi-mesh 階層を展開してくれるので、
+        // MV1CONV_X_USE_BUILTIN=1 が無ければ assimp を優先
+        if (!std::getenv("MV1CONV_X_USE_BUILTIN")) {
+            lr = load_via_assimp(in);
+            if (!lr.ok()) { err = lr.error; }
+            else ir = &lr.ir;
+        } else
+#endif
+        {
+            lr = load_x(in);
+            if (!lr.ok()) { err = lr.error; }
+            else ir = &lr.ir;
+        }
     } else if (ext == "glb" || ext == "gltf" || ext == "vrm") {
         // .vrm は GLB ベース: 基礎 geometry + スキン + マテリアル色は取り込める。
         // VRM 固有拡張 (humanoid mapping / SpringBone / MToon) は現状未対応。
