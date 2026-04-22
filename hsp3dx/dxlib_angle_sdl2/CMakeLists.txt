@@ -144,7 +144,8 @@ function(dxlib_desktop_settings target)
         DX_NON_MODEL=1
         DX_NON_BULLET_PHYSICS=1
         DX_NON_FILTER=1
-        DX_NON_MASK=1
+        # DX_NON_MASK=1 を外した (Tier 4c)。DxMask.cpp の CPU 側が動作、
+        # Mask_*_PF は Desktop/DxMaskDesktop.cpp で no-op stub 実装。
         # DX_NON_SOUND=1 は dxlib_portable_stage3 (lib) にのみ付与する。
         # user 側 (stage exe) はこれを外しておかないと DxLib::LoadSoundMem 等の
         # 宣言が DxLib.h から見えなくなる (L4853 の #ifndef DX_NON_SOUND)。
@@ -229,6 +230,9 @@ add_library(dxlib_portable_stage3 STATIC
     # Stage 21: Image (stb_image: PNG/JPEG/BMP/GIF/TGA/PSD)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxImageDesktop.cpp
     ${DXLIB_PORTABLE_DIR}/Desktop/DxImageDesktop_stb.cpp
+    # Tier 4c: Mask (CPU 側 DxMask.cpp + 空の PF stub)
+    ${DXLIB_PORTABLE_DIR}/DxMask.cpp
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxMaskDesktop.cpp
 )
 dxlib_desktop_settings(dxlib_portable_stage3)
 # lib 側は DxGateway.cpp の sound wrapper / libpng/jpeg 部分を殺して

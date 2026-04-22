@@ -642,11 +642,11 @@ td.note { font-size: 12px; color: #555; }
   <td class="tech">GLSL 相当に変換要</td>
   <td class="note">Graphics_Hardware_Shader_* PF は全 stub。Win は HLSL コンパイル。Tier 4。</td>
 </tr>
-<tr><td class="fn">Mask (CreateMaskScreen 等)</td>
+<tr><td class="fn">Mask (CreateMaskScreen / SetUseMaskScreenFlag / DrawMask / FillMaskScreen 等)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-pen">⏳</span></td><td class="center"><span class="badge b-pen">⏳</span></td>
-  <td class="tech">stencil buffer</td>
-  <td class="note">DX_NON_MASK=1。glStencilFunc 相当で実装可能だが中程度工数。</td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">CPU 側 DxMask.cpp (3124 行) は有効、Mask_*_PF (9 個) は no-op stub</td>
+  <td class="note">Tier 4c 最小版。API コール可・データ構造は動くが、実際の「マスクでクリップされた描画」は未反映。完全実装には iOS DxMaskiOS.cpp (626 行) 相当の GL texture + FBO + alpha 合成 が要る — 次版で対応予定。</td>
 </tr>
 <tr><td class="fn">GraphFilter / GraphBlend</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
