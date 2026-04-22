@@ -102,6 +102,30 @@ Reader のみ実用段階:
 - 5/5 DxLib サンプル byte-identical round-trip
 - 10 形式 (obj/stl/ply/x/glb/wrl/pmd/pmx/gpb + assimp 40+ + USD) 全部 IR 抽出成功
 
+## Tet.x reference 実測値 (2026-04-23 追記)
+
+`mv1_ref_gen` で生成した `tet_ref.mv1` (4 頂点 / 4 三角形 / 1 material):
+
+```
+TriangleListNormalPositionNum     = 4        ← tl 非スキン頂点数 = VertexNum
+MeshPositionSize                  = 48       ← 4 × 12 (float3 positions)
+MeshNormalNum                     = 4        ← Normal 数
+MeshVertexSize                    = 112      ← 4 × 28 (1 頂点 28 byte)
+MeshFaceNum                       = 4        ← 面数
+MeshVertexIndexNum                = 4        ← mesh vertex idx 数
+TriangleListIndexNum              = 12       ← 3 × 三角形数
+VertexDataSize                    = 124      ← blob 合計
+VertexData                        = 0x694    ← blob 位置
+```
+
+**1 頂点 = 28 byte** の意味は `DxModel.h MV1_MESH_VERTEX` 確認要。UV(4B×2)
+含むと 8 + 28 - UV = 20B 未確定。S16 normal (6B) + padding etc.
+
+VertexData blob 内部レイアウト (hex 実測):
+- 0x00..0x2F (48B) = MeshPosition (float3 × 4)
+- 0x30..0x4F (32B) = MeshNormal (S16×4 × 4 = 8B per normal、S16 で 4 成分?)
+- 残り (~44B) = MeshFace / MeshVertexIndex / TriangleListNormalPosition / MeshVertex
+
 ## 参考: 関連ソース位置
 
 - Save path: `DxModel.cpp` L17739-L20100 (`MV1SaveModelToMV1File_WCHAR_T`)
