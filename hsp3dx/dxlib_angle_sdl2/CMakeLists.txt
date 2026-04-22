@@ -191,6 +191,12 @@ else()
     set(HAVE_LIVE2D_CUBISM4 FALSE)
 endif()
 
+# --- Bullet Physics 3.25 (L3) --------------------------------------------
+# upstream from https://github.com/bulletphysics/bullet3 (zlib license)
+# LinearMath / BulletCollision / BulletDynamics / BulletSoftBody /
+# BulletInverseDynamics の 5 モジュール (Bullet3* experimental と OpenCL は除外)
+add_subdirectory(extlib/bullet3)
+
 # --- 共通: DxLib desktop 用コンパイル設定 ------------------------------
 function(dxlib_desktop_settings target)
     target_include_directories(${target} PRIVATE ${DXLIB_PORTABLE_DIR})
