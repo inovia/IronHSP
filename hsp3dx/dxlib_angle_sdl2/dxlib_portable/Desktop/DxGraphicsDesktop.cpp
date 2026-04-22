@@ -29,7 +29,9 @@
 #include <SDL_opengl.h>
 
 #include <cstdio>
+#include <cstring>
 #include <cmath>
+#include <vector>
 
 #ifndef DX_NON_NAMESPACE
 namespace DxLib
@@ -487,6 +489,226 @@ extern int Graphics_Hardware_SetDrawBrightToOneParam_PF( DWORD Param )
 extern int Graphics_Hardware_RefreshAlphaChDrawMode_PF( void )
 {
     return 0 ;
+}
+
+// --- Stage 17: テクスチャ (CreateOrigTexture / BltBmpOrBaseImageToGraph3 / DrawGraph) ---
+
+extern int Graphics_Hardware_CreateOrigTexture_PF( IMAGEDATA_ORIG *Orig, int ASyncThread )
+{
+    (void)ASyncThread;
+    if ( !Orig ) return -1 ;
+    Orig->Hard.MipMapCount = 1 ;
+    Orig->Hard.TexNum      = 1 ;
+    IMAGEDATA_ORIG_HARD_TEX *tex = &Orig->Hard.Tex[ 0 ] ;
+    tex->OrigPosX = 0 ; tex->OrigPosY = 0 ;
+    tex->UseWidth = Orig->Width ;
+    tex->UseHeight = Orig->Height ;
+    // POT にして余白を許容 (GL ES2 互換)
+    int tw = 1, th = 1 ;
+    while ( tw < Orig->Width )  tw <<= 1 ;
+    while ( th < Orig->Height ) th <<= 1 ;
+    tex->TexWidth  = tw ;
+    tex->TexHeight = th ;
+
+    if ( !tex->PF ) {
+        tex->PF = new IMAGEDATA_ORIG_HARD_TEX_PF() ;
+        memset( tex->PF, 0, sizeof( *tex->PF ) ) ;
+    }
+
+    GLuint id = 0 ;
+    glGenTextures( 1, &id ) ;
+    tex->PF->Texture.TextureBuffer = id ;
+    tex->PF->Texture.Width         = tw ;
+    tex->PF->Texture.Height        = th ;
+    tex->PF->Texture.MipMapCount   = 1 ;
+
+    glBindTexture( GL_TEXTURE_2D, id ) ;
+    // POT サイズで空の RGBA バッファを確保 (後で BltBmpOrBaseImageToGraph3 で埋める)
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     GL_CLAMP_TO_EDGE ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     GL_CLAMP_TO_EDGE ) ;
+    glBindTexture( GL_TEXTURE_2D, 0 ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_ReleaseOrigTexture_PF( IMAGEDATA_ORIG *Orig )
+{
+    if ( !Orig ) return -1 ;
+    for ( int i = 0 ; i < Orig->Hard.TexNum ; ++i )
+    {
+        IMAGEDATA_ORIG_HARD_TEX *tex = &Orig->Hard.Tex[ i ] ;
+        if ( tex->PF ) {
+            GLuint id = ( GLuint )tex->PF->Texture.TextureBuffer ;
+            if ( id ) glDeleteTextures( 1, &id ) ;
+            delete tex->PF ;
+            tex->PF = nullptr ;
+        }
+    }
+    return 0 ;
+}
+
+// BASEIMAGE のピクセルを RGBA8 に変換してコピー (最低限、RGBA8/ARGB8 のみ対応)
+// DxLib のデフォルト Color 形式は ARGB8 (BGRA8 bytes)。GL_RGBA と並び順が違うので swap
+static void basemage_to_rgba8( const BASEIMAGE *bi, int x, int y, int w, int h, GLubyte *out )
+{
+    if ( !bi || !bi->GraphData ) { std::memset( out, 0, w * h * 4 ) ; return ; }
+    const unsigned char *src0 = ( const unsigned char * )bi->GraphData ;
+    int stride = bi->Pitch ;
+    for ( int j = 0 ; j < h ; ++j )
+    {
+        const unsigned char *src = src0 + ( y + j ) * stride + x * 4 ;
+        GLubyte *dst = out + j * w * 4 ;
+        for ( int i = 0 ; i < w ; ++i )
+        {
+            // ARGB (little-endian: B,G,R,A) → RGBA
+            GLubyte B = src[0] ;
+            GLubyte G = src[1] ;
+            GLubyte R = src[2] ;
+            GLubyte A = src[3] ;
+            dst[0] = R ; dst[1] = G ; dst[2] = B ; dst[3] = A ;
+            src += 4 ; dst += 4 ;
+        }
+    }
+}
+
+extern int Graphics_Hardware_BltBmpOrBaseImageToGraph3_PF( const RECT *SrcRect, int DestX, int DestY, int GraphHandle, const BASEIMAGE *BaseImage, const BASEIMAGE *AlphaBaseImage, int ReverseFlag, int SrcBltBlendMode, int SrcBltBlendParam, int UseEdgeMode )
+{
+    (void)AlphaBaseImage; (void)ReverseFlag; (void)SrcBltBlendMode; (void)SrcBltBlendParam; (void)UseEdgeMode;
+    if ( !BaseImage ) return -1 ;
+    IMAGEDATA *ImgData = nullptr ;
+    GRAPHCHK( GraphHandle, ImgData ) ;
+    if ( !ImgData || !ImgData->Orig || ImgData->Orig->Hard.TexNum == 0 ) return -1 ;
+
+    IMAGEDATA_ORIG_HARD_TEX *tex = &ImgData->Orig->Hard.Tex[ 0 ] ;
+    if ( !tex->PF ) return -1 ;
+    GLuint id = ( GLuint )tex->PF->Texture.TextureBuffer ;
+
+    int sx = SrcRect ? SrcRect->left : 0 ;
+    int sy = SrcRect ? SrcRect->top  : 0 ;
+    int w  = SrcRect ? ( SrcRect->right - SrcRect->left ) : BaseImage->Width ;
+    int h  = SrcRect ? ( SrcRect->bottom - SrcRect->top  ) : BaseImage->Height ;
+
+    // 変換バッファ
+    std::vector<GLubyte> buf( w * h * 4 ) ;
+    basemage_to_rgba8( BaseImage, sx, sy, w, h, buf.data() ) ;
+
+    glBindTexture( GL_TEXTURE_2D, id ) ;
+    glTexSubImage2D( GL_TEXTURE_2D, 0, DestX, DestY, w, h, GL_RGBA, GL_UNSIGNED_BYTE, buf.data() ) ;
+    glBindTexture( GL_TEXTURE_2D, 0 ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_DrawGraph_PF( int x, int y, float xf, float yf, IMAGEDATA *Image, IMAGEDATA *BlendImage, int TransFlag, int IntFlag )
+{
+    (void)BlendImage; (void)IntFlag;
+    if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) return -1 ;
+    IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
+    if ( !tex->PF ) return -1 ;
+
+    float fx = ( xf != 0.0f ) ? xf : ( float )x ;
+    float fy = ( yf != 0.0f ) ? yf : ( float )y ;
+
+    float u0 = ( float )tex->OrigPosX / ( float )tex->TexWidth ;
+    float v0 = ( float )tex->OrigPosY / ( float )tex->TexHeight ;
+    float u1 = u0 + ( float )tex->UseWidth  / ( float )tex->TexWidth ;
+    float v1 = v0 + ( float )tex->UseHeight / ( float )tex->TexHeight ;
+
+    Desktop_SetOrtho2D() ;
+    if ( TransFlag ) {
+        glEnable( GL_BLEND ) ;
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ;
+    }
+    glColor4ub( 255, 255, 255, 255 ) ;
+    glEnable( GL_TEXTURE_2D ) ;
+    glBindTexture( GL_TEXTURE_2D, ( GLuint )tex->PF->Texture.TextureBuffer ) ;
+    glBegin( GL_TRIANGLE_STRIP ) ;
+        glTexCoord2f( u0, v0 ) ; glVertex2f( fx,                               fy ) ;
+        glTexCoord2f( u1, v0 ) ; glVertex2f( fx + ( float )tex->UseWidth,      fy ) ;
+        glTexCoord2f( u0, v1 ) ; glVertex2f( fx,                               fy + ( float )tex->UseHeight ) ;
+        glTexCoord2f( u1, v1 ) ; glVertex2f( fx + ( float )tex->UseWidth,      fy + ( float )tex->UseHeight ) ;
+    glEnd() ;
+    glBindTexture( GL_TEXTURE_2D, 0 ) ;
+    glDisable( GL_TEXTURE_2D ) ;
+    return 0 ;
+}
+
+// --- Stage 18: テクスチャ拡張 (ExtendGraph / RotaGraph) ------------------
+
+static void Desktop_DrawTexQuad( IMAGEDATA_ORIG_HARD_TEX *tex, float cx[4], float cy[4], int TransFlag )
+{
+    float u0 = ( float )tex->OrigPosX / ( float )tex->TexWidth ;
+    float v0 = ( float )tex->OrigPosY / ( float )tex->TexHeight ;
+    float u1 = u0 + ( float )tex->UseWidth  / ( float )tex->TexWidth ;
+    float v1 = v0 + ( float )tex->UseHeight / ( float )tex->TexHeight ;
+
+    Desktop_SetOrtho2D() ;
+    if ( TransFlag ) {
+        glEnable( GL_BLEND ) ;
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ;
+    }
+    glColor4ub( 255, 255, 255, 255 ) ;
+    glEnable( GL_TEXTURE_2D ) ;
+    glBindTexture( GL_TEXTURE_2D, ( GLuint )tex->PF->Texture.TextureBuffer ) ;
+    // cx,cy の順: 左上, 右上, 左下, 右下 → GL_TRIANGLE_STRIP
+    glBegin( GL_TRIANGLE_STRIP ) ;
+        glTexCoord2f( u0, v0 ) ; glVertex2f( cx[0], cy[0] ) ;
+        glTexCoord2f( u1, v0 ) ; glVertex2f( cx[1], cy[1] ) ;
+        glTexCoord2f( u0, v1 ) ; glVertex2f( cx[2], cy[2] ) ;
+        glTexCoord2f( u1, v1 ) ; glVertex2f( cx[3], cy[3] ) ;
+    glEnd() ;
+    glBindTexture( GL_TEXTURE_2D, 0 ) ;
+    glDisable( GL_TEXTURE_2D ) ;
+}
+
+extern int Graphics_Hardware_DrawExtendGraph_PF( int x1, int y1, int x2, int y2, float x1f, float y1f, float x2f, float y2f, IMAGEDATA *Image, IMAGEDATA *BlendImage, int TransFlag, int IntFlag )
+{
+    (void)BlendImage; (void)IntFlag; (void)x1f; (void)y1f; (void)x2f; (void)y2f;
+    if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) return -1 ;
+    IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
+    if ( !tex->PF ) return -1 ;
+    float cx[4] = { ( float )x1, ( float )x2, ( float )x1, ( float )x2 } ;
+    float cy[4] = { ( float )y1, ( float )y1, ( float )y2, ( float )y2 } ;
+    Desktop_DrawTexQuad( tex, cx, cy, TransFlag ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_DrawRotaGraph_PF( int x, int y, float xf, float yf, double ExRate, double Angle, IMAGEDATA *Image, IMAGEDATA *BlendImage, int TransFlag, int ReverseXFlag, int ReverseYFlag, int IntFlag )
+{
+    (void)BlendImage; (void)IntFlag;
+    if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) return -1 ;
+    IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
+    if ( !tex->PF ) return -1 ;
+    float fx = ( xf != 0.0f ) ? xf : ( float )x ;
+    float fy = ( yf != 0.0f ) ? yf : ( float )y ;
+    float w = ( float )tex->UseWidth  * ( float )ExRate ;
+    float h = ( float )tex->UseHeight * ( float )ExRate ;
+    float hw = w * 0.5f, hh = h * 0.5f ;
+    float cosA = ( float )std::cos( Angle ) ;
+    float sinA = ( float )std::sin( Angle ) ;
+
+    // center 回転。局所 (-hw,-hh)..(+hw,+hh) を回転して offset
+    float lx0 = ReverseXFlag ?  hw : -hw ;
+    float lx1 = ReverseXFlag ? -hw :  hw ;
+    float ly0 = ReverseYFlag ?  hh : -hh ;
+    float ly1 = ReverseYFlag ? -hh :  hh ;
+    auto rot = [&]( float lx, float ly, float &rx, float &ry ) {
+        rx = fx + lx * cosA - ly * sinA ;
+        ry = fy + lx * sinA + ly * cosA ;
+    } ;
+    float cx[4], cy[4] ;
+    rot( lx0, ly0, cx[0], cy[0] ) ;  // TL
+    rot( lx1, ly0, cx[1], cy[1] ) ;  // TR
+    rot( lx0, ly1, cx[2], cy[2] ) ;  // BL
+    rot( lx1, ly1, cx[3], cy[3] ) ;  // BR
+    Desktop_DrawTexQuad( tex, cx, cy, TransFlag ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_DrawRotaGraphFast_PF( int x, int y, float xf, float yf, float ExtendRate, float Angle, IMAGEDATA *Image, IMAGEDATA *BlendImage, int TransFlag, int ReverseXFlag, int ReverseYFlag, int IntFlag )
+{
+    return Graphics_Hardware_DrawRotaGraph_PF( x, y, xf, yf, ( double )ExtendRate, ( double )Angle, Image, BlendImage, TransFlag, ReverseXFlag, ReverseYFlag, IntFlag ) ;
 }
 
 // --- その他 (Stage 5 から継続) -------------------------------------------

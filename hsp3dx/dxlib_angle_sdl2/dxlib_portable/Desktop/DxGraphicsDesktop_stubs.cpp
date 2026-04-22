@@ -33,12 +33,12 @@ namespace DxLib
 extern int Graphics_CheckRequiredNormalImageConv_BaseImageFormat_PF(struct IMAGEDATA_ORIG *,int,int *,int,int *) { return 0; }
 extern int Graphics_GetRefreshRate_PF(void) { return 0; }
 extern int Graphics_Hardware_ApplyLigFogToHardware_PF(void) { return 0; }
-extern int Graphics_Hardware_BltBmpOrBaseImageToGraph3_PF(struct tagRECT const *,int,int,int,struct tagBASEIMAGE const *,struct tagBASEIMAGE const *,int,int,int,int) { return 0; }
+// moved to DxGraphicsDesktop.cpp (Stage 17)
 extern int Graphics_Hardware_CheckValid_PF(void) { return 0; }
 extern int Graphics_Hardware_ClearDrawScreenZBuffer_PF(struct tagRECT const *) { return 0; }
 // Graphics_Hardware_ClearDrawScreen_PF: impl in DxGraphicsDesktop.cpp (Stage 6)
 extern int Graphics_Hardware_CopyGraphZBufferImage_PF(struct IMAGEDATA *,struct IMAGEDATA *) { return 0; }
-extern int Graphics_Hardware_CreateOrigTexture_PF(struct IMAGEDATA_ORIG *,int) { return 0; }
+// moved to DxGraphicsDesktop.cpp (Stage 17)
 extern int Graphics_Hardware_DeviceDirect_SetViewMatrix_PF(struct tagMATRIX const *) { return 0; }
 extern int Graphics_Hardware_DeviceDirect_SetWorldMatrix_PF(struct tagMATRIX const *) { return 0; }
 extern int Graphics_Hardware_Draw32bitIndexedPrimitive2DUser_PF(struct tagVERTEX2D const *,int,DWORD const *,int,int,struct IMAGEDATA *,int) { return 0; }
@@ -48,9 +48,9 @@ extern int Graphics_Hardware_DrawBillboard3D_PF(struct tagVECTOR,float,float,flo
 // Graphics_Hardware_DrawBoxSet_PF: impl in DxGraphicsDesktop.cpp (Stage 9)
 // Graphics_Hardware_DrawCircle_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 // Graphics_Hardware_DrawCircle_Thickness_PF: impl in DxGraphicsDesktop.cpp (Stage 9)
-extern int Graphics_Hardware_DrawExtendGraph_PF(int,int,int,int,float,float,float,float,struct IMAGEDATA *,struct IMAGEDATA *,int,int) { return 0; }
+// moved to DxGraphicsDesktop.cpp (Stage 18)
 // Graphics_Hardware_DrawFillBox_PF: impl in DxGraphicsDesktop.cpp (Stage 7)
-extern int Graphics_Hardware_DrawGraph_PF(int,int,float,float,struct IMAGEDATA *,struct IMAGEDATA *,int,int) { return 0; }
+// moved to DxGraphicsDesktop.cpp (Stage 17)
 extern int Graphics_Hardware_DrawIndexedPrimitive2DUser_PF(struct tagVERTEX2D const *,int,unsigned short const *,int,int,struct IMAGEDATA *,int) { return 0; }
 extern int Graphics_Hardware_DrawIndexedPrimitiveLight_PF(struct tagVERTEX3D const *,int,unsigned short const *,int,int,struct IMAGEDATA *,int) { return 0; }
 extern int Graphics_Hardware_DrawIndexedPrimitiveLight_UseVertexBuffer_PF(struct VERTEXBUFFERHANDLEDATA *,struct INDEXBUFFERHANDLEDATA *,int,int,int,int,int,int,struct IMAGEDATA *,int) { return 0; }
@@ -82,8 +82,8 @@ extern int Graphics_Hardware_DrawPrimitiveLight_UseVertexBuffer_PF(struct VERTEX
 extern int Graphics_Hardware_DrawPrimitive_PF(struct tagVERTEX_3D const *,int,int,struct IMAGEDATA *,int) { return 0; }
 // Graphics_Hardware_DrawQuadrangleF_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 // Graphics_Hardware_DrawQuadrangle_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
-extern int Graphics_Hardware_DrawRotaGraphFast_PF(int,int,float,float,float,float,struct IMAGEDATA *,struct IMAGEDATA *,int,int,int,int) { return 0; }
-extern int Graphics_Hardware_DrawRotaGraph_PF(int,int,float,float,double,double,struct IMAGEDATA *,struct IMAGEDATA *,int,int,int,int) { return 0; }
+// moved to DxGraphicsDesktop.cpp (Stage 18)
+// moved to DxGraphicsDesktop.cpp (Stage 18)
 extern int Graphics_Hardware_DrawSimpleQuadrangleGraphF_PF(struct tagGRAPHICS_DRAW_DRAWSIMPLEQUADRANGLEGRAPHF_PARAM const *,struct IMAGEDATA *,struct IMAGEDATA *) { return 0; }
 extern int Graphics_Hardware_DrawSimpleTriangleGraphF_PF(struct tagGRAPHICS_DRAW_DRAWSIMPLETRIANGLEGRAPHF_PARAM const *,struct IMAGEDATA *,struct IMAGEDATA *) { return 0; }
 extern int Graphics_Hardware_DrawTriangle3D_PF(struct tagVECTOR,struct tagVECTOR,struct tagVECTOR,unsigned int,int,int,struct tagRECT *) { return 0; }
@@ -108,7 +108,7 @@ extern int Graphics_Hardware_Light_SetUse_PF(int) { return 0; }
 extern int Graphics_Hardware_LockDrawScreenBuffer_PF(struct tagRECT *,struct tagBASEIMAGE *,int,struct IMAGEDATA *,int,int,int,int) { return 0; }
 extern int Graphics_Hardware_Paint_PF(int,int,unsigned int,unsigned long long) { return 0; }
 // Graphics_Hardware_RefreshAlphaChDrawMode_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
-extern int Graphics_Hardware_ReleaseOrigTexture_PF(struct IMAGEDATA_ORIG *) { return 0; }
+// moved to DxGraphicsDesktop.cpp (Stage 17)
 extern int Graphics_Hardware_ScreenCopy_PF(int) { return 0; }
 extern int Graphics_Hardware_SetBackgroundColor_PF(int,int,int,int) { return 0; }
 extern int Graphics_Hardware_SetBlendGraphParamBase_PF(struct IMAGEDATA *,int,int *) { return 0; }

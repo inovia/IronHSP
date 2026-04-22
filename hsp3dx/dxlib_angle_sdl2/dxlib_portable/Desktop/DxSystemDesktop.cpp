@@ -34,6 +34,10 @@ namespace DxLib
 // Stage 5: DxGateway.cpp に DxLib_Init / DxLib_End が定義されていて、
 // それが NS_DxLib_Init / NS_DxLib_End を呼び出す。Desktop 版はここで最小実装。
 
+// DxLib 内部の初期化関数 (別 .cpp から呼び出す前方宣言)
+extern int InitializeBaseImageManage( void ) ;
+extern int Graphics_Initialize( void ) ;
+
 extern int NS_DxLib_Init( void )
 {
     std::fprintf( stderr, "[DxLib Desktop] NS_DxLib_Init\n" ) ;
@@ -41,12 +45,15 @@ extern int NS_DxLib_Init( void )
         SDL_InitSubSystem( SDL_INIT_TIMER ) ;
 
 #ifndef DX_NON_GRAPHICS
-    // TODO: 将来的には NS_SetGraphMode で指定されたサイズ/タイトルを反映する
     if ( ::DxDesktop_MakeWinAndGL( 640, 480, "hsp3dx dxlib_angle_sdl2" ) != 0 )
     {
         std::fprintf( stderr, "[DxLib Desktop] window creation failed\n" ) ;
         return -1 ;
     }
+
+    // DxLib 内部 handle manager の初期化 (Stage 17 で必要)
+    InitializeBaseImageManage() ;
+    Graphics_Initialize() ;
 #endif
 
     DxSysData.DxLib_InitializeFlag = TRUE ;

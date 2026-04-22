@@ -71,7 +71,9 @@ function(dxlib_desktop_settings target)
         DX_NON_MASK=1
         DX_NON_SOUND=1
         DX_NON_FONT=1
-        DX_NON_INPUT=1
+        # DX_NON_INPUT=1  ← Stage 16 で input 有効化
+        DX_NON_KEYEX=1       # 高機能キー入力は未対応
+        DX_NON_INPUTSTRING=1 # 文字列入力 API は未対応
         DX_NON_TIFFREAD=1
         DX_NON_JPEGREAD=1
         DX_NON_PNGREAD=1
@@ -136,6 +138,9 @@ add_library(dxlib_portable_stage3 STATIC
     ${DXLIB_PORTABLE_DIR}/DxGateway.cpp
     ${DXLIB_PORTABLE_DIR}/Desktop/DxGraphicsDesktop.cpp
     ${DXLIB_PORTABLE_DIR}/Desktop/DxGraphicsDesktop_stubs.cpp
+    # Stage 16: Input
+    ${DXLIB_PORTABLE_DIR}/DxInput.cpp
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxInputDesktop.cpp
 )
 dxlib_desktop_settings(dxlib_portable_stage3)
 target_link_libraries(dxlib_portable_stage3 PUBLIC SDL2::SDL2 SDL2::SDL2main)
@@ -160,6 +165,9 @@ dxlib_stage_exe(stage7_draw_primitives    src/stage7_draw_primitives.cpp)
 dxlib_stage_exe(stage8_more_primitives    src/stage8_more_primitives.cpp)
 dxlib_stage_exe(stage9_animated           src/stage9_animated.cpp)
 dxlib_stage_exe(stage15_linux_visible     src/stage15_linux_visible.cpp)
+dxlib_stage_exe(stage16_input             src/stage16_input.cpp)
+dxlib_stage_exe(stage17_texture           src/stage17_texture.cpp)
+dxlib_stage_exe(stage18_rotagraph         src/stage18_rotagraph.cpp)
 
 # --- Stage 1 (pure SDL2, no DxLib) ---------------------------------------
 if(WIN32)
