@@ -362,6 +362,24 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
         if ( mb->DiffuseLayerNum > 0 ) {
             texId = desktop_mv1_tex_from_graph( mb->DiffuseLayer[ 0 ].GraphHandle ) ;
         }
+        // スペキュラ・エミッシブ (glMaterialfv で設定、ColorMaterial は
+        // diffuse/ambient のみカバー)
+        if ( s_MV1_LightWasOn ) {
+            float sclS = Mesh->DrawMaterial.UseColorScale ? Mesh->DrawMaterial.SpecularScale.r : 1.0f ;
+            float sclE = Mesh->DrawMaterial.UseColorScale ? Mesh->DrawMaterial.EmissiveScale.r : 1.0f ;
+            float spc[ 4 ] = {
+                mb->Specular.r * sclS, mb->Specular.g * sclS, mb->Specular.b * sclS, 1.0f
+            } ;
+            float emi[ 4 ] = {
+                mb->Emissive.r * sclE, mb->Emissive.g * sclE, mb->Emissive.b * sclE, 1.0f
+            } ;
+            glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, spc ) ;
+            glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION, emi ) ;
+            float power = mb->Power ;
+            if ( power < 0.0f ) power = 0.0f ;
+            if ( power > 128.0f ) power = 128.0f ;
+            glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, power ) ;
+        }
     }
 
     // BackCulling
