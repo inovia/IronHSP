@@ -1,8 +1,8 @@
 #include "iron_dxlib.as"
 notesel n
-dx_mv1load "skeleton_from_fbx.mv1"
+dx_mv1load "7mesh.mv1"
 h = stat
-noteadd "skeleton_from_fbx.mv1 : h=" + h
+noteadd "7mesh h=" + h
 if h >= 0 : dx_mv1delete h
-notesave "r_skeleton_from_fbx.mv1.txt"
+notesave "r.txt"
 end
