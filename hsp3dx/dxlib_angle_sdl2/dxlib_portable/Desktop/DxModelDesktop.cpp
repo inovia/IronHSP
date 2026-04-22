@@ -539,6 +539,61 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
         if ( prevLighting ) glDisable( GL_LIGHTING ) ;
     }
 
+    // ---- Shadow projective texture (TMU 4) ---------------------------------
+    // SetUse_PF で g_ShadowActive が立てられ、g_ShadowLightMatrix (= Bias * VP) と
+    // g_ShadowDepthTex がセットされている。MV1 は world-space 位置を glVertex3f で
+    // 渡すため、glTexGen GL_OBJECT_LINEAR + identity plane + texture matrix で
+    // 射影シャドウ座標を自動生成する。compare mode により陰影は depth 比較で決まる。
+    extern int    g_ShadowActive ;
+    extern GLuint g_ShadowDepthTex ;
+    extern float  g_ShadowLightMatrix[ 16 ] ;
+#ifdef GL_TEXTURE0
+    bool useShadow = ( g_ShadowActive != 0 && g_ShadowDepthTex != 0 && p_glActiveTexture != nullptr ) ;
+    if ( useShadow )
+    {
+        p_glActiveTexture( GL_TEXTURE0 + 4 ) ;
+        glEnable( GL_TEXTURE_2D ) ;
+        glBindTexture( GL_TEXTURE_2D, g_ShadowDepthTex ) ;
+        // depth compare: ref_r <= tex_depth → 1.0 (lit), else 0.0 (shadowed)
+#       ifndef GL_TEXTURE_COMPARE_MODE
+#       define GL_TEXTURE_COMPARE_MODE       0x884C
+#       define GL_TEXTURE_COMPARE_FUNC       0x884D
+#       define GL_COMPARE_R_TO_TEXTURE       0x884E
+#       define GL_DEPTH_TEXTURE_MODE         0x884B
+#       endif
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE ) ;
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL ) ;
+        glTexParameteri( GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE,   GL_INTENSITY ) ;
+        // TexGen: GL_OBJECT_LINEAR の identity plane (s,t,r,q ← x,y,z,1)
+        const float pS[ 4 ] = { 1, 0, 0, 0 } ;
+        const float pT[ 4 ] = { 0, 1, 0, 0 } ;
+        const float pR[ 4 ] = { 0, 0, 1, 0 } ;
+        const float pQ[ 4 ] = { 0, 0, 0, 1 } ;
+        glTexGeni( GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR ) ;
+        glTexGeni( GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR ) ;
+        glTexGeni( GL_R, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR ) ;
+        glTexGeni( GL_Q, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR ) ;
+        glTexGenfv( GL_S, GL_OBJECT_PLANE, pS ) ;
+        glTexGenfv( GL_T, GL_OBJECT_PLANE, pT ) ;
+        glTexGenfv( GL_R, GL_OBJECT_PLANE, pR ) ;
+        glTexGenfv( GL_Q, GL_OBJECT_PLANE, pQ ) ;
+        glEnable( GL_TEXTURE_GEN_S ) ;
+        glEnable( GL_TEXTURE_GEN_T ) ;
+        glEnable( GL_TEXTURE_GEN_R ) ;
+        glEnable( GL_TEXTURE_GEN_Q ) ;
+        // Texture matrix = Bias * shadowVP (row-major)、glLoadMatrix は列 major
+        // 解釈なので DxLib row-major をそのまま渡して意図通り動作する
+        glMatrixMode( GL_TEXTURE ) ;
+        glLoadMatrixf( g_ShadowLightMatrix ) ;
+        glMatrixMode( GL_MODELVIEW ) ;
+        // GL_MODULATE で diffuse × shadow_factor
+        glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE ) ;
+        p_glActiveTexture( GL_TEXTURE0 ) ;
+    }
+#else
+    bool useShadow = false ;
+#endif
+
     // BackCulling
     int bc = Mesh->BaseData->BackCulling ;
     if ( bc ) { glEnable( GL_CULL_FACE ) ; glCullFace( GL_BACK ) ; }
@@ -669,6 +724,23 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
     if ( texId ) {
         glBindTexture( GL_TEXTURE_2D, 0 ) ;
         glDisable( GL_TEXTURE_2D ) ;
+    }
+#endif
+
+    // Shadow projective を使った場合、TMU 4 を unbind + texture matrix を identity に戻す
+#ifdef GL_TEXTURE0
+    if ( useShadow ) {
+        p_glActiveTexture( GL_TEXTURE0 + 4 ) ;
+        glDisable( GL_TEXTURE_GEN_S ) ;
+        glDisable( GL_TEXTURE_GEN_T ) ;
+        glDisable( GL_TEXTURE_GEN_R ) ;
+        glDisable( GL_TEXTURE_GEN_Q ) ;
+        glMatrixMode( GL_TEXTURE ) ;
+        glLoadIdentity() ;
+        glMatrixMode( GL_MODELVIEW ) ;
+        glBindTexture( GL_TEXTURE_2D, 0 ) ;
+        glDisable( GL_TEXTURE_2D ) ;
+        p_glActiveTexture( GL_TEXTURE0 ) ;
     }
 #endif
 

@@ -1425,6 +1425,12 @@ static int    s_ShadowPrevVP[4] = { 0 } ;
 static int    s_ShadowActive    = 0 ;
 static GLuint s_ShadowCurrTex   = 0 ;   // SetUse で bind 中のシャドウ depth tex
 static int    s_ShadowCurrSlot  = -1 ;
+// Shadow projective texture 適用用: world → shadow clip → [0,1] 変換行列
+//   light_matrix = Bias * ShadowMapViewProjectionMatrix
+// MV1 draw 側で glMultiTexCoord4fv か glTexGen + texture matrix として参照
+float    g_ShadowLightMatrix[ 16 ] = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 } ;
+int      g_ShadowActive = 0 ;
+GLuint   g_ShadowDepthTex = 0 ;
 
 extern int Graphics_Hardware_ShadowMap_CreateTexture_PF( SHADOWMAPDATA *sm, int /*ASyncThread*/ )
 {
@@ -1513,17 +1519,39 @@ extern int Graphics_Hardware_ShadowMap_DrawEnd_PF( SHADOWMAPDATA * /*sm*/ )
 
 extern int Graphics_Hardware_ShadowMap_SetUse_PF( int SlotIndex, SHADOWMAPDATA *sm )
 {
-    // SlotIndex 0..2 の shadow texture を TMU 2+ にバインドする
-    //   TMU 0 = diffuse, TMU 1 = multi-layer diffuse, TMU 2.. = shadow
-    // 実際の projective sampling + compare は MV1 draw path 側で今後対応。
-    // ここでは texture の bind のみ行い、グローバル状態として記録する。
     if ( !sm || !sm->PF || !sm->PF->Texture.TextureBuffer ) {
-        s_ShadowCurrTex  = 0 ;
-        s_ShadowCurrSlot = -1 ;
+        s_ShadowCurrTex   = 0 ;
+        s_ShadowCurrSlot  = -1 ;
+        g_ShadowActive    = 0 ;
+        g_ShadowDepthTex  = 0 ;
         return 0 ;
     }
     s_ShadowCurrTex  = ( GLuint )sm->PF->Texture.TextureBuffer ;
     s_ShadowCurrSlot = SlotIndex ;
+    g_ShadowDepthTex = s_ShadowCurrTex ;
+    g_ShadowActive   = 1 ;
+
+    // light_matrix = Bias * ShadowMapViewProjectionMatrix
+    //   Bias = translate(0.5,0.5,0.5) * scale(0.5,0.5,0.5) [-1..1] → [0..1]
+    // DxLib MATRIX は行 major、GL は列 major。DxLib 行列を glLoadMatrixf に
+    // 渡すと転置されて解釈されるので、そのまま使うと頂点変換ルールが整合する。
+    // 我々は `Bias * VP` を行列乗算し、GL 送信用 float16 に格納する。
+    const float *vp = ( const float * )sm->ShadowMapViewProjectionMatrix.m ;
+    // Bias 行列 (DxLib row-major 4x4 と同じ表現)
+    float bias[ 16 ] = {
+        0.5f, 0, 0, 0,
+        0, 0.5f, 0, 0,
+        0, 0, 0.5f, 0,
+        0.5f, 0.5f, 0.5f, 1.0f
+    } ;
+    // row-major multiply: out = bias * vp
+    for ( int r = 0 ; r < 4 ; ++r ) {
+        for ( int c = 0 ; c < 4 ; ++c ) {
+            float s = 0 ;
+            for ( int k = 0 ; k < 4 ; ++k ) s += bias[ r * 4 + k ] * vp[ k * 4 + c ] ;
+            g_ShadowLightMatrix[ r * 4 + c ] = s ;
+        }
+    }
     return 0 ;
 }
 
