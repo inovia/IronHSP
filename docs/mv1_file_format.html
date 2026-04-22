@@ -17,7 +17,7 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
     background: var(--bg); color: var(--fg);
-    line-height: 1.7; max-width: 1000px;
+    line-height: 1.7; max-width: 1100px;
     margin: 0 auto; padding: 2em 3em;
 }
 h1 { font-size: 2em; border-bottom: 3px solid var(--accent); padding-bottom: .3em; margin-top: 0; }
@@ -39,13 +39,17 @@ pre code { background: transparent; color: inherit; padding: 0; font-size: 1em; 
 table {
     border-collapse: collapse; margin: 1em 0; width: 100%;
     background: white; border: 1px solid var(--border);
+    font-size: .92em;
 }
 th, td {
     border: 1px solid var(--border); padding: .5em .8em;
-    text-align: left; font-size: .92em; vertical-align: top;
+    text-align: left; vertical-align: top;
 }
-th { background: var(--table-hdr); font-weight: 600; }
+th { background: var(--table-hdr); font-weight: 600; white-space: nowrap; }
 tr:nth-child(even) td { background: #fafbfc; }
+table td:nth-child(1), table td:nth-child(2) {
+    white-space: nowrap; font-family: Consolas, monospace; font-size: .88em;
+}
 hr { border: none; border-top: 2px dashed #cfd4da; margin: 2em 0; }
 ul, ol { padding-left: 1.5em; }
 li { margin: .25em 0; }
@@ -59,7 +63,6 @@ blockquote {
 strong { color: #111; }
 em { color: #666; }
 .footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--border); font-size: .85em; color: #888; text-align: center; }
-table td:first-child code { font-size: .85em; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -97,78 +100,399 @@ table td:first-child code { font-size: .85em; white-space: nowrap; }
 <hr />
 <h2>ルートヘッダ <code>MV1MODEL_FILEHEADER_F1</code></h2>
 <p>128 バイト程度の固定長ヘッダ。主要フィールド:</p>
-<p>| offset | type | name | 意味 |
-|---|---|---|---|
-| 0x00 | BYTE[4] | <code>CheckID[4]</code> | <code>&quot;MV11&quot;</code> (DXA 伸長後にも同じ magic が入る) |
-| 0x04 | DWORD | <code>Version</code> | 1 |
-| 0x08 | int | <code>RightHandType</code> | TRUE=右手系 / FALSE=左手系 |
-| 0x0C | int | <code>AutoCreateNormal</code> | 法線自動計算使用 |
-| 0x10 | int | <code>ChangeDrawMaterialTableSize</code> | 描画マテリアル変更管理用ビット数 |
-| 0x14 | int | <code>ChangeMatrixTableSize</code> | 行列変更管理用ビット数 |
-| 0x18 | DWORD | <code>ChangeDrawMaterialTable</code> (ptr) | 描画用マテリアル変更確認用ビットデータ |
-| 0x1C | DWORD | <code>ChangeMatrixTable</code> (ptr) | 行列変更確認用ビットデータ |
-| 0x20 | int | <code>FrameNum</code> | 階層データ (フレーム) 数 |
-| 0x24 | DWORD | <code>Frame</code> (ptr) | <code>MV1_FRAME_F1[]</code> の先頭 |
-| 0x28 | int | <code>TopFrameNum</code> | ルート階層 (親なし) フレーム数 |
-| 0x2C | DWORD | <code>FirstTopFrame</code> (ptr) | 最初のルートフレーム |
-| 0x30 | DWORD | <code>LastTopFrame</code> (ptr) | 最後のルートフレーム |
-| 0x34 | int | <code>FrameUseSkinBoneNum</code> | フレームが使用するボーン総数 |
-| 0x38 | DWORD | <code>FrameUseSkinBone</code> (ptr) | <code>MV1_SKIN_BONE_F1*[]</code> の先頭 |
-| 0x3C | int | <code>MaterialNum</code> | マテリアル数 |
-| 0x40 | DWORD | <code>Material</code> (ptr) | <code>MV1_MATERIAL_F1[]</code> |
-| 0x44 | int | <code>TextureNum</code> | テクスチャ数 |
-| 0x48 | DWORD | <code>Texture</code> (ptr) | <code>MV1_TEXTURE_F1[]</code> |
-| 0x4C | int | <code>MeshNum</code> | メッシュ数 |
-| 0x50 | DWORD | <code>Mesh</code> (ptr) | <code>MV1_MESH_F1[]</code> |
-| 0x54 | int | <code>LightNum</code> | ライト数 |
-| 0x58 | DWORD | <code>Light</code> (ptr) | <code>MV1_LIGHT_F1[]</code> |
-| 0x5C | int | <code>SkinBoneNum</code> | スキンボーン数 |
-| 0x60 | DWORD | <code>SkinBone</code> (ptr) | <code>MV1_SKIN_BONE_F1[]</code> |
-| 0x64 | int | <code>SkinBoneUseFrameNum</code> | ボーンを使用するフレーム数 |
-| 0x68 | DWORD | <code>SkinBoneUseFrame</code> (ptr) | <code>MV1_SKIN_BONE_USE_FRAME_F1*[]</code> |
-| 0x6C | int | <code>TriangleListNum</code> | トライアングルリスト数 |
-| 0x70 | DWORD | <code>TriangleList</code> (ptr) | <code>MV1_TRIANGLE_LIST_F1[]</code> |
-| 0x74 | DWORD | <code>VertexData</code> (ptr) | 頂点データブロック先頭 |
-| 0x78 | DWORD | <code>VertexDataSize</code> | 頂点データブロックの合計バイト数 |
-| ... | int×10 | <code>TriangleListNormalPositionNum</code> ... <code>TriangleListIndexNum</code> | ボーン別頂点総数カウンタ群 |
-| ... | int | <code>TriangleNum</code> | モデル全体の三角形数 |
-| ... | int | <code>TriangleListVertexNum</code> | トライアングルリストの頂点総数 |
-| ... | int | <code>StringSize</code> | 文字列データサイズ |
-| ... | DWORD | <code>StringBuffer</code> (ptr) | 文字列プール先頭 (null 終端連結) |
-| ... | int | <code>OriginalAnimKeyDataSize</code> | アニメキー元サイズ |
-| ... | int | <code>AnimKeyDataSize</code> | アニメキーデータサイズ (圧縮後) |
-| ... | DWORD | <code>AnimKeyData</code> (ptr) | アニメキー可変長データ |
-| ... | int | <code>AnimKeySetNum</code> | アニメキーセット数 |
-| ... | int | <code>AnimKeySetUnitSize</code> | <code>MV1_ANIM_KEYSET_F1</code> サイズ |
-| ... | DWORD | <code>AnimKeySet</code> (ptr) | アニメキーセット配列 |
-| ... | int | <code>AnimNum</code> | アニメ数 |
-| ... | int | <code>AnimUnitSize</code> | <code>MV1_ANIM_F1</code> サイズ |
-| ... | DWORD | <code>Anim</code> (ptr) | アニメ配列 |
-| ... | int | <code>AnimSetNum</code> | アニメセット数 |
-| ... | DWORD | <code>AnimSet</code> (ptr) | アニメセット配列 |
-| ... | DWORD[4] | <code>UserData[4]</code> | ユーザー任意 |
-| ... | DWORD | <code>Shape</code> (ptr) | <code>MV1_FILEHEAD_SHAPE_F1*</code>、なければ NULL |
-| ... | DWORD | <code>Physics</code> (ptr) | <code>MV1_FILEHEAD_PHYSICS_F1*</code>、なければ NULL |
-| ... | BYTE | <code>MaterialNumberOrderDraw</code> | マテリアル番号昇順で描画するか |
-| ... | BYTE | <code>IsStringUTF8</code> | <code>StringBuffer</code> が UTF-8 か (1) / Shift-JIS か (0) |
-| ... | BYTE[2] | <code>Padding1[2]</code> | 0 |
-| ... | DWORD[13] | <code>Padding2[13]</code> | 0 (将来拡張用) |</p>
+<table>
+<thead>
+<tr>
+<th>offset</th>
+<th>type</th>
+<th>name</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>BYTE[4]</td>
+<td><code>CheckID[4]</code></td>
+<td><code>&quot;MV11&quot;</code> (DXA 伸長後にも同じ magic が入る)</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>DWORD</td>
+<td><code>Version</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>int</td>
+<td><code>RightHandType</code></td>
+<td>TRUE=右手系 / FALSE=左手系</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>int</td>
+<td><code>AutoCreateNormal</code></td>
+<td>法線自動計算使用</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>int</td>
+<td><code>ChangeDrawMaterialTableSize</code></td>
+<td>描画マテリアル変更管理用ビット数</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>int</td>
+<td><code>ChangeMatrixTableSize</code></td>
+<td>行列変更管理用ビット数</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>DWORD</td>
+<td><code>ChangeDrawMaterialTable</code> (ptr)</td>
+<td>描画用マテリアル変更確認用ビットデータ</td>
+</tr>
+<tr>
+<td>0x1C</td>
+<td>DWORD</td>
+<td><code>ChangeMatrixTable</code> (ptr)</td>
+<td>行列変更確認用ビットデータ</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>int</td>
+<td><code>FrameNum</code></td>
+<td>階層データ (フレーム) 数</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>DWORD</td>
+<td><code>Frame</code> (ptr)</td>
+<td><code>MV1_FRAME_F1[]</code> の先頭</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>int</td>
+<td><code>TopFrameNum</code></td>
+<td>ルート階層 (親なし) フレーム数</td>
+</tr>
+<tr>
+<td>0x2C</td>
+<td>DWORD</td>
+<td><code>FirstTopFrame</code> (ptr)</td>
+<td>最初のルートフレーム</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>DWORD</td>
+<td><code>LastTopFrame</code> (ptr)</td>
+<td>最後のルートフレーム</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>int</td>
+<td><code>FrameUseSkinBoneNum</code></td>
+<td>フレームが使用するボーン総数</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>DWORD</td>
+<td><code>FrameUseSkinBone</code> (ptr)</td>
+<td><code>MV1_SKIN_BONE_F1*[]</code> の先頭</td>
+</tr>
+<tr>
+<td>0x3C</td>
+<td>int</td>
+<td><code>MaterialNum</code></td>
+<td>マテリアル数</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>DWORD</td>
+<td><code>Material</code> (ptr)</td>
+<td><code>MV1_MATERIAL_F1[]</code></td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>int</td>
+<td><code>TextureNum</code></td>
+<td>テクスチャ数</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>DWORD</td>
+<td><code>Texture</code> (ptr)</td>
+<td><code>MV1_TEXTURE_F1[]</code></td>
+</tr>
+<tr>
+<td>0x4C</td>
+<td>int</td>
+<td><code>MeshNum</code></td>
+<td>メッシュ数</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>DWORD</td>
+<td><code>Mesh</code> (ptr)</td>
+<td><code>MV1_MESH_F1[]</code></td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>int</td>
+<td><code>LightNum</code></td>
+<td>ライト数</td>
+</tr>
+<tr>
+<td>0x58</td>
+<td>DWORD</td>
+<td><code>Light</code> (ptr)</td>
+<td><code>MV1_LIGHT_F1[]</code></td>
+</tr>
+<tr>
+<td>0x5C</td>
+<td>int</td>
+<td><code>SkinBoneNum</code></td>
+<td>スキンボーン数</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>DWORD</td>
+<td><code>SkinBone</code> (ptr)</td>
+<td><code>MV1_SKIN_BONE_F1[]</code></td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>int</td>
+<td><code>SkinBoneUseFrameNum</code></td>
+<td>ボーンを使用するフレーム数</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>DWORD</td>
+<td><code>SkinBoneUseFrame</code> (ptr)</td>
+<td><code>MV1_SKIN_BONE_USE_FRAME_F1*[]</code></td>
+</tr>
+<tr>
+<td>0x6C</td>
+<td>int</td>
+<td><code>TriangleListNum</code></td>
+<td>トライアングルリスト数</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>DWORD</td>
+<td><code>TriangleList</code> (ptr)</td>
+<td><code>MV1_TRIANGLE_LIST_F1[]</code></td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>DWORD</td>
+<td><code>VertexData</code> (ptr)</td>
+<td>頂点データブロック先頭</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>DWORD</td>
+<td><code>VertexDataSize</code></td>
+<td>頂点データブロックの合計バイト数</td>
+</tr>
+<tr>
+<td>...</td>
+<td>int×10</td>
+<td><code>TriangleListNormalPositionNum</code> ... <code>TriangleListIndexNum</code></td>
+<td>ボーン別頂点総数カウンタ群</td>
+</tr>
+<tr>
+<td>...</td>
+<td>int</td>
+<td><code>TriangleNum</code></td>
+<td>モデル全体の三角形数</td>
+</tr>
+<tr>
+<td>...</td>
+<td>int</td>
+<td><code>TriangleListVertexNum</code></td>
+<td>トライアングルリストの頂点総数</td>
+</tr>
+<tr>
+<td>...</td>
+<td>int</td>
+<td><code>StringSize</code></td>
+<td>文字列データサイズ</td>
+</tr>
+<tr>
+<td>...</td>
+<td>DWORD</td>
+<td><code>StringBuffer</code> (ptr)</td>
+<td>文字列プール先頭 (null 終端連結)</td>
+</tr>
+<tr>
+<td>...</td>
+<td>int</td>
+<td><code>OriginalAnimKeyDataSize</code></td>
+<td>アニメキー元サイズ</td>
+</tr>
+<tr>
+<td>...</td>
+<td>int</td>
+<td><code>AnimKeyDataSize</code></td>
+<td>アニメキーデータサイズ (圧縮後)</td>
+</tr>
+<tr>
+<td>...</td>
+<td>DWORD</td>
+<td><code>AnimKeyData</code> (ptr)</td>
+<td>アニメキー可変長データ</td>
+</tr>
+<tr>
+<td>...</td>
+<td>int</td>
+<td><code>AnimKeySetNum</code></td>
+<td>アニメキーセット数</td>
+</tr>
+<tr>
+<td>...</td>
+<td>int</td>
+<td><code>AnimKeySetUnitSize</code></td>
+<td><code>MV1_ANIM_KEYSET_F1</code> サイズ</td>
+</tr>
+<tr>
+<td>...</td>
+<td>DWORD</td>
+<td><code>AnimKeySet</code> (ptr)</td>
+<td>アニメキーセット配列</td>
+</tr>
+<tr>
+<td>...</td>
+<td>int</td>
+<td><code>AnimNum</code></td>
+<td>アニメ数</td>
+</tr>
+<tr>
+<td>...</td>
+<td>int</td>
+<td><code>AnimUnitSize</code></td>
+<td><code>MV1_ANIM_F1</code> サイズ</td>
+</tr>
+<tr>
+<td>...</td>
+<td>DWORD</td>
+<td><code>Anim</code> (ptr)</td>
+<td>アニメ配列</td>
+</tr>
+<tr>
+<td>...</td>
+<td>int</td>
+<td><code>AnimSetNum</code></td>
+<td>アニメセット数</td>
+</tr>
+<tr>
+<td>...</td>
+<td>DWORD</td>
+<td><code>AnimSet</code> (ptr)</td>
+<td>アニメセット配列</td>
+</tr>
+<tr>
+<td>...</td>
+<td>DWORD[4]</td>
+<td><code>UserData[4]</code></td>
+<td>ユーザー任意</td>
+</tr>
+<tr>
+<td>...</td>
+<td>DWORD</td>
+<td><code>Shape</code> (ptr)</td>
+<td><code>MV1_FILEHEAD_SHAPE_F1*</code>、なければ NULL</td>
+</tr>
+<tr>
+<td>...</td>
+<td>DWORD</td>
+<td><code>Physics</code> (ptr)</td>
+<td><code>MV1_FILEHEAD_PHYSICS_F1*</code>、なければ NULL</td>
+</tr>
+<tr>
+<td>...</td>
+<td>BYTE</td>
+<td><code>MaterialNumberOrderDraw</code></td>
+<td>マテリアル番号昇順で描画するか</td>
+</tr>
+<tr>
+<td>...</td>
+<td>BYTE</td>
+<td><code>IsStringUTF8</code></td>
+<td><code>StringBuffer</code> が UTF-8 か (1) / Shift-JIS か (0)</td>
+</tr>
+<tr>
+<td>...</td>
+<td>BYTE[2]</td>
+<td><code>Padding1[2]</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td>...</td>
+<td>DWORD[13]</td>
+<td><code>Padding2[13]</code></td>
+<td>0 (将来拡張用)</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2>階層データ <code>MV1_FRAME_F1</code></h2>
 <p>モデルの骨格 (ボーン) + メッシュコンテナ。親子ツリー構造:</p>
-<p>| 役割 | フィールド |
-|---|---|
-| ツリー連結 | <code>DimPrev</code> / <code>DimNext</code> (配列順) / <code>Parent</code> / <code>FirstChild</code> / <code>LastChild</code> / <code>Prev</code> / <code>Next</code> |
-| 基本情報 | <code>Name</code> / <code>Index</code> / <code>Flag</code> (<code>MV1_FRAMEFLAG_VISIBLE</code> 等) |
-| 変換 | <code>Translate</code> (VECTOR) / <code>Scale</code> / <code>Rotate</code> + <code>RotateOrder</code> / <code>Quaternion</code> (FLOAT4) / <code>PreRotate</code> / <code>PostRotate</code> |
-| 統計 | <code>TotalMeshNum</code> / <code>TotalChildNum</code> / <code>TriangleNum</code> / <code>VertexNum</code> |
-| メッシュ | <code>MeshNum</code> / <code>Mesh</code> (ptr to <code>MV1_MESH_F1[]</code>) |
-| スキンボーン | <code>SkinBoneNum</code> / <code>SkinBone</code> / <code>UseSkinBoneNum</code> / <code>UseSkinBone</code> (ボーンリスト) |
-| 法線 | <code>SmoothingAngle</code> (ラジアン) / <code>AutoCreateNormal</code> |
-| 座標/法線データ | <code>PositionNum</code> / <code>NormalNum</code> / <code>PositionAndNormalData</code> (ptr) |
-| シェイプ | <code>FrameShape</code> (ptr, NULL 可) |
-| 変更管理 | <code>ChangeDrawMaterialInfo</code> / <code>ChangeMatrixInfo</code> (各 <code>MV1_CHANGE_F1</code>) |
-| その他 | <code>Light</code> (ptr、ライト本体) / <code>VertFlag</code> / <code>MaxBoneBlendNum</code> |</p>
+<table>
+<thead>
+<tr>
+<th>役割</th>
+<th>フィールド</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ツリー連結</td>
+<td><code>DimPrev</code> / <code>DimNext</code> (配列順) / <code>Parent</code> / <code>FirstChild</code> / <code>LastChild</code> / <code>Prev</code> / <code>Next</code></td>
+</tr>
+<tr>
+<td>基本情報</td>
+<td><code>Name</code> / <code>Index</code> / <code>Flag</code> (<code>MV1_FRAMEFLAG_VISIBLE</code> 等)</td>
+</tr>
+<tr>
+<td>変換</td>
+<td><code>Translate</code> (VECTOR) / <code>Scale</code> / <code>Rotate</code> + <code>RotateOrder</code> / <code>Quaternion</code> (FLOAT4) / <code>PreRotate</code> / <code>PostRotate</code></td>
+</tr>
+<tr>
+<td>統計</td>
+<td><code>TotalMeshNum</code> / <code>TotalChildNum</code> / <code>TriangleNum</code> / <code>VertexNum</code></td>
+</tr>
+<tr>
+<td>メッシュ</td>
+<td><code>MeshNum</code> / <code>Mesh</code> (ptr to <code>MV1_MESH_F1[]</code>)</td>
+</tr>
+<tr>
+<td>スキンボーン</td>
+<td><code>SkinBoneNum</code> / <code>SkinBone</code> / <code>UseSkinBoneNum</code> / <code>UseSkinBone</code> (ボーンリスト)</td>
+</tr>
+<tr>
+<td>法線</td>
+<td><code>SmoothingAngle</code> (ラジアン) / <code>AutoCreateNormal</code></td>
+</tr>
+<tr>
+<td>座標/法線データ</td>
+<td><code>PositionNum</code> / <code>NormalNum</code> / <code>PositionAndNormalData</code> (ptr)</td>
+</tr>
+<tr>
+<td>シェイプ</td>
+<td><code>FrameShape</code> (ptr, NULL 可)</td>
+</tr>
+<tr>
+<td>変更管理</td>
+<td><code>ChangeDrawMaterialInfo</code> / <code>ChangeMatrixInfo</code> (各 <code>MV1_CHANGE_F1</code>)</td>
+</tr>
+<tr>
+<td>その他</td>
+<td><code>Light</code> (ptr、ライト本体) / <code>VertFlag</code> / <code>MaxBoneBlendNum</code></td>
+</tr>
+</tbody>
+</table>
 <h3><code>PositionAndNormalData</code> の構造</h3>
 <p><code>VertFlag</code> ビット (<code>MV1_FRAME_VERT_FLAG_*</code> 群) に応じて可変レイアウト。ヘッダで要素タイプを切替:</p>
 <pre><code>[MV1_FRAME_VERT_FLAG_POSITION_B16 が立っている場合]
@@ -199,18 +523,56 @@ table td:first-child code { font-size: .85em; white-space: nowrap; }
 <hr />
 <h2>メッシュ <code>MV1_MESH_F1</code></h2>
 <p>フレームに属する描画単位。1 マテリアル = 1 メッシュが基本。</p>
-<p>| 役割 | フィールド |
-|---|---|
-| 親 | <code>Container</code> (ptr to MV1_FRAME_F1) |
-| マテリアル | <code>Material</code> (ptr) |
-| 頂点色 | <code>UseVertexDiffuseColor</code> / <code>UseVertexSpecularColor</code> / <code>NotOneDiffuseAlpha</code> |
-| 形状 | <code>Shape</code> (1=シェイプメッシュ) |
-| 描画制御 | <code>Visible</code> / <code>BackCulling</code> (0=なし, 1=表, 2=裏) |
-| UV | <code>UVSetUnitNum</code> (UV ペア数) / <code>UVUnitNum</code> (UV 成分数) |
-| 頂点フラグ | <code>VertFlag</code> (<code>MV1_MESH_VERT_FLAG_*</code>) |
-| 頂点数/面数 | <code>VertexNum</code> / <code>FaceNum</code> |
-| 頂点データ | <code>VertexData</code> (ptr) |
-| トライアングルリスト | <code>TriangleListNum</code> / <code>TriangleList</code> (ptr) |</p>
+<table>
+<thead>
+<tr>
+<th>役割</th>
+<th>フィールド</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>親</td>
+<td><code>Container</code> (ptr to MV1_FRAME_F1)</td>
+</tr>
+<tr>
+<td>マテリアル</td>
+<td><code>Material</code> (ptr)</td>
+</tr>
+<tr>
+<td>頂点色</td>
+<td><code>UseVertexDiffuseColor</code> / <code>UseVertexSpecularColor</code> / <code>NotOneDiffuseAlpha</code></td>
+</tr>
+<tr>
+<td>形状</td>
+<td><code>Shape</code> (1=シェイプメッシュ)</td>
+</tr>
+<tr>
+<td>描画制御</td>
+<td><code>Visible</code> / <code>BackCulling</code> (0=なし, 1=表, 2=裏)</td>
+</tr>
+<tr>
+<td>UV</td>
+<td><code>UVSetUnitNum</code> (UV ペア数) / <code>UVUnitNum</code> (UV 成分数)</td>
+</tr>
+<tr>
+<td>頂点フラグ</td>
+<td><code>VertFlag</code> (<code>MV1_MESH_VERT_FLAG_*</code>)</td>
+</tr>
+<tr>
+<td>頂点数/面数</td>
+<td><code>VertexNum</code> / <code>FaceNum</code></td>
+</tr>
+<tr>
+<td>頂点データ</td>
+<td><code>VertexData</code> (ptr)</td>
+</tr>
+<tr>
+<td>トライアングルリスト</td>
+<td><code>TriangleListNum</code> / <code>TriangleList</code> (ptr)</td>
+</tr>
+</tbody>
+</table>
 <h3><code>VertexData</code> 構造</h3>
 <pre><code>[先頭に一度だけ: VertFlag に MV1_MESH_VERT_FLAG_COMMON_COLOR が立っている場合]
   COLOR_U8 DiffuseColor ;    // 全頂点共通色
@@ -233,18 +595,56 @@ table td:first-child code { font-size: .85em; white-space: nowrap; }
 </code></pre>
 <hr />
 <h2>マテリアル <code>MV1_MATERIAL_F1</code></h2>
-<p>| フィールド | 意味 |
-|---|---|
-| <code>Name</code> / <code>Index</code> | 名前 / インデックス |
-| <code>Diffuse</code> / <code>Ambient</code> / <code>Specular</code> / <code>Emissive</code> | <code>COLOR_F</code> (float×4) |
-| <code>Power</code> | スペキュラパワー |
-| <code>Alpha</code> | 不透明度 |
-| <code>DiffuseLayerNum</code> / <code>DiffuseLayer[8]</code> | <code>MV1_MATERIAL_LAYER_F1</code> の 8 段配列 (1 段目以降は BlendType 有効) |
-| <code>SpecularLayerNum</code> / <code>SpecularLayer[8]</code> | スペキュラマップ |
-| <code>NormalLayerNum</code> / <code>NormalLayer[8]</code> | 法線マップ |
-| <code>UseAlphaTest</code> / <code>AlphaFunc</code> / <code>AlphaRef</code> | アルファテスト |
-| <code>DrawBlendMode</code> / <code>DrawBlendParam</code> | 出力時ブレンド |
-| <code>ToonInfo</code> (ptr or NULL) | <code>MV1_MATERIAL_TOON_F1</code> へのオフセット |</p>
+<table>
+<thead>
+<tr>
+<th>フィールド</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code> / <code>Index</code></td>
+<td>名前 / インデックス</td>
+</tr>
+<tr>
+<td><code>Diffuse</code> / <code>Ambient</code> / <code>Specular</code> / <code>Emissive</code></td>
+<td><code>COLOR_F</code> (float×4)</td>
+</tr>
+<tr>
+<td><code>Power</code></td>
+<td>スペキュラパワー</td>
+</tr>
+<tr>
+<td><code>Alpha</code></td>
+<td>不透明度</td>
+</tr>
+<tr>
+<td><code>DiffuseLayerNum</code> / <code>DiffuseLayer[8]</code></td>
+<td><code>MV1_MATERIAL_LAYER_F1</code> の 8 段配列 (1 段目以降は BlendType 有効)</td>
+</tr>
+<tr>
+<td><code>SpecularLayerNum</code> / <code>SpecularLayer[8]</code></td>
+<td>スペキュラマップ</td>
+</tr>
+<tr>
+<td><code>NormalLayerNum</code> / <code>NormalLayer[8]</code></td>
+<td>法線マップ</td>
+</tr>
+<tr>
+<td><code>UseAlphaTest</code> / <code>AlphaFunc</code> / <code>AlphaRef</code></td>
+<td>アルファテスト</td>
+</tr>
+<tr>
+<td><code>DrawBlendMode</code> / <code>DrawBlendParam</code></td>
+<td>出力時ブレンド</td>
+</tr>
+<tr>
+<td><code>ToonInfo</code> (ptr or NULL)</td>
+<td><code>MV1_MATERIAL_TOON_F1</code> へのオフセット</td>
+</tr>
+</tbody>
+</table>
 <h3>マテリアルレイヤー <code>MV1_MATERIAL_LAYER_F1</code></h3>
 <pre><code class="language-c">struct MV1_MATERIAL_LAYER_F1 {
     int Texture ;           // MV1_TEXTURE_F1 のインデックス
@@ -270,16 +670,48 @@ table td:first-child code { font-size: .85em; white-space: nowrap; }
 </code></pre>
 <hr />
 <h2>テクスチャ <code>MV1_TEXTURE_F1</code></h2>
-<p>| フィールド | 意味 |
-|---|---|
-| <code>Name</code> / <code>Index</code> | 名前 / インデックス |
-| <code>ColorFilePath</code> | カラーチャンネル画像の相対パス (文字列プールへのオフセット) |
-| <code>AlphaFilePath</code> | アルファチャンネル別画像の相対パス (単独使用時) |
-| <code>BumpImageFlag</code> / <code>BumpImageNextPixelLength</code> | バンプマップ情報 |
-| <code>AddressModeU</code> / <code>AddressModeV</code> | <code>MV1_TEXTURE_ADDRESS_MODE_WRAP / MIRROR / CLAMP / BORDER</code> |
-| <code>FilterMode</code> | <code>MV1_TEXTURE_FILTER_MODE_POINT / LINEAR</code> など |
-| <code>Flag</code> | <code>MV1_TEXTURE_FLAG_REVERSE</code> / <code>BMP32_ALL_ZERO_ALPHA_TO_XRGB8</code> / <code>VALID_SCALE_UV</code> |
-| <code>ScaleU</code> / <code>ScaleV</code> | UV スケール (<code>VALID_SCALE_UV</code> 時のみ) |</p>
+<table>
+<thead>
+<tr>
+<th>フィールド</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code> / <code>Index</code></td>
+<td>名前 / インデックス</td>
+</tr>
+<tr>
+<td><code>ColorFilePath</code></td>
+<td>カラーチャンネル画像の相対パス (文字列プールへのオフセット)</td>
+</tr>
+<tr>
+<td><code>AlphaFilePath</code></td>
+<td>アルファチャンネル別画像の相対パス (単独使用時)</td>
+</tr>
+<tr>
+<td><code>BumpImageFlag</code> / <code>BumpImageNextPixelLength</code></td>
+<td>バンプマップ情報</td>
+</tr>
+<tr>
+<td><code>AddressModeU</code> / <code>AddressModeV</code></td>
+<td><code>MV1_TEXTURE_ADDRESS_MODE_WRAP / MIRROR / CLAMP / BORDER</code></td>
+</tr>
+<tr>
+<td><code>FilterMode</code></td>
+<td><code>MV1_TEXTURE_FILTER_MODE_POINT / LINEAR</code> など</td>
+</tr>
+<tr>
+<td><code>Flag</code></td>
+<td><code>MV1_TEXTURE_FLAG_REVERSE</code> / <code>BMP32_ALL_ZERO_ALPHA_TO_XRGB8</code> / <code>VALID_SCALE_UV</code></td>
+</tr>
+<tr>
+<td><code>ScaleU</code> / <code>ScaleV</code></td>
+<td>UV スケール (<code>VALID_SCALE_UV</code> 時のみ)</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2>トライアングルリスト <code>MV1_TRIANGLE_LIST_F1</code></h2>
 <pre><code class="language-c">struct MV1_TRIANGLE_LIST_F1 {
@@ -367,10 +799,24 @@ table td:first-child code { font-size: .85em; white-space: nowrap; }
 </ul>
 <hr />
 <h2>座標系の注意</h2>
-<p>| フィールド | 意味 |
-|---|---|
-| <code>RightHandType</code> | TRUE で右手系 (OpenGL 系) / FALSE で左手系 (DirectX 系) |
-| 頂点 UV V | 下向きが正 (画像メモリ順と一致) |</p>
+<table>
+<thead>
+<tr>
+<th>フィールド</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RightHandType</code></td>
+<td>TRUE で右手系 (OpenGL 系) / FALSE で左手系 (DirectX 系)</td>
+</tr>
+<tr>
+<td>頂点 UV V</td>
+<td>下向きが正 (画像メモリ順と一致)</td>
+</tr>
+</tbody>
+</table>
 <p>loader 側で座標系変換を行うかどうかは呼び出し側次第。</p>
 <hr />
 <h2>文字列プール <code>StringBuffer</code></h2>
