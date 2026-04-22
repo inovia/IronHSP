@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(hsp3dx_angle_sdl2 LANGUAGES CXX)
+project(hsp3dx_angle_sdl2 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -132,6 +132,28 @@ endif()
 # --- DxLib portable fork ------------------------------------------------
 set(DXLIB_PORTABLE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dxlib_portable")
 
+# --- zlib バンドル (PMX など圧縮フォーマット decode 用) ---------------------
+set(ZLIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/extlib/zlib")
+add_library(dx_zlib STATIC
+    ${ZLIB_DIR}/adler32.c
+    ${ZLIB_DIR}/compress.c
+    ${ZLIB_DIR}/crc32.c
+    ${ZLIB_DIR}/deflate.c
+    ${ZLIB_DIR}/infback.c
+    ${ZLIB_DIR}/inffast.c
+    ${ZLIB_DIR}/inflate.c
+    ${ZLIB_DIR}/inftrees.c
+    ${ZLIB_DIR}/trees.c
+    ${ZLIB_DIR}/uncompr.c
+    ${ZLIB_DIR}/zutil.c
+)
+target_include_directories(dx_zlib PUBLIC ${ZLIB_DIR})
+if(MSVC)
+    target_compile_options(dx_zlib PRIVATE /wd4996 /wd4244 /wd4267)
+else()
+    target_compile_options(dx_zlib PRIVATE -Wno-implicit-function-declaration -Wno-shift-negative-value)
+endif()
+
 # --- 共通: DxLib desktop 用コンパイル設定 ------------------------------
 function(dxlib_desktop_settings target)
     target_include_directories(${target} PRIVATE ${DXLIB_PORTABLE_DIR})
@@ -142,7 +164,7 @@ function(dxlib_desktop_settings target)
         # DX_NON_MOVIE=1 は lib (dxlib_portable_stage3) にのみ。user 側 exe では
         # 外して DxLib::OpenMovieToGraph 等の宣言を通す (Sound/Image と同じパターン)。
         DX_NON_LIVE2D_CUBISM4=1
-        DX_NON_MODEL=1  # Tier 4d: DxUseCLib 側 zlib 依存 + MV1_TRIANGLE_LIST_BASE_PF 等 struct 不足のため保留
+        # DX_NON_MODEL=1 を外した (Tier 4d v1 最小版: MV1 load は動くが描画は未実装)
         DX_NON_BULLET_PHYSICS=1
         DX_NON_FILTER=1
         # DX_NON_MASK=1 を外した (Tier 4c)。DxMask.cpp の CPU 側が動作、
@@ -236,18 +258,19 @@ add_library(dxlib_portable_stage3 STATIC
     ${DXLIB_PORTABLE_DIR}/Desktop/DxMaskDesktop.cpp
     # Tier 4b: Movie (Win=Media Foundation / Mac=AVFoundation / Linux/Web=pending stubs)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxMovieDesktop.cpp
-    # Tier 4d: Model は DX_NON_MODEL=1 のまま保留 (zlib + struct 不足)。
-    # DxModelDesktop.cpp は stub 実装のみ先行コミット。
-    # ${DXLIB_PORTABLE_DIR}/DxModel.cpp
-    # ${DXLIB_PORTABLE_DIR}/DxModelRead.cpp
-    # ${DXLIB_PORTABLE_DIR}/DxModelLoader0.cpp
-    # ${DXLIB_PORTABLE_DIR}/DxModelLoader1.cpp
-    # ${DXLIB_PORTABLE_DIR}/DxModelLoader2.cpp
-    # ${DXLIB_PORTABLE_DIR}/DxModelLoader3.cpp
-    # ${DXLIB_PORTABLE_DIR}/DxModelLoader4.cpp
-    # ${DXLIB_PORTABLE_DIR}/DxModelLoaderVMD.cpp
-    # ${DXLIB_PORTABLE_DIR}/Desktop/DxModelDesktop.cpp
+    # Tier 4d: Model (zlib + DxModel CPU 側 + 全 loader + PF stub)
+    ${DXLIB_PORTABLE_DIR}/DxModel.cpp
+    ${DXLIB_PORTABLE_DIR}/DxModelRead.cpp
+    ${DXLIB_PORTABLE_DIR}/DxModelLoader0.cpp
+    ${DXLIB_PORTABLE_DIR}/DxModelLoader1.cpp
+    ${DXLIB_PORTABLE_DIR}/DxModelLoader2.cpp
+    ${DXLIB_PORTABLE_DIR}/DxModelLoader3.cpp
+    ${DXLIB_PORTABLE_DIR}/DxModelLoader4.cpp
+    ${DXLIB_PORTABLE_DIR}/DxModelLoaderVMD.cpp
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxModelDesktop.cpp
 )
+# zlib を model/PMX 関連ソースから使う
+target_link_libraries(dxlib_portable_stage3 PUBLIC dx_zlib)
 dxlib_desktop_settings(dxlib_portable_stage3)
 # lib 側は DxGateway.cpp の sound / movie / libpng/jpeg 部分を殺して
 # stub 未参照にする。user 側 exe はこれらを外して DxLib.h の宣言を通す。

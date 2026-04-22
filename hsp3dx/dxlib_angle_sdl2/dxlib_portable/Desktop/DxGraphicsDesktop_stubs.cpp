@@ -147,6 +147,8 @@ extern int Graphics_Hardware_Shader_GetValidShaderVersion_PF(void) { return 0; }
 extern int Graphics_Hardware_Shader_ResetConst_PF(int,int,int,int) { return 0; }
 extern int Graphics_Hardware_Shader_SetConst_PF(int,int,int,void const *,int,int) { return 0; }
 extern int Graphics_Hardware_Shader_TerminateHandle_PF(struct SHADERHANDLEDATA *) { return 0; }
+extern int Graphics_Hardware_Shader_ModelCode_Init_PF(void) { return 0; }
+extern int Graphics_Hardware_Shader_ModelCode_Terminate_PF(void) { return 0; }
 extern int Graphics_Hardware_ShadowMap_CreateTexture_PF(struct SHADOWMAPDATA *,int) { return 0; }
 extern int Graphics_Hardware_ShadowMap_DrawEnd_PF(struct SHADOWMAPDATA *) { return 0; }
 extern int Graphics_Hardware_ShadowMap_DrawSetup_PF(struct SHADOWMAPDATA *) { return 0; }

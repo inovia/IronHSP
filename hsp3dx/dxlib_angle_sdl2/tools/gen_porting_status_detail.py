@@ -145,8 +145,7 @@ def scan_desktop():
 # DxLib.h の #ifndef DX_NON_X 内の宣言は、lib 側で見ると「消えている」。
 # ただし Desktop/*.cpp で上書き実装していれば復活扱い。
 LIB_DISABLED_GUARDS = {
-    "DX_NON_MOVIE",          # Movie — Win は override
-    "DX_NON_MODEL",          # MV1 — override なし (stub のみ、未 link)
+    "DX_NON_MOVIE",          # Movie — 各 OS backend で override
     "DX_NON_LIVE2D_CUBISM4", # Live2D — 未 override
     "DX_NON_SOUND",          # Sound — 全 API を override
     "DX_NON_JPEGREAD",       # JPEG 読み込み — stb_image で loader 差替
@@ -159,6 +158,7 @@ LIB_DISABLED_GUARDS = {
     "DX_NON_OGGVORBIS",      # OGG Vorbis
     "DX_NON_OGGTHEORA",      # OGG Theora
     "DX_NON_OPUS",           # OPUS
+    # DX_NON_MODEL は Tier 4d v1 で外した (CPU load は動く、描画 PF は stub)
 }
 
 # Movie API 関数名一覧 (Win override 済) — 動くが Mac/Linux/Web は stub
@@ -234,8 +234,10 @@ def classify(func, guards, impl_set, stubs_set):
             web = "par"
     else:
         # lib で殺されており override もない
-        if "DX_NON_MODEL" in lib_guards or func.startswith("MV1"):
-            sdl2, web = "pen", "pen"
+        if func.startswith("MV1"):
+            # MV1 は DxModel.cpp がコンパイル済 (Tier 4d v1) → load は動く
+            # が描画 PF は stub なので partial
+            sdl2, web = "par", "par"
         elif "DX_NON_LIVE2D_CUBISM4" in lib_guards:
             sdl2, web = "pen", "pen"
         elif "DX_NON_MOVIE" in lib_guards:
@@ -271,6 +273,12 @@ def classify(func, guards, impl_set, stubs_set):
             sdl2 = "par"
         if web == "ok":
             web = "par"
+
+    # MV1 描画系は PF stub なので画面に出ない (Tier 4d v1)
+    if func.startswith("MV1") and (
+        "Draw" in func or "Render" in func or "Update" in func or
+        "Refresh" in func):
+        sdl2, web = "par", "par"
 
     # Shader API (Graphics_Hardware_Shader_*_PF は stub — fixed-function のみ)
     if func.startswith(("LoadVertexShader", "LoadPixelShader",
