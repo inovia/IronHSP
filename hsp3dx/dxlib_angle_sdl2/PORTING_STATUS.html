@@ -57,7 +57,7 @@ td.note { font-size: 12px; color: #555; }
 <body>
 
 <h1>hsp3dx DxLib マルチプラットフォーム対応状況</h1>
-<p class="meta">最終更新: 2026-04-22 22:05 (Category B + D 完了、C + E 検証待ち) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
+<p class="meta">最終更新: 2026-04-22 22:15 (M1〜M5 + L1〜L4 完了) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
 
 <div class="summary-box" style="border:2px solid #2b6cb0">
   <p style="margin:0">📋 <strong>全関数マトリクス</strong>: この HTML は主要 API 80 関数の概観です。DxLib.h に宣言されている <strong>全 2438 関数</strong> の対応状況は <a href="PORTING_STATUS_DETAIL.html" style="font-weight:700">PORTING_STATUS_DETAIL.html</a> (自動生成) を参照してください。</p>
@@ -78,10 +78,15 @@ td.note { font-size: 12px; color: #555; }
      Category B (Mask stencil 実効果 / GraphBlend 16 種 / GraphFilter 追加 5 種
      (GAUSS/LEVEL/GRADIENT_MAP/BICUBIC/LANCZOS3) / MV1 DiffuseLayer 多段 tex) 完了。
      Shadow map は PF stub (API 呼び出しは安全)、A1 MV1 Toon gradation / A2 DxLib
-     Shader API 完全互換は shader 基盤改修要で保留。</p>
-  <p><strong>保留項目 (SDK / 大規模):</strong> Live2D Cubism4 (要 SDK ライセンス) /
-     Bullet Physics (要 source bundle) / MV1 Toon gradation texture (要 shader 基盤) /
-     DxLib .vso/.pso HLSL→GLSL トランスパイル (2〜3 週間規模)
+     Shader API 完全互換は shader 基盤改修要で保留。
+     さらに M1〜M5 + L1〜L4 完了: Toon gradation / Shadow FBO infrastructure /
+     GraphFilter 残 5 種 / MV1 SpecularLayer+NormalLayer wire / Mac Movie Seek+Loop /
+     DxLib Shader API UseShader=TRUE / Live2D Cubism SDK 5-r.5 bundle /
+     Bullet Physics 3.25 bundle / GLSL shader directory template。</p>
+  <p><strong>保留項目 (次セッション):</strong> Live2D 実描画統合 (GLEW + Rendering/OpenGL +
+     DxLibEnableLive2D パッチ) / DxLib 内蔵 shader の GLSL 版本実装 (2〜3 週間) /
+     Shadow map projective texture 適用 / MV1 NormalLayer shader 化 /
+     Category E (Linux WSL2 / Mac SSH / Web emscripten 実ビルド検証)
      残: Live2D Cubism4、Bullet Physics、Toon 階調 (要 shader)、VBO 最適化、DiffuseLayer[1+] 合成。</p>
 </div>
 
@@ -671,9 +676,15 @@ td.note { font-size: 12px; color: #555; }
 </tr>
 <tr><td class="fn">Live2D Cubism4 API</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="center"><span class="badge b-pen">⏳</span></td><td class="center"><span class="badge b-pen">⏳</span></td>
-  <td class="tech">Live2D Cubism SDK</td>
-  <td class="note">iOS/Android は公式 DxLibEnableLive2D_{iOS,Android}_3_24f.zip で有効化可能 (未適用)。Cubism SDK ライセンス要。</td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">L2 完: extlib/cubism/ に Cubism SDK 5-r.5 (Core prebuilt lib + Framework source) を bundle、dx_cubism_core + dx_cubism_framework を build 可</td>
+  <td class="note">L2 infrastructure 完了。Framework は Rendering/ 除外で core logic のみコンパイル (GLEW 依存回避)。実 Live2D モデル描画は DxLibEnableLive2D_3_24f.zip のパッチ適用 + Rendering/OpenGL 再有効化 + MV1 draw hook が次段。</td>
+</tr>
+<tr><td class="fn">Bullet Physics (剛体 / Soft Body)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">L3 完: extlib/bullet3/ に Bullet Physics 3.25 source bundle (LinearMath/BulletCollision/BulletDynamics/BulletSoftBody、zlib license)</td>
+  <td class="note">L3 source bundle 完了。DxPhysics.cpp は Win 特化のため hsp3dx は DX_NON_BULLET_PHYSICS=1 のまま。dx_bullet は user が独自リンクして使える。</td>
 </tr>
 </table>
 
