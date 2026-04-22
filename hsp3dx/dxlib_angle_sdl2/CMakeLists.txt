@@ -154,6 +154,17 @@ else()
     target_compile_options(dx_zlib PRIVATE -Wno-implicit-function-declaration -Wno-shift-negative-value)
 endif()
 
+# --- libogg バンドル (Vorbis/Opus/Theora の基盤) ---------------------------
+# upstream 1.3.5 from https://github.com/xiph/ogg (BSD-3)
+add_subdirectory(extlib/libogg)
+if(MSVC)
+    target_compile_options(dx_ogg PRIVATE /wd4244 /wd4267 /wd4018)
+endif()
+
+# --- libvorbis + libvorbisfile バンドル ---------------------------------
+# upstream from https://github.com/xiph/vorbis (BSD-3)
+add_subdirectory(extlib/libvorbis)
+
 # --- 共通: DxLib desktop 用コンパイル設定 ------------------------------
 function(dxlib_desktop_settings target)
     target_include_directories(${target} PRIVATE ${DXLIB_PORTABLE_DIR})
@@ -278,6 +289,8 @@ add_library(dxlib_portable_stage3 STATIC
 )
 # zlib を model/PMX 関連ソースから使う
 target_link_libraries(dxlib_portable_stage3 PUBLIC dx_zlib)
+# libogg / libvorbis / libvorbisfile を DxSoundDesktop.cpp の OGG decode で使う
+target_link_libraries(dxlib_portable_stage3 PUBLIC dx_vorbisfile)
 dxlib_desktop_settings(dxlib_portable_stage3)
 # lib 側は DxGateway.cpp の sound / movie / libpng/jpeg 部分を殺して
 # stub 未参照にする。user 側 exe はこれらを外して DxLib.h の宣言を通す。

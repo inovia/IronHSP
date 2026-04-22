@@ -21,10 +21,18 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 
+// bundled libvorbisfile (extlib/libvorbis/include) で OGG Vorbis を decode
+extern "C" {
+#include <vorbis/vorbisfile.h>
+}
+
 #include <cstdio>
 #include <cstring>
+#include <cstdlib>
+#include <cctype>
 #include <unordered_map>
 #include <string>
+#include <vector>
 
 #ifndef DX_NON_NAMESPACE
 namespace DxLib
@@ -36,7 +44,85 @@ struct DesktopSoundEntry {
     Mix_Chunk *chunk = nullptr ;
     int last_channel = -1 ;
     int volume_0_10000 = 10000 ; // DxLib 標準は 0..10000
+    // OGG decoded PCM を保持するバッファ (Mix_QuickLoad_RAW は所有しない).
+    // nullptr 以外なら free() で解放が必要。
+    Uint8 *raw_buffer = nullptr ;
 } ;
+
+// ファイルを丸ごと PCM S16LE stereo 44100Hz に decode する。
+// bundled libvorbisfile を使う。返り値: 成功時 malloc バッファ (*OutBytes セット)、
+// 失敗時 nullptr。呼び出し側が std::free 必須。
+static Uint8 *desktop_decode_ogg_to_pcm( const char *path, int *OutBytes )
+{
+    OggVorbis_File vf ;
+    if ( ov_fopen( path, &vf ) != 0 ) return nullptr ;
+
+    vorbis_info *vi = ov_info( &vf, -1 ) ;
+    if ( !vi ) { ov_clear( &vf ) ; return nullptr ; }
+
+    int src_ch   = vi->channels ;
+    int src_rate = ( int )vi->rate ;
+
+    std::vector<Uint8> pcm ;
+    pcm.reserve( 1 << 20 ) ;
+    char buf[ 4096 ] ;
+    int bitstream = 0 ;
+    for ( ; ; )
+    {
+        long n = ov_read( &vf, buf, ( int )sizeof( buf ), 0 /*LE*/, 2 /*S16*/, 1 /*signed*/, &bitstream ) ;
+        if ( n == 0 ) break ;
+        if ( n <  0 ) { ov_clear( &vf ) ; return nullptr ; }
+        pcm.insert( pcm.end(), ( Uint8 * )buf, ( Uint8 * )buf + n ) ;
+    }
+    ov_clear( &vf ) ;
+
+    // モノラル → ステレオに複製 (SDL_mixer の open format が 2ch のため)
+    if ( src_ch == 1 )
+    {
+        std::vector<Uint8> stereo ;
+        stereo.reserve( pcm.size() * 2 ) ;
+        for ( size_t i = 0 ; i + 1 < pcm.size() ; i += 2 ) {
+            stereo.push_back( pcm[ i + 0 ] ) ; stereo.push_back( pcm[ i + 1 ] ) ;
+            stereo.push_back( pcm[ i + 0 ] ) ; stereo.push_back( pcm[ i + 1 ] ) ;
+        }
+        pcm.swap( stereo ) ;
+    }
+
+    // サンプルレートが 44100 と異なる場合は SDL_AudioCVT で変換する
+    if ( src_rate != 44100 )
+    {
+        SDL_AudioCVT cvt ;
+        if ( SDL_BuildAudioCVT( &cvt, AUDIO_S16LSB, 2, src_rate,
+                                       AUDIO_S16LSB, 2, 44100 ) < 0 )
+        {
+            return nullptr ;
+        }
+        cvt.len = ( int )pcm.size() ;
+        std::vector<Uint8> tmp( ( size_t )( cvt.len * cvt.len_mult ) ) ;
+        std::memcpy( tmp.data(), pcm.data(), pcm.size() ) ;
+        cvt.buf = tmp.data() ;
+        if ( SDL_ConvertAudio( &cvt ) < 0 ) return nullptr ;
+        pcm.assign( tmp.begin(), tmp.begin() + cvt.len_cvt ) ;
+    }
+
+    Uint8 *out = ( Uint8 * )std::malloc( pcm.size() ) ;
+    if ( !out ) return nullptr ;
+    std::memcpy( out, pcm.data(), pcm.size() ) ;
+    *OutBytes = ( int )pcm.size() ;
+    return out ;
+}
+
+static bool desktop_path_is_ogg( const char *path )
+{
+    if ( !path ) return false ;
+    size_t n = std::strlen( path ) ;
+    if ( n < 4 ) return false ;
+    const char *ext = path + n - 4 ;
+    return ( ext[0] == '.' &&
+             std::tolower( ( unsigned char )ext[1] ) == 'o' &&
+             std::tolower( ( unsigned char )ext[2] ) == 'g' &&
+             std::tolower( ( unsigned char )ext[3] ) == 'g' ) ;
+}
 
 static int g_MixInited = 0 ;
 static std::unordered_map<int, DesktopSoundEntry> g_Sounds ;
@@ -85,7 +171,25 @@ extern int LoadSoundMem( const TCHAR *FileName, int BufferNum, int UnionHandle )
     // TCHAR = char (UNICODE 無効) の前提で単純 cast する
     const char *path = ( const char * )FileName ;
 
-    Mix_Chunk *c = Mix_LoadWAV( path ) ;
+    Mix_Chunk *c = nullptr ;
+    Uint8     *raw = nullptr ;
+
+    if ( desktop_path_is_ogg( path ) )
+    {
+        // bundled libvorbisfile で OGG → PCM S16LE 44100Hz stereo に decode
+        int bytes = 0 ;
+        raw = desktop_decode_ogg_to_pcm( path, &bytes ) ;
+        if ( !raw ) {
+            std::fprintf( stderr, "[DxSoundDesktop] OGG decode fail: %s\n", path ) ;
+            return -1 ;
+        }
+        c = Mix_QuickLoad_RAW( raw, ( Uint32 )bytes ) ;
+        if ( !c ) { std::free( raw ) ; return -1 ; }
+    }
+    else
+    {
+        c = Mix_LoadWAV( path ) ;
+    }
     if ( !c ) {
         std::fprintf( stderr, "[DxSoundDesktop] LoadSoundMem fail: %s (%s)\n", path, Mix_GetError() ) ;
         return -1 ;
@@ -95,6 +199,7 @@ extern int LoadSoundMem( const TCHAR *FileName, int BufferNum, int UnionHandle )
     e.chunk = c ;
     e.last_channel = -1 ;
     e.volume_0_10000 = 10000 ;
+    e.raw_buffer = raw ;
     Mix_VolumeChunk( c, MIX_MAX_VOLUME ) ;
     g_Sounds[ h ] = e ;
     return h ;
@@ -161,6 +266,7 @@ extern int DeleteSoundMem( int SoundHandle )
     if ( it == g_Sounds.end() ) return -1 ;
     if ( it->second.last_channel >= 0 ) Mix_HaltChannel( it->second.last_channel ) ;
     if ( it->second.chunk ) Mix_FreeChunk( it->second.chunk ) ;
+    if ( it->second.raw_buffer ) std::free( it->second.raw_buffer ) ;
     g_Sounds.erase( it ) ;
     return 0 ;
 }
@@ -170,6 +276,7 @@ extern int InitSoundMem( void )
     for ( auto &p : g_Sounds ) {
         if ( p.second.last_channel >= 0 ) Mix_HaltChannel( p.second.last_channel ) ;
         if ( p.second.chunk ) Mix_FreeChunk( p.second.chunk ) ;
+        if ( p.second.raw_buffer ) std::free( p.second.raw_buffer ) ;
     }
     g_Sounds.clear() ;
     return 0 ;
