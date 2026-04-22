@@ -114,6 +114,8 @@ void print_frames(const Mv1File &f, std::FILE *out) {
     if (!arr) { std::fprintf(out, "  <out-of-range>\n"); return; }
     for (int i = 0; i < h->FrameNum; ++i) {
         const auto &fr = arr[i];
+        std::fprintf(out, "         DimPrev=0x%X DimNext=0x%X Prev=0x%X Next=0x%X FirstChild=0x%X LastChild=0x%X\n",
+                     fr.DimPrev, fr.DimNext, fr.Prev, fr.Next, fr.FirstChild, fr.LastChild);
         std::fprintf(out, "  [%2d] name=\"%.*s\"  mesh=%d  bones=%d(use=%d)  verts=%d tri=%d  parent=0x%X\n",
                      fr.Index,
                      static_cast<int>(f.name(fr.Name).size()), f.name(fr.Name).data(),

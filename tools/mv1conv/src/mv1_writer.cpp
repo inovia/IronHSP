@@ -420,9 +420,10 @@ WriteResult write_mv1(const ModelIR &ir) {
         mf.Quaternion = { 0.0f, 0.0f, 0.0f, 1.0f };
         mf.Flag  = 0;
         mf.Parent = offFrame;  // root
-        // 兄弟チェーン (Prev/Next)
-        if (mi > 0)                         mf.Prev = frameOffsets[firstMeshFrameIdx + mi - 1];
-        if (mi + 1 < ir.meshes.size())      mf.Next = frameOffsets[firstMeshFrameIdx + mi + 1];
+        // Prev/Next 兄弟チェーンは DxLib save 観測で 0 が正解 (tet2_ref)
+        // FirstChild/LastChild + DimNext のみで走査される模様
+        mf.Prev = 0;
+        mf.Next = 0;
         mf.TotalMeshNum = 1;
         mf.MeshNum = 1;
         mf.Mesh = meshOffsets[mi];
