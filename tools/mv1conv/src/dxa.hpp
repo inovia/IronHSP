@@ -25,4 +25,9 @@ std::uint32_t decoded_size(std::span<const std::uint8_t> src);
 // 出力サイズは 9 + origSize + (escape された KeyCode 出現数) byte。
 std::vector<std::uint8_t> encode_literal(std::span<const std::uint8_t> src);
 
+// DXA greedy LZSS エンコード (match_len >= MIN_COMPRESS=4 のときに backref
+// として出力、長さ/距離は DXA フォーマット準拠)。圧縮率はオリジナルより
+// やや劣るが literal モードより遥かに小さい。
+std::vector<std::uint8_t> encode(std::span<const std::uint8_t> src);
+
 }

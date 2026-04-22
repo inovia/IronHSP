@@ -390,7 +390,7 @@ WriteResult write_mv1(const ModelIR &ir) {
 
     // ====== DXA (literal) 圧縮 + 出力組立 ======
     auto inner = std::span<const std::uint8_t>(b.buf.data() + 4, b.buf.size() - 4);
-    auto dxa_block = dxa::encode_literal(inner);
+    auto dxa_block = dxa::encode(inner);
 
     r.bytes.reserve(4 + dxa_block.size());
     r.bytes.push_back('M'); r.bytes.push_back('V');

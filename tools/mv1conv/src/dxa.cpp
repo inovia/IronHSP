@@ -24,6 +24,136 @@ inline void wr32(std::uint8_t *p, std::uint32_t v) {
 
 }
 
+namespace {
+
+constexpr std::uint32_t DXA_MIN_COMPRESS = 4;
+// 実エンコード可能な最大長 = 5bit(low) + 8bit(ext) = 13bit → 8191 + MIN_COMPRESS = 8195
+// (spec の "32767" は誤り、decoder が 5+8bit しか読まない)
+constexpr std::uint32_t DXA_MAX_COPYSIZE = 8195;
+constexpr std::uint32_t DXA_MAX_POSITION = 1u << 24;
+
+// KeyCode 選定: まず使われていない byte を探し、無ければ出現数最少
+std::uint8_t pick_keycode(std::span<const std::uint8_t> src) {
+    std::size_t h[256] = {0};
+    for (auto b : src) ++h[b];
+    int best = 0;
+    for (int i = 0; i < 256; ++i) if (h[i] == 0) return static_cast<std::uint8_t>(i);
+    for (int i = 1; i < 256; ++i) if (h[i] < h[best]) best = i;
+    return static_cast<std::uint8_t>(best);
+}
+
+// 与えられた pos-addr(1-based, 1..16M) / length(4..) を DXA のマッチトークンに変換
+// 出力: keycode + flags + [extlen] + addr(1..3 byte) を dp に書く。length は既に 4 引いた値。
+void emit_match(std::vector<std::uint8_t> &dst, std::uint8_t key,
+                std::uint32_t length_minus_4, std::uint32_t addr_minus_1) {
+    // addr_minus_1 の byte 数を決める
+    int addr_byte;
+    if (addr_minus_1 < 0x100)        addr_byte = 1;  // flag bits 1-0 = 00
+    else if (addr_minus_1 < 0x10000) addr_byte = 2;  // flag bits 1-0 = 01
+    else                              addr_byte = 3; // flag bits 1-0 = 10
+
+    // length 下位 5bit + 拡張長 8bit (計 13bit, max 8192+)
+    std::uint8_t low5 = static_cast<std::uint8_t>(length_minus_4 & 0x1Fu);
+    bool ext = (length_minus_4 > 0x1Fu);
+    std::uint8_t flags = static_cast<std::uint8_t>(low5 << 3);
+    if (ext) flags |= 0x04;
+    flags |= static_cast<std::uint8_t>(addr_byte - 1);
+
+    // エンコーダでは「flags が KeyCode 以上なら +1 する」補正 (decoder 側で -1 される)
+    std::uint8_t flagsOut = flags;
+    if (flagsOut >= key) flagsOut++;
+
+    dst.push_back(key);
+    dst.push_back(flagsOut);
+    if (ext) dst.push_back(static_cast<std::uint8_t>((length_minus_4 >> 5) & 0xFFu));
+    dst.push_back(static_cast<std::uint8_t>(addr_minus_1 & 0xFFu));
+    if (addr_byte >= 2) dst.push_back(static_cast<std::uint8_t>((addr_minus_1 >> 8) & 0xFFu));
+    if (addr_byte >= 3) dst.push_back(static_cast<std::uint8_t>((addr_minus_1 >> 16) & 0xFFu));
+}
+
+}
+
+std::vector<std::uint8_t> encode(std::span<const std::uint8_t> src) {
+    if (src.empty()) return encode_literal(src);
+    std::uint8_t key = pick_keycode(src);
+
+    // 3-byte prefix ハッシュテーブルで greedy LZSS
+    constexpr std::size_t HASH_SIZE = 1 << 16;
+    std::vector<std::int32_t> head(HASH_SIZE, -1);
+    constexpr std::size_t CHAIN_LIMIT = 256;  // 深さ制限 (速度↔圧縮率)
+    std::vector<std::int32_t> next(src.size(), -1);
+
+    auto hash3 = [&](const std::uint8_t *p) -> std::size_t {
+        std::uint32_t h = p[0];
+        h = h * 131u + p[1];
+        h = h * 131u + p[2];
+        return h & (HASH_SIZE - 1);
+    };
+
+    // body
+    std::vector<std::uint8_t> body;
+    body.reserve(src.size());
+
+    const std::size_t N = src.size();
+    std::size_t i = 0;
+    while (i < N) {
+        std::uint32_t bestLen = 0;
+        std::uint32_t bestDist = 0;
+        if (i + 2 < N) {
+            std::size_t h = hash3(src.data() + i);
+            std::int32_t j = head[h];
+            std::size_t chain = 0;
+            while (j >= 0 && chain < CHAIN_LIMIT) {
+                if (static_cast<std::size_t>(j) >= i) break;
+                std::size_t dist = i - static_cast<std::size_t>(j);
+                if (dist > DXA_MAX_POSITION) break;
+                // 試し比較
+                std::size_t maxL = std::min<std::size_t>(N - i, DXA_MAX_COPYSIZE);
+                std::size_t L = 0;
+                while (L < maxL && src[j + L] == src[i + L]) ++L;
+                if (L >= DXA_MIN_COMPRESS && L > bestLen) {
+                    bestLen  = static_cast<std::uint32_t>(L);
+                    bestDist = static_cast<std::uint32_t>(dist);
+                    if (L == maxL) break;
+                }
+                j = next[j];
+                ++chain;
+            }
+        }
+
+        if (bestLen >= DXA_MIN_COMPRESS) {
+            emit_match(body, key, bestLen - DXA_MIN_COMPRESS, bestDist - 1);
+            // hash update for 使用したすべての位置
+            for (std::uint32_t k = 0; k < bestLen; ++k) {
+                if (i + k + 2 < N) {
+                    std::size_t h = hash3(src.data() + i + k);
+                    next[i + k] = head[h];
+                    head[h] = static_cast<std::int32_t>(i + k);
+                }
+            }
+            i += bestLen;
+        } else {
+            std::uint8_t b = src[i];
+            if (b == key) { body.push_back(key); body.push_back(key); }
+            else          { body.push_back(b); }
+            if (i + 2 < N) {
+                std::size_t h = hash3(src.data() + i);
+                next[i] = head[h];
+                head[h] = static_cast<std::int32_t>(i);
+            }
+            ++i;
+        }
+    }
+
+    std::vector<std::uint8_t> out;
+    out.resize(9);
+    wr32(out.data() + 0, static_cast<std::uint32_t>(src.size()));
+    wr32(out.data() + 4, static_cast<std::uint32_t>(9 + body.size()));
+    out[8] = key;
+    out.insert(out.end(), body.begin(), body.end());
+    return out;
+}
+
 std::vector<std::uint8_t> encode_literal(std::span<const std::uint8_t> src) {
     // byte histogram で一番少ない値を KeyCode に
     std::size_t hist[256] = {0};

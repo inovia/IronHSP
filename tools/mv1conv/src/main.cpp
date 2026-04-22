@@ -119,7 +119,7 @@ static int cmd_repack(int argc, char **argv) {
     auto buf = f.buffer();
     // 最初の 4 byte (CheckID) は外側の magic、DXA 内容は buf[4..] 相当
     auto inner = buf.subspan(4);
-    auto dxa_block = dxa::encode_literal(inner);
+    auto dxa_block = dxa::encode(inner);
 
     std::vector<std::uint8_t> out;
     out.reserve(4 + dxa_block.size());
