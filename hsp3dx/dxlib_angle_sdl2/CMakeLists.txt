@@ -34,6 +34,16 @@ if(WIN32)
     add_library(SDL2::SDL2main STATIC IMPORTED)
     set_target_properties(SDL2::SDL2main PROPERTIES
         IMPORTED_LOCATION "${SDL2_LIB_DIR}/SDL2main.lib")
+    # SDL2_ttf (オプショナル、あれば font 有効化)
+    set(SDL2_TTF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/extlib/SDL2_ttf")
+    if(EXISTS "${SDL2_TTF_ROOT}/include/SDL_ttf.h")
+        add_library(SDL2::ttf SHARED IMPORTED)
+        set_target_properties(SDL2::ttf PROPERTIES
+            IMPORTED_LOCATION             "${SDL2_TTF_ROOT}/lib/x64/SDL2_ttf.dll"
+            IMPORTED_IMPLIB               "${SDL2_TTF_ROOT}/lib/x64/SDL2_ttf.lib"
+            INTERFACE_INCLUDE_DIRECTORIES "${SDL2_TTF_ROOT}/include")
+        set(HAS_SDL2_TTF 1)
+    endif()
     set(GL_LIB opengl32)
 else()
     # Linux / Mac: pkg-config か find_package で探す
@@ -51,6 +61,39 @@ else()
     # OpenGL
     find_package(OpenGL REQUIRED)
     set(GL_LIB OpenGL::GL)
+    # SDL2_ttf (optional)
+    find_package(SDL2_ttf QUIET)
+    if(SDL2_ttf_FOUND OR TARGET SDL2_ttf::SDL2_ttf)
+        if(NOT TARGET SDL2::ttf)
+            if(TARGET SDL2_ttf::SDL2_ttf)
+                add_library(SDL2::ttf ALIAS SDL2_ttf::SDL2_ttf)
+            else()
+                add_library(SDL2::ttf INTERFACE IMPORTED)
+                target_link_libraries(SDL2::ttf INTERFACE ${SDL2_TTF_LIBRARIES})
+                target_include_directories(SDL2::ttf INTERFACE ${SDL2_TTF_INCLUDE_DIRS})
+            endif()
+        endif()
+        set(HAS_SDL2_TTF 1)
+    else()
+        # pkg-config で探す fallback (brew 環境の Mac で有効)
+        find_package(PkgConfig QUIET)
+        if(PkgConfig_FOUND)
+            pkg_check_modules(SDL2_TTF QUIET SDL2_ttf)
+            if(SDL2_TTF_FOUND)
+                add_library(SDL2::ttf INTERFACE IMPORTED)
+                target_include_directories(SDL2::ttf INTERFACE ${SDL2_TTF_INCLUDE_DIRS})
+                target_link_libraries(SDL2::ttf INTERFACE ${SDL2_TTF_LIBRARIES})
+                target_link_directories(SDL2::ttf INTERFACE ${SDL2_TTF_LIBRARY_DIRS})
+                set(HAS_SDL2_TTF 1)
+            endif()
+        endif()
+    endif()
+endif()
+
+if(HAS_SDL2_TTF)
+    message(STATUS "SDL2_ttf found — font support enabled")
+else()
+    message(STATUS "SDL2_ttf NOT found — font support disabled")
 endif()
 
 # --- DxLib portable fork ------------------------------------------------
@@ -70,7 +113,7 @@ function(dxlib_desktop_settings target)
         DX_NON_FILTER=1
         DX_NON_MASK=1
         DX_NON_SOUND=1
-        DX_NON_FONT=1
+        # DX_NON_FONT=1  ← Stage 19 で font 有効化
         # DX_NON_INPUT=1  ← Stage 16 で input 有効化
         DX_NON_KEYEX=1       # 高機能キー入力は未対応
         DX_NON_INPUTSTRING=1 # 文字列入力 API は未対応
@@ -141,9 +184,15 @@ add_library(dxlib_portable_stage3 STATIC
     # Stage 16: Input
     ${DXLIB_PORTABLE_DIR}/DxInput.cpp
     ${DXLIB_PORTABLE_DIR}/Desktop/DxInputDesktop.cpp
+    # Stage 19: Font
+    ${DXLIB_PORTABLE_DIR}/DxFont.cpp
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxFontDesktop.cpp
 )
 dxlib_desktop_settings(dxlib_portable_stage3)
 target_link_libraries(dxlib_portable_stage3 PUBLIC SDL2::SDL2 SDL2::SDL2main)
+if(HAS_SDL2_TTF)
+    target_link_libraries(dxlib_portable_stage3 PUBLIC SDL2::ttf)
+endif()
 
 # --- 共通: stage exe 設定ヘルパ ------------------------------------------
 function(dxlib_stage_exe name src)
@@ -156,6 +205,12 @@ function(dxlib_stage_exe name src)
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
                 "${SDL2_LIB_DIR}/SDL2.dll"
                 "$<TARGET_FILE_DIR:${name}>/SDL2.dll")
+        if(HAS_SDL2_TTF)
+            add_custom_command(TARGET ${name} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    "${SDL2_TTF_ROOT}/lib/x64/SDL2_ttf.dll"
+                    "$<TARGET_FILE_DIR:${name}>/SDL2_ttf.dll")
+        endif()
     endif()
 endfunction()
 
@@ -168,6 +223,7 @@ dxlib_stage_exe(stage15_linux_visible     src/stage15_linux_visible.cpp)
 dxlib_stage_exe(stage16_input             src/stage16_input.cpp)
 dxlib_stage_exe(stage17_texture           src/stage17_texture.cpp)
 dxlib_stage_exe(stage18_rotagraph         src/stage18_rotagraph.cpp)
+dxlib_stage_exe(stage19_font              src/stage19_font.cpp)
 
 # --- Stage 1 (pure SDL2, no DxLib) ---------------------------------------
 if(WIN32)

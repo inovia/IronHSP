@@ -1,26 +1,33 @@
 ﻿// -------------------------------------------------------------------------------
 //
-//      DX ライブラリ   Desktop (SDL2/ANGLE) 用 DxFont ヘッダ (stub)
-//
-//      TODO: iOS/DxFontiOS.h 相当を desktop 向けに移植する
+//      DX ライブラリ   Desktop (SDL2_ttf) 用 フォント
 //
 // -------------------------------------------------------------------------------
 
-#ifndef DX_FONT_DESKTOP_H
-#define DX_FONT_DESKTOP_H
+#ifndef DX_FONTDESKTOP_H
+#define DX_FONTDESKTOP_H
 
 #include "../DxCompileConfig.h"
-#include "../DxFont.h"
+
+#ifndef DX_NON_FONT
 
 #ifndef DX_NON_NAMESPACE
 namespace DxLib
 {
 #endif
 
-// TODO: Desktop 固有の関数/構造体宣言を追加する
+// フォントハンドルの環境依存データ
+// SDL2_ttf の TTF_Font* は void* で保持 (ヘッダへ SDL_ttf.h 染み出し防止)
+struct FONTMANAGE_PF
+{
+    void   *FontData ;        // 実体は TTF_Font*
+    int     Dummy ;
+} ;
 
 #ifndef DX_NON_NAMESPACE
 }
 #endif
 
-#endif // DX_FONT_DESKTOP_H
+#endif // DX_NON_FONT
+
+#endif // DX_FONTDESKTOP_H
