@@ -20,6 +20,7 @@
 #include <SDL.h>
 #include <cstdio>
 #include <cstring>
+#include <vector>
 
 #ifndef DX_NON_NAMESPACE
 namespace DxLib
@@ -190,6 +191,9 @@ extern int SetJoypadDeadZone_PF( INPUTPADDATA *pad )
 static int s_WheelAccum  = 0 ;
 static int s_HWheelAccum = 0 ;
 
+// 下で定義 (tick 関数からも参照)
+extern void Desktop_UpdateTouchInputState( void ) ;
+
 extern int UpdateKeyboardInputState_PF( int UseProcessMessage )
 {
     (void)UseProcessMessage;
@@ -202,6 +206,7 @@ extern int UpdateKeyboardInputState_PF( int UseProcessMessage )
         s_WheelAccum  += evs[ i ].wheel.y * dir * 120 ;  // Win32 WHEEL_DELTA=120 準拠
         s_HWheelAccum += evs[ i ].wheel.x * dir * 120 ;
     }
+    Desktop_UpdateTouchInputState() ;
     return 0 ;
 }
 
@@ -256,9 +261,58 @@ extern int GetMousePoint_PF( int *XBuf, int *YBuf )
 
 extern int SetMousePoint_PF( int PointX, int PointY )
 {
-    // SDL_WarpMouseInWindow は window pointer 要求、今は未対応
-    (void)PointX; (void)PointY;
+    // 現在マウス focus を持つウィンドウに warp する。focus が無い場合は
+    // SDL_GetGrabbedWindow / SDL_GL_GetCurrentWindow のどちらかを fallback 使用。
+    SDL_Window *win = SDL_GetMouseFocus() ;
+    if ( !win ) win = SDL_GL_GetCurrentWindow() ;
+    if ( !win ) return -1 ;
+    SDL_WarpMouseInWindow( win, PointX, PointY ) ;
     return 0 ;
+}
+
+// --- タッチ入力 (SDL2 SDL_TOUCH_* 経由、最小実装) -------------------------
+//   毎フレーム SDL_GetNumTouchDevices/GetNumTouchFingers でスキャンして
+//   TOUCHINPUTDATA を構築、AddTouchInputData(&td) で DxLib 本体の
+//   InputSysData.Touch に反映する。NS_GetTouchInput 等の共通層 API が
+//   そのまま動くようになる。
+//   SDL_HINT_TOUCH_MOUSE_EVENTS はデフォルト ON なので、PC マウス左クリック
+//   でも擬似タッチとして拾える (testing 向け)。
+
+extern void Desktop_UpdateTouchInputState( void )
+{
+    TOUCHINPUTDATA td ;
+    std::memset( &td, 0, sizeof( td ) ) ;
+    td.Time   = ( LONGLONG )SDL_GetTicks() ;
+    td.Source = 0 ;
+    td.PointNum = 0 ;
+
+    int ww = 0, wh = 0 ;
+    SDL_Window *win = SDL_GL_GetCurrentWindow() ;
+    if ( win ) SDL_GetWindowSize( win, &ww, &wh ) ;
+    if ( ww <= 0 ) ww = 640 ;
+    if ( wh <= 0 ) wh = 480 ;
+
+    int devN = SDL_GetNumTouchDevices() ;
+    for ( int d = 0 ; d < devN && td.PointNum < TOUCHINPUTPOINT_MAX ; ++d )
+    {
+        SDL_TouchID tid = SDL_GetTouchDevice( d ) ;
+        int fn = SDL_GetNumTouchFingers( tid ) ;
+        for ( int f = 0 ; f < fn && td.PointNum < TOUCHINPUTPOINT_MAX ; ++f )
+        {
+            SDL_Finger *fg = SDL_GetTouchFinger( tid, f ) ;
+            if ( !fg ) continue ;
+            TOUCHINPUTPOINT &p = td.Point[ td.PointNum++ ] ;
+            p.Device      = ( DWORD )d ;
+            p.ID          = ( DWORD )fg->id ;
+            p.PositionX   = ( int )( fg->x * ww ) ;
+            p.PositionY   = ( int )( fg->y * wh ) ;
+            p.Pressure    = fg->pressure ;
+            p.Orientation = 0.0f ;
+            p.Tilt        = 0.0f ;
+            p.ToolType    = 0 ;  // DX_TOUCHINPUT_TOOL_TYPE_UNKNOWN
+        }
+    }
+    AddTouchInputData( &td ) ;
 }
 
 #ifndef DX_NON_NAMESPACE

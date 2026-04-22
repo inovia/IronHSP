@@ -88,7 +88,7 @@ extern int Graphics_Hardware_DrawSimpleTriangleGraphF_PF(struct tagGRAPHICS_DRAW
 // Graphics_Hardware_DrawTriangle3D_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 // Graphics_Hardware_DrawTriangle_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 // Graphics_Hardware_FillGraph_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
-extern int Graphics_Hardware_GetDrawScreenGraphBase_PF(struct IMAGEDATA *,struct IMAGEDATA *,int,int,int,int,int,int,int,int,int,int,int) { return 0; }
+// Graphics_Hardware_GetDrawScreenGraphBase_PF: impl in DxGraphicsDesktop.cpp (Category C)
 extern int Graphics_Hardware_GetMultiSampleQuality_PF(int) { return 0; }
 extern int Graphics_Hardware_GetVideoMemorySizeEx_PF(unsigned long long *,unsigned long long *) { return 0; }
 // Graphics_Hardware_GraphLock_PF / GraphUnlock_PF: impl in DxGraphicsDesktop.cpp (Tier 1)

@@ -1105,6 +1105,82 @@ extern int Graphics_Hardware_GraphUnlock_PF( IMAGEDATA *Image )
     return 0 ;
 }
 
+// GetDrawScreenGraph 用: 取り込み元 (TargetImage or backbuffer) の rect を
+// 取得して dest (Image) の (destX,destY) に転送する。
+//   glReadPixels は GL 座標系 (bottom-up) なので Y を反転して取得し、
+//   さらに取得した行を上下反転してから glTexSubImage2D へ書き込む。
+extern int Graphics_Hardware_GetDrawScreenGraphBase_PF( IMAGEDATA *Image, IMAGEDATA *TargetImage, int TargetScreen, int TargetScreenSurface, int TargetScreenMipLevel, int TargetScreenWidth, int TargetScreenHeight, int x1, int y1, int x2, int y2, int destX, int destY )
+{
+    (void)TargetScreen; (void)TargetScreenSurface; (void)TargetScreenMipLevel;
+    if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) return -1 ;
+    IMAGEDATA_ORIG_HARD_TEX *dtex = &Image->Orig->Hard.Tex[ 0 ] ;
+    if ( !dtex->PF ) return -1 ;
+    GLuint dstTex = ( GLuint )dtex->PF->Texture.TextureBuffer ;
+    if ( !dstTex ) return -1 ;
+
+    int w = x2 - x1 ;
+    int h = y2 - y1 ;
+    if ( w <= 0 || h <= 0 ) return -1 ;
+
+    // 取り込み元 FBO と width/height を決定
+    GLuint srcFbo  = 0 ;
+    int    srcW = 0, srcH = 0 ;
+    if ( TargetImage )
+    {
+        if ( !TargetImage->Orig || TargetImage->Orig->Hard.TexNum == 0 ) return -1 ;
+        IMAGEDATA_ORIG_HARD_TEX *stex = &TargetImage->Orig->Hard.Tex[ 0 ] ;
+        if ( !stex->PF || !stex->PF->FrameBuffer ) return -1 ;
+        srcFbo = ( GLuint )stex->PF->FrameBuffer ;
+        srcW   = stex->UseWidth ;
+        srcH   = stex->UseHeight ;
+    }
+    else
+    {
+        srcFbo = 0 ;  // default framebuffer (back buffer)
+        srcW   = ( TargetScreenWidth  > 0 ) ? TargetScreenWidth  : s_WinW ;
+        srcH   = ( TargetScreenHeight > 0 ) ? TargetScreenHeight : s_WinH ;
+    }
+
+    // 描画保留があれば flush
+    glFlush() ;
+
+    // GL: bottom-left origin → flip Y
+    int glY = srcH - ( y1 + h ) ;
+    if ( glY < 0 ) glY = 0 ;
+
+    std::vector<GLubyte> buf( ( size_t )w * ( size_t )h * 4 ) ;
+
+    GLint prev_fbo = 0 ;
+    glGetIntegerv( GL_FRAMEBUFFER_BINDING, &prev_fbo ) ;
+    glBindFramebuffer( GL_FRAMEBUFFER, srcFbo ) ;
+    glPixelStorei( GL_PACK_ALIGNMENT, 1 ) ;
+#ifndef __EMSCRIPTEN__
+    glReadPixels( x1, glY, w, h, GL_BGRA, GL_UNSIGNED_BYTE, buf.data() ) ;
+#else
+    // WebGL は GL_BGRA 非対応。RGBA で読んで後で swap。
+    glReadPixels( x1, glY, w, h, GL_RGBA, GL_UNSIGNED_BYTE, buf.data() ) ;
+    for ( size_t i = 0 ; i < buf.size() ; i += 4 ) std::swap( buf[ i + 0 ], buf[ i + 2 ] ) ;
+#endif
+    glBindFramebuffer( GL_FRAMEBUFFER, ( GLuint )prev_fbo ) ;
+
+    // 行単位で上下反転
+    int rowBytes = w * 4 ;
+    std::vector<GLubyte> flipped( buf.size() ) ;
+    for ( int r = 0 ; r < h ; ++r )
+    {
+        std::memcpy( &flipped[ ( size_t )r * rowBytes ],
+                     &buf    [ ( size_t )( h - 1 - r ) * rowBytes ],
+                     rowBytes ) ;
+    }
+
+    // dest texture に転送
+    glBindTexture( GL_TEXTURE_2D, dstTex ) ;
+    glPixelStorei( GL_UNPACK_ALIGNMENT, 1 ) ;
+    glTexSubImage2D( GL_TEXTURE_2D, 0, destX, destY, w, h, GL_BGRA, GL_UNSIGNED_BYTE, flipped.data() ) ;
+    glBindTexture( GL_TEXTURE_2D, 0 ) ;
+    return 0 ;
+}
+
 // --- Tier 3: 3D 描画 (Matrix / Line3D / Triangle3D / Pixel3D / Billboard3D / Primitive3D) ---
 
 static MATRIX s_ViewMat    = { { { 1,0,0,0 },{ 0,1,0,0 },{ 0,0,1,0 },{ 0,0,0,1 } } } ;

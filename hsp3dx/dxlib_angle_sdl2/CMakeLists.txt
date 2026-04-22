@@ -263,6 +263,8 @@ add_library(dxlib_portable_stage3 STATIC
     ${DXLIB_PORTABLE_DIR}/Desktop/DxGraphicsFilterDesktop.cpp
     # Tier 4f: Shader 基盤 (Desktop 固有 GLSL API、DxLib 本家 API は stub)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxShaderDesktop.cpp
+    # Category C: 3D sound stubs (iOS 同様 return 0、呼べても 2D として鳴る)
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxSound3DStubsDesktop.cpp
     # Tier 4d: Model (zlib + DxModel CPU 側 + 全 loader + PF stub)
     ${DXLIB_PORTABLE_DIR}/DxModel.cpp
     ${DXLIB_PORTABLE_DIR}/DxModelRead.cpp
@@ -285,6 +287,13 @@ target_compile_definitions(dxlib_portable_stage3 PRIVATE
     DX_NON_FILTER=1
     DX_NON_JPEGREAD=1
     DX_NON_PNGREAD=1
+)
+# KeyInputString / MakeKeyInput / DrawIMEInputString 系はユーザ側でも未提供にする
+# (SDL2 ベースの IME 実装は将来タスク)。PUBLIC で user 側にも同じフラグを渡し、
+# 宣言を消してコンパイル時に気付けるようにする。
+target_compile_definitions(dxlib_portable_stage3 PUBLIC
+    DX_NON_INPUTSTRING=1
+    DX_NON_KEYEX=1
 )
 # Windows のみ Media Foundation ライブラリをリンク
 if(WIN32)
