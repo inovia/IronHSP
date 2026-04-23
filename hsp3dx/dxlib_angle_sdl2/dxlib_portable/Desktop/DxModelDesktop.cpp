@@ -492,6 +492,10 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
     // Normal Layer は shader 必須のため bind のみ (fixed-function では効果なし)
     GLuint specTex = 0 ;
     GLuint normTex = 0 ;
+    // SpecularLayer[1..3] 用の追加テクスチャ + blend mode (GLSL shader 経路のみ有効)
+    GLuint specLayerTex  [ 4 ] = { 0 } ;
+    int    specLayerBlend[ 4 ] = { 0 } ;
+    int    specLayerN = 0 ;
     bool useVertexColor = Mesh->BaseData->UseVertexDiffuseColor != 0 ;
     if ( Mesh->Material && Mesh->Material->BaseData ) {
         MV1_MATERIAL_BASE *mb = Mesh->Material->BaseData ;
@@ -515,10 +519,20 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
             if ( layerN == 0 ) texId = t ;
             layerN++ ;
         }
-        // Specular Layer[0] を拾う (複数ある場合は最初のものだけ)。
-        // fixed-function では normal map shader 化が要るため効果は限定的。
+        // Specular Layer[0] を拾う。[1..3] も GLSL shader 側で多段 blend 可能
         if ( mb->SpecularLayerNum > 0 ) {
             specTex = desktop_mv1_tex_from_graph( mb->SpecularLayer[ 0 ].GraphHandle ) ;
+        }
+        // SpecularLayer[1..3] を GLSL shader 用に収集 (BlendType は DiffuseLayer と同 enum)
+        int maxSpecLayers = mb->SpecularLayerNum ;
+        if ( maxSpecLayers > 4 ) maxSpecLayers = 4 ;
+        for ( int li = 1 ; li < maxSpecLayers ; ++li ) {
+            GLuint t = desktop_mv1_tex_from_graph( mb->SpecularLayer[ li ].GraphHandle ) ;
+            if ( t == 0 ) continue ;
+            specLayerTex  [ specLayerN ] = t ;
+            specLayerBlend[ specLayerN ] = mb->SpecularLayer[ li ].BlendType ;
+            specLayerN++ ;
+            if ( specLayerN >= 3 ) break ;   // shader は 3 スロットまで
         }
         // Normal Layer[0] — fixed-function 下では bind のみ。将来の shader 化で使用
         if ( mb->NormalLayerNum > 0 ) {
@@ -665,6 +679,10 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
         DesktopShader_SetUniform1i( glslH, "u_diffuse1",     5 ) ;
         DesktopShader_SetUniform1i( glslH, "u_diffuse2",     6 ) ;
         DesktopShader_SetUniform1i( glslH, "u_diffuse3",     7 ) ;
+        //  SpecularLayer[1..3] は TMU 11/12/13 (8/9/10 は toon/emissive/sphere に占有)
+        DesktopShader_SetUniform1i( glslH, "u_specular1",    11 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_specular2",    12 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_specular3",    13 ) ;
         DesktopShader_SetUniform1i( glslH, "u_useTexture",   texId ? 1 : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_useLighting",  ( s_MV1_LightWasOn && !isToon ) ? 1 : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_useShadow",    useShadow ? 1 : 0 ) ;
@@ -774,6 +792,16 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
         DesktopShader_SetUniform1i( glslH, "u_blendMode1", d1 ? layerBlend[ 1 ] : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_blendMode2", d2 ? layerBlend[ 2 ] : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_blendMode3", d3 ? layerBlend[ 3 ] : 0 ) ;
+        //  SpecularLayer[1..3]: 有効 spec layer 数 specLayerN を元に uniform 設定
+        int s1 = ( specLayerN >= 1 ) ? 1 : 0 ;
+        int s2 = ( specLayerN >= 2 ) ? 1 : 0 ;
+        int s3 = ( specLayerN >= 3 ) ? 1 : 0 ;
+        DesktopShader_SetUniform1i( glslH, "u_useSpecular1",  s1 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_useSpecular2",  s2 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_useSpecular3",  s3 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_specBlendMode1", s1 ? specLayerBlend[ 0 ] : 0 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_specBlendMode2", s2 ? specLayerBlend[ 1 ] : 0 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_specBlendMode3", s3 ? specLayerBlend[ 2 ] : 0 ) ;
         //  Toon ramp: CPU 側で作った 256 色 LUT を 256×1 texture に upload して TMU 8 に bind
         //  (texture は毎 mesh 更新するが、実用上 material 数分のキャッシュで十分)
         static GLuint s_ToonRampTex = 0 ;
@@ -832,6 +860,13 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
             if ( d3 && layerTex[ 3 ] ) {
                 p_glActiveTexture( GL_TEXTURE0 + 7 ) ;
                 glBindTexture( GL_TEXTURE_2D, layerTex[ 3 ] ) ;
+            }
+            //  SpecularLayer[1..3] を TMU 11/12/13 に bind
+            for ( int si = 0 ; si < 3 ; ++si ) {
+                if ( si < specLayerN && specLayerTex[ si ] ) {
+                    p_glActiveTexture( GL_TEXTURE0 + 11 + si ) ;
+                    glBindTexture( GL_TEXTURE_2D, specLayerTex[ si ] ) ;
+                }
             }
             p_glActiveTexture( GL_TEXTURE0 ) ;
         }

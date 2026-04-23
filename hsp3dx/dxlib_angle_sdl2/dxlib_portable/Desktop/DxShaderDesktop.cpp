@@ -256,6 +256,17 @@ uniform float           u_parallaxHeightScale ;  //  0 なら parallax 無し
 uniform int             u_useParallax ;          //  1 で normal map の alpha を height として使用
 uniform sampler2D       u_specularMap ;
 uniform int             u_useSpecularMap ;
+//  SpecularLayer[1..3] 多段 blending (TMU 11/12/13、blend mode 同 DiffuseLayer)
+//  blend mode: 1=ADDITIVE 2=MODULATE 3=REPLACE 4=TRANSLUCENT
+uniform sampler2D       u_specular1 ;
+uniform sampler2D       u_specular2 ;
+uniform sampler2D       u_specular3 ;
+uniform int             u_useSpecular1 ;
+uniform int             u_useSpecular2 ;
+uniform int             u_useSpecular3 ;
+uniform int             u_specBlendMode1 ;
+uniform int             u_specBlendMode2 ;
+uniform int             u_specBlendMode3 ;
 uniform float           u_alphaThreshold ;
 //  DiffuseLayer[1..3] 多段 blending (TMU 5/6/7、有効 flag + blend mode)
 //  blend mode: 1=ADDITIVE 2=MODULATE 3=REPLACE 4=TRANSLUCENT (decal)
@@ -356,11 +367,34 @@ void main( void )
 
     if ( u_useLighting == 1 ) {
         vec3 V = normalize( -v_eyePos ) ;
-        //  Specular color: u_useSpecularMap==1 なら texture sample
+        //  Specular color: 基本 (u_specularMap / material) に SpecularLayer[1..3] を多段 blend
         vec3 specColor = gl_FrontMaterial.specular.rgb ;
         if ( u_useSpecularMap == 1 ) {
             vec4 ss = texture2D( u_specularMap, v_uv0 ) ;
             specColor = ss.rgb * ss.a ;
+        }
+        //  SpecularLayer[1..3] 多段 blending (DiffuseLayer と同じ mode 数値)
+        //  ADDITIVE=1, MODULATE=2, REPLACE=3, TRANSLUCENT=4
+        if ( u_useSpecular1 == 1 ) {
+            vec4 s1 = texture2D( u_specular1, v_uv0 ) ;
+            if      ( u_specBlendMode1 == 1 ) specColor += s1.rgb * s1.a ;
+            else if ( u_specBlendMode1 == 2 ) specColor *= s1.rgb ;
+            else if ( u_specBlendMode1 == 3 ) specColor  = s1.rgb ;
+            else if ( u_specBlendMode1 == 4 ) specColor  = mix( specColor, s1.rgb, s1.a ) ;
+        }
+        if ( u_useSpecular2 == 1 ) {
+            vec4 s2 = texture2D( u_specular2, v_uv0 ) ;
+            if      ( u_specBlendMode2 == 1 ) specColor += s2.rgb * s2.a ;
+            else if ( u_specBlendMode2 == 2 ) specColor *= s2.rgb ;
+            else if ( u_specBlendMode2 == 3 ) specColor  = s2.rgb ;
+            else if ( u_specBlendMode2 == 4 ) specColor  = mix( specColor, s2.rgb, s2.a ) ;
+        }
+        if ( u_useSpecular3 == 1 ) {
+            vec4 s3 = texture2D( u_specular3, v_uv0 ) ;
+            if      ( u_specBlendMode3 == 1 ) specColor += s3.rgb * s3.a ;
+            else if ( u_specBlendMode3 == 2 ) specColor *= s3.rgb ;
+            else if ( u_specBlendMode3 == 3 ) specColor  = s3.rgb ;
+            else if ( u_specBlendMode3 == 4 ) specColor  = mix( specColor, s3.rgb, s3.a ) ;
         }
         float shininess = gl_FrontMaterial.shininess ;
         vec3 ambient    = base.rgb * gl_LightModel.ambient.rgb ;

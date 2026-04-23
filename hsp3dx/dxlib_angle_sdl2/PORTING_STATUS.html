@@ -107,7 +107,6 @@ td.note { font-size: 12px; color: #555; }
      Mac/Linux/Web <strong>実行時動作検証</strong> (build は通るが window 描画テストまだ) /
      Desktop Cubism GLSL の<strong>実モデル描画検証</strong> (VBO まで届いた、uniform 合わせ + alpha blend 確認) /
      DXBC transpile の<strong>拡張</strong> (制御フロー / IMAD / discard / Geometry/Compute shader / DXIL) /
-     GradMap GPU filter (SSAO と同枠組み) / SpecularLayer advanced shader /
      iOS 実機 signing + WebSocket 本実装。</p>
 </div>
 
@@ -761,8 +760,8 @@ td.note { font-size: 12px; color: #555; }
 <tr><td class="fn">MV1 SpecularLayer (Specular map)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="tech">SpecularLayer[0].GraphHandle → GL texture TMU 3 bind、GLSL fragment で texture2D(u_specularMap, v_uv0) の RGB を specular color、Alpha を shininess mask として適用 (2026-04-23 L4 Phase 3 完成)</td>
-  <td class="note">Desktop_MV1_UseGLSLShader(1) で有効化。Blinn-Phong shader 内で u_useSpecularMap==1 なら gl_FrontMaterial.specular の代わりに texture sample を使う。SpecularLayer[1+] の多段 blending は未対応 (次タスク)。</td>
+  <td class="tech">SpecularLayer[0].GraphHandle → GL texture TMU 3 bind、GLSL fragment で texture2D(u_specularMap, v_uv0) の RGB を specular color、Alpha を shininess mask として適用。SpecularLayer[1..3] は TMU 11/12/13 に bind して ADDITIVE/MODULATE/REPLACE/TRANSLUCENT の 4 モードで多段 blend (2026-04-23)</td>
+  <td class="note">Desktop_MV1_UseGLSLShader(1) で有効化。Blinn-Phong shader 内で u_useSpecularMap==1 なら gl_FrontMaterial.specular の代わりに texture sample を使う。SpecularLayer[1..3] は DiffuseLayer と同じ enum (ADDITIVE=1/MODULATE=2/REPLACE=3/TRANSLUCENT=4) で動作、shader 内の u_useSpecular1/2/3 + u_specBlendMode1/2/3 で制御。</td>
 </tr>
 <tr><td class="fn">Shadow Map (MakeShadowMap / ShadowMap_DrawSetup / SetUseShadowMap)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
