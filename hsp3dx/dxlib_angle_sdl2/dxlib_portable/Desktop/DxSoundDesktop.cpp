@@ -323,6 +323,31 @@ extern int ChangeVolumeSoundMem( int VolumePal, int SoundHandle )
     return SetVolumeSoundMem( VolumePal, SoundHandle ) ;
 }
 
+// --- Pan (左右バランス) 制御: SDL_mixer Mix_SetPanning (0..255 左/右) ---
+// DxLib の SetPanSoundMem は -10000..10000 の範囲 (0=中央、負=左、正=右)
+// Gateway は DX_NON_SOUND=1 で lib から除外されているので、
+// ここで SetPanSoundMem をそのまま定義 (他の PlaySoundMem 等と同じパターン)
+extern int SetPanSoundMem( int PanPal, int SoundHandle )
+{
+    auto it = g_Sounds.find( SoundHandle ) ;
+    if ( it == g_Sounds.end() ) return -1 ;
+    if ( it->second.last_channel < 0 ) return 0 ;  // 未再生時は no-op
+    int clamped = PanPal ;
+    if ( clamped < -10000 ) clamped = -10000 ;
+    if ( clamped >  10000 ) clamped =  10000 ;
+    int left  = ( clamped <= 0 ) ? 255 : ( 255 - ( clamped * 255 / 10000 ) ) ;
+    int right = ( clamped >= 0 ) ? 255 : ( 255 + ( clamped * 255 / 10000 ) ) ;
+    if ( left  < 0 ) left  = 0 ; if ( left  > 255 ) left  = 255 ;
+    if ( right < 0 ) right = 0 ; if ( right > 255 ) right = 255 ;
+    Mix_SetPanning( it->second.last_channel, ( Uint8 )left, ( Uint8 )right ) ;
+    return 0 ;
+}
+
+extern int ChangePanSoundMem( int PanPal, int SoundHandle )
+{
+    return SetPanSoundMem( PanPal, SoundHandle ) ;
+}
+
 extern int DeleteSoundMem( int SoundHandle )
 {
     auto it = g_Sounds.find( SoundHandle ) ;

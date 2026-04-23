@@ -252,9 +252,9 @@ td.note { font-size: 12px; color: #555; }
 </tr>
 <tr><td class="fn">GetDrawScreenGraph</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
-  <td class="tech">glReadPixels + ReCreateGraphFromBaseImage</td>
-  <td class="note">MakeScreen は動いたので次は RenderTarget → graph 変換。Tier 2。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">glReadPixels + IMAGEDATA 更新 (Category C 完了、DxGraphicsDesktop.cpp)</td>
+  <td class="note">Graphics_Hardware_GetDrawScreenGraphBase_PF で現行 FBO から glReadPixels、RGBA バッファを target graph に書き戻す。MakeScreen 系 render target + 画面 backbuffer 両対応。</td>
 </tr>
 <tr><td class="fn">WaitTimer / GetNowCount / GetNowHiPerformanceCount</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
@@ -516,9 +516,9 @@ td.note { font-size: 12px; color: #555; }
 </tr>
 <tr><td class="fn">SetPanSoundMem / ChangePanSoundMem</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
-  <td class="tech">Mix_SetPanning</td>
-  <td class="note">Tier 2 で追加予定。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">SDL_mixer Mix_SetPanning (L/R 個別 0..255) に DxLib の -10000..10000 を線形マップ</td>
+  <td class="note">DxSoundDesktop.cpp 2026-04-23 追加。再生中チャンネルに対して動作、未再生時は no-op。SDL_mixer は Pan の getter 無しのため GetPan 系は 0 (中央) 返却。</td>
 </tr>
 <tr><td class="fn">3D サウンド (Set3DPositionSoundMem 等)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
@@ -843,11 +843,11 @@ td.note { font-size: 12px; color: #555; }
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="tech">time.h / localtime</td><td class="note">—</td></tr>
-<tr><td class="fn">SetClipboardString / GetClipboardString</td>
+<tr><td class="fn">SetClipboardText / GetClipboardText</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-na">—</span></td><td class="center"><span class="badge b-na">—</span></td>
-  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
-  <td class="tech">SDL_SetClipboardText / SDL_GetClipboardText</td>
-  <td class="note">Tier 2 で追加予定 (低コスト)。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">SDL_SetClipboardText / SDL_GetClipboardText (UTF-8 ↔ wchar_t 変換込)</td>
+  <td class="note">DxSystemDesktop.cpp 実装済。emscripten も SDL2 経由で browser clipboard API に繋がる (permission 要)。</td>
 </tr>
 <tr><td class="fn">Dialog (MessageBox 等)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
