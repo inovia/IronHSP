@@ -82,17 +82,24 @@ struct MeshIR {
 // MV1 の AnimKeySet は全局共通の配列に積まれ、Anim が KeySet 連続区間を参照する。
 struct AnimKeySetIR {
     enum DataType : std::int8_t {
+        // DxLib MV1_ANIMKEY_DATATYPE_* と一致
         DT_ROTATE    = 0,   // 回転 (quaternion または 3-vec)
         DT_SCALE     = 5,   // スケール (3-vec)
         DT_TRANSLATE = 10,  // 並進 (3-vec)
-        DT_SHAPE     = 15,  // シェイプ (表情) weight
+        DT_MATRIX4X4C = 15, // 4x4 行列 (DxChara 等で使用)
+        DT_MATRIX3X3  = 17,
+        DT_SHAPE      = 18, // シェイプ (表情) weight
     };
     enum KeyType : std::int8_t {
+        // DxLib MV1_ANIMKEY_TYPE_* と一致
         KT_QUATERNION_X   = 0,  // FLOAT4 per key (16B)
         KT_VECTOR         = 1,  // VECTOR (3f) per key (12B)
-        KT_MATRIX4X4C     = 4,  // MATRIX_4X4CT_F (48B、回転+移動 4x3 + padding)
+        KT_MATRIX4X4C     = 2,  // MATRIX_4X4CT_F (48B、row-major 4x3 + 0,0,0,1)
+        KT_MATRIX3X3      = 3,  // 3x3 行列 (36B)
+        KT_FLAT           = 4,  // flat (float per key、LINEAR と同じ 4B)
         KT_LINEAR         = 5,  // float per key (4B)
-        KT_QUATERNION_VMD = 2,  // VMD 形式 quaternion (DxLib alias で FLOAT4 16B)
+        KT_BLEND          = 6,  // blend
+        KT_QUATERNION_VMD = 7,  // VMD 形式 quaternion (FLOAT4 16B)
     };
     std::int8_t data_type;
     std::int8_t key_type;

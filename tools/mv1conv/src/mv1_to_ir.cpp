@@ -290,6 +290,20 @@ void extract_animations(const Mv1File &f, ModelIR &ir) {
         blobSize[i] = (next >= kdOffs[i]) ? (next - kdOffs[i]) : 0;
     }
 
+    // AnimKeySet ごとの flag ビット定数
+    const std::uint16_t FLAG_KEY_ONE          = 0x0001;
+    const std::uint16_t FLAG_KEYNUM_B         = 0x0002;
+    const std::uint16_t FLAG_KEYNUM_W         = 0x0004;
+    const std::uint16_t FLAG_TIME_UNIT        = 0x0008;
+    const std::uint16_t FLAG_TIME_UNIT_ST_W   = 0x0010;
+    const std::uint16_t FLAG_TIME_UNIT_ST_Z   = 0x0020;
+    const std::uint16_t FLAG_TIME_UNIT_UN_W   = 0x0040;
+    const std::uint16_t FLAG_TIME_BIT16       = 0x0080;
+    const std::uint16_t FLAG_KEY_BIT16        = 0x0100;
+    const std::uint16_t FLAG_KEY_MP_PP        = 0x0200;
+    const std::uint16_t FLAG_KEY_Z_TP         = 0x0400;
+    const double DX_PI = 3.14159265358979323846;
+
     ir.anim_keysets.reserve(hdr->AnimKeySetNum);
     for (int i = 0; i < hdr->AnimKeySetNum; ++i) {
         const auto *ks = f.at<f1::MV1_ANIM_KEYSET_F1>(hdr->AnimKeySet + i * hdr->AnimKeySetUnitSize);
@@ -298,14 +312,114 @@ void extract_animations(const Mv1File &f, ModelIR &ir) {
         ki.data_type = ks->DataType;
         ki.key_type  = ks->Type;
         ki.raw_flag  = ks->Flag;
+
+        const std::uint8_t *p = f.buffer().data() + ks->KeyData;
+        const std::uint8_t *end = f.buffer().data() + f.buffer().size();
+
         // SHAPE データタイプ時は blob 先頭 2 byte が TargetShapeIndex (WORD)
-        if (ks->DataType == AnimKeySetIR::DT_SHAPE
-            && ks->KeyData + 2 <= f.buffer().size()) {
+        if (ks->DataType == AnimKeySetIR::DT_SHAPE && p + 2 <= end) {
             std::uint16_t tsi;
-            std::memcpy(&tsi, f.buffer().data() + ks->KeyData, 2);
+            std::memcpy(&tsi, p, 2);
             ki.target_shape_index = tsi;
+            p += 2;
         }
-        // blob をそのままコピー
+
+        // Num 読み取り
+        std::uint32_t num = 0;
+        bool decoded = false;
+        if (ks->Flag & FLAG_KEY_ONE) {
+            num = 1;
+        } else if (ks->Flag & FLAG_KEYNUM_B) {
+            if (p + 1 > end) goto keep_raw; num = *p++;
+        } else if (ks->Flag & FLAG_KEYNUM_W) {
+            if (p + 2 > end) goto keep_raw; std::uint16_t w; std::memcpy(&w, p, 2); num = w; p += 2;
+        } else {
+            if (p + 4 > end) goto keep_raw; std::memcpy(&num, p, 4); p += 4;
+        }
+
+        if (num == 0) { decoded = true; goto do_store; }
+
+        // Time values 読み取り
+        if (ks->Flag & FLAG_KEY_ONE) {
+            ki.key_times.assign(1, 0.0f);
+        } else if (ks->Flag & FLAG_TIME_UNIT) {
+            float startT, unitT;
+            if (ks->Flag & FLAG_TIME_UNIT_ST_W) {
+                if (p + 2 > end) goto keep_raw;
+                std::uint16_t w; std::memcpy(&w, p, 2); startT = w; p += 2;
+            } else if (ks->Flag & FLAG_TIME_UNIT_ST_Z) {
+                startT = 0;
+            } else {
+                if (p + 4 > end) goto keep_raw;
+                std::memcpy(&startT, p, 4); p += 4;
+            }
+            if (ks->Flag & FLAG_TIME_UNIT_UN_W) {
+                if (p + 2 > end) goto keep_raw;
+                std::uint16_t w; std::memcpy(&w, p, 2); unitT = w; p += 2;
+            } else {
+                if (p + 4 > end) goto keep_raw;
+                std::memcpy(&unitT, p, 4); p += 4;
+            }
+            ki.key_times.resize(num);
+            for (std::uint32_t k = 0; k < num; ++k) ki.key_times[k] = startT + unitT * k;
+        } else if (ks->Flag & FLAG_TIME_BIT16) {
+            // 16-bit time: Min + Unit × short
+            if (p + 2 > end) goto keep_raw;
+            std::uint16_t minB; std::memcpy(&minB, p, 1); std::uint16_t unB;
+            std::memcpy(&unB, p + 1, 1);  // 2 byte { Min, Unit } packed
+            // Actually reading MV1_ANIM_KEY_16BIT_F1 which is 2 bytes = { Min: char, Unit: char }
+            // But DxLib uses "MV1AnimKey16BitMinBtoF" conversion which we don't have.
+            // Simple best-effort: treat as raw_blob
+            goto keep_raw;
+        } else {
+            if (p + 4 * num > end) goto keep_raw;
+            ki.key_times.resize(num);
+            std::memcpy(ki.key_times.data(), p, 4 * num);
+            p += 4 * num;
+        }
+
+        // Key values 読み取り
+        if (ks->Flag & FLAG_KEY_BIT16) {
+            // 16bit compressed key (MP_PP / Z_TP / general)
+            if (!(ks->Flag & (FLAG_KEY_MP_PP | FLAG_KEY_Z_TP))) {
+                // 汎用 16bit: Min + Unit の 2 byte prefix
+                if (p + 2 > end) goto keep_raw;
+                p += 2;  // skip, would need MV1AnimKey16Bit conversion
+            }
+            // 残りは key_type 依存の 16bit 値配列 — DxLib 独自スケーリングのため
+            // 完全な decode には MV1AnimKey16BitBtoF 実装が要る。raw_blob 維持で済ます。
+            goto keep_raw;
+        }
+
+        {
+            int valCompsPerKey;
+            switch (ks->Type) {
+            case AnimKeySetIR::KT_LINEAR:
+            case AnimKeySetIR::KT_FLAT:           valCompsPerKey = 1; break;
+            case AnimKeySetIR::KT_VECTOR:         valCompsPerKey = 3; break;
+            case AnimKeySetIR::KT_QUATERNION_X:
+            case AnimKeySetIR::KT_QUATERNION_VMD: valCompsPerKey = 4; break;
+            case AnimKeySetIR::KT_MATRIX3X3:      valCompsPerKey = 9; break;   // 3x3
+            case AnimKeySetIR::KT_MATRIX4X4C:     valCompsPerKey = 12; break;  // 4x3 rows (DxLib)
+            default: goto keep_raw;
+            }
+            std::size_t total = num * valCompsPerKey;
+            if (p + total * 4 > end) goto keep_raw;
+            ki.key_values.resize(total);
+            std::memcpy(ki.key_values.data(), p, total * 4);
+        }
+        decoded = true;
+
+do_store:
+        if (decoded) {
+            // 成功時は raw_blob を空に (writer が simple layout で書く)
+            ir.anim_keysets.push_back(std::move(ki));
+            continue;
+        }
+keep_raw:
+        // decode 失敗: raw_blob passthrough に fallback
+        ki.key_times.clear();
+        ki.key_values.clear();
         std::uint32_t bsz = blobSize[i];
         if (ks->KeyData + bsz <= f.buffer().size()) {
             ki.raw_blob.assign(f.buffer().data() + ks->KeyData,
