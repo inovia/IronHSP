@@ -48,6 +48,10 @@ struct DesktopSoundEntry {
     // OGG decoded PCM を保持するバッファ (Mix_QuickLoad_RAW は所有しない).
     // nullptr 以外なら free() で解放が必要。
     Uint8 *raw_buffer = nullptr ;
+    // 3D sound 用 (Set3DPositionSoundMem 等で設定、PlaySoundMem 時に Mix_SetPosition)
+    bool   has_3d_pos = false ;
+    float  pos_x = 0, pos_y = 0, pos_z = 0 ;
+    float  radius = 1000.0f ;        // 距離減衰の最大、これ以上は無音
 } ;
 
 // ファイルを丸ごと PCM S16LE stereo 44100Hz に decode する。
@@ -321,6 +325,84 @@ extern int LoadSoundMemBase( const TCHAR *FileName, int BufferNum, int UnionHand
     return LoadSoundMem( FileName, BufferNum, UnionHandle ) ;
 }
 
+// --- 3D サウンド: リスナー位置/前方ベクトル + per-sound position/radius ----
+// SDL_mixer の Mix_SetPosition(channel, angle_deg, distance_0_255) で近似
+// (フル 3D ではなく方角と距離減衰の単純モデル)
+static float g_Listener_X = 0, g_Listener_Y = 0, g_Listener_Z = 0 ;
+static float g_ListenerFront_X = 0, g_ListenerFront_Y = 0, g_ListenerFront_Z = 1.0f ;
+
+extern int Set3DSoundListenerPosAndFrontPos_UpVecY( VECTOR Position, VECTOR FrontPosition )
+{
+    g_Listener_X = Position.x ; g_Listener_Y = Position.y ; g_Listener_Z = Position.z ;
+    g_ListenerFront_X = FrontPosition.x - Position.x ;
+    g_ListenerFront_Y = FrontPosition.y - Position.y ;
+    g_ListenerFront_Z = FrontPosition.z - Position.z ;
+    float l = std::sqrt( g_ListenerFront_X * g_ListenerFront_X
+                       + g_ListenerFront_Y * g_ListenerFront_Y
+                       + g_ListenerFront_Z * g_ListenerFront_Z ) ;
+    if ( l > 0.0001f ) {
+        g_ListenerFront_X /= l ; g_ListenerFront_Y /= l ; g_ListenerFront_Z /= l ;
+    }
+    return 0 ;
+}
+
+extern int Set3DSoundListenerPosAndFrontPosAndUpVec( VECTOR Position, VECTOR FrontPosition, VECTOR /*UpVector*/ )
+{
+    return Set3DSoundListenerPosAndFrontPos_UpVecY( Position, FrontPosition ) ;
+}
+
+extern int Set3DSoundListenerVelocity( VECTOR /*Velocity*/ ) { return 0 ; }   // doppler 未対応
+extern int Set3DSoundListenerConeAngle( float, float ) { return 0 ; }
+extern int Set3DSoundListenerConeVolume( float, float ) { return 0 ; }
+
+extern int Set3DPositionSoundMem( VECTOR Position, int SoundHandle )
+{
+    auto it = g_Sounds.find( SoundHandle ) ;
+    if ( it == g_Sounds.end() ) return -1 ;
+    it->second.has_3d_pos = true ;
+    it->second.pos_x = Position.x ; it->second.pos_y = Position.y ; it->second.pos_z = Position.z ;
+    return 0 ;
+}
+extern int SetNextPlay3DPositionSoundMem( VECTOR Position, int SoundHandle )
+{
+    return Set3DPositionSoundMem( Position, SoundHandle ) ;
+}
+extern int Set3DRadiusSoundMem( float Radius, int SoundHandle )
+{
+    auto it = g_Sounds.find( SoundHandle ) ;
+    if ( it == g_Sounds.end() ) return -1 ;
+    it->second.radius = Radius > 0.0f ? Radius : 1000.0f ;
+    return 0 ;
+}
+extern int SetNextPlay3DRadiusSoundMem( float Radius, int SoundHandle )
+{
+    return Set3DRadiusSoundMem( Radius, SoundHandle ) ;
+}
+extern int Set3DVelocitySoundMem( VECTOR /*Velocity*/, int /*SoundHandle*/ ) { return 0 ; }
+extern int SetNextPlay3DVelocitySoundMem( VECTOR /*Velocity*/, int /*SoundHandle*/ ) { return 0 ; }
+
+// listener 基準で sound source の方角 (angle 0..360 度、0=前方、時計回り) と
+// 距離減衰 0..255 (Mix_SetPosition の規約) を計算
+static void desktop_compute_3d_pan( const DesktopSoundEntry &e, int *out_angle, int *out_dist )
+{
+    float dx = e.pos_x - g_Listener_X ;
+    float dy = e.pos_y - g_Listener_Y ;
+    float dz = e.pos_z - g_Listener_Z ;
+    float dist = std::sqrt( dx * dx + dy * dy + dz * dz ) ;
+    int dist255 = ( int )( ( dist / e.radius ) * 255.0f ) ;
+    if ( dist255 < 0 ) dist255 = 0 ;
+    if ( dist255 > 255 ) dist255 = 255 ;
+    // XZ 平面で listener forward と source 方向の角度
+    float fx = g_ListenerFront_X, fz = g_ListenerFront_Z ;
+    // forward を 0 度として時計回りに angle
+    float ang = std::atan2( dx, dz ) - std::atan2( fx, fz ) ;
+    int   ang_deg = ( int )( ang * 180.0f / 3.14159265f ) ;
+    while ( ang_deg <    0 ) ang_deg += 360 ;
+    while ( ang_deg >= 360 ) ang_deg -= 360 ;
+    *out_angle = ang_deg ;
+    *out_dist  = dist255 ;
+}
+
 extern int PlaySoundMem( int SoundHandle, int PlayType, int TopPositionFlag )
 {
     (void)TopPositionFlag;
@@ -330,6 +412,11 @@ extern int PlaySoundMem( int SoundHandle, int PlayType, int TopPositionFlag )
     int loops = ( PlayType & DX_PLAYTYPE_LOOPBIT ) ? -1 : 0 ;
     int ch = Mix_PlayChannel( -1, it->second.chunk, loops ) ;
     it->second.last_channel = ch ;
+    if ( ch >= 0 && it->second.has_3d_pos ) {
+        int ang = 0, dist = 0 ;
+        desktop_compute_3d_pan( it->second, &ang, &dist ) ;
+        Mix_SetPosition( ch, ( Sint16 )ang, ( Uint8 )dist ) ;
+    }
     return 0 ;
 }
 

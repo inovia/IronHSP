@@ -28,15 +28,9 @@ namespace DxLib
 {
 #endif
 
-// --- per-handle 3D sound ---------------------------------------------------
-
-extern int Set3DPositionSoundMem             ( VECTOR /*Position*/,       int /*SoundHandle*/ ) { return 0 ; }
-extern int Set3DRadiusSoundMem               ( float  /*Radius*/,         int /*SoundHandle*/ ) { return 0 ; }
-extern int Set3DVelocitySoundMem             ( VECTOR /*Velocity*/,       int /*SoundHandle*/ ) { return 0 ; }
-
-extern int SetNextPlay3DPositionSoundMem     ( VECTOR /*Position*/,       int /*SoundHandle*/ ) { return 0 ; }
-extern int SetNextPlay3DRadiusSoundMem       ( float  /*Radius*/,         int /*SoundHandle*/ ) { return 0 ; }
-extern int SetNextPlay3DVelocitySoundMem     ( VECTOR /*Velocity*/,       int /*SoundHandle*/ ) { return 0 ; }
+// per-handle 3D sound と global listener API は DxSoundDesktop.cpp 側で
+// SDL_mixer Mix_SetPosition 経由の本実装に置換 (2026-04-23)。
+// ここには reverb / cone / one-metre 等の未対応機能のみ stub として残す。
 
 extern int Set3DReverbParamSoundMem          ( const SOUND3D_REVERB_PARAM * /*Param*/,      int /*SoundHandle*/ ) { return 0 ; }
 extern int Set3DPresetReverbParamSoundMem    ( int /*PresetNo*/,                            int /*SoundHandle*/ ) { return 0 ; }
@@ -45,15 +39,8 @@ extern int Set3DPresetReverbParamSoundMemAll ( int /*PresetNo*/,                
 extern int Get3DReverbParamSoundMem          (       SOUND3D_REVERB_PARAM * /*ParamBuffer*/, int /*SoundHandle*/ ) { return 0 ; }
 extern int Get3DPresetReverbParamSoundMem    (       SOUND3D_REVERB_PARAM * /*ParamBuffer*/, int /*PresetNo*/     ) { return 0 ; }
 
-// --- global 3D sound environment -------------------------------------------
-
 extern int SetCreate3DSoundFlag                  ( int    /*Flag*/ )                                      { return 0 ; }
 extern int Set3DSoundOneMetre                    ( float  /*Distance*/ )                                   { return 0 ; }
-extern int Set3DSoundListenerPosAndFrontPos_UpVecY ( VECTOR /*Position*/, VECTOR /*FrontPosition*/ )        { return 0 ; }
-extern int Set3DSoundListenerPosAndFrontPosAndUpVec( VECTOR /*Position*/, VECTOR /*FrontPosition*/, VECTOR /*UpVector*/ ) { return 0 ; }
-extern int Set3DSoundListenerVelocity            ( VECTOR /*Velocity*/ )                                   { return 0 ; }
-extern int Set3DSoundListenerConeAngle           ( float  /*InnerAngle*/,      float /*OuterAngle*/ )      { return 0 ; }
-extern int Set3DSoundListenerConeVolume          ( float  /*InnerAngleVolume*/, float /*OuterAngleVolume*/ ){ return 0 ; }
 
 #ifndef DX_NON_NAMESPACE
 }
