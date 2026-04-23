@@ -612,6 +612,9 @@ endif()
 if(EMSCRIPTEN)
     # Web 用 emcc link flags: WebGL 2 + 固定機能 GL エミュ + ASYNCIFY (await/loop)
     # + メモリ拡張 + .html shell 出力。出力は hsp3dx_desktop.html + .wasm + .data
+    #
+    # 注: ASYNCIFY + wasm-opt が大規模 wasm で永遠に終わらないため、初回 build は
+    # -O0 で wasm-opt を最小化。Production には -O2 で再 link 推奨。
     set_target_properties(hsp3dx_desktop PROPERTIES SUFFIX ".html")
     target_link_options(hsp3dx_desktop PRIVATE
         "SHELL:-s USE_SDL=2"
@@ -621,7 +624,7 @@ if(EMSCRIPTEN)
         "SHELL:-s MAX_WEBGL_VERSION=2"
         "SHELL:-s LEGACY_GL_EMULATION=1"
         "SHELL:-s GL_UNSAFE_OPTS=0"
-        "SHELL:-s ASYNCIFY=1"
-        "SHELL:-s ASYNCIFY_STACK_SIZE=65536"
+        "SHELL:-O0"
+        "SHELL:--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/web/capture_shell.html"
     )
 endif()

@@ -224,7 +224,31 @@ __attribute__((weak)) int Desktop_GetStringWidth_Hook(
     const wchar_t *, int, FONTMANAGE *) { return -1; }
 __attribute__((weak)) int FontCacheCharAddToHandle_Timing2_PF(
     FONTMANAGE *) { return 0; }
+
+//  --- 追加 Font PF stub (Web 等 SDL2_ttf 無し環境) ---
+struct CREATEFONTTOHANDLE_GPARAM;
+struct FONTCHARDATA;
+__attribute__((weak)) int InitFontManage_PF() { return 0; }
+__attribute__((weak)) int TermFontManage_PF() { return 0; }
+__attribute__((weak)) int CreateFontToHandle_PF(
+    CREATEFONTTOHANDLE_GPARAM *, FONTMANAGE *, int) { return 0; }
+__attribute__((weak)) int CreateFontToHandle_Error_PF(FONTMANAGE *) { return -1; }
+__attribute__((weak)) int TerminateFontHandle_PF(FONTMANAGE *) { return 0; }
+__attribute__((weak)) int SetupFontCache_PF(
+    CREATEFONTTOHANDLE_GPARAM *, FONTMANAGE *, int) { return 0; }
+__attribute__((weak)) int FontCacheCharAddToHandle_Timing0_PF(FONTMANAGE *) { return 0; }
+__attribute__((weak)) int FontCacheCharAddToHandle_Timing1_PF(
+    FONTMANAGE *, FONTCHARDATA *, unsigned int, unsigned int, int) { return 0; }
+__attribute__((weak)) int CheckMusic() { return 0; }
 } // namespace DxLib
+
+//  --- WebGL に存在しない fixed-function GL 関数の stub (Web 専用) ---
+//  LEGACY_GL_EMULATION でカバー外のものを weak で補う。実際の描画には
+//  影響しないかもだが link を通すため。
+#if defined(__EMSCRIPTEN__)
+extern "C" __attribute__((weak)) void glColorMaterial(unsigned int, unsigned int) {}
+extern "C" __attribute__((weak)) void glMaterialf(unsigned int, unsigned int, float) {}
+#endif
 
 //  --- Linux/Mac の hsp3ext_linux.cpp が参照する dllcmd 系の最小 stub ---
 //  本来は hsp3extlib_ffi.cpp が提供するが、それは COM 系依存があり Linux build

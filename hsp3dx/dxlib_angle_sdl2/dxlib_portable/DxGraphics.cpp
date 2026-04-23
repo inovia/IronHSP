@@ -27406,6 +27406,11 @@ static double _dxgr_now_sec() {
 #define DXGR_LOG(tag) do { \
 	printf( "[TIMING_DXGR] %s at %.3f\n", tag, _dxgr_now_sec() ); fflush(stdout); \
 } while(0)
+#elif defined(__EMSCRIPTEN__)
+#include <stdio.h>
+#define DXGR_LOG(tag) do { \
+	fprintf( stderr, "[DXGR] %s\n", tag ); fflush(stderr); \
+} while(0)
 #else
 #define DXGR_LOG(tag) ((void)0)
 #endif
@@ -27485,24 +27490,32 @@ extern int Graphics_Initialize( void )
 		// �\�t�g�E�F�A�����_�����O���[�h�ɑΉ����Ă���ꍇ�̓\�t�g�E�F�A�����_�����O�̏��������s��
 		if( GSYS.Screen.UserScreenImagePixelFormatMatchSoftRenderMode )
 		{
+			DXGR_LOG("before Software_Initialize (PixelFormatMatch)");
 			Graphics_Software_Initialize() ;
+			DXGR_LOG("after Software_Initialize (PixelFormatMatch)");
 		}
 	}
 	else
 	// ����ȊO�̏ꍇ�̓\�t�g�E�G�A�����_�����O����̏��������s��
 	{
+		DXGR_LOG("before Software_Initialize (no Hardware)");
 		Graphics_Software_Initialize() ;
+		DXGR_LOG("after Software_Initialize (no Hardware)");
 	}
 
 	// �O���t�B�b�N�`��ݒ�֌W�̏���������
+	DXGR_LOG("before DrawSetting_Initialize");
 	Graphics_DrawSetting_Initialize() ;
 	DXGR_LOG("after DrawSetting_Initialize");
 
 	// MEMIMG �̏�����
+	DXGR_LOG("before InitializeMemImgManage");
 	InitializeMemImgManage() ;
+	DXGR_LOG("after InitializeMemImgManage");
 
 #ifndef DX_NON_FONT
 	// �t�H���g�̏��������s��
+	DXGR_LOG("before InitFontManage");
 	InitFontManage() ;
 	DXGR_LOG("after InitFontManage");
 #endif
@@ -27524,7 +27537,9 @@ extern int Graphics_Initialize( void )
 	// 6x warmup を実行すると 1.2 秒の起動遅延になる。FPS 計測は実行中に
 	// 正しく更新されるのでこの warmup は不要。実機 GPU では誤差だが
 	// Simulator では顕著な遅延源なので iOS では完全にスキップする。
-#if !(defined(__APPLE__) && TARGET_OS_IPHONE)
+	// Web (Emscripten) も同様 — ブラウザにイベントループを返さずに
+	// 6 回 SwapWindow を回すと canvas が出ないまま hang して見える。
+#if !(defined(__APPLE__) && TARGET_OS_IPHONE) && !defined(__EMSCRIPTEN__)
 	// GetFPS �̒l�̈��艻�ׂ̈�ScreenFlip��6��قǎ��s����
 	{
 		int i ;
