@@ -468,8 +468,11 @@ static std::string operand_src( const Operand &op )
         s += kSwizChars[ op.swiz[ 2 ] ] ;
         s += kSwizChars[ op.swiz[ 3 ] ] ;
     } else if ( op.selection_mode == 2 ) {
+        // select_1 mode: DXBC intent は「選択した成分を 4 成分に broadcast」。
+        // GLSL の vec4 context で使えるように .cccc (4 回繰り返し) で出す。
+        // scalar 専用 context (比較や if の条件) では caller が (..).x で extract する
         s += "." ;
-        s += kSwizChars[ op.select_1 ] ;
+        for ( int i = 0 ; i < 4 ; i++ ) s += kSwizChars[ op.select_1 ] ;
     } else if ( op.selection_mode == 0 ) {
         // mask mode on source is rare; take mask bits as .xyzw subset
         std::string sw ;
@@ -626,17 +629,35 @@ static void emit_decl( TranslatorState &st, const Instruction &ins,
     }
 }
 
+// RHS 式を dst mask に合わせて component 切り出し ( r0.yz = (...).yz のように)。
+// scalar_rhs が true のときは swizzle を付けない (RHS がスカラー式の場合)。
+static std::string apply_dst_mask_to_rhs( const std::string &val, const Operand &d,
+                                          bool scalar_rhs = false )
+{
+    if ( d.num_components != 2 ) return val ;
+    if ( d.selection_mode != 0 )  return val ;
+    if ( d.mask == 0xf )          return val ;
+    if ( scalar_rhs )             return val ;   // scalar → そのまま代入
+    std::string s = "(" + val + ")." ;
+    for ( int i = 0 ; i < 4 ; i++ )
+        if ( d.mask & ( 1 << i ) ) s += kSwizChars[ i ] ;
+    return s ;
+}
+
 // Emit GLSL for an instruction. Returns true if successful.
 static bool emit_instruction( TranslatorState &st, const Instruction &ins,
                               const DxbcData &data, bool is_pixel_shader )
 {
     (void)data ;
     auto &b = st.body ;
-    auto set_dst = [&]( const std::string &val ) {
+    auto set_dst_ex = [&]( const std::string &val, bool scalar_rhs ) {
         if ( ins.operands.empty() ) return ;
         const Operand &d = ins.operands[ 0 ] ;
+        std::string rhs = apply_dst_mask_to_rhs( val, d, scalar_rhs ) ;
         // Pixel shader output o0 → gl_FragColor
         if ( is_pixel_shader && d.operand_type == OPT_OUTPUT && d.imm_index[ 0 ] == 0 ) {
+            // gl_FragColor は常に vec4 なので mask があっても partial write は不可
+            // DXBC の psmain が一部書き換える場合は vec4 自体を渡すのが安全
             b << "    gl_FragColor = " << val << " ;\n" ;
             return ;
         }
@@ -663,16 +684,20 @@ static bool emit_instruction( TranslatorState &st, const Instruction &ins,
                 for ( int i = 0 ; i < 4 ; i++ )
                     if ( d.mask & ( 1 << i ) ) lhs += kSwizChars[ i ] ;
             }
-            b << "    " << lhs << " = " << val << " ;\n" ;
+            b << "    " << lhs << " = " << rhs << " ;\n" ;
             return ;
         }
-        b << "    " << operand_dst( d, val ) << " = " << val << " ;\n" ;
+        b << "    " << operand_dst( d, val ) << " = " << rhs << " ;\n" ;
     } ;
+    // 既存 call-site はすべて vec4 RHS を想定
+    auto set_dst = [&]( const std::string &val ) { set_dst_ex( val, false ) ; } ;
 
     switch ( ins.opcode ) {
         case OP_MOV:
             if ( ins.operands.size() >= 2 ) {
-                set_dst( operand_src( ins.operands[ 1 ] ) ) ;
+                const Operand &src = ins.operands[ 1 ] ;
+                bool scalar = ( src.num_components == 1 ) ;
+                set_dst_ex( operand_src( src ), scalar ) ;
                 return true ;
             }
             break ;
@@ -815,10 +840,12 @@ static bool emit_instruction( TranslatorState &st, const Instruction &ins,
         // --- 制御フロー ---
         case OP_IF:
             if ( ins.operands.size() >= 1 ) {
-                // HLSL if は「全成分が non-zero」で成立。GLSL では bool cast 後 any()
-                // ...簡易には 1 成分だけ見るケースが多いので float != 0 で十分
                 bool not_zero = ( ins.saturate == 0 ) ; // 実は別フィールド、近似
-                std::string cond = operand_src( ins.operands[ 0 ] ) + ".x" ;
+                const Operand &src = ins.operands[ 0 ] ;
+                std::string cond = operand_src( src ) ;
+                // vec4 形式の場合は .x で最初の成分を取って scalar 化
+                bool already_scalar = ( src.num_components == 1 ) ;
+                if ( !already_scalar ) cond = "(" + cond + ").x" ;
                 b << "    if (" << cond << ( not_zero ? " != 0.0" : " == 0.0" ) << ") {\n" ;
                 return true ;
             }
@@ -831,8 +858,11 @@ static bool emit_instruction( TranslatorState &st, const Instruction &ins,
             return true ;
         case OP_DISCARD:
             if ( ins.operands.size() >= 1 ) {
-                // discard_nz / discard_z のどちらか。conservative にそのまま発火
-                b << "    if (" << operand_src( ins.operands[ 0 ] ) << ".x != 0.0) discard ;\n" ;
+                const Operand &src = ins.operands[ 0 ] ;
+                std::string cond = operand_src( src ) ;
+                bool already_scalar = ( src.num_components == 1 ) ;
+                if ( !already_scalar ) cond = "(" + cond + ").x" ;
+                b << "    if (" << cond << " != 0.0) discard ;\n" ;
             } else {
                 b << "    discard ;\n" ;
             }
@@ -849,37 +879,42 @@ static bool emit_instruction( TranslatorState &st, const Instruction &ins,
             return true ;
 
         // --- 比較 → float 0.0 / 1.0 (DXBC は 0 / 0xFFFFFFFF で返すが float 近似) ---
-        case OP_EQ:
-        case OP_IEQ:
+        //  scalar operand (num_components==1 or select_1) のときは GLSL lessThan()
+        //  等は使えず、スカラー式 `(a < b) ? 1.0 : 0.0` を使う。
+        //  両オペランドとも vec4 のとき lessThan() を使う。
+        case OP_EQ: case OP_IEQ: case OP_NE: case OP_INE:
+        case OP_LT: case OP_ILT: case OP_ULT:
+        case OP_GE: case OP_IGE: case OP_UGE:
             if ( ins.operands.size() >= 3 ) {
-                set_dst( "(vec4(equal(" + operand_src( ins.operands[ 1 ] ) + ", " +
-                         operand_src( ins.operands[ 2 ] ) + ")))" ) ;
-                return true ;
-            }
-            break ;
-        case OP_NE:
-        case OP_INE:
-            if ( ins.operands.size() >= 3 ) {
-                set_dst( "(vec4(notEqual(" + operand_src( ins.operands[ 1 ] ) + ", " +
-                         operand_src( ins.operands[ 2 ] ) + ")))" ) ;
-                return true ;
-            }
-            break ;
-        case OP_LT:
-        case OP_ILT:
-        case OP_ULT:
-            if ( ins.operands.size() >= 3 ) {
-                set_dst( "(vec4(lessThan(" + operand_src( ins.operands[ 1 ] ) + ", " +
-                         operand_src( ins.operands[ 2 ] ) + ")))" ) ;
-                return true ;
-            }
-            break ;
-        case OP_GE:
-        case OP_IGE:
-        case OP_UGE:
-            if ( ins.operands.size() >= 3 ) {
-                set_dst( "(vec4(greaterThanEqual(" + operand_src( ins.operands[ 1 ] ) + ", " +
-                         operand_src( ins.operands[ 2 ] ) + ")))" ) ;
+                const char *scalar_op =
+                      ( ins.opcode == OP_EQ || ins.opcode == OP_IEQ ) ? "=="
+                    : ( ins.opcode == OP_NE || ins.opcode == OP_INE ) ? "!="
+                    : ( ins.opcode == OP_LT || ins.opcode == OP_ILT || ins.opcode == OP_ULT ) ? "<"
+                    : ">=" ;
+                const char *vec_fn =
+                      ( ins.opcode == OP_EQ || ins.opcode == OP_IEQ ) ? "equal"
+                    : ( ins.opcode == OP_NE || ins.opcode == OP_INE ) ? "notEqual"
+                    : ( ins.opcode == OP_LT || ins.opcode == OP_ILT || ins.opcode == OP_ULT ) ? "lessThan"
+                    : "greaterThanEqual" ;
+                const Operand &a = ins.operands[ 1 ] ;
+                const Operand &c = ins.operands[ 2 ] ;
+                // operand_src は num_components==2 なら常に vec4 形式 (select_1 も
+                // broadcast で .cccc) を返す。scalar 判定は num_components==1 のみ
+                bool a_scalar = ( a.num_components == 1 ) ;
+                bool c_scalar = ( c.num_components == 1 ) ;
+                std::string rhs ;
+                if ( a_scalar && c_scalar ) {
+                    // Wrap in vec4() so apply_dst_mask_to_rhs can extract .x / .xy 等
+                    rhs = "vec4((" + operand_src( a ) + " " + scalar_op + " " + operand_src( c ) + ") ? 1.0 : 0.0)" ;
+                } else {
+                    // 片方が scalar literal (immediate, num_components=1) の場合は vec4() broadcast
+                    std::string sa = operand_src( a ) ;
+                    std::string sc = operand_src( c ) ;
+                    if ( a_scalar ) sa = "vec4(" + sa + ")" ;
+                    if ( c_scalar ) sc = "vec4(" + sc + ")" ;
+                    rhs = std::string( "vec4(" ) + vec_fn + "(" + sa + ", " + sc + "))" ;
+                }
+                set_dst( rhs ) ;
                 return true ;
             }
             break ;
