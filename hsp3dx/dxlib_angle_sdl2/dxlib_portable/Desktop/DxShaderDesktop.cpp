@@ -274,6 +274,12 @@ uniform int             u_useToonRamp ;
 uniform vec3            u_mainLightDirEye ;   // eye-space、既に正規化済みを渡す
 //  Multi-light 制御 (1..4、gl_LightSource[0..n-1] を累積評価)
 uniform int             u_numLights ;
+//  Fog 有効化 (gl_Fog.color / density を使う) と mode (0=off, 1=linear, 2=exp, 3=exp2)
+uniform int             u_fogMode ;
+//  Emissive color (self-illumination、ライティング非依存で加算)
+uniform vec3            u_emissive ;
+uniform sampler2D       u_emissiveMap ;
+uniform int             u_useEmissiveMap ;
 
 varying vec2 v_uv0 ;
 varying vec3 v_normal ;
@@ -406,6 +412,34 @@ void main( void )
         vec3 rampColor = texture2D( u_toonRamp, vec2( ndl, 0.5 ) ).rgb ;
         //  DxLib CPU 版と同じ "ramp * material diffuse" の乗算
         base.rgb = base.rgb * rampColor ;
+    }
+
+    //  Emissive: material 固有の発光 (lighting 非依存で base に加算)
+    //  EmissiveMap があれば texture2D の RGB を加算色として採用 (alpha で強度調整)
+    vec3 emiColor = u_emissive ;
+    if ( u_useEmissiveMap == 1 ) {
+        vec4 em = texture2D( u_emissiveMap, uv ) ;
+        emiColor = emiColor + em.rgb * em.a ;
+    }
+    base.rgb = base.rgb + emiColor ;
+
+    //  Fog: gl_Fog 組み込み変数 (start/end/density/color) を使う。
+    //  fixed-function と同 API、mode: 0=off, 1=linear, 2=exp, 3=exp2
+    if ( u_fogMode > 0 ) {
+        float d = length( v_eyePos ) ;   // eye-space 距離
+        float f = 1.0 ;
+        if ( u_fogMode == 1 ) {
+            //  linear
+            f = clamp( ( gl_Fog.end - d ) / max( gl_Fog.end - gl_Fog.start, 0.001 ), 0.0, 1.0 ) ;
+        } else if ( u_fogMode == 2 ) {
+            //  exp
+            f = clamp( exp( -gl_Fog.density * d ), 0.0, 1.0 ) ;
+        } else if ( u_fogMode == 3 ) {
+            //  exp2
+            float dd = gl_Fog.density * d ;
+            f = clamp( exp( -( dd * dd ) ), 0.0, 1.0 ) ;
+        }
+        base.rgb = mix( gl_Fog.color.rgb, base.rgb, f ) ;
     }
 
     gl_FragColor = base ;

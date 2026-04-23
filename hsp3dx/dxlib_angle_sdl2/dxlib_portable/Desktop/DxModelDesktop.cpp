@@ -690,6 +690,29 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
             if ( s_numLights > 4 ) s_numLights = 4 ;
         }
         DesktopShader_SetUniform1i( glslH, "u_numLights", s_numLights ) ;
+        //  Fog: glIsEnabled(GL_FOG) + glGetIntegerv(GL_FOG_MODE)
+        int fogMode = 0 ;
+        if ( glIsEnabled( GL_FOG ) ) {
+            GLint gm = 0 ;
+            glGetIntegerv( GL_FOG_MODE, &gm ) ;
+            if ( gm == 0x2601 /*GL_LINEAR*/ ) fogMode = 1 ;
+            else if ( gm == 0x0800 /*GL_EXP*/ )    fogMode = 2 ;
+            else if ( gm == 0x0801 /*GL_EXP2*/ )   fogMode = 3 ;
+        }
+        DesktopShader_SetUniform1i( glslH, "u_fogMode", fogMode ) ;
+        //  Emissive: material の Emissive を uniform に直接渡す (lighting 非依存の加算)
+        //  Emissive map は EmissiveLayer[0] があれば bind (将来拡張、現状 material color のみ)
+        float eR = 0.0f, eG = 0.0f, eB = 0.0f ;
+        if ( Mesh->Material && Mesh->Material->BaseData ) {
+            MV1_MATERIAL_BASE *mbEmi = Mesh->Material->BaseData ;
+            float sclE = Mesh->DrawMaterial.UseColorScale ? Mesh->DrawMaterial.EmissiveScale.r : 1.0f ;
+            eR = mbEmi->Emissive.r * sclE ;
+            eG = mbEmi->Emissive.g * sclE ;
+            eB = mbEmi->Emissive.b * sclE ;
+        }
+        DesktopShader_SetUniform3f( glslH, "u_emissive", eR, eG, eB ) ;
+        DesktopShader_SetUniform1i( glslH, "u_useEmissiveMap", 0 ) ;   // 将来 EmissiveLayer 対応
+        DesktopShader_SetUniform1i( glslH, "u_emissiveMap",    9 ) ;   // TMU 9 確保
         //  DiffuseLayer[1..3]: 有効 layer 数 layerN を元に uniform 設定
         int d1 = ( layerN >= 2 ) ? 1 : 0 ;
         int d2 = ( layerN >= 3 ) ? 1 : 0 ;
