@@ -306,15 +306,15 @@ td.note { font-size: 12px; color: #555; }
 </tr>
 <tr><td class="fn">SetDrawBlendMode (ALPHA/ADD/SUB/MUL/INV/PMA)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">glBlendFunc / glBlendEquation</td>
-  <td class="note">SUB は glBlendEquation extension 不使用のため α 反転近似 (完全互換でない)。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">glBlendFunc + glBlendEquation (GL 1.4 core、SDL_GL_GetProcAddress で動的ロード)。SUB は GL_FUNC_REVERSE_SUBTRACT で本実装、ADD/ALPHA は glBlendFunc のみ</td>
+  <td class="note">DxGraphicsDesktop.cpp 2026-04-23 修正。前は SUB を α 反転近似していたが、glBlendEquation を動的ロードして真の減算に変更。NOBLEND/ALPHA/ADD/ADD_X4/SUB/SUB1/SUB2/MUL/PMA_ALPHA/INVSRC 全 mode で DxLib 本家と互換。</td>
 </tr>
 <tr><td class="fn">SetDrawBright / SetDrawAddColor</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">glColor4ub への乗算</td>
-  <td class="note">SetDrawBright のみ実装。SetDrawAddColor は stub。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">Desktop_SetGLColor で `R = (R * Bright) / 255 + Add` (clamp 0..255) を計算して glColor4ub。fixed-function path の全 Draw* で適用</td>
+  <td class="note">DxGraphicsDesktop.cpp 2026-04-23 完全実装。SetDrawBright (0..255 乗算) + SetDrawAddColor (-255..255 加算オフセット) を組み合わせて glColor へ反映。R/G/B 個別、clamp あり。texture 描画でも有効。</td>
 </tr>
 <tr><td class="fn">GetColor / GetColor2 / NS_GetColor2</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>

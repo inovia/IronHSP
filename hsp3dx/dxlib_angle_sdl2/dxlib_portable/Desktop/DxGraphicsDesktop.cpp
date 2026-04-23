@@ -352,17 +352,21 @@ static void Desktop_SetOrtho2D( void )
     Desktop_ApplyScissor() ;
 }
 
-// DxLib DrawBright 用の現在値 (0..255)
+// DxLib DrawBright (乗算) と DrawAddColor (加算オフセット) の現在値 (0..255 / -255..255)
 static int s_BrightR = 255, s_BrightG = 255, s_BrightB = 255 ;
+static int s_AddR    = 0,   s_AddG    = 0,   s_AddB    = 0 ;
 
-// DxLib の unsigned int Color を DrawBright 乗算して glColor に渡す
+// DxLib の unsigned int Color を DrawBright 乗算 + DrawAddColor 加算して glColor に渡す
 static inline void Desktop_SetGLColor( unsigned int Color )
 {
     int R, G, B ;
     NS_GetColor2( Color, &R, &G, &B ) ;
-    R = ( R * s_BrightR ) / 255 ;
-    G = ( G * s_BrightG ) / 255 ;
-    B = ( B * s_BrightB ) / 255 ;
+    R = ( R * s_BrightR ) / 255 + s_AddR ;
+    G = ( G * s_BrightG ) / 255 + s_AddG ;
+    B = ( B * s_BrightB ) / 255 + s_AddB ;
+    if ( R < 0 ) R = 0 ; if ( R > 255 ) R = 255 ;
+    if ( G < 0 ) G = 0 ; if ( G > 255 ) G = 255 ;
+    if ( B < 0 ) B = 0 ; if ( B > 255 ) B = 255 ;
     glColor4ub( ( GLubyte )R, ( GLubyte )G, ( GLubyte )B, 255 ) ;
 }
 
@@ -596,10 +600,31 @@ extern int Graphics_Hardware_DrawQuadrangleF_PF( float x1, float y1, float x2, f
     return 0 ;
 }
 
+// glBlendEquation は GL 1.4 core (2002〜)、Windows opengl32.dll は 1.1 までしか
+// 公開しないので SDL_GL_GetProcAddress で動的ロード
+#ifndef GL_FUNC_ADD
+#define GL_FUNC_ADD               0x8006
+#define GL_FUNC_SUBTRACT          0x800A
+#define GL_FUNC_REVERSE_SUBTRACT  0x800B
+#endif
+typedef void (APIENTRYP PFN_d_glBlendEquation)( GLenum mode ) ;
+static PFN_d_glBlendEquation p_d_glBlendEquation = nullptr ;
+static void desktop_load_blend_equation( void )
+{
+    if ( p_d_glBlendEquation ) return ;
+    p_d_glBlendEquation = ( PFN_d_glBlendEquation )SDL_GL_GetProcAddress( "glBlendEquation" ) ;
+    if ( !p_d_glBlendEquation )
+        p_d_glBlendEquation = ( PFN_d_glBlendEquation )SDL_GL_GetProcAddress( "glBlendEquationEXT" ) ;
+}
+
 // Blend mode state (DxLib の SetDrawBlendMode → GL の glBlendFunc)
 extern int Graphics_Hardware_SetDrawBlendMode_PF( int BlendMode, int BlendParam )
 {
     (void)BlendParam;
+    desktop_load_blend_equation() ;
+    // 既定の equation は ADD (FUNC_ADD)。SUB 時のみ FUNC_REVERSE_SUBTRACT に
+    // 切り替えて、それ以外は FUNC_ADD に戻す
+    if ( p_d_glBlendEquation ) p_d_glBlendEquation( GL_FUNC_ADD ) ;
     switch ( BlendMode )
     {
         case DX_BLENDMODE_NOBLEND:
@@ -617,10 +642,10 @@ extern int Graphics_Hardware_SetDrawBlendMode_PF( int BlendMode, int BlendParam 
         case DX_BLENDMODE_SUB:
         case DX_BLENDMODE_SUB1:
         case DX_BLENDMODE_SUB2:
-            // glBlendEquation は extension なので compat mode では使用せず、
-            // α を反転してかける近似 (完全互換でないが視認可能)
+            // 真の減算: dst_color - src_color * src_alpha
             glEnable( GL_BLEND ) ;
-            glBlendFunc( GL_ZERO, GL_ONE_MINUS_SRC_ALPHA ) ;
+            glBlendFunc( GL_SRC_ALPHA, GL_ONE ) ;
+            if ( p_d_glBlendEquation ) p_d_glBlendEquation( GL_FUNC_REVERSE_SUBTRACT ) ;
             break ;
         case DX_BLENDMODE_MUL:
             glEnable( GL_BLEND ) ;
@@ -655,6 +680,17 @@ extern int Graphics_Hardware_SetDrawBright_PF( int Red, int Green, int Blue )
 extern int Graphics_Hardware_SetDrawBrightToOneParam_PF( DWORD Param )
 {
     (void)Param;  // 旧 API 互換、fixed-function では未使用
+    return 0 ;
+}
+
+// SetDrawAddColor: 描画色に加算する R/G/B オフセット (-255..255)
+// 元 DxLib API は DX_BLENDMODE_PMA_ALPHA 系で DrawAddColor を反映するため、
+// fixed-function では glColor に加算済値を渡す近似 (Desktop_SetGLColor で clamp)
+extern int Graphics_Hardware_SetDrawAddColor_PF( int Red, int Green, int Blue )
+{
+    s_AddR = Red ;
+    s_AddG = Green ;
+    s_AddB = Blue ;
     return 0 ;
 }
 
@@ -1178,15 +1214,7 @@ extern int Graphics_Hardware_SetupUseZBuffer_PF( void )
     return 0 ;
 }
 
-extern int Graphics_Hardware_SetDrawAddColor_PF( int R, int G, int B )
-{
-    // DxLib の add color は描画色に定数加算する機能。fixed-function では
-    // GL_TEXTURE_ENV_COMBINE の ADD モードで近似できるが、glColor4ub に
-    // クランプ込みで加算する簡易実装で代用 (状態保存)。
-    //   将来の shader 経路で本実装 (uniform vec3 u_addColor)。
-    (void)R; (void)G; (void)B;
-    return 0 ;
-}
+// 旧 stub は SetDrawBright 近隣の本実装に統合済 (2026-04-23)、ここは削除
 
 extern int Graphics_Hardware_SetUsePixelLighting_PF( int /*Flag*/ )
 {
