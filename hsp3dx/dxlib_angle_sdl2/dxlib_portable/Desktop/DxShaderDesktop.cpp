@@ -600,7 +600,13 @@ static int looks_like_glsl_source( const void *data, int size )
     return 0 ;
 }
 
+// DxDxbcTranslator.h の forward decl (ヘッダ include は避けて依存を最小化)
+extern int  DxDxbc_Translate( const void *data, int size,
+                              std::string *out_glsl, int *program_type ) ;
+extern int  DxDxbc_Disassemble( const void *data, int size ) ;
+
 // DxLib Shader_Create_PF 実装: GLSL ソースを compile して shader object を作る
+// .vso/.pso (DXBC) が入力された場合は DXBC translator で GLSL に変換してから compile
 extern "C" int Graphics_Hardware_Shader_Create_PF_Desktop(
     int ShaderHandle, int ShaderType, void *Image, int ImageSize,
     int /*ImageAfterFree*/, int /*ASyncThread*/ )
@@ -609,12 +615,37 @@ extern "C" int Graphics_Hardware_Shader_Create_PF_Desktop(
     desktop_dxshader_load_extras() ;
     if ( !p_glCreateShader ) return -1 ;
 
+    std::string glsl_src ;     // 変換 or 直接のいずれで使うか
+    const char *glsl_text = nullptr ;
+    int         glsl_len  = 0 ;
+
     if ( is_dxbc_binary( Image, ImageSize ) ) {
-        std::fprintf( stderr, "[DxShaderDesktop] .vso/.pso (DXBC) は未対応。"
-                              "GLSL source (.vert/.frag) を置いてください\n" ) ;
-        return -1 ;
-    }
-    if ( !looks_like_glsl_source( Image, ImageSize ) ) {
+        // .vso/.pso → 翻訳試行
+        int prog_type = -1 ;
+        int rc = DxDxbc_Translate( Image, ImageSize, &glsl_src, &prog_type ) ;
+        if ( rc == -1 ) {
+            std::fprintf( stderr, "[DxShaderDesktop] DXBC parse failed\n" ) ;
+            DxDxbc_Disassemble( Image, ImageSize ) ;
+            return -1 ;
+        }
+        // Program type から ShaderType 上書き (整合確認)
+        if ( prog_type == 1 ) ShaderType = 0 ;  // VS
+        else if ( prog_type == 0 ) ShaderType = 1 ;  // PS
+        // 部分翻訳 (-2) でも GLSL は出るので compile 試行
+        if ( rc == -2 ) {
+            std::fprintf( stderr,
+                "[DxShaderDesktop] DXBC → GLSL 翻訳は一部未対応命令あり。"
+                "コンパイル試行しますが動かない可能性があります\n" ) ;
+        } else {
+            std::fprintf( stderr, "[DxShaderDesktop] DXBC → GLSL 翻訳成功 (%d bytes)\n",
+                          ( int )glsl_src.size() ) ;
+        }
+        glsl_text = glsl_src.c_str() ;
+        glsl_len  = ( int )glsl_src.size() ;
+    } else if ( looks_like_glsl_source( Image, ImageSize ) ) {
+        glsl_text = ( const char * )Image ;
+        glsl_len  = ImageSize ;
+    } else {
         std::fprintf( stderr, "[DxShaderDesktop] shader file の内容が GLSL とは判別できません\n" ) ;
         return -1 ;
     }
@@ -630,8 +661,8 @@ extern "C" int Graphics_Hardware_Shader_Create_PF_Desktop(
     }
 
     // NUL 終端にしてコンパイル
-    std::string src( ( const char * )Image, ( size_t )ImageSize ) ;
-    const char *s = src.c_str() ;
+    std::string src_holder( glsl_text, glsl_text + glsl_len ) ;
+    const char *s = src_holder.c_str() ;
     GLuint obj = p_glCreateShader( gl_type ) ;
     p_glShaderSource( obj, 1, &s, nullptr ) ;
     p_glCompileShader( obj ) ;

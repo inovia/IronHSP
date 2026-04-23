@@ -321,6 +321,8 @@ add_library(dxlib_portable_stage3 STATIC
     ${DXLIB_PORTABLE_DIR}/Desktop/DxGraphicsFilterGPUDesktop.cpp
     # Tier 4f: Shader 基盤 (Desktop 固有 GLSL API、DxLib 本家 API は stub)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxShaderDesktop.cpp
+    # DXBC (.vso/.pso) → GLSL 翻訳 (最小実装)
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxDxbcTranslator.cpp
     # Category C: 3D sound stubs (iOS 同様 return 0、呼べても 2D として鳴る)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxSound3DStubsDesktop.cpp
     # Tier 4d: Model (zlib + DxModel CPU 側 + 全 loader + PF stub)
@@ -494,6 +496,7 @@ dxlib_stage_exe(stage23_3d                src/stage23_3d.cpp)
 dxlib_stage_exe(stage24_movie             src/stage24_movie.cpp)
 dxlib_stage_exe(stage25_mv1               src/stage25_mv1.cpp)
 dxlib_stage_exe(stage26_shader            src/stage26_shader.cpp)
+dxlib_stage_exe(stage27_dxbc_test         src/stage27_dxbc_test.cpp)
 
 # --- Stage 1 (pure SDL2, no DxLib) ---------------------------------------
 if(WIN32)
