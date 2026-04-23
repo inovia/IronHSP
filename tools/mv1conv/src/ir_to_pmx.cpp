@@ -235,8 +235,13 @@ std::vector<std::uint8_t> ir_to_pmx(const ModelIR &ir, std::string *err_msg) {
             put_tex_idx(out, mat.diffuse_texture);    // diffuse tex (-1 許容)
             put_tex_idx(out, mat.sphere_texture);     // sphere tex
             put_u8(out, static_cast<std::uint8_t>(mat.sphere_mode));  // sphere mode
-            put_u8(out, 1);                           // toon ref: internal
-            put_u8(out, 0);                           // internal toon 0
+            // toon: ref=0 なら tex_idx (4B)、ref=1 なら u8 internal index
+            put_u8(out, static_cast<std::uint8_t>(mat.pmx_toon_ref));
+            if (mat.pmx_toon_ref == 0) {
+                put_tex_idx(out, mat.pmx_toon_texture);
+            } else {
+                put_u8(out, static_cast<std::uint8_t>(mat.pmx_toon_internal));
+            }
             put_text_utf8(out, "");                   // memo
             put_i32le(out, mat_face_verts[i]);        // face_vertex_count
         }

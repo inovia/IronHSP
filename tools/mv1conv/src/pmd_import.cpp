@@ -106,6 +106,8 @@ LoadResult load_pmd(const std::string &path) {
     if (!c.read(&matN, 4)) { r.error = "PMD: short material count"; return r; }
     std::vector<MaterialIR> mats;
     std::vector<std::uint32_t> matFaceIdxCount(matN);
+    // 各 material の toon_idx を後で使うため一時保存
+    std::vector<std::uint8_t> matToonIdx(matN);
     // PMD texture path は "main.bmp*sphere.bmp" の形式 (2 枚並列)。
     // 重複を避けるため path→index map を持つ。
     std::vector<TextureIR> textures;
@@ -143,50 +145,32 @@ LoadResult load_pmd(const std::string &path) {
         m.power = power;
         (void)toon_idx; (void)edge_flag;
 
-        // texture パス "main.bmp*sphere.bmp" を分割。
-        // PMD は 1 フィールドに diffuse と sphere 両方入る。拡張子で判別:
-        //   .sph = 乗算 sphere (mode=1)
-        //   .spa = 加算 sphere (mode=2)
-        //   その他 = 通常 diffuse
-        // main 単独で .sph/.spa の場合も sphere 扱い (diffuse は無し)
-        auto is_sphere_ext = [](const std::string &path) -> int {
-            if (path.size() < 4) return 0;
+        // PMD texture 仕様: "diffuse_path[*sphere_path]"
+        //   `*` の前 = diffuse (拡張子を問わず、.sph/.spa でも diffuse として使用可)
+        //   `*` の後 = sphere map
+        // sphere mode は sphere_path の拡張子で決定:
+        //   .sph → mode=1 (乗算), .spa → mode=2 (加算)
+        auto sphere_ext_mode = [](const std::string &path) -> int {
+            if (path.size() < 4) return 1;
             std::string lo;
             for (auto c : path) lo.push_back(static_cast<char>(std::tolower(c)));
-            if (lo.size() >= 4 && lo.compare(lo.size() - 4, 4, ".sph") == 0) return 1;
-            if (lo.size() >= 4 && lo.compare(lo.size() - 4, 4, ".spa") == 0) return 2;
-            return 0;
+            if (lo.compare(lo.size() - 4, 4, ".spa") == 0) return 2;
+            return 1;  // .sph など未知の拡張子は multiply 扱い
         };
-        std::string first_part, second_part;
+        std::string diffuse_path, sphere_path;
         auto star = tex.find('*');
         if (star != std::string::npos) {
-            first_part = tex.substr(0, star);
-            second_part = tex.substr(star + 1);
+            diffuse_path = tex.substr(0, star);
+            sphere_path = tex.substr(star + 1);
         } else {
-            first_part = tex;
-        }
-        // first_part を拡張子で振り分け
-        int first_sphere = is_sphere_ext(first_part);
-        int second_sphere = is_sphere_ext(second_part);
-        std::string diffuse_path, sphere_path;
-        int sphere_mode = 0;
-        if (first_sphere) {
-            sphere_path = first_part;
-            sphere_mode = first_sphere;
-            // second_part があり非sphere なら diffuse に
-            if (!second_part.empty() && !second_sphere) diffuse_path = second_part;
-        } else {
-            diffuse_path = first_part;
-            if (second_sphere) {
-                sphere_path = second_part;
-                sphere_mode = second_sphere;
-            }
+            diffuse_path = tex;
         }
         m.diffuse_texture = add_texture(diffuse_path);
         m.sphere_texture  = add_texture(sphere_path);
-        m.sphere_mode     = sphere_mode;
+        m.sphere_mode     = sphere_path.empty() ? 0 : sphere_ext_mode(sphere_path);
 
         matFaceIdxCount[i] = faceVertCount;
+        matToonIdx[i] = toon_idx;
         mats.push_back(m);
     }
     // ボーン
@@ -228,7 +212,112 @@ LoadResult load_pmd(const std::string &path) {
             bones.push_back(std::move(b));
         }
     }
-    // IK / 表情 / 表示枠 / 物理はスキップ (読み込めなくても bones 取得時点で OK)
+    // 以降のセクションを順次 skip して toon texture リスト (10 × 100 bytes) まで進む
+    std::size_t boneN_local = bones.size();
+    std::array<std::string, 10> toon_paths;
+    bool toon_ok = true;
+    // IK
+    if (toon_ok && c.p + 2 <= c.pEnd) {
+        std::uint16_t ikN;
+        std::memcpy(&ikN, c.p, 2); c.p += 2;
+        for (std::uint16_t i = 0; i < ikN; ++i) {
+            // 2+2+1+2+4 = 11 fixed, + 2 * chain_len
+            if (c.p + 11 > c.pEnd) { toon_ok = false; break; }
+            std::uint8_t chain_len = c.p[4];
+            c.p += 11;
+            if (c.p + 2 * chain_len > c.pEnd) { toon_ok = false; break; }
+            c.p += 2 * chain_len;
+        }
+    }
+    // morph (表情)
+    std::uint16_t morphN_local = 0;
+    if (toon_ok && c.p + 2 <= c.pEnd) {
+        std::memcpy(&morphN_local, c.p, 2); c.p += 2;
+        for (std::uint16_t i = 0; i < morphN_local; ++i) {
+            // 20 name + 4 vcount + 1 type + 16 * vcount
+            if (c.p + 25 > c.pEnd) { toon_ok = false; break; }
+            std::uint32_t vcount;
+            std::memcpy(&vcount, c.p + 20, 4);
+            c.p += 25;
+            if (c.p + static_cast<std::ptrdiff_t>(16) * vcount > c.pEnd) { toon_ok = false; break; }
+            c.p += 16 * vcount;
+        }
+    }
+    // disp_morph_count (u8) + u16[count]
+    if (toon_ok && c.p + 1 <= c.pEnd) {
+        std::uint8_t n = c.p[0]; c.p += 1;
+        if (c.p + 2 * n > c.pEnd) toon_ok = false;
+        else c.p += 2 * n;
+    }
+    // disp_bone_panel_count (u8) + char[50][count]
+    std::uint8_t disp_bone_panel_count = 0;
+    if (toon_ok && c.p + 1 <= c.pEnd) {
+        disp_bone_panel_count = c.p[0]; c.p += 1;
+        if (c.p + 50 * disp_bone_panel_count > c.pEnd) toon_ok = false;
+        else c.p += 50 * disp_bone_panel_count;
+    }
+    // disp_bone_count (u32) + (u16 bone_idx + u8 panel) × count
+    if (toon_ok && c.p + 4 <= c.pEnd) {
+        std::uint32_t n;
+        std::memcpy(&n, c.p, 4); c.p += 4;
+        if (c.p + static_cast<std::ptrdiff_t>(3) * n > c.pEnd) toon_ok = false;
+        else c.p += 3 * n;
+    }
+    // english_flag (u8)
+    if (toon_ok && c.p + 1 <= c.pEnd) {
+        std::uint8_t en = c.p[0]; c.p += 1;
+        if (en) {
+            // English section: 20 name + 256 comment + 20*boneN + 20*(morphN-1) +
+            //                  50*disp_bone_panel_count
+            std::size_t en_size = 20 + 256 + 20 * boneN_local;
+            if (morphN_local > 0) en_size += 20 * (static_cast<std::size_t>(morphN_local) - 1);
+            en_size += 50 * disp_bone_panel_count;
+            if (c.p + en_size > c.pEnd) toon_ok = false;
+            else c.p += en_size;
+        }
+    }
+    // toon texture list (10 × char[100])
+    if (toon_ok && c.p + 1000 <= c.pEnd) {
+        for (int i = 0; i < 10; ++i) {
+            toon_paths[i] = sjis_to_utf8(reinterpret_cast<const char *>(c.p), 100);
+            c.p += 100;
+        }
+    } else {
+        toon_ok = false;
+    }
+
+    // toon texture を使用している material に適用
+    for (std::uint32_t i = 0; i < matN; ++i) {
+        std::uint8_t ti = matToonIdx[i];
+        if (ti == 0xFF) {
+            // toon 不使用、default (toon01)
+            mats[i].pmx_toon_ref = 1;
+            mats[i].pmx_toon_internal = 0;
+            continue;
+        }
+        if (ti >= 10) ti = 0;
+        const std::string &path = toon_paths[ti];
+        // 内蔵判定: "toonNN.bmp" (NN=01..10) は DxLib 内蔵
+        auto is_builtin = [&](const std::string &p, int *out_idx) -> bool {
+            static const char *builtins[10] = {
+                "toon01.bmp","toon02.bmp","toon03.bmp","toon04.bmp","toon05.bmp",
+                "toon06.bmp","toon07.bmp","toon08.bmp","toon09.bmp","toon10.bmp"
+            };
+            for (int k = 0; k < 10; ++k) {
+                if (p == builtins[k]) { *out_idx = k; return true; }
+            }
+            return false;
+        };
+        int bi = 0;
+        if (path.empty() || is_builtin(path, &bi)) {
+            mats[i].pmx_toon_ref = 1;
+            mats[i].pmx_toon_internal = bi;
+        } else {
+            // 外部 toon テクスチャ: textures list に追加
+            mats[i].pmx_toon_ref = 0;
+            mats[i].pmx_toon_texture = add_texture(path);
+        }
+    }
 
     // マテリアルごとにメッシュを分割
     const bool has_bones = !bones.empty();

@@ -31,6 +31,13 @@ struct MaterialIR {
     int sphere_texture = -1;
     int sphere_mode    = 0;     // 0=disable, 1=multiply(.sph), 2=add(.spa), 3=sub-texture
 
+    // MMD Toon texture (10 slot ランプ陰影)。PMX の toon_ref / toon_index に対応。
+    //   pmx_toon_ref = 0: 外部テクスチャ使用 (pmx_toon_texture = texture idx)
+    //   pmx_toon_ref = 1: 内蔵 toon 使用 (pmx_toon_internal = 0..9 → toon01..10.bmp)
+    int pmx_toon_ref      = 1;    // default: internal
+    int pmx_toon_texture  = -1;   // ref=0 時の TextureIR index
+    int pmx_toon_internal = 0;    // ref=1 時の built-in index (0..9)
+
     // Material layer BlendType (DiffuseLayer[0] 等の BlendType、0=TEX1 に同じ)
     int diffuse_layer_blend  = 0;
     int specular_layer_blend = 0;
