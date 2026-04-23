@@ -30,11 +30,39 @@ if(WIN32)
         message(WARNING "Cubism Core: x86 Windows lib not bundled")
     endif()
 elseif(APPLE)
-    # Mac のlib は Core/lib/macos/ を別途コピー (placeholder)
-    message(STATUS "Cubism Core Mac lib: copy Core/lib/macos/libLive2DCubismCore.a to extlib/cubism/lib/macos/ to enable")
+    # Cubism SDK for Native の Core/lib/macos/{arm64,x86_64}/libLive2DCubismCore.a
+    # ユーザーがコピーしていれば自動選択。arm64 Mac 優先、なければ x86_64 fallback
+    if(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64" AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lib/macos/arm64/libLive2DCubismCore.a")
+        set_target_properties(dx_cubism_core PROPERTIES
+            IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/lib/macos/arm64/libLive2DCubismCore.a")
+    elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lib/macos/x86_64/libLive2DCubismCore.a")
+        set_target_properties(dx_cubism_core PROPERTIES
+            IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/lib/macos/x86_64/libLive2DCubismCore.a")
+    elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lib/macos/arm64/libLive2DCubismCore.a")
+        set_target_properties(dx_cubism_core PROPERTIES
+            IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/lib/macos/arm64/libLive2DCubismCore.a")
+    else()
+        message(STATUS "Cubism Core Mac lib not found. Copy Core/lib/macos/{arm64,x86_64}/libLive2DCubismCore.a from CubismSdkForNative-5-r.5.zip to extlib/cubism/lib/macos/<arch>/")
+    endif()
+elseif(ANDROID)
+    # Gradle/NDK ビルド経由で ANDROID_ABI が設定される
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lib/android/${ANDROID_ABI}/libLive2DCubismCore.a")
+        set_target_properties(dx_cubism_core PROPERTIES
+            IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/lib/android/${ANDROID_ABI}/libLive2DCubismCore.a")
+    else()
+        message(STATUS "Cubism Core Android lib not found for ABI ${ANDROID_ABI}")
+    endif()
 elseif(UNIX)
-    # Linux のlib は Core/lib/linux/ を別途コピー (placeholder)
-    message(STATUS "Cubism Core Linux lib: copy Core/lib/linux/x86_64/libLive2DCubismCore.a to extlib/cubism/lib/linux/ to enable")
+    # Linux x86_64 / arm64
+    if(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64" AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lib/linux/arm64/libLive2DCubismCore.a")
+        set_target_properties(dx_cubism_core PROPERTIES
+            IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/lib/linux/arm64/libLive2DCubismCore.a")
+    elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lib/linux/x86_64/libLive2DCubismCore.a")
+        set_target_properties(dx_cubism_core PROPERTIES
+            IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/lib/linux/x86_64/libLive2DCubismCore.a")
+    else()
+        message(STATUS "Cubism Core Linux lib not found. Copy Core/lib/linux/x86_64/libLive2DCubismCore.a from CubismSdkForNative-5-r.5.zip to extlib/cubism/lib/linux/x86_64/")
+    endif()
 endif()
 
 # --- Cubism Framework source bundle --------------------------------------

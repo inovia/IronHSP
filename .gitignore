@@ -79,6 +79,13 @@ hsp3dx/extlib/dxlib_android/*
 hsp3dx/extlib/cubism_sdk_native/*
 !hsp3dx/extlib/cubism_sdk_native/README.md
 
+# SDL2 fork の cubism prebuilt lib (Live2D Proprietary License)
+# Windows x64 は既 commit 済、他 platform 追加分は個別 DL に委ねる
+hsp3dx/dxlib_angle_sdl2/extlib/cubism/lib/macos/
+hsp3dx/dxlib_angle_sdl2/extlib/cubism/lib/linux/
+hsp3dx/dxlib_angle_sdl2/extlib/cubism/lib/android/
+hsp3dx/dxlib_angle_sdl2/extlib/cubism/lib/ios/
+
 # hsp3dx ビルド成果物
 hsp3dx/bin/
 hsp3dx/obj/
