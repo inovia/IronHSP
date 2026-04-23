@@ -802,6 +802,27 @@ WriteResult write_mv1(const ModelIR &ir) {
         }
     };
 
+    // -- ToonInfo blocks (is_toon=true の material のみ) --
+    std::vector<std::uint32_t> toonInfoOff(ir.materials.size(), 0);
+    for (std::size_t i = 0; i < ir.materials.size(); ++i) {
+        const auto &m = ir.materials[i];
+        if (!m.is_toon) continue;
+        b.align4();
+        f1::MV1_MATERIAL_TOON_F1 tn{};
+        tn.Type = 1;  // DX_MATERIAL_TYPE_TOON
+        tn.DiffuseGradTexture  = m.toon_diffuse_grad_texture;
+        tn.SpecularGradTexture = m.toon_specular_grad_texture;
+        tn.DiffuseGradBlendType  = m.toon_diffuse_grad_blend;
+        tn.SpecularGradBlendType = m.toon_specular_grad_blend;
+        tn.OutLineWidth    = m.toon_outline_width;
+        std::memcpy(&tn.OutLineColor, m.toon_outline_color.data(), 16);
+        tn.OutLineDotWidth = m.toon_outline_dot_width;
+        tn.EnableSphereMap    = m.toon_enable_sphere_map;
+        tn.SphereMapBlendType = m.toon_sphere_map_blend;
+        tn.SphereMapTexture   = static_cast<std::int16_t>(m.toon_sphere_map_texture);
+        toonInfoOff[i] = b.append_struct(tn);
+    }
+
     // -- Materials --
     for (std::size_t i = 0; i < ir.materials.size(); ++i) {
         const auto &m = ir.materials[i];
@@ -821,6 +842,17 @@ WriteResult write_mv1(const ModelIR &ir) {
             mat.DiffuseLayer[0].Texture = m.diffuse_texture;
             mat.DiffuseLayer[0].BlendType = 0;
         }
+        if (m.specular_texture >= 0) {
+            mat.SpecularLayerNum = 1;
+            mat.SpecularLayer[0].Texture = m.specular_texture;
+            mat.SpecularLayer[0].BlendType = 0;
+        }
+        if (m.normal_texture >= 0) {
+            mat.NormalLayerNum = 1;
+            mat.NormalLayer[0].Texture = m.normal_texture;
+            mat.NormalLayer[0].BlendType = 0;
+        }
+        mat.ToonInfo = toonInfoOff[i];
         b.overwrite_struct(materialOffsets[i], mat);
     }
 

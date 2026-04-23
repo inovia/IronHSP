@@ -374,7 +374,26 @@ LoadResult load_mv1_to_ir(const std::string &path) {
         mat.emissive = { m->Emissive.r, m->Emissive.g, m->Emissive.b, m->Emissive.a };
         mat.power = m->Power;
         mat.alpha = m->Alpha;
-        if (m->DiffuseLayerNum > 0) mat.diffuse_texture = m->DiffuseLayer[0].Texture;
+        if (m->DiffuseLayerNum > 0)  mat.diffuse_texture  = m->DiffuseLayer[0].Texture;
+        if (m->SpecularLayerNum > 0) mat.specular_texture = m->SpecularLayer[0].Texture;
+        if (m->NormalLayerNum > 0)   mat.normal_texture   = m->NormalLayer[0].Texture;
+        if (m->ToonInfo != 0) {
+            const auto *tn = f.at<f1::MV1_MATERIAL_TOON_F1>(m->ToonInfo);
+            if (tn) {
+                mat.is_toon = true;
+                mat.toon_diffuse_grad_texture  = tn->DiffuseGradTexture;
+                mat.toon_specular_grad_texture = tn->SpecularGradTexture;
+                mat.toon_diffuse_grad_blend    = tn->DiffuseGradBlendType;
+                mat.toon_specular_grad_blend   = tn->SpecularGradBlendType;
+                mat.toon_outline_width    = tn->OutLineWidth;
+                mat.toon_outline_dot_width = tn->OutLineDotWidth;
+                mat.toon_outline_color = { tn->OutLineColor.r, tn->OutLineColor.g,
+                                           tn->OutLineColor.b, tn->OutLineColor.a };
+                mat.toon_enable_sphere_map = tn->EnableSphereMap;
+                mat.toon_sphere_map_blend  = tn->SphereMapBlendType;
+                mat.toon_sphere_map_texture = tn->SphereMapTexture;
+            }
+        }
         r.ir.materials.push_back(std::move(mat));
     }
 

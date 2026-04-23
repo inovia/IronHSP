@@ -22,7 +22,23 @@ struct MaterialIR {
     std::array<float, 4> emissive {0.0f, 0.0f, 0.0f, 0.0f};
     float power = 20.0f;
     float alpha = 0.0f;
-    int diffuse_texture = -1;  // TextureIR index、なければ -1
+    int diffuse_texture  = -1;  // TextureIR index、なければ -1
+    int specular_texture = -1;
+    int normal_texture   = -1;
+    int emissive_texture = -1;
+
+    // Toon (MV1_MATERIAL_TOON_F1)。is_toon=true なら writer が ToonInfo を出力。
+    bool is_toon = false;
+    int toon_diffuse_grad_texture  = -1;  // トゥーン陰影グラデーション (主)
+    int toon_specular_grad_texture = -1;
+    int toon_sphere_map_texture    = -1;
+    std::uint8_t toon_enable_sphere_map   = 0;
+    std::uint8_t toon_sphere_map_blend    = 0;  // 0=NORMAL,1=ADD,2=SUB...(DxLib BLENDTYPE)
+    int toon_diffuse_grad_blend    = 0;
+    int toon_specular_grad_blend   = 0;
+    float toon_outline_width = 0.0f;
+    float toon_outline_dot_width = 0.0f;
+    std::array<float, 4> toon_outline_color {0.0f, 0.0f, 0.0f, 1.0f};
 };
 
 // ボーン階層 (skin mesh 用)。Frame と兼用: 全 bone = 全 MV1 Frame として書き出す。

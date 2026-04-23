@@ -217,13 +217,14 @@ LoadResult load_pmx(const std::string &path) {
         ambi[0] = c.read<float>(); ambi[1] = c.read<float>(); ambi[2] = c.read<float>();
         std::uint8_t drawFlag = c.read<std::uint8_t>(); (void)drawFlag;
         float edgeColor[4]; for (int k = 0; k < 4; ++k) edgeColor[k] = c.read<float>();
-        float edgeSize = c.read<float>(); (void)edgeSize;
+        float edgeSize = c.read<float>();
         std::int32_t texIdx  = c.read_var_idx(texIdxSize);
-        std::int32_t sphIdx  = c.read_var_idx(texIdxSize); (void)sphIdx;
-        c.skip(1);  // sphere mode
+        std::int32_t sphIdx  = c.read_var_idx(texIdxSize);
+        std::uint8_t sphereMode = c.read<std::uint8_t>();
         std::uint8_t toonFlag = c.read<std::uint8_t>();
-        if (toonFlag == 0) c.skip(texIdxSize);
-        else               c.skip(1);  // built-in toon (u8 index)
+        std::int32_t toonTexIdx = -1;
+        if (toonFlag == 0) toonTexIdx = c.read_var_idx(texIdxSize);
+        else               toonTexIdx = c.read<std::uint8_t>();  // built-in 0..9
         std::string memo = c.read_str(utf16le); (void)memo;
         std::uint32_t faceVertN = c.read<std::uint32_t>();
 
@@ -233,15 +234,37 @@ LoadResult load_pmx(const std::string &path) {
         mat.specular = {spec[0], spec[1], spec[2], 1.0f};
         mat.ambient  = {ambi[0], ambi[1], ambi[2], 1.0f};
         mat.power = power;
-        if (texIdx >= 0 && static_cast<std::size_t>(texIdx) < texPaths.size()) {
+        auto push_tex = [&](const std::string &pp) -> int {
+            if (pp.empty()) return -1;
             TextureIR t;
-            auto pp = texPaths[texIdx];
             auto slash = pp.find_last_of("/\\");
             t.name = (slash == std::string::npos) ? pp : pp.substr(slash + 1);
             t.color_path = pp;
-            mat.diffuse_texture = static_cast<int>(r.ir.textures.size());
+            int idx = static_cast<int>(r.ir.textures.size());
             r.ir.textures.push_back(t);
+            return idx;
+        };
+        if (texIdx >= 0 && static_cast<std::size_t>(texIdx) < texPaths.size()) {
+            mat.diffuse_texture = push_tex(texPaths[texIdx]);
         }
+
+        // Toon 情報: PMX はすべてトゥーン陰影前提 + edge outline
+        mat.is_toon = true;
+        mat.toon_outline_width = edgeSize;
+        mat.toon_outline_color = {edgeColor[0], edgeColor[1], edgeColor[2], edgeColor[3]};
+        // 外部 toon テクスチャがあれば diffuse grad として登録
+        if (toonFlag == 0 && toonTexIdx >= 0 && static_cast<std::size_t>(toonTexIdx) < texPaths.size()) {
+            mat.toon_diffuse_grad_texture = push_tex(texPaths[toonTexIdx]);
+            mat.toon_diffuse_grad_blend   = 1;  // DX_MATERIAL_BLENDTYPE_TRANSLUCENT
+        }
+        // Sphere map
+        if (sphereMode > 0 && sphIdx >= 0 && static_cast<std::size_t>(sphIdx) < texPaths.size()) {
+            mat.toon_sphere_map_texture = push_tex(texPaths[sphIdx]);
+            mat.toon_enable_sphere_map = 1;
+            // sphereMode: 1=mul, 2=add, 3=subtex (PMX)
+            mat.toon_sphere_map_blend = (sphereMode == 2) ? 2 /* ADDITIVE */ : 1 /* TRANSLUCENT */;
+        }
+
         mats.push_back(mat);
         matFaceN[m] = faceVertN;
     }
