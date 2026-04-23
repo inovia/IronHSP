@@ -1,0 +1,15 @@
+;  Web 最小テスト: boxf 1 つだけ
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    color 30, 50, 100
+    boxf 0, 0, 640, 480
+
+    color 255, 100, 100
+    boxf 100, 100, 540, 380
+
+    redraw 1
+    wait 200
+
+    end

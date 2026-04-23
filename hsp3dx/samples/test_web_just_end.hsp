@@ -1,0 +1,5 @@
+;  Web 切り分け: 即 end のみ
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+    end

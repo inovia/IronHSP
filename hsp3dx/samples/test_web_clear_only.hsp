@@ -1,0 +1,14 @@
+;  Web 切り分けテスト: ClearDrawScreen だけ (glClear 経由)
+;  glBegin/glEnd を使わないので LEGACY_GL_EMULATION crash しないはず
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    ;  背景色を青に (DxLib SetBackgroundColor 経由)
+    color 50, 100, 200
+    cls 4   ; cls mode 4 = 単色塗り (背景色)
+
+    redraw 1
+    wait 200
+
+    end

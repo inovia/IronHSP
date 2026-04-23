@@ -1,0 +1,6 @@
+;  Web 切り分け: redraw のみ
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+    redraw 1
+    end
