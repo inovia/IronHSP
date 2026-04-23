@@ -4,6 +4,13 @@ project(hsp3dx_angle_sdl2 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+if(EMSCRIPTEN)
+    # wasm-native exception handling: -fwasm-exceptions は compile/link 両方に必要。
+    # 旧 emscripten EH (-s DISABLE_EXCEPTION_CATCHING=0) は __cxa_throw 経路で
+    # JSPI 中に suspend しようとして SuspendError を出すので使えない。
+    add_compile_options(-fwasm-exceptions)
+endif()
+
 # =========================================================================
 # hsp3dx Mac/Linux/Web 移植 PoC
 #
@@ -116,6 +123,15 @@ else()
             endif()
         endif()
     endif()
+endif()
+
+if(EMSCRIPTEN)
+    # emscripten 内蔵 SDL2_ttf port を使う。-s USE_SDL_TTF=2 で link、
+    # compile 側にも同じ flag を付けないと include path が通らない。
+    add_library(SDL2::ttf INTERFACE IMPORTED)
+    target_compile_options(SDL2::ttf INTERFACE "SHELL:-s USE_SDL_TTF=2")
+    target_link_options(SDL2::ttf INTERFACE "SHELL:-s USE_SDL_TTF=2")
+    set(HAS_SDL2_TTF 1)
 endif()
 
 if(HAS_SDL2_TTF)
@@ -639,6 +655,12 @@ if(EMSCRIPTEN)
         # 深い call stack で overflow → Chrome タブ即 crash (Windows Exploit
         # Protection が検出して kill する)。1MB に拡張で安定。
         "SHELL:-s STACK_SIZE=1048576"
+        # SDL2_ttf は SDL2::ttf interface lib 経由で link される (上の if(EMSCRIPTEN))
+        # HSP/DxLib は例外を投げる (msgfunc の throw HSPERR_NONE 等)。Font 描画
+        # path でも throw 経路あり。-s DISABLE_EXCEPTION_CATCHING=0 だと
+        # __cxa_throw 中の demangle で JSPI suspend が破綻する (SuspendError)。
+        # -fwasm-exceptions で modern wasm-native EH に切替 (JSPI 互換)。
+        "SHELL:-fwasm-exceptions"
         "SHELL:-O0"
         # divide-by-zero の関数特定のため debug info + symbol map 残す。
         # -g4 + DWARF source map で browser DevTools が呼出スタックを source 行で
@@ -646,6 +668,7 @@ if(EMSCRIPTEN)
         "SHELL:-g"
         "SHELL:--emit-symbol-map"
         "SHELL:--preload-file ${CMAKE_CURRENT_BINARY_DIR}/start.ax@/start.ax"
+        "SHELL:--preload-file ${CMAKE_CURRENT_BINARY_DIR}/MSGOTHIC.TTC@/MSGOTHIC.TTC"
         "SHELL:--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/web/capture_shell.html"
     )
 endif()

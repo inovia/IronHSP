@@ -57,7 +57,9 @@ static const char *default_font_path( void )
 static const char * const *fallback_font_paths( void )
 {
     static const char *paths[] = {
-#if defined(_WIN32)
+#if defined(__EMSCRIPTEN__)
+        "/MSGOTHIC.TTC",  // wasm virtual fs に preload-file で bundle 済
+#elif defined(_WIN32)
         "C:/Windows/Fonts/YuGothR.ttc",
         "C:/Windows/Fonts/meiryo.ttc",
         "C:/Windows/Fonts/msgothic.ttc",
@@ -433,6 +435,19 @@ static void desktop_font_draw_surface( SDL_Surface *surf,
     glGenTextures( 1, &tex ) ;
     glBindTexture( GL_TEXTURE_2D, tex ) ;
 
+#ifdef __EMSCRIPTEN__
+    //  WebGL 1 は GL_UNPACK_ROW_LENGTH も GL_BGRA も非対応。
+    //  SDL_ConvertSurfaceFormat で RGBA32 へ変換してから tightly-packed で upload。
+    SDL_Surface *rgba = SDL_ConvertSurfaceFormat( surf, SDL_PIXELFORMAT_RGBA32, 0 ) ;
+    if ( !rgba ) {
+        glDeleteTextures( 1, &tex ) ;
+        return ;
+    }
+    glPixelStorei( GL_UNPACK_ALIGNMENT, 1 ) ;
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, rgba->w, rgba->h, 0,
+                  GL_RGBA, GL_UNSIGNED_BYTE, rgba->pixels ) ;
+    SDL_FreeSurface( rgba ) ;
+#else
     // SDL_ttf の Blended surface は 32bit RGBA だが、ネイティブ endianness に依存。
     // SDL2 の masks を見て RGBA/BGRA を判別するのが確実だが、little-endian + SDL2 の
     // TTF_RenderUTF8_Blended は ARGB (BGRA in memory) で返す。GL_BGRA でアップ。
@@ -441,6 +456,7 @@ static void desktop_font_draw_surface( SDL_Surface *surf,
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, surf->w, surf->h, 0,
                   GL_BGRA, GL_UNSIGNED_BYTE, surf->pixels ) ;
     glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 ) ;
+#endif
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR ) ;
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR ) ;
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE ) ;
