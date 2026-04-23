@@ -1,0 +1,178 @@
+#include "vrm_import.hpp"
+#include "mini_json.hpp"
+#include <cstdio>
+#include <cstring>
+#include <filesystem>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+namespace mv1conv {
+
+namespace {
+
+// VRM humanoid name → MMD 日本語 bone 名
+const std::unordered_map<std::string, std::string> &mmd_bone_table() {
+    static const std::unordered_map<std::string, std::string> m = {
+        {"hips", "センター"},       {"spine", "上半身"},
+        {"chest", "上半身2"},       {"upperChest", "上半身2"},
+        {"neck", "首"},             {"head", "頭"},
+        {"leftEye", "左目"},        {"rightEye", "右目"},
+        {"jaw", "顎"},
+        {"leftShoulder", "左肩"},   {"leftUpperArm", "左腕"},
+        {"leftLowerArm", "左ひじ"}, {"leftHand", "左手首"},
+        {"rightShoulder", "右肩"},  {"rightUpperArm", "右腕"},
+        {"rightLowerArm", "右ひじ"},{"rightHand", "右手首"},
+        {"leftUpperLeg", "左足"},   {"leftLowerLeg", "左ひざ"},
+        {"leftFoot", "左足首"},     {"leftToes", "左つま先"},
+        {"rightUpperLeg", "右足"},  {"rightLowerLeg", "右ひざ"},
+        {"rightFoot", "右足首"},    {"rightToes", "右つま先"},
+        {"leftThumbProximal","左親指１"},{"leftThumbIntermediate","左親指２"},{"leftThumbDistal","左親指先"},
+        {"leftIndexProximal","左人指１"},{"leftIndexIntermediate","左人指２"},{"leftIndexDistal","左人指３"},
+        {"leftMiddleProximal","左中指１"},{"leftMiddleIntermediate","左中指２"},{"leftMiddleDistal","左中指３"},
+        {"leftRingProximal","左薬指１"},{"leftRingIntermediate","左薬指２"},{"leftRingDistal","左薬指３"},
+        {"leftLittleProximal","左小指１"},{"leftLittleIntermediate","左小指２"},{"leftLittleDistal","左小指３"},
+        {"rightThumbProximal","右親指１"},{"rightThumbIntermediate","右親指２"},{"rightThumbDistal","右親指先"},
+        {"rightIndexProximal","右人指１"},{"rightIndexIntermediate","右人指２"},{"rightIndexDistal","右人指３"},
+        {"rightMiddleProximal","右中指１"},{"rightMiddleIntermediate","右中指２"},{"rightMiddleDistal","右中指３"},
+        {"rightRingProximal","右薬指１"},{"rightRingIntermediate","右薬指２"},{"rightRingDistal","右薬指３"},
+        {"rightLittleProximal","右小指１"},{"rightLittleIntermediate","右小指２"},{"rightLittleDistal","右小指３"},
+    };
+    return m;
+}
+
+// GLB から JSON chunk のみ取り出し
+std::string read_glb_json(const std::string &path, std::string &err) {
+    std::FILE *fp = std::fopen(path.c_str(), "rb");
+    if (!fp) { err = "cannot open: " + path; return {}; }
+    std::error_code ec;
+    auto sz = std::filesystem::file_size(path, ec);
+    if (ec) { std::fclose(fp); err = "file_size fail"; return {}; }
+    std::vector<std::uint8_t> all(sz);
+    if (std::fread(all.data(), 1, all.size(), fp) != all.size()) { std::fclose(fp); err = "short read"; return {}; }
+    std::fclose(fp);
+    if (all.size() < 12 || std::memcmp(all.data(), "glTF", 4) != 0) {
+        err = "not a GLB"; return {};
+    }
+    std::uint32_t total;
+    std::memcpy(&total, all.data() + 8, 4);
+    const std::uint8_t *cp = all.data() + 12;
+    const std::uint8_t *cpEnd = all.data() + std::min<std::size_t>(total, all.size());
+    while (cp + 8 <= cpEnd) {
+        std::uint32_t clen, ctype;
+        std::memcpy(&clen,  cp + 0, 4);
+        std::memcpy(&ctype, cp + 4, 4);
+        cp += 8;
+        if (cp + clen > cpEnd) break;
+        if (ctype == 0x4E4F534A) {
+            return std::string(reinterpret_cast<const char *>(cp), clen);
+        }
+        cp += clen;
+    }
+    err = "no JSON chunk"; return {};
+}
+
+}  // anon
+
+LoadResult apply_vrm_extensions(const std::string &vrm_path, const ModelIR &in_model,
+                                bool mmd_names) {
+    LoadResult r;
+    r.ir = in_model;
+
+    std::string err;
+    std::string jsonStr = read_glb_json(vrm_path, err);
+    if (jsonStr.empty()) return r;  // 通常 GLB でも通るので非エラー
+
+    std::string jerr;
+    auto root = json::parse(jsonStr.data(), jsonStr.size(), jerr);
+    if (!root.is_object()) return r;
+
+    const auto &extensions = root["extensions"];
+    if (!extensions.is_object()) return r;
+
+    int renamed = 0, toonApplied = 0;
+    auto applyBoneMap = [&](const std::string &nodeName, const std::string &humanoidName) {
+        const auto &tbl = mmd_bone_table();
+        auto it = tbl.find(humanoidName);
+        std::string dst = (mmd_names && it != tbl.end()) ? it->second : humanoidName;
+        for (auto &b : r.ir.bones) {
+            if (b.name == nodeName) { b.name = dst; ++renamed; break; }
+        }
+    };
+
+    // node 名取得ヘルパ
+    const auto &nodes = root["nodes"];
+    auto nodeName = [&](int idx) -> std::string {
+        if (!nodes.is_array() || idx < 0 || idx >= static_cast<int>(nodes.size())) return {};
+        const auto &n = nodes[static_cast<std::size_t>(idx)];
+        if (!n.is_object()) return {};
+        return n["name"].as_string();
+    };
+
+    // ---- VRM 0.x: humanoid.humanBones[] ----
+    const auto &vrm0 = extensions["VRM"];
+    if (vrm0.is_object()) {
+        const auto &hbs = vrm0["humanoid"]["humanBones"];
+        if (hbs.is_array()) {
+            for (std::size_t i = 0; i < hbs.size(); ++i) {
+                const auto &hb = hbs[i];
+                if (!hb.is_object()) continue;
+                std::string boneName = hb["bone"].as_string();
+                int nodeIdx = static_cast<int>(hb["node"].as_number(-1));
+                std::string nName = nodeName(nodeIdx);
+                if (!boneName.empty() && !nName.empty()) applyBoneMap(nName, boneName);
+            }
+        }
+        // MToon materialProperties
+        const auto &mats = vrm0["materialProperties"];
+        if (mats.is_array()) {
+            for (std::size_t i = 0; i < mats.size() && i < r.ir.materials.size(); ++i) {
+                const auto &mp = mats[i];
+                if (!mp.is_object()) continue;
+                if (mp["shader"].as_string().find("MToon") == std::string::npos) continue;
+                auto &mat = r.ir.materials[i];
+                mat.is_toon = true;
+                const auto &vec = mp["vectorProperties"];
+                if (vec.is_object()) {
+                    const auto &oc = vec["_OutlineColor"];
+                    if (oc.is_array() && oc.size() >= 4) {
+                        mat.toon_outline_color = {
+                            static_cast<float>(oc[0].as_number()),
+                            static_cast<float>(oc[1].as_number()),
+                            static_cast<float>(oc[2].as_number()),
+                            static_cast<float>(oc[3].as_number()),
+                        };
+                    }
+                }
+                const auto &flo = mp["floatProperties"];
+                if (flo.is_object()) {
+                    double ow = flo["_OutlineWidth"].as_number();
+                    if (ow != 0) mat.toon_outline_width = static_cast<float>(ow);
+                }
+                ++toonApplied;
+            }
+        }
+    }
+
+    // ---- VRM 1.0 (VRMC_vrm): humanoid.humanBones is object {name: {node: N}, ...} ----
+    const auto &vrm1 = extensions["VRMC_vrm"];
+    if (vrm1.is_object()) {
+        const auto &hbs = vrm1["humanoid"]["humanBones"];
+        if (hbs.is_object()) {
+            for (const auto &[humanoidName, ent] : hbs.obj()) {
+                if (!ent.is_object()) continue;
+                int nodeIdx = static_cast<int>(ent["node"].as_number(-1));
+                std::string nName = nodeName(nodeIdx);
+                if (!nName.empty()) applyBoneMap(nName, humanoidName);
+            }
+        }
+    }
+
+    if (renamed > 0 || toonApplied > 0) {
+        std::fprintf(stderr, "VRM: %d bones renamed, %d MToon materials applied\n",
+                     renamed, toonApplied);
+    }
+    return r;
+}
+
+}

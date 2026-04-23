@@ -12,6 +12,7 @@
 #include "pmx_import.hpp"
 #include "gpb_import.hpp"
 #include "vmd_import.hpp"
+#include "vrm_import.hpp"
 #ifdef MV1CONV_HAVE_ASSIMP
 #include "assimp_import.hpp"
 #endif
@@ -60,10 +61,7 @@ static int convert_generic(const char *in, const char *out, bool noBones = false
             else ir = &lr.ir;
         }
     } else if (ext == "glb" || ext == "gltf" || ext == "vrm") {
-        // .vrm は GLB ベース: 基礎 geometry + スキン + マテリアル色は取り込める。
-        // VRM 固有拡張 (humanoid mapping / SpringBone / MToon) は現状未対応。
 #ifdef MV1CONV_HAVE_ASSIMP
-        // assimp の glTF importer は VRM を GLB として扱えてボーン抽出できる
         lr = load_via_assimp(in);
         if (!lr.ok()) { err = lr.error; }
         else ir = &lr.ir;
@@ -72,6 +70,12 @@ static int convert_generic(const char *in, const char *out, bool noBones = false
         if (!lr.ok()) { err = lr.error; }
         else ir = &lr.ir;
 #endif
+        // .vrm 限定で VRM 拡張を上書き適用 (humanoid bone rename + MToon)
+        if (ext == "vrm" && lr.ok()) {
+            bool useMmdNames = std::getenv("MV1CONV_VRM_MMD_NAMES") != nullptr;
+            auto vr = apply_vrm_extensions(in, lr.ir, useMmdNames);
+            if (vr.ok()) { lr.ir = std::move(vr.ir); ir = &lr.ir; }
+        }
     } else if (ext == "wrl" || ext == "vrml") {
         lr = load_wrl(in);
         if (!lr.ok()) { err = lr.error; }
