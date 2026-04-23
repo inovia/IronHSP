@@ -34,6 +34,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <set>
 
 // ===========================================================================
 //  DXBC container parser
@@ -579,9 +580,11 @@ struct TranslatorState {
     bool    seen_sv_position = false ;
     bool    use_texture = false ;
     bool    use_derivatives = false ;   // dFdx/dFdy → GL_OES_standard_derivatives
-    bool    use_shadow = false ;        // shadow2D → サンプラーを sampler2DShadow 宣言へ
+    bool    use_shadow = false ;        // sampler2DShadow で declare すべき texture 有り
     bool    translation_ok = true ;
     int     unsupported_count = 0 ;
+    std::set<uint32_t>  resource_slots ;   // dcl_resource された texture slot 全部
+    std::set<uint32_t>  shadow_slots ;     // sample_c で使われた slot
 } ;
 
 // Emit GLSL for a declaration
@@ -608,9 +611,11 @@ static void emit_decl( TranslatorState &st, const Instruction &ins,
             // GLSL では sampler は texture と組合せ。ここでは宣言だけ記録
             break ;
         case OP_DCL_RESOURCE:
+            // ここでは slot を記録するだけ。declaration は 2 pass 目に sample_c
+            // 使用有無を見て sampler2D / sampler2DShadow を選んで emit する
             if ( !ins.operands.empty() ) {
                 uint32_t slot = ins.operands[ 0 ].imm_index[ 0 ] ;
-                st.header << "uniform sampler2D t" << slot << " ;\n" ;
+                st.resource_slots.insert( slot ) ;
                 st.use_texture = true ;
             }
             break ;
@@ -861,8 +866,18 @@ static bool emit_instruction( TranslatorState &st, const Instruction &ins,
                 }
                 if ( ref.empty() ) ref = "0.0" ;
                 st.use_shadow = true ;
-                // GLSL 120 は sampler2DShadow + shadow2D で比較サンプル可。ref は .z に埋める
-                set_dst( "vec4(shadow2D(" + tex + ", vec3((" + uv + ").xy, " + ref + ")).rrrr)" ) ;
+                // sampler2DShadow として declare する slot を記録
+                for ( const auto &o : ins.operands ) {
+                    if ( o.operand_type == OPT_RESOURCE ) {
+                        st.shadow_slots.insert( o.imm_index[ 0 ] ) ;
+                        break ;
+                    }
+                }
+                // shadow2D は vec3(uv.xy, ref) を期待 (合計 3 成分)。
+                // ref は vec4 broadcast の可能性があるので ".x" で scalar 化
+                std::string ref_scalar = "(" + ref + ").x" ;
+                if ( ref == "0.0" ) ref_scalar = ref ;   // literal はそのまま
+                set_dst( "vec4(shadow2D(" + tex + ", vec3((" + uv + ").xy, " + ref_scalar + ")).rrrr)" ) ;
                 return true ;
             }
             break ;
@@ -1293,6 +1308,16 @@ int DxDxbc_Translate( const void *data, int size,
     }
     st.body << "}\n" ;
 
+    // texture resource の最終 declaration (shadow 使用有無で sampler 型を選ぶ)
+    std::ostringstream tex_decls ;
+    for ( uint32_t slot : st.resource_slots ) {
+        if ( st.shadow_slots.count( slot ) ) {
+            tex_decls << "uniform sampler2DShadow t" << slot << " ;\n" ;
+        } else {
+            tex_decls << "uniform sampler2D t" << slot << " ;\n" ;
+        }
+    }
+
     // 拡張指示は #version の直後、他の宣言より前に挿入する
     std::string hdr = st.header.str() ;
     if ( st.use_derivatives || st.use_shadow ) {
@@ -1302,11 +1327,9 @@ int DxDxbc_Translate( const void *data, int size,
         std::string ext ;
         if ( st.use_derivatives )
             ext += "#extension GL_OES_standard_derivatives : enable\n" ;
-        // shadow2D は GLSL 120 built-in (desktop) だが GLSL ES 2 では未定義。
-        // 呼ぶ側で sampler2DShadow 宣言が必要だが、現状は sampler2D のまま出している (近似)。
         hdr.insert( insert_at, ext ) ;
     }
-    if ( out_glsl ) *out_glsl = hdr + st.body.str() ;
+    if ( out_glsl ) *out_glsl = hdr + tex_decls.str() + st.body.str() ;
 
     if ( !st.translation_ok ) {
         std::fprintf( stderr,
