@@ -475,6 +475,19 @@ static const char kSwizChars[] = "xyzw" ;
 //  PS: input v_N → varying v_varyN ; output o0 → gl_FragColor
 static bool g_is_pixel_shader = false ;
 
+// DxbcData の input/output signature から reg_index → system value をテーブル化し、
+// operand_reg が SV_VertexID / SV_InstanceID 等を GLSL 組み込みに変換できるようにする。
+static std::vector<uint32_t> g_input_sv ;   // reg_index → sv code (0 if no sv)
+static std::vector<uint32_t> g_output_sv ;
+static void set_sv_table( const DxbcData &d ) {
+    g_input_sv.assign( 32, 0 ) ;
+    g_output_sv.assign( 32, 0 ) ;
+    for ( const auto &s : d.inputs )
+        if ( s.reg_index < g_input_sv.size() ) g_input_sv[ s.reg_index ] = s.system_value ;
+    for ( const auto &s : d.outputs )
+        if ( s.reg_index < g_output_sv.size() ) g_output_sv[ s.reg_index ] = s.system_value ;
+}
+
 // register name helper — produce GLSL-compatible ident for operand
 static std::string operand_reg( const Operand &op )
 {
@@ -484,7 +497,19 @@ static std::string operand_reg( const Operand &op )
             std::snprintf( buf, sizeof buf, "r%u", op.imm_index[ 0 ] ) ;
             break ;
         case OPT_INPUT:
+            // System value に該当する場合は GLSL 組み込みを返す (VS のみ)
+            if ( !g_is_pixel_shader && op.imm_index[ 0 ] < g_input_sv.size() ) {
+                uint32_t sv = g_input_sv[ op.imm_index[ 0 ] ] ;
+                if ( sv == 6 /*SV_VertexID*/   ) { std::snprintf( buf, sizeof buf, "vec4(float(gl_VertexID))"    ) ; break ; }
+                if ( sv == 8 /*SV_InstanceID*/ ) { std::snprintf( buf, sizeof buf, "vec4(float(gl_InstanceID))"  ) ; break ; }
+            }
             if ( g_is_pixel_shader ) {
+                // PS 入力の system value: SV_PrimitiveID / SV_SampleIndex / SV_IsFrontFace
+                if ( op.imm_index[ 0 ] < g_input_sv.size() ) {
+                    uint32_t sv = g_input_sv[ op.imm_index[ 0 ] ] ;
+                    if ( sv == 7 /*SV_PrimitiveID*/ ) { std::snprintf( buf, sizeof buf, "vec4(float(gl_PrimitiveID))" ) ; break ; }
+                    if ( sv == 9 /*SV_IsFrontFace*/ ) { std::snprintf( buf, sizeof buf, "vec4(gl_FrontFacing ? 1.0 : 0.0)" ) ; break ; }
+                }
                 std::snprintf( buf, sizeof buf, "v_vary%u", op.imm_index[ 0 ] ) ;
             } else {
                 std::snprintf( buf, sizeof buf, "a_in%u", op.imm_index[ 0 ] ) ;
@@ -494,6 +519,9 @@ static std::string operand_reg( const Operand &op )
             // PS の OPT_OUTPUT は set_dst で gl_FragColor に置換されるので通らないはず。
             // VS の OPT_OUTPUT は set_dst 側で SV_POSITION/varying に分岐。
             std::snprintf( buf, sizeof buf, "v_vary%u", op.imm_index[ 0 ] ) ;
+            break ;
+        case OPT_OUTPUT_DEPTH:
+            std::snprintf( buf, sizeof buf, "gl_FragDepth" ) ;
             break ;
         case OPT_CONSTANT_BUFFER:
             // cb[slot][index]. index_dim should be 2.
@@ -765,6 +793,11 @@ static bool emit_instruction( TranslatorState &st, const Instruction &ins,
         if ( ins.operands.empty() ) return ;
         const Operand &d = ins.operands[ 0 ] ;
         std::string rhs = apply_dst_mask_to_rhs( val, d, scalar_rhs ) ;
+        // PS: OUTPUT_DEPTH → gl_FragDepth (scalar 代入)
+        if ( is_pixel_shader && d.operand_type == OPT_OUTPUT_DEPTH ) {
+            b << "    gl_FragDepth = (" << val << ").x ;\n" ;
+            return ;
+        }
         // Pixel shader output o0 → gl_FragColor
         if ( is_pixel_shader && d.operand_type == OPT_OUTPUT && d.imm_index[ 0 ] == 0 ) {
             // gl_FragColor は常に vec4 なので mask があっても partial write は不可
@@ -909,6 +942,31 @@ static bool emit_instruction( TranslatorState &st, const Instruction &ins,
                 return true ;
             }
             break ;
+        case OP_SAMPLE_D:
+            // sample_d: dst, uv, tN, sM, ddx, ddy
+            if ( ins.operands.size() >= 6 ) {
+                std::string tex ;
+                for ( const auto &o : ins.operands ) {
+                    if ( o.operand_type == OPT_RESOURCE ) {
+                        char b0[ 32 ] ;
+                        std::snprintf( b0, sizeof b0, "t%u", o.imm_index[ 0 ] ) ;
+                        tex = b0 ;
+                        break ;
+                    }
+                }
+                if ( tex.empty() ) tex = "t0" ;
+                std::string uv  = operand_src( ins.operands[ 1 ] ) ;
+                std::string dux = operand_src( ins.operands[ 4 ] ) ;
+                std::string duy = operand_src( ins.operands[ 5 ] ) ;
+                // GLSL には textureGrad があるが GLSL 120 は texture2DGradEXT (extension) か
+                // OES_standard_derivatives + bias で近似。保守的に texture2D + TODO
+                st.use_derivatives = true ;
+                set_dst( "texture2DGradEXT(" + tex + ", (" + uv + ").xy, (" +
+                         dux + ").xy, (" + duy + ").xy)" ) ;
+                return true ;
+            }
+            break ;
+
         case OP_SAMPLE:
         case OP_SAMPLE_L:
         case OP_SAMPLE_B:
@@ -1361,9 +1419,10 @@ int DxDxbc_Translate( const void *data, int size,
 
     bool is_ps = ( d.program_type == 0 ) ;
     g_is_pixel_shader = is_ps ;
+    set_sv_table( d ) ;
 
     TranslatorState st ;
-    st.header << "// Translated from DXBC by DxDxbcTranslator (minimal Phase 1)\n" ;
+    st.header << "// Translated from DXBC by DxDxbcTranslator (Phase 4)\n" ;
     st.header << "#version 120\n" ;
     if ( is_ps ) st.header << "#ifdef GL_FRAGMENT_PRECISION_HIGH\n"
                               "precision highp float;\n#else\n"
