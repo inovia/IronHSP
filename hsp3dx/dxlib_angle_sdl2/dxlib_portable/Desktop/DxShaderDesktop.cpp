@@ -276,6 +276,10 @@ uniform vec3            u_mainLightDirEye ;   // eye-space、既に正規化済�
 uniform int             u_numLights ;
 //  Fog 有効化 (gl_Fog.color / density を使う) と mode (0=off, 1=linear, 2=exp, 3=exp2)
 uniform int             u_fogMode ;
+//  Sphere map (MatCap、eye-space normal の xy を UV としてサンプリング)
+uniform sampler2D       u_sphereMap ;
+uniform int             u_useSphereMap ;
+uniform int             u_sphereMapBlend ;  // 0=MULTIPLY (MMD .sph), 1=ADD (MMD .spa), 2=REPLACE
 //  Emissive color (self-illumination、ライティング非依存で加算)
 uniform vec3            u_emissive ;
 uniform sampler2D       u_emissiveMap ;
@@ -412,6 +416,16 @@ void main( void )
         vec3 rampColor = texture2D( u_toonRamp, vec2( ndl, 0.5 ) ).rgb ;
         //  DxLib CPU 版と同じ "ramp * material diffuse" の乗算
         base.rgb = base.rgb * rampColor ;
+    }
+
+    //  Sphere map (MatCap、MMD .sph/.spa / toon 系で使う環境マップ風効果)
+    //  eye-space normal の xy を UV として texture 2D sampling。blend mode で混合方法切替
+    if ( u_useSphereMap == 1 ) {
+        vec2 sphUV = N.xy * 0.5 + 0.5 ;
+        vec4 sph = texture2D( u_sphereMap, sphUV ) ;
+        if ( u_sphereMapBlend == 0 )      base.rgb = base.rgb * sph.rgb ;           // MULTIPLY (.sph)
+        else if ( u_sphereMapBlend == 1 ) base.rgb = base.rgb + sph.rgb * sph.a ;   // ADD (.spa)
+        else                               base.rgb = sph.rgb ;                     // REPLACE
     }
 
     //  Emissive: material 固有の発光 (lighting 非依存で base に加算)

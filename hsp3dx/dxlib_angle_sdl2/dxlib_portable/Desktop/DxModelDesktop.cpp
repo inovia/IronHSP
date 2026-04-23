@@ -713,6 +713,36 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
         DesktopShader_SetUniform3f( glslH, "u_emissive", eR, eG, eB ) ;
         DesktopShader_SetUniform1i( glslH, "u_useEmissiveMap", 0 ) ;   // 将来 EmissiveLayer 対応
         DesktopShader_SetUniform1i( glslH, "u_emissiveMap",    9 ) ;   // TMU 9 確保
+
+        //  Sphere map (MatCap): Material の SphereMapTexture index → ModelBase->Texture[]
+        GLuint sphereTex = 0 ;
+        int sphereBlend = 0 ;
+        if ( Mesh->Material && Mesh->Material->BaseData ) {
+            MV1_MATERIAL_BASE *mbSph = Mesh->Material->BaseData ;
+            int sphIdx = mbSph->SphereMapTexture ;
+            if ( sphIdx >= 0 && Mesh->Container && Mesh->Container->BaseData &&
+                 Mesh->Container->BaseData->Container ) {
+                MV1_MODEL_BASE *modelBase = Mesh->Container->BaseData->Container ;
+                if ( sphIdx < modelBase->TextureNum && modelBase->Texture ) {
+                    int graphH = modelBase->Texture[ sphIdx ].GraphHandle ;
+                    sphereTex = desktop_mv1_tex_from_graph( graphH ) ;
+                }
+            }
+            //  BlendType: DxLib DX_MATERIAL_BLENDTYPE_* (ADDITIVE=1/MODULATE=2/等) を
+            //  shader の 0=MUL/1=ADD/2=REPLACE にマッピング
+            int bt = mbSph->SphereMapBlendType ;
+            if ( bt == 1 /*ADDITIVE*/ )      sphereBlend = 1 ;
+            else if ( bt == 3 /*NONE/REPLACE*/ ) sphereBlend = 2 ;
+            else                              sphereBlend = 0 ; //  MODULATE デフォルト
+        }
+        DesktopShader_SetUniform1i( glslH, "u_useSphereMap",    sphereTex ? 1 : 0 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_sphereMap",       10 ) ;   // TMU 10
+        DesktopShader_SetUniform1i( glslH, "u_sphereMapBlend",  sphereBlend ) ;
+        if ( sphereTex && p_glActiveTexture ) {
+            p_glActiveTexture( GL_TEXTURE0 + 10 ) ;
+            glBindTexture( GL_TEXTURE_2D, sphereTex ) ;
+            p_glActiveTexture( GL_TEXTURE0 ) ;
+        }
         //  DiffuseLayer[1..3]: 有効 layer 数 layerN を元に uniform 設定
         int d1 = ( layerN >= 2 ) ? 1 : 0 ;
         int d2 = ( layerN >= 3 ) ? 1 : 0 ;
