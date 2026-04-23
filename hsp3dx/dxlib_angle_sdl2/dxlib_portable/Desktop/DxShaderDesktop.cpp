@@ -252,6 +252,8 @@ uniform int             u_useShadow ;
 uniform sampler2DShadow u_shadowMap ;
 uniform sampler2D       u_normalMap ;
 uniform int             u_useNormalMap ;
+uniform float           u_parallaxHeightScale ;  //  0 なら parallax 無し
+uniform int             u_useParallax ;          //  1 で normal map の alpha を height として使用
 uniform sampler2D       u_specularMap ;
 uniform int             u_useSpecularMap ;
 uniform float           u_alphaThreshold ;
@@ -316,10 +318,23 @@ void main( void )
     if ( u_alphaThreshold > 0.0 && base.a < u_alphaThreshold ) discard ;
 
     vec3 N = normalize( v_normal ) ;
+    //  Parallax mapping: 事前に view 方向を tangent space に変換して UV を offset
+    //  (normal map の alpha を height として使う、u_parallaxHeightScale 0..1 程度)
+    //  GLSL 1.20 に transpose() 無いため手動で T,B,N の dot 積で代替。
+    vec2 uv = v_uv0 ;
+    if ( u_useNormalMap == 1 && u_useParallax == 1 && u_parallaxHeightScale > 0.0 ) {
+        mat3 TBN = derive_tbn( N, -v_eyePos, v_uv0 ) ;
+        vec3 V_eye = normalize( -v_eyePos ) ;
+        //  transpose(TBN) * V_eye は TBN の各列 (T,B,N) との dot 積
+        vec3 V_tan = vec3( dot( V_eye, TBN[ 0 ] ), dot( V_eye, TBN[ 1 ] ), dot( V_eye, TBN[ 2 ] ) ) ;
+        V_tan = normalize( V_tan ) ;
+        float h = texture2D( u_normalMap, v_uv0 ).a ;
+        uv = v_uv0 - V_tan.xy * ( ( h - 0.5 ) * u_parallaxHeightScale ) ;
+    }
     if ( u_useNormalMap == 1 ) {
         // tangent-space normal map を eye-space normal に変換
-        mat3 TBN = derive_tbn( N, -v_eyePos, v_uv0 ) ;
-        vec3 nm  = texture2D( u_normalMap, v_uv0 ).xyz * 2.0 - 1.0 ;
+        mat3 TBN = derive_tbn( N, -v_eyePos, uv ) ;
+        vec3 nm  = texture2D( u_normalMap, uv ).xyz * 2.0 - 1.0 ;
         N = normalize( TBN * nm ) ;
     }
 

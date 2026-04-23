@@ -670,6 +670,16 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
         DesktopShader_SetUniform1i( glslH, "u_useShadow",    useShadow ? 1 : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_useNormalMap", normTex ? 1 : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_useSpecularMap", specTex ? 1 : 0 ) ;
+        //  Parallax mapping: normal map の alpha を height として使う。
+        //  MV1 に explicit parallax flag が無いため、env var で opt-in。
+        //  HEIGHTSCALE は 0.02 前後が標準 (高いと歪み)。
+        static float s_parallaxScale = -1.0f ;
+        if ( s_parallaxScale < 0.0f ) {
+            const char *e = std::getenv( "HSP3DX_PARALLAX_SCALE" ) ;
+            s_parallaxScale = e ? ( float )std::atof( e ) : 0.0f ;
+        }
+        DesktopShader_SetUniform1i( glslH, "u_useParallax", ( normTex && s_parallaxScale > 0.0f ) ? 1 : 0 ) ;
+        DesktopShader_SetUniform1f( glslH, "u_parallaxHeightScale", s_parallaxScale ) ;
         //  DiffuseLayer[1..3]: 有効 layer 数 layerN を元に uniform 設定
         int d1 = ( layerN >= 2 ) ? 1 : 0 ;
         int d2 = ( layerN >= 3 ) ? 1 : 0 ;
