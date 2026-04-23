@@ -168,6 +168,90 @@ LoadResult apply_vrm_extensions(const std::string &vrm_path, const ModelIR &in_m
         }
     }
 
+    // ---- VRM 1.0 MToon (VRMC_materials_mtoon): material ごとの拡張 ----
+    // glTF では materials[].extensions.VRMC_materials_mtoon で参照
+    const auto &mats = root["materials"];
+    if (mats.is_array()) {
+        for (std::size_t i = 0; i < mats.size() && i < r.ir.materials.size(); ++i) {
+            const auto &mj = mats[i];
+            if (!mj.is_object()) continue;
+            const auto &mext = mj["extensions"]["VRMC_materials_mtoon"];
+            if (!mext.is_object()) continue;
+            auto &mat = r.ir.materials[i];
+            mat.is_toon = true;
+            const auto &ow = mext["outlineWidthFactor"];
+            if (ow.is_number()) mat.toon_outline_width = static_cast<float>(ow.as_number());
+            const auto &oc = mext["outlineColorFactor"];
+            if (oc.is_array() && oc.size() >= 3) {
+                mat.toon_outline_color = {
+                    static_cast<float>(oc[0].as_number()),
+                    static_cast<float>(oc[1].as_number()),
+                    static_cast<float>(oc[2].as_number()),
+                    1.0f,
+                };
+            }
+            ++toonApplied;
+        }
+    }
+
+    // ---- VRM 1.0 SpringBone (VRMC_springBone): 髪/スカート揺れ物理 ----
+    // MV1 の Physics (RigidBody + Joint) に部分変換。
+    // VRM の SpringBone は "colliderGroup" と "spring" 配列で構成され、
+    // 各 spring は joints[].node (node index) を辿ってチェーン構造を成す。
+    // 最小実装: 各 spring joint node を RigidBody (球形) として追加し、
+    // 連続 node 間に Joint を作る。パラメータは SpringBone 側から取れるだけ取る。
+    const auto &vrm1sb = extensions["VRMC_springBone"];
+    if (vrm1sb.is_object()) {
+        const auto &springs = vrm1sb["springs"];
+        if (springs.is_array() && !r.ir.bones.empty()) {
+            // bone node index → bone IR index map (node->name->bone)
+            std::unordered_map<std::string, int> boneIdxByName;
+            for (std::size_t bi = 0; bi < r.ir.bones.size(); ++bi)
+                boneIdxByName[r.ir.bones[bi].name] = static_cast<int>(bi);
+            int springRbAdded = 0;
+            for (std::size_t si = 0; si < springs.size(); ++si) {
+                const auto &sp = springs[si];
+                if (!sp.is_object()) continue;
+                const auto &joints = sp["joints"];
+                if (!joints.is_array()) continue;
+                std::vector<int> chainRb;  // 連続 RigidBody index
+                for (std::size_t ji = 0; ji < joints.size(); ++ji) {
+                    const auto &jnt = joints[ji];
+                    if (!jnt.is_object()) continue;
+                    int nodeIdx = static_cast<int>(jnt["node"].as_number(-1));
+                    std::string nName = nodeName(nodeIdx);
+                    auto it = boneIdxByName.find(nName);
+                    if (it == boneIdxByName.end()) continue;
+
+                    ModelIR::PhysicsRigidBodyIR rb;
+                    rb.name = "spring_" + nName;
+                    rb.target_bone = it->second;
+                    rb.shape_type = 0;  // sphere
+                    rb.shape_w = static_cast<float>(jnt["hitRadius"].as_number(0.1));
+                    rb.weight = static_cast<float>(jnt["dragForce"].as_number(0.5));
+                    rb.pos_dim = static_cast<float>(jnt["gravityPower"].as_number(0.0));
+                    rb.body_type = 1;  // 物理
+                    int rbIdx = static_cast<int>(r.ir.physics_rigid_bodies.size());
+                    r.ir.physics_rigid_bodies.push_back(std::move(rb));
+                    chainRb.push_back(rbIdx);
+                    ++springRbAdded;
+                }
+                // chain 内で連続 pair に Joint を生成
+                for (std::size_t k = 0; k + 1 < chainRb.size(); ++k) {
+                    ModelIR::PhysicsJointIR jt;
+                    jt.name = "spring_joint_" + std::to_string(si) + "_" + std::to_string(k);
+                    jt.rigid_a = chainRb[k];
+                    jt.rigid_b = chainRb[k + 1];
+                    r.ir.physics_joints.push_back(std::move(jt));
+                }
+            }
+            if (springRbAdded > 0) {
+                std::fprintf(stderr, "VRM SpringBone: %d rigid bodies + %zu joints added\n",
+                             springRbAdded, r.ir.physics_joints.size());
+            }
+        }
+    }
+
     if (renamed > 0 || toonApplied > 0) {
         std::fprintf(stderr, "VRM: %d bones renamed, %d MToon materials applied\n",
                      renamed, toonApplied);

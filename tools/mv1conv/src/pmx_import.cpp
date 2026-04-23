@@ -1,9 +1,11 @@
 #include "pmx_import.hpp"
+#include <algorithm>
 #include <cstdio>
 #include <cstdint>
 #include <cstring>
 #include <filesystem>
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include <windows.h>
 
@@ -339,6 +341,8 @@ LoadResult load_pmx(const std::string &path) {
     if (!c.ok) { r.error = "PMX: parse truncated mid-bone"; return r; }
 
     // マテリアル境界でメッシュ分割
+    // morph 用: (orig_vertex_idx, mesh_ir_idx, new_vertex_idx) map を構築
+    std::vector<std::vector<std::pair<int, std::uint32_t>>> origToMeshVerts(vertN);
     std::size_t idxOff = 0;
     for (std::uint32_t m = 0; m < matN; ++m) {
         std::uint32_t fc = matFaceN[m];
@@ -361,6 +365,8 @@ LoadResult load_pmx(const std::string &path) {
                 mesh.uvs.push_back(uvs[sv*2+0]);
                 mesh.uvs.push_back(uvs[sv*2+1]);
                 mesh.bone_weights.push_back(weights[sv]);
+                // morph 用 map 登録
+                if (sv < vertN) origToMeshVerts[sv].push_back({static_cast<int>(r.ir.meshes.size()), static_cast<std::uint32_t>(remap[sv])});
             }
             mesh.indices.push_back(static_cast<std::uint32_t>(remap[sv]));
         }
@@ -372,33 +378,90 @@ LoadResult load_pmx(const std::string &path) {
     r.ir.materials = std::move(mats);
     r.ir.bones     = std::move(bones);
 
-    // ========== Morphs (表情) 読み込み (skip、ただし physics section まで到達する必要あり) ==========
+    // PMX morph を mesh 分割に合わせて再編成
+    // 各 ShapeIR.meshes[0].vertices の target_mesh_vertex は元 PMX 全頂点 index なので、
+    // origToMeshVerts[] を使って (mesh_ir_idx, new_vertex_idx) 毎に vertices を振り分ける。
+    for (auto &sh : r.ir.shapes) {
+        if (sh.meshes.size() != 1) continue;
+        auto flatVerts = std::move(sh.meshes[0].vertices);
+        sh.meshes.clear();
+        // mesh_ir_idx → vertices[] map
+        std::unordered_map<int, std::vector<ShapeVertexIR>> byMesh;
+        for (const auto &sv : flatVerts) {
+            std::uint32_t origV = sv.target_mesh_vertex;
+            if (origV >= origToMeshVerts.size()) continue;
+            for (const auto &[meshIdx, newV] : origToMeshVerts[origV]) {
+                ShapeVertexIR copy = sv;
+                copy.target_mesh_vertex = newV;
+                byMesh[meshIdx].push_back(copy);
+            }
+        }
+        for (auto &[meshIdx, vs] : byMesh) {
+            ShapeMeshIR sm;
+            sm.target_mesh = static_cast<std::uint32_t>(meshIdx);
+            sm.vertices = std::move(vs);
+            sh.meshes.push_back(std::move(sm));
+        }
+    }
+    // vertices が全部消えた shape は削除
+    r.ir.shapes.erase(
+        std::remove_if(r.ir.shapes.begin(), r.ir.shapes.end(),
+            [](const ShapeIR &s){ return s.meshes.empty(); }),
+        r.ir.shapes.end());
+
+    // ========== Morphs (表情) 読み込み — vertex morph のみ Shape として保存 ==========
     if (c.ok) {
         std::uint32_t morphN = c.read<std::uint32_t>();
         for (std::uint32_t mo = 0; mo < morphN && c.ok; ++mo) {
-            c.read_str(utf16le); c.read_str(utf16le);  // name, nameEn
+            std::string mname = c.read_str(utf16le);
+            c.read_str(utf16le);  // nameEn
             c.skip(1);  // panel
             std::uint8_t morphType = c.read<std::uint8_t>();
             std::uint32_t offN = c.read<std::uint32_t>();
-            for (std::uint32_t k = 0; k < offN && c.ok; ++k) {
-                switch (morphType) {
-                case 0:  // group
-                    c.skip(morphIdxSize + 4); break;
-                case 1:  // vertex
-                    c.skip(vtxIdxSize + 12); break;
-                case 2:  // bone
-                    c.skip(boneIdxSize + 12 + 16); break;
-                case 3:  // uv / 4-7: additional UV
-                case 4: case 5: case 6: case 7:
-                    c.skip(vtxIdxSize + 16); break;
-                case 8:  // material
-                    c.skip(matIdxSize + 1 + 16 + 16 + 12 + 4 + 16 + 4 + 16 + 16 + 16); break;
-                case 9:  // flip
-                    c.skip(morphIdxSize + 4); break;
-                case 10: // impulse
-                    c.skip(rbIdxSize + 1 + 12 + 12); break;
-                default:
-                    c.ok = false; break;
+
+            if (morphType == 1) {
+                // vertex morph: (vertex idx, delta pos float3) × offN
+                // PMX の vertex index は mesh 分割 (matFaceN) 前の全頂点を指す
+                // matFaceN で分割したあと MeshIR 毎に vertex を再配置しているので、
+                // オリジナル vertex index → (mesh_idx, new vertex_idx) 逆引きマップが必要。
+                // 以下、収集のみ (マップは後で作成する)
+                struct VmorphEntry { std::uint32_t origV; float dp[3]; };
+                std::vector<VmorphEntry> ents;
+                ents.reserve(offN);
+                for (std::uint32_t k = 0; k < offN && c.ok; ++k) {
+                    std::uint32_t vi = c.read_var_uidx(vtxIdxSize);
+                    float dx = c.read<float>(), dy = c.read<float>(), dz = c.read<float>();
+                    ents.push_back({vi, {dx, dy, dz}});
+                }
+                // ShapeIR 保存は matFaceN 処理が終わってからなので、一時的に name + entries を貯める
+                r.ir.shapes.push_back(ShapeIR{});
+                auto &newSh = r.ir.shapes.back();
+                newSh.name = mname;
+                // 後で実際の mesh index / new vertex index に解決 (後述)
+                // entries を tmp として UserData 的に shape vertex に一時格納
+                // 正規のマップ構築は下記 matFaceN ループで行う
+                for (const auto &e : ents) {
+                    ShapeVertexIR sv;
+                    sv.target_mesh_vertex = e.origV;  // 一時的に PMX 原頂点 index
+                    sv.dp[0] = e.dp[0]; sv.dp[1] = e.dp[1]; sv.dp[2] = e.dp[2];
+                    sv.dn[0] = sv.dn[1] = sv.dn[2] = 0;
+                    // 1 つだけ ShapeMeshIR を作って flat 保存。matFaceN 後に mesh 分割し直す。
+                    if (newSh.meshes.empty()) newSh.meshes.push_back(ShapeMeshIR{});
+                    newSh.meshes[0].vertices.push_back(sv);
+                }
+            } else {
+                // その他 type は skip
+                for (std::uint32_t k = 0; k < offN && c.ok; ++k) {
+                    switch (morphType) {
+                    case 0:  c.skip(morphIdxSize + 4); break;
+                    case 2:  c.skip(boneIdxSize + 12 + 16); break;
+                    case 3: case 4: case 5: case 6: case 7:
+                        c.skip(vtxIdxSize + 16); break;
+                    case 8:  c.skip(matIdxSize + 1 + 16 + 16 + 12 + 4 + 16 + 4 + 16 + 16 + 16); break;
+                    case 9:  c.skip(morphIdxSize + 4); break;
+                    case 10: c.skip(rbIdxSize + 1 + 12 + 12); break;
+                    default: c.ok = false; break;
+                    }
                 }
             }
         }
