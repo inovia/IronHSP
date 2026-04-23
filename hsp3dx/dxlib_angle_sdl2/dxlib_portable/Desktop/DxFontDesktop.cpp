@@ -232,12 +232,71 @@ extern int FontCacheCharAddToHandle_Timing1_PF( FONTMANAGE *ManageData, FONTCHAR
     return 0 ;
 }
 
-// --- EnumFontName は stub --------------------------------------------------
+// --- EnumFontName: Win32 EnumFontFamiliesEx 経由 (Win のみ実装、他 platform は no-op) ---
+// EnumFontData->FontBuffer に wchar_t (LF_FACESIZE=32 区切り) を埋めて FontNum を返す
+// IsEx == TRUE で extra info も格納するが、現状は名前のみ収集
+
+#ifdef _WIN32
+struct EnumFontCtx {
+    wchar_t *out_buf ;     // FontBuffer (LF_FACESIZE 単位で並ぶ)
+    int      buf_capacity ;// BufferNum (face 数の上限)
+    int      count ;
+} ;
+static int CALLBACK desktop_font_enum_proc( const LOGFONTW *lf,
+                                             const TEXTMETRICW * /*tm*/,
+                                             DWORD /*FontType*/,
+                                             LPARAM lParam )
+{
+    EnumFontCtx *ctx = ( EnumFontCtx * )lParam ;
+    if ( !ctx || !ctx->out_buf ) return 0 ;
+    if ( ctx->count >= ctx->buf_capacity ) return 0 ;   // stop
+    // フェイス名の重複除外 (DxLib 本家準拠の簡易チェック)
+    for ( int i = 0 ; i < ctx->count ; i++ ) {
+        const wchar_t *prev = ctx->out_buf + ( size_t )i * LF_FACESIZE ;
+        if ( wcsncmp( prev, lf->lfFaceName, LF_FACESIZE ) == 0 ) return 1 ;
+    }
+    wchar_t *dst = ctx->out_buf + ( size_t )ctx->count * LF_FACESIZE ;
+    wcsncpy( dst, lf->lfFaceName, LF_FACESIZE - 1 ) ;
+    dst[ LF_FACESIZE - 1 ] = L'\0' ;
+    ctx->count++ ;
+    return 1 ;   // continue
+}
+#endif
 
 extern int EnumFontName_PF( ENUMFONTDATA *EnumFontData, int IsEx, int CharSet )
 {
-    (void)EnumFontData; (void)IsEx; (void)CharSet;
+    (void)IsEx;
+    if ( !EnumFontData || !EnumFontData->FontBuffer || EnumFontData->BufferNum <= 0 ) {
+        return 0 ;
+    }
+#ifdef _WIN32
+    EnumFontCtx ctx ;
+    ctx.out_buf      = EnumFontData->FontBuffer ;
+    ctx.buf_capacity = EnumFontData->BufferNum ;
+    ctx.count        = 0 ;
+
+    HDC hdc = GetDC( NULL ) ;
+    if ( !hdc ) { EnumFontData->FontNum = 0 ; return 0 ; }
+
+    LOGFONTW lf ;
+    std::memset( &lf, 0, sizeof( lf ) ) ;
+    lf.lfCharSet = ( CharSet >= 0 ) ? ( BYTE )CharSet : DEFAULT_CHARSET ;
+    if ( EnumFontData->EnumFontName ) {
+        wcsncpy( lf.lfFaceName, EnumFontData->EnumFontName, LF_FACESIZE - 1 ) ;
+    }
+
+    EnumFontFamiliesExW( hdc, &lf,
+                         ( FONTENUMPROCW )desktop_font_enum_proc,
+                         ( LPARAM )&ctx,
+                         0 ) ;
+    ReleaseDC( NULL, hdc ) ;
+    EnumFontData->FontNum = ctx.count ;
+    return ctx.count ;
+#else
+    // 非 Win platform は fontconfig 等が必要だが現状未対応 (stub)
+    EnumFontData->FontNum = 0 ;
     return 0 ;
+#endif
 }
 
 // --- Desktop_DrawString_Hook ------------------------------------------------
