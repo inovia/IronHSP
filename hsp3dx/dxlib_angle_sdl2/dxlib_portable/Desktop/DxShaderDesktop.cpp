@@ -255,6 +255,17 @@ uniform int             u_useNormalMap ;
 uniform sampler2D       u_specularMap ;
 uniform int             u_useSpecularMap ;
 uniform float           u_alphaThreshold ;
+//  DiffuseLayer[1..3] 多段 blending (TMU 5/6/7、有効 flag + blend mode)
+//  blend mode: 1=ADDITIVE 2=MODULATE 3=REPLACE 4=TRANSLUCENT (decal)
+uniform sampler2D       u_diffuse1 ;
+uniform sampler2D       u_diffuse2 ;
+uniform sampler2D       u_diffuse3 ;
+uniform int             u_useDiffuse1 ;
+uniform int             u_useDiffuse2 ;
+uniform int             u_useDiffuse3 ;
+uniform int             u_blendMode1 ;
+uniform int             u_blendMode2 ;
+uniform int             u_blendMode3 ;
 
 varying vec2 v_uv0 ;
 varying vec3 v_normal ;
@@ -277,11 +288,26 @@ mat3 derive_tbn( vec3 N, vec3 p, vec2 uv )
     return mat3( T * invmax, B * invmax, N ) ;
 }
 
+//  DiffuseLayer blend helper (1 layer apply)
+vec4 apply_layer( vec4 base, sampler2D tex, int mode )
+{
+    vec4 c = texture2D( tex, v_uv0 ) ;
+    if ( mode == 1 )      return vec4( base.rgb + c.rgb, base.a ) ;           // ADDITIVE
+    else if ( mode == 2 ) return base * c ;                                   // MODULATE
+    else if ( mode == 3 ) return c ;                                          // REPLACE
+    else                  return vec4( mix( base.rgb, c.rgb, c.a ), base.a ) ;// TRANSLUCENT (DECAL)
+}
+
 void main( void )
 {
     vec4 base = ( u_useTexture == 1 )
                 ? texture2D( u_diffuse0, v_uv0 ) * v_color
                 :                                 v_color ;
+
+    //  DiffuseLayer[1..3] を順に適用 (MV1 は blend order が重要)
+    if ( u_useDiffuse1 == 1 ) base = apply_layer( base, u_diffuse1, u_blendMode1 ) ;
+    if ( u_useDiffuse2 == 1 ) base = apply_layer( base, u_diffuse2, u_blendMode2 ) ;
+    if ( u_useDiffuse3 == 1 ) base = apply_layer( base, u_diffuse3, u_blendMode3 ) ;
 
     if ( u_alphaThreshold > 0.0 && base.a < u_alphaThreshold ) discard ;
 

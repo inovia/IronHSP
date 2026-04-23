@@ -661,11 +661,24 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
         DesktopShader_SetUniform1i( glslH, "u_shadowMap",    4 ) ;
         DesktopShader_SetUniform1i( glslH, "u_normalMap",    2 ) ;
         DesktopShader_SetUniform1i( glslH, "u_specularMap",  3 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_diffuse1",     5 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_diffuse2",     6 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_diffuse3",     7 ) ;
         DesktopShader_SetUniform1i( glslH, "u_useTexture",   texId ? 1 : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_useLighting",  ( s_MV1_LightWasOn && !isToon ) ? 1 : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_useShadow",    useShadow ? 1 : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_useNormalMap", normTex ? 1 : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_useSpecularMap", specTex ? 1 : 0 ) ;
+        //  DiffuseLayer[1..3]: 有効 layer 数 layerN を元に uniform 設定
+        int d1 = ( layerN >= 2 ) ? 1 : 0 ;
+        int d2 = ( layerN >= 3 ) ? 1 : 0 ;
+        int d3 = ( layerN >= 4 ) ? 1 : 0 ;
+        DesktopShader_SetUniform1i( glslH, "u_useDiffuse1", d1 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_useDiffuse2", d2 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_useDiffuse3", d3 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_blendMode1", d1 ? layerBlend[ 1 ] : 0 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_blendMode2", d2 ? layerBlend[ 2 ] : 0 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_blendMode3", d3 ? layerBlend[ 3 ] : 0 ) ;
         // normal map は TMU 2、specular map は TMU 3 に bind
         if ( normTex && p_glActiveTexture ) {
             p_glActiveTexture( GL_TEXTURE0 + 2 ) ;
@@ -675,6 +688,22 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
         if ( specTex && p_glActiveTexture ) {
             p_glActiveTexture( GL_TEXTURE0 + 3 ) ;
             glBindTexture( GL_TEXTURE_2D, specTex ) ;
+            p_glActiveTexture( GL_TEXTURE0 ) ;
+        }
+        //  DiffuseLayer[1..3] を TMU 5/6/7 に bind
+        if ( p_glActiveTexture ) {
+            if ( d1 && layerTex[ 1 ] ) {
+                p_glActiveTexture( GL_TEXTURE0 + 5 ) ;
+                glBindTexture( GL_TEXTURE_2D, layerTex[ 1 ] ) ;
+            }
+            if ( d2 && layerTex[ 2 ] ) {
+                p_glActiveTexture( GL_TEXTURE0 + 6 ) ;
+                glBindTexture( GL_TEXTURE_2D, layerTex[ 2 ] ) ;
+            }
+            if ( d3 && layerTex[ 3 ] ) {
+                p_glActiveTexture( GL_TEXTURE0 + 7 ) ;
+                glBindTexture( GL_TEXTURE_2D, layerTex[ 3 ] ) ;
+            }
             p_glActiveTexture( GL_TEXTURE0 ) ;
         }
         float alphaTh = 0.0f ;
