@@ -41,9 +41,9 @@ extern int Graphics_Hardware_CopyGraphZBufferImage_PF(struct IMAGEDATA *,struct 
 // moved to DxGraphicsDesktop.cpp (Stage 17)
 extern int Graphics_Hardware_DeviceDirect_SetViewMatrix_PF(struct tagMATRIX const *) { return 0; }
 extern int Graphics_Hardware_DeviceDirect_SetWorldMatrix_PF(struct tagMATRIX const *) { return 0; }
-extern int Graphics_Hardware_Draw32bitIndexedPrimitive2DUser_PF(struct tagVERTEX2D const *,int,DWORD const *,int,int,struct IMAGEDATA *,int) { return 0; }
-extern int Graphics_Hardware_Draw32bitIndexedPrimitiveLight_PF(struct tagVERTEX3D const *,int,DWORD const *,int,int,struct IMAGEDATA *,int) { return 0; }
-extern int Graphics_Hardware_Draw32bitIndexedPrimitive_PF(struct tagVERTEX_3D const *,int,DWORD const *,int,int,struct IMAGEDATA *,int) { return 0; }
+// Graphics_Hardware_Draw32bitIndexedPrimitive2DUser_PF: impl in DxGraphicsDesktop.cpp
+// Graphics_Hardware_Draw32bitIndexedPrimitiveLight_PF: impl in DxGraphicsDesktop.cpp
+// Graphics_Hardware_Draw32bitIndexedPrimitive_PF: impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_DrawBillboard3D_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 // Graphics_Hardware_DrawBoxSet_PF: impl in DxGraphicsDesktop.cpp (Stage 9)
 // Graphics_Hardware_DrawCircle_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
@@ -51,10 +51,10 @@ extern int Graphics_Hardware_Draw32bitIndexedPrimitive_PF(struct tagVERTEX_3D co
 // moved to DxGraphicsDesktop.cpp (Stage 18)
 // Graphics_Hardware_DrawFillBox_PF: impl in DxGraphicsDesktop.cpp (Stage 7)
 // moved to DxGraphicsDesktop.cpp (Stage 17)
-extern int Graphics_Hardware_DrawIndexedPrimitive2DUser_PF(struct tagVERTEX2D const *,int,unsigned short const *,int,int,struct IMAGEDATA *,int) { return 0; }
+// Graphics_Hardware_DrawIndexedPrimitive2DUser_PF: impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_DrawIndexedPrimitiveLight_PF: impl in DxGraphicsDesktop.cpp (3D primitive Tier 4)
 extern int Graphics_Hardware_DrawIndexedPrimitiveLight_UseVertexBuffer_PF(struct VERTEXBUFFERHANDLEDATA *,struct INDEXBUFFERHANDLEDATA *,int,int,int,int,int,int,struct IMAGEDATA *,int) { return 0; }
-extern int Graphics_Hardware_DrawIndexedPrimitive_PF(struct tagVERTEX_3D const *,int,unsigned short const *,int,int,struct IMAGEDATA *,int) { return 0; }
+// Graphics_Hardware_DrawIndexedPrimitive_PF: impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_DrawLine3D_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 // Graphics_Hardware_DrawLineBox_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 // Graphics_Hardware_DrawLineSet_PF: impl in DxGraphicsDesktop.cpp (Stage 9)
@@ -67,7 +67,7 @@ extern int Graphics_Hardware_DrawModiBillboard3D_PF(struct tagVECTOR,float,float
 // Graphics_Hardware_DrawPixelSet_PF: impl in DxGraphicsDesktop.cpp (Stage 9)
 // Graphics_Hardware_DrawPixel_PF: impl in DxGraphicsDesktop.cpp (Stage 7)
 extern int Graphics_Hardware_DrawPrimitive2DToShader_PF(struct tagVERTEX2DSHADER const *,int,int) { return 0; }
-extern int Graphics_Hardware_DrawPrimitive2DUser_PF(struct tagVERTEX2D const *,int,int,struct IMAGEDATA *,int,int,int,int,int) { return 0; }
+// Graphics_Hardware_DrawPrimitive2DUser_PF: impl in DxGraphicsDesktop.cpp
 // moved to DxGraphicsDesktop.cpp (Stage 19)
 extern int Graphics_Hardware_DrawPrimitive32bitIndexed2DToShader_PF(struct tagVERTEX2DSHADER const *,int,unsigned int const *,int,int) { return 0; }
 extern int Graphics_Hardware_DrawPrimitive32bitIndexed3DToShader_PF(struct tagVERTEX3DSHADER const *,int,unsigned int const *,int,int) { return 0; }
@@ -83,8 +83,8 @@ extern int Graphics_Hardware_DrawPrimitiveLight_UseVertexBuffer_PF(struct VERTEX
 // Graphics_Hardware_DrawQuadrangle_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 // moved to DxGraphicsDesktop.cpp (Stage 18)
 // moved to DxGraphicsDesktop.cpp (Stage 18)
-extern int Graphics_Hardware_DrawSimpleQuadrangleGraphF_PF(struct tagGRAPHICS_DRAW_DRAWSIMPLEQUADRANGLEGRAPHF_PARAM const *,struct IMAGEDATA *,struct IMAGEDATA *) { return 0; }
-extern int Graphics_Hardware_DrawSimpleTriangleGraphF_PF(struct tagGRAPHICS_DRAW_DRAWSIMPLETRIANGLEGRAPHF_PARAM const *,struct IMAGEDATA *,struct IMAGEDATA *) { return 0; }
+// Graphics_Hardware_DrawSimpleQuadrangleGraphF_PF: impl in DxGraphicsDesktop.cpp
+// Graphics_Hardware_DrawSimpleTriangleGraphF_PF: impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_DrawTriangle3D_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 // Graphics_Hardware_DrawTriangle_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 // Graphics_Hardware_FillGraph_PF: impl in DxGraphicsDesktop.cpp (Tier 1)

@@ -1956,14 +1956,59 @@ extern int Graphics_Hardware_DrawPixel3D_PF( VECTOR Pos, unsigned int Color, int
     return 0 ;
 }
 
-// 3D 一括頂点 / インデックス描画。dx_drawcube3d_s / dx_drawsphere3d_s 等が
-// VERTEX3D 配列 + indices で来るパス。lighting OFF + texture-less の最小実装。
-// fixed-function GL の glBegin/glVertex3f を indices に従って発行する。
-extern int Graphics_Hardware_DrawIndexedPrimitiveLight_PF( const VERTEX3D *Vertex, int VertexNum, const unsigned short *Indices, int IndexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag )
+// =====================================================================
+// 3D / 2D 一括頂点描画 PF — Desktop fork 全部実装
+// =====================================================================
+// 共通ヘルパ: PrimitiveType (DX_PRIMTYPE_*) → GLenum
+static GLenum Desktop_PrimType( int PrimitiveType )
 {
-    (void)VertexNum; (void)Image;
-    if ( !Vertex || !Indices || IndexNum <= 0 ) return 0;
+    switch ( PrimitiveType ) {
+        case DX_PRIMTYPE_POINTLIST:     return GL_POINTS ;
+        case DX_PRIMTYPE_LINELIST:      return GL_LINES ;
+        case DX_PRIMTYPE_LINESTRIP:     return GL_LINE_STRIP ;
+        case DX_PRIMTYPE_TRIANGLELIST:  return GL_TRIANGLES ;
+        case DX_PRIMTYPE_TRIANGLESTRIP: return GL_TRIANGLE_STRIP ;
+        case DX_PRIMTYPE_TRIANGLEFAN:   return GL_TRIANGLE_FAN ;
+        default:                        return GL_TRIANGLES ;
+    }
+}
 
+// テクスチャをバインド (Image があれば、なければ no-op で texture 無効)
+static bool Desktop_BindImage2D( IMAGEDATA *Image )
+{
+    if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) {
+        glDisable( GL_TEXTURE_2D ) ;
+        return false ;
+    }
+    IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
+    if ( !tex->PF ) { glDisable( GL_TEXTURE_2D ) ; return false ; }
+    glEnable( GL_TEXTURE_2D ) ;
+    glBindTexture( GL_TEXTURE_2D, ( GLuint )tex->PF->Texture.TextureBuffer ) ;
+    return true ;
+}
+
+// 頂点 1 つ分の glColor + glTexCoord + glVertex を発行 (VERTEX3D / VERTEX_3D 両対応)
+static inline void Desktop_DrawVertex3D( const VERTEX3D *v, bool tex )
+{
+    glColor4ub( v->dif.r, v->dif.g, v->dif.b, v->dif.a ) ;
+    if ( tex ) glTexCoord2f( v->u, v->v ) ;
+    glVertex3f( v->pos.x, v->pos.y, v->pos.z ) ;
+}
+static inline void Desktop_DrawVertex3D( const VERTEX_3D *v, bool tex )
+{
+    glColor4ub( v->r, v->g, v->b, v->a ) ;
+    if ( tex ) glTexCoord2f( v->u, v->v ) ;
+    glVertex3f( v->pos.x, v->pos.y, v->pos.z ) ;
+}
+
+// 3D 頂点 (VERTEX3D / VERTEX_3D) を indices で描画する内部実装
+template<typename VTX, typename IDX>
+static int Desktop_DrawIndexed3D( const VTX *Vertex, const IDX *Indices,
+                                   int IndexNum, int PrimitiveType,
+                                   IMAGEDATA *Image, int TransFlag,
+                                   bool useUV )
+{
+    if ( !Vertex || !Indices || IndexNum <= 0 ) return 0;
     Desktop_Apply3DMatrices() ;
     glEnable( GL_DEPTH_TEST ) ;
     if ( TransFlag ) {
@@ -1972,24 +2017,136 @@ extern int Graphics_Hardware_DrawIndexedPrimitiveLight_PF( const VERTEX3D *Verte
     } else {
         glDisable( GL_BLEND ) ;
     }
-    glDisable( GL_TEXTURE_2D ) ;
+    bool tex = useUV ? Desktop_BindImage2D( Image ) : false ;
+    if ( !useUV ) glDisable( GL_TEXTURE_2D ) ;
 
-    GLenum mode ;
-    switch ( PrimitiveType ) {
-        case DX_PRIMTYPE_POINTLIST:     mode = GL_POINTS ;         break ;
-        case DX_PRIMTYPE_LINELIST:      mode = GL_LINES ;          break ;
-        case DX_PRIMTYPE_LINESTRIP:     mode = GL_LINE_STRIP ;     break ;
-        case DX_PRIMTYPE_TRIANGLELIST:  mode = GL_TRIANGLES ;      break ;
-        case DX_PRIMTYPE_TRIANGLESTRIP: mode = GL_TRIANGLE_STRIP ; break ;
-        case DX_PRIMTYPE_TRIANGLEFAN:   mode = GL_TRIANGLE_FAN ;   break ;
-        default:                        mode = GL_TRIANGLES ;      break ;
-    }
-
-    glBegin( mode ) ;
+    glBegin( Desktop_PrimType( PrimitiveType ) ) ;
     for ( int i = 0 ; i < IndexNum ; i++ ) {
-        const VERTEX3D *v = &Vertex[ Indices[ i ] ] ;
+        const VTX *v = &Vertex[ Indices[ i ] ] ;
+        Desktop_DrawVertex3D( v, tex ) ;
+    }
+    glEnd() ;
+    return 0 ;
+}
+
+// VERTEX3D + 16bit/32bit indices (lit-style: 法線あり、ここでは fixed-function
+// で glColor を頂点 dif で打つ)
+extern int Graphics_Hardware_DrawIndexedPrimitiveLight_PF( const VERTEX3D *Vertex, int VertexNum, const unsigned short *Indices, int IndexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag )
+{
+    (void)VertexNum;
+    return Desktop_DrawIndexed3D( Vertex, Indices, IndexNum, PrimitiveType, Image, TransFlag, true ) ;
+}
+extern int Graphics_Hardware_Draw32bitIndexedPrimitiveLight_PF( const VERTEX3D *Vertex, int VertexNum, const DWORD *Indices, int IndexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag )
+{
+    (void)VertexNum;
+    return Desktop_DrawIndexed3D( Vertex, Indices, IndexNum, PrimitiveType, Image, TransFlag, true ) ;
+}
+// VERTEX_3D + 16bit/32bit indices (旧仕様 3D vertex、bgra 順、no normal)
+extern int Graphics_Hardware_DrawIndexedPrimitive_PF( const VERTEX_3D *Vertex, int VertexNum, const unsigned short *Indices, int IndexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag )
+{
+    (void)VertexNum;
+    return Desktop_DrawIndexed3D( Vertex, Indices, IndexNum, PrimitiveType, Image, TransFlag, true ) ;
+}
+extern int Graphics_Hardware_Draw32bitIndexedPrimitive_PF( const VERTEX_3D *Vertex, int VertexNum, const DWORD *Indices, int IndexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag )
+{
+    (void)VertexNum;
+    return Desktop_DrawIndexed3D( Vertex, Indices, IndexNum, PrimitiveType, Image, TransFlag, true ) ;
+}
+
+// 2D 頂点 (VERTEX2D) を indices で描画
+template<typename IDX>
+static int Desktop_DrawIndexed2D( const VERTEX2D *Vertex, const IDX *Indices,
+                                   int IndexNum, int PrimitiveType,
+                                   IMAGEDATA *Image, int TransFlag )
+{
+    if ( !Vertex || !Indices || IndexNum <= 0 ) return 0;
+    Desktop_SetOrtho2D() ;
+    if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
+    else             { glDisable( GL_BLEND ) ; }
+    bool tex = Desktop_BindImage2D( Image ) ;
+
+    glBegin( Desktop_PrimType( PrimitiveType ) ) ;
+    for ( int i = 0 ; i < IndexNum ; i++ ) {
+        const VERTEX2D *v = &Vertex[ Indices[ i ] ] ;
         glColor4ub( v->dif.r, v->dif.g, v->dif.b, v->dif.a ) ;
-        glVertex3f( v->pos.x, v->pos.y, v->pos.z ) ;
+        if ( tex ) glTexCoord2f( v->u, v->v ) ;
+        glVertex2f( v->pos.x, v->pos.y ) ;
+    }
+    glEnd() ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_DrawIndexedPrimitive2DUser_PF( const VERTEX2D *Vertex, int VertexNum, const unsigned short *Indices, int IndexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag )
+{
+    (void)VertexNum;
+    return Desktop_DrawIndexed2D( Vertex, Indices, IndexNum, PrimitiveType, Image, TransFlag ) ;
+}
+extern int Graphics_Hardware_Draw32bitIndexedPrimitive2DUser_PF( const VERTEX2D *Vertex, int VertexNum, const DWORD *Indices, int IndexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag )
+{
+    (void)VertexNum;
+    return Desktop_DrawIndexed2D( Vertex, Indices, IndexNum, PrimitiveType, Image, TransFlag ) ;
+}
+
+// 2D 頂点 (VERTEX2D) を indices なしで描画 (VertexNum 個を順に)
+extern int Graphics_Hardware_DrawPrimitive2DUser_PF( const VERTEX2D *Vertex, int VertexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag, int /*UseSpcColor*/, int /*BlendImage*/, int /*UseTexUV2*/, int /*UseFogShade*/ )
+{
+    if ( !Vertex || VertexNum <= 0 ) return 0;
+    Desktop_SetOrtho2D() ;
+    if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
+    else             { glDisable( GL_BLEND ) ; }
+    bool tex = Desktop_BindImage2D( Image ) ;
+    glBegin( Desktop_PrimType( PrimitiveType ) ) ;
+    for ( int i = 0 ; i < VertexNum ; i++ ) {
+        const VERTEX2D *v = &Vertex[ i ] ;
+        glColor4ub( v->dif.r, v->dif.g, v->dif.b, v->dif.a ) ;
+        if ( tex ) glTexCoord2f( v->u, v->v ) ;
+        glVertex2f( v->pos.x, v->pos.y ) ;
+    }
+    glEnd() ;
+    return 0 ;
+}
+
+// テクスチャ付き三角形 / 四角形 (DrawSimple系)
+extern int Graphics_Hardware_DrawSimpleTriangleGraphF_PF( const GRAPHICS_DRAW_DRAWSIMPLETRIANGLEGRAPHF_PARAM *Param, IMAGEDATA *Image, IMAGEDATA * /*BlendImage*/ )
+{
+    if ( !Param || !Param->Vertex || Param->TriangleNum <= 0 ) return 0;
+    Desktop_SetOrtho2D() ;
+    if ( Param->TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
+    else                    { glDisable( GL_BLEND ) ; }
+    bool tex = Desktop_BindImage2D( Image ) ;
+    glColor4ub( 255, 255, 255, 255 ) ;
+    glBegin( GL_TRIANGLES ) ;
+    for ( int i = 0 ; i < Param->TriangleNum * 3 ; i++ ) {
+        const GRAPHICS_DRAW_DRAWSIMPLEANGLEGRAPHF_VERTEX *v = &Param->Vertex[ i ] ;
+        if ( tex ) glTexCoord2f( v->u, v->v ) ;
+        glVertex2f( v->x, v->y ) ;
+    }
+    glEnd() ;
+    return 0 ;
+}
+extern int Graphics_Hardware_DrawSimpleQuadrangleGraphF_PF( const GRAPHICS_DRAW_DRAWSIMPLEQUADRANGLEGRAPHF_PARAM *Param, IMAGEDATA *Image, IMAGEDATA * /*BlendImage*/ )
+{
+    if ( !Param || !Param->Vertex || Param->QuadrangleNum <= 0 ) return 0;
+    Desktop_SetOrtho2D() ;
+    if ( Param->TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
+    else                    { glDisable( GL_BLEND ) ; }
+    bool tex = Desktop_BindImage2D( Image ) ;
+    glColor4ub( 255, 255, 255, 255 ) ;
+    // 四角形 1 個 = 4 頂点 = 2 三角形。GL_QUADS は WebGL 非対応なので
+    // GL_TRIANGLES で展開 (0,1,2 / 0,2,3)
+    glBegin( GL_TRIANGLES ) ;
+    for ( int q = 0 ; q < Param->QuadrangleNum ; q++ ) {
+        const GRAPHICS_DRAW_DRAWSIMPLEANGLEGRAPHF_VERTEX *vs = &Param->Vertex[ q * 4 ] ;
+        // tri1: 0,1,2
+        for ( int k : { 0, 1, 2 } ) {
+            if ( tex ) glTexCoord2f( vs[ k ].u, vs[ k ].v ) ;
+            glVertex2f( vs[ k ].x, vs[ k ].y ) ;
+        }
+        // tri2: 0,2,3
+        for ( int k : { 0, 2, 3 } ) {
+            if ( tex ) glTexCoord2f( vs[ k ].u, vs[ k ].v ) ;
+            glVertex2f( vs[ k ].x, vs[ k ].y ) ;
+        }
     }
     glEnd() ;
     return 0 ;
