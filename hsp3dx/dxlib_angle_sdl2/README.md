@@ -85,7 +85,20 @@ bash ../build_web.sh stage4        # → stage4_web.{html,js,wasm}
 
 ## 現状の到達度
 
-**対応プラットフォーム** (2026-04-23 時点):
+**対応プラットフォーム** (2026-04-25 時点):
+
+### 5 platform で同一 .ax 起動達成 🎉
+
+| Platform | Stage demo build | hsp3dx_desktop runtime | 同一 .ax 動作 |
+|---|:---:|:---:|:---:|
+| Windows (MSVC) | ✅ | ✅ (DxLib native) | ✅ 既存 |
+| iOS (Xcode) | ✅ | ✅ libDxLib_iOS | ✅ 確認済 (Live2D / MV1+Bullet / Movie) |
+| Android (NDK) | ✅ | ✅ NDK source build | ✅ 確認済 |
+| **Mac arm64** (SDL2 fork) | ✅ | ✅ **2026-04-25 達成** | ✅ test_box+mes screenshot |
+| **Linux x86_64** (WSL2) | ✅ | ✅ **2026-04-25 達成** | 🔶 ELF runtime 起動済、WSLg visual 残 |
+| **Web** (emscripten) | ✅ | 🚧 build WIP | ⏳ DxFont/WebGL 構造化要 |
+
+### 機能カバレッジ (Stage demo + DxLib 本体)
 
 | Platform | Build | 2D | 3D/MV1 | Font | Sound | Movie | Mask/Filter | Live2D |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -99,6 +112,22 @@ bash ../build_web.sh stage4        # → stage4_web.{html,js,wasm}
 - ✅ = 動作確認済、🔶 = build 通過 / runtime 未検証、△ = 部分、❌ = 未対応
 - Windows/iOS/Android は DxLib 本家の platform 実装を使う
 - Mac/Linux/Web は `Desktop/` 以下の SDL2+GL 実装
+
+### hsp3dx_desktop ランタイム使い方
+
+```sh
+# Mac (SDL2 + Metal-translated GL)
+cd hsp3dx/dxlib_angle_sdl2/build_mac && ./hsp3dx_desktop /path/to/start.ax
+
+# Linux (WSL2 + Mesa GL)
+cd hsp3dx/dxlib_angle_sdl2/build_linux && ./hsp3dx_desktop ./start.ax
+
+# Web (emscripten、build WIP)
+# 完成後: ブラウザで hsp3dx_desktop.html 開く
+```
+
+CMake target は EMSCRIPTEN/APPLE/Linux で platform 自動判別。`HSPMAC=1` /
+`HSPLINUX=1` / `HSPEMSCRIPTEN=1` が定義され適切な supio が link される。
 
 **主要機能** (L4 Phase 2 + M1-M5 + L1-L4 + E1 + 2026-04-23 分まで):
 

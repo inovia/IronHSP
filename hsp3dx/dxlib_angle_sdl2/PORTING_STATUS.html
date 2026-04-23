@@ -98,6 +98,21 @@ td.note { font-size: 12px; color: #555; }
      <strong>E2 Mac SSH build 検証完了</strong> (25 stage arm64 Mach-O 全 build)。
      <strong>E3 Web emscripten build 検証</strong> (stage4_web.wasm 5.8MB 生成、DX_NON_LIVE2D_CUBISM4=1 運用)。
      extlib/cubism/CMakeLists.txt で Mac/Linux/Android Core lib 自動検出追加 (.gitignore で SDK 個別 DL 前提)。</p>
+  <p><strong>2026-04-25 追加 (Mac / Linux で hsp3dx ランタイム動作達成):</strong>
+     <strong>iOS / Android / Windows / Mac / Linux の 5 プラットフォームで同一 .ax バイトコードが起動</strong>。
+     <code>hsp3dx_desktop</code> CMake target を追加し
+     (<a href="../src/main_desktop.cpp">main_desktop.cpp</a>)、HSP VM + DxLib Desktop fork を結合した
+     `.ax` ランタイムを Mac arm64 / Linux x86_64 で build + 起動確認。
+     Mac は <code>test_box.ax</code> + <code>test_mes.ax</code> で 青背景 + 赤緑 box + 白テキスト描画を実機 screenshot で確認
+     (<a href="mac_hsp3dx_first_window.png">mac_hsp3dx_first_window.png</a> /
+      <a href="mac_hsp3dx_mes_working.png">mac_hsp3dx_mes_working.png</a>)。
+     Linux は ELF 7.1MB binary 生成 + DxLib_Init/Font init 完走、WSLg visual は user 環境調査要。
+     主な修正: <code>main_desktop.cpp</code> で <code>CreateFontToHandle</code> + <code>ChangeFontFromHandle</code> を起動時に呼んで
+     default font の Desktop lazy 作成パス不安定回避 (mes/DrawString SIGABRT 解消)、
+     iOS 固有 <code>__APPLE__</code> 分岐を <code>TARGET_OS_IPHONE</code> ガード化、
+     <code>HSP3DX_NO_SDL2_MIXER</code> auto-define で Sound stubs 起動、
+     Linux 用 dllcmd / Desktop_*_Hook の weak symbol stub 追加。</p>
+
   <p><strong>2026-04-24 追加 (iOS 起動時間短縮):</strong>
      <strong>DxGraphics.cpp の 6x ScreenFlip warmup を iOS のみスキップ</strong>
      (<code>#if !(defined(__APPLE__) &amp;&amp; TARGET_OS_IPHONE)</code>)。
