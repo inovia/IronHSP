@@ -27410,10 +27410,12 @@ static double _dxgr_now_sec() {
 #include <stdio.h>
 #include <emscripten.h>
 //  各 LOG で必ず JS event loop に yield する。これで stderr 行が browser に
-//  即時届く + canvas 更新も走る。JSPI 必須 (emscripten_sleep が Promise になる)。
+//  即時届く + canvas 更新も走る。JSPI 必須。
+//  注: emscripten_sleep(0) は実際 yield しない実装があり得る (即値 return)。
+//  emscripten_sleep(1) で確実に rAF 1 frame 分待つ。
 #define DXGR_LOG(tag) do { \
 	fprintf( stderr, "[DXGR] %s\n", tag ); fflush(stderr); \
-	emscripten_sleep( 0 ); \
+	emscripten_sleep( 1 ); \
 } while(0)
 #else
 #define DXGR_LOG(tag) ((void)0)
