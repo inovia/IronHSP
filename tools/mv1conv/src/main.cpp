@@ -14,6 +14,9 @@
 #include "vmd_import.hpp"
 #include "vrm_import.hpp"
 #ifdef MV1CONV_HAVE_ASSIMP
+#include "assimp_export.hpp"
+#endif
+#ifdef MV1CONV_HAVE_ASSIMP
 #include "assimp_import.hpp"
 #endif
 #include "mv1_writer.hpp"
@@ -371,6 +374,32 @@ int main(int argc, char **argv) {
     if (std::strcmp(sub, "repack") == 0) return cmd_repack(argc - 2, argv + 2);
     if (std::strcmp(sub, "from-obj") == 0) return cmd_from_obj(argc - 2, argv + 2);
     if (std::strcmp(sub, "convert") == 0)  return cmd_convert(argc - 2, argv + 2);
+    if (std::strcmp(sub, "export") == 0) {
+        if (argc < 4) {
+            std::fprintf(stderr,
+                         "usage: mv1conv export <input.mv1> <output.<obj|gltf|glb|dae|ply|stl|fbx>>\n");
+            return 2;
+        }
+        const char *inPath  = argv[2];
+        const char *outPath = argv[3];
+        auto lr = load_mv1_to_ir(inPath);
+        if (!lr.ok()) {
+            std::fprintf(stderr, "ERROR: %s\n", lr.error.c_str());
+            return 1;
+        }
+#ifdef MV1CONV_HAVE_ASSIMP
+        std::string err = export_via_assimp(lr.ir, outPath, "");
+        if (!err.empty()) {
+            std::fprintf(stderr, "ERROR: %s\n", err.c_str());
+            return 1;
+        }
+        std::fprintf(stderr, "exported %s → %s\n", inPath, outPath);
+        return 0;
+#else
+        std::fprintf(stderr, "ERROR: export requires assimp (build without MV1CONV_USE_ASSIMP=OFF)\n");
+        return 1;
+#endif
+    }
     if (std::strcmp(sub, "attach-anim") == 0) {
         if (argc < 5) {
             std::fprintf(stderr,
