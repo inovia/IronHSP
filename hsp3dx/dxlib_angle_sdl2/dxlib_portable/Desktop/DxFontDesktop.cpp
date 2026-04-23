@@ -473,9 +473,39 @@ extern int Desktop_DrawString_Hook(
 {
     (void)EdgeColor; (void)VerticalFlag;
     if ( !String || StringLength == 0 || !Font || !Font->PF ) return -1 ;
-    if ( !s_TtfInited ) return -1 ;
+    if ( !s_TtfInited ) {
+        if ( InitFontManage_PF() != 0 ) return -1 ;
+    }
     TTF_Font *font = as_ttf( Font->PF->FontData ) ;
-    if ( !font ) return -1 ;
+    //  HSP の `mes` 等で default font が未確保 (FontData==NULL) の場合は
+    //  fallback font を lazy load して FontData にセット。
+    //  (Desktop fork は CreateFontToHandle_PF が呼ばれない経路がある)
+    if ( !font ) {
+        int pt = ( Font->BaseInfo.FontSize > 0 ) ? Font->BaseInfo.FontSize : 16 ;
+        TTF_Font *lazy = nullptr ;
+        for ( const auto &p : g_UserFontPaths ) {
+            lazy = TTF_OpenFont( p.c_str(), pt ) ;
+            if ( lazy ) break ;
+        }
+        if ( !lazy ) {
+            const char * const *paths = fallback_font_paths() ;
+            for ( int i = 0 ; paths[i] ; ++i ) {
+                lazy = TTF_OpenFont( paths[i], pt ) ;
+                if ( lazy ) break ;
+            }
+        }
+        if ( !lazy ) {
+            std::fprintf( stderr, "[DxFontDesktop] lazy fallback font open failed (pt=%d)\n", pt ) ;
+            return -1 ;
+        }
+        Font->PF->FontData = lazy ;
+        //  メトリクスも更新 (DxLib 側で y advance 計算に使う)
+        Font->BaseInfo.FontHeight    = TTF_FontHeight( lazy ) ;
+        Font->BaseInfo.FontAddHeight = 0 ;
+        Font->BaseInfo.MaxWidth      = TTF_FontHeight( lazy ) ;
+        font = lazy ;
+        std::fprintf( stderr, "[DxFontDesktop] lazy fallback font loaded (pt=%d)\n", pt ) ;
+    }
 
     std::string utf8 = desktop_wchar_to_utf8( String, StringLength ) ;
     if ( utf8.empty() ) return 0 ;

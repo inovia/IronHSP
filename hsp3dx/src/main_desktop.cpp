@@ -83,6 +83,16 @@ int main( int argc, char *argv[] )
     SetBackgroundColor( 0, 0, 0 );
     ClearDrawScreen();
 
+    //  HSP `mes` は DX_DEFAULT_FONT_HANDLE 経由で DrawString を呼ぶが、
+    //  Desktop fork の default font 自動作成パスが安定しないため、ここで
+    //  明示的に CreateFontToHandle で fallback font handle を作って
+    //  ChangeFontFromHandle で default として有効化する (mes が SIGABRT
+    //  する問題の workaround)。
+    {
+        int defh = CreateFontToHandle( NULL, 16, -1 );
+        if ( defh >= 0 ) ChangeFontFromHandle( defh );
+    }
+
     //  HSP VM 初期化
     if ( hsp3dxcl_init( (char *)ax_path ) != 0 ) {
         fprintf( stderr, "hsp3dxcl_init failed (ax=%s)\n", ax_path );
