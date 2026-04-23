@@ -65,7 +65,9 @@ struct AndroidMoviePlayer {
     int                       audioTrack       = -1 ;
     int                       width            = 0 ;
     int                       height           = 0 ;
-    int                       color_format     = 0 ;  // OMX color format
+    int                       color_format     = 0 ;  // OMX color format (出力 format 判明後に値入る)
+    int                       stride           = 0 ;  // Y plane stride (bytes)
+    int                       slice_height     = 0 ;  // Y plane height (含む padding)
     int64_t                   duration_ms      = 0 ;
     int64_t                   start_monotonic_ms = 0 ;
     int64_t                   last_pts_ms      = 0 ;
@@ -76,6 +78,17 @@ struct AndroidMoviePlayer {
     bool                      saw_output_eof   = false ;
     std::vector<unsigned char> frame_argb ;
     std::string               path ;
+    FILE                     *fp               = nullptr ;  // setDataSourceFd 用の保持
+} ;
+
+//  OMX color format 定数 (android/media/NdkMediaCodec.h にも同値)
+enum {
+    COLOR_FormatYUV420Planar      = 19,       // I420: Y plane, U plane, V plane
+    COLOR_FormatYUV420SemiPlanar  = 21,       // NV12: Y plane, interleaved UV
+    COLOR_FormatYUV420PackedPlanar = 20,      // I420 の変種
+    COLOR_FormatYUV420PackedSemiPlanar = 39,  // NV12 の変種
+    COLOR_QCOM_FormatYUV420SemiPlanar = 0x7FA30C00,
+    COLOR_FormatYUV420Flexible    = 0x7F420888,  // AImage 経由で plane 取得必要
 } ;
 
 static std::unordered_map<MOVIEGRAPH*, AndroidMoviePlayer*> g_AndroidPlayers ;
@@ -94,29 +107,56 @@ static int64_t android_now_ms( void )
     return ( int64_t )ts.tv_sec * 1000 + ts.tv_nsec / 1000000 ;
 }
 
-//  NV12 (Y plane + interleaved UV plane) を BGRA に変換。
-//  AMediaCodec が返す色空間は端末/MIME で可変、代表ケースの NV12 のみ対応。
-static void nv12_to_bgra( const uint8_t *y, const uint8_t *uv, int w, int h,
-                          int y_stride, int uv_stride, uint8_t *dst )
+//  BT.601 YUV → BGRA 行列 (AMediaCodec 出力は基本 BT.601 limited range)
+static inline void yuv_to_bgra_pixel( int Y, int U, int V, uint8_t *dst )
+{
+    U -= 128 ; V -= 128 ;
+    int R = Y + ( 91881 * V ) / 65536 ;
+    int G = Y - ( 22554 * U + 46802 * V ) / 65536 ;
+    int B = Y + ( 116130 * U ) / 65536 ;
+    if ( R < 0 ) R = 0 ; if ( R > 255 ) R = 255 ;
+    if ( G < 0 ) G = 0 ; if ( G > 255 ) G = 255 ;
+    if ( B < 0 ) B = 0 ; if ( B > 255 ) B = 255 ;
+    dst[ 0 ] = ( uint8_t )B ;
+    dst[ 1 ] = ( uint8_t )G ;
+    dst[ 2 ] = ( uint8_t )R ;
+    dst[ 3 ] = 255 ;
+}
+
+//  NV12 (Y plane + interleaved UV plane)
+//  uv_order: 0=UV (NV12), 1=VU (NV21)
+static void nv_to_bgra( const uint8_t *y, const uint8_t *uv, int w, int h,
+                        int y_stride, int uv_stride, int uv_order, uint8_t *dst )
 {
     for ( int j = 0 ; j < h ; ++j ) {
-        const uint8_t *yrow = y + j * y_stride ;
+        const uint8_t *yrow  = y  + j * y_stride ;
         const uint8_t *uvrow = uv + ( j / 2 ) * uv_stride ;
         uint8_t *drow = dst + j * w * 4 ;
         for ( int i = 0 ; i < w ; ++i ) {
             int Y = yrow[ i ] ;
-            int U = uvrow[ ( i / 2 ) * 2 ] - 128 ;
-            int V = uvrow[ ( i / 2 ) * 2 + 1 ] - 128 ;
-            int R = Y + ( 91881 * V ) / 65536 ;
-            int G = Y - ( 22554 * U + 46802 * V ) / 65536 ;
-            int B = Y + ( 116130 * U ) / 65536 ;
-            if ( R < 0 ) R = 0 ; if ( R > 255 ) R = 255 ;
-            if ( G < 0 ) G = 0 ; if ( G > 255 ) G = 255 ;
-            if ( B < 0 ) B = 0 ; if ( B > 255 ) B = 255 ;
-            drow[ 0 ] = ( uint8_t )B ;
-            drow[ 1 ] = ( uint8_t )G ;
-            drow[ 2 ] = ( uint8_t )R ;
-            drow[ 3 ] = 255 ;
+            int U = uvrow[ ( i / 2 ) * 2 + uv_order ] ;
+            int V = uvrow[ ( i / 2 ) * 2 + ( 1 - uv_order ) ] ;
+            yuv_to_bgra_pixel( Y, U, V, drow ) ;
+            drow += 4 ;
+        }
+    }
+}
+
+//  I420 (Y plane / U plane / V plane) planar 4:2:0
+//  v_first: 0=UV順 (I420), 1=VU順 (YV12)
+static void i420_to_bgra( const uint8_t *y, const uint8_t *u, const uint8_t *v,
+                          int w, int h, int y_stride, int uv_stride, uint8_t *dst )
+{
+    for ( int j = 0 ; j < h ; ++j ) {
+        const uint8_t *yrow = y + j * y_stride ;
+        const uint8_t *urow = u + ( j / 2 ) * uv_stride ;
+        const uint8_t *vrow = v + ( j / 2 ) * uv_stride ;
+        uint8_t *drow = dst + j * w * 4 ;
+        for ( int i = 0 ; i < w ; ++i ) {
+            int Y = yrow[ i ] ;
+            int U = urow[ i / 2 ] ;
+            int V = vrow[ i / 2 ] ;
+            yuv_to_bgra_pixel( Y, U, V, drow ) ;
             drow += 4 ;
         }
     }
@@ -130,6 +170,7 @@ extern int TerminateMovieManage_PF( void )
             if ( kv.second->videoCodec ) AMediaCodec_delete( kv.second->videoCodec ) ;
             if ( kv.second->audioCodec ) AMediaCodec_delete( kv.second->audioCodec ) ;
             if ( kv.second->extractor )  AMediaExtractor_delete( kv.second->extractor ) ;
+            if ( kv.second->fp )         fclose( kv.second->fp ) ;
             delete kv.second ;
         }
     }
@@ -217,9 +258,25 @@ extern int OpenMovie_UseGParam_PF( MOVIEGRAPH *Movie, OPENMOVIE_GPARAM * /*GPara
     AMediaFormat *vfmt = AMediaExtractor_getTrackFormat( ex, vtrack ) ;
     const char *vmime = nullptr ;
     AMediaFormat_getString( vfmt, AMEDIAFORMAT_KEY_MIME, &vmime ) ;
-    AMediaCodec *vcodec = AMediaCodec_createDecoderByType( vmime ? vmime : "video/avc" ) ;
+    //  emulator 上では c2.goldfish.h264.decoder が選ばれて CPU buffer 出力が動かないので、
+    //  確実に software decoder (c2.android.avc.decoder) を優先する。実機 HW decoder の
+    //  最適化は一旦諦め、互換性を取る。
+    AMediaCodec *vcodec = nullptr ;
+    if ( vmime && strstr( vmime, "avc" ) ) {
+        vcodec = AMediaCodec_createCodecByName( "c2.android.avc.decoder" ) ;
+    }
+    if ( !vcodec ) vcodec = AMediaCodec_createDecoderByType( vmime ? vmime : "video/avc" ) ;
     if ( !vcodec ) { AMediaFormat_delete( vfmt ) ; AMediaExtractor_delete( ex ) ; return -1 ; }
-    AMediaCodec_configure( vcodec, vfmt, nullptr, nullptr, 0 ) ;
+    //  decoder に YUV420 Flexible を要求 (CPU-readable buffer 出力)
+    AMediaFormat_setInt32( vfmt, AMEDIAFORMAT_KEY_COLOR_FORMAT, 0x7F420888 /* Flexible */ ) ;
+    media_status_t cst = AMediaCodec_configure( vcodec, vfmt, nullptr, nullptr, 0 ) ;
+    if ( cst != AMEDIA_OK ) {
+        ALOGE( "AMediaCodec_configure failed: %d", (int)cst ) ;
+        AMediaCodec_delete( vcodec ) ;
+        AMediaFormat_delete( vfmt ) ;
+        AMediaExtractor_delete( ex ) ;
+        return -1 ;
+    }
     AMediaCodec_start( vcodec ) ;
     AMediaFormat_delete( vfmt ) ;
 
@@ -247,6 +304,7 @@ extern int OpenMovie_UseGParam_PF( MOVIEGRAPH *Movie, OPENMOVIE_GPARAM * /*GPara
     p->width        = vw ;
     p->height       = vh ;
     p->duration_ms  = dur_us / 1000 ;
+    p->fp           = fp ;    //  setDataSourceFd 用の FILE*、destroy 時に close
     p->path         = path ;
     g_AndroidPlayers[ Movie ] = p ;
     Movie->Width  = vw ;
@@ -266,6 +324,7 @@ extern int TerminateMovieHandle_PF( HANDLEINFO *HandleInfo )
         if ( p->videoCodec ) { AMediaCodec_stop( p->videoCodec ) ; AMediaCodec_delete( p->videoCodec ) ; }
         if ( p->audioCodec ) { AMediaCodec_stop( p->audioCodec ) ; AMediaCodec_delete( p->audioCodec ) ; }
         if ( p->extractor )  AMediaExtractor_delete( p->extractor ) ;
+        if ( p->fp )         fclose( p->fp ) ;
         delete p ;
     }
     g_AndroidPlayers.erase( it ) ;
@@ -326,10 +385,11 @@ static int android_pump_video( AndroidMoviePlayer *p )
 {
     if ( !p || !p->videoCodec || !p->extractor ) return -1 ;
 
-    //  input: extract サンプル → codec に queue
-    if ( !p->saw_input_eof ) {
+    //  input: 可能な限り複数サンプルを一気に queue (H.264 decoder は入力溜めが必要)
+    while ( !p->saw_input_eof ) {
         ssize_t idx = AMediaCodec_dequeueInputBuffer( p->videoCodec, 0 ) ;
-        if ( idx >= 0 ) {
+        if ( idx < 0 ) break ;  //  これ以上 input buffer 空きが無ければ抜ける
+        {
             size_t bufsize = 0 ;
             uint8_t *buf = AMediaCodec_getInputBuffer( p->videoCodec, idx, &bufsize ) ;
             if ( buf ) {
@@ -349,20 +409,75 @@ static int android_pump_video( AndroidMoviePlayer *p )
     }
 
     //  output: codec から decoded frame を取り出す
+    //  timeout 10ms を与えないと software decoder 側が TRY_AGAIN_LATER を返し続けることがある
     AMediaCodecBufferInfo info ;
-    ssize_t outIdx = AMediaCodec_dequeueOutputBuffer( p->videoCodec, &info, 0 ) ;
+    ssize_t outIdx = AMediaCodec_dequeueOutputBuffer( p->videoCodec, &info, 10000 ) ;
+    if ( outIdx == AMEDIACODEC_INFO_OUTPUT_FORMAT_CHANGED ) {
+        //  初回の decoded frame 出力前後で発火。実際の stride / slice_height /
+        //  color_format をここで取得する。
+        AMediaFormat *out_fmt = AMediaCodec_getOutputFormat( p->videoCodec ) ;
+        if ( out_fmt ) {
+            //  AMEDIAFORMAT_KEY_SLICE_HEIGHT は API 28+ なので string literal で直接指定
+            //  (minSdk 27 対応のため)
+            AMediaFormat_getInt32( out_fmt, AMEDIAFORMAT_KEY_STRIDE,       &p->stride ) ;
+            AMediaFormat_getInt32( out_fmt, "slice-height",                &p->slice_height ) ;
+            AMediaFormat_getInt32( out_fmt, AMEDIAFORMAT_KEY_COLOR_FORMAT, &p->color_format ) ;
+            int ow = p->width, oh = p->height ;
+            AMediaFormat_getInt32( out_fmt, AMEDIAFORMAT_KEY_WIDTH,  &ow ) ;
+            AMediaFormat_getInt32( out_fmt, AMEDIAFORMAT_KEY_HEIGHT, &oh ) ;
+            if ( ow > 0 ) p->width  = ow ;
+            if ( oh > 0 ) p->height = oh ;
+            ALOGI( "output format: %dx%d stride=%d slice=%d color=0x%x",
+                   p->width, p->height, p->stride, p->slice_height, p->color_format ) ;
+            AMediaFormat_delete( out_fmt ) ;
+        }
+        //  stride 未報告なら width 推定 / slice_height 未報告なら height
+        if ( p->stride       <= 0 ) p->stride       = p->width ;
+        if ( p->slice_height <= 0 ) p->slice_height = p->height ;
+        return 0 ;    //  次の pump で実 frame を取る
+    }
+    if ( outIdx == AMEDIACODEC_INFO_OUTPUT_BUFFERS_CHANGED ) return 0 ;
+    if ( outIdx == AMEDIACODEC_INFO_TRY_AGAIN_LATER ) return 0 ;
     if ( outIdx >= 0 ) {
         size_t outSize = 0 ;
         uint8_t *out = AMediaCodec_getOutputBuffer( p->videoCodec, outIdx, &outSize ) ;
         if ( out && info.size > 0 ) {
-            //  NV12 前提で BGRA に変換 (Y plane: w*h, UV plane: w*h/2)
             int w = p->width, h = p->height ;
-            int y_stride = w ;    //  端末による padding は無視 (簡易)
-            int uv_stride = w ;
+            int y_stride = p->stride > 0 ? p->stride : w ;
+            //  slice_height は codec 内部 macroblock padding で info.size と整合しない
+            //  場合があるので、info.size から逆算した実効 Y-plane 高さを使う。
+            //  YUV420: total = Y (stride*y_h) + UV (stride*y_h/2) = stride * y_h * 1.5
+            //  → y_h = (info.size / stride) / 1.5
+            int effective_y_h = 0 ;
+            if ( y_stride > 0 && info.size > 0 ) {
+                effective_y_h = ( info.size * 2 ) / ( y_stride * 3 ) ;
+            }
+            //  effective が height 以上を満たす場合はそちらを採用 (valid rows + padding)
+            int slice_h = effective_y_h >= h ? effective_y_h : h ;
+            int uv_stride = y_stride ;  //  NV12 系は UV plane も同じ stride
             p->frame_argb.resize( ( size_t )w * h * 4 ) ;
-            const uint8_t *y  = out ;
-            const uint8_t *uv = out + ( size_t )w * h ;
-            nv12_to_bgra( y, uv, w, h, y_stride, uv_stride, p->frame_argb.data() ) ;
+            const uint8_t *y_plane = out + info.offset ;
+
+            switch ( p->color_format ) {
+            case COLOR_FormatYUV420Flexible:
+            case COLOR_FormatYUV420Planar:
+            case COLOR_FormatYUV420PackedPlanar: {
+                //  I420: Y / U / V
+                const uint8_t *u_plane = y_plane + ( size_t )y_stride * slice_h ;
+                const uint8_t *v_plane = u_plane + ( size_t )( y_stride / 2 ) * ( slice_h / 2 ) ;
+                i420_to_bgra( y_plane, u_plane, v_plane, w, h, y_stride, y_stride / 2,
+                              p->frame_argb.data() ) ;
+                break ; }
+            case COLOR_FormatYUV420SemiPlanar:
+            case COLOR_FormatYUV420PackedSemiPlanar:
+            case COLOR_QCOM_FormatYUV420SemiPlanar:
+            default: {
+                //  NV12 (UV 順) — 多くの実機はこれ
+                const uint8_t *uv_plane = y_plane + ( size_t )y_stride * slice_h ;
+                nv_to_bgra( y_plane, uv_plane, w, h, y_stride, uv_stride, 0,
+                            p->frame_argb.data() ) ;
+                break ; }
+            }
             p->last_pts_ms = info.presentationTimeUs / 1000 ;
         }
         AMediaCodec_releaseOutputBuffer( p->videoCodec, outIdx, false ) ;
@@ -438,8 +553,46 @@ extern LONGLONG GetOneFrameTimeMovie_PF( MOVIEGRAPH * )
 
 extern int UpdateMovie_PF( MOVIEGRAPH *Movie, int /*AlwaysFlag*/ )
 {
-    //  GetMovieBaseImage_PF で push 型に pump するので UpdateMovie は no-op
-    (void)Movie;
+    //  DxLib のフレームループから毎フレ呼ばれる。decode pump → Movie->NowImage
+    //  更新 → UpdateFunction callback で graph texture 更新の順。
+    AndroidMoviePlayer *p = android_get_player( Movie ) ;
+    if ( !p ) return -1 ;
+    if ( Movie->SysPauseFlag ) return 0 ;
+
+    int64_t target = android_now_ms() - p->start_monotonic_ms ;
+    bool updated = false ;
+    while ( !p->saw_output_eof && p->last_pts_ms < target ) {
+        int r = android_pump_video( p ) ;
+        if ( r < 0 ) break ;
+        if ( r == 0 ) break ;
+        updated = true ;
+    }
+
+    //  loop 時 EOF → seek 0
+    if ( p->saw_output_eof && p->loop_flag ) {
+        AMediaExtractor_seekTo( p->extractor, 0, AMEDIAEXTRACTOR_SEEK_CLOSEST_SYNC ) ;
+        AMediaCodec_flush( p->videoCodec ) ;
+        if ( p->audioCodec ) AMediaCodec_flush( p->audioCodec ) ;
+        p->last_pts_ms = 0 ;
+        p->start_monotonic_ms = android_now_ms() ;
+        p->saw_input_eof = false ;
+        p->saw_output_eof = false ;
+    }
+
+    if ( updated && !p->frame_argb.empty() ) {
+        NS_CreateARGB8ColorData( &Movie->NowImage.ColorData ) ;
+        Movie->NowImage.Width  = p->width ;
+        Movie->NowImage.Height = p->height ;
+        Movie->NowImage.Pitch  = p->width * 4 ;
+        Movie->NowImage.GraphData = p->frame_argb.data() ;
+        Movie->NowImage.MipMapCount = 0 ;
+        Movie->NowImage.GraphDataCount = 0 ;
+        Movie->NowImageUpdateFlag = 1 ;
+        //  graph-backed 再生時: graph texture を更新するコールバックを呼ぶ
+        if ( Movie->UpdateFunction ) {
+            Movie->UpdateFunction( Movie, Movie->UpdateFunctionData ) ;
+        }
+    }
     return 0 ;
 }
 
