@@ -528,6 +528,21 @@ static int desktop_resample(
 extern int Desktop_GraphFilter_GPU( int SrcGrHandle, int DestGrHandle, int FilterType ) ;
 //  GradMap 用 palette 事前設定 (256×1 RGBA)。GRADIENT_MAP GPU 経路に入る前に呼ぶ
 extern "C" int Desktop_GradMap_SetPalette256( const unsigned char *rgba256 ) ;
+//  Filter params 構造体へのポインタ取得 (GPU 経路に入る前に args を詰める)
+extern "C" void *Desktop_GraphFilter_GetParamsPtr( void ) ;
+
+//  構造体定義は FilterGPU 側と同期が要る。header に分離する代わりにここで同定義:
+struct DesktopFilterParams_Local {
+    int    cmpType ;       float  cmpParam ;
+    float  minBright ;     float  maxBright ;
+    float  cosH ; float sinH ; float dSat ; float dBri ;
+    float  minIn ; float maxIn ; float gamma ; float minOut ; float maxOut ;
+    float  threshold ;
+    float  lowColor[4] ; float highColor[4] ;
+    int    yuvRra ;
+    float  scale[4] ;
+    float  targetColor[3] ; float rangeDelta ; float replaceColor[4] ;
+} ;
 
 // Src → Dst コピー + フィルタ。
 // BICUBIC / LANCZOS3 は Src != Dst サイズで resample、それ以外は同サイズ in-place。
@@ -549,6 +564,107 @@ extern int GraphFilterBlt( int SrcGrHandle, int DestGrHandle, int FilterType, ..
         }
         // GPU 不可なら CPU fallback (下の既存 BICUBIC/LANCZOS3 経路へ、GAUSS は
         // 同サイズ in-place なので desktop_filter_process_in_place が対応)
+    }
+
+    //  追加 GPU 対応 filter: pixel-local ベースで args を DesktopFilterParams に
+    //  詰めて GPU 経路へ。失敗時は下の CPU 経路に fallback。
+    {
+        DesktopFilterParams_Local *P =
+            ( DesktopFilterParams_Local * )Desktop_GraphFilter_GetParamsPtr() ;
+        bool tryGpu = false ;
+        va_list apGpu ;
+        va_start( apGpu, FilterType ) ;
+        switch ( FilterType ) {
+        case DX_GRAPH_FILTER_MONO:
+            (void)va_arg( apGpu, int ) ;  // Cb (無視)
+            (void)va_arg( apGpu, int ) ;  // Cr (無視)
+            tryGpu = true ; break ;
+        case DX_GRAPH_FILTER_INVERT:
+        case DX_GRAPH_FILTER_PMA_INVERT:
+            tryGpu = true ; break ;
+        case DX_GRAPH_FILTER_BRIGHT_CLIP:
+        case DX_GRAPH_FILTER_PMA_BRIGHT_CLIP: {
+            P->cmpType  = va_arg( apGpu, int ) ;
+            P->cmpParam = ( float )va_arg( apGpu, int ) / 255.0f ;
+            (void)va_arg( apGpu, int ) ;  // fillFlag 未使用
+            (void)va_arg( apGpu, int ) ;  // fillColor 未使用
+            (void)va_arg( apGpu, int ) ;  // fillAlpha 未使用
+            tryGpu = true ; break ;
+        }
+        case DX_GRAPH_FILTER_BRIGHT_SCALE:
+        case DX_GRAPH_FILTER_PMA_BRIGHT_SCALE: {
+            P->minBright = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->maxBright = ( float )va_arg( apGpu, int ) / 255.0f ;
+            tryGpu = true ; break ;
+        }
+        case DX_GRAPH_FILTER_HSB:
+        case DX_GRAPH_FILTER_PMA_HSB: {
+            int hu = va_arg( apGpu, int ) ;
+            int st = va_arg( apGpu, int ) ;
+            int br = va_arg( apGpu, int ) ;
+            float dh = hu * ( 3.14159265f / 180.0f ) ;
+            P->cosH = std::cos( dh ) ;
+            P->sinH = std::sin( dh ) ;
+            P->dSat = st / 255.0f ;
+            P->dBri = br / 255.0f ;
+            tryGpu = true ; break ;
+        }
+        case DX_GRAPH_FILTER_LEVEL: {
+            P->minIn  = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->maxIn  = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->gamma  = ( float )va_arg( apGpu, double ) ;
+            P->minOut = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->maxOut = ( float )va_arg( apGpu, int ) / 255.0f ;
+            tryGpu = true ; break ;
+        }
+        case DX_GRAPH_FILTER_TWO_COLOR: {
+            P->threshold       = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->lowColor[0]     = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->lowColor[1]     = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->lowColor[2]     = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->lowColor[3]     = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->highColor[0]    = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->highColor[1]    = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->highColor[2]    = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->highColor[3]    = ( float )va_arg( apGpu, int ) / 255.0f ;
+            tryGpu = true ; break ;
+        }
+        case DX_GRAPH_FILTER_PREMUL_ALPHA:
+        case DX_GRAPH_FILTER_INTERP_ALPHA:
+            tryGpu = true ; break ;
+        case DX_GRAPH_FILTER_YUV_TO_RGB:
+        case DX_GRAPH_FILTER_YUV_TO_RGB_RRA:
+            tryGpu = true ; break ;
+        case DX_GRAPH_FILTER_FLOAT_COLOR_SCALE: {
+            P->scale[0] = ( float )va_arg( apGpu, double ) ;
+            P->scale[1] = ( float )va_arg( apGpu, double ) ;
+            P->scale[2] = ( float )va_arg( apGpu, double ) ;
+            P->scale[3] = ( float )va_arg( apGpu, double ) ;
+            tryGpu = true ; break ;
+        }
+        case DX_GRAPH_FILTER_REPLACEMENT: {
+            //  引数: TargetR,G,B,A (0..255), RangeAroundTarget (0..255),
+            //         ReplaceR,G,B,A
+            P->targetColor[0]    = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->targetColor[1]    = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->targetColor[2]    = ( float )va_arg( apGpu, int ) / 255.0f ;
+            (void)va_arg( apGpu, int ) ;  // Target Alpha (無視、RGB のみマッチ)
+            P->rangeDelta        = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->replaceColor[0]   = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->replaceColor[1]   = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->replaceColor[2]   = ( float )va_arg( apGpu, int ) / 255.0f ;
+            P->replaceColor[3]   = ( float )va_arg( apGpu, int ) / 255.0f ;
+            tryGpu = true ; break ;
+        }
+        default: break ;
+        }
+        va_end( apGpu ) ;
+        if ( tryGpu ) {
+            if ( Desktop_GraphFilter_GPU( SrcGrHandle, DestGrHandle, FilterType ) == 0 ) {
+                return 0 ;
+            }
+            // GPU 失敗時は下の CPU fallback へ
+        }
     }
 
     //  GradMap は palette 構築が CPU 依存なので、setter 呼び出し後に GPU 経路

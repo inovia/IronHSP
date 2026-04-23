@@ -57,7 +57,7 @@ td.note { font-size: 12px; color: #555; }
 <body>
 
 <h1>hsp3dx DxLib マルチプラットフォーム対応状況</h1>
-<p class="meta">最終更新: 2026-04-23 20:44 (Movie iOS/Android 実態 × に修正 + Shader/Audio 戦略注釈追加) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
+<p class="meta">最終更新: 2026-04-23 20:52 (GradMap GPU 追加 + SpecularLayer GLSL 完成 + Web build 修復) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
 
 <div class="summary-box" style="border:2px solid #2b6cb0">
   <p style="margin:0">📋 <strong>全関数マトリクス</strong>: この HTML は主要 API 80 関数の概観です。DxLib.h に宣言されている <strong>全 2438 関数</strong> の対応状況は <a href="PORTING_STATUS_DETAIL.html" style="font-weight:700">PORTING_STATUS_DETAIL.html</a> (自動生成) を参照してください。</p>
@@ -727,7 +727,7 @@ td.note { font-size: 12px; color: #555; }
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="tech">CPU 経由 (GraphLock → BGRA ピクセル書換 → GraphUnLock) + <strong>GPU 経路</strong> (BICUBIC/LANCZOS3/GAUSS/SSAO は FBO + GLSL shader で CPU 版の 50〜100x 高速)</td>
-  <td class="note">Tier 4e + B3 + M3 + GPU 実装完了。計 17 種対応 (CPU 15 + GPU 4)。dst が FBO (MakeScreen 済み) なら GPU 経路、そうでなければ CPU fallback。SSAO は CPU/GPU 両方 depth buffer 無しの輝度差近似 (2026-04-23 GPU 化)。GradMap は CPU のみ (GPU は次セッション)。</td>
+  <td class="note">Tier 4e + B3 + M3 + GPU 実装完了。計 17 種対応 (CPU 15 + GPU 5)。dst が FBO (MakeScreen 済み) なら GPU 経路、そうでなければ CPU fallback。GPU 対応: BICUBIC / LANCZOS3 / GAUSS / SSAO / GRADIENT_MAP (2026-04-23)。SSAO は depth buffer 無しの輝度差近似、GradientMap は 256 色 palette を 256×1 RGBA texture 経由。残 10 種 (MONO/INVERT/BRIGHT_CLIP/BRIGHT_SCALE/HSB/TWO_COLOR/LEVEL/PREMUL_ALPHA/YUV_TO_RGB/REPLACEMENT/FLOAT_COLOR_SCALE) は CPU のみ (GPU 化可能だが優先度低)。</td>
 </tr>
 <tr><td class="fn">GraphBlend (NORMAL / MULTIPLE / DIFFERENCE / ADD / SCREEN / OVERLAY / DODGE / BURN / DARKEN / LIGHTEN / SOFTLIGHT / HARDLIGHT / EXCLUSION / NORMAL_ALPHACH / ADD_ALPHACH / MULTIPLE_A_ONLY)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
@@ -749,9 +749,9 @@ td.note { font-size: 12px; color: #555; }
 </tr>
 <tr><td class="fn">MV1 SpecularLayer (Specular map)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">SpecularLayer[0].GraphHandle → GL texture 取得、現状は bind のみ (shader 経路で sampling 予定)</td>
-  <td class="note">M4 minimal wiring 完了。fixed-function では per-vertex specular のため spec map が適用できない。shader 経路への反映は L4 Phase 3 で対応予定。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">SpecularLayer[0].GraphHandle → GL texture TMU 3 bind、GLSL fragment で texture2D(u_specularMap, v_uv0) の RGB を specular color、Alpha を shininess mask として適用 (2026-04-23 L4 Phase 3 完成)</td>
+  <td class="note">Desktop_MV1_UseGLSLShader(1) で有効化。Blinn-Phong shader 内で u_useSpecularMap==1 なら gl_FrontMaterial.specular の代わりに texture sample を使う。SpecularLayer[1+] の多段 blending は未対応 (次タスク)。</td>
 </tr>
 <tr><td class="fn">Shadow Map (MakeShadowMap / ShadowMap_DrawSetup / SetUseShadowMap)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>

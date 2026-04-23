@@ -62,6 +62,8 @@ extern "C" int DesktopShader_Use         ( int handle ) ;
 extern "C" int DesktopShader_SetUniform1i( int h, const char *name, int v ) ;
 extern "C" int DesktopShader_SetUniform1f( int h, const char *name, float v ) ;
 extern "C" int DesktopShader_SetUniform2f( int h, const char *name, float a, float b ) ;
+extern "C" int DesktopShader_SetUniform3f( int h, const char *name, float a, float b, float c ) ;
+extern "C" int DesktopShader_SetUniform4f( int h, const char *name, float a, float b, float c, float d ) ;
 
 #ifndef DX_NON_NAMESPACE
 namespace DxLib
@@ -180,6 +182,182 @@ void main( void ) {
 }
 )GLSL" ;
 
+// -------------------------------------------------------------------------
+// 追加 GPU filter 2026-04-23 後半分: CPU 版と同式の pixel-local shader を
+// 順に追加。dispatcher (DxGraphicsFilterDesktop.cpp) から Desktop_GraphFilter_Params
+// 経由で arg を受け取る。
+// -------------------------------------------------------------------------
+
+//  MONO: BT.601 輝度化 (Cb/Cr offset は簡易版では無視、純モノクロ)
+static const char *s_filter_mono_fs = R"GLSL(
+#version 120
+uniform sampler2D u_input ;
+varying vec2 v_uv ;
+void main( void ) {
+    vec4 c = texture2D( u_input, v_uv ) ;
+    float lum = c.r * 0.299 + c.g * 0.587 + c.b * 0.114 ;
+    gl_FragColor = vec4( lum, lum, lum, c.a ) ;
+}
+)GLSL" ;
+
+//  INVERT: RGB 反転、alpha 保持
+static const char *s_filter_invert_fs = R"GLSL(
+#version 120
+uniform sampler2D u_input ;
+varying vec2 v_uv ;
+void main( void ) {
+    vec4 c = texture2D( u_input, v_uv ) ;
+    gl_FragColor = vec4( 1.0 - c.r, 1.0 - c.g, 1.0 - c.b, c.a ) ;
+}
+)GLSL" ;
+
+//  BRIGHT_CLIP: u_cmpType (0=below, 1=above) の輝度を切り捨てて透明化
+static const char *s_filter_brightclip_fs = R"GLSL(
+#version 120
+uniform sampler2D u_input ;
+uniform int       u_cmpType ;     // 0=below, 1=above
+uniform float     u_cmpParam ;    // 0..1 (0..255/255)
+varying vec2 v_uv ;
+void main( void ) {
+    vec4 c = texture2D( u_input, v_uv ) ;
+    float lum = c.r * 0.299 + c.g * 0.587 + c.b * 0.114 ;
+    bool clipped = ( u_cmpType == 0 ) ? ( lum < u_cmpParam ) : ( lum > u_cmpParam ) ;
+    gl_FragColor = clipped ? vec4( 0.0 ) : c ;
+}
+)GLSL" ;
+
+//  BRIGHT_SCALE: [u_min,u_max] を [0,1] にリマップ
+static const char *s_filter_brightscale_fs = R"GLSL(
+#version 120
+uniform sampler2D u_input ;
+uniform float u_min ;    // 0..1
+uniform float u_max ;    // 0..1
+varying vec2 v_uv ;
+void main( void ) {
+    vec4 c = texture2D( u_input, v_uv ) ;
+    float s = 1.0 / max( u_max - u_min, 1.0/255.0 ) ;
+    vec3 mapped = clamp( ( c.rgb - vec3( u_min ) ) * s, vec3( 0.0 ), vec3( 1.0 ) ) ;
+    gl_FragColor = vec4( mapped, c.a ) ;
+}
+)GLSL" ;
+
+//  HSB: YIQ 経由 hue 回転 + 彩度 + 明度
+static const char *s_filter_hsb_fs = R"GLSL(
+#version 120
+uniform sampler2D u_input ;
+uniform float u_cosH ;
+uniform float u_sinH ;
+uniform float u_dSat ;    // -1..1 (彩度加減)
+uniform float u_dBri ;    // -1..1 (明度加減)
+varying vec2 v_uv ;
+void main( void ) {
+    vec4 c = texture2D( u_input, v_uv ) ;
+    float Y = 0.299 * c.r + 0.587 * c.g + 0.114 * c.b ;
+    float I = 0.596 * c.r - 0.274 * c.g - 0.322 * c.b ;
+    float Q = 0.211 * c.r - 0.523 * c.g + 0.312 * c.b ;
+    float ni = I * u_cosH - Q * u_sinH ;
+    float nq = I * u_sinH + Q * u_cosH ;
+    ni *= ( 1.0 + u_dSat ) ;
+    nq *= ( 1.0 + u_dSat ) ;
+    Y += u_dBri ;
+    float nR = Y + 0.956 * ni + 0.621 * nq ;
+    float nG = Y - 0.272 * ni - 0.647 * nq ;
+    float nB = Y - 1.106 * ni + 1.703 * nq ;
+    gl_FragColor = vec4( clamp( vec3( nR, nG, nB ), 0.0, 1.0 ), c.a ) ;
+}
+)GLSL" ;
+
+//  LEVEL: [u_minIn,u_maxIn] → [u_minOut,u_maxOut] リマップ + gamma
+static const char *s_filter_level_fs = R"GLSL(
+#version 120
+uniform sampler2D u_input ;
+uniform float u_minIn ;
+uniform float u_maxIn ;
+uniform float u_gamma ;
+uniform float u_minOut ;
+uniform float u_maxOut ;
+varying vec2 v_uv ;
+void main( void ) {
+    vec4 c = texture2D( u_input, v_uv ) ;
+    float invGamma = ( u_gamma > 0.0 ) ? ( 1.0 / u_gamma ) : 1.0 ;
+    vec3 t = clamp( ( c.rgb - vec3( u_minIn ) ) / max( u_maxIn - u_minIn, 1.0/255.0 ), 0.0, 1.0 ) ;
+    vec3 g = pow( t, vec3( invGamma ) ) ;
+    vec3 o = mix( vec3( u_minOut ), vec3( u_maxOut ), g ) ;
+    gl_FragColor = vec4( clamp( o, 0.0, 1.0 ), c.a ) ;
+}
+)GLSL" ;
+
+//  TWO_COLOR: 輝度 threshold で 2 色置換
+static const char *s_filter_twocolor_fs = R"GLSL(
+#version 120
+uniform sampler2D u_input ;
+uniform float u_threshold ;
+uniform vec4  u_lowColor ;
+uniform vec4  u_highColor ;
+varying vec2 v_uv ;
+void main( void ) {
+    vec4 c = texture2D( u_input, v_uv ) ;
+    float lum = c.r * 0.299 + c.g * 0.587 + c.b * 0.114 ;
+    gl_FragColor = ( lum < u_threshold ) ? u_lowColor : u_highColor ;
+}
+)GLSL" ;
+
+//  PREMUL_ALPHA: RGB *= A (straight → premultiplied)
+static const char *s_filter_premul_fs = R"GLSL(
+#version 120
+uniform sampler2D u_input ;
+varying vec2 v_uv ;
+void main( void ) {
+    vec4 c = texture2D( u_input, v_uv ) ;
+    gl_FragColor = vec4( c.rgb * c.a, c.a ) ;
+}
+)GLSL" ;
+
+//  YUV_TO_RGB: BT.601 YCbCr → RGB 変換 (BGRA 8bit は Y=R, U=G, V=B 扱いの簡易版)
+static const char *s_filter_yuv_fs = R"GLSL(
+#version 120
+uniform sampler2D u_input ;
+uniform int       u_yuvRra ;   // 1=RRA (R を alpha にも) 変種
+varying vec2 v_uv ;
+void main( void ) {
+    vec4 c = texture2D( u_input, v_uv ) ;
+    float Y = c.r, Cb = c.g - 0.5, Cr = c.b - 0.5 ;
+    float R = Y + 1.402   * Cr ;
+    float G = Y - 0.344136 * Cb - 0.714136 * Cr ;
+    float B = Y + 1.772   * Cb ;
+    float A = ( u_yuvRra == 1 ) ? Y : c.a ;
+    gl_FragColor = vec4( clamp( vec3( R, G, B ), 0.0, 1.0 ), A ) ;
+}
+)GLSL" ;
+
+//  FLOAT_COLOR_SCALE: 各 channel を float スケール
+static const char *s_filter_fcs_fs = R"GLSL(
+#version 120
+uniform sampler2D u_input ;
+uniform vec4 u_scale ;
+varying vec2 v_uv ;
+void main( void ) {
+    vec4 c = texture2D( u_input, v_uv ) ;
+    gl_FragColor = clamp( c * u_scale, 0.0, 1.0 ) ;
+}
+)GLSL" ;
+
+//  REPLACEMENT: 特定色を別色に置換 (exact match、閾値 u_rangeDelta 内)
+static const char *s_filter_replace_fs = R"GLSL(
+#version 120
+uniform sampler2D u_input ;
+uniform vec3  u_targetColor ;    // 検索する色
+uniform float u_rangeDelta ;     // 許容範囲 (0..1)
+uniform vec4  u_replaceColor ;
+varying vec2 v_uv ;
+void main( void ) {
+    vec4 c = texture2D( u_input, v_uv ) ;
+    vec3 d = abs( c.rgb - u_targetColor ) ;
+    bool match = all( lessThan( d, vec3( u_rangeDelta ) ) ) ;
+    gl_FragColor = match ? u_replaceColor : c ;
+}
+)GLSL" ;
+
 // Gradient Map — 256 色 palette で luminance 置換。
 // palette は CPU 側で事前に 256×1 RGBA texture として構築 (別 setter 経由)。
 static const char *s_filter_gradmap_fs = R"GLSL(
@@ -239,6 +417,57 @@ static int s_Shader_Lanczos3 = 0 ;
 static int s_Shader_Gauss    = 0 ;
 static int s_Shader_SSAO     = 0 ;
 static int s_Shader_GradMap  = 0 ;
+static int s_Shader_Mono     = 0 ;
+static int s_Shader_Invert   = 0 ;
+static int s_Shader_BrightClip  = 0 ;
+static int s_Shader_BrightScale = 0 ;
+static int s_Shader_HSB      = 0 ;
+static int s_Shader_Level    = 0 ;
+static int s_Shader_TwoColor = 0 ;
+static int s_Shader_Premul   = 0 ;
+static int s_Shader_YUV      = 0 ;
+static int s_Shader_FCS      = 0 ;
+static int s_Shader_Replace  = 0 ;
+
+//  dispatcher (DxGraphicsFilterDesktop.cpp) から設定される GPU filter params
+//  SSAO/GradMap は独立、それ以外は共用
+struct DesktopFilterParams {
+    //  BRIGHT_CLIP
+    int    cmpType   = 0 ;
+    float  cmpParam  = 0.0f ;
+    //  BRIGHT_SCALE
+    float  minBright = 0.0f ;
+    float  maxBright = 1.0f ;
+    //  HSB
+    float  cosH = 1.0f ;
+    float  sinH = 0.0f ;
+    float  dSat = 0.0f ;
+    float  dBri = 0.0f ;
+    //  LEVEL
+    float  minIn  = 0.0f ;
+    float  maxIn  = 1.0f ;
+    float  gamma  = 1.0f ;
+    float  minOut = 0.0f ;
+    float  maxOut = 1.0f ;
+    //  TWO_COLOR
+    float  threshold   = 0.5f ;
+    float  lowColor[4]  = { 0, 0, 0, 1 } ;
+    float  highColor[4] = { 1, 1, 1, 1 } ;
+    //  YUV
+    int    yuvRra = 0 ;
+    //  FLOAT_COLOR_SCALE
+    float  scale[4]    = { 1, 1, 1, 1 } ;
+    //  REPLACEMENT
+    float  targetColor[3] = { 0, 0, 0 } ;
+    float  rangeDelta     = 0.0f ;
+    float  replaceColor[4] = { 0, 0, 0, 1 } ;
+} ;
+static DesktopFilterParams s_FilterParams ;
+
+extern "C" void *Desktop_GraphFilter_GetParamsPtr( void )
+{
+    return ( void * )&s_FilterParams ;
+}
 
 //  gradmap 用 palette texture (256×1 RGBA、CPU 側で setter が都度更新)
 static GLuint s_GradMapPaletteTex = 0 ;
@@ -265,18 +494,30 @@ extern "C" int Desktop_GradMap_SetPalette256( const unsigned char *rgba256 )
     return 0 ;
 }
 
+#define DESK_GET_FILTER( h, src ) \
+    if ( ( h ) == 0 ) ( h ) = DesktopShader_CompileGLSL( s_filter_vs, src ) ; return ( h )
+
 static int desktop_get_filter_shader( int filterType )
 {
-    if ( filterType == DX_GRAPH_FILTER_GRADIENT_MAP ) {
-        if ( s_Shader_GradMap == 0 )
-            s_Shader_GradMap = DesktopShader_CompileGLSL( s_filter_vs, s_filter_gradmap_fs ) ;
-        return s_Shader_GradMap ;
-    }
-    if ( filterType == DX_GRAPH_FILTER_SSAO ) {
-        if ( s_Shader_SSAO == 0 )
-            s_Shader_SSAO = DesktopShader_CompileGLSL( s_filter_vs, s_filter_ssao_fs ) ;
-        return s_Shader_SSAO ;
-    }
+    if ( filterType == DX_GRAPH_FILTER_GRADIENT_MAP )    { DESK_GET_FILTER( s_Shader_GradMap,  s_filter_gradmap_fs ) ; }
+    if ( filterType == DX_GRAPH_FILTER_SSAO )            { DESK_GET_FILTER( s_Shader_SSAO,     s_filter_ssao_fs ) ; }
+    if ( filterType == DX_GRAPH_FILTER_MONO )            { DESK_GET_FILTER( s_Shader_Mono,     s_filter_mono_fs ) ; }
+    if ( filterType == DX_GRAPH_FILTER_INVERT )          { DESK_GET_FILTER( s_Shader_Invert,   s_filter_invert_fs ) ; }
+    if ( filterType == DX_GRAPH_FILTER_PMA_INVERT )      { DESK_GET_FILTER( s_Shader_Invert,   s_filter_invert_fs ) ; }
+    if ( filterType == DX_GRAPH_FILTER_BRIGHT_CLIP ||
+         filterType == DX_GRAPH_FILTER_PMA_BRIGHT_CLIP ) { DESK_GET_FILTER( s_Shader_BrightClip, s_filter_brightclip_fs ) ; }
+    if ( filterType == DX_GRAPH_FILTER_BRIGHT_SCALE ||
+         filterType == DX_GRAPH_FILTER_PMA_BRIGHT_SCALE ){ DESK_GET_FILTER( s_Shader_BrightScale, s_filter_brightscale_fs ) ; }
+    if ( filterType == DX_GRAPH_FILTER_HSB ||
+         filterType == DX_GRAPH_FILTER_PMA_HSB )         { DESK_GET_FILTER( s_Shader_HSB,      s_filter_hsb_fs ) ; }
+    if ( filterType == DX_GRAPH_FILTER_LEVEL )           { DESK_GET_FILTER( s_Shader_Level,    s_filter_level_fs ) ; }
+    if ( filterType == DX_GRAPH_FILTER_TWO_COLOR )       { DESK_GET_FILTER( s_Shader_TwoColor, s_filter_twocolor_fs ) ; }
+    if ( filterType == DX_GRAPH_FILTER_PREMUL_ALPHA ||
+         filterType == DX_GRAPH_FILTER_INTERP_ALPHA )    { DESK_GET_FILTER( s_Shader_Premul,   s_filter_premul_fs ) ; }
+    if ( filterType == DX_GRAPH_FILTER_YUV_TO_RGB ||
+         filterType == DX_GRAPH_FILTER_YUV_TO_RGB_RRA )  { DESK_GET_FILTER( s_Shader_YUV,      s_filter_yuv_fs ) ; }
+    if ( filterType == DX_GRAPH_FILTER_FLOAT_COLOR_SCALE ) { DESK_GET_FILTER( s_Shader_FCS,    s_filter_fcs_fs ) ; }
+    if ( filterType == DX_GRAPH_FILTER_REPLACEMENT )     { DESK_GET_FILTER( s_Shader_Replace,  s_filter_replace_fs ) ; }
     if ( filterType == DX_GRAPH_FILTER_BICUBIC_SCALE ) {
         if ( s_Shader_Bicubic == 0 )
             s_Shader_Bicubic = DesktopShader_CompileGLSL( s_filter_vs, s_filter_bicubic_fs ) ;
@@ -372,16 +613,64 @@ extern int Desktop_GraphFilter_GPU( int SrcGrHandle, int DestGrHandle, int Filte
         DesktopShader_SetUniform1f( shader, "u_radius",   2.0f ) ;
         DesktopShader_SetUniform1f( shader, "u_strength", 0.5f ) ;
     } else if ( FilterType == DX_GRAPH_FILTER_GRADIENT_MAP ) {
-        //  palette texture (256x1) を TEXTURE1 に bind
-        if ( !s_GradMapPaletteSet || s_GradMapPaletteTex == 0 ) {
-            //  setter 未呼び出しなら CPU fallback
-            return -1 ;
-        }
+        if ( !s_GradMapPaletteSet || s_GradMapPaletteTex == 0 ) return -1 ;
         DesktopShader_SetUniform1i( shader, "u_palette", 1 ) ;
         p_glActiveTexture( GL_TEXTURE1 ) ;
         glBindTexture( GL_TEXTURE_2D, s_GradMapPaletteTex ) ;
         p_glActiveTexture( GL_TEXTURE0 ) ;
-    } else {
+    } else if ( FilterType == DX_GRAPH_FILTER_BRIGHT_CLIP ||
+                FilterType == DX_GRAPH_FILTER_PMA_BRIGHT_CLIP ) {
+        DesktopShader_SetUniform1i( shader, "u_cmpType",  s_FilterParams.cmpType ) ;
+        DesktopShader_SetUniform1f( shader, "u_cmpParam", s_FilterParams.cmpParam ) ;
+    } else if ( FilterType == DX_GRAPH_FILTER_BRIGHT_SCALE ||
+                FilterType == DX_GRAPH_FILTER_PMA_BRIGHT_SCALE ) {
+        DesktopShader_SetUniform1f( shader, "u_min", s_FilterParams.minBright ) ;
+        DesktopShader_SetUniform1f( shader, "u_max", s_FilterParams.maxBright ) ;
+    } else if ( FilterType == DX_GRAPH_FILTER_HSB ||
+                FilterType == DX_GRAPH_FILTER_PMA_HSB ) {
+        DesktopShader_SetUniform1f( shader, "u_cosH", s_FilterParams.cosH ) ;
+        DesktopShader_SetUniform1f( shader, "u_sinH", s_FilterParams.sinH ) ;
+        DesktopShader_SetUniform1f( shader, "u_dSat", s_FilterParams.dSat ) ;
+        DesktopShader_SetUniform1f( shader, "u_dBri", s_FilterParams.dBri ) ;
+    } else if ( FilterType == DX_GRAPH_FILTER_LEVEL ) {
+        DesktopShader_SetUniform1f( shader, "u_minIn",  s_FilterParams.minIn ) ;
+        DesktopShader_SetUniform1f( shader, "u_maxIn",  s_FilterParams.maxIn ) ;
+        DesktopShader_SetUniform1f( shader, "u_gamma",  s_FilterParams.gamma ) ;
+        DesktopShader_SetUniform1f( shader, "u_minOut", s_FilterParams.minOut ) ;
+        DesktopShader_SetUniform1f( shader, "u_maxOut", s_FilterParams.maxOut ) ;
+    } else if ( FilterType == DX_GRAPH_FILTER_TWO_COLOR ) {
+        DesktopShader_SetUniform1f( shader, "u_threshold", s_FilterParams.threshold ) ;
+        DesktopShader_SetUniform4f( shader, "u_lowColor",
+            s_FilterParams.lowColor[0], s_FilterParams.lowColor[1],
+            s_FilterParams.lowColor[2], s_FilterParams.lowColor[3] ) ;
+        DesktopShader_SetUniform4f( shader, "u_highColor",
+            s_FilterParams.highColor[0], s_FilterParams.highColor[1],
+            s_FilterParams.highColor[2], s_FilterParams.highColor[3] ) ;
+    } else if ( FilterType == DX_GRAPH_FILTER_YUV_TO_RGB ||
+                FilterType == DX_GRAPH_FILTER_YUV_TO_RGB_RRA ) {
+        DesktopShader_SetUniform1i( shader, "u_yuvRra",
+            FilterType == DX_GRAPH_FILTER_YUV_TO_RGB_RRA ? 1 : 0 ) ;
+    } else if ( FilterType == DX_GRAPH_FILTER_FLOAT_COLOR_SCALE ) {
+        DesktopShader_SetUniform4f( shader, "u_scale",
+            s_FilterParams.scale[0], s_FilterParams.scale[1],
+            s_FilterParams.scale[2], s_FilterParams.scale[3] ) ;
+    } else if ( FilterType == DX_GRAPH_FILTER_REPLACEMENT ) {
+        DesktopShader_SetUniform3f( shader, "u_targetColor",
+            s_FilterParams.targetColor[0], s_FilterParams.targetColor[1],
+            s_FilterParams.targetColor[2] ) ;
+        DesktopShader_SetUniform1f( shader, "u_rangeDelta", s_FilterParams.rangeDelta ) ;
+        DesktopShader_SetUniform4f( shader, "u_replaceColor",
+            s_FilterParams.replaceColor[0], s_FilterParams.replaceColor[1],
+            s_FilterParams.replaceColor[2], s_FilterParams.replaceColor[3] ) ;
+    }
+    //  MONO / INVERT / PMA_INVERT / PREMUL_ALPHA / INTERP_ALPHA は uniform 不要
+    //  (shader 内で pixel-local 処理のみ)
+    else if ( FilterType != DX_GRAPH_FILTER_MONO &&
+              FilterType != DX_GRAPH_FILTER_INVERT &&
+              FilterType != DX_GRAPH_FILTER_PMA_INVERT &&
+              FilterType != DX_GRAPH_FILTER_PREMUL_ALPHA &&
+              FilterType != DX_GRAPH_FILTER_INTERP_ALPHA ) {
+        //  元々 bicubic/lanczos3/gauss/ssao 用 u_srcSize 経路
         DesktopShader_SetUniform2f( shader, "u_srcSize", ( float )sw, ( float )sh ) ;
     }
 
