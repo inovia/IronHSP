@@ -13,6 +13,15 @@ file(GLOB OPUS_SRC_SRC        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c)
 
 # 除外: fixed-point 専用 (float build なので不要)、mini_kfft (experimental)
 list(FILTER OPUS_CELT_SRC EXCLUDE REGEX "mini_kfft\\.c$")
+# 除外: main() を持つ demo / compare ツール群 (ライブラリに混入すると user exe の
+# main() が lost して usage メッセージしか出ない症状になる)
+list(FILTER OPUS_SRC_SRC  EXCLUDE REGEX "repacketizer_demo\\.c$")
+list(FILTER OPUS_SRC_SRC  EXCLUDE REGEX "opus_demo\\.c$")
+list(FILTER OPUS_SRC_SRC  EXCLUDE REGEX "opus_compare\\.c$")
+list(FILTER OPUS_SRC_SRC  EXCLUDE REGEX "qext_compare\\.c$")
+list(FILTER OPUS_SRC_SRC  EXCLUDE REGEX "extensions\\.c$")
+list(FILTER OPUS_CELT_SRC EXCLUDE REGEX "opus_custom_demo\\.c$")
+list(FILTER OPUS_CELT_SRC EXCLUDE REGEX "laplace\\.c$")   # int main(void) stub
 
 add_library(dx_opus STATIC
     ${OPUS_CELT_SRC}
