@@ -1,0 +1,54 @@
+;============================================================
+;   sample_live2d.hsp — Live2D Cubism 4 モデル描画サンプル
+;   Live2DCubismCore.dll + Hiyori.model3.json を同ディレクトリに置いて実行
+;
+;   使用 API (dx_Live2D_*):
+;     dx_Live2D_SetCubism4CoreDLLPath  Core DLL パス指定 (任意、未指定時は exe 隣を探す)
+;     dx_Live2D_LoadModel              モデル読込 → handle
+;     dx_Live2D_Model_SetTranslate     位置 (画面中央が (0,0))
+;     dx_Live2D_Model_SetExtendRate    拡大率
+;     dx_Live2D_Model_Update           状態更新 (delta 秒)
+;     dx_Live2D_RenderBegin / RenderEnd  描画ブロック
+;     dx_Live2D_Model_Draw             モデル描画
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx sample: Live2D Cubism 4"
+
+    dx_setbgcolor3d 32, 32, 48
+
+    ;  Core DLL のパスを明示指定 (exe 同ディレクトリなら省略可)
+    dx_Live2D_SetCubism4CoreDLLPath "Live2DCubismCore.dll"
+
+    ;  Cubism 4 モデル読込
+    dx_Live2D_LoadModel "Hiyori/Hiyori.model3.json"
+    model = stat
+    if model < 0 : dialog "Live2D モデルの読み込みに失敗" : end
+
+    dx_Live2D_Model_SetExtendRate model, 1.0, 1.0
+    dx_Live2D_Model_SetTranslate  model, 0.0, -0.5
+
+    ;  メインループ (60fps 目標、cls で色+Z バッファクリア)
+    prev_time = 0
+    *main_loop
+        now_time = gettime(7)     ; msec of day
+        if prev_time == 0 : prev_time = now_time
+        delta = double(now_time - prev_time) / 1000.0
+        if delta > 0.1 : delta = 0.1
+        if delta < 0   : delta = 0.016    ; 日越え時は近似 1/60
+        prev_time = now_time
+
+        dx_Live2D_Model_Update model, delta
+
+        redraw 0
+        cls
+
+        dx_Live2D_RenderBegin
+        dx_Live2D_Model_Draw model
+        dx_Live2D_RenderEnd
+
+        redraw 1
+        await 16
+        goto *main_loop

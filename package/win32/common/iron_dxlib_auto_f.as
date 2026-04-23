@@ -1,7 +1,7 @@
 ;============================================================
 ;  iron_dxlib_auto_f.as — Phase 5.5p 自動生成 DxLib 関数形式 (#ccmd)
 ;  DO NOT EDIT — gen_dxlib_bindings.py で再生成
-;  関数数: 1039
+;  関数数: 1073
 ;============================================================
 #ifndef __iron_dxlib_auto_f_as__
 #define __iron_dxlib_auto_f_as__
@@ -1047,5 +1047,39 @@
 #ccmd dx_MV1SetupReferenceMesh_f                       $70c     ; [int] <- MV1SetupReferenceMesh(int, int, int, int, int)
 #ccmd dx_MV1TerminateReferenceMesh_f                   $70d     ; [int] <- MV1TerminateReferenceMesh(int, int, int, int, int)
 #ccmd dx_MV1RefreshReferenceMesh_f                     $70e     ; [int] <- MV1RefreshReferenceMesh(int, int, int, int, int)
+#ccmd dx_Live2D_SetCubism4CoreDLLPath_f                $70f     ; [int] <- Live2D_SetCubism4CoreDLLPath(str)
+#ccmd dx_Live2D_SetCubism3CoreDLLPath_f                $710     ; [int] <- Live2D_SetCubism3CoreDLLPath(str)
+#ccmd dx_Live2D_RenderBegin_f                          $711     ; [int] <- Live2D_RenderBegin()
+#ccmd dx_Live2D_RenderEnd_f                            $712     ; [int] <- Live2D_RenderEnd()
+#ccmd dx_Live2D_LoadModel_f                            $713     ; [int] <- Live2D_LoadModel(str)
+#ccmd dx_Live2D_DeleteModel_f                          $714     ; [int] <- Live2D_DeleteModel(int)
+#ccmd dx_Live2D_InitModel_f                            $715     ; [int] <- Live2D_InitModel()
+#ccmd dx_Live2D_SetUseAutoScaling_f                    $716     ; [int] <- Live2D_SetUseAutoScaling(int)
+#ccmd dx_Live2D_SetUseAutoCentering_f                  $717     ; [int] <- Live2D_SetUseAutoCentering(int)
+#ccmd dx_Live2D_SetUseReverseYAxis_f                   $718     ; [int] <- Live2D_SetUseReverseYAxis(int)
+#ccmd dx_Live2D_Model_Update_f                         $719     ; [int] <- Live2D_Model_Update(int, double (float 縮小))
+#ccmd dx_Live2D_Model_SetTranslate_f                   $71a     ; [int] <- Live2D_Model_SetTranslate(int, double (float 縮小), double (float 縮小))
+#ccmd dx_Live2D_Model_SetExtendRate_f                  $71b     ; [int] <- Live2D_Model_SetExtendRate(int, double (float 縮小), double (float 縮小))
+#ccmd dx_Live2D_Model_SetRotate_f                      $71c     ; [int] <- Live2D_Model_SetRotate(int, double (float 縮小))
+#ccmd dx_Live2D_Model_Draw_f                           $71d     ; [int] <- Live2D_Model_Draw(int)
+#ccmd dx_Live2D_Model_StartMotion_f                    $71e     ; [int] <- Live2D_Model_StartMotion(int, str, int, double (float 縮小), double (float 縮小), int)
+#ccmd dx_Live2D_Model_GetLastPlayMotionNo_f            $71f     ; [int] <- Live2D_Model_GetLastPlayMotionNo(int)
+#ccmd dx_Live2D_Model_IsMotionFinished_f               $720     ; [int] <- Live2D_Model_IsMotionFinished(int)
+#ccmd dx_Live2D_Model_GetMotionPlayTime_f              $721     ; [float] <- Live2D_Model_GetMotionPlayTime(int)
+#ccmd dx_Live2D_Model_SetExpression_f                  $722     ; [int] <- Live2D_Model_SetExpression(int, str)
+#ccmd dx_Live2D_Model_HitTest_f                        $723     ; [int] <- Live2D_Model_HitTest(int, str, double (float 縮小), double (float 縮小))
+#ccmd dx_Live2D_Model_GetParameterCount_f              $724     ; [int] <- Live2D_Model_GetParameterCount(int)
+#ccmd dx_Live2D_Model_GetParameterValue_f              $725     ; [float] <- Live2D_Model_GetParameterValue(int, str)
+#ccmd dx_Live2D_Model_SetParameterValue_f              $726     ; [int] <- Live2D_Model_SetParameterValue(int, str, double (float 縮小))
+#ccmd dx_Live2D_Model_GetHitAreasCount_f               $727     ; [int] <- Live2D_Model_GetHitAreasCount(int)
+#ccmd dx_Live2D_Model_GetExpressionCount_f             $728     ; [int] <- Live2D_Model_GetExpressionCount(int)
+#ccmd dx_Live2D_Model_GetMotionGroupCount_f            $729     ; [int] <- Live2D_Model_GetMotionGroupCount(int)
+#ccmd dx_Live2D_Model_GetMotionCount_f                 $72a     ; [int] <- Live2D_Model_GetMotionCount(int, str)
+#ccmd dx_Live2D_Model_GetMotionFadeInTimeValue_f       $72b     ; [float] <- Live2D_Model_GetMotionFadeInTimeValue(int, str, int)
+#ccmd dx_Live2D_Model_GetMotionFadeOutTimeValue_f      $72c     ; [float] <- Live2D_Model_GetMotionFadeOutTimeValue(int, str, int)
+#ccmd dx_Live2D_Model_GetEyeBlinkParameterCount_f      $72d     ; [int] <- Live2D_Model_GetEyeBlinkParameterCount(int)
+#ccmd dx_Live2D_Model_GetLipSyncParameterCount_f       $72e     ; [int] <- Live2D_Model_GetLipSyncParameterCount(int)
+#ccmd dx_Live2D_Model_GetCanvasWidth_f                 $72f     ; [float] <- Live2D_Model_GetCanvasWidth(int)
+#ccmd dx_Live2D_Model_GetCanvasHeight_f                $730     ; [float] <- Live2D_Model_GetCanvasHeight(int)
 
 #endif

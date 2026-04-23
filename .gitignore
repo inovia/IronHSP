@@ -76,6 +76,8 @@ hsp3dx/extlib/dxlib_ios/*
 !hsp3dx/extlib/dxlib_ios/README.md
 hsp3dx/extlib/dxlib_android/*
 !hsp3dx/extlib/dxlib_android/README.md
+hsp3dx/extlib/cubism_sdk_native/*
+!hsp3dx/extlib/cubism_sdk_native/README.md
 
 # hsp3dx ビルド成果物
 hsp3dx/bin/

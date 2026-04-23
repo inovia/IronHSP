@@ -1,7 +1,7 @@
 ;
 ; iron_dxlib_auto.hs — hsp3dx 自動生成 DxLib 命令の HSP Help
 ; DO NOT EDIT — tools/hsp3dx_dxlib_gen/gen_dxlib_bindings.py で再生成
-; 関数数: 1543
+; 関数数: 1577
 ;
 
 %dll
@@ -27594,3 +27594,576 @@ DxLib の MV1RefreshReferenceMesh() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1RefreshReferenceMesh 項を参照。
+
+%index
+dx_Live2D_SetCubism4CoreDLLPath
+DxLib Live2D_SetCubism4CoreDLLPath (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : str CoreDLLFilePath
+%inst
+DxLib の Live2D_SetCubism4CoreDLLPath() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_SetCubism4CoreDLLPath(const TCHAR * CoreDLLFilePath)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_SetCubism4CoreDLLPath 項を参照。
+
+%index
+dx_Live2D_SetCubism3CoreDLLPath
+DxLib Live2D_SetCubism3CoreDLLPath (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : str CoreDLLFilePath
+%inst
+DxLib の Live2D_SetCubism3CoreDLLPath() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_SetCubism3CoreDLLPath(const TCHAR * CoreDLLFilePath)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_SetCubism3CoreDLLPath 項を参照。
+
+%index
+dx_Live2D_RenderBegin
+DxLib Live2D_RenderBegin (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+(引数なし)
+%inst
+DxLib の Live2D_RenderBegin() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_RenderBegin(void)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_RenderBegin 項を参照。
+
+%index
+dx_Live2D_RenderEnd
+DxLib Live2D_RenderEnd (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+(引数なし)
+%inst
+DxLib の Live2D_RenderEnd() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_RenderEnd(void)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_RenderEnd 項を参照。
+
+%index
+dx_Live2D_LoadModel
+DxLib Live2D_LoadModel (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : str FilePath
+%inst
+DxLib の Live2D_LoadModel() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_LoadModel(const TCHAR * FilePath)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_LoadModel 項を参照。
+
+%index
+dx_Live2D_DeleteModel
+DxLib Live2D_DeleteModel (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+%inst
+DxLib の Live2D_DeleteModel() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_DeleteModel(int Live2DModelHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_DeleteModel 項を参照。
+
+%index
+dx_Live2D_InitModel
+DxLib Live2D_InitModel (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+(引数なし)
+%inst
+DxLib の Live2D_InitModel() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_InitModel(void)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_InitModel 項を参照。
+
+%index
+dx_Live2D_SetUseAutoScaling
+DxLib Live2D_SetUseAutoScaling (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int UseFlag
+%inst
+DxLib の Live2D_SetUseAutoScaling() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_SetUseAutoScaling(int UseFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_SetUseAutoScaling 項を参照。
+
+%index
+dx_Live2D_SetUseAutoCentering
+DxLib Live2D_SetUseAutoCentering (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int UseFlag
+%inst
+DxLib の Live2D_SetUseAutoCentering() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_SetUseAutoCentering(int UseFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_SetUseAutoCentering 項を参照。
+
+%index
+dx_Live2D_SetUseReverseYAxis
+DxLib Live2D_SetUseReverseYAxis (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int UseFlag
+%inst
+DxLib の Live2D_SetUseReverseYAxis() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_SetUseReverseYAxis(int UseFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_SetUseReverseYAxis 項を参照。
+
+%index
+dx_Live2D_Model_Update
+DxLib Live2D_Model_Update (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+p2 : double (float 縮小) DeltaTimeSeconds
+%inst
+DxLib の Live2D_Model_Update() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_Update(int Live2DModelHandle, float DeltaTimeSeconds)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_Update 項を参照。
+
+%index
+dx_Live2D_Model_SetTranslate
+DxLib Live2D_Model_SetTranslate (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+p2 : double (float 縮小) x
+p3 : double (float 縮小) y
+%inst
+DxLib の Live2D_Model_SetTranslate() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_SetTranslate(int Live2DModelHandle, float x, float y)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_SetTranslate 項を参照。
+
+%index
+dx_Live2D_Model_SetExtendRate
+DxLib Live2D_Model_SetExtendRate (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+p2 : double (float 縮小) ExRateX
+p3 : double (float 縮小) ExRateY
+%inst
+DxLib の Live2D_Model_SetExtendRate() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_SetExtendRate(int Live2DModelHandle, float ExRateX, float ExRateY)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_SetExtendRate 項を参照。
+
+%index
+dx_Live2D_Model_SetRotate
+DxLib Live2D_Model_SetRotate (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+p2 : double (float 縮小) RotAngle
+%inst
+DxLib の Live2D_Model_SetRotate() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_SetRotate(int Live2DModelHandle, float RotAngle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_SetRotate 項を参照。
+
+%index
+dx_Live2D_Model_Draw
+DxLib Live2D_Model_Draw (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_Draw() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_Draw(int Live2DModelHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_Draw 項を参照。
+
+%index
+dx_Live2D_Model_StartMotion
+DxLib Live2D_Model_StartMotion (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+p2 : str group
+p3 : int no
+p4 : double (float 縮小) fadeInSeconds (default -1.0f)
+p5 : double (float 縮小) fadeOutSeconds (default -1.0f)
+p6 : int isLoopFadeIn (default TRUE)
+%inst
+DxLib の Live2D_Model_StartMotion() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_StartMotion(int Live2DModelHandle, const TCHAR * group, int no, float fadeInSeconds, float fadeOutSeconds, int isLoopFadeIn)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_StartMotion 項を参照。
+
+%index
+dx_Live2D_Model_GetLastPlayMotionNo
+DxLib Live2D_Model_GetLastPlayMotionNo (自動生成、hsp3dx 専用)
+%group
+DxLib 動画 / 再生
+%prm
+p1 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_GetLastPlayMotionNo() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_GetLastPlayMotionNo(int Live2DModelHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetLastPlayMotionNo 項を参照。
+
+%index
+dx_Live2D_Model_IsMotionFinished
+DxLib Live2D_Model_IsMotionFinished (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_IsMotionFinished() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_IsMotionFinished(int Live2DModelHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_IsMotionFinished 項を参照。
+
+%index
+dx_Live2D_Model_GetMotionPlayTime
+DxLib Live2D_Model_GetMotionPlayTime (自動生成、hsp3dx 専用)
+%group
+DxLib 動画 / 再生
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_GetMotionPlayTime() を呼び出します。
+^p
+元関数シグネチャ: float Live2D_Model_GetMotionPlayTime(int Live2DModelHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetMotionPlayTime 項を参照。
+
+%index
+dx_Live2D_Model_SetExpression
+DxLib Live2D_Model_SetExpression (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+p2 : str expressionID
+%inst
+DxLib の Live2D_Model_SetExpression() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_SetExpression(int Live2DModelHandle, const TCHAR * expressionID)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_SetExpression 項を参照。
+
+%index
+dx_Live2D_Model_HitTest
+DxLib Live2D_Model_HitTest (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+p2 : str hitAreaName
+p3 : double (float 縮小) x
+p4 : double (float 縮小) y
+%inst
+DxLib の Live2D_Model_HitTest() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_HitTest(int Live2DModelHandle, const TCHAR * hitAreaName, float x, float y)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_HitTest 項を参照。
+
+%index
+dx_Live2D_Model_GetParameterCount
+DxLib Live2D_Model_GetParameterCount (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_GetParameterCount() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_GetParameterCount(int Live2DModelHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetParameterCount 項を参照。
+
+%index
+dx_Live2D_Model_GetParameterValue
+DxLib Live2D_Model_GetParameterValue (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int Live2DModelHandle
+p3 : str parameterId
+%inst
+DxLib の Live2D_Model_GetParameterValue() を呼び出します。
+^p
+元関数シグネチャ: float Live2D_Model_GetParameterValue(int Live2DModelHandle, const TCHAR * parameterId)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetParameterValue 項を参照。
+
+%index
+dx_Live2D_Model_SetParameterValue
+DxLib Live2D_Model_SetParameterValue (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+p2 : str parameterId
+p3 : double (float 縮小) value
+%inst
+DxLib の Live2D_Model_SetParameterValue() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_SetParameterValue(int Live2DModelHandle, const TCHAR * parameterId, float value)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_SetParameterValue 項を参照。
+
+%index
+dx_Live2D_Model_GetHitAreasCount
+DxLib Live2D_Model_GetHitAreasCount (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_GetHitAreasCount() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_GetHitAreasCount(int Live2DModelHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetHitAreasCount 項を参照。
+
+%index
+dx_Live2D_Model_GetExpressionCount
+DxLib Live2D_Model_GetExpressionCount (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_GetExpressionCount() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_GetExpressionCount(int Live2DModelHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetExpressionCount 項を参照。
+
+%index
+dx_Live2D_Model_GetMotionGroupCount
+DxLib Live2D_Model_GetMotionGroupCount (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_GetMotionGroupCount() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_GetMotionGroupCount(int Live2DModelHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetMotionGroupCount 項を参照。
+
+%index
+dx_Live2D_Model_GetMotionCount
+DxLib Live2D_Model_GetMotionCount (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+p2 : str groupName
+%inst
+DxLib の Live2D_Model_GetMotionCount() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_GetMotionCount(int Live2DModelHandle, const TCHAR * groupName)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetMotionCount 項を参照。
+
+%index
+dx_Live2D_Model_GetMotionFadeInTimeValue
+DxLib Live2D_Model_GetMotionFadeInTimeValue (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int Live2DModelHandle
+p3 : str groupName
+p4 : int index
+%inst
+DxLib の Live2D_Model_GetMotionFadeInTimeValue() を呼び出します。
+^p
+元関数シグネチャ: float Live2D_Model_GetMotionFadeInTimeValue(int Live2DModelHandle, const TCHAR * groupName, int index)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetMotionFadeInTimeValue 項を参照。
+
+%index
+dx_Live2D_Model_GetMotionFadeOutTimeValue
+DxLib Live2D_Model_GetMotionFadeOutTimeValue (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int Live2DModelHandle
+p3 : str groupName
+p4 : int index
+%inst
+DxLib の Live2D_Model_GetMotionFadeOutTimeValue() を呼び出します。
+^p
+元関数シグネチャ: float Live2D_Model_GetMotionFadeOutTimeValue(int Live2DModelHandle, const TCHAR * groupName, int index)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetMotionFadeOutTimeValue 項を参照。
+
+%index
+dx_Live2D_Model_GetEyeBlinkParameterCount
+DxLib Live2D_Model_GetEyeBlinkParameterCount (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_GetEyeBlinkParameterCount() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_GetEyeBlinkParameterCount(int Live2DModelHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetEyeBlinkParameterCount 項を参照。
+
+%index
+dx_Live2D_Model_GetLipSyncParameterCount
+DxLib Live2D_Model_GetLipSyncParameterCount (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_GetLipSyncParameterCount() を呼び出します。
+^p
+元関数シグネチャ: int Live2D_Model_GetLipSyncParameterCount(int Live2DModelHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetLipSyncParameterCount 項を参照。
+
+%index
+dx_Live2D_Model_GetCanvasWidth
+DxLib Live2D_Model_GetCanvasWidth (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_GetCanvasWidth() を呼び出します。
+^p
+元関数シグネチャ: float Live2D_Model_GetCanvasWidth(int Live2DModelHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetCanvasWidth 項を参照。
+
+%index
+dx_Live2D_Model_GetCanvasHeight
+DxLib Live2D_Model_GetCanvasHeight (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_GetCanvasHeight() を呼び出します。
+^p
+元関数シグネチャ: float Live2D_Model_GetCanvasHeight(int Live2DModelHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetCanvasHeight 項を参照。

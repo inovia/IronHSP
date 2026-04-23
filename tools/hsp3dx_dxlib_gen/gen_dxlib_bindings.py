@@ -207,13 +207,9 @@ SKIP_NAMES = {
     'SetMouseDispFlag', 'SetMouseDispIgnoreMenuFlag',
     #  Windows PC speaker beep API (Android 未実装)
     'SetBeepFrequency', 'PlayBeep', 'StopBeep',
-    #  Live2D (Android ビルドには Live2D Cubism Core が同梱されていない)
-    'Live2D_SetCubism4CoreDLLPath', 'Live2D_SetCubism3CoreDLLPath',
-    'Live2D_RenderBegin', 'Live2D_RenderEnd',
-    'Live2D_LoadModel', 'Live2D_DeleteModel', 'Live2D_InitModel',
-    'Live2D_SetUseAutoScaling', 'Live2D_SetUseAutoCentering',
-    'Live2D_SetUseReverseYAxis',
-    'Live2D_Model_Update', 'Live2D_Model_SetTranslate',
+    #  Live2D 系は DxLib.h で #ifndef DX_NON_LIVE2D_CUBISM4 で保護されている。
+    #  生成コードは DX_NON_LIVE2D_CUBISM4 guard で wrap する (後述) ので、
+    #  ここでは特に除外しない。
 
     # --- (B) hsp3dx ランタイム専管 ---
     #  DxLib_Init / DxLib_End: hgio_dx_init/term が呼ぶ (ユーザが呼ぶと壊れる)
@@ -303,9 +299,6 @@ def parse_signature(match):
     rettype = re.sub(r'\s+', ' ', match.group(1))
     name    = match.group(2)
     if name in SKIP_NAMES:
-        return None
-    #  Live2D 系は Android ビルドに Cubism Core がないため全除外
-    if name.startswith('Live2D_'):
         return None
     if rettype not in ACCEPTED_RETURNS:
         return None
@@ -470,6 +463,9 @@ def main():
 
     for i, (fn, rkind, args) in enumerate(functions):
         opcode = OPCODE_START + i
+        is_live2d = fn.startswith('Live2D_')
+        if is_live2d:
+            cpp.append('#ifndef DX_NON_LIVE2D_CUBISM4')
         cpp.append(f'    case 0x{opcode:03x}: {{  // {fn}  -> {rkind}')
         # 戻り値が非 int の場合、先頭に out 変数を受け取る処理を生成
         ret_local = '_ret'
@@ -617,6 +613,8 @@ def main():
                 cpp.append(f'        code_setva( {local}_pv, {local}_ap, TYPE_DNUM, &{local} );')
         cpp.append('        return 1;')
         cpp.append('    }')
+        if is_live2d:
+            cpp.append('#endif // DX_NON_LIVE2D_CUBISM4')
 
     cpp.append('    }')
     cpp.append('    return 0;   // 未処理 → 呼び出し側で HSPERR_UNSUPPORTED_FUNCTION 投げる')
@@ -705,6 +703,9 @@ def main():
     fcpp.append('    switch ( cmd ) {')
     for i, (fn, rkind, args) in enumerate(f_functions):
         opcode = OPCODE_FSTART + i
+        is_live2d = fn.startswith('Live2D_')
+        if is_live2d:
+            fcpp.append('#ifndef DX_NON_LIVE2D_CUBISM4')
         fcpp.append(f'    case 0x{opcode:03x}: {{  // {fn} -> {rkind}')
         call_args = []
         for idx, (t, aname, default) in enumerate(args):
@@ -772,6 +773,8 @@ def main():
             fcpp.append('        *ptr_out = &s_ret_i64;')
         fcpp.append('        return 1;')
         fcpp.append('    }')
+        if is_live2d:
+            fcpp.append('#endif // DX_NON_LIVE2D_CUBISM4')
     fcpp.append('    }')
     fcpp.append('    return 0;')
     fcpp.append('}')

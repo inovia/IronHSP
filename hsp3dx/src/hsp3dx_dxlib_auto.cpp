@@ -1,7 +1,7 @@
 //
 //  hsp3dx_dxlib_auto.cpp — Phase 5.3 自動生成 DxLib binding dispatcher
 //  DO NOT EDIT — tools/hsp3dx_dxlib_gen/gen_dxlib_bindings.py で再生成
-//  関数数: 1543
+//  関数数: 1577
 //
 //  hsp3dx_extcmd.cpp の cmdfunc_extcmd() から以下で呼ばれる:
 //      if ( hsp3dx_dxlib_auto_dispatch( cmd, ctx ) ) return RUNMODE_RUN;
@@ -15751,6 +15751,354 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1RefreshReferenceMesh( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x807: {  // Live2D_SetCubism4CoreDLLPath  -> r_int
+        const char *_a0_u8 = hsp3dx_auto_gets();
+#ifdef _WIN32
+        wchar_t _a0_t[1024];
+        hsp3dx_utf8_to_wide( _a0_u8, _a0_t, 1024 );
+#else
+        const char *_a0_t = _a0_u8;
+#endif
+        ctx->stat = Live2D_SetCubism4CoreDLLPath( _a0_t );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x808: {  // Live2D_SetCubism3CoreDLLPath  -> r_int
+        const char *_a0_u8 = hsp3dx_auto_gets();
+#ifdef _WIN32
+        wchar_t _a0_t[1024];
+        hsp3dx_utf8_to_wide( _a0_u8, _a0_t, 1024 );
+#else
+        const char *_a0_t = _a0_u8;
+#endif
+        ctx->stat = Live2D_SetCubism3CoreDLLPath( _a0_t );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x809: {  // Live2D_RenderBegin  -> r_int
+        ctx->stat = Live2D_RenderBegin(  );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x80a: {  // Live2D_RenderEnd  -> r_int
+        ctx->stat = Live2D_RenderEnd(  );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x80b: {  // Live2D_LoadModel  -> r_int
+        const char *_a0_u8 = hsp3dx_auto_gets();
+#ifdef _WIN32
+        wchar_t _a0_t[1024];
+        hsp3dx_utf8_to_wide( _a0_u8, _a0_t, 1024 );
+#else
+        const char *_a0_t = _a0_u8;
+#endif
+        ctx->stat = Live2D_LoadModel( _a0_t );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x80c: {  // Live2D_DeleteModel  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = Live2D_DeleteModel( _a0 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x80d: {  // Live2D_InitModel  -> r_int
+        ctx->stat = Live2D_InitModel(  );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x80e: {  // Live2D_SetUseAutoScaling  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = Live2D_SetUseAutoScaling( _a0 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x80f: {  // Live2D_SetUseAutoCentering  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = Live2D_SetUseAutoCentering( _a0 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x810: {  // Live2D_SetUseReverseYAxis  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = Live2D_SetUseReverseYAxis( _a0 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x811: {  // Live2D_Model_Update  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        float _a1 = (float)hsp3dx_auto_getd( 0.0 );
+        ctx->stat = Live2D_Model_Update( _a0, _a1 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x812: {  // Live2D_Model_SetTranslate  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        float _a1 = (float)hsp3dx_auto_getd( 0.0 );
+        float _a2 = (float)hsp3dx_auto_getd( 0.0 );
+        ctx->stat = Live2D_Model_SetTranslate( _a0, _a1, _a2 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x813: {  // Live2D_Model_SetExtendRate  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        float _a1 = (float)hsp3dx_auto_getd( 0.0 );
+        float _a2 = (float)hsp3dx_auto_getd( 0.0 );
+        ctx->stat = Live2D_Model_SetExtendRate( _a0, _a1, _a2 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x814: {  // Live2D_Model_SetRotate  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        float _a1 = (float)hsp3dx_auto_getd( 0.0 );
+        ctx->stat = Live2D_Model_SetRotate( _a0, _a1 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x815: {  // Live2D_Model_Draw  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = Live2D_Model_Draw( _a0 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x816: {  // Live2D_Model_StartMotion  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        const char *_a1_u8 = hsp3dx_auto_gets();
+#ifdef _WIN32
+        wchar_t _a1_t[1024];
+        hsp3dx_utf8_to_wide( _a1_u8, _a1_t, 1024 );
+#else
+        const char *_a1_t = _a1_u8;
+#endif
+        int _a2 = hsp3dx_auto_geti( 0 );
+        float _a3 = (float)hsp3dx_auto_getd( -1.0 );
+        float _a4 = (float)hsp3dx_auto_getd( -1.0 );
+        int _a5 = hsp3dx_auto_geti( 1 );
+        ctx->stat = Live2D_Model_StartMotion( _a0, _a1_t, _a2, _a3, _a4, _a5 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x817: {  // Live2D_Model_GetLastPlayMotionNo  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = Live2D_Model_GetLastPlayMotionNo( _a0 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x818: {  // Live2D_Model_IsMotionFinished  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = Live2D_Model_IsMotionFinished( _a0 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x819: {  // Live2D_Model_GetMotionPlayTime  -> r_float
+        PVal *_ret_pv; APTR _ret_ap;
+        _ret_ap = code_getva( &_ret_pv );
+        int _a0 = hsp3dx_auto_geti( 0 );
+        float _ret = Live2D_Model_GetMotionPlayTime( _a0 );
+        double _ret_d = (double)_ret;
+        code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x81a: {  // Live2D_Model_SetExpression  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        const char *_a1_u8 = hsp3dx_auto_gets();
+#ifdef _WIN32
+        wchar_t _a1_t[1024];
+        hsp3dx_utf8_to_wide( _a1_u8, _a1_t, 1024 );
+#else
+        const char *_a1_t = _a1_u8;
+#endif
+        ctx->stat = Live2D_Model_SetExpression( _a0, _a1_t );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x81b: {  // Live2D_Model_HitTest  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        const char *_a1_u8 = hsp3dx_auto_gets();
+#ifdef _WIN32
+        wchar_t _a1_t[1024];
+        hsp3dx_utf8_to_wide( _a1_u8, _a1_t, 1024 );
+#else
+        const char *_a1_t = _a1_u8;
+#endif
+        float _a2 = (float)hsp3dx_auto_getd( 0.0 );
+        float _a3 = (float)hsp3dx_auto_getd( 0.0 );
+        ctx->stat = Live2D_Model_HitTest( _a0, _a1_t, _a2, _a3 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x81c: {  // Live2D_Model_GetParameterCount  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = Live2D_Model_GetParameterCount( _a0 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x81d: {  // Live2D_Model_GetParameterValue  -> r_float
+        PVal *_ret_pv; APTR _ret_ap;
+        _ret_ap = code_getva( &_ret_pv );
+        int _a0 = hsp3dx_auto_geti( 0 );
+        const char *_a1_u8 = hsp3dx_auto_gets();
+#ifdef _WIN32
+        wchar_t _a1_t[1024];
+        hsp3dx_utf8_to_wide( _a1_u8, _a1_t, 1024 );
+#else
+        const char *_a1_t = _a1_u8;
+#endif
+        float _ret = Live2D_Model_GetParameterValue( _a0, _a1_t );
+        double _ret_d = (double)_ret;
+        code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x81e: {  // Live2D_Model_SetParameterValue  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        const char *_a1_u8 = hsp3dx_auto_gets();
+#ifdef _WIN32
+        wchar_t _a1_t[1024];
+        hsp3dx_utf8_to_wide( _a1_u8, _a1_t, 1024 );
+#else
+        const char *_a1_t = _a1_u8;
+#endif
+        float _a2 = (float)hsp3dx_auto_getd( 0.0 );
+        ctx->stat = Live2D_Model_SetParameterValue( _a0, _a1_t, _a2 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x81f: {  // Live2D_Model_GetHitAreasCount  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = Live2D_Model_GetHitAreasCount( _a0 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x820: {  // Live2D_Model_GetExpressionCount  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = Live2D_Model_GetExpressionCount( _a0 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x821: {  // Live2D_Model_GetMotionGroupCount  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = Live2D_Model_GetMotionGroupCount( _a0 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x822: {  // Live2D_Model_GetMotionCount  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        const char *_a1_u8 = hsp3dx_auto_gets();
+#ifdef _WIN32
+        wchar_t _a1_t[1024];
+        hsp3dx_utf8_to_wide( _a1_u8, _a1_t, 1024 );
+#else
+        const char *_a1_t = _a1_u8;
+#endif
+        ctx->stat = Live2D_Model_GetMotionCount( _a0, _a1_t );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x823: {  // Live2D_Model_GetMotionFadeInTimeValue  -> r_float
+        PVal *_ret_pv; APTR _ret_ap;
+        _ret_ap = code_getva( &_ret_pv );
+        int _a0 = hsp3dx_auto_geti( 0 );
+        const char *_a1_u8 = hsp3dx_auto_gets();
+#ifdef _WIN32
+        wchar_t _a1_t[1024];
+        hsp3dx_utf8_to_wide( _a1_u8, _a1_t, 1024 );
+#else
+        const char *_a1_t = _a1_u8;
+#endif
+        int _a2 = hsp3dx_auto_geti( 0 );
+        float _ret = Live2D_Model_GetMotionFadeInTimeValue( _a0, _a1_t, _a2 );
+        double _ret_d = (double)_ret;
+        code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x824: {  // Live2D_Model_GetMotionFadeOutTimeValue  -> r_float
+        PVal *_ret_pv; APTR _ret_ap;
+        _ret_ap = code_getva( &_ret_pv );
+        int _a0 = hsp3dx_auto_geti( 0 );
+        const char *_a1_u8 = hsp3dx_auto_gets();
+#ifdef _WIN32
+        wchar_t _a1_t[1024];
+        hsp3dx_utf8_to_wide( _a1_u8, _a1_t, 1024 );
+#else
+        const char *_a1_t = _a1_u8;
+#endif
+        int _a2 = hsp3dx_auto_geti( 0 );
+        float _ret = Live2D_Model_GetMotionFadeOutTimeValue( _a0, _a1_t, _a2 );
+        double _ret_d = (double)_ret;
+        code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x825: {  // Live2D_Model_GetEyeBlinkParameterCount  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = Live2D_Model_GetEyeBlinkParameterCount( _a0 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x826: {  // Live2D_Model_GetLipSyncParameterCount  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = Live2D_Model_GetLipSyncParameterCount( _a0 );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x827: {  // Live2D_Model_GetCanvasWidth  -> r_float
+        PVal *_ret_pv; APTR _ret_ap;
+        _ret_ap = code_getva( &_ret_pv );
+        int _a0 = hsp3dx_auto_geti( 0 );
+        float _ret = Live2D_Model_GetCanvasWidth( _a0 );
+        double _ret_d = (double)_ret;
+        code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
+#ifndef DX_NON_LIVE2D_CUBISM4
+    case 0x828: {  // Live2D_Model_GetCanvasHeight  -> r_float
+        PVal *_ret_pv; APTR _ret_ap;
+        _ret_ap = code_getva( &_ret_pv );
+        int _a0 = hsp3dx_auto_geti( 0 );
+        float _ret = Live2D_Model_GetCanvasHeight( _a0 );
+        double _ret_d = (double)_ret;
+        code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
+        return 1;
+    }
+#endif // DX_NON_LIVE2D_CUBISM4
     }
     return 0;   // 未処理 → 呼び出し側で HSPERR_UNSUPPORTED_FUNCTION 投げる
 }
