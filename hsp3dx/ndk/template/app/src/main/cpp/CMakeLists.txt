@@ -97,4 +97,5 @@ target_link_libraries(hsp3dx
     ogg_static
     bullet
     opus
+    Live2DCubismCore   # DxLibEnableLive2D_Android_3_24f + Cubism SDK 4-r.7
 )
