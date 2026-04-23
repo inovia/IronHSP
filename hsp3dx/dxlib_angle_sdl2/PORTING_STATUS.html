@@ -695,8 +695,8 @@ td.note { font-size: 12px; color: #555; }
 <tr><td class="fn">PlayMovieToGraph (Ogg Theora .ogv)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="tech">Win/iOS/Android: libtheora_static prebuilt / SDL2 fork: bundled libogg + libtheoradec (D4)</td>
-  <td class="note">D4b 完了。DxMovieTheoraDesktop.cpp が Ogg demux + YUV→BGRA 変換を実行。拡張子 .ogv / .ogg で自動 dispatch (MF backend と並列)。音声 Vorbis は未統合 (D4 次段で対応予定)。</td>
+  <td class="tech">Win/iOS/Android: libtheora_static prebuilt / SDL2 fork: bundled libogg + libtheoradec (D4) + libvorbisfile で .ogv 内の Vorbis 音声を別途 decode → SDL_OpenAudioDevice + SDL_QueueAudio で同時再生</td>
+  <td class="note">D4b 完了。DxMovieTheoraDesktop.cpp が Ogg demux + YUV→BGRA 変換 (Theora video) と libvorbisfile での音声抽出 (Vorbis audio) を並行実施、PlayMovieToGraph 時に audio_dev 開いて全 PCM を queue + 再生。Loop 時は SDL_ClearQueuedAudio + 再キュー、Pause で SDL_PauseAudioDevice。A/V sync は audio が独立クロックで video は frame_interval_ms ベース (緩い同期)。拡張子 .ogv / .ogg で自動 dispatch (MF backend と並列)。</td>
 </tr>
 <tr><td class="fn">Live2D Cubism4 API</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>

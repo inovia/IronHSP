@@ -116,6 +116,65 @@ static void theora_yuv_to_bgra(
     }
 }
 
+// ---- Vorbis audio extraction (.ogv の音声 track を libvorbisfile で別途 decode)
+// 設計: 同じ .ogv を ov_fopen で 2 度開く方式。libvorbisfile は Theora の
+// pages を skip して Vorbis stream のみ抽出するので、Theora video と並行で
+// 動作させられる (A/V sync は audio が先行する単純モデル、開始時に同時 play)
+#include <vorbis/vorbisfile.h>
+
+extern "C" struct OvAudio { OggVorbis_File vf ; int channels ; int rate ; int valid ; } ;
+
+extern "C" OvAudio *Desktop_TheoraOpenAudio( const char *path )
+{
+    OvAudio *a = new OvAudio() ;
+    a->valid = 0 ;
+    if ( ov_fopen( path, &a->vf ) != 0 ) {
+        // .ogv に Vorbis 音声がない、または video-only
+        delete a ; return nullptr ;
+    }
+    vorbis_info *vi = ov_info( &a->vf, -1 ) ;
+    a->channels = vi ? vi->channels : 2 ;
+    a->rate     = vi ? ( int )vi->rate : 44100 ;
+    a->valid = 1 ;
+    return a ;
+}
+
+// 全 PCM を S16LE で取り出して malloc バッファに展開 (size 大きい場合は
+// caller で SDL audio queue に分割投入する想定)。
+// 戻り値: 成功時 buffer (caller free)、失敗時 nullptr
+extern "C" unsigned char *Desktop_TheoraDecodeAudioAll( OvAudio *a, int *out_bytes,
+                                                        int *out_channels, int *out_rate )
+{
+    if ( !a || !a->valid ) return nullptr ;
+    long total_samples = ( long )ov_pcm_total( &a->vf, -1 ) ;
+    if ( total_samples <= 0 ) return nullptr ;
+    size_t bytes = ( size_t )total_samples * a->channels * 2 ;   // S16
+    unsigned char *buf = ( unsigned char * )std::malloc( bytes ) ;
+    if ( !buf ) return nullptr ;
+
+    size_t cursor = 0 ;
+    int    bs = 0 ;
+    while ( cursor < bytes ) {
+        long got = ov_read( &a->vf, ( char * )( buf + cursor ),
+                            ( int )( bytes - cursor ),
+                            0 /*little-endian*/, 2 /*16bit*/, 1 /*signed*/, &bs ) ;
+        if ( got < 0 ) { std::free( buf ) ; return nullptr ; }
+        if ( got == 0 ) break ;
+        cursor += ( size_t )got ;
+    }
+    if ( out_bytes )    *out_bytes    = ( int )cursor ;
+    if ( out_channels ) *out_channels = a->channels ;
+    if ( out_rate )     *out_rate     = a->rate ;
+    return buf ;
+}
+
+extern "C" void Desktop_TheoraCloseAudio( OvAudio *a )
+{
+    if ( !a ) return ;
+    if ( a->valid ) ov_clear( &a->vf ) ;
+    delete a ;
+}
+
 // ---- extern "C" API for DxMovieDesktop.cpp -----------------------------
 
 extern "C" TheoraMovie *Desktop_TheoraOpen( const char *path, int *out_w, int *out_h )

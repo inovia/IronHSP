@@ -51,6 +51,13 @@ extern "C" int  Desktop_TheoraFps( TheoraMovie *m, int *num, int *den ) ;
 extern "C" const unsigned char *Desktop_TheoraFrameBGRA( TheoraMovie *m, int *bytes ) ;
 extern "C" void Desktop_TheoraClose( TheoraMovie *m ) ;
 
+// Vorbis audio extraction from .ogv (separate libvorbisfile pass)
+struct OvAudio ;
+extern "C" OvAudio *Desktop_TheoraOpenAudio( const char *path ) ;
+extern "C" unsigned char *Desktop_TheoraDecodeAudioAll( OvAudio *a, int *out_bytes,
+                                                        int *out_channels, int *out_rate ) ;
+extern "C" void Desktop_TheoraCloseAudio( OvAudio *a ) ;
+
 // Theora 経路で開いた GraphHandle を管理 (MF 側と competing しない前提で、
 // 同じ g_Movies に入れる設計も可能だが、MovieEntry が MF 固有なので分離)
 struct TheoraEntry {
@@ -67,6 +74,12 @@ struct TheoraEntry {
     double       current_time_ms = 0.0 ;
     int          last_update_ms = 0 ;
     int          update_counter = 0 ;
+    // Vorbis audio (.ogv にあれば libvorbisfile で別途 decode した PCM)
+    unsigned char    *audio_pcm    = nullptr ;
+    int               audio_bytes  = 0 ;
+    int               audio_ch     = 2 ;
+    int               audio_rate   = 44100 ;
+    SDL_AudioDeviceID audio_dev    = 0 ;
 } ;
 static std::unordered_map<int, TheoraEntry *> g_TheoraMovies ;
 
@@ -277,6 +290,18 @@ extern int OpenMovieToGraph( const TCHAR *FileName, int FullColor )
         int num = 0, den = 1 ;
         Desktop_TheoraFps( tm, &num, &den ) ;
         t->frame_interval_ms = ( num > 0 ) ? ( 1000.0 * den / num ) : ( 1000.0 / 30.0 ) ;
+
+        // Vorbis 音声の試行抽出 (.ogv に音声 track があれば PCM を保持しておく)
+        OvAudio *oa = Desktop_TheoraOpenAudio( path ) ;
+        if ( oa ) {
+            unsigned char *pcm = Desktop_TheoraDecodeAudioAll(
+                oa, &t->audio_bytes, &t->audio_ch, &t->audio_rate ) ;
+            if ( pcm && t->audio_bytes > 0 ) {
+                t->audio_pcm = pcm ;
+            }
+            Desktop_TheoraCloseAudio( oa ) ;
+        }
+
         g_TheoraMovies[ gh ] = t ;
 
         // 初期フレーム表示
@@ -333,6 +358,20 @@ extern int PlayMovieToGraph( int GraphHandle, int PlayType, int SysPlay )
         t->loop_flag = ( PlayType & DX_PLAYTYPE_LOOPBIT ) ? 1 : 0 ;
         t->state = 1 ;
         t->play_start_ms = SDL_GetTicks() ;
+        // Vorbis 音声があれば SDL audio device を開いて PCM を queue + 再生開始
+        if ( t->audio_pcm && t->audio_bytes > 0 && t->audio_dev == 0 ) {
+            SDL_AudioSpec want, have ;
+            std::memset( &want, 0, sizeof( want ) ) ;
+            want.freq     = t->audio_rate ;
+            want.format   = AUDIO_S16LSB ;
+            want.channels = ( Uint8 )t->audio_ch ;
+            want.samples  = 4096 ;
+            t->audio_dev = SDL_OpenAudioDevice( nullptr, 0, &want, &have, 0 ) ;
+            if ( t->audio_dev != 0 ) {
+                SDL_QueueAudio( t->audio_dev, t->audio_pcm, ( Uint32 )t->audio_bytes ) ;
+                SDL_PauseAudioDevice( t->audio_dev, 0 ) ;   // start playback
+            }
+        }
         return 0 ;
     }
     auto it = g_Movies.find( GraphHandle ) ;
@@ -356,6 +395,7 @@ extern int PauseMovieToGraph( int GraphHandle, int SysPause )
             Uint32 elapsed = SDL_GetTicks() - t->play_start_ms ;
             t->play_offset_ms += elapsed ;
             t->state = 2 ;
+            if ( t->audio_dev != 0 ) SDL_PauseAudioDevice( t->audio_dev, 1 ) ;
         }
         return 0 ;
     }
@@ -394,15 +434,28 @@ extern int UpdateMovieToGraph( int GraphHandle )
         while ( t->current_time_ms + t->frame_interval_ms <= target_ms )
         {
             int r = Desktop_TheoraReadFrame( t->mov ) ;
-            if ( r < 0 ) { t->state = 0 ; return -1 ; }
+            if ( r < 0 ) {
+                t->state = 0 ;
+                if ( t->audio_dev != 0 ) SDL_PauseAudioDevice( t->audio_dev, 1 ) ;
+                return -1 ;
+            }
             if ( r == 1 ) {
                 if ( t->loop_flag ) {
                     Desktop_TheoraSeekToStart( t->mov ) ;
                     t->play_start_ms = now ;
                     t->play_offset_ms = 0 ;
                     t->current_time_ms = 0 ;
+                    // Audio も再キュー
+                    if ( t->audio_dev != 0 && t->audio_pcm ) {
+                        SDL_ClearQueuedAudio( t->audio_dev ) ;
+                        SDL_QueueAudio( t->audio_dev, t->audio_pcm, ( Uint32 )t->audio_bytes ) ;
+                    }
                     continue ;
-                } else { t->state = 0 ; return 0 ; }
+                } else {
+                    t->state = 0 ;
+                    if ( t->audio_dev != 0 ) SDL_PauseAudioDevice( t->audio_dev, 1 ) ;
+                    return 0 ;
+                }
             }
             t->current_time_ms += t->frame_interval_ms ;
             updated = true ;
