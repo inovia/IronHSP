@@ -113,6 +113,11 @@ if(DXLIB_FROM_SOURCE)
     add_subdirectory(${DXLIB_FORK_DIR}/extlib/libpng ${CMAKE_CURRENT_BINARY_DIR}/dx_libpng)
     add_subdirectory(${DXLIB_FORK_DIR}/extlib/libjpeg ${CMAKE_CURRENT_BINARY_DIR}/dx_libjpeg)
 
+    # --- Bullet Physics 3.25 (fork bundle) --------------------------------
+    # DxUseCLibPhysics.cpp が D_bt* → bt* shim 経由で Bullet を使うため source build が必須
+    # (prebuilt libbullet.a は DxLib 独自の D_bt* symbol で互換性無し)
+    add_subdirectory(${DXLIB_FORK_DIR}/extlib/bullet3 ${CMAKE_CURRENT_BINARY_DIR}/dx_bullet)
+
     # --- DxLib / DxUseCLib 共通 source (pristine DxLib 3.24f) -------------
     set(DXLIB_COMMON_SRC
         ${DXLIB_SRC_DIR}/DxASyncLoad.cpp
@@ -180,12 +185,20 @@ if(DXLIB_FROM_SOURCE)
         # 既存 SDK 同梱の dep .a に合わせた header 群 (fork bundle 版)
         ${DXLIB_FORK_DIR}/extlib/libogg/include
         ${DXLIB_FORK_DIR}/extlib/libvorbis/include
+        ${DXLIB_FORK_DIR}/extlib/libvorbis/lib       # internal: os.h 等
         ${DXLIB_FORK_DIR}/extlib/libtheora/include
         ${DXLIB_FORK_DIR}/extlib/libopus/include
         ${DXLIB_FORK_DIR}/extlib/opusfile/include
         ${DXLIB_FORK_DIR}/extlib/libtiff/libtiff
+        # Live2D Cubism Core — DxLib 3.24f は Cubism 4 必須
+        # (fork bundle extlib/cubism は Cubism 5 で csmGetDrawableRenderOrders が
+        #  rename されているため使えない。hsp3dx/extlib/cubism_sdk_native/ の
+        #  Cubism 4 SDK header を使う)
+        ${HSP3DX_DIR}/extlib/cubism_sdk_native/Core/include
+        # Bullet Physics (DxUseCLibPhysics / DxUseCLib の MV1 物理計算用)
+        ${DXLIB_FORK_DIR}/extlib/bullet3/src
     )
-    target_link_libraries(DxLibSource PUBLIC dx_png dx_jpeg dx_zlib)
+    target_link_libraries(DxLibSource PUBLIC dx_png dx_jpeg dx_zlib dx_bullet)
 
     # SJIS コメント / #pragma warning 等を許容。
     # NDK clang は入力を UTF-8 固定で扱う (-finput-charset は非対応)。
@@ -194,6 +207,15 @@ if(DXLIB_FROM_SOURCE)
     target_compile_options(DxLibSource PRIVATE
         -Wno-everything
         -Wno-invalid-source-encoding
+    )
+
+    # Bullet Physics: DxLib の D_btXxx → bt* マッピング shim (SDL2 fork 由来)
+    # を DxUseCLib*.cpp に force-include、DX_NON_BULLET_PHYSICS を明示的に外す。
+    set_source_files_properties(
+        ${DXLIB_SRC_DIR}/DxUseCLibPhysics.cpp
+        ${DXLIB_SRC_DIR}/DxUseCLib.cpp
+        PROPERTIES
+            COMPILE_FLAGS "-include ${DXLIB_SRC_DIR}/Desktop/DxBulletCompat.h -UDX_NON_BULLET_PHYSICS"
     )
 
     # Cubism 4 Framework header が Live2DCubism4 source から参照される。
@@ -220,7 +242,7 @@ if(DXLIB_FROM_SOURCE)
         vorbis_static
         vorbisfile_static
         ogg_static
-        bullet
+        # bullet は dx_bullet (source) に置換えたので prebuilt は除外
         opus
         Live2DCubismCore
     )

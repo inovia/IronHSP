@@ -116,6 +116,9 @@ set(JPEG_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/jaricom.c
     ${CMAKE_CURRENT_SOURCE_DIR}/jcarith.c
     ${CMAKE_CURRENT_SOURCE_DIR}/jdarith.c
+    # 8-bit 専用バンドルのため j12init_* / j16init_* は link 時 stub で埋める
+    # (jdmaster.c 等に条件分岐で残っているが runtime 到達せず)
+    ${CMAKE_CURRENT_SOURCE_DIR}/jstubs_12_16bit.c
     # color 565 (RGB 565) helpers (jdcol565.c / jdmrg565.c / jdmrgext.c / jccolext.c /
     #   jdcolext.c は他 .c から #include される template ファイルのため source には入れない)
 )

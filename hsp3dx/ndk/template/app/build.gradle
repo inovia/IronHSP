@@ -21,7 +21,7 @@ android {
                 // prebuilt libDxLib.a / libDxUseCLib.a / libpng.a / libjpeg.a /
                 // libzlib.a を使わず、dxlib_angle_sdl2/dxlib_portable + extlib から
                 // build する。Movie MediaCodec 差替えや本家 DxLib 改変はこちら。
-                // arguments "-DDXLIB_FROM_SOURCE=ON"
+                arguments "-DDXLIB_FROM_SOURCE=ON"
             }
         }
     }
