@@ -69,27 +69,34 @@ MaterialIR convert_material(const aiMaterial *m, std::vector<TextureIR> &texture
     if (m->Get(AI_MATKEY_SHININESS, f) == AI_SUCCESS) mat.power = f;
     if (m->Get(AI_MATKEY_OPACITY, f) == AI_SUCCESS)   mat.alpha = 1.0f - f;  // MV1 は不透明度の逆
 
-    // Diffuse texture (path のみ、画像データは取り出さず参照のみ残す)
-    aiString texPath;
-    if (m->GetTexture(aiTextureType_DIFFUSE, 0, &texPath) == AI_SUCCESS) {
+    // 各テクスチャ種類を統一処理: 埋込参照 "*N" なら extract_embedded_textures が
+    // 出した "embedded_tex_N.<ext>" に置換する。
+    auto resolve_tex = [&](aiTextureType type) -> int {
+        aiString texPath;
+        if (m->GetTexture(type, 0, &texPath) != AI_SUCCESS) return -1;
         std::string path(texPath.C_Str(), texPath.length);
-        // 既存 texture と重複チェック
-        int found = -1;
+        if (path.empty()) return -1;
+        // 埋込参照 "*N" なら embedded filename に置換 (拡張子不明のため png 既定、
+        // extract_embedded_textures と順番が同じなので index ベース)
+        if (path.size() >= 2 && path[0] == '*') {
+            int n = std::atoi(path.c_str() + 1);
+            path = "embedded_tex_" + std::to_string(n) + ".png";  // best-guess拡張子
+        }
         for (std::size_t i = 0; i < textures.size(); ++i) {
-            if (textures[i].color_path == path) { found = static_cast<int>(i); break; }
+            if (textures[i].color_path == path) return static_cast<int>(i);
         }
-        if (found >= 0) {
-            mat.diffuse_texture = found;
-        } else {
-            TextureIR t;
-            // パスからファイル名だけ取り出し name とする
-            auto pos = path.find_last_of("/\\");
-            t.name = (pos == std::string::npos) ? path : path.substr(pos + 1);
-            t.color_path = path;
-            mat.diffuse_texture = static_cast<int>(textures.size());
-            textures.push_back(t);
-        }
-    }
+        TextureIR t;
+        auto pos = path.find_last_of("/\\");
+        t.name = (pos == std::string::npos) ? path : path.substr(pos + 1);
+        t.color_path = path;
+        int idx = static_cast<int>(textures.size());
+        textures.push_back(t);
+        return idx;
+    };
+    mat.diffuse_texture  = resolve_tex(aiTextureType_DIFFUSE);
+    mat.specular_texture = resolve_tex(aiTextureType_SPECULAR);
+    mat.normal_texture   = resolve_tex(aiTextureType_NORMALS);
+    mat.emissive_texture = resolve_tex(aiTextureType_EMISSIVE);
 
     return mat;
 }
@@ -306,6 +313,36 @@ bool blender_convert_to_glb(const std::string &blender_exe,
     return std::filesystem::exists(out_glb_path, ec);
 }
 
+// GLB 等の埋込テクスチャを assimp が持っている場合、実ファイルとして書き出す。
+// path = モデル入力の .glb/.gltf パス。出力は same-dir の <basename>.<ext>。
+// 書き出し先はモデル入力と同じ dir。出力時に main.cpp の texture copy が
+// 出力ディレクトリに改めてコピーするので、ここでは入力隣に置くだけで OK。
+void extract_embedded_textures(const aiScene *scene, const std::string &model_path) {
+    if (!scene || scene->mNumTextures == 0) return;
+    namespace fs = std::filesystem;
+    fs::path in_path(model_path);
+    fs::path in_dir = in_path.has_parent_path() ? in_path.parent_path() : fs::path(".");
+    for (std::uint32_t i = 0; i < scene->mNumTextures; ++i) {
+        const aiTexture *t = scene->mTextures[i];
+        if (!t || !t->pcData) continue;
+        std::string hint = t->achFormatHint[0] ? std::string(t->achFormatHint) : "png";
+        std::string fname = "embedded_tex_" + std::to_string(i) + "." + hint;
+        fs::path out = in_dir / fname;
+        std::error_code ec;
+        if (fs::exists(out, ec)) continue;  // already extracted
+        std::FILE *fp = std::fopen(out.string().c_str(), "wb");
+        if (!fp) continue;
+        if (t->mHeight == 0) {
+            // 圧縮形式: pcData は raw buffer、長さ mWidth bytes
+            std::fwrite(t->pcData, 1, t->mWidth, fp);
+        } else {
+            // Raw ARGB: mWidth × mHeight × 4 bytes (DxLib は PNG/BMP/JPG を期待なので書き出し skip)
+            (void)fp;  // not a common path
+        }
+        std::fclose(fp);
+    }
+}
+
 LoadResult load_via_assimp(const std::string &path) {
     LoadResult r;
 
@@ -390,6 +427,9 @@ LoadResult load_via_assimp(const std::string &path) {
         }
         return r;
     }
+
+    // 埋込テクスチャ (GLB 等) を入力 dir に展開
+    extract_embedded_textures(scene, path);
 
     // Materials
     for (std::uint32_t i = 0; i < scene->mNumMaterials; ++i) {

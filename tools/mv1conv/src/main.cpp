@@ -18,6 +18,7 @@
 #include "dxa.hpp"
 #include <cstdio>
 #include <cstring>
+#include <filesystem>
 #include <string>
 
 using namespace mv1conv;
@@ -145,6 +146,58 @@ static int convert_generic(const char *in, const char *out, bool noBones = false
             ir->meshes.resize(n);
         }
     }
+
+    // ====== Texture copy: 入力 .obj/.fbx/.pmx が参照するテクスチャ実ファイルを
+    //        出力 .mv1 と同じディレクトリにコピーし、IR のパスを basename に書き換え。
+    //        環境変数 MV1CONV_NO_COPY_TEX=1 で無効化。 ======
+    if (!std::getenv("MV1CONV_NO_COPY_TEX") && !ir->textures.empty()) {
+        namespace fs = std::filesystem;
+        fs::path in_path(in);
+        fs::path out_path(out);
+        fs::path in_dir  = in_path.has_parent_path() ? in_path.parent_path() : fs::path(".");
+        fs::path out_dir = out_path.has_parent_path() ? out_path.parent_path() : fs::path(".");
+        int copied = 0, missing = 0;
+        for (auto &tex : ir->textures) {
+            if (tex.color_path.empty()) continue;
+            fs::path src(tex.color_path);
+            // 絶対パスならそのまま、相対なら入力 dir から解決
+            if (!src.is_absolute()) src = in_dir / src;
+            std::error_code ec;
+            fs::path resolved = fs::weakly_canonical(src, ec);
+            if (ec || !fs::exists(resolved, ec)) {
+                // 入力 dir 基準以外にも basename 単体で探す (GPB 等ファイル名のみ)
+                fs::path alt = in_dir / fs::path(tex.color_path).filename();
+                if (fs::exists(alt, ec)) resolved = alt;
+            }
+            if (!fs::exists(resolved, ec)) {
+                ++missing;
+                continue;
+            }
+            fs::path dst = out_dir / resolved.filename();
+            // 同一パスなら copy 不要 (round-trip 時)
+            if (fs::exists(dst, ec)) {
+                std::error_code ec2;
+                if (!fs::equivalent(resolved, dst, ec2)) {
+                    fs::copy_file(resolved, dst, fs::copy_options::overwrite_existing, ec2);
+                    if (!ec2) ++copied;
+                }
+            } else {
+                std::error_code ec2;
+                fs::copy_file(resolved, dst, fs::copy_options::overwrite_existing, ec2);
+                if (!ec2) ++copied;
+            }
+            // IR のパスを basename に書き換え (DxLib は .mv1 と同じ dir を探す)
+            tex.color_path = resolved.filename().string();
+            if (tex.name.find('/') != std::string::npos || tex.name.find('\\') != std::string::npos) {
+                tex.name = resolved.filename().string();
+            }
+        }
+        if (copied > 0 || missing > 0) {
+            std::fprintf(stderr, "textures: %d copied, %d missing (use MV1CONV_NO_COPY_TEX=1 to skip)\n",
+                         copied, missing);
+        }
+    }
+
     auto w = save_mv1(*ir, out);
     if (!w.ok()) {
         std::fprintf(stderr, "ERROR: %s\n", w.error.c_str());
