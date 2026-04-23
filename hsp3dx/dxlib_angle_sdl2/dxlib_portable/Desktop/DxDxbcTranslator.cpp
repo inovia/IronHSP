@@ -74,6 +74,23 @@ struct Signature {
     uint8_t     rw_mask ;
 } ;
 
+struct RdefVar {
+    std::string name ;
+    uint32_t    offset_bytes ;  // within cbuffer
+    uint32_t    size_bytes ;
+} ;
+struct RdefCBuffer {
+    std::string name ;
+    uint32_t    size_bytes ;   // total size
+    uint32_t    bind_point = 0 ;  // b0, b1, ...
+    std::vector<RdefVar> vars ;
+} ;
+struct RdefResource {
+    std::string name ;
+    uint32_t    type ;          // 2=Texture, 3=Sampler, 0=CBuffer
+    uint32_t    bind_point ;    // t0 / s0 / b0
+} ;
+
 struct DxbcData {
     // Container
     std::vector<Chunk> chunks ;
@@ -86,6 +103,9 @@ struct DxbcData {
     // Signatures
     std::vector<Signature> inputs  ;
     std::vector<Signature> outputs ;
+    // RDEF (optional, diagnostic / readability)
+    std::vector<RdefCBuffer>  rdef_cbuffers ;
+    std::vector<RdefResource> rdef_resources ;
 } ;
 
 static uint32_t read_u32( const uint8_t *p ) {
@@ -151,6 +171,78 @@ static int parse_signature( const Chunk &c, std::vector<Signature> &out )
         }
         out.push_back( s ) ;
         el += 24 ;
+    }
+    return 0 ;
+}
+
+// Parse RDEF chunk (Resource DEFinition) — constant buffers, textures, samplers
+// の名前とバインドポイントを抽出。RDEF format reference:
+//   [NumCBuffers][CBufferOfs][NumResources][ResourcesOfs][MajorMinor][Type][Flags][CreatorOfs]
+//   SM 5.0 からは RD11 signature (16B) が続く
+// string は c.data + stringOfs に NUL 終端で格納
+static int parse_rdef( const Chunk &c, DxbcData &out )
+{
+    if ( c.size < 28 ) return -1 ;
+    auto read_str = [&]( uint32_t ofs, std::string &s ) -> bool {
+        if ( ofs >= c.size ) return false ;
+        const char *p = ( const char * )( c.data + ofs ) ;
+        size_t maxlen = c.size - ofs ;
+        size_t n = 0 ;
+        while ( n < maxlen && p[ n ] ) n++ ;
+        s.assign( p, n ) ;
+        return true ;
+    } ;
+
+    uint32_t num_cb     = read_u32( c.data + 0 ) ;
+    uint32_t cb_ofs     = read_u32( c.data + 4 ) ;
+    uint32_t num_res    = read_u32( c.data + 8 ) ;
+    uint32_t res_ofs    = read_u32( c.data + 12 ) ;
+    // uint16_t sm_ver = read_u16( c.data + 16 ) — skip
+    // uint16_t sh_type = read_u16( c.data + 18 )
+    // uint32_t flags   = read_u32( c.data + 20 )
+    // uint32_t creator = read_u32( c.data + 24 )
+
+    // Resource bindings: 32 bytes per entry
+    for ( uint32_t i = 0 ; i < num_res ; i++ ) {
+        uint32_t base = res_ofs + i * 32 ;
+        if ( base + 32 > c.size ) break ;
+        RdefResource r ;
+        read_str( read_u32( c.data + base + 0 ), r.name ) ;
+        r.type       = read_u32( c.data + base + 4 ) ;
+        // bind_point at offset 20
+        r.bind_point = read_u32( c.data + base + 20 ) ;
+        out.rdef_resources.push_back( r ) ;
+    }
+
+    // Constant buffers: 24 bytes per entry
+    for ( uint32_t i = 0 ; i < num_cb ; i++ ) {
+        uint32_t base = cb_ofs + i * 24 ;
+        if ( base + 24 > c.size ) break ;
+        RdefCBuffer cb ;
+        read_str( read_u32( c.data + base + 0 ), cb.name ) ;
+        uint32_t num_var  = read_u32( c.data + base + 4 ) ;
+        uint32_t var_ofs  = read_u32( c.data + base + 8 ) ;
+        cb.size_bytes = read_u32( c.data + base + 12 ) ;
+
+        // Variable descriptors: base 24 bytes (SM 4.0) / 40 bytes (SM 5.0)
+        // SM 5.0 の判定は複雑なので固定 24 bytes で読み、名前+offset+size を取る
+        for ( uint32_t j = 0 ; j < num_var ; j++ ) {
+            uint32_t vbase = var_ofs + j * 40 ;  // SM 5.0 の 40B stride で試す
+            if ( vbase + 24 > c.size ) break ;
+            RdefVar v ;
+            read_str( read_u32( c.data + vbase + 0 ), v.name ) ;
+            v.offset_bytes = read_u32( c.data + vbase + 4 ) ;
+            v.size_bytes   = read_u32( c.data + vbase + 8 ) ;
+            cb.vars.push_back( v ) ;
+        }
+        // Bind point: 対応する resource binding から取る (同名)
+        for ( const auto &r : out.rdef_resources ) {
+            if ( r.type == 0 /* CBuffer */ && r.name == cb.name ) {
+                cb.bind_point = r.bind_point ;
+                break ;
+            }
+        }
+        out.rdef_cbuffers.push_back( cb ) ;
     }
     return 0 ;
 }
@@ -604,6 +696,19 @@ static void emit_decl( TranslatorState &st, const Instruction &ins,
                 const Operand &o = ins.operands[ 0 ] ;
                 uint32_t slot    = o.imm_index[ 0 ] ;
                 uint32_t nvec    = o.imm_index[ 1 ] ;
+                // RDEF から slot に一致する constant buffer を検索、変数リストをコメントで出力
+                for ( const auto &cb : data.rdef_cbuffers ) {
+                    if ( cb.bind_point == slot ) {
+                        st.header << "// cb" << slot << ": " << cb.name << " {\n" ;
+                        for ( const auto &v : cb.vars ) {
+                            st.header << "//   " << v.name << " @ " << v.offset_bytes
+                                      << "B (" << v.size_bytes << "B) → cb" << slot
+                                      << "[" << ( v.offset_bytes / 16 ) << "]\n" ;
+                        }
+                        st.header << "// }\n" ;
+                        break ;
+                    }
+                }
                 st.header << "uniform vec4 cb" << slot << "[" << nvec << "] ;\n" ;
             }
             break ;
@@ -755,8 +860,9 @@ static bool emit_instruction( TranslatorState &st, const Instruction &ins,
         case OP_DP3:
         case OP_DP4:
             if ( ins.operands.size() >= 3 ) {
-                set_dst( "dot(" + operand_src( ins.operands[ 1 ] ) + ", " +
-                         operand_src( ins.operands[ 2 ] ) + ")" ) ;
+                // GLSL の dot() は scalar を返すので scalar_rhs=true で swizzle を抑制
+                set_dst_ex( "dot(" + operand_src( ins.operands[ 1 ] ) + ", " +
+                            operand_src( ins.operands[ 2 ] ) + ")", true ) ;
                 return true ;
             }
             break ;
@@ -1247,6 +1353,8 @@ int DxDxbc_Translate( const void *data, int size,
             parse_signature( c, d.outputs ) ;
         } else if ( c.fourcc == FOUR_SHDR || c.fourcc == FOUR_SHEX ) {
             parse_shdr_header( c, d ) ;
+        } else if ( c.fourcc == FOUR_RDEF ) {
+            parse_rdef( c, d ) ;
         }
     }
     if ( !d.shdr_data || d.shdr_size == 0 ) return -1 ;
@@ -1311,11 +1419,18 @@ int DxDxbc_Translate( const void *data, int size,
     // texture resource の最終 declaration (shadow 使用有無で sampler 型を選ぶ)
     std::ostringstream tex_decls ;
     for ( uint32_t slot : st.resource_slots ) {
-        if ( st.shadow_slots.count( slot ) ) {
-            tex_decls << "uniform sampler2DShadow t" << slot << " ;\n" ;
-        } else {
-            tex_decls << "uniform sampler2D t" << slot << " ;\n" ;
+        // RDEF から名前を取る (あれば)
+        std::string name ;
+        for ( const auto &r : d.rdef_resources ) {
+            if ( r.type == 2 /*Texture*/ && r.bind_point == slot ) {
+                name = r.name ;
+                break ;
+            }
         }
+        const char *kind = st.shadow_slots.count( slot ) ? "sampler2DShadow" : "sampler2D" ;
+        tex_decls << "uniform " << kind << " t" << slot << " ;" ;
+        if ( !name.empty() ) tex_decls << "  // " << name ;
+        tex_decls << "\n" ;
     }
 
     // 拡張指示は #version の直後、他の宣言より前に挿入する
