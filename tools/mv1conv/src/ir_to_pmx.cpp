@@ -277,8 +277,29 @@ std::vector<std::uint8_t> ir_to_pmx(const ModelIR &ir, std::string *err_msg) {
         }
     }
 
-    // ---- Morph list ---- (初期版は空)
-    put_i32le(out, 0);
+    // ---- Morph list ----
+    // IR.shapes を vertex morph として出力。
+    // 各 ShapeVertexIR.target_mesh_vertex は mesh local index、
+    // PMX 側は global idx (mesh_base_vertex[mesh_idx] + local) が必要。
+    put_i32le(out, static_cast<std::int32_t>(ir.shapes.size()));
+    for (const auto &sh : ir.shapes) {
+        put_text_utf8(out, sh.name.empty() ? "morph" : sh.name);
+        put_text_utf8(out, sh.name.empty() ? "morph" : sh.name);
+        put_u8(out, 4);   // panel: 4=other (PMD 表情分類は無いので汎用)
+        put_u8(out, 1);   // type: 1=vertex morph
+        // offset count 計算
+        std::int32_t offset_count = 0;
+        for (const auto &sm : sh.meshes) offset_count += static_cast<std::int32_t>(sm.vertices.size());
+        put_i32le(out, offset_count);
+        for (const auto &sm : sh.meshes) {
+            if (sm.target_mesh >= mesh_base_vertex.size()) continue;
+            const std::uint32_t base = static_cast<std::uint32_t>(mesh_base_vertex[sm.target_mesh]);
+            for (const auto &sv : sm.vertices) {
+                put_vert_idx(out, base + sv.target_mesh_vertex);
+                put_vec3(out, sv.dp[0], sv.dp[1], sv.dp[2]);
+            }
+        }
+    }
 
     // ---- Display frame list ----
     // 最小構成: root / 通常 frame 各 1 個

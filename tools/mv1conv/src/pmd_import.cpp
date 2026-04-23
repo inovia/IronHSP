@@ -229,18 +229,30 @@ LoadResult load_pmd(const std::string &path) {
             c.p += 2 * chain_len;
         }
     }
-    // morph (表情)
+    // morph (表情)。base + N-1 個の shape morph。base は PMD 頂点 idx への lookup table。
     std::uint16_t morphN_local = 0;
+    struct PmdMorphEntry { std::uint32_t idx; float dp[3]; };
+    struct PmdMorph { std::string name; std::uint8_t type; std::vector<PmdMorphEntry> verts; };
+    std::vector<PmdMorph> pmd_morphs;
     if (toon_ok && c.p + 2 <= c.pEnd) {
         std::memcpy(&morphN_local, c.p, 2); c.p += 2;
+        pmd_morphs.reserve(morphN_local);
         for (std::uint16_t i = 0; i < morphN_local; ++i) {
-            // 20 name + 4 vcount + 1 type + 16 * vcount
             if (c.p + 25 > c.pEnd) { toon_ok = false; break; }
+            PmdMorph pm;
+            pm.name = sjis_to_utf8(reinterpret_cast<const char *>(c.p), 20);
             std::uint32_t vcount;
             std::memcpy(&vcount, c.p + 20, 4);
+            pm.type = c.p[24];
             c.p += 25;
             if (c.p + static_cast<std::ptrdiff_t>(16) * vcount > c.pEnd) { toon_ok = false; break; }
-            c.p += 16 * vcount;
+            pm.verts.resize(vcount);
+            for (std::uint32_t v = 0; v < vcount; ++v) {
+                std::memcpy(&pm.verts[v].idx, c.p + 0, 4);
+                std::memcpy(pm.verts[v].dp,   c.p + 4, 12);
+                c.p += 16;
+            }
+            pmd_morphs.push_back(std::move(pm));
         }
     }
     // disp_morph_count (u8) + u16[count]
@@ -286,34 +298,29 @@ LoadResult load_pmd(const std::string &path) {
         toon_ok = false;
     }
 
-    // toon texture を使用している material に適用
+    // toon texture を使用している material に適用。
+    // PMD は 10 slot で、default では toon01.bmp..toon10.bmp が入っている。
+    // path が default 名 (toonNN.bmp) と一致するなら DxLib 内蔵を使う (ref=1)。
+    // 一致しない場合は custom texture として追加 (ref=0)。
+    auto is_builtin = [](const std::string &p, int *out_idx) -> bool {
+        static const char *builtins[10] = {
+            "toon01.bmp","toon02.bmp","toon03.bmp","toon04.bmp","toon05.bmp",
+            "toon06.bmp","toon07.bmp","toon08.bmp","toon09.bmp","toon10.bmp"
+        };
+        for (int k = 0; k < 10; ++k) {
+            if (p == builtins[k]) { *out_idx = k; return true; }
+        }
+        return false;
+    };
     for (std::uint32_t i = 0; i < matN; ++i) {
         std::uint8_t ti = matToonIdx[i];
-        if (ti == 0xFF) {
-            // toon 不使用、default (toon01)
-            mats[i].pmx_toon_ref = 1;
-            mats[i].pmx_toon_internal = 0;
-            continue;
-        }
-        if (ti >= 10) ti = 0;
-        const std::string &path = toon_paths[ti];
-        // 内蔵判定: "toonNN.bmp" (NN=01..10) は DxLib 内蔵
-        auto is_builtin = [&](const std::string &p, int *out_idx) -> bool {
-            static const char *builtins[10] = {
-                "toon01.bmp","toon02.bmp","toon03.bmp","toon04.bmp","toon05.bmp",
-                "toon06.bmp","toon07.bmp","toon08.bmp","toon09.bmp","toon10.bmp"
-            };
-            for (int k = 0; k < 10; ++k) {
-                if (p == builtins[k]) { *out_idx = k; return true; }
-            }
-            return false;
-        };
+        std::string path;
+        if (ti != 0xFF && ti < 10) path = toon_paths[ti];
         int bi = 0;
         if (path.empty() || is_builtin(path, &bi)) {
             mats[i].pmx_toon_ref = 1;
             mats[i].pmx_toon_internal = bi;
         } else {
-            // 外部 toon テクスチャ: textures list に追加
             mats[i].pmx_toon_ref = 0;
             mats[i].pmx_toon_texture = add_texture(path);
         }
@@ -322,12 +329,15 @@ LoadResult load_pmd(const std::string &path) {
     // マテリアルごとにメッシュを分割
     const bool has_bones = !bones.empty();
     std::size_t idxOff = 0;
+    // PMD 頂点 idx → [(mesh_ir_idx, local_vi)...] の逆引きマップ (morph emit 用)
+    std::vector<std::vector<std::pair<std::uint32_t, std::uint32_t>>> pmd_to_mesh_local(vertN);
     for (std::uint32_t i = 0; i < matN; ++i) {
         std::uint32_t fc = matFaceIdxCount[i];
         if (fc == 0) continue;
         MeshIR mesh;
         mesh.name = "mesh" + std::to_string(i);
         mesh.material = static_cast<int>(i);
+        const std::uint32_t current_mesh_ir_idx = static_cast<std::uint32_t>(r.ir.meshes.size());
         // 使用頂点を収集して ローカル index 化
         std::vector<std::int32_t> remap(vertN, -1);
         for (std::uint32_t k = 0; k < fc; ++k) {
@@ -335,6 +345,9 @@ LoadResult load_pmd(const std::string &path) {
             if (src_vi >= vertN) continue;
             if (remap[src_vi] < 0) {
                 remap[src_vi] = static_cast<std::int32_t>(mesh.positions.size() / 3);
+                pmd_to_mesh_local[src_vi].emplace_back(
+                    current_mesh_ir_idx,
+                    static_cast<std::uint32_t>(remap[src_vi]));
                 mesh.positions.push_back(positions[src_vi*3+0]);
                 mesh.positions.push_back(positions[src_vi*3+1]);
                 mesh.positions.push_back(positions[src_vi*3+2]);
@@ -369,6 +382,37 @@ LoadResult load_pmd(const std::string &path) {
     r.ir.materials = std::move(mats);
     r.ir.textures = std::move(textures);
     r.ir.bones = std::move(bones);
+
+    // PMD morphs → IR shapes. base (index 0, type 0) は lookup table、skip。
+    if (pmd_morphs.size() > 1) {
+        const auto &base = pmd_morphs[0];
+        for (std::size_t mi = 1; mi < pmd_morphs.size(); ++mi) {
+            const auto &pm = pmd_morphs[mi];
+            ShapeIR s;
+            s.name = pm.name;
+            // mesh_ir_idx → ShapeMeshIR の dense map。
+            std::vector<ShapeMeshIR> per_mesh(r.ir.meshes.size());
+            for (std::size_t i = 0; i < per_mesh.size(); ++i) per_mesh[i].target_mesh = static_cast<std::uint32_t>(i);
+            for (const auto &e : pm.verts) {
+                // PMD morph の idx は base morph の index へのインデックス参照
+                if (e.idx >= base.verts.size()) continue;
+                std::uint32_t abs_pmd_vi = base.verts[e.idx].idx;
+                if (abs_pmd_vi >= vertN) continue;
+                for (const auto &[mesh_idx, local_vi] : pmd_to_mesh_local[abs_pmd_vi]) {
+                    ShapeVertexIR sv{};
+                    sv.target_mesh_vertex = local_vi;
+                    sv.dp[0] = e.dp[0];
+                    sv.dp[1] = e.dp[1];
+                    sv.dp[2] = e.dp[2];
+                    per_mesh[mesh_idx].vertices.push_back(sv);
+                }
+            }
+            for (auto &sm : per_mesh) {
+                if (!sm.vertices.empty()) s.meshes.push_back(std::move(sm));
+            }
+            if (!s.meshes.empty()) r.ir.shapes.push_back(std::move(s));
+        }
+    }
     return r;
 }
 
