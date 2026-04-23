@@ -478,12 +478,18 @@ static std::string operand_src( const Operand &op )
         if ( !sw.empty() && sw.size() < 4 ) { s += "." ; s += sw ; }
     }
     // Apply extended modifiers (abs/neg)
+    //  extended token layout (type=1: operand modifier):
+    //    bits 0-5:  ext_type (1 = operand modifier)
+    //    bits 6-13: modifier (0 = none, 1 = neg, 2 = abs, 3 = abs+neg)
+    //    bit  31:   another extension present
     if ( op.extended_present ) {
-        uint32_t ext_type = ( op.ext_token >> 6 ) & 0x3f ;
+        uint32_t ext_type = ( op.ext_token >> 0 ) & 0x3f ;
         if ( ext_type == 1 ) {
-            uint32_t mod = ( op.ext_token >> 6 ) & 0x7 ;
-            (void)mod ;
-            // simplified: do nothing (TODO: neg/abs)
+            uint32_t mod = ( op.ext_token >> 6 ) & 0xff ;
+            bool neg = ( mod == 1 ) || ( mod == 3 ) ;
+            bool abs = ( mod == 2 ) || ( mod == 3 ) ;
+            if ( abs ) s = "abs(" + s + ")" ;
+            if ( neg ) s = "(-" + s + ")" ;
         }
     }
     return s ;
@@ -805,6 +811,170 @@ static bool emit_instruction( TranslatorState &st, const Instruction &ins,
                 return true ;
             }
             break ;
+
+        // --- 制御フロー ---
+        case OP_IF:
+            if ( ins.operands.size() >= 1 ) {
+                // HLSL if は「全成分が non-zero」で成立。GLSL では bool cast 後 any()
+                // ...簡易には 1 成分だけ見るケースが多いので float != 0 で十分
+                bool not_zero = ( ins.saturate == 0 ) ; // 実は別フィールド、近似
+                std::string cond = operand_src( ins.operands[ 0 ] ) + ".x" ;
+                b << "    if (" << cond << ( not_zero ? " != 0.0" : " == 0.0" ) << ") {\n" ;
+                return true ;
+            }
+            break ;
+        case OP_ELSE:
+            b << "    } else {\n" ;
+            return true ;
+        case OP_ENDIF:
+            b << "    }\n" ;
+            return true ;
+        case OP_DISCARD:
+            if ( ins.operands.size() >= 1 ) {
+                // discard_nz / discard_z のどちらか。conservative にそのまま発火
+                b << "    if (" << operand_src( ins.operands[ 0 ] ) << ".x != 0.0) discard ;\n" ;
+            } else {
+                b << "    discard ;\n" ;
+            }
+            return true ;
+        case OP_BREAK:
+            b << "    break ;\n" ;
+            return true ;
+        case OP_LOOP:
+            // DXBC の loop は回数制限無しの while(true) に相当、break で抜ける
+            b << "    for (int _i = 0 ; _i < 1024 ; _i++) {\n" ;
+            return true ;
+        case OP_ENDLOOP:
+            b << "    }\n" ;
+            return true ;
+
+        // --- 比較 → float 0.0 / 1.0 (DXBC は 0 / 0xFFFFFFFF で返すが float 近似) ---
+        case OP_EQ:
+        case OP_IEQ:
+            if ( ins.operands.size() >= 3 ) {
+                set_dst( "(vec4(equal(" + operand_src( ins.operands[ 1 ] ) + ", " +
+                         operand_src( ins.operands[ 2 ] ) + ")))" ) ;
+                return true ;
+            }
+            break ;
+        case OP_NE:
+        case OP_INE:
+            if ( ins.operands.size() >= 3 ) {
+                set_dst( "(vec4(notEqual(" + operand_src( ins.operands[ 1 ] ) + ", " +
+                         operand_src( ins.operands[ 2 ] ) + ")))" ) ;
+                return true ;
+            }
+            break ;
+        case OP_LT:
+        case OP_ILT:
+        case OP_ULT:
+            if ( ins.operands.size() >= 3 ) {
+                set_dst( "(vec4(lessThan(" + operand_src( ins.operands[ 1 ] ) + ", " +
+                         operand_src( ins.operands[ 2 ] ) + ")))" ) ;
+                return true ;
+            }
+            break ;
+        case OP_GE:
+        case OP_IGE:
+        case OP_UGE:
+            if ( ins.operands.size() >= 3 ) {
+                set_dst( "(vec4(greaterThanEqual(" + operand_src( ins.operands[ 1 ] ) + ", " +
+                         operand_src( ins.operands[ 2 ] ) + ")))" ) ;
+                return true ;
+            }
+            break ;
+
+        // --- 三項選択 movc (cond ? src0 : src1) ---
+        case OP_MOVC:
+            if ( ins.operands.size() >= 4 ) {
+                // DXBC: movc dst, cond, iftrue, iffalse  (cond != 0 → iftrue)
+                set_dst( "mix(" + operand_src( ins.operands[ 3 ] ) + ", " +
+                         operand_src( ins.operands[ 2 ] ) + ", vec4(notEqual(" +
+                         operand_src( ins.operands[ 1 ] ) + ", vec4(0.0))))" ) ;
+                return true ;
+            }
+            break ;
+
+        // --- 整数 ALU (float で代替) ---
+        case OP_IADD:
+        case OP_UMUL:  // dst_lo_hi, result — 簡易に積のみ
+            if ( ins.opcode == OP_IADD && ins.operands.size() >= 3 ) {
+                set_dst( "(" + operand_src( ins.operands[ 1 ] ) + " + " +
+                         operand_src( ins.operands[ 2 ] ) + ")" ) ;
+                return true ;
+            }
+            if ( ins.opcode == OP_UMUL && ins.operands.size() >= 4 ) {
+                // dst_hi, dst_lo, a, b — dst_lo = a * b (近似)
+                const Operand &dst_lo = ins.operands[ 1 ] ;
+                if ( dst_lo.operand_type != OPT_NULL ) {
+                    b << "    " << operand_dst( dst_lo, "" ) << " = (" <<
+                         operand_src( ins.operands[ 2 ] ) << " * " <<
+                         operand_src( ins.operands[ 3 ] ) << ") ;\n" ;
+                }
+                return true ;
+            }
+            break ;
+        case OP_IMUL:
+            if ( ins.operands.size() >= 4 ) {
+                const Operand &dst_lo = ins.operands[ 1 ] ;
+                if ( dst_lo.operand_type != OPT_NULL ) {
+                    b << "    " << operand_dst( dst_lo, "" ) << " = (" <<
+                         operand_src( ins.operands[ 2 ] ) << " * " <<
+                         operand_src( ins.operands[ 3 ] ) << ") ;\n" ;
+                }
+                return true ;
+            }
+            break ;
+        case OP_IMAD:
+            if ( ins.operands.size() >= 4 ) {
+                set_dst( "((" + operand_src( ins.operands[ 1 ] ) + " * " +
+                         operand_src( ins.operands[ 2 ] ) + ") + " +
+                         operand_src( ins.operands[ 3 ] ) + ")" ) ;
+                return true ;
+            }
+            break ;
+        case OP_INEG:
+            if ( ins.operands.size() >= 2 ) {
+                set_dst( "(-" + operand_src( ins.operands[ 1 ] ) + ")" ) ;
+                return true ;
+            }
+            break ;
+        case OP_IMAX:
+        case OP_UMAX:
+            if ( ins.operands.size() >= 3 ) {
+                set_dst( "max(" + operand_src( ins.operands[ 1 ] ) + ", " +
+                         operand_src( ins.operands[ 2 ] ) + ")" ) ;
+                return true ;
+            }
+            break ;
+        case OP_IMIN:
+        case OP_UMIN:
+            if ( ins.operands.size() >= 3 ) {
+                set_dst( "min(" + operand_src( ins.operands[ 1 ] ) + ", " +
+                         operand_src( ins.operands[ 2 ] ) + ")" ) ;
+                return true ;
+            }
+            break ;
+
+        // --- sincos: dst_sin, dst_cos, src ---
+        case OP_SINCOS:
+            if ( ins.operands.size() >= 3 ) {
+                const Operand &dst_sin = ins.operands[ 0 ] ;
+                const Operand &dst_cos = ins.operands[ 1 ] ;
+                std::string src = operand_src( ins.operands[ 2 ] ) ;
+                if ( dst_sin.operand_type != OPT_NULL ) {
+                    b << "    " << operand_dst( dst_sin, "" ) << " = sin(" << src << ") ;\n" ;
+                }
+                if ( dst_cos.operand_type != OPT_NULL ) {
+                    b << "    " << operand_dst( dst_cos, "" ) << " = cos(" << src << ") ;\n" ;
+                }
+                return true ;
+            }
+            break ;
+
+        case OP_NOP:
+            return true ;
+
         default:
             break ;
     }
