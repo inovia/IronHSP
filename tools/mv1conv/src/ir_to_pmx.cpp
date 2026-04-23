@@ -229,8 +229,15 @@ std::vector<std::uint8_t> ir_to_pmx(const ModelIR &ir, std::string *err_msg) {
             put_vec3(out, mat.specular[0], mat.specular[1], mat.specular[2]);
             put_float(out, mat.power);
             put_vec3(out, mat.ambient[0], mat.ambient[1], mat.ambient[2]);
-            std::uint8_t mat_flag = 0x01;  // double-sided
-            if (mat.draw_edge) mat_flag |= 0x10;  // draw edge (MMD outline)
+            // PMX material flag bits:
+            //   0x01 no-cull (double-sided) — alpha < 1.0 の半透明材質のみ。
+            //     alpha=1.0 で double-sided にすると半透明 blend 時に裏面が透ける。
+            //   0x02 ground shadow / 0x04 self shadow cast / 0x08 self shadow receive
+            //   0x10 draw edge (PMD edge_flag 由来)
+            // MMD default: 0x02|0x04|0x08 = 0x0E に、必要な bit を OR。
+            std::uint8_t mat_flag = 0x02 | 0x04 | 0x08;  // 影関連 bit default on
+            if (mat.diffuse[3] < 1.0f) mat_flag |= 0x01;  // 半透明は double-sided
+            if (mat.draw_edge) mat_flag |= 0x10;          // MMD outline
             put_u8(out, mat_flag);
             put_vec4(out, 0.0f, 0.0f, 0.0f, 1.0f);   // edge color
             put_float(out, 1.0f);                     // edge size
