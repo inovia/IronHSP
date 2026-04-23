@@ -49,6 +49,8 @@ static void hsp3dx_install_event_observers( void )
 }
 
 //  1 ファイルを DxLib FileRead 経由で読み出し fopen で書き出す
+//  name は bundle root からの相対パス (例 "Hiyori/Hiyori.model3.json")
+//  dst_dir 配下に同じ相対パスで書き出す。中間ディレクトリが無ければ作る。
 static int extract_bundle_asset( const char *name, const char *dst_dir )
 {
     int fh = FileRead_open( (const TCHAR *)name );
@@ -64,6 +66,14 @@ static int extract_bundle_asset( const char *name, const char *dst_dir )
 
     char dst[1024];
     snprintf( dst, sizeof(dst), "%s/%s", dst_dir, name );
+
+    //  中間ディレクトリを作成 (Hiyori/Hiyori.model3.json のようなパス用)
+    NSString *dstNS = [NSString stringWithUTF8String:dst];
+    NSString *parent = [dstNS stringByDeletingLastPathComponent];
+    [[NSFileManager defaultManager] createDirectoryAtPath:parent
+                              withIntermediateDirectories:YES
+                                               attributes:nil error:nil];
+
     FILE *fp = fopen( dst, "wb" );
     if ( !fp ) { free( buf ); NSLog( @"fopen write failed: %s", dst ); return -1; }
     fwrite( buf, 1, (size_t)sz, fp );
@@ -86,23 +96,37 @@ static void extract_all_bundle_assets( const char *dst_dir )
     if ( resDir == nil ) return;
 
     NSFileManager *fm = [NSFileManager defaultManager];
-    NSArray<NSString *> *files = [fm contentsOfDirectoryAtPath:resDir error:nil];
+    //  再帰的にファイル一覧取得 (サブディレクトリ構造を保持)
+    NSArray<NSString *> *files = [fm subpathsOfDirectoryAtPath:resDir error:nil];
     if ( files == nil ) return;
 
+    //  拡張子フィルタ (3D モデル / Live2D 関連拡張も含める)
     NSSet<NSString *> *validExt = [NSSet setWithObjects:
         @"ax", @"png", @"jpg", @"jpeg", @"bmp", @"wav", @"ogg",
-        @"mp3", @"txt", @"json", @"dat", @"csv", @"xml", nil];
+        @"mp3", @"txt", @"json", @"dat", @"csv", @"xml",
+        //  3D モデル
+        @"mv1", @"obj", @"pmx", @"pmd", @"fbx", @"gltf", @"glb", @"vrm",
+        //  Live2D Cubism 4
+        @"moc3", @"motion3", @"exp3", @"phys3", @"pose3", nil];
 
-    for ( NSString *file in files ) {
-        NSString *ext = [[file pathExtension] lowercaseString];
+    for ( NSString *rel in files ) {
+        NSString *abs = [resDir stringByAppendingPathComponent:rel];
+        //  注: hsp3dx_compat.h が BOOL=int と typedef しているため、ここで
+        //  (BOOL*) とキャストすると int* 解釈されエラー。ObjC 本来の BOOL
+        //  (64bit iOS では bool) と同じ型の bool を生で使って渡す。
+        bool isDir_b = false;
+        [fm fileExistsAtPath:abs isDirectory:(_Bool *)&isDir_b];
+        if ( isDir_b ) continue;
+
+        NSString *ext = [[rel pathExtension] lowercaseString];
         if ( ![validExt containsObject:ext] ) continue;
 
-        char utf8Name[512];
-        strncpy( utf8Name, [file UTF8String], sizeof(utf8Name) - 1 );
-        utf8Name[sizeof(utf8Name) - 1] = 0;
+        char utf8Rel[1024];
+        strncpy( utf8Rel, [rel UTF8String], sizeof(utf8Rel) - 1 );
+        utf8Rel[sizeof(utf8Rel) - 1] = 0;
 
         //  毎起動で上書き (bundle の最新内容を反映)
-        extract_bundle_asset( utf8Name, dst_dir );
+        extract_bundle_asset( utf8Rel, dst_dir );
     }
 }
 

@@ -44,6 +44,7 @@ settings:
       - "$(SRCROOT)/../../extlib/picojson"
     LIBRARY_SEARCH_PATHS:
       - "$(SRCROOT)/../../extlib/dxlib_ios/DxLib_iOS/LinkFiles/$(CONFIGURATION)-$(PLATFORM_NAME)"
+      - "$(SRCROOT)/../../extlib/cubism_sdk_native/Core/lib/ios/$(CONFIGURATION)-$(PLATFORM_NAME)"
     OTHER_LDFLAGS:
       - "-lDxLib_iOS"
       - "-lDxUseCLib_iOS"
@@ -56,9 +57,14 @@ settings:
       - "-lvorbis_iOS"
       - "-ltheora_iOS"
       - "-lbullet_iOS"
+      # DxLibEnableLive2D_iOS + Cubism SDK 4-r.7 Core
+      - "-lLive2DCubismCore"
     # Simulator + Device 両対応 (Phase 3.6)
     ONLY_ACTIVE_ARCH: YES
     SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
+    # Cubism SDK 4-r.7 の Core iOS simulator lib は x86_64 のみ (Apple Silicon 以前)
+    # Apple Silicon Mac でシミュレータビルドする場合、arm64 を除外して Rosetta で x86_64 実行
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
     # Xcode の PNG 最適化 (CgBI 形式変換) を無効化。
     # DxLib iOS の CreateGraphFromMem は標準 libpng で復号するため
     # CgBI 形式の PNG は "Image File Load Error" になる。
@@ -98,6 +104,14 @@ targets:
       # サンプル実行に必要な start.ax と test_*.png/wav を含む。
       # 起動時に main_ios.mm が Documents にコピー展開する。
       - path: Data
+        buildPhase: resources
+        optional: true
+        excludes:
+          - "Hiyori"  # サブディレクトリは folder reference で別エントリ
+      # Live2D モデルなどサブディレクトリ構造を保持する必要があるアセットは
+      # type: folder (blue folder) で bundle root 直下に置く
+      - path: Data/Hiyori
+        type: folder
         buildPhase: resources
         optional: true
       # hsp3dx 本体 (iOS 用 .mm + Win/Android 非依存の共通 .cpp)
