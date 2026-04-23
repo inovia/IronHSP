@@ -98,6 +98,15 @@ td.note { font-size: 12px; color: #555; }
      <strong>E2 Mac SSH build 検証完了</strong> (25 stage arm64 Mach-O 全 build)。
      <strong>E3 Web emscripten build 検証</strong> (stage4_web.wasm 5.8MB 生成、DX_NON_LIVE2D_CUBISM4=1 運用)。
      extlib/cubism/CMakeLists.txt で Mac/Linux/Android Core lib 自動検出追加 (.gitignore で SDK 個別 DL 前提)。</p>
+  <p><strong>2026-04-24 追加 (iOS 起動時間短縮):</strong>
+     <strong>DxGraphics.cpp の 6x ScreenFlip warmup を iOS のみスキップ</strong>
+     (<code>#if !(defined(__APPLE__) &amp;&amp; TARGET_OS_IPHONE)</code>)。
+     DxLib 原作者が FPS 計測安定化のために <code>Graphics_Initialize</code> 末尾で
+     ScreenFlip を 6 回空回ししているが、iOS Simulator では 1 flip ≈ 194ms
+     (Metal 翻訳経由) かかるためここだけで 1.17 秒の起動遅延になっていた。
+     実測 <code>DxLib_Init</code> 2412ms → 1873ms (~-0.5 秒)。
+     計測用マクロ <code>HSP3DX_IOS_STARTUP_TIMING</code> を全 init chain に永久設置
+     (デフォルト off、<a href="../ios/README.md">hsp3dx/ios/README.md</a> に手順記載)。</p>
   <p><strong>2026-04-23 夜追加:</strong>
      MV1 <strong>Bullet Physics opt-in</strong> (<code>-DDX_DESKTOP_ENABLE_BULLET_PHYSICS=ON</code>) で DxUseCLibPhysics.cpp を extlib/bullet3 と結線 /
      Cubism/MV1 <strong>VBO 描画経路</strong> (DrawPrimitive(Indexed)3DToShader_UseVertexBuffer2_PF) の実装で glDrawElements まで届く /

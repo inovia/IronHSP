@@ -4,6 +4,58 @@
 
 ---
 
+## 2026-04-24 夜 — iOS Simulator 起動時間調査 + 6x warmup skip
+
+### 背景
+Phase 3b (iOS Movie AVPlayer) 完了後、「iOS Simulator で Live2D サンプル起動時
+最初 15-20 秒黒画面」問題の原因切り分け。前セッション (fcb92238) はこの調査の
+途中、screenshot が会話コンテキストに溜まって 2000px 画像サイズ制限でクラッシュ。
+
+### やったこと
+1. [hsp3dx/samples/sample_simple.hsp](../samples/sample_simple.hsp) を新規作成
+   — Live2D 無しの最小描画サンプル (`DrawBox` + `mes` のみ)
+2. 以下に printf ベースの timing log を仕込み (`HSP3DX_IOS_STARTUP_TIMING` マクロで gate、
+   デフォルト off):
+   - [hsp3dx/src/main_ios.mm](../src/main_ios.mm) — `TIMING_NSLOG` 経由で 7 ポイント
+   - [hsp3dx/src/hgio_dx.cpp](../src/hgio_dx.cpp) — `HGIO_TIMING_LOG` マクロで 6 ポイント
+   - [dxlib_portable/iOS/DxSystemiOS.cpp](dxlib_portable/iOS/DxSystemiOS.cpp) — `DXINIT_LOG`
+     で `NS_DxLib_Init` の 14 サブステップ
+   - [dxlib_portable/DxGraphics.cpp](dxlib_portable/DxGraphics.cpp) — `DXGR_LOG` で
+     `Graphics_Initialize` 7 サブステップ + 6x warmup 境界
+3. [hsp3dx/ios/template/project.yml](../ios/template/project.yml) で一時的に `HSP3DX_IOS_STARTUP_TIMING=1`
+   を ON にして計測 → 確認後に OFF に戻し
+4. **犯人特定**: `Graphics_Initialize` 末尾の「GetFPS 安定化用 6x ScreenFlip warmup」
+   が iOS Simulator で **1166 ms** 食っていた (1 flip = 194 ms × 6)
+5. **修正**: [dxlib_portable/DxGraphics.cpp](dxlib_portable/DxGraphics.cpp) で
+   6x ループを `#if !(defined(__APPLE__) && TARGET_OS_IPHONE)` で iOS のみスキップ
+   (include `<TargetConditionals.h>` 追加)
+6. 再計測: `ios_main start → hgio_dx_init end` が **2412 ms → 1873 ms** (~-0.5 秒)
+
+### 計測結果サマリ (詳細は memory project_ios_startup_timing_20260424.md)
+```
+Before                               After
+NS_DxLib_Init         2349 ms        ~1200 ms
+├ InitializeSoundSystem  836           836
+├ Graphics_Initialize   1495          ~330
+│ ├ Timing0_PF           198           198
+│ ├ Hardware_Init_PF      25            25
+│ ├ DrawSetting           15            15
+│ ├ InitFontManage        78            78
+│ └ 6x ScreenFlip      1166             0  ★
+└ SetDrawScreen          33           457  (warmup コスト流れ込み)
+```
+
+### 更新した文書
+- [hsp3dx/ios/README.md](../ios/README.md) — 「起動時間計測 / 最適化」章追加
+- [hsp3dx/docs/worklog.md](../docs/worklog.md) — セッション要約
+- [PORTING_STATUS.html](PORTING_STATUS.html) — 最新サマリに 6x skip 記載
+
+### 次
+- 実機 (iphoneos) 計測 — Simulator 固有の Metal 翻訳遅延と切り分け
+- (余裕があれば) `NotSoundFlag=TRUE` 切替 API で `InitializeSoundSystem` (836ms) skip
+
+---
+
 ## 2026-04-22 — Day 1
 
 ### 目標

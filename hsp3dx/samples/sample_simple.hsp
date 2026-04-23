@@ -1,0 +1,14 @@
+;  sample_simple.hsp — 最小描画サンプル、起動時間計測用
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+    dx_setbgcolor3d 32, 32, 48
+    repeat
+        dx_ClsDrawScreen
+        color 255, 255, 255
+        pos 50, 50
+        mes "iOS simple startup test cnt=" + cnt
+        dx_DrawBox 100, 100, 300, 300, 0xffffff, 1
+        dx_ScreenFlip
+        await 16
+    loop

@@ -20,6 +20,13 @@
 #include "hsp3dxcl.h"
 #include "hsp3dx_events.h"
 
+//  iOS 起動時間計測用ログ (HSP3DX_IOS_STARTUP_TIMING 定義時のみ有効)
+#if defined(HSP3DX_IOS_STARTUP_TIMING)
+#define TIMING_NSLOG(...) NSLog(__VA_ARGS__)
+#else
+#define TIMING_NSLOG(...) ((void)0)
+#endif
+
 //  アプリライフサイクル通知 → hsp3dx_events_fire のブリッジ
 //  通知ハンドラは実際にはメインスレッドで呼ばれるが、fire は atomic queue で安全。
 static void hsp3dx_install_event_observers( void )
@@ -100,6 +107,9 @@ static void extract_all_bundle_assets( const char *dst_dir )
     NSArray<NSString *> *files = [fm subpathsOfDirectoryAtPath:resDir error:nil];
     if ( files == nil ) return;
 
+    int extracted_count = 0;
+    long long extracted_bytes = 0;
+
     //  拡張子フィルタ (3D モデル / Live2D 関連拡張も含める)
     NSSet<NSString *> *validExt = [NSSet setWithObjects:
         @"ax", @"png", @"jpg", @"jpeg", @"bmp", @"wav", @"ogg",
@@ -128,20 +138,30 @@ static void extract_all_bundle_assets( const char *dst_dir )
         utf8Rel[sizeof(utf8Rel) - 1] = 0;
 
         //  毎起動で上書き (bundle の最新内容を反映)
-        extract_bundle_asset( utf8Rel, dst_dir );
+        if ( extract_bundle_asset( utf8Rel, dst_dir ) == 0 ) {
+            extracted_count++;
+            //  サイズも知りたいので bundle 側から attr 取得
+            NSDictionary *attrs = [fm attributesOfItemAtPath:[resDir stringByAppendingPathComponent:rel] error:nil];
+            if ( attrs ) extracted_bytes += [attrs[NSFileSize] longLongValue];
+        }
     }
+
+    TIMING_NSLOG( @"[TIMING] extract_all: %d files, %lld bytes total",
+           extracted_count, extracted_bytes );
 }
 
 //  DxLib iOS のユーザーエントリ (libDxLib_iOS.a から呼ばれる)
 int ios_main( void )
 {
-    NSLog( @"hsp3dx ios_main start" );
+    TIMING_NSLOG( @"[TIMING] ios_main start" );
 
     //  DxLib 初期化 (論理 640x480 仮、スクリプト側で screen 命令で変更可)
+    TIMING_NSLOG( @"[TIMING] hgio_dx_init begin" );
     if ( hgio_dx_init( 0, 640, 480, nullptr ) != 0 ) {
         NSLog( @"hgio_dx_init failed" );
         return -1;
     }
+    TIMING_NSLOG( @"[TIMING] hgio_dx_init end" );
 
     //  Phase M.3: アプリライフサイクル通知を events queue にブリッジ
     hsp3dx_install_event_observers();
@@ -162,7 +182,9 @@ int ios_main( void )
 
     //  bundle Data/ 配下のアセット (画像/音声/json 等) を Documents にコピー。
     //  既存ファイルは上書きしないので、開発時に Documents に push したファイルは保持される。
+    TIMING_NSLOG( @"[TIMING] extract_all_bundle_assets begin" );
     extract_all_bundle_assets( internal_dir );
+    TIMING_NSLOG( @"[TIMING] extract_all_bundle_assets end" );
 
     //  開発時のサンプル差し替え用: ~/Documents/start_override.ax があれば優先
     //  (シミュレータなら xcrun simctl get_app_container 経由で push 可)
@@ -192,15 +214,17 @@ int ios_main( void )
     SetBackgroundColor( 0, 0, 0 );
     ClearDrawScreen();
 
+    TIMING_NSLOG( @"[TIMING] hsp3dxcl_init begin" );
     if ( hsp3dxcl_init( "start.ax" ) != 0 ) {
         NSLog( @"hsp3dxcl_init failed" );
         hgio_dx_term();
         return -1;
     }
+    TIMING_NSLOG( @"[TIMING] hsp3dxcl_init end" );
 
-    NSLog( @"hsp3dx VM start" );
+    TIMING_NSLOG( @"[TIMING] hsp3dxcl_exec begin" );
     int vm_result = hsp3dxcl_exec();
-    NSLog( @"hsp3dx VM end: result=%d", vm_result );
+    TIMING_NSLOG( @"[TIMING] hsp3dxcl_exec end: result=%d", vm_result );
 
     hgio_dx_flip();
 

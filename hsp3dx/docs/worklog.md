@@ -9,6 +9,42 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
+## 2026-04-24 夜 — iOS Simulator 起動時間短縮 (6x ScreenFlip warmup skip)
+
+**背景:** Phase 3b 完了後に気付いた「iOS Simulator で Live2D サンプル起動時、
+最初の 15-20 秒は黒画面」問題の原因切り分け。`sample_simple.hsp` (Live2D なし)
+を走らせて init 内部を `printf` で計測。
+
+**DxLib_Init の内訳 (調査前):**
+```
+NS_DxLib_Init                 2349 ms
+  InitializeSoundSystem        836 ms  (AVAudioSession + OpenAL)
+  Graphics_Initialize         1495 ms
+    Timing0_PF (EAGLContext)   198 ms
+    Hardware_Initialize_PF      25 ms
+    InitFontManage              78 ms
+    6x ScreenFlip warmup      1166 ms  ★★★ 最大の犯人
+    (他)                        28 ms
+  (他)                          18 ms
+```
+
+**対処:** `DxGraphics.cpp` 末尾の FPS 安定化用 6x ScreenFlip ループを
+`#if !(defined(__APPLE__) && TARGET_OS_IPHONE)` で iOS のみスキップ。
+DxLib 原作者の意図 (GetFPS 値の初期化) は実行中に勝手に更新されるので
+実機能への影響なし。
+
+**効果:** `ios_main start → hgio_dx_init end` が **2412ms → 1873ms (~-0.5 秒)**。
+節約 1166ms の一部 (~400ms) が後続 `SetDrawScreen` に流れ込むが正味 0.5 秒短縮。
+
+**副産物:**
+- `HSP3DX_IOS_STARTUP_TIMING` 計測用マクロを全 init chain に永久設置 (デフォルト off)
+- Live2D の 15-20 秒 ≈ 2 秒 (DxLib_Init) + 12-15 秒 (HSP VM 内 Cubism model+shader load)
+  と判明 → 残りは HSP 側の問題なので別件
+
+**次:** 実機 (iphoneos) で再計測。実機 GPU では全体的に速いはず。
+
+---
+
 ## 2026-04-23 夜 — Live2D Cubism 4 を 6 platform 全対応 🎉
 
 **commit**: 8e0381b3 → a60076a2 (6 commits、20:37〜20:42)

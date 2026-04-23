@@ -83,6 +83,21 @@ static void OutputiOSOSInfo_LogAddUTF8( const char *UTF16LEFormatStr, const char
 //	DXST_LOGFILEFMT_ADDUTF16LE(( UTF16LEFormatStr, TempStr )) ;
 }
 
+#if defined(HSP3DX_IOS_STARTUP_TIMING)
+#include <mach/mach_time.h>
+static double _dxinit_now_sec() {
+	static mach_timebase_info_data_t tb = {0,0};
+	if ( tb.denom == 0 ) mach_timebase_info( &tb );
+	uint64_t t = mach_absolute_time();
+	return (double)t * tb.numer / tb.denom / 1e9;
+}
+#define DXINIT_LOG(tag) do { \
+	printf( "[TIMING_DXINIT] %s at %.3f\n", tag, _dxinit_now_sec() ); fflush(stdout); \
+} while(0)
+#else
+#define DXINIT_LOG(tag) ((void)0)
+#endif
+
 // ライブラリ初期化関数
 extern int NS_DxLib_Init( void )
 {
@@ -91,6 +106,7 @@ extern int NS_DxLib_Init( void )
 	{
 		return 0 ;
 	}
+	DXINIT_LOG("NS_DxLib_Init enter");
 
 	DXST_LOGFILE_ADDA( "Start initialization processing of DX library\n" /*"ＤＸライブラリの初期化処理開始"*/ ) ;
 	DXST_LOGFILE_TABADD ;
@@ -109,27 +125,33 @@ extern int NS_DxLib_Init( void )
 
 	// DxSysData の共通初期化処理
 	DxLib_SysInit() ;
+	DXINIT_LOG("after DxLib_SysInit");
 
 	// DxBaseFunc の初期化
 	_INIT_BASEFUNC() ;
+	DXINIT_LOG("after _INIT_BASEFUNC");
 
 	// キャラクターコード関係の初期化を行う
 	InitCharCode() ;
 
 	// 使用する文字セットをセット
 	_SET_DEFAULT_CHARCODEFORMAT() ;
+	DXINIT_LOG("after charset");
 
 #ifndef DX_NON_ASYNCLOAD
 	// 非同期読み込み処理の初期化
 	InitializeASyncLoad( Thread_GetCurrentId() ) ;
+	DXINIT_LOG("after InitializeASyncLoad");
 #endif // DX_NON_ASYNCLOAD
 
 	// ファイルアクセス処理の初期化
 	InitializeFile() ;
+	DXINIT_LOG("after InitializeFile");
 
 #ifndef DX_NON_OGGTHEORA
 	// Theora 用の初期化
 	TheoraDecode_GrobalInitialize() ;
+	DXINIT_LOG("after TheoraDecode_GrobalInitialize");
 #endif
 
 	// アーカイブファイルアクセス用のデータを初期化
@@ -165,21 +187,27 @@ extern int NS_DxLib_Init( void )
 	{
 #ifndef DX_NON_SOUND
 		InitializeSoundConvert() ;									// サウンド変換処理の初期化
+		DXINIT_LOG("after InitializeSoundConvert");
 		InitializeSoundSystem() ;									// サウンドシステムのの初期化
+		DXINIT_LOG("after InitializeSoundSystem");
 #endif // DX_NON_SOUND
 	}
 	if( DxSysData.NotDrawFlag == FALSE )
 	{
 		InitializeBaseImageManage() ;
+		DXINIT_LOG("after InitializeBaseImageManage");
 #ifndef DX_NON_SOFTIMAGE
 		InitializeSoftImageManage() ;
+		DXINIT_LOG("after InitializeSoftImageManage");
 #endif // DX_NON_SOFTIMAGE
 #ifndef DX_NON_MOVIE
 		InitializeMovieManage() ;
+		DXINIT_LOG("after InitializeMovieManage");
 #endif
 
 #ifndef DX_NON_GRAPHICS
 		if( Graphics_Initialize() < 0 ) goto ERROR_DX ;
+		DXINIT_LOG("after Graphics_Initialize");
 #endif // DX_NON_GRAPHICS
 	}
 #ifndef DX_NON_INPUTSTRING
@@ -201,6 +229,7 @@ extern int NS_DxLib_Init( void )
 	// 描画先の変更
 	NS_SetDrawScreen( DX_SCREEN_BACK ) ;
 	NS_SetDrawScreen( DX_SCREEN_FRONT ) ;
+	DXINIT_LOG("after SetDrawScreen BACK+FRONT");
 #endif // DX_NON_GRAPHICS
 
 	if( DxSysData.NotDrawFlag == FALSE )
@@ -211,11 +240,13 @@ extern int NS_DxLib_Init( void )
 		{
 			goto ERROR_DX ;
 		}
+		DXINIT_LOG("after MV1Initialize");
 #endif
 
 #ifndef DX_NON_LIVE2D_CUBISM4
 		// Live2D Cubism4 関連の初期化
 		Live2DCubism4_Initialize() ;
+		DXINIT_LOG("after Live2DCubism4_Initialize");
 #endif // DX_NON_LIVE2D_CUBISM4
 	}
 

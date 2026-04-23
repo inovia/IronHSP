@@ -35,6 +35,8 @@ settings:
       - "_HSP64=1"
       - "HSP64=1"
       - "HSPUTF8=1"
+      # 起動時間計測ログを有効化する場合は以下を uncomment:
+      # - "HSP3DX_IOS_STARTUP_TIMING=1"
     CLANG_ENABLE_OBJC_ARC: YES
     CLANG_WARN_DOCUMENTATION_COMMENTS: NO
     GCC_WARN_UNUSED_PARAMETER: NO

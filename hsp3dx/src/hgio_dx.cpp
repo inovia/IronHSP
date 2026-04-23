@@ -20,18 +20,36 @@ static bool s_dx_initialized = false;
 static int s_screen_w = 640;
 static int s_screen_h = 480;
 
+#if defined(HSP3DX_IOS_STARTUP_TIMING) && defined(__APPLE__)
+#include <mach/mach_time.h>
+static double hgio_now_sec() {
+    static mach_timebase_info_data_t tb = {0,0};
+    if ( tb.denom == 0 ) mach_timebase_info( &tb );
+    uint64_t t = mach_absolute_time();
+    return (double)t * tb.numer / tb.denom / 1e9;
+}
+#define HGIO_TIMING_LOG(tag) do { \
+    printf( "[TIMING_DX] %s at %.3f\n", tag, hgio_now_sec() ); fflush(stdout); \
+} while(0)
+#else
+#define HGIO_TIMING_LOG(tag) ((void)0)
+#endif
+
 int hgio_dx_init( int mode, int sx, int sy, void * /*hwnd*/ )
 {
     if ( s_dx_initialized ) return 0;
+    HGIO_TIMING_LOG("hgio_dx_init enter");
 
     // UTF-8 モードに固定 (Win/iOS/Android 共通の hsp3dx ルール)
     SetUseCharCodeFormat( DX_CHARCODEFORMAT_UTF8 );
+    HGIO_TIMING_LOG("after SetUseCharCodeFormat");
 
     // ウィンドウモード固定 (Phase 1 MVP)
     ChangeWindowMode( TRUE );
     s_screen_w = sx > 0 ? sx : 640;
     s_screen_h = sy > 0 ? sy : 480;
     SetGraphMode( s_screen_w, s_screen_h, 32 );
+    HGIO_TIMING_LOG("after SetGraphMode");
 
 #if defined(__ANDROID__) || defined(__APPLE__)
     //  モバイルは物理画面固定。DxLib の FitScaling の意味に注意:
@@ -45,11 +63,14 @@ int hgio_dx_init( int mode, int sx, int sy, void * /*hwnd*/ )
     //  制限を踏んで全黒になっていた (ClearDrawScreen だけは効く)。
     //  自動 letterbox + DX_SCREEN_BACK 直接描画が正解。
     SetFullScreenScalingMode( DX_FSSCALINGMODE_BILINEAR, FALSE );
+    HGIO_TIMING_LOG("after SetFullScreenScalingMode");
 #endif
 
     if ( DxLib_Init() != 0 ) return -1;
+    HGIO_TIMING_LOG("after DxLib_Init");
 
     SetDrawScreen( DX_SCREEN_BACK );
+    HGIO_TIMING_LOG("after SetDrawScreen");
     s_dx_initialized = true;
     return 0;
 }
@@ -74,7 +95,15 @@ int hgio_dx_render_end( void )
 
 int hgio_dx_flip( void )
 {
+    static bool s_first_flip_done = false;
+    if ( !s_first_flip_done ) {
+        HGIO_TIMING_LOG("first hgio_dx_flip entered");
+    }
     ScreenFlip();
+    if ( !s_first_flip_done ) {
+        HGIO_TIMING_LOG("first hgio_dx_flip ScreenFlip returned");
+        s_first_flip_done = true;
+    }
     return 0;
 }
 

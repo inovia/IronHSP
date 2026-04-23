@@ -107,9 +107,44 @@ Android と異なり JNI ブリッジ不要、Obj-C++ (`.mm`) で NSURLSession �
 multipart も自前で `--boundary` 組み立てて `NSMutableData` に詰めるだけ。
 詳細は [hsp3dx_http_ios.mm](../src/hsp3dx_http_ios.mm)。
 
+## 起動時間計測 / 最適化
+
+### iOS 起動時間の内訳 (2026-04-24 調査)
+
+Simulator (iPhone 15 / iOS 17) で `sample_simple.hsp` (Live2D なし) 計測:
+
+| フェーズ | 所要 |
+|---|---|
+| `DxLib_Init` 全体 | **~2.4 秒** (調査前) / **~1.9 秒** (調査後) |
+| └ `InitializeSoundSystem` (AVAudioSession + OpenAL) | 836 ms |
+| └ `Graphics_Initialize::Timing0_PF` (EAGLContext + GL) | 198 ms |
+| └ `Graphics_Initialize::InitFontManage` | 78 ms |
+| └ `Graphics_Initialize` 末尾の 6x ScreenFlip warmup | ~~1166 ms~~ → **iOS ではスキップ** |
+| bundle → Documents コピー (22 files / 5 MB) | 39 ms |
+| `hsp3dxcl_init` | 4 ms |
+| (Live2D サンプルの場合はさらに HSP VM 内で +12-15 秒、Cubism model/shader load) | |
+
+### 実装済み最適化
+
+**DxGraphics.cpp の 6x ScreenFlip warmup を iOS のみスキップ**
+([dxlib_angle_sdl2/dxlib_portable/DxGraphics.cpp](../dxlib_angle_sdl2/dxlib_portable/DxGraphics.cpp) の
+`#if !(defined(__APPLE__) && TARGET_OS_IPHONE)`)。DxLib 原作者が FPS 計測値の安定化の
+ために `Graphics_Initialize` 末尾で ScreenFlip を 6 回空回ししているが、iOS Simulator では
+1 flip ≈ 194ms (Metal 翻訳経由) かかるためここだけで 1.17 秒の起動遅延になっていた。
+FPS 計測は実行開始後に正しく更新されるので省略可能。実測で起動時間 **2.4s → 1.9s (~-0.5s)** に短縮
+(差分の一部は後続 `SetDrawScreen` に流れ込むが正味の改善はある)。
+
+### 起動時間の再計測方法
+
+[template/project.yml](template/project.yml) の `GCC_PREPROCESSOR_DEFINITIONS` で
+`HSP3DX_IOS_STARTUP_TIMING=1` をコメント解除 → `xcodegen generate` + rebuild。
+各フェーズに `printf("[TIMING_...] ...")` が仕込まれているので
+`xcrun simctl launch --console booted com.ironhsp.hsp3dx` の stdout で観測できる。
+
 ## 未対応
 
 - WebSocket (`dx_ws_*`) は stub のまま (Phase 3.2 で `NSURLSessionWebSocketTask` 実装予定)
 - 実機 signing / Team ID 設定 (Phase 3.3)
 - マルチタッチ動作確認 (実装は hgio_dx 共通だが iOS での動作は未検証)
 - プッシュ通知 / In-App Purchase / GameKit 連携 (必要になったら)
+- **Simulator 起動 Live2D の初期黒画面は HSP VM 側 Cubism model load が支配的** (実機では短いと予想、実機検証待ち)
