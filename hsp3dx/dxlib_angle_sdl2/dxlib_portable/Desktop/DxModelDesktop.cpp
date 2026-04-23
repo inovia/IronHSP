@@ -657,17 +657,24 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
 
     // GLSL shader 経路: uniform を現在の state に合わせて設定
     if ( useGLSL && glslH > 0 ) {
-        DesktopShader_SetUniform1i( glslH, "u_diffuse0",    0 ) ;
-        DesktopShader_SetUniform1i( glslH, "u_shadowMap",   4 ) ;
-        DesktopShader_SetUniform1i( glslH, "u_normalMap",   2 ) ;
-        DesktopShader_SetUniform1i( glslH, "u_useTexture",  texId ? 1 : 0 ) ;
-        DesktopShader_SetUniform1i( glslH, "u_useLighting", ( s_MV1_LightWasOn && !isToon ) ? 1 : 0 ) ;
-        DesktopShader_SetUniform1i( glslH, "u_useShadow",   useShadow ? 1 : 0 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_diffuse0",     0 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_shadowMap",    4 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_normalMap",    2 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_specularMap",  3 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_useTexture",   texId ? 1 : 0 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_useLighting",  ( s_MV1_LightWasOn && !isToon ) ? 1 : 0 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_useShadow",    useShadow ? 1 : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_useNormalMap", normTex ? 1 : 0 ) ;
-        // normal map は TMU 2 に bind
+        DesktopShader_SetUniform1i( glslH, "u_useSpecularMap", specTex ? 1 : 0 ) ;
+        // normal map は TMU 2、specular map は TMU 3 に bind
         if ( normTex && p_glActiveTexture ) {
             p_glActiveTexture( GL_TEXTURE0 + 2 ) ;
             glBindTexture( GL_TEXTURE_2D, normTex ) ;
+            p_glActiveTexture( GL_TEXTURE0 ) ;
+        }
+        if ( specTex && p_glActiveTexture ) {
+            p_glActiveTexture( GL_TEXTURE0 + 3 ) ;
+            glBindTexture( GL_TEXTURE_2D, specTex ) ;
             p_glActiveTexture( GL_TEXTURE0 ) ;
         }
         float alphaTh = 0.0f ;

@@ -252,6 +252,8 @@ uniform int             u_useShadow ;
 uniform sampler2DShadow u_shadowMap ;
 uniform sampler2D       u_normalMap ;
 uniform int             u_useNormalMap ;
+uniform sampler2D       u_specularMap ;
+uniform int             u_useSpecularMap ;
 uniform float           u_alphaThreshold ;
 
 varying vec2 v_uv0 ;
@@ -302,7 +304,16 @@ void main( void )
         vec3 ambient  = base.rgb *   gl_LightModel.ambient.rgb ;
         float shininess = gl_FrontMaterial.shininess ;
         float spec = ( shininess > 0.0 ) ? pow( ndh, max( shininess, 1.0 ) ) : 0.0 ;
-        vec3 specular = gl_FrontMaterial.specular.rgb * spec ;
+        //  Specular color: u_useSpecularMap==1 なら texture sample、そうでなければ
+        //  per-material の gl_FrontMaterial.specular を使う (fixed-function 互換)
+        vec3 specColor = gl_FrontMaterial.specular.rgb ;
+        if ( u_useSpecularMap == 1 ) {
+            vec4 ss = texture2D( u_specularMap, v_uv0 ) ;
+            //  Specular layer の RGB を specular intensity として使用
+            //  Alpha は shininess mask (一部モデルで使う慣習) として乗算
+            specColor = ss.rgb * ss.a ;
+        }
+        vec3 specular = specColor * spec ;
 
         base.rgb = ambient + diffuse + specular ;
     }
