@@ -53,13 +53,13 @@ extern int Graphics_Hardware_DeviceDirect_SetWorldMatrix_PF(struct tagMATRIX con
 // moved to DxGraphicsDesktop.cpp (Stage 17)
 // Graphics_Hardware_DrawIndexedPrimitive2DUser_PF: impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_DrawIndexedPrimitiveLight_PF: impl in DxGraphicsDesktop.cpp (3D primitive Tier 4)
-extern int Graphics_Hardware_DrawIndexedPrimitiveLight_UseVertexBuffer_PF(struct VERTEXBUFFERHANDLEDATA *,struct INDEXBUFFERHANDLEDATA *,int,int,int,int,int,int,struct IMAGEDATA *,int) { return 0; }
+// Graphics_Hardware_DrawIndexedPrimitiveLight_UseVertexBuffer_PF: impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_DrawIndexedPrimitive_PF: impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_DrawLine3D_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 // Graphics_Hardware_DrawLineBox_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 // Graphics_Hardware_DrawLineSet_PF: impl in DxGraphicsDesktop.cpp (Stage 9)
 // Graphics_Hardware_DrawLine_PF: impl in DxGraphicsDesktop.cpp (Stage 7)
-extern int Graphics_Hardware_DrawModiBillboard3D_PF(struct tagVECTOR,float,float,float,float,float,float,float,float,struct IMAGEDATA *,struct IMAGEDATA *,int,int,struct tagRECT *) { return 0; }
+// Graphics_Hardware_DrawModiBillboard3D_PF: impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_DrawModiGraph_PF / DrawModiGraphF_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 // Graphics_Hardware_DrawOval_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 // Graphics_Hardware_DrawOval_Thickness_PF: impl in DxGraphicsDesktop.cpp (Stage 9)
@@ -77,7 +77,7 @@ extern int Graphics_Hardware_DrawPrimitiveIndexed2DToShader_PF(struct tagVERTEX2
 extern int Graphics_Hardware_DrawPrimitiveIndexed3DToShader_PF(struct tagVERTEX3DSHADER const *,int,unsigned short const *,int,int) { return 0; }
 // Graphics_Hardware_DrawPrimitiveIndexed3DToShader_UseVertexBuffer2_PF: impl in DxGraphicsDesktop.cpp (Cubism 経路)
 // Graphics_Hardware_DrawPrimitiveLight_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
-extern int Graphics_Hardware_DrawPrimitiveLight_UseVertexBuffer_PF(struct VERTEXBUFFERHANDLEDATA *,int,int,int,struct IMAGEDATA *,int) { return 0; }
+// Graphics_Hardware_DrawPrimitiveLight_UseVertexBuffer_PF: impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_DrawPrimitive_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 // Graphics_Hardware_DrawQuadrangleF_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 // Graphics_Hardware_DrawQuadrangle_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
@@ -109,7 +109,7 @@ extern int Graphics_Hardware_SetBlendGraphParamBase_PF(struct IMAGEDATA *,int,in
 // Graphics_Hardware_SetDrawBlendMode_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 // Graphics_Hardware_SetDrawBrightToOneParam_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 // Graphics_Hardware_SetDrawBright_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
-extern int Graphics_Hardware_SetDrawCustomBlendMode_PF(int,int,int,int,int,int,int,int) { return 0; }
+// Graphics_Hardware_SetDrawCustomBlendMode_PF: impl in DxGraphicsDesktop.cpp (glBlendFuncSeparate)
 // Graphics_Hardware_SetDrawMode_PF: impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_SetMaxAnisotropy_PF / SetTextureAddressMode* / SetDrawAlphaTest:
 //   impl in DxGraphicsDesktop.cpp

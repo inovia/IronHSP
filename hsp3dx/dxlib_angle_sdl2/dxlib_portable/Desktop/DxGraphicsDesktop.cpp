@@ -2124,6 +2124,146 @@ extern int Graphics_Hardware_DrawSimpleTriangleGraphF_PF( const GRAPHICS_DRAW_DR
     glEnd() ;
     return 0 ;
 }
+// 3D Billboard with deformation: Pos 中心、x1y1〜x4y4 の四頂点をビューに対して
+// 横/上ベクトル基底で展開する (BillBoardの自由変形版)。
+extern int Graphics_Hardware_DrawModiBillboard3D_PF( VECTOR Pos, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, IMAGEDATA *Image, IMAGEDATA * /*BlendImage*/, int TransFlag, int DrawFlag, RECT * /*DrawArea*/ )
+{
+    if ( !DrawFlag ) return 0 ;
+    Desktop_Apply3DMatrices() ;
+    glEnable( GL_DEPTH_TEST ) ;
+    if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
+    else             { glDisable( GL_BLEND ) ; }
+    bool tex = Desktop_BindImage2D( Image ) ;
+    glColor4ub( 255, 255, 255, 255 ) ;
+
+    // ビュー行列の右ベクトル / 上ベクトル (DrawBillboard3D_PF と同じ計算)
+    float rx = s_ViewMat.m[ 0 ][ 0 ], ry = s_ViewMat.m[ 1 ][ 0 ], rz = s_ViewMat.m[ 2 ][ 0 ] ;
+    float ux = s_ViewMat.m[ 0 ][ 1 ], uy = s_ViewMat.m[ 1 ][ 1 ], uz = s_ViewMat.m[ 2 ][ 1 ] ;
+
+    float px[ 4 ] = { x1, x2, x3, x4 } ;
+    float py[ 4 ] = { y1, y2, y3, y4 } ;
+    float u_uv[ 4 ] = { 0.0f, 1.0f, 0.0f, 1.0f } ;
+    float v_uv[ 4 ] = { 0.0f, 0.0f, 1.0f, 1.0f } ;
+
+    // tex がある場合は image の UV 範囲も考慮
+    float u0 = 0.0f, v0 = 0.0f, u1 = 1.0f, v1 = 1.0f ;
+    if ( tex && Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
+        IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
+        u0 = ( float )t->OrigPosX / ( float )t->TexWidth ;
+        v0 = ( float )t->OrigPosY / ( float )t->TexHeight ;
+        u1 = u0 + ( float )t->UseWidth  / ( float )t->TexWidth ;
+        v1 = v0 + ( float )t->UseHeight / ( float )t->TexHeight ;
+    }
+    float us[ 4 ] = { u0, u1, u0, u1 } ;
+    float vs[ 4 ] = { v0, v0, v1, v1 } ;
+    (void)u_uv; (void)v_uv;
+
+    glBegin( GL_TRIANGLE_STRIP ) ;
+    for ( int i = 0 ; i < 4 ; i++ ) {
+        float wpx = Pos.x + rx * px[ i ] + ux * py[ i ] ;
+        float wpy = Pos.y + ry * px[ i ] + uy * py[ i ] ;
+        float wpz = Pos.z + rz * px[ i ] + uz * py[ i ] ;
+        if ( tex ) glTexCoord2f( us[ i ], vs[ i ] ) ;
+        glVertex3f( wpx, wpy, wpz ) ;
+    }
+    glEnd() ;
+    return 0 ;
+}
+
+// VBO: VERTEX3D 配列を頂点バッファから読み出して描画 (light 経路、fixed-function)
+extern int Graphics_Hardware_DrawPrimitiveLight_UseVertexBuffer_PF(
+    VERTEXBUFFERHANDLEDATA *VertexBuffer, int PrimitiveType, int StartVertex, int UseVertexNum,
+    IMAGEDATA *Image, int TransFlag )
+{
+    if ( !VertexBuffer || !VertexBuffer->Buffer || UseVertexNum <= 0 ) return 0 ;
+    Desktop_Apply3DMatrices() ;
+    glEnable( GL_DEPTH_TEST ) ;
+    if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
+    else             { glDisable( GL_BLEND ) ; }
+    bool tex = Desktop_BindImage2D( Image ) ;
+    const VERTEX3D *vb = ( const VERTEX3D * )VertexBuffer->Buffer ;
+    glBegin( Desktop_PrimType( PrimitiveType ) ) ;
+    for ( int i = 0 ; i < UseVertexNum ; i++ ) {
+        Desktop_DrawVertex3D( &vb[ StartVertex + i ], tex ) ;
+    }
+    glEnd() ;
+    return 0 ;
+}
+
+// VBO + IBO: VERTEX3D 頂点 + indices で描画 (light 経路)
+extern int Graphics_Hardware_DrawIndexedPrimitiveLight_UseVertexBuffer_PF(
+    VERTEXBUFFERHANDLEDATA *VertexBuffer, INDEXBUFFERHANDLEDATA *IndexBuffer,
+    int PrimitiveType, int BaseVertex, int /*StartVertex*/, int /*UseVertexNum*/,
+    int StartIndex, int UseIndexNum, IMAGEDATA *Image, int TransFlag )
+{
+    if ( !VertexBuffer || !VertexBuffer->Buffer ) return 0 ;
+    if ( !IndexBuffer  || !IndexBuffer->Buffer  ) return 0 ;
+    if ( UseIndexNum <= 0 ) return 0 ;
+    Desktop_Apply3DMatrices() ;
+    glEnable( GL_DEPTH_TEST ) ;
+    if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
+    else             { glDisable( GL_BLEND ) ; }
+    bool tex = Desktop_BindImage2D( Image ) ;
+    const VERTEX3D *vb = ( const VERTEX3D * )VertexBuffer->Buffer ;
+
+    glBegin( Desktop_PrimType( PrimitiveType ) ) ;
+    if ( IndexBuffer->UnitSize == 2 ) {
+        const unsigned short *ib = ( const unsigned short * )IndexBuffer->Buffer + StartIndex ;
+        for ( int i = 0 ; i < UseIndexNum ; i++ )
+            Desktop_DrawVertex3D( &vb[ BaseVertex + ib[ i ] ], tex ) ;
+    } else {
+        const DWORD *ib = ( const DWORD * )IndexBuffer->Buffer + StartIndex ;
+        for ( int i = 0 ; i < UseIndexNum ; i++ )
+            Desktop_DrawVertex3D( &vb[ BaseVertex + ib[ i ] ], tex ) ;
+    }
+    glEnd() ;
+    return 0 ;
+}
+
+// SetDrawCustomBlendMode: カスタム blend mode を glBlendFunc{Separate} で反映
+extern int Graphics_Hardware_SetDrawCustomBlendMode_PF( int BlendEnable, int SrcBlendRGB, int DestBlendRGB, int BlendOpRGB, int SrcBlendA, int DestBlendA, int BlendOpA, int /*BlendParam*/ )
+{
+    if ( !BlendEnable ) { glDisable( GL_BLEND ) ; return 0 ; }
+    auto cnv = []( int dx ) -> GLenum {
+        // DxLib DX_BLEND_* → GL blend factor の最小マップ
+        switch ( dx ) {
+            case 1:  return GL_ZERO ;                       // ZERO
+            case 2:  return GL_ONE ;                        // ONE
+            case 3:  return GL_SRC_COLOR ;
+            case 4:  return GL_ONE_MINUS_SRC_COLOR ;
+            case 5:  return GL_SRC_ALPHA ;
+            case 6:  return GL_ONE_MINUS_SRC_ALPHA ;
+            case 7:  return GL_DST_ALPHA ;
+            case 8:  return GL_ONE_MINUS_DST_ALPHA ;
+            case 9:  return GL_DST_COLOR ;
+            case 10: return GL_ONE_MINUS_DST_COLOR ;
+            case 11: return GL_SRC_ALPHA_SATURATE ;
+            default: return GL_ONE ;
+        }
+    } ;
+    auto cnvOp = []( int op ) -> GLenum {
+        switch ( op ) {
+            case 1:  return GL_FUNC_ADD ;
+            case 2:  return GL_FUNC_SUBTRACT ;
+            case 3:  return GL_FUNC_REVERSE_SUBTRACT ;
+            case 4:  return GL_MIN ;
+            case 5:  return GL_MAX ;
+            default: return GL_FUNC_ADD ;
+        }
+    } ;
+    (void)SrcBlendA; (void)DestBlendA; (void)BlendOpA;
+    // glBlendFuncSeparate / glBlendEquationSeparate は GLEW/拡張依存。
+    // ここでは RGB チャネルの blend func/op だけ反映する単純実装。
+    glEnable( GL_BLEND ) ;
+    glBlendFunc( cnv( SrcBlendRGB ), cnv( DestBlendRGB ) ) ;
+#ifndef __EMSCRIPTEN__
+    glBlendEquation( cnvOp( BlendOpRGB ) ) ;
+#else
+    (void)cnvOp; (void)BlendOpRGB;
+#endif
+    return 0 ;
+}
+
 extern int Graphics_Hardware_DrawSimpleQuadrangleGraphF_PF( const GRAPHICS_DRAW_DRAWSIMPLEQUADRANGLEGRAPHF_PARAM *Param, IMAGEDATA *Image, IMAGEDATA * /*BlendImage*/ )
 {
     if ( !Param || !Param->Vertex || Param->QuadrangleNum <= 0 ) return 0;
