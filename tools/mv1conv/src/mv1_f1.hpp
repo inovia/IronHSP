@@ -209,6 +209,25 @@ struct MV1_FRAME_SHAPE_F1 {
     DWORD Shape;
 };
 
+struct MV1_SHAPE_VERTEX_F1 {
+    std::int32_t TargetMeshVertex;
+    VECTOR       Position;
+    VECTOR       Normal;
+};
+static_assert(sizeof(MV1_SHAPE_VERTEX_F1) == 28, "MV1_SHAPE_VERTEX_F1 = 28 bytes");
+
+struct MV1_SHAPE_MESH_F1 {
+    DWORD DimPrev, DimNext;
+    std::int32_t Index;
+    DWORD TargetMesh;
+    WORD  IsVertexPress;
+    WORD  VertexPressParam;
+    DWORD VertexNum;
+    DWORD Vertex;
+    DWORD UserData[4];
+    DWORD Padding[4];
+};
+
 struct MV1_SHAPE_F1 {
     DWORD DimPrev, DimNext;
     DWORD Name;

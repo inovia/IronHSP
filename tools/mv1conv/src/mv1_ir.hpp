@@ -106,12 +106,39 @@ struct AnimSetIR {
     std::vector<std::size_t> anim_indices;  // ModelIR::anims[] の index 群
 };
 
+// ================================================================
+// シェイプ (モーフ、表情) 関係
+// ================================================================
+
+// 1 頂点分の shape 差分
+struct ShapeVertexIR {
+    std::uint32_t target_mesh_vertex;  // MeshIR.indices[] 内 unique pos の index
+    float dp[3];  // Position delta
+    float dn[3];  // Normal delta (未使用なら 0)
+};
+
+// 1 mesh に対する shape 差分
+struct ShapeMeshIR {
+    std::uint32_t target_mesh;  // MeshIR index
+    std::vector<ShapeVertexIR> vertices;
+};
+
+// 1 shape = 複数 mesh の差分セット (「笑顔」「怒」等 1 モーフ相当)
+struct ShapeIR {
+    std::string name;
+    std::uint32_t container_bone = 0;  // 所属 bone の BoneIR index (non-skin なら 0 = root 的扱い)
+    std::vector<ShapeMeshIR> meshes;
+};
+
 struct ModelIR {
     std::vector<MeshIR>     meshes;
     std::vector<MaterialIR> materials;
     std::vector<TextureIR>  textures;
     std::vector<BoneIR>     bones;        // 空 = 静的。非空なら skinned として writer 処理
     bool right_hand = false;  // RightHandType (TRUE=右手系、false=左手系)
+
+    // Shapes (blend shapes / morph targets)
+    std::vector<ShapeIR> shapes;
 
     // Animations (空なら writer は anim セクション省略、スキン無しでも可)
     std::vector<AnimKeySetIR> anim_keysets;

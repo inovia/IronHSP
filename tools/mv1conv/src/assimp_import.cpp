@@ -408,12 +408,67 @@ LoadResult load_via_assimp(const std::string &path) {
     fill_bones_from_nodes(nodes, r.ir);
     fill_inv_bind(scene, nameToIR, r.ir);
 
-    // Meshes (scene 全体の meshes[] を flat に展開)
+    // Meshes (scene 全体の meshes[] を flat に展開) + blend shape 抽出
+    // 各 aiMesh の mAnimMeshes[] → ShapeMeshIR に変換。同名 shape は ShapeIR にまとめる。
+    std::unordered_map<std::string, std::size_t> shapeNameToIR;
     for (std::uint32_t i = 0; i < scene->mNumMeshes; ++i) {
+        const aiMesh *ai_m = scene->mMeshes[i];
         MeshIR mesh;
-        convert_mesh(scene->mMeshes[i], mesh, nameToIR);
+        convert_mesh(ai_m, mesh, nameToIR);
         if (mesh.positions.empty() || mesh.indices.empty()) continue;
+        std::size_t mesh_ir_index = r.ir.meshes.size();
         r.ir.meshes.push_back(std::move(mesh));
+
+        // Blend shapes (mAnimMeshes): 各 animMesh = 全頂点の変形後の絶対値
+        // MV1 shape は delta を要求するので (anim.Vertices[v] - mesh.Vertices[v]) を保存
+        for (std::uint32_t am_i = 0; am_i < ai_m->mNumAnimMeshes; ++am_i) {
+            const aiAnimMesh *am = ai_m->mAnimMeshes[am_i];
+            std::string sname = (am->mName.length > 0)
+                ? std::string(am->mName.C_Str(), am->mName.length)
+                : ("shape" + std::to_string(am_i));
+
+            ShapeMeshIR sm;
+            sm.target_mesh = static_cast<std::uint32_t>(mesh_ir_index);
+            sm.vertices.reserve(ai_m->mNumVertices);
+            for (std::uint32_t v = 0; v < ai_m->mNumVertices; ++v) {
+                float dx = am->mVertices[v].x - ai_m->mVertices[v].x;
+                float dy = am->mVertices[v].y - ai_m->mVertices[v].y;
+                float dz = am->mVertices[v].z - ai_m->mVertices[v].z;
+                // 変化が微小な頂点はスキップ (サイズ削減)
+                const float EPS = 1e-5f;
+                if (std::abs(dx) < EPS && std::abs(dy) < EPS && std::abs(dz) < EPS) {
+                    if (!am->mNormals) continue;
+                    float ndx = am->mNormals[v].x - (ai_m->mNormals ? ai_m->mNormals[v].x : 0);
+                    float ndy = am->mNormals[v].y - (ai_m->mNormals ? ai_m->mNormals[v].y : 0);
+                    float ndz = am->mNormals[v].z - (ai_m->mNormals ? ai_m->mNormals[v].z : 0);
+                    if (std::abs(ndx) < EPS && std::abs(ndy) < EPS && std::abs(ndz) < EPS) continue;
+                }
+                ShapeVertexIR sv;
+                sv.target_mesh_vertex = v;
+                sv.dp[0] = dx; sv.dp[1] = dy; sv.dp[2] = dz;
+                if (am->mNormals && ai_m->mNormals) {
+                    sv.dn[0] = am->mNormals[v].x - ai_m->mNormals[v].x;
+                    sv.dn[1] = am->mNormals[v].y - ai_m->mNormals[v].y;
+                    sv.dn[2] = am->mNormals[v].z - ai_m->mNormals[v].z;
+                } else {
+                    sv.dn[0] = sv.dn[1] = sv.dn[2] = 0.0f;
+                }
+                sm.vertices.push_back(sv);
+            }
+            if (sm.vertices.empty()) continue;
+
+            auto it = shapeNameToIR.find(sname);
+            if (it == shapeNameToIR.end()) {
+                ShapeIR newShape;
+                newShape.name = sname;
+                newShape.container_bone = 0;
+                newShape.meshes.push_back(std::move(sm));
+                shapeNameToIR[sname] = r.ir.shapes.size();
+                r.ir.shapes.push_back(std::move(newShape));
+            } else {
+                r.ir.shapes[it->second].meshes.push_back(std::move(sm));
+            }
+        }
     }
 
     // スキンが 1 つも無ければ bones をクリアして静的扱い (無意味な階層を出さない)

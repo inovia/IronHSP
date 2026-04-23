@@ -1,0 +1,12 @@
+#include "iron_dxlib.as"
+notesel n
+noteadd "skel-check"
+dx_mv1load "skeleton_from_fbx.mv1"
+h = stat
+noteadd "skeleton: h=" + h
+if h >= 0 {
+    dx_mv1delete h
+    noteadd "deleted ok"
+}
+notesave "r_skel.txt"
+end

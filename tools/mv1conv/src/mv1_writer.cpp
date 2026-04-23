@@ -436,6 +436,129 @@ WriteResult write_mv1(const ModelIR &ir) {
     std::vector<std::uint32_t> animSetNameOff(ir.anim_sets.size());
     for (std::size_t i = 0; i < ir.anim_sets.size(); ++i)
         animSetNameOff[i] = strings.add(ir.anim_sets[i].name);
+    std::vector<std::uint32_t> shapeNameOff(ir.shapes.size());
+    for (std::size_t i = 0; i < ir.shapes.size(); ++i)
+        shapeNameOff[i] = strings.add(ir.shapes[i].name);
+
+    // ====== Shape (blend shape / morph) blobs ======
+    // layout: MV1_SHAPE_VERTEX_F1[] (flat、全 shape × 全 mesh) →
+    //         MV1_SHAPE_MESH_F1[] (各 SHAPE_VERTEX 区間の先頭を指す) →
+    //         MV1_SHAPE_F1[] (各 MV1_SHAPE_MESH_F1 の先頭を指す) →
+    //         MV1_FRAME_SHAPE_F1 (root frame 用、全 shape を指す) →
+    //         MV1_FILEHEAD_SHAPE_F1 (集計値)
+    std::uint32_t offFileHeadShape = 0;
+    std::uint32_t offFrameShapeArrForRoot = 0;  // rootFrame.FrameShape に流す
+    std::uint32_t totalShapeVertexNum = 0;
+    std::uint32_t totalShapeMeshNum = 0;
+    if (!ir.shapes.empty()) {
+        // SHAPE_VERTEX 配列 (全 shape × 全 mesh の vertex を連結)
+        std::vector<std::uint32_t> shapeMeshVertexOff;  // 各 ShapeMeshIR 先頭の offset
+        shapeMeshVertexOff.reserve(ir.shapes.size() * 4);  // 概算
+
+        b.align4();
+        std::uint32_t offShapeVertices = b.pos();
+        for (const auto &sh : ir.shapes) {
+            for (const auto &sm : sh.meshes) {
+                shapeMeshVertexOff.push_back(b.pos());
+                for (const auto &sv : sm.vertices) {
+                    f1::MV1_SHAPE_VERTEX_F1 v{};
+                    v.TargetMeshVertex = static_cast<std::int32_t>(sv.target_mesh_vertex);
+                    v.Position = { sv.dp[0], sv.dp[1], sv.dp[2] };
+                    v.Normal   = { sv.dn[0], sv.dn[1], sv.dn[2] };
+                    b.append_struct(v);
+                    ++totalShapeVertexNum;
+                }
+            }
+        }
+        (void)offShapeVertices;
+
+        // SHAPE_MESH 配列
+        b.align4();
+        std::uint32_t offShapeMeshArr = b.pos();
+        std::vector<std::uint32_t> shapeMeshOffs;
+        std::size_t smFlatIdx = 0;
+        for (const auto &sh : ir.shapes) {
+            for (const auto &sm : sh.meshes) {
+                f1::MV1_SHAPE_MESH_F1 smF1{};
+                smF1.Index = static_cast<std::int32_t>(shapeMeshOffs.size());
+                // TargetMesh は MV1_MESH_F1 オフセット
+                if (sm.target_mesh < ir.meshes.size())
+                    smF1.TargetMesh = meshOffsets[sm.target_mesh];
+                smF1.IsVertexPress = 0;
+                smF1.VertexPressParam = 0;
+                smF1.VertexNum = static_cast<std::uint32_t>(sm.vertices.size());
+                smF1.Vertex = shapeMeshVertexOff[smFlatIdx];
+                shapeMeshOffs.push_back(b.append_struct(smF1));
+                ++smFlatIdx;
+                ++totalShapeMeshNum;
+            }
+        }
+
+        // SHAPE_MESH DimPrev/DimNext
+        for (std::size_t i = 0; i < shapeMeshOffs.size(); ++i) {
+            std::uint32_t prev = (i == 0) ? 0u : shapeMeshOffs[i - 1];
+            std::uint32_t next = (i + 1 < shapeMeshOffs.size()) ? shapeMeshOffs[i + 1] : 0u;
+            b.overwrite_u32(shapeMeshOffs[i] + 0, prev);
+            b.overwrite_u32(shapeMeshOffs[i] + 4, next);
+        }
+
+        // SHAPE 配列
+        b.align4();
+        std::uint32_t offShapeArr = b.pos();
+        std::vector<std::uint32_t> shapeOffs;
+        std::size_t meshRunIdx = 0;
+        for (std::size_t si = 0; si < ir.shapes.size(); ++si) {
+            const auto &sh = ir.shapes[si];
+            f1::MV1_SHAPE_F1 sF1{};
+            sF1.Name = shapeNameOff[si];
+            sF1.Index = static_cast<std::int32_t>(si);
+            // Container: root 既定。frame[0] (root if skin, mesh[0] if static) へのポインタ
+            sF1.Container = frameOffsets[0];
+            sF1.MeshNum = static_cast<std::int32_t>(sh.meshes.size());
+            sF1.Mesh = sh.meshes.empty() ? 0u : shapeMeshOffs[meshRunIdx];
+            meshRunIdx += sh.meshes.size();
+            shapeOffs.push_back(b.append_struct(sF1));
+        }
+        // SHAPE DimPrev/DimNext
+        for (std::size_t i = 0; i < shapeOffs.size(); ++i) {
+            std::uint32_t prev = (i == 0) ? 0u : shapeOffs[i - 1];
+            std::uint32_t next = (i + 1 < shapeOffs.size()) ? shapeOffs[i + 1] : 0u;
+            b.overwrite_u32(shapeOffs[i] + 0, prev);
+            b.overwrite_u32(shapeOffs[i] + 4, next);
+        }
+
+        // FRAME_SHAPE: 全 shape を 1 frame にアタッチ (root frame [0])
+        b.align4();
+        offFrameShapeArrForRoot = b.pos();
+        {
+            f1::MV1_FRAME_SHAPE_F1 fs{};
+            fs.ShapeNum = static_cast<std::int32_t>(ir.shapes.size());
+            fs.Shape = shapeOffs.empty() ? 0u : shapeOffs[0];
+            b.append_struct(fs);
+        }
+
+        // FILEHEAD_SHAPE
+        b.align4();
+        offFileHeadShape = b.pos();
+        f1::MV1_FILEHEAD_SHAPE_F1 fh{};
+        fh.FrameNum = 1;
+        fh.Frame    = offFrameShapeArrForRoot;
+        fh.DataNum  = static_cast<std::int32_t>(ir.shapes.size());
+        fh.Data     = offShapeArr;
+        fh.MeshNum  = static_cast<std::int32_t>(totalShapeMeshNum);
+        fh.Mesh     = offShapeMeshArr;
+        fh.VertexNum = static_cast<std::int32_t>(totalShapeVertexNum);
+        fh.Vertex   = offShapeVertices;
+        fh.PressVertexDataSize = 0;
+        fh.PressVertexData = 0;
+        fh.TargetMeshVertexNum = 0;  // runtime 側で計算されるので 0 でも可
+        fh.ShapeVertexUnitSize = static_cast<std::int32_t>(sizeof(f1::MV1_SHAPE_VERTEX_F1));
+        fh.NormalPositionNum = 0;
+        fh.SkinPosition4BNum = 0;
+        fh.SkinPosition8BNum = 0;
+        fh.SkinPositionFREEBSize = 0;
+        b.append_struct(fh);
+    }
 
     // ====== Animation blobs (存在時のみ) ======
     // layout: AnimKeyData blob (全 keyset の time+value を連結)
@@ -577,6 +700,7 @@ WriteResult write_mv1(const ModelIR &ir) {
         rootFrame.MaxBoneBlendNum = 4;
         rootFrame.SmoothingAngle = 0.0f;
         rootFrame.AutoCreateNormal = 0;
+        rootFrame.FrameShape = offFrameShapeArrForRoot;  // skin: root に shape attach
         b.overwrite_struct(frameOffsets[0], rootFrame);
     }
 
@@ -595,6 +719,8 @@ WriteResult write_mv1(const ModelIR &ir) {
         // skin:   root 下の兄弟として mesh frames をリンク
         mf.Prev = (mi == 0) ? 0u : frameOffsets[firstMeshFrameIdx + mi - 1];
         mf.Next = (mi + 1 == ir.meshes.size()) ? 0u : frameOffsets[firstMeshFrameIdx + mi + 1];
+        // static model: 最初の mesh frame (= Frame[0]) に shape をアタッチ
+        if (!isSkin && mi == 0) mf.FrameShape = offFrameShapeArrForRoot;
         mf.TotalMeshNum = 1;
         mf.MeshNum = 1;
         mf.Mesh = meshOffsets[mi];
@@ -843,6 +969,9 @@ WriteResult write_mv1(const ModelIR &ir) {
     hdr.MeshVertexSize      = totalMeshVertexSize;
     hdr.StringSize          = static_cast<std::int32_t>(stringSize);
     hdr.StringBuffer        = offStringBuffer;
+
+    // Shape section pointer
+    hdr.Shape = offFileHeadShape;
 
     // ====== Animation header fields ======
     if (hasAnim) {

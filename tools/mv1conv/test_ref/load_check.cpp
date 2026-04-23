@@ -48,8 +48,10 @@ int wmain(int argc, wchar_t **argv) {
         rc = 0;
         int anims = MV1GetAnimNum(h);
         int keysets = MV1GetAnimKeySetNum(h);
-        if (anims > 0 || keysets > 0) {
-            fwprintf(stderr, L"load OK: anims=%d keysets=%d\n", anims, keysets);
+        int shapes = MV1GetShapeNum(h);
+        if (anims > 0 || keysets > 0 || shapes > 0) {
+            fwprintf(stderr, L"load OK: anims=%d keysets=%d shapes=%d\n",
+                     anims, keysets, shapes);
         }
         MV1DeleteModel(h);
     }
