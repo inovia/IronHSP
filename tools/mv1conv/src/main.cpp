@@ -358,14 +358,53 @@ static int cmd_decode(int argc, char **argv) {
     return 0;
 }
 
+static void print_usage(std::FILE *fp) {
+    std::fprintf(fp,
+        "mv1conv — DxLib .mv1 reader / writer / converter\n"
+        "\n"
+        "Subcommands:\n"
+        "  convert <input> <output.mv1> [--no-bones]\n"
+        "      任意フォーマット (.obj/.stl/.ply/.x/.glb/.gltf/.vrm/.wrl/.pmd/\n"
+        "       .pmx/.gpb/.fbx/.dae/.3ds/.usdz/.mv1/その他 assimp 対応) → .mv1\n"
+        "  export <input.mv1> <output.ext>\n"
+        "      .mv1 → .obj/.gltf/.glb/.dae/.ply/.stl/.fbx (assimp Exporter 経由)\n"
+        "  attach-anim <model.mv1> <motion.vmd> <output.mv1>\n"
+        "      VMD (MMD motion) を .mv1 に付与 (bone + face morph)\n"
+        "  dump   <file.mv1>\n"
+        "      header/frames/meshes/materials/textures/TL/anims/shapes を表示\n"
+        "  decode <file.mv1> <out.bin>\n"
+        "      DXA 展開後の生バッファを書き出し (debug 用)\n"
+        "  repack <in.mv1> <out.mv1>\n"
+        "      decode → 再 encode で DXA round-trip 検証\n"
+        "  obj <file.mv1> <out.obj>\n"
+        "      静的メッシュを OBJ に抽出 (deprecated、export 推奨)\n"
+        "  from-obj <in.obj> <out.mv1>\n"
+        "      OBJ → .mv1 (deprecated、convert 推奨)\n"
+        "  batch [-o <outdir>] <input1> [input2 ...]\n"
+        "      複数入力を一括変換 (glob はシェルに展開させる)\n"
+        "\n"
+        "Environment variables:\n"
+        "  MV1CONV_NO_COPY_TEX=1    texture コピー無効化\n"
+        "  MV1CONV_VIA_BLENDER=1    assimp FBX 失敗時に Blender fallback\n"
+        "  MV1CONV_BLENDER=/path    Blender 実行ファイル明示\n"
+        "  MV1CONV_VRM_MMD_NAMES=1  VRM humanoid bone を MMD 日本語名に変換\n"
+        "  MV1CONV_X_USE_BUILTIN=1  .x は組込 loader (assimp の代わりに)\n"
+        "  MV1CONV_NO_TEX=1         texture 全削除 (debug)\n"
+        "  MV1CONV_NO_UV=1          UV 全削除 (debug)\n"
+        "  MV1CONV_ONLY_MESH=N      mesh #N のみ残す (debug)\n"
+        "  MV1CONV_FIRST_N=N        先頭 N meshes のみ残す (debug)\n"
+        "\n"
+        "Options:\n"
+        "  --help, -h  : usage 表示\n"
+    );
+}
+
 int main(int argc, char **argv) {
-    if (argc < 2) {
-        std::fprintf(stderr,
-                     "mv1conv — DxLib .mv1 reader/converter\n"
-                     "usage:\n"
-                     "  mv1conv dump   <file.mv1>           -- print header/materials/textures/triangle lists\n"
-                     "  mv1conv decode <file.mv1> <out.bin> -- write DXA-decoded raw buffer to out.bin\n");
-        return 2;
+    if (argc < 2 ||
+        std::strcmp(argv[1], "--help") == 0 ||
+        std::strcmp(argv[1], "-h") == 0) {
+        print_usage((argc < 2) ? stderr : stdout);
+        return (argc < 2) ? 2 : 0;
     }
     const char *sub = argv[1];
     if (std::strcmp(sub, "dump") == 0)   return cmd_dump(argc - 2, argv + 2);
@@ -429,6 +468,35 @@ int main(int argc, char **argv) {
                      attached.ir.anim_keysets.size());
         return 0;
     }
-    std::fprintf(stderr, "unknown subcommand: %s\n", sub);
+    if (std::strcmp(sub, "batch") == 0) {
+        // usage: mv1conv batch -o <outdir> <input1> [input2 ...]
+        // 各入力を <outdir>/<stem>.mv1 に変換。
+        std::string outdir = ".";
+        std::vector<std::string> inputs;
+        for (int i = 2; i < argc; ++i) {
+            if (std::strcmp(argv[i], "-o") == 0 && i + 1 < argc) {
+                outdir = argv[++i];
+            } else {
+                inputs.push_back(argv[i]);
+            }
+        }
+        if (inputs.empty()) {
+            std::fprintf(stderr, "usage: mv1conv batch [-o <outdir>] <input1> [input2 ...]\n");
+            return 2;
+        }
+        std::error_code ec;
+        std::filesystem::create_directories(outdir, ec);
+        int ok = 0, ng = 0;
+        for (const auto &in : inputs) {
+            std::filesystem::path p(in);
+            std::string stem = p.stem().string();
+            std::string out = (std::filesystem::path(outdir) / (stem + ".mv1")).string();
+            int rc = convert_generic(in.c_str(), out.c_str(), false);
+            if (rc == 0) ++ok; else ++ng;
+        }
+        std::fprintf(stderr, "batch: %d ok / %d failed\n", ok, ng);
+        return ng == 0 ? 0 : 1;
+    }
+    std::fprintf(stderr, "unknown subcommand: %s (try --help)\n", sub);
     return 2;
 }
