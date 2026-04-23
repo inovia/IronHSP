@@ -895,6 +895,66 @@ static void desktop_unbind_blend_tmu1( void )
     p_d_glActiveTexture( GL_TEXTURE0 ) ;
 }
 
+// --- WIPE mode shader: SetBlendGraph (DX_BLENDGRAPHTYPE_WIPE) 用 ---------
+// blend graph 輝度を threshold と比較して alpha を作り、base 画像をマスク描画。
+// SetBlendGraph(blend_h, BorderParam, BorderRange) で:
+//   threshold = BorderParam / 255、range = BorderRange / 255
+//   alpha = smoothstep(threshold - range, threshold, luminance(blend))
+//   final = base.rgb * vec4(1, 1, 1, base.a * alpha)
+//
+// DesktopShader_CompileGLSL を使うが、program は 1 回だけ作って再利用
+extern "C" int  DesktopShader_CompileGLSL( const char *vs_src, const char *fs_src ) ;
+extern "C" int  DesktopShader_Use         ( int handle ) ;
+extern "C" int  DesktopShader_SetUniform1i( int h, const char *name, int v ) ;
+extern "C" int  DesktopShader_SetUniform1f( int h, const char *name, float v ) ;
+static int s_WipeShader = 0 ;
+static int desktop_get_wipe_shader( void )
+{
+    if ( s_WipeShader > 0 ) return s_WipeShader ;
+    static const char *vs =
+        "#version 120\n"
+        "void main() { gl_Position = ftransform() ; gl_TexCoord[0] = gl_MultiTexCoord0 ; gl_TexCoord[1] = gl_MultiTexCoord1 ; }\n" ;
+    static const char *fs =
+        "#version 120\n"
+        "uniform sampler2D u_base ;\n"
+        "uniform sampler2D u_blend ;\n"
+        "uniform float u_threshold ;\n"
+        "uniform float u_range ;\n"
+        "void main() {\n"
+        "    vec4 base = texture2D( u_base , gl_TexCoord[0].xy ) ;\n"
+        "    vec3 bc   = texture2D( u_blend, gl_TexCoord[1].xy ).rgb ;\n"
+        "    float lum = dot( bc, vec3( 0.299, 0.587, 0.114 ) ) ;\n"
+        "    float a   = smoothstep( u_threshold - u_range, u_threshold, lum ) ;\n"
+        "    gl_FragColor = vec4( base.rgb, base.a * a ) ;\n"
+        "}\n" ;
+    s_WipeShader = DesktopShader_CompileGLSL( vs, fs ) ;
+    return s_WipeShader ;
+}
+
+// WIPE shader を bind (戻り値 1 で有効、0 で無効/未対応)
+static int desktop_bind_wipe_shader( IMAGEDATA *BlendImage )
+{
+    if ( !BlendImage || !BlendImage->Orig || BlendImage->Orig->Hard.TexNum == 0 ) return 0 ;
+    int h = desktop_get_wipe_shader() ;
+    if ( h <= 0 ) return 0 ;
+    if ( DesktopShader_Use( h ) < 0 ) return 0 ;
+    DesktopShader_SetUniform1i( h, "u_base",      0 ) ;
+    DesktopShader_SetUniform1i( h, "u_blend",     1 ) ;
+    // BorderParam (0..255) / BorderRange (1, 64, 128, 255 のいずれか)
+    int bp = GSYS.DrawSetting.BlendGraphBorderParam ;
+    int br = GSYS.DrawSetting.BlendGraphBorderRange ;
+    if ( bp < 0 ) bp = 128 ;
+    if ( br <= 0 ) br = 1 ;
+    DesktopShader_SetUniform1f( h, "u_threshold", ( float )bp / 255.0f ) ;
+    DesktopShader_SetUniform1f( h, "u_range",     ( float )br / 255.0f ) ;
+    return 1 ;
+}
+
+static void desktop_unbind_wipe_shader( void )
+{
+    DesktopShader_Use( 0 ) ;   // glUseProgram(0)
+}
+
 // BlendImage の UV を計算 (base graph と同じ正規化座標で良い、shader の場合は別 mapping)
 static void desktop_blend_uv_range( IMAGEDATA *BlendImage, float *bu0, float *bv0, float *bu1, float *bv1 )
 {
@@ -932,6 +992,13 @@ extern int Graphics_Hardware_DrawGraph_PF( int x, int y, float xf, float yf, IMA
     glEnable( GL_TEXTURE_2D ) ;
     glBindTexture( GL_TEXTURE_2D, ( GLuint )tex->PF->Texture.TextureBuffer ) ;
     int blend_bound = desktop_bind_blend_tmu1( BlendImage ) ;
+    // SetBlendGraph (DxLib API) は BorderParam/Range が設定されていれば WIPE。
+    // BorderParam == 0 でも WIPE 判定できないが、BorderParam が DEFAULT (-1) で
+    // ない場合に WIPE shader 経路へ。NORMAL は MULTIPLY (multitex GL_MODULATE)
+    bool wipe_active = false ;
+    if ( blend_bound && GSYS.DrawSetting.BlendGraphBorderParam >= 0 ) {
+        wipe_active = ( desktop_bind_wipe_shader( BlendImage ) != 0 ) ;
+    }
     glBegin( GL_TRIANGLE_STRIP ) ;
         if ( blend_bound ) p_d_glMultiTexCoord2f( GL_TEXTURE1, bu0, bv0 ) ;
         glTexCoord2f( u0, v0 ) ; glVertex2f( fx,                               fy ) ;
@@ -942,7 +1009,8 @@ extern int Graphics_Hardware_DrawGraph_PF( int x, int y, float xf, float yf, IMA
         if ( blend_bound ) p_d_glMultiTexCoord2f( GL_TEXTURE1, bu1, bv1 ) ;
         glTexCoord2f( u1, v1 ) ; glVertex2f( fx + ( float )tex->UseWidth,      fy + ( float )tex->UseHeight ) ;
     glEnd() ;
-    if ( blend_bound ) desktop_unbind_blend_tmu1() ;
+    if ( wipe_active )    desktop_unbind_wipe_shader() ;
+    if ( blend_bound )    desktop_unbind_blend_tmu1() ;
     glBindTexture( GL_TEXTURE_2D, 0 ) ;
     glDisable( GL_TEXTURE_2D ) ;
     return 0 ;
