@@ -1,0 +1,49 @@
+;============================================================
+;   test_desktop_phase_m.hsp — Mac/Linux desktop Phase M.1-M.4 smoke test
+;
+;   pref / dev_is_dark / dev_battery を実行して結果を /tmp/hsp3dx_phase_m_result.txt
+;   に書き出す (mes は canvas に出るが headless 検証では見えないため)。
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    ;  pref round-trip
+    dx_pref_set_str  "test", "name", "alice"
+    dx_pref_set_int  "test", "score", 12345
+    sdim namebuf, 256
+    dx_pref_get_str  "test", "name", namebuf, "default"
+    dx_pref_get_int  "test", "score", 0 : score = stat
+
+    dx_pref_exists "test", "name" : ex_yes = stat
+    dx_pref_exists "test", "missing" : ex_no = stat
+
+    sdim keys, 1024
+    dx_pref_list_keys "test", keys : nk = stat
+
+    dx_pref_remove "test", "name"
+    dx_pref_exists "test", "name" : ex_after = stat
+
+    ;  device info
+    dx_dev_is_dark : dk = stat
+    dx_dev_battery lv, bstate
+
+    ;  結果書き出し
+    sdim out, 4096
+    out += "pref name : " + namebuf + "\n"
+    out += "pref score: " + score + "\n"
+    out += "exists name=" + ex_yes + " missing=" + ex_no + "\n"
+    out += "list_keys count=" + nk + " raw=[" + keys + "]\n"
+    out += "after remove exists=" + ex_after + "\n"
+    out += "is_dark : " + dk + "\n"
+    out += "battery : level=" + lv + " state=" + bstate + "\n"
+
+    ;  bsave で書き出し
+    notesel out
+    notesave "/tmp/hsp3dx_phase_m_result.txt"
+    noteunsel
+
+    ;  cleanup
+    dx_pref_clear "test"
+
+    end
