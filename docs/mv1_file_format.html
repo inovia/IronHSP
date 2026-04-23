@@ -90,6 +90,7 @@ em { color: #666; }
 <li><a href="#%E6%96%87%E5%AD%97%E5%88%97%E3%83%97%E3%83%BC%E3%83%AB-stringbuffer">文字列プール</a></li>
 <li><a href="#%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%8B%E3%83%B3%E3%82%B0">バージョニング</a></li>
 <li><a href="#%E5%88%B6%E9%99%90%E4%BA%8B%E9%A0%85--%E6%B3%A8%E6%84%8F%E7%82%B9">制限事項</a></li>
+<li><a href="#writer-%E3%81%AE%E8%90%BD%E3%81%A8%E3%81%97%E7%A9%B4">Writer の落とし穴</a> ⚠️</li>
 <li><a href="#%E4%BB%98%E9%8C%B2-a-%E5%85%A8-enum-%E5%80%A4%E4%B8%80%E8%A6%A7">付録 A: 全 enum 値一覧</a> ★</li>
 <li><a href="#%E4%BB%98%E9%8C%B2-b-%E5%8F%AF%E5%A4%89%E9%95%B7%E3%82%BB%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE-byte-%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E8%A9%B3%E7%B4%B0">付録 B: 可変長セクションの byte レイアウト詳細</a> ★</li>
 <li><a href="#%E4%BB%98%E9%8C%B2-c-16bit-%E5%9C%A7%E7%B8%AE%E5%80%A4%E3%81%AE%E3%83%87%E3%82%B3%E3%83%BC%E3%83%89%E5%BC%8F">付録 C: 16bit 圧縮値のデコード式</a> ★</li>
@@ -1033,7 +1034,56 @@ int DXA_Decode( const uint8_t *src, uint8_t *dst )
 <li><strong>エンディアン</strong> — リトルエンディアン固定 (big-endian プラットフォームでは loader 側で変換要)。</li>
 <li><strong>PMX 由来モデルのトゥーン輪郭</strong> — <code>MV1_MESH_VERT_FLAG_NON_TOON_OUTLINE</code> フラグで頂点単位に ON/OFF 指定。</li>
 <li><strong>LightData (<code>MV1_LIGHT_F1</code>)</strong> の <code>MV1_LIGHT_F1</code> は <code>MV1_FRAME_F1.Light</code> 経由でフレームに属する (独立ライトリストは <code>Light</code> / <code>LightNum</code> 参照)。</li>
+<li>⚠️ <strong><code>ChangeMatrixTable</code> / <code>ChangeDrawMaterialTable</code> は 0 にしてはいけない</strong> — 詳細は <a href="#writer-%E3%81%AE%E8%90%BD%E3%81%A8%E3%81%97%E7%A9%B4">Writer の落とし穴</a> を参照。</li>
 </ol>
+<hr />
+<h2 id="writer-の落とし穴">Writer の落とし穴</h2>
+<p>DxLib 互換の <code>.mv1</code> を自作 writer で生成する際、loader で <strong>必ず</strong> crash する罠を以下に列挙。</p>
+
+<h3>⚠️ <code>ChangeMatrixTable</code> / <code>ChangeDrawMaterialTable</code> は必ず非 0 の buffer を指すべき</h3>
+<table>
+<thead><tr><th>フィールド</th><th>型</th><th>意味</th></tr></thead>
+<tbody>
+<tr><td><code>ChangeDrawMaterialTableSize</code></td><td>int</td><td>描画マテリアル変更追跡用 bit-flag table のバイト数</td></tr>
+<tr><td><code>ChangeMatrixTableSize</code></td><td>int</td><td>行列変更追跡用 bit-flag table のバイト数</td></tr>
+<tr><td><code>ChangeDrawMaterialTable</code></td><td>DWORD (offset)</td><td>上記 bit-flag table の実データ位置</td></tr>
+<tr><td><code>ChangeMatrixTable</code></td><td>DWORD (offset)</td><td>同上</td></tr>
+</tbody>
+</table>
+<p><strong>これらを 0 / 空にしてはいけない</strong>。DxLib は frame / mesh / material の状態変化を 1 bit / element で追跡する runtime テーブルを持ち、load 時にこの領域を <code>_MEMCPY</code> して <code>MBase-&gt;ChangeMatrixTable</code> 等のポインタに設定する。サイズ 0 で確保すると runtime の bit 操作で境界外 write が発生し、debug allocator の MagicID tag 破壊 → <code>GetAllocSize Error : メモリタグの MagicID が不正です</code> → crash に至る。</p>
+<p><strong>データ依存で再現する</strong> 厄介な症状で、frame 数が閾値 (5 前後、buffer 配置次第) を超えると初めて crash する。試行錯誤で原因特定が非常に困難。</p>
+
+<h4>正しい書き方</h4>
+<ul>
+<li>サイズは <code>max(FrameNum, MeshNum, MaterialNum)</code> bit 分の DWORD 整列を確保。</li>
+<li>実務上 <strong>256 byte (2048 bit) を固定で確保</strong> して全ゼロ埋めすれば安全マージンで事足りる (通常 frame 数は数十〜数百)。</li>
+<li><code>ChangeMatrixTable</code> / <code>ChangeDrawMaterialTable</code> は上記 buffer 先頭へのファイルオフセットを指す。両者 <strong>別々</strong> の buffer にすること。</li>
+</ul>
+<pre><code>// Writer 実装例 (C++)
+const int32_t changeTableSize = 256;  // 2048 bit、frame 数に応じて可変でも可
+uint32_t offChangeDrawMatTable = append_zero_bytes(changeTableSize);  // 全 0
+uint32_t offChangeMatTable     = append_zero_bytes(changeTableSize);  // 全 0
+
+hdr.ChangeDrawMaterialTableSize = changeTableSize;
+hdr.ChangeDrawMaterialTable     = offChangeDrawMatTable;
+hdr.ChangeMatrixTableSize       = changeTableSize;
+hdr.ChangeMatrixTable           = offChangeMatTable;
+</code></pre>
+<p>各 <code>MV1_FRAME_F1</code> / <code>MV1_MESH_F1</code> の <code>ChangeInfo</code> (<code>MV1_CHANGE_F1</code>) フィールドはすべて 0 で OK (runtime で table への offset を逆算するため、<code>Target</code> / <code>Fill</code> = 0 のままで一貫している)。</p>
+
+<h3>⚠️ <code>NON_TOON_OUTLINE</code> フラグを立てたら bit data を忘れずに</h3>
+<p><code>MV1_MESH_F1.VertFlag</code> bit 6 (<code>MV1_MESH_VERT_FLAG_NON_TOON_OUTLINE</code>) を立てた場合、<code>VertexData</code> blob の末尾に <strong><code>VertexNum</code> ビット分のデータ</strong> を書く必要がある (各頂点の <code>ToonOutLineScale &gt; 0</code> か否か 1 bit)。省略するとフラグが立っているのに bit data が無いとして load 時に overrun する。</p>
+<p>全頂点を「輪郭なし」にするなら <code>0xFF</code> で埋める (bit=1 = ToonOutLineScale=0)。その後 4 byte 整列までゼロ padding。</p>
+
+<h3>⚠️ <code>TriangleListNormalPositionNum</code> は per-corner 合計であるべき</h3>
+<p>非 skin の <code>MV1_VERTEX_TYPE_NORMAL</code> な triangle list では、この値は <strong>全 triangle list の <code>VertexNum</code> 合計</strong> でなければならない (DxLib は <code>MV1_TLIST_NORMAL_POS[N]</code> のメモリを N 個分確保し、各 TL が自分の <code>VertexNum</code> 分をスライス消費する)。ずれると 16 byte align 再計算で末尾の TL が overflow する。</p>
+
+<h3>⚠️ Frame 階層は DxLib save と同じ形に</h3>
+<ul>
+<li><strong>Static mesh</strong>: 合成 root frame は作らず、各 mesh frame を <code>TopFrameNum=M</code> の top-level 兄弟にして <code>Prev</code> / <code>Next</code> で連結する。</li>
+<li><strong>Skin mesh</strong>: root frame を 1 つ作り、mesh frames と bones はその子。<code>TopFrameNum=1</code>。</li>
+</ul>
+<p>空の root を挟むと一部の <code>FirstChild</code> / <code>LastChild</code> 走査で特定条件下に crash。</p>
 <hr />
 <h2>参考: MV1LoadModel の主な処理フロー</h2>
 <pre><code>1. &quot;MV11&quot; マジック確認
