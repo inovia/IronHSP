@@ -582,11 +582,11 @@ td.note { font-size: 12px; color: #555; }
   <td class="tech">SDL_GetNumTouchDevices / SDL_GetNumTouchFingers / SDL_GetTouchFinger で毎フレーム polling、TOUCHINPUTDATA を AddTouchInputData() で DxLib 共通層に注入</td>
   <td class="note">DxInputDesktop.cpp 実装済 (Desktop_UpdateTouchInputState、ProcessMessage_PF から毎フレーム呼ばれる)。SDL_HINT_TOUCH_MOUSE_EVENTS ON で PC マウス左クリックも擬似タッチとして拾える (testing 向け)。Web (emscripten) も SDL2 経由で browser の touch event を受ける。</td>
 </tr>
-<tr><td class="fn">KeyInputString (IME 統合)</td>
+<tr><td class="fn">KeyInputString / KeyInputSingleCharString (IME 統合)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
-  <td class="tech">DX_NON_INPUTSTRING=1 で殺されている</td>
-  <td class="note">SDL_StartTextInput で原理的に可能だが複雑。優先度低。</td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">SDL_StartTextInput + SDL_TEXTINPUT event 経由の最小実装。Backspace は UTF-8 continuation byte 認識で 1 文字単位削除、Enter で確定 (ret=1)、Esc で取消 (CancelValidFlag 時 ret=0)、cursor 点滅</td>
+  <td class="note">DxInputDesktop.cpp 2026-04-23 実装。IME 合成 popup (preedit / candidate window) は対応せず、確定後の文字列を受け取るだけ (plain ASCII / 確定済 UTF-8)。DxLib 本家の DxInputString.cpp は IME 統合 + 装飾色 + scroll 領域等 4400 行の大規模実装で、Desktop は単機能優先で簡略版。lib 側は DX_NON_INPUTSTRING=1 で本家の Gateway / DxInputString.cpp を除外し、user 側は宣言を通して Desktop layer の独自 KeyInputString を呼ぶ。</td>
 </tr>
 <tr><td class="fn">KeyEx (DX_NON_KEYEX)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>

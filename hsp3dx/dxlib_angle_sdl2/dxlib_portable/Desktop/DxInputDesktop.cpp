@@ -21,6 +21,7 @@
 #include <cstdio>
 #include <cstring>
 #include <vector>
+#include <string>
 
 #ifndef DX_NON_NAMESPACE
 namespace DxLib
@@ -313,6 +314,96 @@ extern void Desktop_UpdateTouchInputState( void )
         }
     }
     AddTouchInputData( &td ) ;
+}
+
+// --- KeyInputString: SDL_StartTextInput + SDL_TEXTINPUT 経由の最小実装 ----
+// IME 合成 popup は対応せず、確定後の UTF-8 文字 + Backspace + Enter + Esc
+// (CancelValidFlag) のみを扱う。描画は user 既存の screen に被せず、入力中
+// 専用の描画ループで行う (画面背景はそのまま、入力 prompt を上書き)。
+//
+// 戻り値: Enter 確定 = 1 / Esc 取消 (CancelValidFlag != 0) = 0 / エラー = -1
+
+extern int KeyInputString( int x, int y, size_t CharMaxLength,
+                            TCHAR *StrBuffer, int CancelValidFlag )
+{
+    if ( !StrBuffer || CharMaxLength == 0 ) return -1 ;
+    StrBuffer[ 0 ] = 0 ;
+
+    SDL_StartTextInput() ;
+
+    // UTF-8 として buffer に積む
+    std::string text ;
+    bool finished = false ;
+    int  return_code = -1 ;
+
+    extern int     ScreenFlip( void ) ;     // forward decl (DxLib::ScreenFlip)
+    extern int     DrawString( int x, int y, const TCHAR *str, unsigned int color, unsigned int edge_color ) ;
+    extern unsigned int GetColor( int r, int g, int b ) ;
+
+    Uint32 cursor_blink = SDL_GetTicks() ;
+    bool   cursor_on    = true ;
+
+    while ( !finished )
+    {
+        SDL_Event ev ;
+        while ( SDL_PollEvent( &ev ) )
+        {
+            if ( ev.type == SDL_QUIT ) {
+                return_code = -1 ;
+                finished = true ;
+                break ;
+            }
+            if ( ev.type == SDL_TEXTINPUT ) {
+                if ( text.size() + std::strlen( ev.text.text ) < CharMaxLength ) {
+                    text.append( ev.text.text ) ;
+                }
+            } else if ( ev.type == SDL_KEYDOWN ) {
+                SDL_Keycode k = ev.key.keysym.sym ;
+                if ( k == SDLK_RETURN || k == SDLK_KP_ENTER ) {
+                    return_code = 1 ;
+                    finished = true ;
+                } else if ( k == SDLK_ESCAPE && CancelValidFlag ) {
+                    text.clear() ;
+                    return_code = 0 ;
+                    finished = true ;
+                } else if ( k == SDLK_BACKSPACE && !text.empty() ) {
+                    // UTF-8 を考慮して 1 文字削除 (continuation byte 0x80..0xBF)
+                    while ( !text.empty() ) {
+                        unsigned char c = ( unsigned char )text.back() ;
+                        text.pop_back() ;
+                        if ( ( c & 0xC0 ) != 0x80 ) break ;   // 先頭バイトに到達
+                    }
+                }
+            }
+        }
+
+        // 画面更新: 入力中の文字 + cursor を表示 (背景はそのまま)
+        if ( SDL_GetTicks() - cursor_blink > 500 ) {
+            cursor_on = !cursor_on ;
+            cursor_blink = SDL_GetTicks() ;
+        }
+        std::string display = text ;
+        if ( cursor_on ) display += "_" ;
+        DrawString( x, y, display.c_str(), GetColor( 255, 255, 255 ), 0 ) ;
+        ScreenFlip() ;
+        SDL_Delay( 16 ) ;
+    }
+
+    SDL_StopTextInput() ;
+
+    if ( return_code == 1 ) {
+        size_t n = text.size() ;
+        if ( n >= CharMaxLength ) n = CharMaxLength - 1 ;
+        std::memcpy( StrBuffer, text.data(), n ) ;
+        StrBuffer[ n ] = 0 ;
+    }
+    return return_code ;
+}
+
+extern int KeyInputSingleCharString( int x, int y, size_t CharMaxLength,
+                                      TCHAR *StrBuffer, int CancelValidFlag )
+{
+    return KeyInputString( x, y, CharMaxLength, StrBuffer, CancelValidFlag ) ;
 }
 
 #ifndef DX_NON_NAMESPACE

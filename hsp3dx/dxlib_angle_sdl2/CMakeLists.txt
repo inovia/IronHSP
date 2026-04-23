@@ -233,7 +233,8 @@ function(dxlib_desktop_settings target)
         # DX_NON_FONT=1  ← Stage 19 で font 有効化
         # DX_NON_INPUT=1  ← Stage 16 で input 有効化
         DX_NON_KEYEX=1       # 高機能キー入力は未対応
-        DX_NON_INPUTSTRING=1 # 文字列入力 API は未対応
+        # DX_NON_INPUTSTRING は lib のみ PRIVATE 適用、user 側は宣言を通して
+        # DxInputDesktop.cpp の独自 KeyInputString 実装を呼べるようにする
         # DX_NON_TIFFREAD   : D5 で bundled libtiff により有効化
         # DX_NON_OGGVORBIS  : D2 で bundled libogg+libvorbis により有効化
         # DX_NON_OGGTHEORA  : D4 で bundled libtheora により有効化
@@ -396,12 +397,13 @@ target_compile_definitions(dxlib_portable_stage3 PRIVATE
     DX_NON_FILTER=1
     DX_NON_JPEGREAD=1
     DX_NON_PNGREAD=1
+    DX_NON_INPUTSTRING=1   # lib 側 (Gateway / DxInputString) は除外、Desktop layer に独自実装
 )
-# KeyInputString / MakeKeyInput / DrawIMEInputString 系はユーザ側でも未提供にする
-# (SDL2 ベースの IME 実装は将来タスク)。PUBLIC で user 側にも同じフラグを渡し、
-# 宣言を消してコンパイル時に気付けるようにする。
+# KeyInputString は SDL2 SDL_StartTextInput + SDL_TEXTINPUT で最小実装済
+# (DxInputDesktop.cpp、IME 合成 popup は未対応で plain ASCII / UTF-8 のみ)。
+# DX_NON_INPUTSTRING は lib 側 PRIVATE のみで DxInputString.cpp の compile を
+# 抑止し、user 側は declarations が見えるよう PUBLIC からは外す。
 target_compile_definitions(dxlib_portable_stage3 PUBLIC
-    DX_NON_INPUTSTRING=1
     DX_NON_KEYEX=1
 )
 # Windows のみ Media Foundation ライブラリをリンク
