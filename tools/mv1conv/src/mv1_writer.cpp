@@ -461,17 +461,19 @@ WriteResult write_mv1(const ModelIR &ir) {
         for (std::size_t ki = 0; ki < ir.anim_keysets.size(); ++ki) {
             const auto &ks = ir.anim_keysets[ki];
             keysetKeyDataOff[ki] = b.pos();
+            if (!ks.raw_blob.empty()) {
+                // raw passthrough: 元ファイルの KeyData blob をそのまま埋め込む
+                b.append_bytes(ks.raw_blob.data(), ks.raw_blob.size());
+                b.align4();
+                continue;
+            }
             // KeyData layout (最もシンプル): [DWORD Num] [float×N time] [keyVals...]
             std::uint32_t n = static_cast<std::uint32_t>(ks.key_times.size());
             b.append_bytes(&n, 4);
-            // 各 key の time
             for (float t : ks.key_times) b.append_bytes(&t, 4);
-            // 各 key の value
             for (float v : ks.key_values) b.append_bytes(&v, 4);
             b.align4();
 
-            // Runtime 側は (DWORD Num) は使わず、TimeArray[N] + ValueArray[N] のみ連続配置。
-            // 各 float time (4byte) + value (type 依存バイト数) を加算。
             int val_size = 4;
             if (ks.key_type == AnimKeySetIR::KT_VECTOR)        val_size = 12;
             else if (ks.key_type == AnimKeySetIR::KT_QUATERNION_X) val_size = 16;
@@ -488,9 +490,8 @@ WriteResult write_mv1(const ModelIR &ir) {
             f1::MV1_ANIM_KEYSET_F1 ksF1{};
             ksF1.Type = ks.key_type;
             ksF1.DataType = ks.data_type;
-            ksF1.Flag = 0;  // flags なし = TimeType=KEY, Num=DWORD, no 16bit
-            // KeyData は FHeader からの **絶対** byte offset (DxLib save L20040 で
-            // blob-relative + FHeader->AnimKeyData に補正される最終形)
+            // raw passthrough 時は保存された flag を復元、そうでなければ 0 (simple layout)
+            ksF1.Flag = ks.raw_blob.empty() ? 0 : ks.raw_flag;
             ksF1.KeyData = keysetKeyDataOff[ki];
             keysetOffs[ki] = b.append_struct(ksF1);
         }
@@ -845,11 +846,13 @@ WriteResult write_mv1(const ModelIR &ir) {
 
     // ====== Animation header fields ======
     if (hasAnim) {
-        // AnimKeyDataSize = ファイル内 blob の byte 数 (DWORD Num 含む)
+        // AnimKeyDataSize = ファイル内 blob の byte 数
         // OriginalAnimKeyDataSize = DxLib runtime の AnimKeyData 割当 byte 数
-        //   (圧縮展開後、TimeArray + ValueArray の連続領域) — Num prefix は含めない
         hdr.AnimKeyDataSize         = static_cast<std::int32_t>(animKeyDataSize);
-        hdr.OriginalAnimKeyDataSize = static_cast<std::int32_t>(runtimeAnimKeyDataSize);
+        // round-trip 時は元値を保持 (raw blob モードでは自前計算不可のため)
+        hdr.OriginalAnimKeyDataSize = ir.anim_original_keydata_size > 0
+            ? static_cast<std::int32_t>(ir.anim_original_keydata_size)
+            : static_cast<std::int32_t>(runtimeAnimKeyDataSize);
         hdr.AnimKeyData             = offAnimKeyData;
         hdr.AnimKeySetNum           = static_cast<std::int32_t>(ir.anim_keysets.size());
         hdr.AnimKeySet              = offAnimKeySet;

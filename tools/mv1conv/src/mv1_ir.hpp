@@ -80,6 +80,14 @@ struct AnimKeySetIR {
     std::vector<float> key_times;   // N 個 (seconds)
     // key values: key_type に応じて N*1 / N*3 / N*4 の float 配列
     std::vector<float> key_values;
+
+    // ----- round-trip 用 raw blob (readers が decode 不能な flag/compression を
+    //       そのままパススルーするためのエスケープ) -----
+    // raw_blob が非空の場合 writer はこの blob を Flag と共にそのまま出力し、
+    // key_times / key_values は無視する。
+    std::uint16_t raw_flag = 0;
+    std::vector<std::uint8_t> raw_blob;
+    std::uint32_t raw_runtime_size = 0;  // DxLib runtime 側の割当バイト数
 };
 
 // 1 Anim = 1 bone 1 AnimSet の「同じ frame を対象とする AnimKeySet 群」。
@@ -109,6 +117,9 @@ struct ModelIR {
     std::vector<AnimKeySetIR> anim_keysets;
     std::vector<AnimIR>       anims;
     std::vector<AnimSetIR>    anim_sets;
+    // MV1 → IR 経路では、元ファイルの OriginalAnimKeyDataSize をそのまま次の出力に
+    // 流用するため保持 (0 なら writer が再計算)。
+    std::uint32_t anim_original_keydata_size = 0;
 };
 
 }

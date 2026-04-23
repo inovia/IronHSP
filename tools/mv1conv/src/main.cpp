@@ -1,5 +1,6 @@
 #include "mv1_reader.hpp"
 #include "mv1_dump.hpp"
+#include "mv1_to_ir.hpp"
 #include "obj_export.hpp"
 #include "obj_import.hpp"
 #include "stl_import.hpp"
@@ -99,6 +100,11 @@ static int convert_generic(const char *in, const char *out, bool noBones = false
         olr = load_obj(in);
         if (!olr.ok()) { err = olr.error; }
         else ir = &olr.ir;
+    } else if (ext == "mv1") {
+        // MV1 → IR 変換 (round-trip + anim 保持の要)
+        lr = load_mv1_to_ir(in);
+        if (!lr.ok()) { err = lr.error; }
+        else ir = &lr.ir;
     } else {
         std::fprintf(stderr, "unsupported extension: %s\n  built-in: .obj .stl .ply .x .glb .gltf .vrm .wrl .pmd .pmx .gpb\n"
 #ifdef MV1CONV_HAVE_ASSIMP
