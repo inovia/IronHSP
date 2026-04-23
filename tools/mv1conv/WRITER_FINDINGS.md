@@ -96,12 +96,21 @@ table 内の offset を指すことを想定。サイズ ChangeMatrixTableSize �
 
 ## 現時点の Writer 実用範囲
 
-**14/25 DxLib 受付** (2026-04-23 時点):
+**14/16 DxLib 受付** (2026-04-23 時点、ChangeMatrixTable 修正後):
 
 - 単一メッシュ static: 7/7 PASS (tet_{x,obj,glb,pmd,wrl}, tri_stl, duck_dae, cube/cat_usdz など)
-- 複数メッシュ static n≤5: PASS
-- 複数メッシュ static n≥6: FAIL (データ依存 memory corruption)
-- Skin メッシュ: FAIL (未解決)
+- 複数メッシュ static: PASS (SimpleModel / ColTestStage / SimplePillarStage / cubes3ds / n=50 まで全て)
+- Skin メッシュ: FAIL (alicia_pmx, skel_fbx)
+
+### 🎯 重大な修正: ChangeMatrixTable を 0 にしてはいけない (2026-04-23)
+
+DxLib は frame/mesh/material の状態変化追跡用 bit-flag table を持つ。
+`FHeader->ChangeMatrixTableSize=0` + `ChangeMatrixTable=0` だと runtime の
+bit 操作で境界外 write が発生し debug allocator の MagicID corruption を
+起こす。(n≥5 から再現)
+
+**解決**: 256 byte (2048 bit) の zeroed buffer を 2 本確保し、
+`ChangeMatrixTable` / `ChangeDrawMaterialTable` から指す。14/25 → 14/16 に跳躍。
 
 ### Frame 構造の正しい形 (tet2_ref / multi.x の ref で観測、2026-04-23 修正済)
 

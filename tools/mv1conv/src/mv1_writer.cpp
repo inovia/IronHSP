@@ -124,6 +124,18 @@ WriteResult write_mv1(const ModelIR &ir) {
     std::uint32_t offHeader = b.append_zero(sizeof(hdr));
     (void)offHeader;
 
+    // ====== 1b. ChangeMatrixTable / ChangeDrawMaterialTable ======
+    // DxLib は frame/mesh/material の状態変化を bit-flag table (1 bit / element)
+    // で追跡する。FHeader->ChangeMatrixTableSize=0 + offset=0 だと runtime の
+    // bit 操作で境界外 write が発生し debug allocator の MagicID corruption を
+    // 起こす (n≥5 で再現、調査結果)。
+    // 安全マージンとして 256 byte (=2048 bit) 以上を確保。
+    const std::int32_t changeTableSize = 256;
+    b.align4();
+    std::uint32_t offChangeDrawMatTable = b.append_zero(changeTableSize);
+    b.align4();
+    std::uint32_t offChangeMatTable = b.append_zero(changeTableSize);
+
     // ====== 2. Frame 配列確保 ======
     // シンプルのため Frame[0] = container, Frame[1..] = bones (skin 時)
     b.align4();
@@ -286,6 +298,9 @@ WriteResult write_mv1(const ModelIR &ir) {
     }
 
     // ====== 8. Mesh.VertexData (mesh ごと、per-corner レイアウト) ======
+    // DxLib runtime は NormalPosition / SkinPos{4B,8B} 領域を 16 byte align で
+    // 読む。Mesh.VertexData 自体は file offset ベースで直接 memcpy されるため
+    // 4 byte align で十分 (DxLib save も L19344 の (Size+3)/4*4 で 4 byte align)。
     std::vector<std::uint32_t> meshVertexDataOffsets(ir.meshes.size());
     for (std::size_t mi = 0; mi < ir.meshes.size(); ++mi) {
         const auto &m = ir.meshes[mi];
@@ -640,6 +655,10 @@ WriteResult write_mv1(const ModelIR &ir) {
     }
 
     // -- Header 最終埋め込み --
+    hdr.ChangeDrawMaterialTableSize = changeTableSize;
+    hdr.ChangeDrawMaterialTable     = offChangeDrawMatTable;
+    hdr.ChangeMatrixTableSize       = changeTableSize;
+    hdr.ChangeMatrixTable           = offChangeMatTable;
     hdr.FrameNum            = frameNum;
     hdr.Frame               = offFrame;       // 配列先頭
     if (isSkin) {
