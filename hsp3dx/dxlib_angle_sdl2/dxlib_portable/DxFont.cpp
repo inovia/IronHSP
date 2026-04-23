@@ -29,6 +29,10 @@
 #include "DxGraphics.h"
 #include "DxASyncLoad.h"
 #include "DxLog.h"
+#ifdef __EMSCRIPTEN__
+#include <stdio.h>
+#include <emscripten.h>
+#endif
 
 #ifdef WINDOWS_DESKTOP_OS
 #include "Windows/DxFontWin.h"
@@ -1652,7 +1656,14 @@ extern int InitFontManage( void )
 	}
 
 	// �t�H���g�n���h���̏�����
+#ifdef __EMSCRIPTEN__
+	fprintf( stderr, "[DXFONT] before InitFontToHandleBase\n" ); fflush(stderr);
+	emscripten_sleep( 0 );
+#endif
 	InitFontToHandleBase() ;
+#ifdef __EMSCRIPTEN__
+	fprintf( stderr, "[DXFONT] before InitFontManage_PF\n" ); fflush(stderr);
+#endif
 
 	// ���ˑ��̏������������s��
 	if( InitFontManage_PF() != 0 )

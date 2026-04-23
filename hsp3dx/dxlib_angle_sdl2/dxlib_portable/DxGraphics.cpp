@@ -27408,8 +27408,12 @@ static double _dxgr_now_sec() {
 } while(0)
 #elif defined(__EMSCRIPTEN__)
 #include <stdio.h>
+#include <emscripten.h>
+//  各 LOG で必ず JS event loop に yield する。これで stderr 行が browser に
+//  即時届く + canvas 更新も走る。JSPI 必須 (emscripten_sleep が Promise になる)。
 #define DXGR_LOG(tag) do { \
 	fprintf( stderr, "[DXGR] %s\n", tag ); fflush(stderr); \
+	emscripten_sleep( 0 ); \
 } while(0)
 #else
 #define DXGR_LOG(tag) ((void)0)
@@ -27522,7 +27526,9 @@ extern int Graphics_Initialize( void )
 
 #ifndef DX_NON_MASK
 	// �}�X�N�����̏�����
+	DXGR_LOG("before Mask_Initialize");
 	Mask_Initialize() ;
+	DXGR_LOG("after Mask_Initialize");
 #endif
 
 	// �`�揈���̊��ˑ������̏��������̂Q
