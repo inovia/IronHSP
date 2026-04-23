@@ -30,6 +30,8 @@
 #include <cstdio>
 #include <cstring>
 #include <string>
+#include <vector>
+#include <string>
 #include <cmath>
 
 #ifndef DX_NON_NAMESPACE
@@ -104,6 +106,23 @@ extern int TermFontManage_PF( void )
 
 // --- フォントハンドル作成・破棄 -----------------------------------------
 
+// User-added font paths (Desktop_AddFontPath で登録、CreateFontToHandle 検索の
+// 一番先頭に試される)
+static std::vector<std::string> g_UserFontPaths ;
+
+extern "C" int Desktop_AddFontPath( const char *path )
+{
+    if ( !path || !*path ) return -1 ;
+    g_UserFontPaths.push_back( path ) ;
+    return 0 ;
+}
+
+extern "C" int Desktop_ClearFontPaths( void )
+{
+    g_UserFontPaths.clear() ;
+    return 0 ;
+}
+
 extern int CreateFontToHandle_PF( CREATEFONTTOHANDLE_GPARAM *GParam, FONTMANAGE *ManageData, int DefaultCharSet )
 {
     (void)GParam; (void)DefaultCharSet;
@@ -113,12 +132,54 @@ extern int CreateFontToHandle_PF( CREATEFONTTOHANDLE_GPARAM *GParam, FONTMANAGE 
     int pt = ManageData->BaseInfo.FontSize ;
     if ( pt <= 0 ) pt = 16 ;
 
-    // フォントファイルを順に試す (フォント名マッチは暫定 TODO)
     TTF_Font *font = nullptr ;
-    const char * const *paths = fallback_font_paths() ;
-    for ( int i = 0 ; paths[i] ; ++i ) {
-        font = TTF_OpenFont( paths[i], pt ) ;
-        if ( font ) break ;
+
+    // (1) ManageData.FontName が直接 .ttf/.ttc/.otf パスなら最優先
+    const wchar_t *wname = ManageData->FontName ;
+    if ( wname && wname[ 0 ] ) {
+        // wchar_t → UTF-8
+        std::string name_utf8 ;
+        for ( int i = 0 ; wname[ i ] && i < 256 ; i++ ) {
+            wchar_t w = wname[ i ] ;
+            if ( w < 0x80 ) name_utf8.push_back( ( char )w ) ;
+            else if ( w < 0x800 ) {
+                name_utf8.push_back( ( char )( 0xC0 | ( w >> 6 ) ) ) ;
+                name_utf8.push_back( ( char )( 0x80 | ( w & 0x3f ) ) ) ;
+            } else {
+                name_utf8.push_back( ( char )( 0xE0 | ( w >> 12 ) ) ) ;
+                name_utf8.push_back( ( char )( 0x80 | ( ( w >> 6 ) & 0x3f ) ) ) ;
+                name_utf8.push_back( ( char )( 0x80 | ( w & 0x3f ) ) ) ;
+            }
+        }
+        // 拡張子で判定 — .ttf/.ttc/.otf/.fon/.pfb 等
+        size_t n = name_utf8.size() ;
+        bool looks_like_path = false ;
+        const char *exts[] = { ".ttf", ".ttc", ".otf", ".TTF", ".TTC", ".OTF", nullptr } ;
+        for ( int j = 0 ; exts[ j ] && !looks_like_path ; j++ ) {
+            size_t el = std::strlen( exts[ j ] ) ;
+            if ( n >= el && std::strcmp( name_utf8.c_str() + n - el, exts[ j ] ) == 0 )
+                looks_like_path = true ;
+        }
+        if ( looks_like_path ) {
+            font = TTF_OpenFont( name_utf8.c_str(), pt ) ;
+        }
+    }
+
+    // (2) User-added paths を最優先に試す (Desktop_AddFontPath で登録)
+    if ( !font ) {
+        for ( const auto &p : g_UserFontPaths ) {
+            font = TTF_OpenFont( p.c_str(), pt ) ;
+            if ( font ) break ;
+        }
+    }
+
+    // (3) Fallback の system 標準パス
+    if ( !font ) {
+        const char * const *paths = fallback_font_paths() ;
+        for ( int i = 0 ; paths[i] ; ++i ) {
+            font = TTF_OpenFont( paths[i], pt ) ;
+            if ( font ) break ;
+        }
     }
     if ( !font ) {
         std::fprintf( stderr, "[DxLib Desktop] CreateFontToHandle_PF: no font found (pt=%d)\n", pt ) ;

@@ -472,11 +472,12 @@ td.note { font-size: 12px; color: #555; }
   <td class="tech">Win build: Win32 EnumFontFamiliesExW で system フォント列挙、ENUMFONTDATA->FontBuffer に LF_FACESIZE wchar_t 単位で書き込み。Mac/Linux は fontconfig 未統合のため stub (FontNum=0)、Web は browser API 制約で不可</td>
   <td class="note">DxFontDesktop.cpp 2026-04-23 実装 (Win 専用)。Mac/Linux で fontconfig (FcFontList) を統合する場合は extlib/ に追加が必要。重複フェイス除外、CharSet 指定対応 (DEFAULT_CHARSET / SHIFTJIS_CHARSET 等)。</td>
 </tr>
-<tr><td class="fn">ChangeFont / AddFontFile</td>
+<tr><td class="fn">ChangeFont / CreateFontToHandle (任意フォントパス対応)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">TTF_OpenFont で任意 .ttf/.ttc</td>
-  <td class="note">CreateFontToHandle の fallback 配列に任意パス追加は未実装。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">CreateFontToHandle 検索順: (1) FONTMANAGE.FontName が .ttf/.ttc/.otf 拡張子のフルパスなら直接 / (2) Desktop_AddFontPath で登録された user パス / (3) system 標準 fallback (Win=meiryo/msgothic / Mac=Hiragino/Helvetica / Linux=DejaVu/NotoSansCJK)</td>
+  <td class="note">DxFontDesktop.cpp 2026-04-23 拡張。<br>
+  ChangeFont ("MyFont.ttf") のように直接ファイルパス渡し可能、または Desktop_AddFontPath("/path/to/myfont.ttf") を init 時に呼んで以降の CreateFontToHandle で自動利用。fallback に到達しない場合のエラーログも追加。</td>
 </tr>
 </table>
 
