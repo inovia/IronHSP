@@ -57,7 +57,7 @@ td.note { font-size: 12px; color: #555; }
 <body>
 
 <h1>hsp3dx DxLib マルチプラットフォーム対応状況</h1>
-<p class="meta">最終更新: 2026-04-23 20:42 (Live2D 6 platform + Cubism GLSL + SSAO GPU + Mac/Web build 検証) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
+<p class="meta">最終更新: 2026-04-23 20:44 (Movie iOS/Android 実態 × に修正 + Shader/Audio 戦略注釈追加) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
 
 <div class="summary-box" style="border:2px solid #2b6cb0">
   <p style="margin:0">📋 <strong>全関数マトリクス</strong>: この HTML は主要 API 80 関数の概観です。DxLib.h に宣言されている <strong>全 2438 関数</strong> の対応状況は <a href="PORTING_STATUS_DETAIL.html" style="font-weight:700">PORTING_STATUS_DETAIL.html</a> (自動生成) を参照してください。</p>
@@ -88,6 +88,8 @@ td.note { font-size: 12px; color: #555; }
      有効化 / DX_NON_LIVE2D_CUBISM4 解除 + Live2D API stub 完成 /
      GPU GraphFilter (BICUBIC / LANCZOS3 / GAUSS) + MV1 NormalLayer shader
      (derivative TBN) 完成。</p>
+  <p><strong>注意:</strong> <strong>PlayMovie (MP4) は iOS/Android 本家 DxLib でも実装されていない</strong> (DxMovieiOS.cpp / DxMovieAndroid.cpp 175 行、全 PF 関数 return -1 stub)。mobile で動画再生を要する場合は hsp3dx の外で platform native API (AVPlayer/VideoView) を呼ぶ運用。SDL2 fork は独自実装で Platform native backend (MF/AVAsset/GStreamer) 経由で video-only 再生が可能。Theora (.ogv) は全 platform で libtheora prebuilt lib 経由で動作。</p>
+
   <p><strong>2026-04-23 追加:</strong>
      <strong>Live2D Cubism 4 を 6 プラットフォームで有効化</strong> (Win/Android/iOS Simulator 実描画確認 + Desktop SDL2/Mac/Web build 通過)。
      gen_dxlib_bindings.py の Live2D 除外撤廃で 34 新 API を追加 (1543→1577 entries)。
@@ -128,8 +130,8 @@ td.note { font-size: 12px; color: #555; }
   <tr>
     <td>iOS (DxLib 本家)</td>
     <td>UIKit + UIWindow</td>
-    <td>OpenGL ES 2/3</td>
-    <td>AudioUnit / AVAudioEngine</td>
+    <td>OpenGL ES 2/3 + <strong>pre-compiled GLES shader bytecode</strong> (DxShaderCodeBin_*_iOS.cpp 計 6500 行)</td>
+    <td><strong>OpenAL</strong> (DxSoundiOS.cpp 1679 行)</td>
     <td>CoreText / CTFont</td>
     <td>UIImage / CGImageSource</td>
     <td>hsp3dx/ios テンプレで動作。<strong>Live2D 有効化済 (2026-04-23)</strong>: Cubism SDK 4-r.7 + DxLibEnableLive2D_iOS_3_24f.zip 適用、Simulator Hiyori 描画確認済。</td>
@@ -137,8 +139,8 @@ td.note { font-size: 12px; color: #555; }
   <tr>
     <td>Android (DxLib 本家)</td>
     <td>NativeActivity</td>
-    <td>OpenGL ES 2/3</td>
-    <td>OpenSL ES</td>
+    <td>OpenGL ES 2/3 + <strong>pre-compiled GLES shader bytecode</strong> (DxShaderCodeBin_*_Android.cpp)</td>
+    <td><strong>OpenSL ES</strong></td>
     <td>FreeType (NDK)</td>
     <td>BitmapFactory (Java→JNI)</td>
     <td>hsp3dx/ndk テンプレで動作。<strong>Live2D 有効化済 (2026-04-23)</strong>: Cubism SDK 4-r.7 + DxLibEnableLive2D_Android_3_24f.zip 適用、エミュレータ Hiyori 描画確認済。</td>
@@ -146,8 +148,8 @@ td.note { font-size: 12px; color: #555; }
   <tr>
     <td>Desktop SDL2 (Mac/Linux/Win)</td>
     <td>SDL2</td>
-    <td>OpenGL compat (2.1, fixed-function)</td>
-    <td>SDL2_mixer</td>
+    <td>OpenGL compat (2.1, fixed-function) + <strong>runtime GLSL 1.20 compile</strong> (DxShaderDesktop.cpp 344 行)</td>
+    <td>SDL2_mixer + <strong>bundled libogg/vorbis/opus</strong></td>
     <td>SDL2_ttf + Hook</td>
     <td>stb_image</td>
     <td>fork <code>hsp3dx/dxlib_angle_sdl2</code>。MSVC / AppleClang / GCC + CMake。</td>
@@ -677,10 +679,11 @@ td.note { font-size: 12px; color: #555; }
 <table>
 <tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
 <tr><td class="fn">PlayMovie / PlayMovieToGraph (MP4 等)</td>
-  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
   <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">Win: Media Foundation (IMFSourceReader) / Mac: AVFoundation (AVAssetReader, Obj-C++) / Linux: GStreamer 1.0 (appsink, pkg-config 経由) / Web: HTML5 &lt;video&gt; + canvas getImageData (emscripten ブリッジ)</td>
-  <td class="note">Tier 4b 全プラットフォーム video-only 実装済。音声は全部ミュート (Mac/Linux/Web は backend 側で鳴る可能性あり、音量は SetMovieVolumeToGraph で制御)。Windows/Linux は Seek 可、Mac は AVAssetReader forward-only で Seek 要 reader 再作成。Web は user gesture + CORS 制約あり。ffmpeg は不使用 (LGPL + H.264 パテント + 20MB 肥大回避)。</td>
+  <td class="tech">Win: Media Foundation (IMFSourceReader) / <strong>iOS/Android: DxLib 本家 stub</strong> (DxMovieiOS.cpp / DxMovieAndroid.cpp 各 175 行、OpenMovie_UseGParam_PF は <code>return -1</code>) / Mac: AVFoundation (AVAssetReader, Obj-C++) / Linux: GStreamer 1.0 (appsink) / Web: HTML5 &lt;video&gt; + canvas getImageData (emscripten ブリッジ)</td>
+  <td class="note"><strong>重要:</strong> iOS/Android は DxLib 本家自体が動画再生を実装していない (OpenMovie/PlayMovie 系 PF 関数は全て return -1 stub)。mobile で動画再生したい場合は hsp3dx の外で AVPlayer/VideoView を呼ぶ運用になる。<br>
+  SDL2 fork は Tier 4b で全プラットフォーム <strong>video-only</strong> 実装済。音声は全部ミュート (Mac/Linux/Web は backend 側で鳴る可能性あり、音量は SetMovieVolumeToGraph で制御)。Windows/Linux は Seek 可、Mac は AVAssetReader forward-only で Seek 要 reader 再作成。Web は user gesture + CORS 制約あり。ffmpeg は不使用 (LGPL + H.264 パテント + 20MB 肥大回避)。</td>
 </tr>
 <tr><td class="fn">PlayMovieToGraph (Ogg Theora .ogv)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
@@ -710,8 +713,9 @@ td.note { font-size: 12px; color: #555; }
 <tr><td class="fn">LoadVertexShader / LoadPixelShader / SetUseVertexShader 等</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">DxLib API は stub。Desktop 固有 <code>DesktopShader_CompileGLSL</code> / <code>_Use</code> / <code>_SetUniform*</code> を extern "C" で提供 (GLSL 直接記述)</td>
-  <td class="note">Tier 4f 完了。DxLib 本家 API は .vso/.pso/.cso バイナリ前提のため直接互換不可。Desktop 拡張 API で GLSL のみサポート。DxLib 内蔵 Model/Filter shader の GLSL 版バンドルは未 (2〜3 週間規模)。</td>
+  <td class="tech">Win: HLSL 実行時 compile + .vso/.pso binary / iOS/Android: <strong>事前 compile 済 GLES bytecode</strong> 内蔵 (DxShaderCodeBin_{Base,Base3D,Model,Filter,RgbaMix,Live2D_Cubism4}_*.cpp 計 6500 行) / SDL2 fork: runtime GLSL 1.20 compile via DesktopShader_CompileGLSL + Desktop_MV1_UseGLSLShader opt-in</td>
+  <td class="note"><strong>戦略の違い:</strong> iOS/Android は DxLib 内蔵 shader (Base/Model/Filter/RgbaMix/Cubism) を予め GLES bytecode に変換して .cpp 内に const unsigned char 配列として埋め込み、runtime compile 不要で即 glShaderBinary + glLinkProgram で使える。SDL2 fork は Compatibility profile で fixed-function pipeline ベースに動かせるため、内蔵 shader は optional (Desktop_MV1_UseGLSLShader(1) で有効化)。<br>
+  DxLib 本家 API (LoadVertexShader 等) は Win D3D binary (.vso/.pso/.cso) 前提、HLSL → GLSL transpile (SPIRV-Cross) 経由での完全互換は 2〜3 週間規模。Desktop は独自拡張 API で GLSL 直接記述を提供。</td>
 </tr>
 <tr><td class="fn">Mask (CreateMaskScreen / SetUseMaskScreenFlag / DrawMask / FillMaskScreen 等)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
