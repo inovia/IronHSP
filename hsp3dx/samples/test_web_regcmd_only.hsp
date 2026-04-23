@@ -1,0 +1,6 @@
+;  最小: #regcmd 9 のみ + mes;end (iron_dxlib.as 不使用)
+#bootopt hsp64 1
+#cmpopt utf8 1
+#regcmd 9
+    mes "regcmd test"
+    end

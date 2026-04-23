@@ -50,6 +50,8 @@ static void hsp3dx_web_frame( void )
 
 int main( int argc, char *argv[] )
 {
+    fprintf( stderr, "[BUILD] " __DATE__ " " __TIME__ "\n" );
+    fflush( stderr );
     const char *ax_path = "start.ax";
     if ( argc > 1 ) {
         ax_path = argv[1];

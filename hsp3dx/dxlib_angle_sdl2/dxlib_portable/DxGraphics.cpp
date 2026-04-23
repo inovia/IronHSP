@@ -6495,12 +6495,23 @@ extern int NS_DrawBoxAA( float x1, float y1, float x2, float y2, unsigned int Co
 
 extern	int NS_DrawFillBox( int x1, int y1, int x2, int y2, unsigned int Color )
 {
+#ifdef __EMSCRIPTEN__
+	static int s_dfb = 0;
+	if ( s_dfb++ < 8 ) {
+		fprintf( stderr, "[NSDFB] enter x1=%d y1=%d x2=%d y2=%d valHW=%d notDraw=%d softFmt=%d\n",
+			x1, y1, x2, y2,
+			GSYS.Setting.ValidHardware,
+			GSYS.DrawSetting.NotDrawFlagInSetDrawArea,
+			GSYS.Screen.UserScreenImagePixelFormatMatchSoftRenderMode );
+		fflush(stderr);
+	}
+#endif
 	int Ret = -1 ;
 	int Flag ;
-	
+
 	if( /* GSYS.NotDrawFlag || */ GSYS.DrawSetting.NotDrawFlagInSetDrawArea )
 		return 0 ;
-	
+
 	Flag = GSYS.Setting.ValidHardware && GSYS.Screen.UserScreenImagePixelFormatMatchSoftRenderMode == FALSE ;
 
 	CheckActiveState() ;

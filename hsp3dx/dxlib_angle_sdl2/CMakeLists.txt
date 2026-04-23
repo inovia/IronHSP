@@ -574,6 +574,10 @@ if(EMSCRIPTEN)
         ${HSP3_DIR}/emscripten/supio_emscripten.cpp
         ${HSP3_DIR}/emscripten/hsp3ext_emscripten.cpp
     )
+    # 注: HSPEMSCRIPTEN は hsp3code.cpp の code_execcmd を「1 命令で return」
+    # する single-shot モードに切り替える + emscripten 用 supio/hsp3ext を有効化する。
+    # 後者 (file system 系シンボル定義) のため必要。前者は hsp3dxcl_exec で
+    # ループ呼び出しすることで対処。
     target_compile_definitions(hsp3dx_desktop PRIVATE HSPEMSCRIPTEN=1)
 elseif(APPLE)
     target_sources(hsp3dx_desktop PRIVATE

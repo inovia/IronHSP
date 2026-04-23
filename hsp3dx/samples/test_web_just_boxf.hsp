@@ -1,0 +1,5 @@
+;  boxf のみ
+#bootopt hsp64 1
+#cmpopt utf8 1
+    boxf 100, 100, 540, 380
+    end

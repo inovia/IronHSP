@@ -1,0 +1,6 @@
+;  iron_dxlib.as 入り + mes のみ (working な mes;end と include 差分のみ)
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+    mes "hello"
+    end

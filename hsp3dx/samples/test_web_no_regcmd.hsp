@@ -1,0 +1,5 @@
+;  #regcmd なし、同じ mes 文字列
+#bootopt hsp64 1
+#cmpopt utf8 1
+    mes "regcmd test"
+    end

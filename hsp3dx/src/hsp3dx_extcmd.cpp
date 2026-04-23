@@ -308,6 +308,13 @@ static void advance_mes_y( void )
 
 static int cmdfunc_extcmd( int cmd )
 {
+#ifdef __EMSCRIPTEN__
+    static int s_dispcount = 0;
+    if ( s_dispcount++ < 16 ) {
+        fprintf( stderr, "[EXTCMD] cmd=0x%x\n", cmd );
+        fflush(stderr);
+    }
+#endif
     code_next();                    // 先頭で必ず呼ぶ
 
     switch ( cmd ) {

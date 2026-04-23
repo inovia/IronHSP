@@ -372,6 +372,14 @@ static inline void Desktop_SetGLColor( unsigned int Color )
 
 extern int Graphics_Hardware_DrawFillBox_PF( int x1, int y1, int x2, int y2, unsigned int Color )
 {
+#ifdef __EMSCRIPTEN__
+    static int s_drawcount = 0;
+    if ( s_drawcount++ < 8 ) {
+        std::fprintf( stderr, "[DRAW] DrawFillBox x1=%d y1=%d x2=%d y2=%d color=%08x curFBO=%u w=%d h=%d\n",
+                      x1, y1, x2, y2, Color, s_CurrentFBO, s_DrawTargetW, s_DrawTargetH );
+        std::fflush(stderr);
+    }
+#endif
     Desktop_SetOrtho2D() ;
     Desktop_SetGLColor( Color ) ;
 
@@ -381,6 +389,15 @@ extern int Graphics_Hardware_DrawFillBox_PF( int x1, int y1, int x2, int y2, uns
         glVertex2f( ( float )x1, ( float )y2 ) ;
         glVertex2f( ( float )x2, ( float )y2 ) ;
     glEnd() ;
+#ifdef __EMSCRIPTEN__
+    if ( s_drawcount <= 8 ) {
+        GLenum err = glGetError();
+        if ( err != GL_NO_ERROR ) {
+            std::fprintf( stderr, "[DRAW] glError after DrawFillBox: 0x%x\n", err );
+            std::fflush(stderr);
+        }
+    }
+#endif
     return 0 ;
 }
 

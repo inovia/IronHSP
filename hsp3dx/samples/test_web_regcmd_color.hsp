@@ -1,0 +1,6 @@
+#bootopt hsp64 1
+#cmpopt utf8 1
+#regcmd 9
+    color 255, 0, 0
+    boxf 50, 50, 590, 430
+    end

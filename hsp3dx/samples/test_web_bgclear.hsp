@@ -1,0 +1,12 @@
+;  glClear だけで青背景が出るか
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    ;  HSP の color → DxLib SetDrawBright を変更するだけ。背景色は別の API。
+    ;  iron_dxlib.as 経由で dx_SetBackgroundColor を直接呼ぶ
+    dx_SetBackgroundColor 50, 100, 200
+    cls
+    redraw 1
+    wait 200
+    end
