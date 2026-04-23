@@ -822,6 +822,59 @@ extern int WriteSoftSoundDataF( int SoftSoundHandle, LONGLONG SamplePosition,
     return WriteSoftSoundData( SoftSoundHandle, SamplePosition, c1, c2 ) ;
 }
 
+// SoftSound を WAV (PCM) ファイルに書き出す
+// RIFF header (12B) + fmt chunk (24B) + data chunk header (8B) + raw PCM
+extern int SaveSoftSound( int SoftSoundHandle, const TCHAR *FileName )
+{
+    auto it = g_SoftSounds.find( SoftSoundHandle ) ;
+    if ( it == g_SoftSounds.end() ) return -1 ;
+    auto &e = it->second ;
+    if ( !e.pcm || !FileName ) return -1 ;
+
+    FILE *f = std::fopen( ( const char * )FileName, "wb" ) ;
+    if ( !f ) return -1 ;
+
+    auto wr_u32 = [&]( uint32_t v ) {
+        Uint8 b[ 4 ] = { ( Uint8 )(  v        & 0xff ), ( Uint8 )( ( v >>  8 ) & 0xff ),
+                         ( Uint8 )( ( v >> 16 ) & 0xff ), ( Uint8 )( ( v >> 24 ) & 0xff ) } ;
+        std::fwrite( b, 1, 4, f ) ;
+    } ;
+    auto wr_u16 = [&]( uint16_t v ) {
+        Uint8 b[ 2 ] = { ( Uint8 )( v & 0xff ), ( Uint8 )( ( v >> 8 ) & 0xff ) } ;
+        std::fwrite( b, 1, 2, f ) ;
+    } ;
+
+    int bytes_per_sample = desktop_softsound_bytes_per_sample( e ) ;
+    uint32_t pcm_bytes   = ( uint32_t )( ( size_t )e.sample_num * bytes_per_sample ) ;
+    uint16_t fmt_tag     = e.is_float ? 3 /*IEEE float*/ : 1 /*PCM*/ ;
+    uint32_t byte_rate   = ( uint32_t )( e.rate * bytes_per_sample ) ;
+
+    // RIFF header
+    std::fwrite( "RIFF", 1, 4, f ) ;
+    wr_u32( 36 + pcm_bytes ) ;          // total file size - 8
+    std::fwrite( "WAVE", 1, 4, f ) ;
+    // fmt chunk
+    std::fwrite( "fmt ", 1, 4, f ) ;
+    wr_u32( 16 ) ;                      // fmt chunk size (PCM = 16)
+    wr_u16( fmt_tag ) ;                 // 1 = PCM, 3 = IEEE float
+    wr_u16( ( uint16_t )e.channels ) ;
+    wr_u32( ( uint32_t )e.rate ) ;
+    wr_u32( byte_rate ) ;
+    wr_u16( ( uint16_t )bytes_per_sample ) ;  // block align
+    wr_u16( ( uint16_t )e.bits ) ;
+    // data chunk
+    std::fwrite( "data", 1, 4, f ) ;
+    wr_u32( pcm_bytes ) ;
+    std::fwrite( e.pcm, 1, pcm_bytes, f ) ;
+    std::fclose( f ) ;
+    return 0 ;
+}
+
+extern int SaveSoftSoundWithStrLen( int SoftSoundHandle, const TCHAR *FileName, size_t /*len*/ )
+{
+    return SaveSoftSound( SoftSoundHandle, FileName ) ;
+}
+
 // SoftSound から playable な Mix_Chunk を作って Sound handle を返す
 extern int LoadSoundMemFromSoftSound( int SoftSoundHandle, int /*BufferNum*/ )
 {
