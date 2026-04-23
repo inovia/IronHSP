@@ -631,10 +631,6 @@ if(EMSCRIPTEN)
         # 不要で link 速度が桁違いに速い。Chrome 123+ / FF Nightly などで動く。
         # 6.5MB wasm + DxLib + Cubism + Bullet + HSP VM 全部入りでも build 数分。
         "SHELL:-s JSPI=1"
-        # HSP/DxLib は C++ 例外を投げる (hsp3dxcl_msgfunc の throw HSPERR_NONE 等)。
-        # emscripten デフォルトで例外 catch 無効になってるので明示的に enable。
-        # 代替案として -fwasm-exceptions も検討余地あり (より高速、要 link/compile 両方指定)。
-        "SHELL:-s DISABLE_EXCEPTION_CATCHING=0"
         "SHELL:-O0"
         # divide-by-zero の関数特定のため debug info + symbol map 残す。
         # -g4 + DWARF source map で browser DevTools が呼出スタックを source 行で
