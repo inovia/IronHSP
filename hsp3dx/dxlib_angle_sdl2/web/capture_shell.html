@@ -4,7 +4,8 @@
 <style>body{font-family:sans-serif;margin:0;padding:8px;background:#222;color:#eee}
 #output{width:100%;height:160px;background:#000;color:#0f0;border:0;font-family:monospace}
 #status{color:#ff0}
-canvas{border:1px solid #444;background:#000}</style>
+canvas{border:1px solid #444;background:#000;outline:0}
+canvas:focus{border-color:#4af}</style>
 </head>
 <body>
 <h3>hsp3dx dxlib_angle_sdl2 — auto capture shell</h3>
@@ -61,20 +62,41 @@ function takeShot() {
     }
 }
 
-// F12 / Ctrl+Shift+I (DevTools) / Ctrl+R (reload) などの開発ショートカットは
-// canvas / emscripten に渡さず browser に通す。SDL2 が document level で
-// keydown を吸ってしまうので、capture phase で intercept する。
-window.addEventListener('keydown', function(e) {
+// hsp3dx 用 keyboard state バッファ (window global、wasm 側 EM_JS から読む)
+window.hsp3dxKeyTable = new Uint8Array(512);
+var hsp3dxKeyTable = window.hsp3dxKeyTable;
+
+// emscripten SDL2 は document level で keydown を捕まえ、preventDefault する
+// (これで F12 / Ctrl+R 等 browser ショートカットが効かなくなる)。
+// 我々は capture phase で先回りして、開発系ショートカットだけは
+// stopImmediatePropagation で SDL2 に届かせず browser default を発火させる。
+// それ以外のキーは何もしない (SDL2 + 下記の hsp3dx 側 handler 両方に届く)。
+function _hsp3dxKeyDown(e) {
     var passThrough =
         e.key === 'F12' ||
         (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
         (e.ctrlKey && (e.key === 'r' || e.key === 'R')) ||
-        (e.ctrlKey && (e.key === 'F5'));
+        e.key === 'F5';
     if (passThrough) {
         e.stopImmediatePropagation();
-        // do NOT preventDefault — let browser native handling fire
+        return;
     }
-}, true);  // capture phase
+    if (e.keyCode >= 0 && e.keyCode < 512) {
+        hsp3dxKeyTable[e.keyCode] = 1;
+    }
+    console.log('[hsp3dx keydown]', e.keyCode, e.key, 'table[' + e.keyCode + ']=' + hsp3dxKeyTable[e.keyCode]);
+}
+function _hsp3dxKeyUp(e) {
+    if (e.keyCode >= 0 && e.keyCode < 512) {
+        hsp3dxKeyTable[e.keyCode] = 0;
+    }
+}
+window.addEventListener('keydown', _hsp3dxKeyDown, true);
+window.addEventListener('keyup',   _hsp3dxKeyUp,   true);
+document.addEventListener('keydown', _hsp3dxKeyDown, true);
+document.addEventListener('keyup',   _hsp3dxKeyUp,   true);
+
+// hsp3dxKeyTable は global として hsp3dx_em_get_keystate からアクセス可能
 
 var Module = {
     canvas: canvasEl,
@@ -92,6 +114,8 @@ var Module = {
     },
     onRuntimeInitialized() {
         statusEl.textContent = 'runtime ready, waiting ' + INTERVAL + 'ms before first shot';
+        // canvas にフォーカスを当てて keyboard event が飛ぶようにする
+        canvasEl.focus();
         setTimeout(takeShot, INTERVAL);
     }
 };

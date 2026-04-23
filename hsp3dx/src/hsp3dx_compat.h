@@ -46,7 +46,21 @@ typedef void         *HWND;
 #endif
 
 //  Win 専用 API のダミー (hsp3dx Android で呼んでも安全に失敗)
+#ifdef __EMSCRIPTEN__
+//  Web は capture_shell.html が window.hsp3dxKeyTable[VK code] を埋めるので、
+//  EM_ASM_INT で直接読む。VK code = JS keyCode と完全一致するので変換不要。
+#include <emscripten.h>
+static inline int GetAsyncKeyState( int key ) {
+    int v = EM_ASM_INT({
+        if ( typeof window.hsp3dxKeyTable === 'undefined' ) return 0;
+        if ( $0 < 0 || $0 >= 512 ) return 0;
+        return window.hsp3dxKeyTable[$0] ? 0x8000 : 0;
+    }, key);
+    return v;
+}
+#else
 static inline int GetAsyncKeyState( int /*key*/ ) { return 0; }
+#endif
 static inline void *GetMainWindowHandle( void )   { return nullptr; }
 #define GetModuleHandle(x) ((void *)nullptr)
 //  DxLib Android は window mode 概念がない (フルスクリーン固定)

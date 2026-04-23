@@ -37,6 +37,9 @@ namespace DxLib
 // DxLib 内部の初期化関数 (別 .cpp から呼び出す前方宣言)
 extern int InitializeBaseImageManage( void ) ;
 extern int Graphics_Initialize( void ) ;
+#ifndef DX_NON_INPUT
+extern int InitializeInputSystem( void ) ;
+#endif
 
 extern int NS_DxLib_Init( void )
 {
@@ -54,6 +57,13 @@ extern int NS_DxLib_Init( void )
     // DxLib 内部 handle manager の初期化 (Stage 17 で必要)
     InitializeBaseImageManage() ;
     Graphics_Initialize() ;
+#endif
+
+    // CheckHitKey 等が動くために Input system を初期化する。
+    // これを呼ばないと NS_CheckHitKey が InitializeFlag==FALSE で早期 return し、
+    // UpdateKeyboardInputState_PF が一度も呼ばれない。
+#ifndef DX_NON_INPUT
+    InitializeInputSystem() ;
 #endif
 
     DxSysData.DxLib_InitializeFlag = TRUE ;

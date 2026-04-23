@@ -22,6 +22,9 @@
 #include <cstring>
 #include <vector>
 #include <string>
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
 #ifndef DX_NON_NAMESPACE
 namespace DxLib
@@ -195,6 +198,108 @@ static int s_HWheelAccum = 0 ;
 // 下で定義 (tick 関数からも参照)
 extern void Desktop_UpdateTouchInputState( void ) ;
 
+// DxLib (DirectInput DIK_*) → SDL_SCANCODE_* の翻訳テーブル。
+// 主要キーをカバー (アルファベット / 数字 / 矢印 / 制御 / ファンクション)。
+static const struct { int dik ; SDL_Scancode sdl ; } s_DIK2SDL[] = {
+    { 0x01, SDL_SCANCODE_ESCAPE     }, // ESC
+    { 0x02, SDL_SCANCODE_1          }, { 0x03, SDL_SCANCODE_2 },
+    { 0x04, SDL_SCANCODE_3          }, { 0x05, SDL_SCANCODE_4 },
+    { 0x06, SDL_SCANCODE_5          }, { 0x07, SDL_SCANCODE_6 },
+    { 0x08, SDL_SCANCODE_7          }, { 0x09, SDL_SCANCODE_8 },
+    { 0x0A, SDL_SCANCODE_9          }, { 0x0B, SDL_SCANCODE_0 },
+    { 0x0C, SDL_SCANCODE_MINUS      }, { 0x0D, SDL_SCANCODE_EQUALS },
+    { 0x0E, SDL_SCANCODE_BACKSPACE  }, { 0x0F, SDL_SCANCODE_TAB    },
+    { 0x10, SDL_SCANCODE_Q          }, { 0x11, SDL_SCANCODE_W      },
+    { 0x12, SDL_SCANCODE_E          }, { 0x13, SDL_SCANCODE_R      },
+    { 0x14, SDL_SCANCODE_T          }, { 0x15, SDL_SCANCODE_Y      },
+    { 0x16, SDL_SCANCODE_U          }, { 0x17, SDL_SCANCODE_I      },
+    { 0x18, SDL_SCANCODE_O          }, { 0x19, SDL_SCANCODE_P      },
+    { 0x1A, SDL_SCANCODE_LEFTBRACKET}, { 0x1B, SDL_SCANCODE_RIGHTBRACKET },
+    { 0x1C, SDL_SCANCODE_RETURN     }, { 0x1D, SDL_SCANCODE_LCTRL  },
+    { 0x1E, SDL_SCANCODE_A          }, { 0x1F, SDL_SCANCODE_S      },
+    { 0x20, SDL_SCANCODE_D          }, { 0x21, SDL_SCANCODE_F      },
+    { 0x22, SDL_SCANCODE_G          }, { 0x23, SDL_SCANCODE_H      },
+    { 0x24, SDL_SCANCODE_J          }, { 0x25, SDL_SCANCODE_K      },
+    { 0x26, SDL_SCANCODE_L          }, { 0x27, SDL_SCANCODE_SEMICOLON },
+    { 0x28, SDL_SCANCODE_APOSTROPHE }, { 0x29, SDL_SCANCODE_GRAVE  },
+    { 0x2A, SDL_SCANCODE_LSHIFT     }, { 0x2B, SDL_SCANCODE_BACKSLASH },
+    { 0x2C, SDL_SCANCODE_Z          }, { 0x2D, SDL_SCANCODE_X      },
+    { 0x2E, SDL_SCANCODE_C          }, { 0x2F, SDL_SCANCODE_V      },
+    { 0x30, SDL_SCANCODE_B          }, { 0x31, SDL_SCANCODE_N      },
+    { 0x32, SDL_SCANCODE_M          }, { 0x33, SDL_SCANCODE_COMMA  },
+    { 0x34, SDL_SCANCODE_PERIOD     }, { 0x35, SDL_SCANCODE_SLASH  },
+    { 0x36, SDL_SCANCODE_RSHIFT     }, { 0x38, SDL_SCANCODE_LALT   },
+    { 0x39, SDL_SCANCODE_SPACE      }, { 0x3A, SDL_SCANCODE_CAPSLOCK },
+    { 0x3B, SDL_SCANCODE_F1         }, { 0x3C, SDL_SCANCODE_F2     },
+    { 0x3D, SDL_SCANCODE_F3         }, { 0x3E, SDL_SCANCODE_F4     },
+    { 0x3F, SDL_SCANCODE_F5         }, { 0x40, SDL_SCANCODE_F6     },
+    { 0x41, SDL_SCANCODE_F7         }, { 0x42, SDL_SCANCODE_F8     },
+    { 0x43, SDL_SCANCODE_F9         }, { 0x44, SDL_SCANCODE_F10    },
+    { 0x45, SDL_SCANCODE_NUMLOCKCLEAR }, { 0x46, SDL_SCANCODE_SCROLLLOCK },
+    { 0x47, SDL_SCANCODE_KP_7       }, { 0x48, SDL_SCANCODE_KP_8   },
+    { 0x49, SDL_SCANCODE_KP_9       }, { 0x4A, SDL_SCANCODE_KP_MINUS },
+    { 0x4B, SDL_SCANCODE_KP_4       }, { 0x4C, SDL_SCANCODE_KP_5   },
+    { 0x4D, SDL_SCANCODE_KP_6       }, { 0x4E, SDL_SCANCODE_KP_PLUS },
+    { 0x4F, SDL_SCANCODE_KP_1       }, { 0x50, SDL_SCANCODE_KP_2   },
+    { 0x51, SDL_SCANCODE_KP_3       }, { 0x52, SDL_SCANCODE_KP_0   },
+    { 0x53, SDL_SCANCODE_KP_PERIOD  }, { 0x57, SDL_SCANCODE_F11    },
+    { 0x58, SDL_SCANCODE_F12        },
+    { 0x9C, SDL_SCANCODE_KP_ENTER   }, { 0x9D, SDL_SCANCODE_RCTRL  },
+    { 0xB5, SDL_SCANCODE_KP_DIVIDE  }, { 0xB7, SDL_SCANCODE_PRINTSCREEN },
+    { 0xB8, SDL_SCANCODE_RALT       }, { 0xC5, SDL_SCANCODE_PAUSE  },
+    { 0xC7, SDL_SCANCODE_HOME       }, { 0xC8, SDL_SCANCODE_UP     },
+    { 0xC9, SDL_SCANCODE_PAGEUP     }, { 0xCB, SDL_SCANCODE_LEFT   },
+    { 0xCD, SDL_SCANCODE_RIGHT      }, { 0xCF, SDL_SCANCODE_END    },
+    { 0xD0, SDL_SCANCODE_DOWN       }, { 0xD1, SDL_SCANCODE_PAGEDOWN },
+    { 0xD2, SDL_SCANCODE_INSERT     }, { 0xD3, SDL_SCANCODE_DELETE },
+    { 0xDB, SDL_SCANCODE_LGUI       }, { 0xDC, SDL_SCANCODE_RGUI   },
+    { 0xDD, SDL_SCANCODE_APPLICATION },
+} ;
+
+// Web では SDL_GetKeyboardState だけでは反映されない (emscripten SDL2 port が
+// keydown event を自前バッファに積むだけで internal state を更新しないことがある)。
+// 代替として PollEvent で SDL_KEYDOWN/UP を直接 peek して、自前バッファに反映する。
+static unsigned char s_OurKeyState[ SDL_NUM_SCANCODES ] = { 0 } ;
+
+#ifdef __EMSCRIPTEN__
+// EM_JS で document level に keydown/keyup listener を直接登録、
+// JS 側で table を持って wasm 側から読めるようにする (SDL2 経由なし)。
+// hsp3dxKeyTable は capture_shell.html 側で global として確保 + listener 登録済。
+// ここでは EM_JS 経由で読み取るだけ。
+EM_JS( int, hsp3dx_em_init_keyboard, (void), {
+    return ( typeof window.hsp3dxKeyTable !== 'undefined' ) ? 1 : 0;
+} );
+EM_JS( int, hsp3dx_em_get_keystate, (int keyCode), {
+    if ( typeof window.hsp3dxKeyTable === 'undefined' ) return 0;
+    if ( keyCode < 0 || keyCode >= 512 ) return 0;
+    return window.hsp3dxKeyTable[keyCode] ? 1 : 0;
+} );
+
+// JS keyCode (DOM レベル仕様) → DxLib DIK_* マップ
+// JS keyCode 表: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
+static const struct { int jsKey ; int dik ; } s_JSKey2DIK[] = {
+    {  8, 0x0E }, {  9, 0x0F }, { 13, 0x1C }, { 16, 0x2A }, { 17, 0x1D },
+    { 18, 0x38 }, { 19, 0xC5 }, { 20, 0x3A }, { 27, 0x01 }, { 32, 0x39 },
+    { 33, 0xC9 }, { 34, 0xD1 }, { 35, 0xCF }, { 36, 0xC7 },
+    { 37, 0xCB }, { 38, 0xC8 }, { 39, 0xCD }, { 40, 0xD0 },
+    { 45, 0xD2 }, { 46, 0xD3 },
+    // 0-9 row
+    { 48, 0x0B }, { 49, 0x02 }, { 50, 0x03 }, { 51, 0x04 }, { 52, 0x05 },
+    { 53, 0x06 }, { 54, 0x07 }, { 55, 0x08 }, { 56, 0x09 }, { 57, 0x0A },
+    // A-Z
+    { 65, 0x1E }, { 66, 0x30 }, { 67, 0x2E }, { 68, 0x20 }, { 69, 0x12 },
+    { 70, 0x21 }, { 71, 0x22 }, { 72, 0x23 }, { 73, 0x17 }, { 74, 0x24 },
+    { 75, 0x25 }, { 76, 0x26 }, { 77, 0x32 }, { 78, 0x31 }, { 79, 0x18 },
+    { 80, 0x19 }, { 81, 0x10 }, { 82, 0x13 }, { 83, 0x1F }, { 84, 0x14 },
+    { 85, 0x16 }, { 86, 0x2F }, { 87, 0x11 }, { 88, 0x2D }, { 89, 0x15 },
+    { 90, 0x2C },
+    // F1-F12
+    { 112, 0x3B }, { 113, 0x3C }, { 114, 0x3D }, { 115, 0x3E }, { 116, 0x3F },
+    { 117, 0x40 }, { 118, 0x41 }, { 119, 0x42 }, { 120, 0x43 }, { 121, 0x44 },
+    { 122, 0x57 }, { 123, 0x58 },
+} ;
+#endif
+
 extern int UpdateKeyboardInputState_PF( int UseProcessMessage )
 {
     (void)UseProcessMessage;
@@ -207,7 +312,57 @@ extern int UpdateKeyboardInputState_PF( int UseProcessMessage )
         s_WheelAccum  += evs[ i ].wheel.y * dir * 120 ;  // Win32 WHEEL_DELTA=120 準拠
         s_HWheelAccum += evs[ i ].wheel.x * dir * 120 ;
     }
+    // SDL_KEYDOWN / SDL_KEYUP も peek して自前 state に反映
+    int kn = SDL_PeepEvents( evs, 16, SDL_GETEVENT, SDL_KEYDOWN, SDL_KEYUP ) ;
+    for ( int i = 0 ; i < kn ; ++i ) {
+        SDL_Scancode sc = evs[ i ].key.keysym.scancode ;
+        if ( ( int )sc < SDL_NUM_SCANCODES ) {
+            s_OurKeyState[ sc ] = ( evs[ i ].type == SDL_KEYDOWN ) ? 1 : 0 ;
+        }
+#ifdef __EMSCRIPTEN__
+        std::fprintf( stderr, "[KEYEV] type=%d scancode=%d\n", evs[ i ].type, ( int )sc );
+        std::fflush(stderr);
+#endif
+    }
     Desktop_UpdateTouchInputState() ;
+
+    // SDL_GetKeyboardState (Web で空配列の事例あり) と自前 state (KEYDOWN/UP
+    // event 由来) の OR を取り、DxLib KeyInputBuf へ反映
+    int n_state = 0 ;
+    const Uint8 *sdl_state = SDL_GetKeyboardState( &n_state ) ;
+    for ( size_t i = 0 ; i < sizeof( s_DIK2SDL ) / sizeof( s_DIK2SDL[ 0 ] ) ; ++i ) {
+        int dik = s_DIK2SDL[ i ].dik ;
+        SDL_Scancode sc = s_DIK2SDL[ i ].sdl ;
+        bool pressed = false ;
+        if ( sdl_state && ( int )sc < n_state ) {
+            if ( sdl_state[ sc ] ) pressed = true ;
+        }
+        if ( ( int )sc < SDL_NUM_SCANCODES && s_OurKeyState[ sc ] ) pressed = true ;
+        InputSysData.KeyInputBuf[ dik ] = pressed ? 0x80 : 0 ;
+    }
+#ifdef __EMSCRIPTEN__
+    // EM_JS 経由 DOM keydown listener の状態を merge
+    static int s_em_init = 0 ;
+    if ( !s_em_init ) {
+        int r = hsp3dx_em_init_keyboard() ;
+        std::fprintf( stderr, "[KEYBD] em_init returned %d\n", r );
+        std::fflush(stderr);
+        s_em_init = 1 ;
+    }
+    int found_any = 0 ;
+    for ( size_t i = 0 ; i < sizeof( s_JSKey2DIK ) / sizeof( s_JSKey2DIK[ 0 ] ) ; ++i ) {
+        if ( hsp3dx_em_get_keystate( s_JSKey2DIK[ i ].jsKey ) ) {
+            InputSysData.KeyInputBuf[ s_JSKey2DIK[ i ].dik ] = 0x80 ;
+            found_any = s_JSKey2DIK[ i ].jsKey ;
+        }
+    }
+    static int s_logCount = 0 ;
+    if ( found_any && s_logCount < 5 ) {
+        std::fprintf( stderr, "[KEYBD] wasm sees jsKey=%d pressed\n", found_any );
+        std::fflush(stderr);
+        s_logCount++ ;
+    }
+#endif
     return 0 ;
 }
 
