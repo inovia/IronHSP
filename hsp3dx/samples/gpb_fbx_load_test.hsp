@@ -1,0 +1,69 @@
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    sdim log, 8192
+    notesel log
+    noteadd "GPB + FBX → MV1 load test"
+
+    ;  GPB (mv1conv 経由)
+    sdim gpb, 64, 6
+    gpb(0) = "duck_gpb.mv1"
+    gpb(1) = "sphaceship_gpb.mv1"
+    gpb(2) = "tamane_gpb.mv1"
+    gpb(3) = "tamane2_gpb.mv1"
+    gpb(4) = "pronamachan_gpb.mv1"
+    gpb(5) = "pronamachan_l_gpb.mv1"
+
+    noteadd "== GPB (hgimg4 / pronama3d samples) =="
+    ok_n = 0 : ng_n = 0
+    repeat 6
+        dx_mv1load gpb(cnt)
+        h = stat
+        if h >= 0 {
+            noteadd strf("  OK: %s", gpb(cnt))
+            ok_n = ok_n + 1
+            dx_mv1delete h
+        } else {
+            noteadd strf("  FAIL: %s (stat=%d)", gpb(cnt), h)
+            ng_n = ng_n + 1
+        }
+    loop
+    noteadd strf("GPB: %d OK / %d NG", ok_n, ng_n)
+
+    ;  FBX (assimp 経由)
+    sdim fbx, 80, 14
+    fbx(0)  = "fbx_animation_with_skeleton.mv1"
+    fbx(1)  = "fbx_box.mv1"
+    fbx(2)  = "fbx_box_orphant_embedded_texture.mv1"
+    fbx(3)  = "fbx_close_to_identity_transforms.mv1"
+    fbx(4)  = "fbx_cubes_nonames.mv1"
+    fbx(5)  = "fbx_cubes_with_mirroring_and_pivot.mv1"
+    fbx(6)  = "fbx_cubes_with_names.mv1"
+    fbx(7)  = "fbx_cubes_with_outofrange_float.mv1"
+    fbx(8)  = "fbx_global_settings.mv1"
+    fbx(9)  = "fbx_huesitos.mv1"
+    fbx(10) = "fbx_maxPbrMaterial_metalRough.mv1"
+    fbx(11) = "fbx_maxPbrMaterial_specGloss.mv1"
+    fbx(12) = "fbx_phong_cube.mv1"
+    fbx(13) = "fbx_spider.mv1"
+
+    noteadd "== FBX (assimp test/models) =="
+    fbx_ok = 0 : fbx_ng = 0
+    repeat 14
+        dx_mv1load fbx(cnt)
+        h = stat
+        if h >= 0 {
+            noteadd strf("  OK: %s", fbx(cnt))
+            fbx_ok = fbx_ok + 1
+            dx_mv1delete h
+        } else {
+            noteadd strf("  FAIL: %s (stat=%d)", fbx(cnt), h)
+            fbx_ng = fbx_ng + 1
+        }
+    loop
+    noteadd strf("FBX: %d OK / %d NG", fbx_ok, fbx_ng)
+
+    noteadd strf("TOTAL: %d OK / %d NG / %d total", ok_n + fbx_ok, ng_n + fbx_ng, 20)
+    notesave "gpb_fbx_result.txt"
+    end
