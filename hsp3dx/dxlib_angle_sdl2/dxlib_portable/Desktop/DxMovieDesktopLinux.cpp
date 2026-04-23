@@ -41,6 +41,9 @@ namespace DxLib
 struct LinuxMovieEntry {
     GstElement                *pipeline    = nullptr ;
     GstAppSink                *appsink     = nullptr ;
+    //  音声 appsink (audio 非含みの動画なら nullptr)
+    GstAppSink                *audio_sink  = nullptr ;
+    bool                       audio_eof   = false ;
     int                        graph_handle = -1 ;
     int                        width        = 0 ;
     int                        height       = 0 ;
@@ -58,6 +61,83 @@ struct LinuxMovieEntry {
 
 static std::unordered_map<int, LinuxMovieEntry *> g_LinuxMovies ;
 static int g_GstInited = 0 ;
+
+//  共有 SDL audio device (Mac と同じ設計、48kHz s16 stereo)
+static SDL_AudioDeviceID g_LinuxAudioDev = 0 ;
+static bool              g_LinuxAudioPaused = true ;
+
+static void linux_audio_ensure( void )
+{
+    if ( g_LinuxAudioDev != 0 ) return ;
+    SDL_AudioSpec want ;
+    std::memset( &want, 0, sizeof( want ) ) ;
+    want.freq     = 48000 ;
+    want.format   = AUDIO_S16SYS ;
+    want.channels = 2 ;
+    want.samples  = 2048 ;
+    want.callback = nullptr ;
+    SDL_AudioSpec have ;
+    g_LinuxAudioDev = SDL_OpenAudioDevice( nullptr, 0, &want, &have, 0 ) ;
+    if ( g_LinuxAudioDev == 0 ) {
+        std::fprintf( stderr, "[DxMovieLinux] SDL_OpenAudioDevice failed: %s\n", SDL_GetError() ) ;
+    }
+}
+static void linux_audio_play( void )
+{
+    if ( g_LinuxAudioDev != 0 && g_LinuxAudioPaused ) {
+        SDL_PauseAudioDevice( g_LinuxAudioDev, 0 ) ;
+        g_LinuxAudioPaused = false ;
+    }
+}
+static void linux_audio_clear_queue( void )
+{
+    if ( g_LinuxAudioDev != 0 ) SDL_ClearQueuedAudio( g_LinuxAudioDev ) ;
+}
+static void linux_audio_queue_pcm( const int16_t *samples, size_t sampleCount, int volume_0_10000 )
+{
+    if ( g_LinuxAudioDev == 0 || samples == nullptr || sampleCount == 0 ) return ;
+    if ( volume_0_10000 >= 10000 ) {
+        SDL_QueueAudio( g_LinuxAudioDev, samples, ( Uint32 )( sampleCount * sizeof( int16_t ) ) ) ;
+        return ;
+    }
+    std::vector<int16_t> scaled( sampleCount ) ;
+    int v = volume_0_10000 < 0 ? 0 : volume_0_10000 ;
+    for ( size_t i = 0 ; i < sampleCount ; ++i ) {
+        int s = ( int )samples[ i ] * v / 10000 ;
+        if ( s < -32768 ) s = -32768 ;
+        if ( s >  32767 ) s =  32767 ;
+        scaled[ i ] = ( int16_t )s ;
+    }
+    SDL_QueueAudio( g_LinuxAudioDev, scaled.data(), ( Uint32 )( scaled.size() * sizeof( int16_t ) ) ) ;
+}
+static int linux_audio_queued_ms( void )
+{
+    if ( g_LinuxAudioDev == 0 ) return 0 ;
+    Uint32 bytes = SDL_GetQueuedAudioSize( g_LinuxAudioDev ) ;
+    return ( int )( bytes / 192 ) ;  //  48000 * 2ch * 2bytes = 192 B/ms
+}
+
+//  audio appsink から 1 sample pull、queue に積む。戻り値: 1=積んだ、0=何もなし、負=error
+static int linux_pump_audio_once( LinuxMovieEntry *m )
+{
+    if ( !m || !m->audio_sink || m->audio_eof ) return 0 ;
+    GstSample *sample = gst_app_sink_try_pull_sample( m->audio_sink, 0 ) ;
+    if ( !sample ) {
+        if ( gst_app_sink_is_eos( m->audio_sink ) ) m->audio_eof = true ;
+        return 0 ;
+    }
+    GstBuffer *buf = gst_sample_get_buffer( sample ) ;
+    if ( !buf ) { gst_sample_unref( sample ) ; return 0 ; }
+    GstMapInfo info ;
+    if ( !gst_buffer_map( buf, &info, GST_MAP_READ ) ) {
+        gst_sample_unref( sample ) ; return 0 ;
+    }
+    size_t nSamples = info.size / sizeof( int16_t ) ;
+    linux_audio_queue_pcm( ( const int16_t * )info.data, nSamples, m->volume_0_10000 ) ;
+    gst_buffer_unmap( buf, &info ) ;
+    gst_sample_unref( sample ) ;
+    return 1 ;
+}
 
 static int linux_gst_init( void )
 {
@@ -77,11 +157,17 @@ static LinuxMovieEntry *linux_open_reader( const char *utf8_path )
 {
     if ( linux_gst_init() != 0 ) return nullptr ;
 
-    // gst_parse_launch で appsink 付きのパイプラインを作成
-    // BGRA 指定で videoconvert が自動的に NV12/YUV → BGRA 変換
+    //  gst_parse_launch で video + audio 両分岐 pipeline を作成。
+    //  decodebin は video/audio 両 pad を同名 "dec" で提供、! で各 sink に分岐。
+    //  BGRA 指定で videoconvert が YUV → BGRA 変換、
+    //  S16LE/48kHz/stereo で audioconvert + audioresample が format 合わせ。
     std::string pipe = "filesrc location=\"" + std::string( utf8_path ) +
-        "\" ! decodebin ! videoconvert ! video/x-raw,format=BGRA ! "
-        "appsink name=sink max-buffers=2 drop=false sync=true" ;
+        "\" ! decodebin name=dec "
+        "dec. ! queue ! videoconvert ! video/x-raw,format=BGRA ! "
+        "appsink name=sink max-buffers=2 drop=false sync=true "
+        "dec. ! queue ! audioconvert ! audioresample ! "
+        "audio/x-raw,format=S16LE,rate=48000,channels=2 ! "
+        "appsink name=asink max-buffers=10 drop=false sync=false" ;
 
     GError *err = nullptr ;
     GstElement *pipeline = gst_parse_launch( pipe.c_str(), &err ) ;
@@ -94,6 +180,8 @@ static LinuxMovieEntry *linux_open_reader( const char *utf8_path )
 
     GstElement *sink = gst_bin_get_by_name( GST_BIN( pipeline ), "sink" ) ;
     if ( !sink ) { gst_object_unref( pipeline ) ; return nullptr ; }
+    //  audio sink は optional (audio 無し動画ではそもそも pad が生えない可能性)
+    GstElement *asink = gst_bin_get_by_name( GST_BIN( pipeline ), "asink" ) ;
 
     // Prerolling: PAUSED 状態にしてフォーマットを確定させる
     gst_element_set_state( pipeline, GST_STATE_PAUSED ) ;
@@ -129,10 +217,12 @@ static LinuxMovieEntry *linux_open_reader( const char *utf8_path )
     LinuxMovieEntry *m = new LinuxMovieEntry() ;
     m->pipeline = pipeline ;
     m->appsink = GST_APP_SINK( sink ) ;
+    m->audio_sink = asink ? GST_APP_SINK( asink ) : nullptr ;
     m->width = w ;
     m->height = h ;
     m->duration_ms = dur_ns / 1000000 ;
     m->path = utf8_path ;
+    if ( m->audio_sink ) linux_audio_ensure() ;
     return m ;
 }
 
@@ -144,7 +234,9 @@ static void linux_close_reader( LinuxMovieEntry *m )
         gst_object_unref( m->pipeline ) ;
         m->pipeline = nullptr ;
     }
-    m->appsink = nullptr ;
+    m->appsink    = nullptr ;
+    m->audio_sink = nullptr ;
+    m->audio_eof  = false ;
 }
 
 static int linux_read_frame( LinuxMovieEntry *m, std::vector<unsigned char> &buf, gint64 *out_time_ms )
@@ -224,6 +316,11 @@ extern int PlayMovieToGraph( int GraphHandle, int PlayType, int )
     gst_element_set_state( m->pipeline, GST_STATE_PLAYING ) ;
     m->state = 1 ;
     m->play_start_ms = SDL_GetTicks() ;
+    //  audio 先行 ~200ms 分を queue、それから出力開始
+    if ( m->audio_sink && !m->audio_eof ) {
+        while ( linux_audio_queued_ms() < 200 && linux_pump_audio_once( m ) ) { /* pump */ }
+        linux_audio_play() ;
+    }
     return 0 ;
 }
 
@@ -236,6 +333,8 @@ extern int PauseMovieToGraph( int GraphHandle, int )
         m->play_offset_ms += ( gint64 )( SDL_GetTicks() - m->play_start_ms ) ;
         gst_element_set_state( m->pipeline, GST_STATE_PAUSED ) ;
         m->state = 2 ;
+        //  audio queue を clear (resume 時に appsink から再 pull されて再同期)
+        linux_audio_clear_queue() ;
     }
     return 0 ;
 }
@@ -262,10 +361,17 @@ extern int UpdateMovieToGraph( int GraphHandle )
             m->play_start_ms = SDL_GetTicks() ;
             m->play_offset_ms = 0 ;
             m->last_time_ms = 0 ;
+            m->audio_eof = false ;
+            linux_audio_clear_queue() ;
         } else {
             m->state = 0 ;
             return 0 ;
         }
+    }
+
+    //  audio: queue が 500ms 未満なら先読みで補充
+    if ( m->audio_sink && !m->audio_eof ) {
+        while ( linux_audio_queued_ms() < 500 && linux_pump_audio_once( m ) ) { /* pump */ }
     }
 
     gint64 t = 0 ;
@@ -302,6 +408,9 @@ extern int SeekMovieToGraph( int GraphHandle, int Time )
         ( GstSeekFlags )( GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT ),
         ( gint64 )Time * 1000000 /* ms → ns */ ) ;
     if ( !ok ) return -1 ;
+    //  audio queue をクリア + audio_eof リセット (seek 先で再 pull)
+    m->audio_eof = false ;
+    linux_audio_clear_queue() ;
     m->play_start_ms = SDL_GetTicks() ;
     m->play_offset_ms = Time ;
     m->last_time_ms = Time ;

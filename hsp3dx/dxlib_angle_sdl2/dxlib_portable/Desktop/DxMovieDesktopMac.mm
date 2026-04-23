@@ -38,6 +38,11 @@ struct MacMovieEntry {
     AVAsset                   *asset        = nil ;
     AVAssetReader             *reader       = nil ;
     AVAssetReaderTrackOutput  *track_output = nil ;
+    //  音声トラック (optional、動画に含まれていなければ nil のまま)
+    AVAssetReaderTrackOutput  *audio_output = nil ;
+    int                        audio_sample_rate   = 48000 ;
+    int                        audio_channels      = 2 ;     // 常に stereo へ変換
+    bool                       audio_eof          = false ;
     int                        graph_handle = -1 ;
     int                        width        = 0 ;
     int                        height       = 0 ;
@@ -56,6 +61,58 @@ struct MacMovieEntry {
 } ;
 
 static std::unordered_map<int, MacMovieEntry *> g_MacMovies ;
+
+//  共有 SDL audio device (全 movie で共通)。最初に open_reader が呼ばれた時に open、
+//  任意の movie を再生する時に必要なら unpause。PCM s16le stereo 48kHz で統一。
+static SDL_AudioDeviceID g_MacAudioDev = 0 ;
+static bool              g_MacAudioPaused = true ;
+
+static void mac_audio_ensure( void )
+{
+    if ( g_MacAudioDev != 0 ) return ;
+    SDL_AudioSpec want ;
+    std::memset( &want, 0, sizeof( want ) ) ;
+    want.freq     = 48000 ;
+    want.format   = AUDIO_S16SYS ;
+    want.channels = 2 ;
+    want.samples  = 2048 ;
+    want.callback = nullptr ;  // queue-based
+    SDL_AudioSpec have ;
+    g_MacAudioDev = SDL_OpenAudioDevice( nullptr, 0, &want, &have, 0 ) ;
+    if ( g_MacAudioDev == 0 ) {
+        std::fprintf( stderr, "[DxMovieMac] SDL_OpenAudioDevice failed: %s\n", SDL_GetError() ) ;
+    }
+}
+static void mac_audio_play( void )
+{
+    if ( g_MacAudioDev != 0 && g_MacAudioPaused ) {
+        SDL_PauseAudioDevice( g_MacAudioDev, 0 ) ;
+        g_MacAudioPaused = false ;
+    }
+}
+static void mac_audio_clear_queue( void )
+{
+    if ( g_MacAudioDev != 0 ) SDL_ClearQueuedAudio( g_MacAudioDev ) ;
+}
+//  PCM int16 stereo LE を音量 0..10000 で掛け算して SDL queue に積む
+static void mac_audio_queue_pcm( const int16_t *samples, size_t sampleCount, int volume_0_10000 )
+{
+    if ( g_MacAudioDev == 0 || samples == nullptr || sampleCount == 0 ) return ;
+    //  音量 10000 以外は local buffer に複写 + スケール。10000 なら直接 queue。
+    if ( volume_0_10000 >= 10000 ) {
+        SDL_QueueAudio( g_MacAudioDev, samples, ( Uint32 )( sampleCount * sizeof( int16_t ) ) ) ;
+        return ;
+    }
+    std::vector<int16_t> scaled( sampleCount ) ;
+    int v = volume_0_10000 < 0 ? 0 : volume_0_10000 ;
+    for ( size_t i = 0 ; i < sampleCount ; ++i ) {
+        int s = ( int )samples[ i ] * v / 10000 ;
+        if ( s < -32768 ) s = -32768 ;
+        if ( s >  32767 ) s =  32767 ;
+        scaled[ i ] = ( int16_t )s ;
+    }
+    SDL_QueueAudio( g_MacAudioDev, scaled.data(), ( Uint32 )( scaled.size() * sizeof( int16_t ) ) ) ;
+}
 
 static MacMovieEntry *mac_open_reader( const char *utf8_path )
 {
@@ -93,6 +150,31 @@ static MacMovieEntry *mac_open_reader( const char *utf8_path )
             return nullptr ;
         }
         [reader addOutput:trackOut] ;
+
+        //  音声トラック (あれば追加、PCM int16 stereo LE 48kHz で展開)
+        AVAssetReaderTrackOutput *audioOut = nil ;
+        NSArray<AVAssetTrack *> *audioTracks = [asset tracksWithMediaType:AVMediaTypeAudio] ;
+        if ( audioTracks.count > 0 ) {
+            AVAssetTrack *at = audioTracks.firstObject ;
+            NSDictionary *asettings = @{
+                AVFormatIDKey          : @( kAudioFormatLinearPCM ),
+                AVSampleRateKey        : @( 48000.0 ),
+                AVNumberOfChannelsKey  : @( 2 ),
+                AVLinearPCMBitDepthKey : @( 16 ),
+                AVLinearPCMIsFloatKey  : @( NO ),
+                AVLinearPCMIsBigEndianKey   : @( NO ),
+                AVLinearPCMIsNonInterleaved : @( NO )
+            } ;
+            audioOut = [[AVAssetReaderTrackOutput alloc] initWithTrack:at outputSettings:asettings] ;
+            if ( [reader canAddOutput:audioOut] ) {
+                [reader addOutput:audioOut] ;
+            } else {
+                std::fprintf( stderr, "[DxMovieMac] audio canAddOutput=NO (動画のみで再生)\n" ) ;
+                [audioOut release] ;
+                audioOut = nil ;
+            }
+        }
+
         if ( ![reader startReading] ) {
             std::fprintf( stderr, "[DxMovieMac] startReading fail: %s\n",
                           reader.error ? reader.error.localizedDescription.UTF8String : "nil" ) ;
@@ -103,9 +185,13 @@ static MacMovieEntry *mac_open_reader( const char *utf8_path )
         m->asset         = [asset retain] ;
         m->reader        = [reader retain] ;
         m->track_output  = [trackOut retain] ;
+        m->audio_output  = audioOut ? [audioOut retain] : nil ;
         m->width         = ( int )sz.width ;
         m->height        = ( int )sz.height ;
         m->duration_ms   = ( int64_t )( CMTimeGetSeconds( asset.duration ) * 1000.0 ) ;
+
+        //  audio device を確保 (初回のみ)
+        if ( m->audio_output ) mac_audio_ensure() ;
         return m ;
     }
 }
@@ -114,12 +200,15 @@ static void mac_close_reader( MacMovieEntry *m )
 {
     if ( !m ) return ;
     [m->track_output release] ;
+    if ( m->audio_output ) [m->audio_output release] ;
     [m->reader cancelReading] ;
     [m->reader release] ;
     [m->asset release] ;
     m->track_output = nil ;
+    m->audio_output = nil ;
     m->reader = nil ;
     m->asset = nil ;
+    m->audio_eof = false ;
 }
 
 // reader を閉じて file_path から新しい reader を作成する (seek/loop 用)。
@@ -147,10 +236,36 @@ static bool mac_rebuild_reader( MacMovieEntry *m )
             [[AVAssetReaderTrackOutput alloc] initWithTrack:vt outputSettings:settings] ;
         if ( ![reader canAddOutput:trackOut] ) return false ;
         [reader addOutput:trackOut] ;
+
+        //  audio track も再度追加 (loop/seek 時も音声が続くように)
+        AVAssetReaderTrackOutput *audioOut = nil ;
+        NSArray<AVAssetTrack *> *audioTracks = [asset tracksWithMediaType:AVMediaTypeAudio] ;
+        if ( audioTracks.count > 0 ) {
+            AVAssetTrack *at = audioTracks.firstObject ;
+            NSDictionary *asettings = @{
+                AVFormatIDKey          : @( kAudioFormatLinearPCM ),
+                AVSampleRateKey        : @( 48000.0 ),
+                AVNumberOfChannelsKey  : @( 2 ),
+                AVLinearPCMBitDepthKey : @( 16 ),
+                AVLinearPCMIsFloatKey  : @( NO ),
+                AVLinearPCMIsBigEndianKey   : @( NO ),
+                AVLinearPCMIsNonInterleaved : @( NO )
+            } ;
+            audioOut = [[AVAssetReaderTrackOutput alloc] initWithTrack:at outputSettings:asettings] ;
+            if ( [reader canAddOutput:audioOut] ) {
+                [reader addOutput:audioOut] ;
+            } else {
+                [audioOut release] ;
+                audioOut = nil ;
+            }
+        }
+
         if ( ![reader startReading] ) return false ;
         m->asset        = [asset retain] ;
         m->reader       = [reader retain] ;
         m->track_output = [trackOut retain] ;
+        m->audio_output = audioOut ? [audioOut retain] : nil ;
+        m->audio_eof    = false ;
         return true ;
     }
 }
@@ -185,6 +300,44 @@ static int mac_read_frame( MacMovieEntry *m, std::vector<unsigned char> &buf, in
     CVPixelBufferUnlockBaseAddress( img, kCVPixelBufferLock_ReadOnly ) ;
     CFRelease( sample ) ;
     return 0 ;
+}
+
+//  audio サンプル 1 つ取り出して SDL audio device に queue。EOS なら audio_eof = true
+//  戻り値: 1 = queue できた、0 = 何も読まなかった (既に EOS or track なし)、負値 = error
+static int mac_pump_audio_once( MacMovieEntry *m )
+{
+    if ( !m || !m->audio_output || m->audio_eof ) return 0 ;
+    CMSampleBufferRef sample = [m->audio_output copyNextSampleBuffer] ;
+    if ( !sample ) {
+        //  reader の状態で EOS 判定
+        if ( m->reader && m->reader.status == AVAssetReaderStatusCompleted ) {
+            m->audio_eof = true ;
+        }
+        return 0 ;
+    }
+    CMBlockBufferRef block = CMSampleBufferGetDataBuffer( sample ) ;
+    if ( !block ) { CFRelease( sample ) ; return 0 ; }
+
+    size_t totalSize = 0 ;
+    char  *dataPtr   = nullptr ;
+    OSStatus s = CMBlockBufferGetDataPointer( block, 0, nullptr, &totalSize, &dataPtr ) ;
+    if ( s != kCMBlockBufferNoErr || !dataPtr || totalSize == 0 ) {
+        CFRelease( sample ) ; return 0 ;
+    }
+    //  int16 stereo LE を直接 SDL に queue。音量はここで適用
+    size_t nSamples = totalSize / sizeof( int16_t ) ;
+    mac_audio_queue_pcm( ( const int16_t * )dataPtr, nSamples, m->volume_0_10000 ) ;
+    CFRelease( sample ) ;
+    return 1 ;
+}
+
+//  SDL queue の蓄積量 (ms) を返す。backpressure 判定用
+static int mac_audio_queued_ms( MacMovieEntry *m )
+{
+    if ( g_MacAudioDev == 0 ) return 0 ;
+    Uint32 bytes = SDL_GetQueuedAudioSize( g_MacAudioDev ) ;
+    //  48000Hz * 2ch * 2bytes = 192000 B/sec
+    return ( int )( bytes / 192 ) ;  //  ms
 }
 
 static void mac_upload_frame( MacMovieEntry *m )
@@ -242,6 +395,11 @@ extern int PlayMovieToGraph( int GraphHandle, int PlayType, int SysPlay )
     m->loop_flag = ( PlayType & DX_PLAYTYPE_LOOPBIT ) ? 1 : 0 ;
     m->state = 1 ;
     m->play_start_ms = SDL_GetTicks() ;
+    //  audio 先行バッファ (~200ms) を積んでから再生開始、queue が尽きないようにする
+    if ( m->audio_output && !m->audio_eof ) {
+        while ( mac_audio_queued_ms( m ) < 200 && mac_pump_audio_once( m ) ) { /* pump */ }
+        mac_audio_play() ;
+    }
     return 0 ;
 }
 
@@ -254,6 +412,10 @@ extern int PauseMovieToGraph( int GraphHandle, int SysPause )
     if ( m->state == 1 ) {
         m->play_offset_ms += ( SDL_GetTicks() - m->play_start_ms ) ;
         m->state = 2 ;
+        //  audio queue を残したまま SDL デバイスは動かしっぱなし (一時停止は queue 自体で
+        //  再生位置が止まる訳ではない)。完全一時停止なら SDL_PauseAudioDevice 1 だが、
+        //  resume 時の再同期が面倒なので queue 自体を cleanse + refill する。
+        mac_audio_clear_queue() ;
     }
     return 0 ;
 }
@@ -280,10 +442,17 @@ extern int UpdateMovieToGraph( int GraphHandle )
             m->play_offset_ms = 0 ;
             m->last_time_ms = 0 ;
             target_ms = 0 ;
+            //  loop 時は audio queue をクリアして先頭から積み直す
+            mac_audio_clear_queue() ;
         } else {
             m->state = 0 ;
             return 0 ;
         }
+    }
+
+    //  audio: queue が 500ms 以下になるまで先読みで補充
+    if ( m->audio_output && !m->audio_eof ) {
+        while ( mac_audio_queued_ms( m ) < 500 && mac_pump_audio_once( m ) ) { /* pump */ }
     }
 
     bool updated = false ;
@@ -332,8 +501,10 @@ extern int SeekMovieToGraph( int GraphHandle, int Time )
     m->play_start_ms  = SDL_GetTicks() ;
     m->play_offset_ms = Time ;
     m->last_time_ms   = 0 ;
+    //  audio queue もクリア (古い sample が残ったまま先に進まないように)
+    mac_audio_clear_queue() ;
 
-    // Time まで空読み (逐次 decode)。
+    // Time まで空読み (逐次 decode)。audio も同様に捨てる
     int64_t t = 0 ;
     while ( m->last_time_ms < Time ) {
         int r = mac_read_frame( m, m->frame_argb, &t ) ;
@@ -341,6 +512,11 @@ extern int SeekMovieToGraph( int GraphHandle, int Time )
         if ( r < 0  ) return -1 ;
         if ( m->frame_argb.empty() ) break ;
         m->last_time_ms = t ;
+        //  seek 中の audio は捨てる (queue に積まずに読み進めるだけ)
+        if ( m->audio_output && !m->audio_eof ) {
+            CMSampleBufferRef s = [m->audio_output copyNextSampleBuffer] ;
+            if ( s ) CFRelease( s ) ;
+        }
     }
     // シーク後の最新フレームを graph に反映
     if ( !m->frame_argb.empty() ) {

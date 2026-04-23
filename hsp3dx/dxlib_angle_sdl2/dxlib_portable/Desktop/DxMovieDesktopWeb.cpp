@@ -7,11 +7,18 @@
 //      (正しくは RGBA) を取り出す。この実装は emscripten_run_script_int /
 //      EM_ASM 経由で JS ブリッジして texture を更新する簡易版。
 //
+//      **音声について:** HTML5 <video> 要素が native に audio 再生する。
+//      muted=false で作成、SetMovieVolumeToGraph(0..10000) で <video>.volume
+//      (0..1) にマップ。ChangeMovieVolumeToGraph (0..255) も対応。
+//      ただし Chrome/Safari の Autoplay Policy で user gesture 前の .play()
+//      は自動的に muted 再生にされる可能性あり (hsp3dx 側で touchstart /
+//      keydown を契機に PlayMovieToGraph を呼ぶ運用推奨)。
+//
 //      制約:
 //      - user gesture 無しに .play() を呼ぶと Autoplay Policy で失敗する
 //        (stage 側で最初のクリック時に PlayMovieToGraph を呼ぶ等必要)
 //      - クロスオリジンの動画は CORS ヘッダが無いと getImageData 不可
-//      - 音声は <video> が自前で鳴らす (音量は SetMovieVolumeToGraph で制御)
+//      - 音声は <video> が自前で鳴らす (video と独立、PTS 同期は browser 側)
 //
 //-----------------------------------------------------------------------------
 
