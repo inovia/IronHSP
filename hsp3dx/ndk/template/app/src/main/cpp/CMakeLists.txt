@@ -172,10 +172,11 @@ if(DXLIB_FROM_SOURCE)
         ${DXLIB_SRC_DIR}/Android/*.cpp
     )
 
-    # DxMovieAndroid_MediaCodec.cpp はリファレンス実装 (次フェーズで差替え予定)
-    # 現段階では本家 DxMovieAndroid.cpp (stub) を使い、_MediaCodec は除外
+    # Movie: 本家 DxMovieAndroid.cpp は全 PF が return 0 / -1 の stub のため、
+    # NDK AMediaExtractor + AMediaCodec を使う DxMovieAndroid_MediaCodec.cpp に
+    # 差し替えて実機能化 (両者で同じ PF symbol を定義するので stub を除外)。
     list(REMOVE_ITEM DXLIB_ANDROID_SRC
-        ${DXLIB_SRC_DIR}/Android/DxMovieAndroid_MediaCodec.cpp)
+        ${DXLIB_SRC_DIR}/Android/DxMovieAndroid.cpp)
 
     add_library(DxLibSource STATIC ${DXLIB_COMMON_SRC} ${DXLIB_ANDROID_SRC})
 
@@ -245,6 +246,8 @@ if(DXLIB_FROM_SOURCE)
         # bullet は dx_bullet (source) に置換えたので prebuilt は除外
         opus
         Live2DCubismCore
+        # Movie MediaCodec 用 (AMediaExtractor / AMediaCodec / AMediaFormat)
+        mediandk
     )
 else()
     # =============================================================================
