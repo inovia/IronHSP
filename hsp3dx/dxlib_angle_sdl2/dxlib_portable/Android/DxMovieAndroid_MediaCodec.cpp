@@ -163,11 +163,27 @@ extern int OpenMovie_UseGParam_PF( MOVIEGRAPH *Movie, OPENMOVIE_GPARAM * /*GPara
     }
 
     AMediaExtractor *ex = AMediaExtractor_new() ;
-    if ( AMediaExtractor_setDataSource( ex, path.c_str() ) != AMEDIA_OK ) {
-        ALOGE( "setDataSource failed: %s", path.c_str() ) ;
+    //  AMediaExtractor_setDataSource(path) は URI (file:// or http(s)://) 要求で
+    //  相対 path が通らない。fopen + fileno の fd 経由なら libc の cwd 解決で動く。
+    FILE *fp = fopen( path.c_str(), "rb" ) ;
+    if ( !fp ) {
+        ALOGE( "fopen failed: %s", path.c_str() ) ;
         AMediaExtractor_delete( ex ) ;
         return -1 ;
     }
+    fseek( fp, 0, SEEK_END ) ;
+    off_t fsize = ftello( fp ) ;
+    fseek( fp, 0, SEEK_SET ) ;
+    media_status_t st = AMediaExtractor_setDataSourceFd( ex, fileno( fp ), 0, fsize ) ;
+    if ( st != AMEDIA_OK ) {
+        ALOGE( "setDataSourceFd failed: %s (st=%d)", path.c_str(), (int)st ) ;
+        fclose( fp ) ;
+        AMediaExtractor_delete( ex ) ;
+        return -1 ;
+    }
+    //  AMediaExtractor は fd を内部で dup するので close して OK (多分)、念のため player
+    //  struct に保持しておく。
+    // fclose( fp ) ;  → dup 済みなら閉じてよいが NDK docs 不明瞭のため保持
 
     //  video/audio track を検出
     int ntracks = AMediaExtractor_getTrackCount( ex ) ;

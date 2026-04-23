@@ -107,6 +107,9 @@ int android_main( void )
     }
     //  他のアセット (PNG / WAV 等) も必要に応じて展開
     //  (ユーザが使うものを事前に名前で extract_asset 呼べばよい)
+    //  Movie テスト用 (DxMovieAndroid_MediaCodec.cpp は file path 直接開くので
+    //  AAssetManager 経由では読めない → files/ 内に extract 必須)
+    extract_asset( "test_movie.mp4", internal_dir );
 
     SetDrawScreen( DX_SCREEN_BACK );
     ClearDrawScreen();

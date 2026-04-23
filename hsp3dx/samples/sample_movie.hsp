@@ -1,0 +1,32 @@
+;============================================================
+;   sample_movie.hsp — Android/iOS Movie 再生テスト
+;   test_movie.mp4 を同ディレクトリに置いて実行。
+;
+;   Android: DxMovieAndroid_MediaCodec.cpp 経由 (NDK AMediaCodec)
+;   iOS:    DxMovieiOS_AVP.mm 経由 (AVFoundation)    — 未組込
+;   Desktop: DxMovieDesktop.cpp 経由 (Media Foundation / AVFoundation / Theora)
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx sample: Movie playback"
+
+    ;  Movie を graph handle として読み込み
+    dx_LoadGraph "test_movie.mp4", 0
+    mv = stat
+    if mv < 0 : dialog "Movie load failed" : end
+
+    ;  play (type=0 normal, syspause=0)
+    dx_PlayMovieToGraph mv, 0, 0
+
+    ;  1 秒後にスクリーンショット用ラベルを切替えながら描画
+    repeat
+        dx_ClsDrawScreen
+        dx_DrawGraph 0, 0, mv, 0
+        color 255, 255, 255
+        pos 10, 10
+        mes "Movie frame (cnt=" + cnt + ")"
+        dx_ScreenFlip
+        await 16
+    loop
