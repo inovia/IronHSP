@@ -497,6 +497,7 @@ dxlib_stage_exe(stage24_movie             src/stage24_movie.cpp)
 dxlib_stage_exe(stage25_mv1               src/stage25_mv1.cpp)
 dxlib_stage_exe(stage26_shader            src/stage26_shader.cpp)
 dxlib_stage_exe(stage27_dxbc_test         src/stage27_dxbc_test.cpp)
+dxlib_stage_exe(stage28_dxbc_shader       src/stage28_dxbc_shader.cpp)
 
 # --- Stage 1 (pure SDL2, no DxLib) ---------------------------------------
 if(WIN32)
