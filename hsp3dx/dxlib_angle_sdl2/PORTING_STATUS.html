@@ -394,11 +394,11 @@ td.note { font-size: 12px; color: #555; }
   <td class="tech">GL_TRIANGLE_STRIP 4 頂点 (affine 補間)</td>
   <td class="note">Tier 1 完了。UV は affine 補間 (perspective 補正なし)。歪みが大きいと中央にアーティファクト。必要なら 2 三角分割 + perspective 補正へ拡張。</td>
 </tr>
-<tr><td class="fn">DrawBlendGraph</td>
+<tr><td class="fn">DrawBlendGraph / SetBlendGraph</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
-  <td class="tech">multi-texture fragment 相当</td>
-  <td class="note">Tier 2 で検討。</td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">Fixed-function multi-texture: TMU 0 = base graph、TMU 1 = blend graph、GL_TEXTURE_ENV_MODE = GL_MODULATE で base × blend を出力。glActiveTexture/glMultiTexCoord2f を SDL_GL_GetProcAddress で動的ロード</td>
+  <td class="note">DxGraphicsDesktop.cpp 2026-04-23 実装 (Graphics_Hardware_DrawGraph_PF に BlendImage 統合)。NS_DrawBlendGraph(x, y, h, t, bg, ...) → SetBlendGraph + DrawGraph 経由で機能、multiply 乗算で base.rgb * blend.rgb の合成 (典型的な dimming / mask 用途)。BlendGraphType の WIPE / ALPHA mode は基本 NORMAL (multiply) として動作 (区別未実装、次期拡張で shader 化)。DrawExtendGraph / DrawRotaGraph 経由は TODO。</td>
 </tr>
 <tr><td class="fn">GetGraphSize / GetGraphTextureSize</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>

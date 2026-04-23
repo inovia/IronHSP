@@ -803,9 +803,77 @@ extern int Graphics_Hardware_BltBmpOrBaseImageToGraph3_PF( const RECT *SrcRect, 
     return 0 ;
 }
 
+// --- BlendImage (DxLib SetBlendGraph で設定) を fixed-function multitexture ---
+// で TMU 1 に bind して GL_MODULATE 合成。BlendImage が NULL なら no-op。
+typedef void (APIENTRYP PFN_d_glActiveTexture)( GLenum texture ) ;
+typedef void (APIENTRYP PFN_d_glMultiTexCoord2f)( GLenum target, GLfloat s, GLfloat t ) ;
+#ifndef GL_TEXTURE0
+#define GL_TEXTURE0 0x84C0
+#define GL_TEXTURE1 0x84C1
+#define GL_COMBINE  0x8570
+#define GL_COMBINE_RGB 0x8571
+#define GL_SOURCE0_RGB 0x8580
+#define GL_SOURCE1_RGB 0x8581
+#define GL_OPERAND0_RGB 0x8590
+#define GL_OPERAND1_RGB 0x8591
+#define GL_PREVIOUS    0x8578
+#endif
+static PFN_d_glActiveTexture    p_d_glActiveTexture    = nullptr ;
+static PFN_d_glMultiTexCoord2f  p_d_glMultiTexCoord2f  = nullptr ;
+static void desktop_load_mt_funcs( void )
+{
+    if ( p_d_glActiveTexture ) return ;
+    p_d_glActiveTexture   = ( PFN_d_glActiveTexture )   SDL_GL_GetProcAddress( "glActiveTexture" ) ;
+    p_d_glMultiTexCoord2f = ( PFN_d_glMultiTexCoord2f ) SDL_GL_GetProcAddress( "glMultiTexCoord2f" ) ;
+    if ( !p_d_glActiveTexture )
+        p_d_glActiveTexture = ( PFN_d_glActiveTexture ) SDL_GL_GetProcAddress( "glActiveTextureARB" ) ;
+    if ( !p_d_glMultiTexCoord2f )
+        p_d_glMultiTexCoord2f = ( PFN_d_glMultiTexCoord2f ) SDL_GL_GetProcAddress( "glMultiTexCoord2fARB" ) ;
+}
+
+// BlendImage が有効なら TMU 1 にバインドして GL_MODULATE 合成 (multiply)。
+// 戻り値: 1 = bind 済 (caller は glMultiTexCoord2f(GL_TEXTURE1,...) で uv 出力)、
+//        0 = bind せず (BlendImage NULL or 不正)
+static int desktop_bind_blend_tmu1( IMAGEDATA *BlendImage )
+{
+    if ( !BlendImage || !BlendImage->Orig || BlendImage->Orig->Hard.TexNum == 0 ) return 0 ;
+    IMAGEDATA_ORIG_HARD_TEX *btex = &BlendImage->Orig->Hard.Tex[ 0 ] ;
+    if ( !btex->PF ) return 0 ;
+    desktop_load_mt_funcs() ;
+    if ( !p_d_glActiveTexture || !p_d_glMultiTexCoord2f ) return 0 ;
+    p_d_glActiveTexture( GL_TEXTURE1 ) ;
+    glEnable( GL_TEXTURE_2D ) ;
+    glBindTexture( GL_TEXTURE_2D, ( GLuint )btex->PF->Texture.TextureBuffer ) ;
+    glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE ) ;
+    p_d_glActiveTexture( GL_TEXTURE0 ) ;
+    return 1 ;
+}
+
+// BlendImage を unbind (TMU 1 を無効化)
+static void desktop_unbind_blend_tmu1( void )
+{
+    if ( !p_d_glActiveTexture ) return ;
+    p_d_glActiveTexture( GL_TEXTURE1 ) ;
+    glBindTexture( GL_TEXTURE_2D, 0 ) ;
+    glDisable( GL_TEXTURE_2D ) ;
+    p_d_glActiveTexture( GL_TEXTURE0 ) ;
+}
+
+// BlendImage の UV を計算 (base graph と同じ正規化座標で良い、shader の場合は別 mapping)
+static void desktop_blend_uv_range( IMAGEDATA *BlendImage, float *bu0, float *bv0, float *bu1, float *bv1 )
+{
+    *bu0 = 0.0f ; *bv0 = 0.0f ; *bu1 = 1.0f ; *bv1 = 1.0f ;
+    if ( !BlendImage || !BlendImage->Orig || BlendImage->Orig->Hard.TexNum == 0 ) return ;
+    IMAGEDATA_ORIG_HARD_TEX *bt = &BlendImage->Orig->Hard.Tex[ 0 ] ;
+    *bu0 = ( float )bt->OrigPosX / ( float )bt->TexWidth ;
+    *bv0 = ( float )bt->OrigPosY / ( float )bt->TexHeight ;
+    *bu1 = *bu0 + ( float )bt->UseWidth  / ( float )bt->TexWidth ;
+    *bv1 = *bv0 + ( float )bt->UseHeight / ( float )bt->TexHeight ;
+}
+
 extern int Graphics_Hardware_DrawGraph_PF( int x, int y, float xf, float yf, IMAGEDATA *Image, IMAGEDATA *BlendImage, int TransFlag, int IntFlag )
 {
-    (void)BlendImage; (void)IntFlag;
+    (void)IntFlag;
     if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) return -1 ;
     IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
     if ( !tex->PF ) return -1 ;
@@ -817,6 +885,7 @@ extern int Graphics_Hardware_DrawGraph_PF( int x, int y, float xf, float yf, IMA
     float v0 = ( float )tex->OrigPosY / ( float )tex->TexHeight ;
     float u1 = u0 + ( float )tex->UseWidth  / ( float )tex->TexWidth ;
     float v1 = v0 + ( float )tex->UseHeight / ( float )tex->TexHeight ;
+    float bu0, bv0, bu1, bv1 ; desktop_blend_uv_range( BlendImage, &bu0, &bv0, &bu1, &bv1 ) ;
 
     Desktop_SetOrtho2D() ;
     if ( TransFlag ) {
@@ -826,12 +895,18 @@ extern int Graphics_Hardware_DrawGraph_PF( int x, int y, float xf, float yf, IMA
     glColor4ub( 255, 255, 255, 255 ) ;
     glEnable( GL_TEXTURE_2D ) ;
     glBindTexture( GL_TEXTURE_2D, ( GLuint )tex->PF->Texture.TextureBuffer ) ;
+    int blend_bound = desktop_bind_blend_tmu1( BlendImage ) ;
     glBegin( GL_TRIANGLE_STRIP ) ;
+        if ( blend_bound ) p_d_glMultiTexCoord2f( GL_TEXTURE1, bu0, bv0 ) ;
         glTexCoord2f( u0, v0 ) ; glVertex2f( fx,                               fy ) ;
+        if ( blend_bound ) p_d_glMultiTexCoord2f( GL_TEXTURE1, bu1, bv0 ) ;
         glTexCoord2f( u1, v0 ) ; glVertex2f( fx + ( float )tex->UseWidth,      fy ) ;
+        if ( blend_bound ) p_d_glMultiTexCoord2f( GL_TEXTURE1, bu0, bv1 ) ;
         glTexCoord2f( u0, v1 ) ; glVertex2f( fx,                               fy + ( float )tex->UseHeight ) ;
+        if ( blend_bound ) p_d_glMultiTexCoord2f( GL_TEXTURE1, bu1, bv1 ) ;
         glTexCoord2f( u1, v1 ) ; glVertex2f( fx + ( float )tex->UseWidth,      fy + ( float )tex->UseHeight ) ;
     glEnd() ;
+    if ( blend_bound ) desktop_unbind_blend_tmu1() ;
     glBindTexture( GL_TEXTURE_2D, 0 ) ;
     glDisable( GL_TEXTURE_2D ) ;
     return 0 ;
