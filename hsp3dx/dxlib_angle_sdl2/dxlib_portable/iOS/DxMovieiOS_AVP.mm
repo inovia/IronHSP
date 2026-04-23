@@ -86,6 +86,7 @@ extern int OpenMovie_UseGParam_PF( MOVIEGRAPH *Movie, OPENMOVIE_GPARAM * /*GPara
                                    int /*SurfaceMode*/, int ImageSizeGetOnly, int /*ASyncThread*/ )
 {
     if ( !Movie || !FileName ) return -1 ;
+    NSLog( @"DxMovieiOS_AVP: OpenMovie_UseGParam_PF entered (ImageSizeGetOnly=%d)", ImageSizeGetOnly ) ;
 
     //  wchar_t → UTF-8 変換 (iOS は TCHAR = wchar_t)
     @autoreleasepool {
@@ -95,11 +96,28 @@ extern int OpenMovie_UseGParam_PF( MOVIEGRAPH *Movie, OPENMOVIE_GPARAM * /*GPara
         path = [[[NSString alloc] initWithData:d encoding:NSUTF32LittleEndianStringEncoding] autorelease] ;
         if ( !path ) return -1 ;
 
+        //  相対パスなら cwd (= Documents dir) を前置して絶対パスに。
+        //  AVURLAsset は file:// URL 要求で相対パスだと load 失敗する。
+        if ( ![path hasPrefix:@"/"] && ![path hasPrefix:@"file:"] ) {
+            char cwd_buf[1024] = {0} ;
+            if ( getcwd( cwd_buf, sizeof(cwd_buf) ) ) {
+                NSString *cwd = [NSString stringWithUTF8String:cwd_buf] ;
+                path = [cwd stringByAppendingPathComponent:path] ;
+            }
+        }
+        //  ファイル存在確認
+        if ( ![[NSFileManager defaultManager] fileExistsAtPath:path] ) {
+            NSLog( @"DxMovieiOS_AVP: file not found: %@", path ) ;
+            return -1 ;
+        }
+
         NSURL *url = [NSURL fileURLWithPath:path] ;
+        NSLog( @"DxMovieiOS_AVP: opening %@", url ) ;
         AVAsset *asset = [AVURLAsset URLAssetWithURL:url options:nil] ;
-        if ( !asset ) return -1 ;
+        if ( !asset ) { NSLog( @"DxMovieiOS_AVP: asset nil" ) ; return -1 ; }
 
         NSArray<AVAssetTrack *> *vtracks = [asset tracksWithMediaType:AVMediaTypeVideo] ;
+        NSLog( @"DxMovieiOS_AVP: vtracks count=%lu", (unsigned long)vtracks.count ) ;
         if ( vtracks.count == 0 ) return -1 ;
         CGSize sz = vtracks.firstObject.naturalSize ;
         if ( Width )  *Width  = ( int )sz.width ;
@@ -125,6 +143,17 @@ extern int OpenMovie_UseGParam_PF( MOVIEGRAPH *Movie, OPENMOVIE_GPARAM * /*GPara
         p->height      = ( int )sz.height ;
         p->duration_ms = ( int64_t )( CMTimeGetSeconds( asset.duration ) * 1000.0 ) ;
         g_iOSPlayers[ Movie ] = p ;
+        //  DxMovie.cpp が後続で Movie->Width = Movie->NowImage.Width を実行するため、
+        //  NowImage を先に初期化しておく (ARGB8, size, pitch)
+        p->frame_argb.resize( ( size_t )p->width * p->height * 4, 0 ) ;
+        NS_CreateARGB8ColorData( &Movie->NowImage.ColorData ) ;
+        Movie->NowImage.Width  = p->width ;
+        Movie->NowImage.Height = p->height ;
+        Movie->NowImage.Pitch  = p->width * 4 ;
+        Movie->NowImage.GraphData = p->frame_argb.data() ;
+        Movie->NowImage.MipMapCount = 0 ;
+        Movie->NowImage.GraphDataCount = 0 ;
+        Movie->NowImageUpdateFlag = 1 ;
         Movie->Width  = p->width ;
         Movie->Height = p->height ;
         return 0 ;
@@ -271,13 +300,46 @@ extern int UpdateMovie_PF( MOVIEGRAPH *Movie, int /*AlwaysFlag*/ )
 {
     iOSMoviePlayer *p = ios_get_player( Movie ) ;
     if ( !p ) return -1 ;
+    if ( Movie->SysPauseFlag ) return 0 ;
+
     //  Loop 時 end reached なら 0 に戻す
-    if ( Movie->PlayFlag && Movie->PlayType & DX_PLAYTYPE_LOOPBIT ) {
+    if ( Movie->PlayFlag && ( Movie->PlayType & DX_PLAYTYPE_LOOPBIT ) ) {
         if ( CMTIME_COMPARE_INLINE( p->player.currentTime, >=, p->item.duration ) ) {
             [p->player seekToTime:kCMTimeZero] ;
             [p->player play] ;
         }
     }
+
+    //  AVPlayerItemVideoOutput から現在時刻の frame を取得
+    CMTime now = [p->player currentTime] ;
+    if ( ![p->videoOutput hasNewPixelBufferForItemTime:now] ) return 0 ;
+    CVPixelBufferRef pb = [p->videoOutput copyPixelBufferForItemTime:now itemTimeForDisplay:nullptr] ;
+    if ( !pb ) return 0 ;
+
+    CVPixelBufferLockBaseAddress( pb, kCVPixelBufferLock_ReadOnly ) ;
+    size_t w = CVPixelBufferGetWidth( pb ) ;
+    size_t h = CVPixelBufferGetHeight( pb ) ;
+    size_t stride = CVPixelBufferGetBytesPerRow( pb ) ;
+    const uint8_t *src = (const uint8_t *)CVPixelBufferGetBaseAddress( pb ) ;
+    if ( src && w > 0 && h > 0 ) {
+        p->frame_argb.resize( w * h * 4 ) ;
+        uint8_t *dst = p->frame_argb.data() ;
+        //  source は BGRA (kCVPixelFormatType_32BGRA)、dst も BGRA (DxLib ARGB8 は
+        //  リトルエンディアンだと BGRA 並びになる)。row 単位でコピー。
+        for ( size_t y = 0 ; y < h ; ++y ) {
+            memcpy( dst + y * w * 4, src + y * stride, w * 4 ) ;
+        }
+        Movie->NowImage.Width  = (int)w ;
+        Movie->NowImage.Height = (int)h ;
+        Movie->NowImage.Pitch  = (int)( w * 4 ) ;
+        Movie->NowImage.GraphData = p->frame_argb.data() ;
+        Movie->NowImageUpdateFlag = 1 ;
+        if ( Movie->UpdateFunction ) {
+            Movie->UpdateFunction( Movie, Movie->UpdateFunctionData ) ;
+        }
+    }
+    CVPixelBufferUnlockBaseAddress( pb, kCVPixelBufferLock_ReadOnly ) ;
+    CVBufferRelease( pb ) ;
     return 0 ;
 }
 

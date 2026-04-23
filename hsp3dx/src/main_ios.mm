@@ -107,7 +107,9 @@ static void extract_all_bundle_assets( const char *dst_dir )
         //  3D モデル
         @"mv1", @"obj", @"pmx", @"pmd", @"fbx", @"gltf", @"glb", @"vrm",
         //  Live2D Cubism 4
-        @"moc3", @"motion3", @"exp3", @"phys3", @"pose3", nil];
+        @"moc3", @"motion3", @"exp3", @"phys3", @"pose3",
+        //  Movie (AVFoundation / DxMovieiOS_AVP)
+        @"mp4", @"mov", @"m4v", @"ogv", nil];
 
     for ( NSString *rel in files ) {
         NSString *abs = [resDir stringByAppendingPathComponent:rel];

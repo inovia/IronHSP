@@ -51,11 +51,34 @@ static void *slurp_file( const char *path, long *out_size )
     return buf;
 }
 
-extern "C" int hsp3dx_ios_LoadGraph_wrap( const char *path, int /*NotUse3DFlag*/ )
+//  拡張子ベースで Movie か否かを判定
+static bool is_movie_path( const char *path )
+{
+    if ( path == nullptr ) return false;
+    size_t len = strlen( path );
+    if ( len < 4 ) return false;
+    const char *ext = path + len - 4;
+    if ( strcasecmp( ext, ".mp4" ) == 0 ) return true;
+    if ( strcasecmp( ext, ".mov" ) == 0 ) return true;
+    if ( strcasecmp( ext, ".m4v" ) == 0 ) return true;
+    if ( strcasecmp( ext, ".ogv" ) == 0 ) return true;
+    return false;
+}
+
+extern "C" int hsp3dx_ios_LoadGraph_wrap( const char *path, int NotUse3DFlag )
 {
     if ( path == nullptr ) return -1;
     char rpath[1024];
     resolve_path( path, rpath, sizeof(rpath) );
+    //  Movie file は CreateGraphFromMem 経路に乗せると FileName==NULL で
+    //  OpenMovie_UseGParam が fail するので、直接 LoadGraph を呼んで
+    //  OpenMovie_UseGParam_PF (DxMovieiOS_AVP.mm) に FileName 付きで到達させる。
+    //  DxLib iOS LoadGraph は内部でパス区切り正規化 (/→\) を行うが、
+    //  最終的に OpenMovie_UseGParam_PF に渡る wchar_t* に元パスが保存される。
+    //  原文 path (Documents 相対 "test_movie.mp4") をそのまま渡す。
+    if ( is_movie_path( path ) ) {
+        return LoadGraph( path, NotUse3DFlag );
+    }
     long sz = 0;
     void *buf = slurp_file( rpath, &sz );
     if ( buf == nullptr ) return -1;
