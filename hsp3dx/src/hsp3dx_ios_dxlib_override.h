@@ -13,7 +13,11 @@
 #ifndef __hsp3dx_ios_dxlib_override_h
 #define __hsp3dx_ios_dxlib_override_h
 
-#ifdef __APPLE__
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif
+
+#if defined(__APPLE__) && defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE
 
 #ifdef __cplusplus
 extern "C" {

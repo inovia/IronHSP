@@ -520,3 +520,89 @@ if(MSVC)
     target_compile_definitions(stage1_empty_window PRIVATE
         _CRT_SECURE_NO_WARNINGS UNICODE _UNICODE)
 endif()
+
+# ==========================================================================
+#  hsp3dx_desktop — HSP VM + DxLib Desktop fork を結合した .ax ランタイム
+#  --------------------------------------------------------------------------
+#  `./hsp3dx_desktop start.ax` のように起動。iOS の main_ios.mm と同構造。
+#  Mac (SDL2+GL via brew)、Linux (SDL2+GL native)、Web (Emscripten) を想定。
+# ==========================================================================
+set(HSP3_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../hsp3)
+set(HSP3NET_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../hsp3net)
+set(HSP3DX_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../src)
+
+add_executable(hsp3dx_desktop
+    # hsp3dx 共通
+    ${HSP3DX_SRC_DIR}/main_desktop.cpp
+    ${HSP3DX_SRC_DIR}/hgio_dx.cpp
+    ${HSP3DX_SRC_DIR}/hsp3dxcl.cpp
+    ${HSP3DX_SRC_DIR}/hsp3dx_extcmd.cpp
+    ${HSP3DX_SRC_DIR}/hsp3dx_console.cpp
+    ${HSP3DX_SRC_DIR}/hsp3dx_dxlib_auto.cpp
+    ${HSP3DX_SRC_DIR}/hsp3dx_dxlib_auto_f.cpp
+    ${HSP3DX_SRC_DIR}/hsp3dx_platform_common.cpp
+    ${HSP3DX_SRC_DIR}/hsp3dx_platform_desktop.cpp
+    ${HSP3DX_SRC_DIR}/hsp3dx_dxlib_desktop_stubs.cpp
+    ${HSP3DX_SRC_DIR}/hsp3dx_events.cpp
+    ${HSP3DX_SRC_DIR}/hsp3dx_json.cpp
+    # HSP3 core
+    ${HSP3_DIR}/hsp3.cpp
+    ${HSP3_DIR}/hsp3code.cpp
+    ${HSP3_DIR}/hsp3crypt.cpp
+    ${HSP3_DIR}/hsp3debug.cpp
+    ${HSP3_DIR}/hsp3int.cpp
+    ${HSP3_DIR}/hsp3utfcnv.cpp
+    ${HSP3_DIR}/hspvar_core.cpp
+    ${HSP3_DIR}/hspvar_double.cpp
+    ${HSP3_DIR}/hspvar_int.cpp
+    ${HSP3_DIR}/hspvar_int64.cpp
+    ${HSP3_DIR}/hspvar_label.cpp
+    ${HSP3_DIR}/hspvar_str.cpp
+    ${HSP3_DIR}/hspvar_struct.cpp
+    ${HSP3_DIR}/hspvar_wstr.cpp
+    ${HSP3_DIR}/stack.cpp
+    ${HSP3_DIR}/strbuf.cpp
+    ${HSP3_DIR}/strnote.cpp
+    ${HSP3_DIR}/dpmread.cpp
+    ${HSP3_DIR}/filepack.cpp
+    # NSTRUCT
+    ${HSP3NET_DIR}/hspvar_nstruct.cpp
+)
+# platform 別 supio (Mac/Linux は linux/, Web は emscripten/)
+if(EMSCRIPTEN)
+    target_sources(hsp3dx_desktop PRIVATE
+        ${HSP3_DIR}/emscripten/supio_emscripten.cpp
+        ${HSP3_DIR}/emscripten/hsp3ext_emscripten.cpp
+    )
+    target_compile_definitions(hsp3dx_desktop PRIVATE HSPEMSCRIPTEN=1)
+elseif(APPLE)
+    target_sources(hsp3dx_desktop PRIVATE
+        ${HSP3_DIR}/linux/supio_linux.cpp
+        ${HSP3_DIR}/linux/hsp3ext_linux.cpp
+    )
+    target_compile_definitions(hsp3dx_desktop PRIVATE HSPMAC=1)
+else()
+    target_sources(hsp3dx_desktop PRIVATE
+        ${HSP3_DIR}/linux/supio_linux.cpp
+        ${HSP3_DIR}/linux/hsp3ext_linux.cpp
+    )
+    target_compile_definitions(hsp3dx_desktop PRIVATE HSPLINUX=1)
+endif()
+dxlib_desktop_settings(hsp3dx_desktop)
+target_include_directories(hsp3dx_desktop PRIVATE
+    ${HSP3_DIR}
+    ${HSP3DX_SRC_DIR}
+)
+target_compile_definitions(hsp3dx_desktop PRIVATE
+    HSPDEBUG=1
+    _HSP64=1
+    HSP64=1
+    HSPUTF8=1
+)
+target_link_libraries(hsp3dx_desktop PRIVATE dxlib_portable_stage3 ${GL_LIB})
+if(WIN32)
+    add_custom_command(TARGET hsp3dx_desktop POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${SDL2_LIB_DIR}/SDL2.dll"
+            "$<TARGET_FILE_DIR:hsp3dx_desktop>/SDL2.dll")
+endif()

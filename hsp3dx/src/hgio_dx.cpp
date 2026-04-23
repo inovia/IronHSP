@@ -11,6 +11,9 @@
 #if defined(_WIN32)
 #include <windows.h>
 #endif
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif
 
 // hsp3dx はプロセス起動時に UTF-8 固定。HSP3Dish の hgio_init 相当のタイミングで
 // SetUseCharCodeFormat を必ず呼ぶ。
@@ -51,7 +54,7 @@ int hgio_dx_init( int mode, int sx, int sy, void * /*hwnd*/ )
     SetGraphMode( s_screen_w, s_screen_h, 32 );
     HGIO_TIMING_LOG("after SetGraphMode");
 
-#if defined(__ANDROID__) || defined(__APPLE__)
+#if defined(__ANDROID__) || (defined(__APPLE__) && TARGET_OS_IPHONE)
     //  モバイルは物理画面固定。DxLib の FitScaling の意味に注意:
     //      FitScaling = FALSE → アスペクト比維持 letterbox (余白は黒)
     //      FitScaling = TRUE  → 画面いっぱいストレッチ (比率無視)
@@ -139,7 +142,7 @@ int hgio_dx_get_display_size( int *pw, int *ph )
         if ( ph ) *ph = dh;
         return 0;
     }
-#elif defined(__APPLE__)
+#elif defined(__APPLE__) && TARGET_OS_IPHONE
     if ( GetDisplayResolution_iOS( &dw, &dh ) == 0 && dw > 0 && dh > 0 ) {
         if ( pw ) *pw = dw;
         if ( ph ) *ph = dh;
@@ -161,7 +164,7 @@ int hgio_dx_get_display_size( int *pw, int *ph )
 
 int hgio_dx_get_touch_num( void )
 {
-#if defined(__ANDROID__) || defined(__APPLE__)
+#if defined(__ANDROID__) || (defined(__APPLE__) && TARGET_OS_IPHONE)
     return GetTouchInputNum();
 #else
     //  Win はマウス左ボタン押下を 1 本指扱い
@@ -171,7 +174,7 @@ int hgio_dx_get_touch_num( void )
 
 int hgio_dx_get_touch( int index, int *px, int *py )
 {
-#if defined(__ANDROID__) || defined(__APPLE__)
+#if defined(__ANDROID__) || (defined(__APPLE__) && TARGET_OS_IPHONE)
     if ( index < 0 || index >= GetTouchInputNum() ) return -1;
     int tx = 0, ty = 0;
     //  DxLib 自身が ConvScreenPositionToDxScreenPosition で物理→論理 (DxScreen)
@@ -195,7 +198,7 @@ int hgio_dx_get_touch( int index, int *px, int *py )
 
 void hgio_dx_set_screen_fit( int mode )
 {
-#if defined(__ANDROID__) || defined(__APPLE__)
+#if defined(__ANDROID__) || (defined(__APPLE__) && TARGET_OS_IPHONE)
     //  mode = 0: アスペクト比維持 letterbox (余白は黒、default)    → FitScaling=FALSE
     //         1: 画面いっぱいにストレッチ (比率無視)                 → FitScaling=TRUE
     //         2: ピクセル等倍 (未実装、現状 0 と同じ)
@@ -208,7 +211,7 @@ void hgio_dx_set_screen_fit( int mode )
 
 void hgio_dx_getmouse( int *px, int *py, int *pbtn )
 {
-#if defined(__ANDROID__) || defined(__APPLE__)
+#if defined(__ANDROID__) || (defined(__APPLE__) && TARGET_OS_IPHONE)
     //  タッチ座標をマウス座標として扱い、タッチ中 = MOUSE_INPUT_LEFT 押下。
     //  iOS は hgio_dx_get_touch 内で letterbox 物理→論理変換するのでそれを利用。
     static int s_last_x = 0, s_last_y = 0;
