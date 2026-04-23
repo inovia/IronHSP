@@ -43,14 +43,19 @@ DxLib 原作者の意図 (GetFPS 値の初期化) は実行中に勝手に更新
 
 **次:** 実機 (iphoneos) で再計測。実機 GPU では全体的に速いはず。
 
-### 追加: Live2D 起動時間実測 + iOS MV1 Bullet Physics 調査
+### 追加: Live2D 起動時間実測 + iOS MV1 Bullet Physics 完全動作確認
 
-- Live2D: Simulator で Hiyori 描画は 6-8 秒 (memory 旧記述 15-20s より大幅に短い)
-- iOS MV1: `dx_MV1LoadModel "alicia.mv1"` で VM 不安定化 → Bullet Physics 以前の
-  段階で MV1 load に問題あり (時間切れで未解決、次セッションに持ち越し)
-- `sample_physics.hsp` を新規作成 (Windows 前提の WIP サンプル)
+- Live2D: Simulator で Hiyori 描画は **6-8 秒** (memory 旧記述 15-20s より大幅に短い)
+- iOS MV1 + Bullet Physics: **全 API 正常動作確認**
+  (`dx_MV1LoadModel` / `MV1SetPrioritizePhysicsOverAnimFlag` /
+   `MV1SetRotationXYZ` / `MV1PhysicsCalculation` / `MV1DrawModel`)
+- sample_physics.hsp で DxChara キャラを Y 軸回転させながら物理計算 → 描画成功
 
-詳細: memory [project_ios_live2d_physics_verify_20260424.md](../../../Users/inovia/.claude/projects/j--HNWorks-IronHSP-2026/memory/project_ios_live2d_physics_verify_20260424.md)
+**数時間の誤診断過程から得た教訓 (memory 化):**
+1. `package/win32/hspcmp.exe` は旧版、`hspcmp/win32/Release/hspcmp.exe` を使う
+2. HSP 構造体 member access は `->` (arrow) 演算子。`.` (dot) は array access で
+   struct 型が DOUBLE に降格して後続の構造体 API で HSPERR_TYPE_MISMATCH
+   (教訓を [reference_hsp_struct_arrow_operator.md](../../../Users/inovia/.claude/projects/j--HNWorks-IronHSP-2026/memory/reference_hsp_struct_arrow_operator.md) に永久記録)
 
 ---
 

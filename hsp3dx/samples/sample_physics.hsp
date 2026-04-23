@@ -1,68 +1,52 @@
 ;============================================================
-;   sample_physics.hsp — MV1 load + Bullet Physics 動作確認サンプル
-;   結月ゆかり (YUKARI/yukari.mv1) をロード
+;   sample_physics.hsp — DxChara + Bullet Physics 動作確認
+;   struct member access は `->` 演算子 (`.` は array access)
 ;============================================================
 #bootopt hsp64 1
 #cmpopt utf8 1
 #include "iron_dxlib.as"
 
-    title "hsp3dx sample: MV1 Bullet Physics (YUKARI)"
+#defstruct VECTOR
+    #field float x
+    #field float y
+    #field float z
+#endstruct
+
+    title "hsp3dx: MV1 + Bullet Physics"
     dx_setbgcolor3d 40, 40, 60
     dx_setzbuffer 1
+    dx_SetUseLighting 1
+    dx_setlightdir 0.3, -0.5, 0.8
 
-    loaded = 0
-    status_msg = "boot"
-    model = -1
-    frame = 0
+    dx_MV1LoadModel "DxChara.mv1"
+    model = stat
+    if model < 0 : dialog "load failed" : end
+
+    dx_MV1SetPrioritizePhysicsOverAnimFlag model, 1
+
+    dx_SetCameraNearFar 1.0, 10000.0
+    dx_setcamerapos 0.0, 500.0, -1500.0, 0.0, 400.0, 0.0
+
+    stdim rot, VECTOR
     angle = 0.0
     prev_t = gettime(7)
 
     repeat
-        frame = frame + 1
+        now_t = gettime(7)
+        delta = double(now_t - prev_t) / 1000.0
+        if delta < 0 || delta > 0.1 : delta = 0.016
+        prev_t = now_t
 
-        if frame == 30 && loaded == 0 {
-            status_msg = "calling MV1LoadModel DxChara.mv1..."
-        }
-        if frame == 31 && loaded == 0 {
-            dx_MV1LoadModel "DxChara.mv1"
-            model = stat
-            if model < 0 {
-                status_msg = "LOAD FAIL stat=" + model
-            } else {
-                status_msg = "LOAD OK handle=" + model
-                dx_MV1SetPrioritizePhysicsOverAnimFlag model, 1
-                loaded = 1
-            }
-        }
-
-        if loaded {
-            now_t = gettime(7)
-            delta = double(now_t - prev_t) / 1000.0
-            if delta < 0 || delta > 0.1 : delta = 0.016
-            prev_t = now_t
-
-            angle = angle + delta * 1.0
-            dx_MV1SetRotationXYZ model, 0.0, angle, 0.0
-            dx_MV1PhysicsCalculation model, delta
-        }
+        angle = angle + delta
+        rot->y = angle                   ; ← arrow operator
+        dx_MV1SetRotationXYZ model, rot
+        dx_MV1PhysicsCalculation model, delta
 
         dx_ClsDrawScreen
-
-        ;  YUKARI は MMD 座標系 (Y 上、Z 奥) で等身大。適切なカメラ距離:
-        if loaded {
-            dx_setcamerapos 0.0, 10.0, -30.0, 0.0, 10.0, 0.0
-            dx_MV1DrawModel model
-        }
-
+        dx_MV1DrawModel model
         color 255, 255, 255
         pos 10, 10
-        mes "frame=" + frame
-        pos 10, 30
-        mes status_msg
-        if loaded {
-            pos 10, 50
-            mes "angle=" + strf("%.2f", angle)
-        }
+        mes "MV1 + Bullet Physics  angle=" + strf("%.2f", angle)
         dx_ScreenFlip
         await 16
     loop
