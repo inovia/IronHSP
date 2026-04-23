@@ -2,9 +2,13 @@
 #include <assimp/Exporter.hpp>
 #include <assimp/scene.h>
 #include <assimp/mesh.h>
+#include <assimp/texture.h>
 #include <assimp/anim.h>
 #include <algorithm>
+#include <cstdio>
 #include <cstring>
+#include <filesystem>
+#include <map>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -198,8 +202,7 @@ aiMesh *build_mesh(const ModelIR &ir, std::size_t mi,
 // 簡易: 各 AnimSet を 1 aiAnimation、各 Anim を 1 aiNodeAnim (node=bone name)。
 // 同じ bone に TRANSLATE + ROTATE + SCALE 3 keyset を mNumPositionKeys /
 // mNumRotationKeys / mNumScalingKeys に分配。
-// MORPH anim (SHAPE datatype) は aiMeshMorphAnim で出すが glTF/FBX 出力は
-// ファイル形式次第。今回は bone anim のみ。
+// MORPH anim (SHAPE datatype) は aiMeshMorphAnim として mMorphMeshChannels に追加。
 std::vector<aiAnimation *> build_animations(const ModelIR &ir,
                                             const std::vector<aiNode *> &boneNodes)
 {
@@ -208,6 +211,23 @@ std::vector<aiAnimation *> build_animations(const ModelIR &ir,
 
     auto get_keyset = [&](std::size_t idx) -> const AnimKeySetIR * {
         return (idx < ir.anim_keysets.size()) ? &ir.anim_keysets[idx] : nullptr;
+    };
+
+    // Shape→per-mesh anim-mesh-index マップ (build_mesh 内の順序と一致させる)
+    std::vector<std::unordered_map<int, int>> meshShapeToAnimIdx(ir.meshes.size());
+    for (unsigned mi = 0; mi < ir.meshes.size(); ++mi) {
+        int aidx = 0;
+        for (std::size_t si = 0; si < ir.shapes.size(); ++si) {
+            for (const auto &sm : ir.shapes[si].meshes) {
+                if (sm.target_mesh == static_cast<std::uint32_t>(mi)) {
+                    meshShapeToAnimIdx[mi][static_cast<int>(si)] = aidx++;
+                }
+            }
+        }
+    }
+    // Morph anim は単一 mesh_group に attach (mesh が 1 つなら明確、複数でも構造優先)
+    auto mesh_node_name = [&](unsigned /*mi*/) -> std::string {
+        return "mesh_group";
     };
 
     for (const auto &aset : ir.anim_sets) {
@@ -224,13 +244,14 @@ std::vector<aiAnimation *> build_animations(const ModelIR &ir,
         };
         std::unordered_map<int, BoneAnim> byBone;
 
+        // Morph anim: mesh_idx → time → vec<(anim_mesh_idx, weight)>
+        struct MorphEntry { int animIdx; float weight; };
+        std::unordered_map<int, std::map<float, std::vector<MorphEntry>>> morphByMesh;
+
         for (std::size_t ai : aset.anim_indices) {
             if (ai >= ir.anims.size()) continue;
             const auto &an = ir.anims[ai];
             int tfi = an.target_frame_index;  // writer 側: 1 + meshes + bone_idx
-            // bone index を逆算: boneNodes と対応する bone 0..N-1
-            // target_frame_index が non-skin 時は mesh frame 自身、skin 時は bone frame
-            // 単純化: mesh_count は ir.meshes.size()、skin 時は bone_idx = tfi - (1+meshes)
             int boneIdx = -1;
             if (!ir.bones.empty()) {
                 int expected = 1 + static_cast<int>(ir.meshes.size());
@@ -238,14 +259,35 @@ std::vector<aiAnimation *> build_animations(const ModelIR &ir,
                     boneIdx = tfi - expected;
                 }
             }
-            if (boneIdx < 0) continue;
-            auto &ba = byBone[boneIdx];
             for (std::size_t ksi : an.keyset_indices) {
                 const auto *ks = get_keyset(ksi);
                 if (!ks) continue;
-                // raw_blob でしか持っていない場合は decode 不能 → skip
                 if (!ks->raw_blob.empty()) continue;
                 std::size_t n = ks->key_times.size();
+
+                // SHAPE: morph anim — target_shape_index の shape が影響する全 mesh に分配
+                if (ks->data_type == AnimKeySetIR::DT_SHAPE) {
+                    int si = ks->target_shape_index;
+                    if (si < 0 || si >= static_cast<int>(ir.shapes.size())) continue;
+                    bool is_scalar = (ks->key_type == AnimKeySetIR::KT_LINEAR ||
+                                      ks->key_type == AnimKeySetIR::KT_FLAT);
+                    if (!is_scalar || ks->key_values.size() < n) continue;
+                    for (const auto &sm : ir.shapes[si].meshes) {
+                        int mi = static_cast<int>(sm.target_mesh);
+                        if (mi < 0 || mi >= static_cast<int>(ir.meshes.size())) continue;
+                        auto it = meshShapeToAnimIdx[mi].find(si);
+                        if (it == meshShapeToAnimIdx[mi].end()) continue;
+                        int animIdx = it->second;
+                        for (std::size_t k = 0; k < n; ++k) {
+                            morphByMesh[mi][ks->key_times[k]].push_back(
+                                {animIdx, ks->key_values[k]});
+                        }
+                    }
+                    continue;
+                }
+
+                if (boneIdx < 0) continue;
+                auto &ba = byBone[boneIdx];
                 switch (ks->data_type) {
                 case AnimKeySetIR::DT_TRANSLATE:
                     if (ks->key_type == AnimKeySetIR::KT_VECTOR && ks->key_values.size() >= n*3) {
@@ -266,7 +308,6 @@ std::vector<aiAnimation *> build_animations(const ModelIR &ir,
                 case AnimKeySetIR::DT_ROTATE:
                     if (ks->key_type == AnimKeySetIR::KT_QUATERNION_X && ks->key_values.size() >= n*4) {
                         for (std::size_t k = 0; k < n; ++k) {
-                            // {x,y,z,w} → assimp {w,x,y,z}
                             ba.rot.emplace_back(ks->key_times[k],
                                 aiQuaternion(ks->key_values[k*4+3],
                                              ks->key_values[k*4+0],
@@ -275,12 +316,39 @@ std::vector<aiAnimation *> build_animations(const ModelIR &ir,
                         }
                     }
                     break;
+                case AnimKeySetIR::DT_MATRIX4X4C:
+                    // MATRIX_4X4CT_F (4 rows × 3 cols)。DxLib 格納は 12 floats/key、row-major。
+                    // layout: (r00, r01, r02, tx, r10, r11, r12, ty, r20, r21, r22, tz)
+                    // T/R/S に分解して 3 track に分配。
+                    if (ks->key_type == AnimKeySetIR::KT_MATRIX4X4C && ks->key_values.size() >= n*12) {
+                        for (std::size_t k = 0; k < n; ++k) {
+                            const float *m = &ks->key_values[k*12];
+                            aiVector3D t(m[3], m[7], m[11]);
+                            aiVector3D r0(m[0], m[1], m[2]);
+                            aiVector3D r1(m[4], m[5], m[6]);
+                            aiVector3D r2(m[8], m[9], m[10]);
+                            float sx = r0.Length(), sy = r1.Length(), sz = r2.Length();
+                            if (sx > 1e-8f) r0 /= sx;
+                            if (sy > 1e-8f) r1 /= sy;
+                            if (sz > 1e-8f) r2 /= sz;
+                            // DxLib row-vector 規約 → assimp column-vector 規約へ transpose
+                            aiMatrix3x3 rm;
+                            rm.a1=r0.x; rm.b1=r0.y; rm.c1=r0.z;
+                            rm.a2=r1.x; rm.b2=r1.y; rm.c2=r1.z;
+                            rm.a3=r2.x; rm.b3=r2.y; rm.c3=r2.z;
+                            float t_k = ks->key_times[k];
+                            ba.pos.emplace_back(t_k, t);
+                            ba.rot.emplace_back(t_k, aiQuaternion(rm));
+                            ba.scl.emplace_back(t_k, aiVector3D(sx, sy, sz));
+                        }
+                    }
+                    break;
                 }
             }
         }
 
-        // 0 channel anim は exporter (特に gltf) を crash させるので skip
-        if (byBone.empty()) {
+        // 0 channel anim (bone + morph 共に空) は exporter を crash させるので skip
+        if (byBone.empty() && morphByMesh.empty()) {
             delete anim;
             continue;
         }
@@ -316,6 +384,32 @@ std::vector<aiAnimation *> build_animations(const ModelIR &ir,
                         ch->mScalingKeys[k] = { ba.scl[k].first, ba.scl[k].second };
                 }
                 anim->mChannels[ci++] = ch;
+            }
+        }
+
+        // Morph mesh channels
+        if (!morphByMesh.empty()) {
+            anim->mNumMorphMeshChannels = static_cast<unsigned>(morphByMesh.size());
+            anim->mMorphMeshChannels = new aiMeshMorphAnim*[anim->mNumMorphMeshChannels];
+            unsigned mci = 0;
+            for (auto &[mi, byTime] : morphByMesh) {
+                auto *mm = new aiMeshMorphAnim();
+                mm->mName = aiString(mesh_node_name(static_cast<unsigned>(mi)));
+                mm->mNumKeys = static_cast<unsigned>(byTime.size());
+                mm->mKeys = new aiMeshMorphKey[mm->mNumKeys];
+                unsigned ki = 0;
+                for (auto &[t, entries] : byTime) {
+                    auto &mk = mm->mKeys[ki++];
+                    mk.mTime = t;
+                    mk.mNumValuesAndWeights = static_cast<unsigned>(entries.size());
+                    mk.mValues = new unsigned[entries.size()];
+                    mk.mWeights = new double[entries.size()];
+                    for (std::size_t j = 0; j < entries.size(); ++j) {
+                        mk.mValues[j]  = static_cast<unsigned>(entries[j].animIdx);
+                        mk.mWeights[j] = entries[j].weight;
+                    }
+                }
+                anim->mMorphMeshChannels[mci++] = mm;
             }
         }
 
@@ -381,6 +475,11 @@ std::unique_ptr<aiScene> build_scene(const ModelIR &ir) {
             mat->AddProperty(&m.power, 1, AI_MATKEY_SHININESS);
             float op = 1.0f - m.alpha;
             mat->AddProperty(&op, 1, AI_MATKEY_OPACITY);
+            // Blend func: DxLib DX_BLENDMODE_ADD(2) → aiBlendMode_Additive, 他は default
+            if (m.draw_blend_mode == 2) {
+                int bm = aiBlendMode_Additive;
+                mat->AddProperty(&bm, 1, AI_MATKEY_BLEND_FUNC);
+            }
             if (m.diffuse_texture >= 0 && m.diffuse_texture < static_cast<int>(ir.textures.size())) {
                 aiString path(ir.textures[m.diffuse_texture].color_path.c_str());
                 mat->AddProperty(&path, AI_MATKEY_TEXTURE_DIFFUSE(0));
@@ -416,6 +515,76 @@ std::unique_ptr<aiScene> build_scene(const ModelIR &ir) {
 
 }  // anon
 
+// テクスチャ実ファイルを aiScene に埋め込む (GLB/FBX 等は埋込テクスチャ対応)。
+// base_dir = 入力/出力ディレクトリ。見つかったファイルを aiTexture として aiScene に
+// 追加し、material の path を "*N" (埋込参照) に書き換える。
+void embed_textures(aiScene *scene, const ModelIR &ir, const std::string &base_dir) {
+    if (ir.textures.empty()) return;
+    namespace fs = std::filesystem;
+    fs::path bdir(base_dir.empty() ? "." : base_dir);
+
+    std::vector<std::pair<std::string, std::vector<std::uint8_t>>> loaded;
+    std::vector<int> texToEmbedIdx(ir.textures.size(), -1);
+
+    for (std::size_t i = 0; i < ir.textures.size(); ++i) {
+        const auto &t = ir.textures[i];
+        if (t.color_path.empty()) continue;
+        fs::path src(t.color_path);
+        if (!src.is_absolute()) src = bdir / src;
+        std::error_code ec;
+        if (!fs::exists(src, ec)) continue;
+        std::FILE *fp = std::fopen(src.string().c_str(), "rb");
+        if (!fp) continue;
+        auto sz = fs::file_size(src, ec);
+        std::vector<std::uint8_t> buf(sz);
+        std::fread(buf.data(), 1, sz, fp);
+        std::fclose(fp);
+        texToEmbedIdx[i] = static_cast<int>(loaded.size());
+        // 拡張子から format hint
+        std::string ext = src.extension().string();
+        if (!ext.empty() && ext[0] == '.') ext = ext.substr(1);
+        for (auto &c : ext) c = static_cast<char>(std::tolower(c));
+        loaded.emplace_back(ext, std::move(buf));
+    }
+
+    if (loaded.empty()) return;
+
+    scene->mNumTextures = static_cast<unsigned>(loaded.size());
+    scene->mTextures = new aiTexture*[scene->mNumTextures];
+    for (unsigned i = 0; i < loaded.size(); ++i) {
+        auto *t = new aiTexture();
+        // 圧縮バイナリとして embed (mHeight=0 が assimp の圧縮フラグ)
+        t->mHeight = 0;
+        t->mWidth = static_cast<unsigned>(loaded[i].second.size());
+        t->pcData = reinterpret_cast<aiTexel*>(new std::uint8_t[t->mWidth]);
+        std::memcpy(t->pcData, loaded[i].second.data(), t->mWidth);
+        std::strncpy(t->achFormatHint, loaded[i].first.c_str(), sizeof(t->achFormatHint) - 1);
+        t->achFormatHint[sizeof(t->achFormatHint) - 1] = 0;
+        t->mFilename = aiString(loaded[i].first);
+        scene->mTextures[i] = t;
+    }
+
+    // material のテクスチャパスを "*N" 形式に書換え
+    for (unsigned mi = 0; mi < scene->mNumMaterials; ++mi) {
+        auto *mat = scene->mMaterials[mi];
+        auto fix = [&](aiTextureType type, int texIdx) {
+            if (texIdx < 0 || texIdx >= static_cast<int>(texToEmbedIdx.size())) return;
+            int eidx = texToEmbedIdx[texIdx];
+            if (eidx < 0) return;
+            aiString p(std::string("*") + std::to_string(eidx));
+            mat->RemoveProperty(_AI_MATKEY_TEXTURE_BASE, type, 0);
+            mat->AddProperty(&p, _AI_MATKEY_TEXTURE_BASE, type, 0);
+        };
+        if (mi < ir.materials.size()) {
+            const auto &m = ir.materials[mi];
+            fix(aiTextureType_DIFFUSE,  m.diffuse_texture);
+            fix(aiTextureType_SPECULAR, m.specular_texture);
+            fix(aiTextureType_NORMALS,  m.normal_texture);
+            fix(aiTextureType_EMISSIVE, m.emissive_texture);
+        }
+    }
+}
+
 std::string export_via_assimp(const ModelIR &ir, const std::string &path,
                               const std::string &fmt_hint) {
     std::string fmt = fmt_hint;
@@ -434,6 +603,14 @@ std::string export_via_assimp(const ModelIR &ir, const std::string &path,
     }
 
     auto scene = build_scene(ir);
+    // GLB/GLTF/FBX はテクスチャ埋込が強く推奨 (GLB は単体完結)。
+    // 入力 dir がわからないので path のディレクトリから探す。
+    if (fmt == "glb2" || fmt == "gltf2" || fmt == "fbx") {
+        namespace fs = std::filesystem;
+        fs::path outp(path);
+        std::string base = outp.has_parent_path() ? outp.parent_path().string() : ".";
+        embed_textures(scene.get(), ir, base);
+    }
     Assimp::Exporter exp;
     aiReturn rc = exp.Export(scene.get(), fmt, path);
     if (rc != AI_SUCCESS) {

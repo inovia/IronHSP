@@ -3,6 +3,8 @@
 #include "mv1_f1.hpp"
 #include "mv1_enums.hpp"
 #include <algorithm>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <string>
 #include <unordered_map>
@@ -10,6 +12,33 @@
 namespace mv1conv {
 
 namespace {
+
+// DxLib MV1AnimKey16BitMinBtoF (DxModel.cpp L3255) 移植。
+// 16-bit キー/時間の Min フィールド (byte) を float に復元する DxLib の公式テーブル。
+float mv1_anim_key_16bit_min_btof(std::uint8_t min_byte) {
+    static const float table[2][16] = {
+        {1.0f, 10.0f, 100.0f, 1000.0f, 10000.0f, 100000.0f, 1000000.0f,
+         10000000.0f, 100000000.0f, 1000000000.0f, 10000000000.0f,
+         100000000000.0f, 1000000000000.0f, 10000000000000.0f,
+         100000000000000.0f, 1000000000000000.0f},
+        {1.0f, 0.1f, 0.01f, 0.001f, 0.0001f, 0.00001f, 0.000001f, 0.0000001f,
+         0.00000001f, 0.000000001f, 0.0000000001f, 0.00000000001f,
+         0.000000000001f, 0.0000000000001f, 0.00000000000001f, 0.000000000000001f}
+    };
+    if (min_byte & 0x80) return 0.0f;
+    return table[(min_byte >> 5) & 1][min_byte & 0x1f]
+         * ((min_byte & 0x40) ? -1.0f : 1.0f);
+}
+
+// DxLib MV1AnimKey16BitUnitBtoF (DxModel.cpp L3309) 移植。
+float mv1_anim_key_16bit_unit_btof(std::uint8_t unit_byte) {
+    static const float table[2][8] = {
+        {1.0f, 10.0f, 100.0f, 1000.0f, 10000.0f, 100000.0f, 1000000.0f, 10000000.0f},
+        {1.0f, 0.1f, 0.01f, 0.001f, 0.0001f, 0.00001f, 0.000001f, 0.0000001f}
+    };
+    return table[unit_byte >> 7][(unit_byte >> 4) & 0x7] * (unit_byte & 0x0f);
+}
+
 
 // Frame.PositionAndNormalData → (positions, normals) 展開 (obj_export からの流用)。
 struct FrameVerts {
@@ -130,6 +159,8 @@ FrameVerts decode_frame_verts(const Mv1File &f, const f1::MV1_FRAME_F1 &fr) {
                     out.nrm[i*3+1] = n[1];
                     out.nrm[i*3+2] = n[2];
                 }
+                // s == 1 (tangent) / s == 2 (binormal) は読み飛ばすのみ
+                // (現行 IR は per-unique-pos normals only、TB は writer 非対応のため)
             }
         }
     }
@@ -305,6 +336,7 @@ void extract_animations(const Mv1File &f, ModelIR &ir) {
     const double DX_PI = 3.14159265358979323846;
 
     ir.anim_keysets.reserve(hdr->AnimKeySetNum);
+    int diag_decoded = 0, diag_raw = 0;
     for (int i = 0; i < hdr->AnimKeySetNum; ++i) {
         const auto *ks = f.at<f1::MV1_ANIM_KEYSET_F1>(hdr->AnimKeySet + i * hdr->AnimKeySetUnitSize);
         if (!ks) return;
@@ -363,14 +395,17 @@ void extract_animations(const Mv1File &f, ModelIR &ir) {
             ki.key_times.resize(num);
             for (std::uint32_t k = 0; k < num; ++k) ki.key_times[k] = startT + unitT * k;
         } else if (ks->Flag & FLAG_TIME_BIT16) {
-            // 16-bit time: Min + Unit × short
+            // MV1_ANIM_KEY_16BIT_F1 (2 bytes) + N words: t = WORD * Unit + Min
             if (p + 2 > end) goto keep_raw;
-            std::uint16_t minB; std::memcpy(&minB, p, 1); std::uint16_t unB;
-            std::memcpy(&unB, p + 1, 1);  // 2 byte { Min, Unit } packed
-            // Actually reading MV1_ANIM_KEY_16BIT_F1 which is 2 bytes = { Min: char, Unit: char }
-            // But DxLib uses "MV1AnimKey16BitMinBtoF" conversion which we don't have.
-            // Simple best-effort: treat as raw_blob
-            goto keep_raw;
+            float minF  = mv1_anim_key_16bit_min_btof(p[0]);
+            float unitF = mv1_anim_key_16bit_unit_btof(p[1]);
+            p += 2;
+            if (p + 2 * num > end) goto keep_raw;
+            ki.key_times.resize(num);
+            for (std::uint32_t k = 0; k < num; ++k) {
+                std::uint16_t w; std::memcpy(&w, p, 2); p += 2;
+                ki.key_times[k] = static_cast<float>(w) * unitF + minF;
+            }
         } else {
             if (p + 4 * num > end) goto keep_raw;
             ki.key_times.resize(num);
@@ -380,15 +415,44 @@ void extract_animations(const Mv1File &f, ModelIR &ir) {
 
         // Key values 読み取り
         if (ks->Flag & FLAG_KEY_BIT16) {
-            // 16bit compressed key (MP_PP / Z_TP / general)
-            if (!(ks->Flag & (FLAG_KEY_MP_PP | FLAG_KEY_Z_TP))) {
-                // 汎用 16bit: Min + Unit の 2 byte prefix
+            // 16bit compressed: { Min, Unit } (2B) + N × (1..4 WORDs)。
+            // ただし MP_PP / Z_TP フラグ時は prefix 無しで [-π..π] / [0..2π] 固定レンジ。
+            const bool mp_pp = (ks->Flag & FLAG_KEY_MP_PP) != 0;
+            const bool z_tp  = (ks->Flag & FLAG_KEY_Z_TP)  != 0;
+            float minF = 0.0f, unitF = 0.0f;
+            if (!mp_pp && !z_tp) {
                 if (p + 2 > end) goto keep_raw;
-                p += 2;  // skip, would need MV1AnimKey16Bit conversion
+                minF  = mv1_anim_key_16bit_min_btof(p[0]);
+                unitF = mv1_anim_key_16bit_unit_btof(p[1]);
+                p += 2;
             }
-            // 残りは key_type 依存の 16bit 値配列 — DxLib 独自スケーリングのため
-            // 完全な decode には MV1AnimKey16BitBtoF 実装が要る。raw_blob 維持で済ます。
-            goto keep_raw;
+            // 各 WORD → float に復元する関数
+            auto decode_word = [&](std::uint16_t w) -> float {
+                if (mp_pp) return static_cast<float>(w) * static_cast<float>(DX_PI * 2.0)
+                                   / 65535.0f - static_cast<float>(DX_PI);
+                if (z_tp)  return static_cast<float>(w) * static_cast<float>(DX_PI * 2.0)
+                                   / 65535.0f;
+                return static_cast<float>(w) * unitF + minF;
+            };
+            int valCompsPerKey16;
+            switch (ks->Type) {
+            case AnimKeySetIR::KT_LINEAR:
+            case AnimKeySetIR::KT_FLAT:           valCompsPerKey16 = 1; break;
+            case AnimKeySetIR::KT_VECTOR:         valCompsPerKey16 = 3; break;
+            case AnimKeySetIR::KT_QUATERNION_X:
+            case AnimKeySetIR::KT_QUATERNION_VMD: valCompsPerKey16 = 4; break;
+            // DxLib は MATRIX 系の KEY_BIT16 は未サポート (必ず非圧縮)
+            default: goto keep_raw;
+            }
+            std::size_t total = static_cast<std::size_t>(num) * valCompsPerKey16;
+            if (p + total * 2 > end) goto keep_raw;
+            ki.key_values.resize(total);
+            for (std::size_t k = 0; k < total; ++k) {
+                std::uint16_t w; std::memcpy(&w, p, 2); p += 2;
+                ki.key_values[k] = decode_word(w);
+            }
+            decoded = true;
+            goto do_store;
         }
 
         {
@@ -413,6 +477,7 @@ void extract_animations(const Mv1File &f, ModelIR &ir) {
 do_store:
         if (decoded) {
             // 成功時は raw_blob を空に (writer が simple layout で書く)
+            ++diag_decoded;
             ir.anim_keysets.push_back(std::move(ki));
             continue;
         }
@@ -425,7 +490,22 @@ keep_raw:
             ki.raw_blob.assign(f.buffer().data() + ks->KeyData,
                                f.buffer().data() + ks->KeyData + bsz);
         }
+        ++diag_raw;
         ir.anim_keysets.push_back(std::move(ki));
+    }
+    if (std::getenv("MV1CONV_ANIM_DIAG")) {
+        std::fprintf(stderr, "anim keysets: total=%d decoded=%d raw=%d\n",
+                     hdr->AnimKeySetNum, diag_decoded, diag_raw);
+        // data_type / key_type ヒストグラム
+        std::unordered_map<int,int> dtHist, ktHist;
+        for (const auto &k : ir.anim_keysets) {
+            dtHist[k.data_type]++; ktHist[k.key_type]++;
+        }
+        std::fprintf(stderr, "  data_type hist:");
+        for (auto &[dt, c] : dtHist) std::fprintf(stderr, " %d=%d", dt, c);
+        std::fprintf(stderr, "\n  key_type hist:");
+        for (auto &[kt, c] : ktHist) std::fprintf(stderr, " %d=%d", kt, c);
+        std::fprintf(stderr, "\n");
     }
 
     // runtime sizes は AnimKeyData 領域合計から推定: 単純には hdr->OriginalAnimKeyDataSize
@@ -513,9 +593,23 @@ LoadResult load_mv1_to_ir(const std::string &path) {
         mat.emissive = { m->Emissive.r, m->Emissive.g, m->Emissive.b, m->Emissive.a };
         mat.power = m->Power;
         mat.alpha = m->Alpha;
-        if (m->DiffuseLayerNum > 0)  mat.diffuse_texture  = m->DiffuseLayer[0].Texture;
-        if (m->SpecularLayerNum > 0) mat.specular_texture = m->SpecularLayer[0].Texture;
-        if (m->NormalLayerNum > 0)   mat.normal_texture   = m->NormalLayer[0].Texture;
+        if (m->DiffuseLayerNum > 0) {
+            mat.diffuse_texture      = m->DiffuseLayer[0].Texture;
+            mat.diffuse_layer_blend  = m->DiffuseLayer[0].BlendType;
+        }
+        if (m->SpecularLayerNum > 0) {
+            mat.specular_texture     = m->SpecularLayer[0].Texture;
+            mat.specular_layer_blend = m->SpecularLayer[0].BlendType;
+        }
+        if (m->NormalLayerNum > 0) {
+            mat.normal_texture       = m->NormalLayer[0].Texture;
+            mat.normal_layer_blend   = m->NormalLayer[0].BlendType;
+        }
+        mat.use_alpha_test   = m->UseAlphaTest;
+        mat.alpha_func       = m->AlphaFunc;
+        mat.alpha_ref        = m->AlphaRef;
+        mat.draw_blend_mode  = m->DrawBlendMode;
+        mat.draw_blend_param = m->DrawBlendParam;
         if (m->ToonInfo != 0) {
             const auto *tn = f.at<f1::MV1_MATERIAL_TOON_F1>(m->ToonInfo);
             if (tn) {

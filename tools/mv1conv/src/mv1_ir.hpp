@@ -27,6 +27,19 @@ struct MaterialIR {
     int normal_texture   = -1;
     int emissive_texture = -1;
 
+    // Material layer BlendType (DiffuseLayer[0] 等の BlendType、0=TEX1 に同じ)
+    int diffuse_layer_blend  = 0;
+    int specular_layer_blend = 0;
+    int normal_layer_blend   = 0;
+    int emissive_layer_blend = 0;
+
+    // Alpha test / blend mode (MV1_MATERIAL_F1)
+    int use_alpha_test = 0;     // 0=disable, 1=enable
+    int alpha_func     = 0;     // D3DCMP_* compare func
+    int alpha_ref      = 0;     // alpha test reference value
+    int draw_blend_mode  = 0;   // DxLib DX_BLENDMODE_* (0=NOBLEND)
+    int draw_blend_param = 0;   // blend 強度
+
     // Toon (MV1_MATERIAL_TOON_F1)。is_toon=true なら writer が ToonInfo を出力。
     bool is_toon = false;
     int toon_diffuse_grad_texture  = -1;  // トゥーン陰影グラデーション (主)

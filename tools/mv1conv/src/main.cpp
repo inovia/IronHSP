@@ -21,6 +21,7 @@
 #endif
 #include "mv1_writer.hpp"
 #include "dxa.hpp"
+#include <algorithm>
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
@@ -128,17 +129,75 @@ static int convert_generic(const char *in, const char *out, bool noBones = false
         return 1;
     }
 
-    if (noBones) {
+    if (noBones || std::getenv("MV1CONV_NO_BONES")) {
         ir->bones.clear();
         for (auto &m : ir->meshes) m.bone_weights.clear();
+        // bone を消したら anim も意味を失うので付随削除
+        ir->anim_keysets.clear();
+        ir->anims.clear();
+        ir->anim_sets.clear();
     }
-    // TEMP debug: --no-tex flag でテクスチャ bind を消す
     if (std::getenv("MV1CONV_NO_TEX")) {
         ir->textures.clear();
-        for (auto &mat : ir->materials) mat.diffuse_texture = -1;
+        for (auto &mat : ir->materials) {
+            mat.diffuse_texture = -1;
+            mat.specular_texture = -1;
+            mat.normal_texture = -1;
+            mat.emissive_texture = -1;
+        }
     }
     if (std::getenv("MV1CONV_NO_UV")) {
         for (auto &m : ir->meshes) m.uvs.clear();
+    }
+    if (std::getenv("MV1CONV_NO_NORMALS")) {
+        for (auto &m : ir->meshes) m.normals.clear();
+    }
+    if (std::getenv("MV1CONV_NO_SHAPES")) {
+        ir->shapes.clear();
+        // SHAPE anim keysets も除外
+        ir->anim_keysets.erase(
+            std::remove_if(ir->anim_keysets.begin(), ir->anim_keysets.end(),
+                [](const AnimKeySetIR &k){ return k.data_type == AnimKeySetIR::DT_SHAPE; }),
+            ir->anim_keysets.end());
+    }
+    if (std::getenv("MV1CONV_NO_ANIM")) {
+        ir->anim_keysets.clear();
+        ir->anims.clear();
+        ir->anim_sets.clear();
+    }
+    if (std::getenv("MV1CONV_NO_LIGHTS")) {
+        ir->lights.clear();
+    }
+    if (std::getenv("MV1CONV_NO_PHYSICS")) {
+        ir->physics_rigid_bodies.clear();
+        ir->physics_joints.clear();
+    }
+    if (std::getenv("MV1CONV_NO_MATERIALS")) {
+        ir->materials.clear();
+        ir->textures.clear();
+        MaterialIR def;
+        def.name = "default";
+        ir->materials.push_back(def);
+        for (auto &m : ir->meshes) m.material = 0;
+    }
+    if (std::getenv("MV1CONV_NO_NAMES")) {
+        // 全ての日本語含む name を空にする (UTF-8 / StringBuffer 起因の crash 切り分け用)
+        for (auto &m : ir->meshes) m.name.clear();
+        for (auto &b : ir->bones) b.name.clear();
+        for (auto &mt : ir->materials) mt.name.clear();
+        for (auto &t : ir->textures) t.name.clear();
+        for (auto &sh : ir->shapes) sh.name.clear();
+        for (auto &l : ir->lights) l.name.clear();
+        for (auto &as : ir->anim_sets) as.name.clear();
+    }
+    if (std::getenv("MV1CONV_NO_COLORS")) {
+        for (auto &mat : ir->materials) {
+            mat.diffuse  = {1.0f, 1.0f, 1.0f, 1.0f};
+            mat.ambient  = {0.2f, 0.2f, 0.2f, 1.0f};
+            mat.specular = {0.0f, 0.0f, 0.0f, 1.0f};
+            mat.emissive = {0.0f, 0.0f, 0.0f, 0.0f};
+            mat.alpha = 0.0f;
+        }
     }
     if (const char *onlyStr = std::getenv("MV1CONV_ONLY_MESH")) {
         int idx = std::atoi(onlyStr);
@@ -176,6 +235,23 @@ static int convert_generic(const char *in, const char *out, bool noBones = false
                 // 入力 dir 基準以外にも basename 単体で探す (GPB 等ファイル名のみ)
                 fs::path alt = in_dir / fs::path(tex.color_path).filename();
                 if (fs::exists(alt, ec)) resolved = alt;
+            }
+            // DxLib が読めない拡張子 (.psd) は同名別拡張子 (.tga/.png/.bmp/.jpg/.dds) に差替え。
+            // 元ファイルの存在に関わらず、並行存在する読める候補を優先。
+            {
+                std::string ext = resolved.extension().string();
+                std::string low = ext;
+                for (auto &c : low) c = static_cast<char>(std::tolower(c));
+                if (low == ".psd") {
+                    static const char *alt_exts[] = {".tga", ".png", ".bmp", ".jpg", ".jpeg", ".dds", ".tif", ".tiff"};
+                    for (auto *e : alt_exts) {
+                        fs::path cand = resolved;
+                        cand.replace_extension(e);
+                        if (fs::exists(cand, ec)) { resolved = cand; break; }
+                        cand = in_dir / (resolved.stem().string() + e);
+                        if (fs::exists(cand, ec)) { resolved = cand; break; }
+                    }
+                }
             }
             if (!fs::exists(resolved, ec)) {
                 ++missing;
@@ -389,10 +465,19 @@ static void print_usage(std::FILE *fp) {
         "  MV1CONV_BLENDER=/path    Blender 実行ファイル明示\n"
         "  MV1CONV_VRM_MMD_NAMES=1  VRM humanoid bone を MMD 日本語名に変換\n"
         "  MV1CONV_X_USE_BUILTIN=1  .x は組込 loader (assimp の代わりに)\n"
-        "  MV1CONV_NO_TEX=1         texture 全削除 (debug)\n"
-        "  MV1CONV_NO_UV=1          UV 全削除 (debug)\n"
-        "  MV1CONV_ONLY_MESH=N      mesh #N のみ残す (debug)\n"
-        "  MV1CONV_FIRST_N=N        先頭 N meshes のみ残す (debug)\n"
+        "  ---- Strip options (debug / 問題切り分け用) ----\n"
+        "  MV1CONV_NO_TEX=1         texture 全削除\n"
+        "  MV1CONV_NO_UV=1          UV 全削除\n"
+        "  MV1CONV_NO_NORMALS=1     normal 全削除 (writer が face-normal 再生成)\n"
+        "  MV1CONV_NO_BONES=1       skin を解除 (static mesh 化、anim も削除)\n"
+        "  MV1CONV_NO_SHAPES=1      blend shape / morph 削除\n"
+        "  MV1CONV_NO_ANIM=1        animation 削除\n"
+        "  MV1CONV_NO_LIGHTS=1      光源削除\n"
+        "  MV1CONV_NO_PHYSICS=1     剛体/joint 削除\n"
+        "  MV1CONV_NO_MATERIALS=1   全 material を白 default に置換\n"
+        "  MV1CONV_NO_COLORS=1      diffuse/ambient/specular を default 色に\n"
+        "  MV1CONV_ONLY_MESH=N      mesh #N のみ残す\n"
+        "  MV1CONV_FIRST_N=N        先頭 N meshes のみ残す\n"
         "\n"
         "Options:\n"
         "  --help, -h  : usage 表示\n"
