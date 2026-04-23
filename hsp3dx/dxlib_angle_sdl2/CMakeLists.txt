@@ -632,6 +632,12 @@ if(EMSCRIPTEN)
         # 6.5MB wasm + DxLib + Cubism + Bullet + HSP VM 全部入りでも build 数分。
         "SHELL:-s JSPI=1"
         "SHELL:-O0"
+        # divide-by-zero の関数特定のため debug info + symbol map 残す。
+        # -g4 + DWARF source map で browser DevTools が呼出スタックを source 行で
+        # 表示できるようになる。wasm が大きくなるが diagnostic 用途では必須。
+        "SHELL:-g"
+        "SHELL:--emit-symbol-map"
+        "SHELL:--preload-file ${CMAKE_CURRENT_BINARY_DIR}/start.ax@/start.ax"
         "SHELL:--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/web/capture_shell.html"
     )
 endif()

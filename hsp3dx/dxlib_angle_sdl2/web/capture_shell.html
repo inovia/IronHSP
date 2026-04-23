@@ -61,6 +61,21 @@ function takeShot() {
     }
 }
 
+// F12 / Ctrl+Shift+I (DevTools) / Ctrl+R (reload) などの開発ショートカットは
+// canvas / emscripten に渡さず browser に通す。SDL2 が document level で
+// keydown を吸ってしまうので、capture phase で intercept する。
+window.addEventListener('keydown', function(e) {
+    var passThrough =
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
+        (e.ctrlKey && (e.key === 'r' || e.key === 'R')) ||
+        (e.ctrlKey && (e.key === 'F5'));
+    if (passThrough) {
+        e.stopImmediatePropagation();
+        // do NOT preventDefault — let browser native handling fire
+    }
+}, true);  // capture phase
+
 var Module = {
     canvas: canvasEl,
     print(...args) {

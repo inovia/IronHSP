@@ -230,8 +230,12 @@ struct CREATEFONTTOHANDLE_GPARAM;
 struct FONTCHARDATA;
 __attribute__((weak)) int InitFontManage_PF() { return 0; }
 __attribute__((weak)) int TermFontManage_PF() { return 0; }
+//  Web (SDL2_ttf 非リンク): font 作成 を fail させる。0 を返すと DxLib が
+//  ManageData->BaseInfo.MaxWidth = 0 のまま SetupFontCache を呼んで
+//  DxFont.cpp:5896 (CacheImageSize.cx / MaxWidth) で divide-by-zero になる。
+//  -1 で抜ければ CreateFontToHandle_Static が早期 return -1 して init 続行可能。
 __attribute__((weak)) int CreateFontToHandle_PF(
-    CREATEFONTTOHANDLE_GPARAM *, FONTMANAGE *, int) { return 0; }
+    CREATEFONTTOHANDLE_GPARAM *, FONTMANAGE *, int) { return -1; }
 __attribute__((weak)) int CreateFontToHandle_Error_PF(FONTMANAGE *) { return -1; }
 __attribute__((weak)) int TerminateFontHandle_PF(FONTMANAGE *) { return 0; }
 __attribute__((weak)) int SetupFontCache_PF(
