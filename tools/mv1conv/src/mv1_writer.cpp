@@ -433,6 +433,120 @@ WriteResult write_mv1(const ModelIR &ir) {
         texName[i]      = strings.add(ir.textures[i].name);
         texColorPath[i] = strings.add(ir.textures[i].color_path);
     }
+    std::vector<std::uint32_t> animSetNameOff(ir.anim_sets.size());
+    for (std::size_t i = 0; i < ir.anim_sets.size(); ++i)
+        animSetNameOff[i] = strings.add(ir.anim_sets[i].name);
+
+    // ====== Animation blobs (存在時のみ) ======
+    // layout: AnimKeyData blob (全 keyset の time+value を連結)
+    //         → MV1_ANIM_KEYSET_F1 配列
+    //         → MV1_ANIM_F1 配列
+    //         → MV1_ANIMSET_F1 配列
+    // 各 F1 の相対ポインタは全てファイル先頭からの byte offset。
+    const bool hasAnim = !ir.anim_sets.empty() && !ir.anims.empty() && !ir.anim_keysets.empty();
+    std::uint32_t offAnimKeyData    = 0;
+    std::uint32_t animKeyDataSize   = 0;
+    std::uint32_t offAnimKeySet     = 0;
+    std::uint32_t offAnim           = 0;
+    std::uint32_t offAnimSet        = 0;
+    std::vector<std::uint32_t> keysetKeyDataOff(ir.anim_keysets.size());
+    std::vector<std::uint32_t> animKeySetFirstOff(ir.anims.size());  // 各 Anim の KeySet 先頭 offset
+    std::vector<std::uint32_t> animOffsets(ir.anims.size());
+    std::vector<std::uint32_t> animSetOffsets(ir.anim_sets.size());
+
+    std::uint32_t runtimeAnimKeyDataSize = 0;  // DxLib runtime 側の必要 byte 数
+    if (hasAnim) {
+        b.align4();
+        offAnimKeyData = b.pos();
+        for (std::size_t ki = 0; ki < ir.anim_keysets.size(); ++ki) {
+            const auto &ks = ir.anim_keysets[ki];
+            keysetKeyDataOff[ki] = b.pos();
+            // KeyData layout (最もシンプル): [DWORD Num] [float×N time] [keyVals...]
+            std::uint32_t n = static_cast<std::uint32_t>(ks.key_times.size());
+            b.append_bytes(&n, 4);
+            // 各 key の time
+            for (float t : ks.key_times) b.append_bytes(&t, 4);
+            // 各 key の value
+            for (float v : ks.key_values) b.append_bytes(&v, 4);
+            b.align4();
+
+            // Runtime 側は (DWORD Num) は使わず、TimeArray[N] + ValueArray[N] のみ連続配置。
+            // 各 float time (4byte) + value (type 依存バイト数) を加算。
+            int val_size = 4;
+            if (ks.key_type == AnimKeySetIR::KT_VECTOR)        val_size = 12;
+            else if (ks.key_type == AnimKeySetIR::KT_QUATERNION_X) val_size = 16;
+            runtimeAnimKeyDataSize += n * (4 + val_size);
+        }
+        animKeyDataSize = b.pos() - offAnimKeyData;
+
+        // MV1_ANIM_KEYSET_F1 配列
+        b.align4();
+        offAnimKeySet = b.pos();
+        std::vector<std::uint32_t> keysetOffs(ir.anim_keysets.size());
+        for (std::size_t ki = 0; ki < ir.anim_keysets.size(); ++ki) {
+            const auto &ks = ir.anim_keysets[ki];
+            f1::MV1_ANIM_KEYSET_F1 ksF1{};
+            ksF1.Type = ks.key_type;
+            ksF1.DataType = ks.data_type;
+            ksF1.Flag = 0;  // flags なし = TimeType=KEY, Num=DWORD, no 16bit
+            // KeyData は FHeader からの **絶対** byte offset (DxLib save L20040 で
+            // blob-relative + FHeader->AnimKeyData に補正される最終形)
+            ksF1.KeyData = keysetKeyDataOff[ki];
+            keysetOffs[ki] = b.append_struct(ksF1);
+        }
+
+        // MV1_ANIM_F1 配列 (KeySet 配列は MV1_ANIM_KEYSET_F1[ kskStart : kskStart+KeySetNum ])
+        // が Anim.KeySet から連続して並んでいる必要がある。ir.anims[i].keyset_indices は
+        // 既に昇順の連続区間であることを期待 (assimp_import.cpp で pushback 順)。
+        b.align4();
+        offAnim = b.pos();
+        for (std::size_t ai = 0; ai < ir.anims.size(); ++ai) {
+            const auto &an = ir.anims[ai];
+            f1::MV1_ANIM_F1 af1{};
+            af1.Index = static_cast<std::int32_t>(ai);
+            // Container は後で AnimSet 配列を書いてから逆引きして埋める
+            af1.Container = 0;
+            af1.TargetFrameIndex = an.target_frame_index;
+            af1.MaxTime = an.max_time;
+            af1.RotateOrder = 0;
+            af1.KeySetNum = static_cast<std::int32_t>(an.keyset_indices.size());
+            af1.KeySet = an.keyset_indices.empty()
+                         ? 0u
+                         : keysetOffs[an.keyset_indices.front()];
+            animOffsets[ai] = b.append_struct(af1);
+        }
+
+        // MV1_ANIMSET_F1 配列
+        b.align4();
+        offAnimSet = b.pos();
+        for (std::size_t si = 0; si < ir.anim_sets.size(); ++si) {
+            const auto &as = ir.anim_sets[si];
+            f1::MV1_ANIMSET_F1 asF1{};
+            asF1.Name = animSetNameOff[si];
+            asF1.Index = static_cast<std::int32_t>(si);
+            asF1.MaxTime = as.max_time;
+            asF1.AnimNum = static_cast<std::int32_t>(as.anim_indices.size());
+            asF1.Anim = as.anim_indices.empty() ? 0u : animOffsets[as.anim_indices.front()];
+            asF1.Flag = as.flag;
+            animSetOffsets[si] = b.append_struct(asF1);
+        }
+
+        // Anim の Container を埋め戻す
+        for (std::size_t si = 0; si < ir.anim_sets.size(); ++si) {
+            const auto &as = ir.anim_sets[si];
+            for (std::size_t ai : as.anim_indices) {
+                b.overwrite_u32(animOffsets[ai] + 4, animSetOffsets[si]);  // MV1_ANIM_F1.Container は 2nd DWORD
+            }
+        }
+
+        // AnimSet 配列の DimPrev/DimNext をリンク
+        for (std::size_t si = 0; si < ir.anim_sets.size(); ++si) {
+            std::uint32_t prev = (si == 0) ? 0u : animSetOffsets[si - 1];
+            std::uint32_t next = (si + 1 < ir.anim_sets.size()) ? animSetOffsets[si + 1] : 0u;
+            b.overwrite_u32(animSetOffsets[si] + 0, prev);
+            b.overwrite_u32(animSetOffsets[si] + 4, next);
+        }
+    }
 
     b.align4();
     std::uint32_t offStringBuffer = b.pos();
@@ -728,6 +842,22 @@ WriteResult write_mv1(const ModelIR &ir) {
     hdr.MeshVertexSize      = totalMeshVertexSize;
     hdr.StringSize          = static_cast<std::int32_t>(stringSize);
     hdr.StringBuffer        = offStringBuffer;
+
+    // ====== Animation header fields ======
+    if (hasAnim) {
+        // AnimKeyDataSize = ファイル内 blob の byte 数 (DWORD Num 含む)
+        // OriginalAnimKeyDataSize = DxLib runtime の AnimKeyData 割当 byte 数
+        //   (圧縮展開後、TimeArray + ValueArray の連続領域) — Num prefix は含めない
+        hdr.AnimKeyDataSize         = static_cast<std::int32_t>(animKeyDataSize);
+        hdr.OriginalAnimKeyDataSize = static_cast<std::int32_t>(runtimeAnimKeyDataSize);
+        hdr.AnimKeyData             = offAnimKeyData;
+        hdr.AnimKeySetNum           = static_cast<std::int32_t>(ir.anim_keysets.size());
+        hdr.AnimKeySet              = offAnimKeySet;
+        hdr.AnimNum                 = static_cast<std::int32_t>(ir.anims.size());
+        hdr.Anim                    = offAnim;
+        hdr.AnimSetNum              = static_cast<std::int32_t>(ir.anim_sets.size());
+        hdr.AnimSet                 = offAnimSet;
+    }
 
     b.overwrite_struct(0, hdr);
 

@@ -46,6 +46,11 @@ int wmain(int argc, wchar_t **argv) {
         rc = 1;
     } else {
         rc = 0;
+        int anims = MV1GetAnimNum(h);
+        int keysets = MV1GetAnimKeySetNum(h);
+        if (anims > 0 || keysets > 0) {
+            fwprintf(stderr, L"load OK: anims=%d keysets=%d\n", anims, keysets);
+        }
         MV1DeleteModel(h);
     }
     DxLib_End();

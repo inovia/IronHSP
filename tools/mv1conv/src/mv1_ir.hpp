@@ -58,12 +58,57 @@ struct MeshIR {
     std::vector<VertexBone> bone_weights; // 空 = 静的メッシュ、非空なら size == positions.size()/3
 };
 
+// ================================================================
+// アニメーション関係
+// ================================================================
+
+// 1 つの AnimKeySet = 「1 bone の translate/rotate/scale 何れか」の時系列。
+// MV1 の AnimKeySet は全局共通の配列に積まれ、Anim が KeySet 連続区間を参照する。
+struct AnimKeySetIR {
+    enum DataType : std::int8_t {
+        DT_ROTATE    = 0,   // 回転 (quaternion または 3-vec)
+        DT_SCALE     = 5,   // スケール (3-vec)
+        DT_TRANSLATE = 10,  // 並進 (3-vec)
+    };
+    enum KeyType : std::int8_t {
+        KT_QUATERNION_X = 0,  // FLOAT4 per key
+        KT_VECTOR       = 1,  // VECTOR (3f) per key
+        KT_LINEAR       = 5,  // float per key
+    };
+    std::int8_t data_type;
+    std::int8_t key_type;
+    std::vector<float> key_times;   // N 個 (seconds)
+    // key values: key_type に応じて N*1 / N*3 / N*4 の float 配列
+    std::vector<float> key_values;
+};
+
+// 1 Anim = 1 bone 1 AnimSet の「同じ frame を対象とする AnimKeySet 群」。
+// FBX では通常 translate + rotate + scale の 3 track が同じ TargetFrame に対して載る。
+struct AnimIR {
+    std::int32_t target_frame_index;   // BoneIR の index (= writer 側 Frame index と対応)
+    float max_time;
+    std::vector<std::size_t> keyset_indices;  // ModelIR::anim_keysets[] の index 群
+};
+
+// AnimSet = 「1 つの動作」 (歩行 / ジャンプ等)。複数の Anim をまとめる。
+struct AnimSetIR {
+    std::string name;
+    float max_time;           // セット内で最も長い Anim の MaxTime
+    std::uint32_t flag = 0;   // bit0:add bit1:matrix-linear-blend bit2:loop
+    std::vector<std::size_t> anim_indices;  // ModelIR::anims[] の index 群
+};
+
 struct ModelIR {
     std::vector<MeshIR>     meshes;
     std::vector<MaterialIR> materials;
     std::vector<TextureIR>  textures;
     std::vector<BoneIR>     bones;        // 空 = 静的。非空なら skinned として writer 処理
     bool right_hand = false;  // RightHandType (TRUE=右手系、false=左手系)
+
+    // Animations (空なら writer は anim セクション省略、スキン無しでも可)
+    std::vector<AnimKeySetIR> anim_keysets;
+    std::vector<AnimIR>       anims;
+    std::vector<AnimSetIR>    anim_sets;
 };
 
 }

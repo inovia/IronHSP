@@ -425,6 +425,118 @@ LoadResult load_via_assimp(const std::string &path) {
         r.error = "assimp: no usable mesh in scene";
         return r;
     }
+
+    // ================================================================
+    // Animations を IR に抽出 (skin/static 問わず、あればそのまま書き出す)
+    // ================================================================
+    // bones.clear() 後に取り出してもノード名 → index map が残っていれば OK。
+    // 静的メッシュなら bones 配列は空 = Frame 階層が無いので animation も書けない。
+    // その場合は assimp のアニメは落とす。
+    if (!r.ir.bones.empty() && scene->mNumAnimations > 0) {
+        // bone name → BoneIR index (writer で Frame index 計算時と同じ規則)
+        std::unordered_map<std::string, int> boneIdx;
+        for (std::size_t bi = 0; bi < r.ir.bones.size(); ++bi) {
+            boneIdx[r.ir.bones[bi].name] = static_cast<int>(bi);
+        }
+
+        for (std::uint32_t ai = 0; ai < scene->mNumAnimations; ++ai) {
+            const aiAnimation *aa = scene->mAnimations[ai];
+            double ticks_per_sec = aa->mTicksPerSecond > 0 ? aa->mTicksPerSecond : 1000.0;
+            float max_set_time = 0.0f;
+
+            AnimSetIR aset;
+            aset.name = (aa->mName.length > 0)
+                        ? std::string(aa->mName.C_Str(), aa->mName.length)
+                        : ("anim" + std::to_string(ai));
+            aset.flag = 0;  // loop 判定は glTF/FBX 直接見えないのでデフォルト
+
+            // 各 Channel (= target node + TRS keys) を AnimIR + 3 AnimKeySet に変換
+            for (std::uint32_t ci = 0; ci < aa->mNumChannels; ++ci) {
+                const aiNodeAnim *ch = aa->mChannels[ci];
+                std::string targetName(ch->mNodeName.C_Str(), ch->mNodeName.length);
+                auto it = boneIdx.find(targetName);
+                if (it == boneIdx.end()) continue;  // 対応する bone が無い channel は skip
+
+                AnimIR an;
+                an.target_frame_index = it->second;
+                float max_ch_time = 0.0f;
+
+                // Translate keys (VECTOR)
+                if (ch->mNumPositionKeys > 0) {
+                    AnimKeySetIR ks;
+                    ks.data_type = AnimKeySetIR::DT_TRANSLATE;
+                    ks.key_type  = AnimKeySetIR::KT_VECTOR;
+                    ks.key_times.reserve(ch->mNumPositionKeys);
+                    ks.key_values.reserve(ch->mNumPositionKeys * 3);
+                    for (std::uint32_t k = 0; k < ch->mNumPositionKeys; ++k) {
+                        float t = static_cast<float>(ch->mPositionKeys[k].mTime / ticks_per_sec);
+                        ks.key_times.push_back(t);
+                        const auto &v = ch->mPositionKeys[k].mValue;
+                        ks.key_values.push_back(v.x);
+                        ks.key_values.push_back(v.y);
+                        ks.key_values.push_back(v.z);
+                        if (t > max_ch_time) max_ch_time = t;
+                    }
+                    an.keyset_indices.push_back(r.ir.anim_keysets.size());
+                    r.ir.anim_keysets.push_back(std::move(ks));
+                }
+                // Rotate keys (QUATERNION_X = FLOAT4 {x,y,z,w})
+                if (ch->mNumRotationKeys > 0) {
+                    AnimKeySetIR ks;
+                    ks.data_type = AnimKeySetIR::DT_ROTATE;
+                    ks.key_type  = AnimKeySetIR::KT_QUATERNION_X;
+                    ks.key_times.reserve(ch->mNumRotationKeys);
+                    ks.key_values.reserve(ch->mNumRotationKeys * 4);
+                    for (std::uint32_t k = 0; k < ch->mNumRotationKeys; ++k) {
+                        float t = static_cast<float>(ch->mRotationKeys[k].mTime / ticks_per_sec);
+                        ks.key_times.push_back(t);
+                        const auto &q = ch->mRotationKeys[k].mValue;
+                        // assimp: {w,x,y,z} → DxLib: {x,y,z,w}
+                        ks.key_values.push_back(q.x);
+                        ks.key_values.push_back(q.y);
+                        ks.key_values.push_back(q.z);
+                        ks.key_values.push_back(q.w);
+                        if (t > max_ch_time) max_ch_time = t;
+                    }
+                    an.keyset_indices.push_back(r.ir.anim_keysets.size());
+                    r.ir.anim_keysets.push_back(std::move(ks));
+                }
+                // Scale keys (VECTOR)
+                if (ch->mNumScalingKeys > 0) {
+                    AnimKeySetIR ks;
+                    ks.data_type = AnimKeySetIR::DT_SCALE;
+                    ks.key_type  = AnimKeySetIR::KT_VECTOR;
+                    ks.key_times.reserve(ch->mNumScalingKeys);
+                    ks.key_values.reserve(ch->mNumScalingKeys * 3);
+                    for (std::uint32_t k = 0; k < ch->mNumScalingKeys; ++k) {
+                        float t = static_cast<float>(ch->mScalingKeys[k].mTime / ticks_per_sec);
+                        ks.key_times.push_back(t);
+                        const auto &v = ch->mScalingKeys[k].mValue;
+                        ks.key_values.push_back(v.x);
+                        ks.key_values.push_back(v.y);
+                        ks.key_values.push_back(v.z);
+                        if (t > max_ch_time) max_ch_time = t;
+                    }
+                    an.keyset_indices.push_back(r.ir.anim_keysets.size());
+                    r.ir.anim_keysets.push_back(std::move(ks));
+                }
+
+                an.max_time = max_ch_time;
+                if (max_ch_time > max_set_time) max_set_time = max_ch_time;
+
+                if (!an.keyset_indices.empty()) {
+                    aset.anim_indices.push_back(r.ir.anims.size());
+                    r.ir.anims.push_back(std::move(an));
+                }
+            }
+
+            aset.max_time = max_set_time;
+            if (!aset.anim_indices.empty()) {
+                r.ir.anim_sets.push_back(std::move(aset));
+            }
+        }
+    }
+
     return r;
 }
 
