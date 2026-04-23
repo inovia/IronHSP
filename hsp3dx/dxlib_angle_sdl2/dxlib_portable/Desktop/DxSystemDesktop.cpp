@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------------
 //
 //      DX ライブラリ   Desktop (SDL2/ANGLE) 用 システム 実装 (Stage 4 最小版)
 //
@@ -108,16 +108,39 @@ extern int GetDateTime( tagDATEDATA *DateBuf )
 }
 
 // --- メッセージループ ----------------------------------------------------
-// Stage 4 では SDL_PollEvent で quit のみ拾う。後段で入力/リサイズ等対応。
+// SDL_PollEvent で SDL_QUIT / SDL_WINDOWEVENT_SIZE_CHANGED を処理。
+// 入力 (keyboard / mouse / touch) は SDL_GetKeyboardState 等で live state を
+// 直接読むため、ここでは消費しない (PeepEvents で wheel だけ別経路)。
+
+// DxGraphicsDesktop.cpp 側にウィンドウサイズ変更を通知するヘルパ
+extern int Graphics_Hardware_ChangeMainScreenSize_PF( int Width, int Height ) ;
 
 extern int NS_ProcessMessage( void )
 {
-    SDL_Event ev ;
-    while ( SDL_PollEvent( &ev ) )
-    {
-        if ( ev.type == SDL_QUIT )
-            return -1 ;
+    SDL_PumpEvents() ;
+    // SDL_QUIT を peek (consume)
+    SDL_Event qev[ 1 ] ;
+    if ( SDL_PeepEvents( qev, 1, SDL_GETEVENT, SDL_QUIT, SDL_QUIT ) > 0 ) {
+        return -1 ;
     }
+    // SDL_WINDOWEVENT を順次処理 (resize / close)
+    SDL_Event wevs[ 16 ] ;
+    int n = SDL_PeepEvents( wevs, 16, SDL_GETEVENT, SDL_WINDOWEVENT, SDL_WINDOWEVENT ) ;
+    for ( int i = 0 ; i < n ; ++i ) {
+        switch ( wevs[ i ].window.event ) {
+            case SDL_WINDOWEVENT_SIZE_CHANGED:
+            case SDL_WINDOWEVENT_RESIZED:
+                Graphics_Hardware_ChangeMainScreenSize_PF(
+                    wevs[ i ].window.data1, wevs[ i ].window.data2 ) ;
+                break ;
+            case SDL_WINDOWEVENT_CLOSE:
+                return -1 ;
+            default:
+                break ;
+        }
+    }
+    // 他のイベント (キーボード / マウス wheel / textinput / touch) は
+    // 各 *_PF が SDL_PeepEvents で peek しているのでここでは触らない
     return 0 ;
 }
 
