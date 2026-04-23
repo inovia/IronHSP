@@ -1824,6 +1824,17 @@ extern int Graphics_Hardware_ShadowMap_SetUse_PF( int SlotIndex, SHADOWMAPDATA *
 extern int Graphics_Hardware_Light_SetState_PF( int index, LIGHTPARAM *p )
 {
     if ( !p || index < 0 || index >= 8 ) return -1 ;
+
+    //  主光源 (index 0) の方向だけは toon shader 用に保存する (GLSL shader 経由描画で使用)
+    if ( p->LightType == DX_LIGHTTYPE_D3DLIGHT_DIRECTIONAL && index == 0 ) {
+        g_MainLightDirX = -p->Direction.x ;
+        g_MainLightDirY = -p->Direction.y ;
+        g_MainLightDirZ = -p->Direction.z ;
+    }
+
+#ifndef __EMSCRIPTEN__
+    //  WebGL には fixed-function lighting (glLightf 等) が無いため、emscripten build
+    //  では GL state 設定をスキップ。GLSL shader 経由の描画では uniform bind で対応する。
     GLenum lg = desktop_gl_light( index ) ;
 
     float dif[4] = { p->Diffuse.r,  p->Diffuse.g,  p->Diffuse.b,  p->Diffuse.a  } ;
@@ -1833,19 +1844,9 @@ extern int Graphics_Hardware_Light_SetState_PF( int index, LIGHTPARAM *p )
     glLightfv( lg, GL_SPECULAR, spc ) ;
     glLightfv( lg, GL_AMBIENT,  amb ) ;
 
-    // Position / Direction: GL では light position の w 成分で種類分け
-    //   w = 0: directional (Direction をそのまま方向として)
-    //   w = 1: positional (Position が座標、attenuation 有効)
     if ( p->LightType == DX_LIGHTTYPE_D3DLIGHT_DIRECTIONAL ) {
-        // GL は「光線の方向」ではなく「光源のある方向」を渡す必要あり (方向反転)
         float dir[4] = { -p->Direction.x, -p->Direction.y, -p->Direction.z, 0.0f } ;
         glLightfv( lg, GL_POSITION, dir ) ;
-        // Toon: 主光源 (index 0) のみ保存
-        if ( index == 0 ) {
-            g_MainLightDirX = -p->Direction.x ;
-            g_MainLightDirY = -p->Direction.y ;
-            g_MainLightDirZ = -p->Direction.z ;
-        }
     } else {
         float pos[4] = { p->Position.x, p->Position.y, p->Position.z, 1.0f } ;
         glLightfv( lg, GL_POSITION, pos ) ;
@@ -1853,16 +1854,15 @@ extern int Graphics_Hardware_Light_SetState_PF( int index, LIGHTPARAM *p )
         glLightf( lg, GL_LINEAR_ATTENUATION,    p->Attenuation1 ) ;
         glLightf( lg, GL_QUADRATIC_ATTENUATION, p->Attenuation2 ) ;
     }
-    // Spot
     if ( p->LightType == DX_LIGHTTYPE_D3DLIGHT_SPOT ) {
         float sdir[3] = { p->Direction.x, p->Direction.y, p->Direction.z } ;
         glLightfv( lg, GL_SPOT_DIRECTION, sdir ) ;
-        // Phi (外側) で cutoff、Theta (内側) で spot_exponent
         glLightf( lg, GL_SPOT_CUTOFF,   p->Phi * 90.0f / 3.14159265f ) ;
         glLightf( lg, GL_SPOT_EXPONENT, p->Falloff > 0 ? p->Falloff : 1.0f ) ;
     } else {
-        glLightf( lg, GL_SPOT_CUTOFF, 180.0f ) ;  // non-spot
+        glLightf( lg, GL_SPOT_CUTOFF, 180.0f ) ;
     }
+#endif
     return 0 ;
 }
 
