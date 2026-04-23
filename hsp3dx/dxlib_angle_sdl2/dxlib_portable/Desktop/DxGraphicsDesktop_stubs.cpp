@@ -52,7 +52,7 @@ extern int Graphics_Hardware_Draw32bitIndexedPrimitive_PF(struct tagVERTEX_3D co
 // Graphics_Hardware_DrawFillBox_PF: impl in DxGraphicsDesktop.cpp (Stage 7)
 // moved to DxGraphicsDesktop.cpp (Stage 17)
 extern int Graphics_Hardware_DrawIndexedPrimitive2DUser_PF(struct tagVERTEX2D const *,int,unsigned short const *,int,int,struct IMAGEDATA *,int) { return 0; }
-extern int Graphics_Hardware_DrawIndexedPrimitiveLight_PF(struct tagVERTEX3D const *,int,unsigned short const *,int,int,struct IMAGEDATA *,int) { return 0; }
+// Graphics_Hardware_DrawIndexedPrimitiveLight_PF: impl in DxGraphicsDesktop.cpp (3D primitive Tier 4)
 extern int Graphics_Hardware_DrawIndexedPrimitiveLight_UseVertexBuffer_PF(struct VERTEXBUFFERHANDLEDATA *,struct INDEXBUFFERHANDLEDATA *,int,int,int,int,int,int,struct IMAGEDATA *,int) { return 0; }
 extern int Graphics_Hardware_DrawIndexedPrimitive_PF(struct tagVERTEX_3D const *,int,unsigned short const *,int,int,struct IMAGEDATA *,int) { return 0; }
 // Graphics_Hardware_DrawLine3D_PF: impl in DxGraphicsDesktop.cpp (Tier 3)

@@ -1956,9 +1956,58 @@ extern int Graphics_Hardware_DrawPixel3D_PF( VECTOR Pos, unsigned int Color, int
     return 0 ;
 }
 
+// 3D 一括頂点 / インデックス描画。dx_drawcube3d_s / dx_drawsphere3d_s 等が
+// VERTEX3D 配列 + indices で来るパス。lighting OFF + texture-less の最小実装。
+// fixed-function GL の glBegin/glVertex3f を indices に従って発行する。
+extern int Graphics_Hardware_DrawIndexedPrimitiveLight_PF( const VERTEX3D *Vertex, int VertexNum, const unsigned short *Indices, int IndexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag )
+{
+    (void)VertexNum; (void)Image;
+    if ( !Vertex || !Indices || IndexNum <= 0 ) return 0;
+
+    Desktop_Apply3DMatrices() ;
+    glEnable( GL_DEPTH_TEST ) ;
+    if ( TransFlag ) {
+        glEnable( GL_BLEND ) ;
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ;
+    } else {
+        glDisable( GL_BLEND ) ;
+    }
+    glDisable( GL_TEXTURE_2D ) ;
+
+    GLenum mode ;
+    switch ( PrimitiveType ) {
+        case DX_PRIMTYPE_POINTLIST:     mode = GL_POINTS ;         break ;
+        case DX_PRIMTYPE_LINELIST:      mode = GL_LINES ;          break ;
+        case DX_PRIMTYPE_LINESTRIP:     mode = GL_LINE_STRIP ;     break ;
+        case DX_PRIMTYPE_TRIANGLELIST:  mode = GL_TRIANGLES ;      break ;
+        case DX_PRIMTYPE_TRIANGLESTRIP: mode = GL_TRIANGLE_STRIP ; break ;
+        case DX_PRIMTYPE_TRIANGLEFAN:   mode = GL_TRIANGLE_FAN ;   break ;
+        default:                        mode = GL_TRIANGLES ;      break ;
+    }
+
+    glBegin( mode ) ;
+    for ( int i = 0 ; i < IndexNum ; i++ ) {
+        const VERTEX3D *v = &Vertex[ Indices[ i ] ] ;
+        glColor4ub( v->dif.r, v->dif.g, v->dif.b, v->dif.a ) ;
+        glVertex3f( v->pos.x, v->pos.y, v->pos.z ) ;
+    }
+    glEnd() ;
+    return 0 ;
+}
+
 extern int Graphics_Hardware_DrawTriangle3D_PF( VECTOR Pos1, VECTOR Pos2, VECTOR Pos3, unsigned int Color, int FillFlag, int WriteZBufferFlag, RECT *DrawArea )
 {
     (void)DrawArea;
+#ifdef __EMSCRIPTEN__
+    static int s_tri = 0;
+    if ( s_tri++ < 5 ) {
+        std::fprintf( stderr, "[TRI3D] Pos1=(%.1f,%.1f,%.1f) Pos2=(%.1f,%.1f,%.1f) Pos3=(%.1f,%.1f,%.1f) col=%08x fill=%d zw=%d\n",
+            Pos1.x, Pos1.y, Pos1.z, Pos2.x, Pos2.y, Pos2.z, Pos3.x, Pos3.y, Pos3.z, Color, FillFlag, WriteZBufferFlag );
+        std::fprintf( stderr, "[TRI3D] Proj[0,0]=%.3f View[0,0]=%.3f World[0,0]=%.3f s_DrawTargetW=%d H=%d\n",
+            s_ProjMat.m[0][0], s_ViewMat.m[0][0], s_WorldMat.m[0][0], s_DrawTargetW, s_DrawTargetH );
+        std::fflush(stderr);
+    }
+#endif
     Desktop_Apply3DMatrices() ;
     if ( WriteZBufferFlag ) glEnable( GL_DEPTH_TEST ) ; else glDisable( GL_DEPTH_TEST ) ;
     Desktop_SetGLColor( Color ) ;
@@ -1967,6 +2016,15 @@ extern int Graphics_Hardware_DrawTriangle3D_PF( VECTOR Pos1, VECTOR Pos2, VECTOR
         glVertex3f( Pos2.x, Pos2.y, Pos2.z ) ;
         glVertex3f( Pos3.x, Pos3.y, Pos3.z ) ;
     glEnd() ;
+#ifdef __EMSCRIPTEN__
+    if ( s_tri <= 5 ) {
+        GLenum err = glGetError();
+        if ( err != GL_NO_ERROR ) {
+            std::fprintf( stderr, "[TRI3D] glError after: 0x%x\n", err );
+            std::fflush(stderr);
+        }
+    }
+#endif
     return 0 ;
 }
 
