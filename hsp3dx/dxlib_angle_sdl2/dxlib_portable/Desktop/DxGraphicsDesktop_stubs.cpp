@@ -133,13 +133,33 @@ extern int Graphics_Hardware_ShaderConstantBuffer_Create_PF(int,int,int) { retur
 extern int Graphics_Hardware_ShaderConstantBuffer_Set_PF(struct SHADERCONSTANTBUFFERHANDLEDATA *,int,int) { return 0; }
 extern int Graphics_Hardware_ShaderConstantBuffer_TerminateHandle_PF(struct SHADERCONSTANTBUFFERHANDLEDATA *) { return 0; }
 extern int Graphics_Hardware_ShaderConstantBuffer_Update_PF(struct SHADERCONSTANTBUFFERHANDLEDATA *) { return 0; }
-extern int Graphics_Hardware_Shader_Create_PF(int,int,void *,int,int,int) { return 0; }
+// Graphics_Hardware_Shader_*_PF: impl in DxShaderDesktop.cpp (GLSL source 経路)
+// — DxLib 本家 API (LoadVertexShader/LoadPixelShader 等) を GLSL source 経由で動かす
+extern "C" int Graphics_Hardware_Shader_Create_PF_Desktop(int,int,void *,int,int,int);
+extern "C" int Graphics_Hardware_Shader_TerminateHandle_PF_Desktop(int);
+extern "C" int Graphics_Hardware_Shader_SetConst_PF_Desktop(int,int,int,const void *,int,int);
+extern "C" int Graphics_Hardware_Shader_ResetConst_PF_Desktop(int,int,int,int);
+
+extern int Graphics_Hardware_Shader_Create_PF(int ShaderHandle, int ShaderType, void *Image, int ImageSize, int ImageAfterFree, int ASyncThread)
+{
+    return Graphics_Hardware_Shader_Create_PF_Desktop(ShaderHandle, ShaderType, Image, ImageSize, ImageAfterFree, ASyncThread);
+}
 extern int Graphics_Hardware_Shader_GetConstCount_PF(wchar_t const *,struct SHADERHANDLEDATA *) { return 0; }
-extern int Graphics_Hardware_Shader_GetConstIndex_PF(wchar_t const *,struct SHADERHANDLEDATA *) { return 0; }
-extern int Graphics_Hardware_Shader_GetValidShaderVersion_PF(void) { return 0; }
-extern int Graphics_Hardware_Shader_ResetConst_PF(int,int,int,int) { return 0; }
-extern int Graphics_Hardware_Shader_SetConst_PF(int,int,int,void const *,int,int) { return 0; }
-extern int Graphics_Hardware_Shader_TerminateHandle_PF(struct SHADERHANDLEDATA *) { return 0; }
+extern int Graphics_Hardware_Shader_GetConstIndex_PF(wchar_t const *,struct SHADERHANDLEDATA *) { return -1; }
+extern int Graphics_Hardware_Shader_GetValidShaderVersion_PF(void) { return 300; }
+extern int Graphics_Hardware_Shader_ResetConst_PF(int TypeIndex, int SetIndex, int ConstantIndex, int ParamNum)
+{
+    return Graphics_Hardware_Shader_ResetConst_PF_Desktop(TypeIndex, SetIndex, ConstantIndex, ParamNum);
+}
+extern int Graphics_Hardware_Shader_SetConst_PF(int TypeIndex, int SetIndex, int ConstantIndex, void const *Param, int ParamNum, int UpdateUseArea)
+{
+    return Graphics_Hardware_Shader_SetConst_PF_Desktop(TypeIndex, SetIndex, ConstantIndex, Param, ParamNum, UpdateUseArea);
+}
+extern int Graphics_Hardware_Shader_TerminateHandle_PF(struct SHADERHANDLEDATA *Shader)
+{
+    if (!Shader) return 0;
+    return Graphics_Hardware_Shader_TerminateHandle_PF_Desktop(Shader->HandleInfo.Handle);
+}
 extern int Graphics_Hardware_Shader_ModelCode_Init_PF(void) { return 0; }
 extern int Graphics_Hardware_Shader_ModelCode_Terminate_PF(void) { return 0; }
 // Graphics_Hardware_ShadowMap_*_PF: impl in DxGraphicsDesktop.cpp (M2)

@@ -1467,6 +1467,23 @@ static void dx_disable_vertex3dshader_attribs( void )
     }
 }
 
+// DxShaderDesktop.cpp 側の DxLib Shader API バインダ
+extern "C" int DxLibShader_BindForDraw( int vs_h, int ps_h ) ;
+
+// 現在の glUseProgram が 0 なら、GSYS の User shader handle を見て link + bind
+static void dx_ensure_shader_bound( void )
+{
+    GLint prog = 0 ;
+    glGetIntegerv( GL_CURRENT_PROGRAM, &prog ) ;
+    if ( prog != 0 ) return ;   // 既に誰か (Cubism 等) が bind 済
+
+    int vs_h = GSYS.DrawSetting.UserShaderRenderInfo.SetVertexShaderHandle ;
+    int ps_h = GSYS.DrawSetting.UserShaderRenderInfo.SetPixelShaderHandle  ;
+    if ( vs_h > 0 && ps_h > 0 ) {
+        DxLibShader_BindForDraw( vs_h, ps_h ) ;
+    }
+}
+
 extern int Graphics_Hardware_DrawPrimitive3DToShader_UseVertexBuffer2_PF(
     int VertexBufHandle, int PrimitiveType, int StartVertex, int UseVertexNum )
 {
@@ -1475,6 +1492,7 @@ extern int Graphics_Hardware_DrawPrimitive3DToShader_UseVertexBuffer2_PF(
     if ( vb->PF == nullptr || vb->PF->VertexBuffer == 0 ) return -1 ;
     if ( UseVertexNum <= 0 ) return 0 ;
 
+    dx_ensure_shader_bound() ;
     glBindBuffer( GL_ARRAY_BUFFER, ( GLuint )vb->PF->VertexBuffer ) ;
     dx_setup_vertex3dshader_attribs( 0, vb->UnitSize ) ;
     glDrawArrays( dx_primtype_to_gl( PrimitiveType ), StartVertex, UseVertexNum ) ;
@@ -1497,6 +1515,7 @@ extern int Graphics_Hardware_DrawPrimitiveIndexed3DToShader_UseVertexBuffer2_PF(
     if ( ib->PF == nullptr || ib->PF->IndexBuffer  == 0 ) return -1 ;
     if ( UseIndexNum <= 0 ) return 0 ;
 
+    dx_ensure_shader_bound() ;
     glBindBuffer( GL_ARRAY_BUFFER,         ( GLuint )vb->PF->VertexBuffer ) ;
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ( GLuint )ib->PF->IndexBuffer  ) ;
     dx_setup_vertex3dshader_attribs( BaseVertex, vb->UnitSize ) ;

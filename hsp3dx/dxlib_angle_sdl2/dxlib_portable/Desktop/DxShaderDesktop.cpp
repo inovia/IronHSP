@@ -499,3 +499,291 @@ extern "C" int Desktop_MV1_IsGLSLEnabled( void )
 {
     return s_MV1_UseGLSL ;
 }
+
+// ===========================================================================
+//  DxLib 本家 Shader API 互換レイヤ (Graphics_Hardware_Shader_*_PF 実装)
+// ===========================================================================
+//
+//  DxLib の LoadVertexShader / LoadPixelShader はファイルから shader を
+//  読み込んで SHADERHANDLEDATA を作る。Win は D3D binary (.vso/.pso) 前提だが
+//  Desktop GL では生 GLSL ソースを読めるように実装する。
+//
+//  ユーザ運用:
+//    - LoadVertexShader("foo.vert") / LoadPixelShader("foo.frag") のように
+//      GLSL 拡張子のファイルを置けばそのまま compile される。
+//    - ファイル内容を DXBC (.vso/.pso) magic "DXBC" で始まる場合はエラー。
+//    - ファイル内容が "#version" か "void main" を含む ASCII なら GLSL と判定。
+//
+//  定数 upload の規約:
+//    - DxLib の SetVSConstSF(idx, v) → GLSL 側では `uniform vec4 vs_c[256];`
+//      を宣言しておき、draw 前に glUniform4fv(loc, 256, buffer) で全反映。
+//    - 同様に PS 側は `uniform vec4 ps_c[256];`
+//    - GetConstIndex_PF は「vs_c[N]」「ps_c[N]」形式の名前から N を返す
+//      (単純パーサ、他の名前は -1)
+//
+//  Program 管理:
+//    - SetUseVertexShader(vs) / SetUsePixelShader(ps) は DxLib 側で GSYS に
+//      handle を書くだけ (PF 呼び出し無し)。draw 時に (vs, ps) ペアを key に
+//      program をキャッシュする。
+//
+
+#ifndef GL_VERTEX_SHADER
+#define GL_VERTEX_SHADER   0x8B31
+#endif
+#ifndef GL_FRAGMENT_SHADER
+#define GL_FRAGMENT_SHADER 0x8B30
+#endif
+
+typedef void (APIENTRYP PFN_glUniform4fv)(GLint loc, GLsizei count, const GLfloat *value) ;
+static PFN_glUniform4fv p_glUniform4fv = nullptr ;
+
+static void desktop_dxshader_load_extras( void )
+{
+    if ( p_glUniform4fv ) return ;
+    p_glUniform4fv = ( PFN_glUniform4fv )SDL_GL_GetProcAddress( "glUniform4fv" ) ;
+}
+
+// SHADERHANDLEDATA* を key に GL shader object (未リンク) を保持する。
+// DxLib が AllocHandle した SHADERHANDLEDATA の ->PF->Shader に GLuint を書く
+// 方が筋だが、namespace/cyclic include を避けて map で保持する。
+struct DxLibShaderEntry {
+    GLuint  gl_shader ;       // glCreateShader 済みの shader object
+    int     shader_type ;     // DX_SHADERTYPE_VERTEX / PIXEL / GEOMETRY
+} ;
+static std::unordered_map<int, DxLibShaderEntry> g_DxLibShaders ;  // handle → entry
+
+// (vs_h, ps_h) ペア → GLuint program キャッシュ
+struct ProgramKey {
+    int vs ; int ps ;
+    bool operator==( const ProgramKey &o ) const { return vs == o.vs && ps == o.ps ; }
+} ;
+struct ProgramKeyHash {
+    size_t operator()( const ProgramKey &k ) const {
+        return std::hash<int>()( k.vs ) ^ ( std::hash<int>()( k.ps ) << 1 ) ;
+    }
+} ;
+static std::unordered_map<ProgramKey, GLuint, ProgramKeyHash> g_DxLibPrograms ;
+
+// VS / PS 定数 CPU buffer (vec4 × 256)。Drow 前に glUniform4fv で upload
+static float g_VSConst[ 256 * 4 ] = { 0 } ;
+static float g_PSConst[ 256 * 4 ] = { 0 } ;
+static int   g_VSConstDirty = 1 ;
+static int   g_PSConstDirty = 1 ;
+
+// DXBC magic "DXBC" little-endian = 0x43425844
+static int is_dxbc_binary( const void *data, int size )
+{
+    if ( !data || size < 4 ) return 0 ;
+    const unsigned char *p = ( const unsigned char * )data ;
+    return ( p[0] == 'D' && p[1] == 'X' && p[2] == 'B' && p[3] == 'C' ) ;
+}
+
+// GLSL ソースか判定 (ASCII で "#version" / "void main" / "precision" を含む)
+static int looks_like_glsl_source( const void *data, int size )
+{
+    if ( !data || size < 16 ) return 0 ;
+    const char *p = ( const char * )data ;
+    // 最初の 512 バイト中に特徴的なトークンがあれば GLSL とみなす
+    int look = size < 512 ? size : 512 ;
+    for ( int i = 0 ; i < look ; i++ ) {
+        unsigned char c = ( unsigned char )p[ i ] ;
+        if ( c == 0 ) break ;       // 早期 NUL は GLSL じゃない
+        if ( c > 127 ) return 0 ;   // 非 ASCII 混入 → binary
+    }
+    const char *needles[] = { "#version", "void main", "precision", "attribute", "varying" } ;
+    for ( const char *n : needles ) {
+        size_t nl = std::strlen( n ) ;
+        for ( int i = 0 ; i + ( int )nl <= look ; i++ ) {
+            if ( std::memcmp( p + i, n, nl ) == 0 ) return 1 ;
+        }
+    }
+    return 0 ;
+}
+
+// DxLib Shader_Create_PF 実装: GLSL ソースを compile して shader object を作る
+extern "C" int Graphics_Hardware_Shader_Create_PF_Desktop(
+    int ShaderHandle, int ShaderType, void *Image, int ImageSize,
+    int /*ImageAfterFree*/, int /*ASyncThread*/ )
+{
+    desktop_shader_load_funcs() ;
+    desktop_dxshader_load_extras() ;
+    if ( !p_glCreateShader ) return -1 ;
+
+    if ( is_dxbc_binary( Image, ImageSize ) ) {
+        std::fprintf( stderr, "[DxShaderDesktop] .vso/.pso (DXBC) は未対応。"
+                              "GLSL source (.vert/.frag) を置いてください\n" ) ;
+        return -1 ;
+    }
+    if ( !looks_like_glsl_source( Image, ImageSize ) ) {
+        std::fprintf( stderr, "[DxShaderDesktop] shader file の内容が GLSL とは判別できません\n" ) ;
+        return -1 ;
+    }
+
+    GLenum gl_type ;
+    switch ( ShaderType ) {
+        case 0 /*DX_SHADERTYPE_VERTEX*/:   gl_type = GL_VERTEX_SHADER ;   break ;
+        case 1 /*DX_SHADERTYPE_PIXEL*/:    gl_type = GL_FRAGMENT_SHADER ; break ;
+        case 2 /*DX_SHADERTYPE_GEOMETRY*/:
+            std::fprintf( stderr, "[DxShaderDesktop] Geometry shader は Desktop 未対応\n" ) ;
+            return -1 ;
+        default: return -1 ;
+    }
+
+    // NUL 終端にしてコンパイル
+    std::string src( ( const char * )Image, ( size_t )ImageSize ) ;
+    const char *s = src.c_str() ;
+    GLuint obj = p_glCreateShader( gl_type ) ;
+    p_glShaderSource( obj, 1, &s, nullptr ) ;
+    p_glCompileShader( obj ) ;
+    GLint ok = 0 ;
+    p_glGetShaderiv( obj, GL_COMPILE_STATUS, &ok ) ;
+    if ( !ok ) {
+        char log[ 2048 ] = { 0 } ;
+        p_glGetShaderInfoLog( obj, sizeof( log ) - 1, nullptr, log ) ;
+        std::fprintf( stderr, "[DxShaderDesktop] shader compile fail (type=%d): %s\n",
+                      ShaderType, log ) ;
+        p_glDeleteShader( obj ) ;
+        return -1 ;
+    }
+
+    DxLibShaderEntry e ;
+    e.gl_shader   = obj ;
+    e.shader_type = ShaderType ;
+    g_DxLibShaders[ ShaderHandle ] = e ;
+    return 0 ;
+}
+
+// SHADERHANDLEDATA* からの Terminate。
+// SHADERHANDLEDATA の HandleInfo.Handle で handle 番号が引ければ良いが、
+// 名前空間の都合で SHADERHANDLEDATA の中身を参照するのを避け、
+// 反復探索 (O(n)) で GLuint を delete する。
+extern "C" int Graphics_Hardware_Shader_TerminateHandle_PF_Desktop(
+    int ShaderHandle )
+{
+    auto it = g_DxLibShaders.find( ShaderHandle ) ;
+    if ( it == g_DxLibShaders.end() ) return 0 ;
+    if ( p_glDeleteShader && it->second.gl_shader ) {
+        p_glDeleteShader( it->second.gl_shader ) ;
+    }
+    g_DxLibShaders.erase( it ) ;
+    // この shader を使っていた program も invalidate
+    for ( auto pit = g_DxLibPrograms.begin() ; pit != g_DxLibPrograms.end() ; ) {
+        if ( pit->first.vs == ShaderHandle || pit->first.ps == ShaderHandle ) {
+            if ( p_glDeleteProgram ) p_glDeleteProgram( pit->second ) ;
+            pit = g_DxLibPrograms.erase( pit ) ;
+        } else {
+            ++pit ;
+        }
+    }
+    return 0 ;
+}
+
+// (vs_h, ps_h) 組から GLuint program を取得 (無ければリンク)
+static GLuint dxlib_shader_link_program( int vs_h, int ps_h )
+{
+    ProgramKey k{ vs_h, ps_h } ;
+    auto it = g_DxLibPrograms.find( k ) ;
+    if ( it != g_DxLibPrograms.end() ) return it->second ;
+
+    auto vs_it = g_DxLibShaders.find( vs_h ) ;
+    auto ps_it = g_DxLibShaders.find( ps_h ) ;
+    if ( vs_it == g_DxLibShaders.end() || ps_it == g_DxLibShaders.end() ) return 0 ;
+    if ( vs_it->second.shader_type != 0 || ps_it->second.shader_type != 1 ) return 0 ;
+
+    GLuint prog = p_glCreateProgram() ;
+    p_glAttachShader( prog, vs_it->second.gl_shader ) ;
+    p_glAttachShader( prog, ps_it->second.gl_shader ) ;
+    p_glLinkProgram( prog ) ;
+    GLint ok = 0 ;
+    p_glGetProgramiv( prog, GL_LINK_STATUS, &ok ) ;
+    if ( !ok ) {
+        char log[ 2048 ] = { 0 } ;
+        p_glGetProgramInfoLog( prog, sizeof( log ) - 1, nullptr, log ) ;
+        std::fprintf( stderr, "[DxShaderDesktop] link fail (vs=%d ps=%d): %s\n",
+                      vs_h, ps_h, log ) ;
+        p_glDeleteProgram( prog ) ;
+        return 0 ;
+    }
+    g_DxLibPrograms[ k ] = prog ;
+    return prog ;
+}
+
+// SetConst_PF: CPU buffer に書き込む。upload は draw 前の BindForDraw() で行う
+extern "C" int Graphics_Hardware_Shader_SetConst_PF_Desktop(
+    int TypeIndex, int /*SetIndex*/, int ConstantIndex,
+    const void *Param, int ParamNum, int /*UpdateUseArea*/ )
+{
+    if ( !Param || ParamNum <= 0 ) return 0 ;
+    if ( ConstantIndex < 0 || ConstantIndex + ParamNum > 256 ) return -1 ;
+    float *dst = ( TypeIndex == 0 /*VERTEX*/ ) ? g_VSConst
+               : ( TypeIndex == 1 /*PIXEL*/  ) ? g_PSConst
+               : nullptr ;
+    if ( !dst ) return -1 ;
+    std::memcpy( dst + ConstantIndex * 4, Param, ( size_t )ParamNum * 16 ) ;
+    if ( TypeIndex == 0 ) g_VSConstDirty = 1 ; else g_PSConstDirty = 1 ;
+    return 0 ;
+}
+
+extern "C" int Graphics_Hardware_Shader_ResetConst_PF_Desktop(
+    int TypeIndex, int /*SetIndex*/, int ConstantIndex, int ParamNum )
+{
+    if ( ConstantIndex < 0 || ConstantIndex + ParamNum > 256 ) return -1 ;
+    float *dst = ( TypeIndex == 0 ) ? g_VSConst
+               : ( TypeIndex == 1 ) ? g_PSConst : nullptr ;
+    if ( !dst ) return -1 ;
+    std::memset( dst + ConstantIndex * 4, 0, ( size_t )ParamNum * 16 ) ;
+    if ( TypeIndex == 0 ) g_VSConstDirty = 1 ; else g_PSConstDirty = 1 ;
+    return 0 ;
+}
+
+// GetConstIndex_PF: "vs_c[N]" 形式の名前から N を返す。簡易パーサ
+// それ以外の名前は -1 (未知)
+static int parse_cN( const char *name, const char *prefix, size_t pref_len )
+{
+    if ( !name ) return -1 ;
+    if ( std::strncmp( name, prefix, pref_len ) != 0 ) return -1 ;
+    const char *p = name + pref_len ;
+    if ( *p != '[' ) return -1 ;
+    p++ ;
+    int n = 0 ;
+    while ( *p >= '0' && *p <= '9' ) { n = n * 10 + ( *p - '0' ) ; p++ ; }
+    if ( *p != ']' ) return -1 ;
+    return n ;
+}
+extern "C" int Graphics_Hardware_Shader_GetConstIndex_PF_Desktop(
+    const char *name_ascii, int shader_type )
+{
+    // 慣例: Vertex 側 "vs_c", Pixel 側 "ps_c"
+    if ( shader_type == 0 ) return parse_cN( name_ascii, "vs_c", 4 ) ;
+    if ( shader_type == 1 ) return parse_cN( name_ascii, "ps_c", 4 ) ;
+    return -1 ;
+}
+
+// Draw 前に呼んで、(VS, PS) 組の program を bind + 定数 upload する。
+// vs_h / ps_h は DxLib の GSYS から読み出した handle。
+// 戻り値: 1=bind 済 / 0=未設定で bind しなかった / -1 エラー
+extern "C" int DxLibShader_BindForDraw( int vs_h, int ps_h )
+{
+    if ( vs_h <= 0 || ps_h <= 0 ) return 0 ;   // どちらか未設定なら触らない
+    desktop_shader_load_funcs() ;
+    desktop_dxshader_load_extras() ;
+    if ( !p_glUseProgram || !p_glUniform4fv ) return -1 ;
+
+    GLuint prog = dxlib_shader_link_program( vs_h, ps_h ) ;
+    if ( !prog ) return -1 ;
+
+    p_glUseProgram( prog ) ;
+
+    // 定数を upload (uniform vec4 vs_c[256] / ps_c[256])
+    GLint loc_vs = p_glGetUniformLocation( prog, "vs_c" ) ;
+    GLint loc_ps = p_glGetUniformLocation( prog, "ps_c" ) ;
+    // GLSL array の location は arr や arr[0] いずれでも引ける実装が多い
+    if ( loc_vs < 0 ) loc_vs = p_glGetUniformLocation( prog, "vs_c[0]" ) ;
+    if ( loc_ps < 0 ) loc_ps = p_glGetUniformLocation( prog, "ps_c[0]" ) ;
+
+    if ( loc_vs >= 0 ) p_glUniform4fv( loc_vs, 256, g_VSConst ) ;
+    if ( loc_ps >= 0 ) p_glUniform4fv( loc_ps, 256, g_PSConst ) ;
+    g_VSConstDirty = 0 ;
+    g_PSConstDirty = 0 ;
+    return 1 ;
+}
