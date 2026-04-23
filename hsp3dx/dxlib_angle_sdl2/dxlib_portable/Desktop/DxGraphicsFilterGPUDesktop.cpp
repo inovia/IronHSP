@@ -180,6 +180,23 @@ void main( void ) {
 }
 )GLSL" ;
 
+// Gradient Map — 256 色 palette で luminance 置換。
+// palette は CPU 側で事前に 256×1 RGBA texture として構築 (別 setter 経由)。
+static const char *s_filter_gradmap_fs = R"GLSL(
+#version 120
+uniform sampler2D u_input ;
+uniform sampler2D u_palette ;    // 256x1 RGBA、u ∈ [0,1] = luminance
+varying vec2      v_uv ;
+
+void main( void ) {
+    vec4 c = texture2D( u_input, v_uv ) ;
+    //  DxLib CPU 版と同じ 0.113 R + 0.586 G + 0.301 B (精度 >>8 近似)
+    float lum = c.r * 0.1133 + c.g * 0.5859 + c.b * 0.3008 ;
+    vec4 pal = texture2D( u_palette, vec2( lum, 0.5 ) ) ;
+    gl_FragColor = vec4( pal.rgb, c.a ) ;
+}
+)GLSL" ;
+
 // SSAO (Screen-Space AO) — depth buffer 無しの簡易実装。
 // CPU 版 (DxGraphicsFilterDesktop.cpp:399-439) の輝度差ベース陰影生成を GPU 化。
 // 8 近傍 (radius=2 pixels ring) との輝度比較、暗い近傍が多ければ現ピクセルを減光。
@@ -221,9 +238,40 @@ static int s_Shader_Bicubic  = 0 ;
 static int s_Shader_Lanczos3 = 0 ;
 static int s_Shader_Gauss    = 0 ;
 static int s_Shader_SSAO     = 0 ;
+static int s_Shader_GradMap  = 0 ;
+
+//  gradmap 用 palette texture (256×1 RGBA、CPU 側で setter が都度更新)
+static GLuint s_GradMapPaletteTex = 0 ;
+static bool   s_GradMapPaletteSet = false ;
+
+//  CPU 側で build 済の 256 色 palette (各色 RGBA) をテクスチャに転送。
+//  GraphFilterBlt の GRADIENT_MAP ケースで呼び出され、直後に GPU 経路へ進む。
+extern "C" int Desktop_GradMap_SetPalette256( const unsigned char *rgba256 )
+{
+    if ( !rgba256 ) return -1 ;
+    desktop_filter_gpu_load_funcs() ;
+    if ( !p_glActiveTexture ) return -1 ;
+
+    if ( s_GradMapPaletteTex == 0 ) {
+        glGenTextures( 1, &s_GradMapPaletteTex ) ;
+    }
+    glBindTexture( GL_TEXTURE_2D, s_GradMapPaletteTex ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE ) ;
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, 256, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, rgba256 ) ;
+    s_GradMapPaletteSet = true ;
+    return 0 ;
+}
 
 static int desktop_get_filter_shader( int filterType )
 {
+    if ( filterType == DX_GRAPH_FILTER_GRADIENT_MAP ) {
+        if ( s_Shader_GradMap == 0 )
+            s_Shader_GradMap = DesktopShader_CompileGLSL( s_filter_vs, s_filter_gradmap_fs ) ;
+        return s_Shader_GradMap ;
+    }
     if ( filterType == DX_GRAPH_FILTER_SSAO ) {
         if ( s_Shader_SSAO == 0 )
             s_Shader_SSAO = DesktopShader_CompileGLSL( s_filter_vs, s_filter_ssao_fs ) ;
@@ -323,6 +371,16 @@ extern int Desktop_GraphFilter_GPU( int SrcGrHandle, int DestGrHandle, int Filte
         // CPU 版と同じ default (radius=2, strength=0.5)。将来は va_arg 経由で受け取る
         DesktopShader_SetUniform1f( shader, "u_radius",   2.0f ) ;
         DesktopShader_SetUniform1f( shader, "u_strength", 0.5f ) ;
+    } else if ( FilterType == DX_GRAPH_FILTER_GRADIENT_MAP ) {
+        //  palette texture (256x1) を TEXTURE1 に bind
+        if ( !s_GradMapPaletteSet || s_GradMapPaletteTex == 0 ) {
+            //  setter 未呼び出しなら CPU fallback
+            return -1 ;
+        }
+        DesktopShader_SetUniform1i( shader, "u_palette", 1 ) ;
+        p_glActiveTexture( GL_TEXTURE1 ) ;
+        glBindTexture( GL_TEXTURE_2D, s_GradMapPaletteTex ) ;
+        p_glActiveTexture( GL_TEXTURE0 ) ;
     } else {
         DesktopShader_SetUniform2f( shader, "u_srcSize", ( float )sw, ( float )sh ) ;
     }

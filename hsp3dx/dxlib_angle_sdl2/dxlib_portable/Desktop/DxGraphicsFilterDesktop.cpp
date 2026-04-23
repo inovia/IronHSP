@@ -526,6 +526,8 @@ static int desktop_resample(
 
 // GPU filter 本体 (DxGraphicsFilterGPUDesktop.cpp)
 extern int Desktop_GraphFilter_GPU( int SrcGrHandle, int DestGrHandle, int FilterType ) ;
+//  GradMap 用 palette 事前設定 (256×1 RGBA)。GRADIENT_MAP GPU 経路に入る前に呼ぶ
+extern "C" int Desktop_GradMap_SetPalette256( const unsigned char *rgba256 ) ;
 
 // Src → Dst コピー + フィルタ。
 // BICUBIC / LANCZOS3 は Src != Dst サイズで resample、それ以外は同サイズ in-place。
@@ -547,6 +549,43 @@ extern int GraphFilterBlt( int SrcGrHandle, int DestGrHandle, int FilterType, ..
         }
         // GPU 不可なら CPU fallback (下の既存 BICUBIC/LANCZOS3 経路へ、GAUSS は
         // 同サイズ in-place なので desktop_filter_process_in_place が対応)
+    }
+
+    //  GradMap は palette 構築が CPU 依存なので、setter 呼び出し後に GPU 経路
+    //  va_list は読み捨てで再生成できないため、別 va_list でコピー
+    if ( FilterType == DX_GRAPH_FILTER_GRADIENT_MAP ) {
+        va_list apGpu ;
+        va_start( apGpu, FilterType ) ;
+        int mapH = va_arg( apGpu, int ) ;
+        int reverseFlag = va_arg( apGpu, int ) ;
+        va_end( apGpu ) ;
+
+        int mw = 0, mh = 0 ;
+        NS_GetGraphSize( mapH, &mw, &mh ) ;
+        if ( mw > 0 ) {
+            int mpitch = 0 ; void *mdata = nullptr ; COLORDATA *mcd = nullptr ;
+            if ( NS_GraphLock( mapH, &mpitch, &mdata, &mcd, FALSE ) == 0 ) {
+                //  256 バケット palette を CPU で構築し、GPU に転送
+                unsigned char rgba256[ 256 * 4 ] ;
+                for ( int i = 0 ; i < 256 ; ++i ) {
+                    int u = ( i * ( mw - 1 ) ) / 255 ;
+                    if ( reverseFlag ) u = mw - 1 - u ;
+                    const unsigned char *mp = ( const unsigned char * )mdata + u * 4 ;
+                    //  CPU 側は BGRA 格納、GPU 側は RGBA に並べ替え
+                    rgba256[ i * 4 + 0 ] = mp[ 2 ] ;
+                    rgba256[ i * 4 + 1 ] = mp[ 1 ] ;
+                    rgba256[ i * 4 + 2 ] = mp[ 0 ] ;
+                    rgba256[ i * 4 + 3 ] = mp[ 3 ] ;
+                }
+                NS_GraphUnLock( mapH ) ;
+                if ( Desktop_GradMap_SetPalette256( rgba256 ) == 0 ) {
+                    if ( Desktop_GraphFilter_GPU( SrcGrHandle, DestGrHandle, FilterType ) == 0 ) {
+                        return 0 ;
+                    }
+                }
+            }
+        }
+        //  失敗なら CPU fallback (下の既存 GRADIENT_MAP case へ)
     }
 
     // BICUBIC / LANCZOS3 は resample フィルタ (サイズ変更可)
