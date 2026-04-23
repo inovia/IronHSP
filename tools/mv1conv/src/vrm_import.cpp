@@ -195,6 +195,78 @@ LoadResult apply_vrm_extensions(const std::string &vrm_path, const ModelIR &in_m
         }
     }
 
+    // ---- VRM 0.x / 1.0 共通: _MainTex / baseColorTexture を diffuse に上書き ----
+    // assimp の glTF loader は MToon 拡張がある material で、本来の _MainTex ではなく
+    // _ShadeTexture (shadeMultiplyTexture、影色テクスチャ) を aiTextureType_DIFFUSE に
+    // 入れてしまう。結果、mat.diffuse_texture が影色テクスチャを指す。
+    // VRM の本来の main texture を明示的に解決して上書きする。
+    int diffuseFixed = 0;
+    {
+        // glTF textures[]: texIdx → imageIdx
+        const auto &gtex = root["textures"];
+        std::vector<int> texToImg;
+        if (gtex.is_array()) {
+            texToImg.assign(gtex.size(), -1);
+            for (std::size_t i = 0; i < gtex.size(); ++i) {
+                const auto &t = gtex[i];
+                if (t.is_object()) texToImg[i] = static_cast<int>(t["source"].as_number(-1));
+            }
+        }
+        // imageIdx → IR texture index (embedded_tex_{N}.<ext> で prefix 一致)
+        auto imgToIR = [&](int imageIdx) -> int {
+            if (imageIdx < 0) return -1;
+            std::string prefix = "embedded_tex_" + std::to_string(imageIdx) + ".";
+            for (std::size_t i = 0; i < r.ir.textures.size(); ++i) {
+                const auto &p = r.ir.textures[i].color_path;
+                if (p.size() > prefix.size() && p.compare(0, prefix.size(), prefix) == 0)
+                    return static_cast<int>(i);
+            }
+            return -1;
+        };
+        auto gtfTexToIR = [&](int gtfTexIdx) -> int {
+            if (gtfTexIdx < 0 || gtfTexIdx >= static_cast<int>(texToImg.size())) return -1;
+            return imgToIR(texToImg[gtfTexIdx]);
+        };
+
+        // VRM 0.x: extensions.VRM.materialProperties[i].textureProperties._MainTex
+        if (vrm0.is_object()) {
+            const auto &mps = vrm0["materialProperties"];
+            if (mps.is_array()) {
+                for (std::size_t i = 0; i < mps.size() && i < r.ir.materials.size(); ++i) {
+                    const auto &mp = mps[i];
+                    if (!mp.is_object()) continue;
+                    const auto &tp = mp["textureProperties"];
+                    if (!tp.is_object()) continue;
+                    const auto &mainTex = tp["_MainTex"];
+                    if (!mainTex.is_number()) continue;
+                    int irIdx = gtfTexToIR(static_cast<int>(mainTex.as_number(-1)));
+                    if (irIdx >= 0) {
+                        r.ir.materials[i].diffuse_texture = irIdx;
+                        ++diffuseFixed;
+                    }
+                }
+            }
+        }
+
+        // VRM 1.0: MToon 拡張付き material のみ、pbrMetallicRoughness.baseColorTexture.index
+        const auto &gmats = root["materials"];
+        if (gmats.is_array()) {
+            for (std::size_t i = 0; i < gmats.size() && i < r.ir.materials.size(); ++i) {
+                const auto &mj = gmats[i];
+                if (!mj.is_object()) continue;
+                const auto &mtoon = mj["extensions"]["VRMC_materials_mtoon"];
+                if (!mtoon.is_object()) continue;
+                const auto &bct = mj["pbrMetallicRoughness"]["baseColorTexture"];
+                if (!bct.is_object()) continue;
+                int irIdx = gtfTexToIR(static_cast<int>(bct["index"].as_number(-1)));
+                if (irIdx >= 0) {
+                    r.ir.materials[i].diffuse_texture = irIdx;
+                    ++diffuseFixed;
+                }
+            }
+        }
+    }
+
     // ---- VRM 1.0 SpringBone (VRMC_springBone): 髪/スカート揺れ物理 ----
     // MV1 の Physics (RigidBody + Joint) に部分変換。
     // VRM の SpringBone は "colliderGroup" と "spring" 配列で構成され、
@@ -321,9 +393,10 @@ LoadResult apply_vrm_extensions(const std::string &vrm_path, const ModelIR &in_m
         }
     }
 
-    if (renamed > 0 || toonApplied > 0) {
-        std::fprintf(stderr, "VRM: %d bones renamed, %d MToon materials applied\n",
-                     renamed, toonApplied);
+    if (renamed > 0 || toonApplied > 0 || diffuseFixed > 0) {
+        std::fprintf(stderr,
+            "VRM: %d bones renamed, %d MToon materials applied, %d diffuse textures fixed\n",
+            renamed, toonApplied, diffuseFixed);
     }
     return r;
 }

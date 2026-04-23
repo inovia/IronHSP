@@ -63,6 +63,11 @@ MaterialIR convert_material(const aiMaterial *m, std::vector<TextureIR> &texture
     aiColor3D c3;
     float f;
     if (m->Get(AI_MATKEY_COLOR_DIFFUSE, c3) == AI_SUCCESS)  mat.diffuse  = to_color(c3);
+    if (std::getenv("MV1CONV_ASSIMP_DIAG")) {
+        std::fprintf(stderr, "[assimp] mat='%s' diff=(%.3f,%.3f,%.3f)\n",
+                     mat.name.c_str(), mat.diffuse[0], mat.diffuse[1], mat.diffuse[2]);
+        std::fflush(stderr);
+    }
     if (m->Get(AI_MATKEY_COLOR_AMBIENT, c3) == AI_SUCCESS)  mat.ambient  = to_color(c3);
     if (m->Get(AI_MATKEY_COLOR_SPECULAR, c3) == AI_SUCCESS) mat.specular = to_color(c3);
     if (m->Get(AI_MATKEY_COLOR_EMISSIVE, c3) == AI_SUCCESS) mat.emissive = to_color(c3, 0.0f);
@@ -76,6 +81,11 @@ MaterialIR convert_material(const aiMaterial *m, std::vector<TextureIR> &texture
         if (m->GetTexture(type, 0, &texPath) != AI_SUCCESS) return -1;
         std::string path(texPath.C_Str(), texPath.length);
         if (path.empty()) return -1;
+        if (std::getenv("MV1CONV_ASSIMP_DIAG")) {
+            std::fprintf(stderr, "[assimp] mat='%s' tex_type=%d path='%s'\n",
+                         mat.name.c_str(), int(type), path.c_str());
+            std::fflush(stderr);
+        }
         // 埋込参照 "*N" なら embedded filename に置換 (拡張子不明のため png 既定、
         // extract_embedded_textures と順番が同じなので index ベース)
         if (path.size() >= 2 && path[0] == '*') {
