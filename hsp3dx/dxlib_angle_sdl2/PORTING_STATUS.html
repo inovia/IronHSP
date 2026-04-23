@@ -526,11 +526,13 @@ td.note { font-size: 12px; color: #555; }
   <td class="tech">SDL_mixer Mix_SetPosition (channel, angle 0..360°, distance 0..255) で近似。listener pos/front + per-sound pos/radius を保持し、PlaySoundMem 時に angle/距離減衰を計算して適用</td>
   <td class="note">DxSoundDesktop.cpp 2026-04-23 実装 (基本 API 9 関数)。フル 3D ではなく方角 + 距離減衰の単純モデル (Mix_SetPosition の制約)。Doppler / cone / reverb は stub のまま。再生中の position 更新には未対応 (PlaySoundMem 時の snapshot)。</td>
 </tr>
-<tr><td class="fn">SoftSound (SoftSound_MakeBuffer 等)</td>
+<tr><td class="fn">SoftSound (Make/LoadSoftSound, Read/WriteSoftSoundData[F], LoadSoundMemFromSoftSound 等)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
-  <td class="tech">CPU 側 PCM 生成 → Mix_LoadWAV_RW</td>
-  <td class="note">動的 WAV 生成 API。Tier 2 検討。</td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">CPU 側 PCM buffer (8/16/32bit float、1/2 ch、任意 sample rate) を保持。Read/Write API でサンプル直接操作、SDL_AudioCVT 経由で SDL_mixer の native format (16bit stereo 44100Hz) に変換して LoadSoundMemFromSoftSound で playable Mix_Chunk 化</td>
+  <td class="note">DxSoundDesktop.cpp 2026-04-23 実装 (基本 API 約 17 関数)。<br>
+  実装: MakeSoftSoundCustom / MakeSoftSound{1,2}Ch{8,16}Bit{22,44}KHz / MakeSoftSound (フォーマット複製) / LoadSoftSound[FromMemImage] / DeleteSoftSound / InitSoftSound / GetSoftSoundSampleNum / GetSoftSoundFormat / Read/WriteSoftSoundData / Read/WriteSoftSoundDataF / LoadSoundMemFromSoftSound。<br>
+  未対応: SaveSoftSound (WAV 書き出し)、GetFFTVibrationSoftSound (周波数解析)、WriteTimeStretchSoftSoundData (タイムストレッチ) 等の advanced 機能。</td>
 </tr>
 <tr><td class="fn">PlayMusic / LoadMusicMem / PlayMusicMem / StopMusic / SetVolumeMusic</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>

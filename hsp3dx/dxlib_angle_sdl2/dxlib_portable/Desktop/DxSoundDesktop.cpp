@@ -618,6 +618,250 @@ extern int InitSoundMem( void )
     return 0 ;
 }
 
+// --- SoftSound (procedural waveform manipulation) -------------------------
+// software side で PCM サンプルを直接 read/write できる buffer。signal generation /
+// audio analysis / WAV save 用途。LoadSoundMemFromSoftSound で playable な
+// Mix_Chunk に変換できる。
+struct DesktopSoftSoundEntry {
+    int       channels = 2 ;        // 1 or 2
+    int       bits     = 16 ;       // 8, 16, or 32 (float)
+    int       rate     = 44100 ;
+    int       is_float = 0 ;        // 1 で 32bit float
+    long long sample_num = 0 ;
+    Uint8    *pcm = nullptr ;       // size = sample_num * channels * (bits/8)
+} ;
+static std::unordered_map<int, DesktopSoftSoundEntry> g_SoftSounds ;
+static int g_NextSoftSoundHandle = 1 ;
+
+static int desktop_softsound_bytes_per_sample( const DesktopSoftSoundEntry &e )
+{
+    return e.channels * ( e.bits / 8 ) ;
+}
+
+extern int MakeSoftSoundCustom( int ChannelNum, int BitsPerSample, int SamplesPerSec,
+                                LONGLONG SampleNum, int IsFloatType )
+{
+    if ( ChannelNum < 1 || ChannelNum > 2 ) return -1 ;
+    if ( BitsPerSample != 8 && BitsPerSample != 16 && BitsPerSample != 32 ) return -1 ;
+    if ( SampleNum < 0 ) return -1 ;
+    DesktopSoftSoundEntry e ;
+    e.channels   = ChannelNum ;
+    e.bits       = BitsPerSample ;
+    e.rate       = SamplesPerSec ;
+    e.is_float   = IsFloatType ;
+    e.sample_num = SampleNum ;
+    size_t bytes = ( size_t )SampleNum * desktop_softsound_bytes_per_sample( e ) ;
+    e.pcm = ( Uint8 * )std::calloc( 1, bytes ? bytes : 1 ) ;
+    if ( !e.pcm ) return -1 ;
+    int h = g_NextSoftSoundHandle++ ;
+    g_SoftSounds[ h ] = e ;
+    return h ;
+}
+
+extern int MakeSoftSound2Ch16Bit44KHz( LONGLONG SampleNum ) { return MakeSoftSoundCustom( 2, 16, 44100, SampleNum, 0 ) ; }
+extern int MakeSoftSound2Ch16Bit22KHz( LONGLONG SampleNum ) { return MakeSoftSoundCustom( 2, 16, 22050, SampleNum, 0 ) ; }
+extern int MakeSoftSound2Ch8Bit44KHz ( LONGLONG SampleNum ) { return MakeSoftSoundCustom( 2,  8, 44100, SampleNum, 0 ) ; }
+extern int MakeSoftSound2Ch8Bit22KHz ( LONGLONG SampleNum ) { return MakeSoftSoundCustom( 2,  8, 22050, SampleNum, 0 ) ; }
+extern int MakeSoftSound1Ch16Bit44KHz( LONGLONG SampleNum ) { return MakeSoftSoundCustom( 1, 16, 44100, SampleNum, 0 ) ; }
+extern int MakeSoftSound1Ch16Bit22KHz( LONGLONG SampleNum ) { return MakeSoftSoundCustom( 1, 16, 22050, SampleNum, 0 ) ; }
+extern int MakeSoftSound1Ch8Bit44KHz ( LONGLONG SampleNum ) { return MakeSoftSoundCustom( 1,  8, 44100, SampleNum, 0 ) ; }
+extern int MakeSoftSound1Ch8Bit22KHz ( LONGLONG SampleNum ) { return MakeSoftSoundCustom( 1,  8, 22050, SampleNum, 0 ) ; }
+
+// MakeSoftSound( UseFormat_SoftSoundHandle, SampleNum ) — フォーマットを既存
+// SoftSound から複製して新規作成
+extern int MakeSoftSound( int UseFormat_SoftSoundHandle, LONGLONG SampleNum )
+{
+    auto it = g_SoftSounds.find( UseFormat_SoftSoundHandle ) ;
+    if ( it == g_SoftSounds.end() ) return -1 ;
+    return MakeSoftSoundCustom( it->second.channels, it->second.bits, it->second.rate,
+                                SampleNum, it->second.is_float ) ;
+}
+
+extern int LoadSoftSound( const TCHAR *FileName )
+{
+    if ( !FileName ) return -1 ;
+    if ( desktop_sound_ensure_init() != 0 ) return -1 ;
+    Mix_Chunk *c = Mix_LoadWAV( ( const char * )FileName ) ;
+    if ( !c ) return -1 ;
+    // SDL_mixer は Mix_OpenAudio で指定したフォーマット (44100 16bit stereo) に
+    // 変換済の chunk を返す。abuf/alen から生 PCM を取り出す
+    int h = MakeSoftSoundCustom( 2, 16, 44100, ( LONGLONG )( c->alen / 4 ), 0 ) ;
+    if ( h < 0 ) { Mix_FreeChunk( c ) ; return -1 ; }
+    auto sit = g_SoftSounds.find( h ) ;
+    std::memcpy( sit->second.pcm, c->abuf, c->alen ) ;
+    Mix_FreeChunk( c ) ;
+    return h ;
+}
+
+extern int LoadSoftSoundWithStrLen( const TCHAR *FileName, size_t /*len*/ ) { return LoadSoftSound( FileName ) ; }
+
+extern int LoadSoftSoundFromMemImage( const void *FileImage, size_t FileImageSize )
+{
+    if ( !FileImage || FileImageSize == 0 ) return -1 ;
+    if ( desktop_sound_ensure_init() != 0 ) return -1 ;
+    SDL_RWops *rw = SDL_RWFromConstMem( FileImage, ( int )FileImageSize ) ;
+    if ( !rw ) return -1 ;
+    Mix_Chunk *c = Mix_LoadWAV_RW( rw, 1 ) ;
+    if ( !c ) return -1 ;
+    int h = MakeSoftSoundCustom( 2, 16, 44100, ( LONGLONG )( c->alen / 4 ), 0 ) ;
+    if ( h < 0 ) { Mix_FreeChunk( c ) ; return -1 ; }
+    auto sit = g_SoftSounds.find( h ) ;
+    std::memcpy( sit->second.pcm, c->abuf, c->alen ) ;
+    Mix_FreeChunk( c ) ;
+    return h ;
+}
+
+extern int DeleteSoftSound( int SoftSoundHandle )
+{
+    auto it = g_SoftSounds.find( SoftSoundHandle ) ;
+    if ( it == g_SoftSounds.end() ) return -1 ;
+    if ( it->second.pcm ) std::free( it->second.pcm ) ;
+    g_SoftSounds.erase( it ) ;
+    return 0 ;
+}
+
+extern int InitSoftSound( void )
+{
+    for ( auto &p : g_SoftSounds ) if ( p.second.pcm ) std::free( p.second.pcm ) ;
+    g_SoftSounds.clear() ;
+    return 0 ;
+}
+
+extern LONGLONG GetSoftSoundSampleNum( int SoftSoundHandle )
+{
+    auto it = g_SoftSounds.find( SoftSoundHandle ) ;
+    if ( it == g_SoftSounds.end() ) return 0 ;
+    return it->second.sample_num ;
+}
+
+extern int GetSoftSoundFormat( int SoftSoundHandle, int *Channels, int *BitsPerSample,
+                                int *SamplesPerSec, int *IsFloatType )
+{
+    auto it = g_SoftSounds.find( SoftSoundHandle ) ;
+    if ( it == g_SoftSounds.end() ) return -1 ;
+    if ( Channels )      *Channels      = it->second.channels ;
+    if ( BitsPerSample ) *BitsPerSample = it->second.bits ;
+    if ( SamplesPerSec ) *SamplesPerSec = it->second.rate ;
+    if ( IsFloatType )   *IsFloatType   = it->second.is_float ;
+    return 0 ;
+}
+
+// 1 サンプル分の値を読み取る (整数)
+extern int ReadSoftSoundData( int SoftSoundHandle, LONGLONG SamplePosition,
+                               int *Channel1, int *Channel2 )
+{
+    auto it = g_SoftSounds.find( SoftSoundHandle ) ;
+    if ( it == g_SoftSounds.end() ) return -1 ;
+    auto &e = it->second ;
+    if ( SamplePosition < 0 || SamplePosition >= e.sample_num ) return -1 ;
+    int bps = desktop_softsound_bytes_per_sample( e ) ;
+    Uint8 *p = e.pcm + ( size_t )SamplePosition * bps ;
+    auto read_one = [ &e ]( const Uint8 *src ) -> int {
+        if ( e.bits == 16 ) return ( int )( ( int16_t )( ( ( uint16_t )src[ 0 ] ) | ( ( uint16_t )src[ 1 ] << 8 ) ) ) ;
+        if ( e.bits ==  8 ) return ( int )src[ 0 ] - 128 ;
+        if ( e.bits == 32 && e.is_float ) {
+            float f ; std::memcpy( &f, src, 4 ) ;
+            int v = ( int )( f * 32767.0f ) ;
+            if ( v >  32767 ) v =  32767 ;
+            if ( v < -32768 ) v = -32768 ;
+            return v ;
+        }
+        return 0 ;
+    } ;
+    int ch1 = read_one( p ) ;
+    int ch2 = ( e.channels >= 2 ) ? read_one( p + ( e.bits / 8 ) ) : ch1 ;
+    if ( Channel1 ) *Channel1 = ch1 ;
+    if ( Channel2 ) *Channel2 = ch2 ;
+    return 0 ;
+}
+
+extern int ReadSoftSoundDataF( int SoftSoundHandle, LONGLONG SamplePosition,
+                                float *Channel1, float *Channel2 )
+{
+    int c1 = 0, c2 = 0 ;
+    if ( ReadSoftSoundData( SoftSoundHandle, SamplePosition, &c1, &c2 ) < 0 ) return -1 ;
+    if ( Channel1 ) *Channel1 = ( float )c1 / 32767.0f ;
+    if ( Channel2 ) *Channel2 = ( float )c2 / 32767.0f ;
+    return 0 ;
+}
+
+extern int WriteSoftSoundData( int SoftSoundHandle, LONGLONG SamplePosition,
+                                int Channel1, int Channel2 )
+{
+    auto it = g_SoftSounds.find( SoftSoundHandle ) ;
+    if ( it == g_SoftSounds.end() ) return -1 ;
+    auto &e = it->second ;
+    if ( SamplePosition < 0 || SamplePosition >= e.sample_num ) return -1 ;
+    int bps = desktop_softsound_bytes_per_sample( e ) ;
+    Uint8 *p = e.pcm + ( size_t )SamplePosition * bps ;
+    auto write_one = [ &e ]( Uint8 *dst, int v ) {
+        if ( e.bits == 16 ) {
+            int16_t s = ( int16_t )( ( v >  32767 ) ? 32767 : ( v < -32768 ) ? -32768 : v ) ;
+            dst[ 0 ] = ( Uint8 )( s & 0xff ) ;
+            dst[ 1 ] = ( Uint8 )( ( s >> 8 ) & 0xff ) ;
+        } else if ( e.bits == 8 ) {
+            int u = v + 128 ;
+            if ( u <   0 ) u =   0 ;
+            if ( u > 255 ) u = 255 ;
+            dst[ 0 ] = ( Uint8 )u ;
+        } else if ( e.bits == 32 && e.is_float ) {
+            float f = ( float )v / 32767.0f ;
+            std::memcpy( dst, &f, 4 ) ;
+        }
+    } ;
+    write_one( p, Channel1 ) ;
+    if ( e.channels >= 2 ) write_one( p + ( e.bits / 8 ), Channel2 ) ;
+    return 0 ;
+}
+
+extern int WriteSoftSoundDataF( int SoftSoundHandle, LONGLONG SamplePosition,
+                                 float Channel1, float Channel2 )
+{
+    int c1 = ( int )( Channel1 * 32767.0f ) ;
+    int c2 = ( int )( Channel2 * 32767.0f ) ;
+    return WriteSoftSoundData( SoftSoundHandle, SamplePosition, c1, c2 ) ;
+}
+
+// SoftSound から playable な Mix_Chunk を作って Sound handle を返す
+extern int LoadSoundMemFromSoftSound( int SoftSoundHandle, int /*BufferNum*/ )
+{
+    auto it = g_SoftSounds.find( SoftSoundHandle ) ;
+    if ( it == g_SoftSounds.end() ) return -1 ;
+    auto &e = it->second ;
+    if ( !e.pcm || e.sample_num <= 0 ) return -1 ;
+    if ( desktop_sound_ensure_init() != 0 ) return -1 ;
+
+    // PCM を SDL_mixer の形式 (16bit stereo 44100Hz) に揃える必要がある。
+    // 既に同じ format の場合はコピーで済む、それ以外は SDL_AudioCVT で変換
+    SDL_AudioFormat src_fmt = AUDIO_S16LSB ;
+    if ( e.bits == 8 ) src_fmt = AUDIO_U8 ;
+    else if ( e.bits == 32 && e.is_float ) src_fmt = AUDIO_F32LSB ;
+
+    SDL_AudioCVT cvt ;
+    if ( SDL_BuildAudioCVT( &cvt, src_fmt, ( Uint8 )e.channels, e.rate,
+                            AUDIO_S16LSB, 2, 44100 ) < 0 ) return -1 ;
+    size_t src_bytes = ( size_t )e.sample_num * desktop_softsound_bytes_per_sample( e ) ;
+    cvt.len = ( int )src_bytes ;
+    cvt.buf = ( Uint8 * )std::malloc( ( size_t )cvt.len * cvt.len_mult ) ;
+    if ( !cvt.buf ) return -1 ;
+    std::memcpy( cvt.buf, e.pcm, src_bytes ) ;
+    if ( cvt.needed ) {
+        if ( SDL_ConvertAudio( &cvt ) < 0 ) { std::free( cvt.buf ) ; return -1 ; }
+    }
+    Mix_Chunk *c = Mix_QuickLoad_RAW( cvt.buf, ( Uint32 )cvt.len_cvt ) ;
+    if ( !c ) { std::free( cvt.buf ) ; return -1 ; }
+
+    int h = g_NextSoundHandle++ ;
+    DesktopSoundEntry se ;
+    se.chunk = c ;
+    se.raw_buffer = cvt.buf ;   // Mix_QuickLoad_RAW は所有しないので保持
+    se.last_channel = -1 ;
+    se.volume_0_10000 = 10000 ;
+    Mix_VolumeChunk( c, MIX_MAX_VOLUME ) ;
+    g_Sounds[ h ] = se ;
+    return h ;
+}
+
 // --- Music (BGM track、SDL_mixer Mix_Music 経由) ----------------------------
 // DxLib の PlayMusic は MIDI 専用だったが、SDL_mixer の Mix_LoadMUS は
 // MIDI / OGG / MP3 / MOD / WAV を統一的に扱う。よって PlayMusic で BGM として
