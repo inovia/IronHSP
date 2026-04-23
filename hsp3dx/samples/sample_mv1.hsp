@@ -1,0 +1,77 @@
+;============================================================
+;   sample_mv1.hsp — MV1 モデルロードテスト
+;   mv1conv で生成した .mv1 を hsp3dx で読んで表示する
+;   dx_mv1load / dx_mv1draw / dx_mv1setpos / dx_mv1setrot / dx_mv1setscale
+;
+;   同ディレクトリに DxChara.mv1 / SimpleModel.mv1 等を置いて実行
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx sample: MV1 model viewer"
+
+    dx_setbgcolor3d 20, 30, 60
+    dx_setcameraperspective 60.0
+    dx_SetUseLighting 1
+    dx_setzbuffer 1
+
+    ;  複数のモデルを同時にロード
+    sdim models, 64, 5
+    models(0) = "DxChara.mv1"
+    models(1) = "SimpleModel.mv1"
+    models(2) = "SimplePillarStage.mv1"
+    models(3) = "ColTestStage.mv1"
+    models(4) = "SimpleModelVertexColor.mv1"
+
+    dim handles, 5
+    model_n = 0
+    repeat 5
+        dx_mv1load models(cnt)
+        if stat >= 0 {
+            handles(model_n) = stat
+            dx_mv1setpos   handles(model_n), (model_n - 2) * 150.0, 0, 0
+            dx_mv1setscale handles(model_n), 1.0, 1.0, 1.0
+            model_n = model_n + 1
+        }
+    loop
+
+    t = 0.0
+
+*main_loop
+    redraw 0
+    cls
+
+    ;  カメラ回転
+    cam_r = 400.0
+    cx = cos(t) * cam_r
+    cz = sin(t) * cam_r
+    dx_setcamerapos cx, 100, cz, 0, 30, 0
+
+    ;  各モデル描画
+    repeat model_n
+        dx_mv1setrot handles(cnt), 0, t * 0.5, 0
+        dx_mv1draw   handles(cnt)
+    loop
+
+    ;  HUD
+    color 255, 255, 255
+    font "MS Gothic", 14, 1
+    pos 10, 10  : mes "hsp3dx sample: MV1 model viewer"
+    pos 10, 30  : mes strf("loaded: %d models (mv1conv 16/16 DxLib 互換)", model_n)
+    pos 10, 460 : mes "[ESC] quit"
+
+    redraw 1
+
+    getkey esc_p, 27
+    if esc_p : goto *cleanup
+
+    t = t + 0.01
+    await 16
+    goto *main_loop
+
+*cleanup
+    repeat model_n
+        dx_mv1delete handles(cnt)
+    loop
+    end
