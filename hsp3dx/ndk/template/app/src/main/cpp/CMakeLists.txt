@@ -2,6 +2,14 @@
 #
 # DxLib Android の libDxLib.a などをリンクし、
 # hsp3 コア + hsp3dx 拡張 + Android 専用エントリを 1 つの .so にまとめる。
+#
+# オプション:
+#   DXLIB_FROM_SOURCE (default OFF)
+#     ON にすると prebuilt libDxLib.a / libDxUseCLib.a / libpng.a / libjpeg.a / libzlib.a
+#     を使わず、hsp3dx/dxlib_angle_sdl2/dxlib_portable + extlib/libpng + extlib/libjpeg +
+#     extlib/zlib の source から build する。Movie MediaCodec 差替えや本家 DxLib バグ
+#     修正を自前で入れたい場合に有効化。
+#     tiff / ogg / vorbis / theora / opus / bullet / Live2DCubismCore は当面 prebuilt 継続。
 
 cmake_minimum_required(VERSION 3.10.2)
 
@@ -14,6 +22,12 @@ set(HSP3_DIR       ${IRONHSP_ROOT}/hsp3)
 set(HSP3NET_DIR    ${IRONHSP_ROOT}/hsp3net)
 set(HSP3DX_DIR     ${IRONHSP_ROOT}/hsp3dx)
 set(DXLIB_DIR      ${HSP3DX_DIR}/extlib/dxlib_android/DxLib_Android/Lib_AndroidStudio)
+set(DXLIB_FORK_DIR ${HSP3DX_DIR}/dxlib_angle_sdl2)
+set(DXLIB_SRC_DIR  ${DXLIB_FORK_DIR}/dxlib_portable)
+
+option(DXLIB_FROM_SOURCE
+    "Build DxLib / DxUseCLib / libpng / libjpeg / zlib from source instead of prebuilt .a"
+    OFF)
 
 include_directories(
     ${HSP3_DIR}
@@ -77,25 +91,163 @@ set(HSP3DX_SRC
 
 add_library(hsp3dx SHARED ${HSP3_SRC} ${HSP3DX_SRC})
 
-target_link_libraries(hsp3dx
-    android
-    log
-    GLESv1_CM
-    EGL
-    GLESv2
-    OpenSLES
-    m
-    DxLib
-    DxUseCLib
-    jpeg
-    png
-    zlib
-    tiff
-    theora_static
-    vorbis_static
-    vorbisfile_static
-    ogg_static
-    bullet
-    opus
-    Live2DCubismCore   # DxLibEnableLive2D_Android_3_24f + Cubism SDK 4-r.7
-)
+# =============================================================================
+# DXLIB_FROM_SOURCE=ON: DxLib + DxUseCLib を source から build
+# =============================================================================
+if(DXLIB_FROM_SOURCE)
+    message(STATUS "hsp3dx: building DxLib + DxUseCLib from source (dxlib_angle_sdl2/dxlib_portable)")
+
+    # --- zlib (bundled 1.3.1) ---------------------------------------------
+    set(ZLIB_DIR ${DXLIB_FORK_DIR}/extlib/zlib)
+    add_library(dx_zlib STATIC
+        ${ZLIB_DIR}/adler32.c ${ZLIB_DIR}/compress.c ${ZLIB_DIR}/crc32.c
+        ${ZLIB_DIR}/deflate.c ${ZLIB_DIR}/infback.c ${ZLIB_DIR}/inffast.c
+        ${ZLIB_DIR}/inflate.c ${ZLIB_DIR}/inftrees.c ${ZLIB_DIR}/trees.c
+        ${ZLIB_DIR}/uncompr.c ${ZLIB_DIR}/zutil.c
+    )
+    target_include_directories(dx_zlib PUBLIC ${ZLIB_DIR})
+    target_compile_options(dx_zlib PRIVATE
+        -Wno-implicit-function-declaration -Wno-shift-negative-value)
+
+    # --- libpng / libjpeg (2026-04-23 bundle) -----------------------------
+    add_subdirectory(${DXLIB_FORK_DIR}/extlib/libpng ${CMAKE_CURRENT_BINARY_DIR}/dx_libpng)
+    add_subdirectory(${DXLIB_FORK_DIR}/extlib/libjpeg ${CMAKE_CURRENT_BINARY_DIR}/dx_libjpeg)
+
+    # --- DxLib / DxUseCLib 共通 source (pristine DxLib 3.24f) -------------
+    set(DXLIB_COMMON_SRC
+        ${DXLIB_SRC_DIR}/DxASyncLoad.cpp
+        ${DXLIB_SRC_DIR}/DxArchive_.cpp
+        ${DXLIB_SRC_DIR}/DxBaseFunc.cpp
+        ${DXLIB_SRC_DIR}/DxBaseImage.cpp
+        ${DXLIB_SRC_DIR}/DxChar.cpp
+        ${DXLIB_SRC_DIR}/DxCharCodeTable.cpp
+        ${DXLIB_SRC_DIR}/DxFile.cpp
+        ${DXLIB_SRC_DIR}/DxFont.cpp
+        ${DXLIB_SRC_DIR}/DxGateway.cpp
+        ${DXLIB_SRC_DIR}/DxGraphics.cpp
+        ${DXLIB_SRC_DIR}/DxGraphicsFilter.cpp
+        ${DXLIB_SRC_DIR}/DxHandle.cpp
+        ${DXLIB_SRC_DIR}/DxHeap.cpp
+        ${DXLIB_SRC_DIR}/DxInput.cpp
+        ${DXLIB_SRC_DIR}/DxInputString.cpp
+        ${DXLIB_SRC_DIR}/DxLive2DCubism4.cpp
+        ${DXLIB_SRC_DIR}/DxLog.cpp
+        ${DXLIB_SRC_DIR}/DxMask.cpp
+        ${DXLIB_SRC_DIR}/DxMath.cpp
+        ${DXLIB_SRC_DIR}/DxMemImg.cpp
+        ${DXLIB_SRC_DIR}/DxMemImgDrawFunction0.cpp
+        ${DXLIB_SRC_DIR}/DxMemImgDrawFunction1.cpp
+        ${DXLIB_SRC_DIR}/DxMemImgDrawFunction2.cpp
+        ${DXLIB_SRC_DIR}/DxMemImgDrawFunction3.cpp
+        ${DXLIB_SRC_DIR}/DxMemory.cpp
+        ${DXLIB_SRC_DIR}/DxModel.cpp
+        ${DXLIB_SRC_DIR}/DxModelLoader0.cpp
+        ${DXLIB_SRC_DIR}/DxModelLoader1.cpp
+        ${DXLIB_SRC_DIR}/DxModelLoader2.cpp
+        ${DXLIB_SRC_DIR}/DxModelLoader3.cpp
+        ${DXLIB_SRC_DIR}/DxModelLoader4.cpp
+        ${DXLIB_SRC_DIR}/DxModelLoaderVMD.cpp
+        ${DXLIB_SRC_DIR}/DxModelRead.cpp
+        ${DXLIB_SRC_DIR}/DxMovie.cpp
+        ${DXLIB_SRC_DIR}/DxNetwork.cpp
+        ${DXLIB_SRC_DIR}/DxRingBuffer.cpp
+        ${DXLIB_SRC_DIR}/DxSoftImage.cpp
+        ${DXLIB_SRC_DIR}/DxSound.cpp
+        ${DXLIB_SRC_DIR}/DxSoundConvert.cpp
+        ${DXLIB_SRC_DIR}/DxSystem.cpp
+        ${DXLIB_SRC_DIR}/DxThread.cpp
+        ${DXLIB_SRC_DIR}/DxUseCLib.cpp
+        ${DXLIB_SRC_DIR}/DxUseCLibLive2DCubism4.cpp
+        ${DXLIB_SRC_DIR}/DxUseCLibOgg.cpp
+        ${DXLIB_SRC_DIR}/DxUseCLibPhysics.cpp
+    )
+
+    # --- Android platform source (pristine DxLib 3.24f Android) -----------
+    file(GLOB DXLIB_ANDROID_SRC
+        ${DXLIB_SRC_DIR}/Android/*.cpp
+    )
+
+    # DxMovieAndroid_MediaCodec.cpp はリファレンス実装 (次フェーズで差替え予定)
+    # 現段階では本家 DxMovieAndroid.cpp (stub) を使い、_MediaCodec は除外
+    list(REMOVE_ITEM DXLIB_ANDROID_SRC
+        ${DXLIB_SRC_DIR}/Android/DxMovieAndroid_MediaCodec.cpp)
+
+    add_library(DxLibSource STATIC ${DXLIB_COMMON_SRC} ${DXLIB_ANDROID_SRC})
+
+    target_include_directories(DxLibSource PUBLIC
+        ${DXLIB_SRC_DIR}
+        ${DXLIB_SRC_DIR}/Android
+        # 既存 SDK 同梱の dep .a に合わせた header 群 (fork bundle 版)
+        ${DXLIB_FORK_DIR}/extlib/libogg/include
+        ${DXLIB_FORK_DIR}/extlib/libvorbis/include
+        ${DXLIB_FORK_DIR}/extlib/libtheora/include
+        ${DXLIB_FORK_DIR}/extlib/libopus/include
+        ${DXLIB_FORK_DIR}/extlib/opusfile/include
+        ${DXLIB_FORK_DIR}/extlib/libtiff/libtiff
+    )
+    target_link_libraries(DxLibSource PUBLIC dx_png dx_jpeg dx_zlib)
+
+    # SJIS コメント / #pragma warning 等を許容。
+    # NDK clang は入力を UTF-8 固定で扱う (-finput-charset は非対応)。
+    # DxLib 本家 source は SJIS だが、コメント内のみなので -Wno-invalid-source-encoding
+    # で警告抑制すれば通る (コード部は ASCII 互換)。
+    target_compile_options(DxLibSource PRIVATE
+        -Wno-everything
+        -Wno-invalid-source-encoding
+    )
+
+    # Cubism 4 Framework header が Live2DCubism4 source から参照される。
+    # prebuilt SDK 側には header が含まれない場合が多いので、user が Cubism SDK
+    # を extlib/live2d_cubism/ に展開していれば追加 include する。
+    if(EXISTS "${HSP3DX_DIR}/extlib/live2d_cubism/Framework/src/CubismFramework.hpp")
+        target_include_directories(DxLibSource PUBLIC
+            ${HSP3DX_DIR}/extlib/live2d_cubism/Framework/src
+            ${HSP3DX_DIR}/extlib/live2d_cubism/Core/include
+        )
+    endif()
+
+    target_link_libraries(hsp3dx
+        android
+        log
+        GLESv1_CM
+        EGL
+        GLESv2
+        OpenSLES
+        m
+        DxLibSource            # source build
+        tiff
+        theora_static
+        vorbis_static
+        vorbisfile_static
+        ogg_static
+        bullet
+        opus
+        Live2DCubismCore
+    )
+else()
+    # =============================================================================
+    # DXLIB_FROM_SOURCE=OFF (default): 従来通り prebuilt .a を link
+    # =============================================================================
+    target_link_libraries(hsp3dx
+        android
+        log
+        GLESv1_CM
+        EGL
+        GLESv2
+        OpenSLES
+        m
+        DxLib
+        DxUseCLib
+        jpeg
+        png
+        zlib
+        tiff
+        theora_static
+        vorbis_static
+        vorbisfile_static
+        ogg_static
+        bullet
+        opus
+        Live2DCubismCore   # DxLibEnableLive2D_Android_3_24f + Cubism SDK 4-r.7
+    )
+endif()
