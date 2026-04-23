@@ -99,6 +99,20 @@ LoadResult load_pmd(const std::string &path) {
     if (!c.read(&matN, 4)) { r.error = "PMD: short material count"; return r; }
     std::vector<MaterialIR> mats;
     std::vector<std::uint32_t> matFaceIdxCount(matN);
+    // PMD texture path は "main.bmp*sphere.bmp" の形式 (2 枚並列)。
+    // 重複を避けるため path→index map を持つ。
+    std::vector<TextureIR> textures;
+    auto add_texture = [&](const std::string &path) -> int {
+        if (path.empty()) return -1;
+        for (std::size_t i = 0; i < textures.size(); ++i) {
+            if (textures[i].color_path == path) return static_cast<int>(i);
+        }
+        TextureIR t;
+        t.name = path;
+        t.color_path = path;
+        textures.push_back(std::move(t));
+        return static_cast<int>(textures.size() - 1);
+    };
     for (std::uint32_t i = 0; i < matN; ++i) {
         if (c.p + 70 > c.pEnd) { r.error = "PMD: short material data"; return r; }
         MaterialIR m;
@@ -120,7 +134,20 @@ LoadResult load_pmd(const std::string &path) {
         m.specular[0] = spec[0]; m.specular[1] = spec[1]; m.specular[2] = spec[2];
         m.ambient[0] = ambi[0];  m.ambient[1] = ambi[1];  m.ambient[2] = ambi[2];
         m.power = power;
-        (void)toon_idx; (void)edge_flag; (void)tex;
+        (void)toon_idx; (void)edge_flag;
+
+        // texture パス "main.bmp*sphere.bmp" を分割
+        std::string main_tex, sphere_tex;
+        auto star = tex.find('*');
+        if (star != std::string::npos) {
+            main_tex = tex.substr(0, star);
+            sphere_tex = tex.substr(star + 1);
+        } else {
+            main_tex = tex;
+        }
+        m.diffuse_texture = add_texture(main_tex);
+        (void)sphere_tex; // sphere 環境マップは現状未対応
+
         matFaceIdxCount[i] = faceVertCount;
         mats.push_back(m);
     }
@@ -161,6 +188,7 @@ LoadResult load_pmd(const std::string &path) {
         return r;
     }
     r.ir.materials = std::move(mats);
+    r.ir.textures = std::move(textures);
     return r;
 }
 

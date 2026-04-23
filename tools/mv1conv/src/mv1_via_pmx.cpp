@@ -39,11 +39,16 @@ std::string find_saver_exe() {
     return "mv1_dxlib_saver.exe";
 }
 
-std::string generate_temp_pmx_path() {
+// tempfile を output.mv1 と同じディレクトリに置く。
+// 理由: DxLib の PMX loader はテクスチャパスを PMX ファイルと同じ dir から
+//       検索するため、output dir (= texture コピー先) に置くと一致する。
+std::string generate_temp_pmx_path(const std::string &output_mv1) {
     std::random_device rd;
     std::mt19937_64 rng(rd());
-    auto temp_dir = std::filesystem::temp_directory_path();
-    auto path = temp_dir / ("mv1conv_" + std::to_string(rng()) + ".pmx");
+    std::filesystem::path out(output_mv1);
+    auto dir = out.parent_path();
+    if (dir.empty()) dir = std::filesystem::current_path();
+    auto path = dir / ("_mv1conv_tmp_" + std::to_string(rng()) + ".pmx");
     return path.string();
 }
 
@@ -126,8 +131,8 @@ Mv1ViaPmxResult save_mv1_via_pmx(const ModelIR &ir, const std::string &output_pa
         return res;
     }
 
-    // 2. tempfile.pmx に書き出し
-    std::string temp_pmx = generate_temp_pmx_path();
+    // 2. tempfile.pmx に書き出し (output と同じ dir に置く → テクスチャ検索成功)
+    std::string temp_pmx = generate_temp_pmx_path(output_path);
     {
         std::ofstream ofs(temp_pmx, std::ios::binary);
         if (!ofs) {

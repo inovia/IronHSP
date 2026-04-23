@@ -27,6 +27,9 @@
 #include <cstring>
 #include <filesystem>
 #include <string>
+#ifdef _WIN32
+#include <windows.h>  // MultiByteToWideChar (texture copy: UTF-8 → wstring)
+#endif
 
 using namespace mv1conv;
 
@@ -220,21 +223,45 @@ static int convert_generic(const char *in, const char *out, bool noBones = false
     //        環境変数 MV1CONV_NO_COPY_TEX=1 で無効化。 ======
     if (!std::getenv("MV1CONV_NO_COPY_TEX") && !ir->textures.empty()) {
         namespace fs = std::filesystem;
-        fs::path in_path(in);
-        fs::path out_path(out);
+        // UTF-8 → fs::path 変換ヘルパ (Windows の std::string→fs::path は ACP 解釈のため直接使えない)
+        auto u8_to_path = [](const std::string &s) -> fs::path {
+#ifdef _WIN32
+            int n = MultiByteToWideChar(CP_UTF8, 0, s.c_str(), static_cast<int>(s.size()), nullptr, 0);
+            if (n <= 0) return fs::path(s);
+            std::wstring w(n, L'\0');
+            MultiByteToWideChar(CP_UTF8, 0, s.c_str(), static_cast<int>(s.size()), w.data(), n);
+            return fs::path(w);
+#else
+            return fs::path(s);
+#endif
+        };
+        auto path_to_u8 = [](const fs::path &p) -> std::string {
+#ifdef _WIN32
+            auto w = p.wstring();
+            int n = WideCharToMultiByte(CP_UTF8, 0, w.c_str(), static_cast<int>(w.size()), nullptr, 0, nullptr, nullptr);
+            if (n <= 0) return p.string();
+            std::string s(n, '\0');
+            WideCharToMultiByte(CP_UTF8, 0, w.c_str(), static_cast<int>(w.size()), s.data(), n, nullptr, nullptr);
+            return s;
+#else
+            return p.string();
+#endif
+        };
+        fs::path in_path  = u8_to_path(in);
+        fs::path out_path = u8_to_path(out);
         fs::path in_dir  = in_path.has_parent_path() ? in_path.parent_path() : fs::path(".");
         fs::path out_dir = out_path.has_parent_path() ? out_path.parent_path() : fs::path(".");
         int copied = 0, missing = 0;
         for (auto &tex : ir->textures) {
             if (tex.color_path.empty()) continue;
-            fs::path src(tex.color_path);
+            fs::path src = u8_to_path(tex.color_path);
             // 絶対パスならそのまま、相対なら入力 dir から解決
             if (!src.is_absolute()) src = in_dir / src;
             std::error_code ec;
             fs::path resolved = fs::weakly_canonical(src, ec);
             if (ec || !fs::exists(resolved, ec)) {
                 // 入力 dir 基準以外にも basename 単体で探す (GPB 等ファイル名のみ)
-                fs::path alt = in_dir / fs::path(tex.color_path).filename();
+                fs::path alt = in_dir / u8_to_path(tex.color_path).filename();
                 if (fs::exists(alt, ec)) resolved = alt;
             }
             // DxLib が読めない拡張子 (.psd) は同名別拡張子 (.tga/.png/.bmp/.jpg/.dds) に差替え。
@@ -272,9 +299,9 @@ static int convert_generic(const char *in, const char *out, bool noBones = false
                 if (!ec2) ++copied;
             }
             // IR のパスを basename に書き換え (DxLib は .mv1 と同じ dir を探す)
-            tex.color_path = resolved.filename().string();
+            tex.color_path = path_to_u8(resolved.filename());
             if (tex.name.find('/') != std::string::npos || tex.name.find('\\') != std::string::npos) {
-                tex.name = resolved.filename().string();
+                tex.name = path_to_u8(resolved.filename());
             }
         }
         if (copied > 0 || missing > 0) {
