@@ -125,16 +125,28 @@ WriteResult write_mv1(const ModelIR &ir) {
     (void)offHeader;
 
     // ====== 1b. ChangeMatrixTable / ChangeDrawMaterialTable ======
-    // DxLib は frame/mesh/material の状態変化を bit-flag table (1 bit / element)
-    // で追跡する。FHeader->ChangeMatrixTableSize=0 + offset=0 だと runtime の
-    // bit 操作で境界外 write が発生し debug allocator の MagicID corruption を
-    // 起こす (n≥5 で再現、調査結果)。
-    // 安全マージンとして 256 byte (=2048 bit) 以上を確保。
-    const std::int32_t changeTableSize = 256;
+    // IR が保持していればそれを書く (round-trip 保持)、なければ 256B ゼロを確保。
+    const std::int32_t defaultChangeSz = 256;
+    std::int32_t drawMatSz = ir.change_draw_material_table.empty()
+        ? defaultChangeSz
+        : static_cast<std::int32_t>(ir.change_draw_material_table.size());
+    std::int32_t matSz = ir.change_matrix_table.empty()
+        ? defaultChangeSz
+        : static_cast<std::int32_t>(ir.change_matrix_table.size());
     b.align4();
-    std::uint32_t offChangeDrawMatTable = b.append_zero(changeTableSize);
+    std::uint32_t offChangeDrawMatTable = b.pos();
+    if (ir.change_draw_material_table.empty()) {
+        b.append_zero(drawMatSz);
+    } else {
+        b.append_bytes(ir.change_draw_material_table.data(), drawMatSz);
+    }
     b.align4();
-    std::uint32_t offChangeMatTable = b.append_zero(changeTableSize);
+    std::uint32_t offChangeMatTable = b.pos();
+    if (ir.change_matrix_table.empty()) {
+        b.append_zero(matSz);
+    } else {
+        b.append_bytes(ir.change_matrix_table.data(), matSz);
+    }
 
     // ====== 2. Frame 配列確保 ======
     // シンプルのため Frame[0] = container, Frame[1..] = bones (skin 時)
@@ -348,6 +360,8 @@ WriteResult write_mv1(const ModelIR &ir) {
     }
 
     // ====== 9. TriangleList.MeshVertexIndexAndIndexData ======
+    // TL index タイプを頂点数に応じて U8/U16/U32 で最適化 (サイズ削減)
+    std::vector<std::uint16_t> tlFlagCache(ir.meshes.size());
     std::vector<std::uint32_t> tlDataOffsets(ir.meshes.size());
     for (std::size_t mi = 0; mi < ir.meshes.size(); ++mi) {
         const auto &m = ir.meshes[mi];
@@ -361,14 +375,29 @@ WriteResult write_mv1(const ModelIR &ir) {
             }
         }
         const std::size_t vn = m.indices.size();
-        for (std::size_t i = 0; i < vn; ++i) {
-            std::uint32_t idx = static_cast<std::uint32_t>(i);
-            b.append_bytes(&idx, 4);
-        }
-        for (std::size_t i = 0; i < vn; ++i) {
-            std::uint32_t idx = static_cast<std::uint32_t>(i);
-            b.append_bytes(&idx, 4);
-        }
+        // mesh vertex index (0..vn-1): vn の大きさで U8/U16/U32 を選択
+        auto pick_type = [](std::size_t max) {
+            if (max <= 0xFFu) return e::TRILIST_INDEX_TYPE_U8;
+            if (max <= 0xFFFFu) return e::TRILIST_INDEX_TYPE_U16;
+            return e::TRILIST_INDEX_TYPE_U32;
+        };
+        std::uint16_t mvIdxType = pick_type(vn);
+        std::uint16_t idxType   = pick_type(vn);
+        tlFlagCache[mi] = static_cast<std::uint16_t>(mvIdxType | (idxType << 2));
+
+        auto write_idx = [&](std::uint32_t v, std::uint16_t t) {
+            if (t == e::TRILIST_INDEX_TYPE_U8) {
+                std::uint8_t b8 = static_cast<std::uint8_t>(v); b.append_bytes(&b8, 1);
+            } else if (t == e::TRILIST_INDEX_TYPE_U16) {
+                std::uint16_t w = static_cast<std::uint16_t>(v); b.append_bytes(&w, 2);
+            } else {
+                b.append_bytes(&v, 4);
+            }
+        };
+
+        for (std::size_t i = 0; i < vn; ++i) write_idx(static_cast<std::uint32_t>(i), mvIdxType);
+        for (std::size_t i = 0; i < vn; ++i) write_idx(static_cast<std::uint32_t>(i), idxType);
+        while (b.pos() & 3u) { std::uint8_t z = 0; b.append_bytes(&z, 1); }
     }
 
     // ====== 9b. SkinBone の UseFrame 配列 (skin 時) ======
@@ -897,6 +926,44 @@ WriteResult write_mv1(const ModelIR &ir) {
         }
     };
 
+    // -- Lights --
+    std::vector<std::uint32_t> lightNameOff(ir.lights.size());
+    for (std::size_t i = 0; i < ir.lights.size(); ++i)
+        lightNameOff[i] = strings.add(ir.lights[i].name);
+    std::vector<std::uint32_t> lightOffs(ir.lights.size());
+    std::uint32_t offLightArr = 0;
+    if (!ir.lights.empty()) {
+        b.align4();
+        offLightArr = b.pos();
+        for (std::size_t i = 0; i < ir.lights.size(); ++i) {
+            const auto &l = ir.lights[i];
+            f1::MV1_LIGHT_F1 lf{};
+            lf.Name = lightNameOff[i];
+            lf.Index = static_cast<std::int32_t>(i);
+            lf.FrameIndex = (l.target_bone >= 0 && isSkin)
+                ? static_cast<std::int32_t>(bonesBaseIdx + l.target_bone)
+                : 0;
+            lf.Type = l.type;
+            std::memcpy(&lf.Diffuse,  l.diffuse.data(),  16);
+            std::memcpy(&lf.Specular, l.specular.data(), 16);
+            std::memcpy(&lf.Ambient,  l.ambient.data(),  16);
+            lf.Range = l.range;
+            lf.Falloff = l.falloff;
+            lf.Attenuation0 = l.attenuation0;
+            lf.Attenuation1 = l.attenuation1;
+            lf.Attenuation2 = l.attenuation2;
+            lf.Theta = l.theta;
+            lf.Phi   = l.phi;
+            lightOffs[i] = b.append_struct(lf);
+        }
+        for (std::size_t i = 0; i < lightOffs.size(); ++i) {
+            std::uint32_t prev = (i == 0) ? 0u : lightOffs[i - 1];
+            std::uint32_t next = (i + 1 < lightOffs.size()) ? lightOffs[i + 1] : 0u;
+            b.overwrite_u32(lightOffs[i] + 0, prev);
+            b.overwrite_u32(lightOffs[i] + 4, next);
+        }
+    }
+
     // -- ToonInfo blocks (is_toon=true の material のみ) --
     std::vector<std::uint32_t> toonInfoOff(ir.materials.size(), 0);
     for (std::size_t i = 0; i < ir.materials.size(); ++i) {
@@ -1013,7 +1080,7 @@ WriteResult write_mv1(const ModelIR &ir) {
         tl.Index = static_cast<std::int32_t>(i);
         tl.Container = meshOffsets[i];
         tl.VertexType = isSkin ? e::VERTEX_TYPE_SKIN_4BONE : e::VERTEX_TYPE_NORMAL;
-        tl.Flag = static_cast<std::uint16_t>(e::TRILIST_INDEX_TYPE_U32 | (e::TRILIST_INDEX_TYPE_U32 << 2));
+        tl.Flag = tlFlagCache[i];
         tl.VertexNum = static_cast<std::uint16_t>(m.indices.size());
         tl.IndexNum  = static_cast<std::uint16_t>(m.indices.size());
         tl.MeshVertexIndexAndIndexData = tlDataOffsets[i];
@@ -1023,9 +1090,9 @@ WriteResult write_mv1(const ModelIR &ir) {
     }
 
     // -- Header 最終埋め込み --
-    hdr.ChangeDrawMaterialTableSize = changeTableSize;
+    hdr.ChangeDrawMaterialTableSize = drawMatSz;
     hdr.ChangeDrawMaterialTable     = offChangeDrawMatTable;
-    hdr.ChangeMatrixTableSize       = changeTableSize;
+    hdr.ChangeMatrixTableSize       = matSz;
     hdr.ChangeMatrixTable           = offChangeMatTable;
     hdr.FrameNum            = frameNum;
     hdr.Frame               = offFrame;       // 配列先頭
@@ -1054,6 +1121,8 @@ WriteResult write_mv1(const ModelIR &ir) {
     hdr.Texture             = ir.textures.empty() ? 0u : offTexture;
     hdr.MeshNum             = static_cast<std::int32_t>(ir.meshes.size());
     hdr.Mesh                = offMesh;
+    hdr.LightNum            = static_cast<std::int32_t>(ir.lights.size());
+    hdr.Light               = offLightArr;
     hdr.TriangleListNum     = static_cast<std::int32_t>(ir.meshes.size());
     hdr.TriangleList        = offTriangleList;
     // VertexData 領域は offPAndN から始まり、StringBuffer の直前で終わる

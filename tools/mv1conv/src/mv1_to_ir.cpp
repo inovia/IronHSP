@@ -367,6 +367,24 @@ LoadResult load_mv1_to_ir(const std::string &path) {
 
     r.ir.right_hand = hdr->RightHandType != 0;
 
+    // Change tables (round-trip 保持)
+    if (hdr->ChangeDrawMaterialTable != 0 && hdr->ChangeDrawMaterialTableSize > 0) {
+        std::uint32_t sz = static_cast<std::uint32_t>(hdr->ChangeDrawMaterialTableSize);
+        if (hdr->ChangeDrawMaterialTable + sz <= f.buffer().size()) {
+            r.ir.change_draw_material_table.assign(
+                f.buffer().data() + hdr->ChangeDrawMaterialTable,
+                f.buffer().data() + hdr->ChangeDrawMaterialTable + sz);
+        }
+    }
+    if (hdr->ChangeMatrixTable != 0 && hdr->ChangeMatrixTableSize > 0) {
+        std::uint32_t sz = static_cast<std::uint32_t>(hdr->ChangeMatrixTableSize);
+        if (hdr->ChangeMatrixTable + sz <= f.buffer().size()) {
+            r.ir.change_matrix_table.assign(
+                f.buffer().data() + hdr->ChangeMatrixTable,
+                f.buffer().data() + hdr->ChangeMatrixTable + sz);
+        }
+    }
+
     // Materials
     r.ir.materials.reserve(hdr->MaterialNum);
     for (int i = 0; i < hdr->MaterialNum; ++i) {
@@ -572,6 +590,35 @@ LoadResult load_mv1_to_ir(const std::string &path) {
             }
         }
         r.ir.meshes.push_back(std::move(mesh));
+    }
+
+    // Lights
+    r.ir.lights.reserve(hdr->LightNum);
+    for (int i = 0; i < hdr->LightNum; ++i) {
+        const auto *lf = f.at<f1::MV1_LIGHT_F1>(hdr->Light + i * sizeof(f1::MV1_LIGHT_F1));
+        if (!lf) continue;
+        ModelIR::LightIR li;
+        li.name = std::string(f.name(lf->Name));
+        li.type = lf->Type;
+        li.diffuse  = { lf->Diffuse.r,  lf->Diffuse.g,  lf->Diffuse.b,  lf->Diffuse.a };
+        li.specular = { lf->Specular.r, lf->Specular.g, lf->Specular.b, lf->Specular.a };
+        li.ambient  = { lf->Ambient.r,  lf->Ambient.g,  lf->Ambient.b,  lf->Ambient.a };
+        li.range = lf->Range;
+        li.falloff = lf->Falloff;
+        li.attenuation0 = lf->Attenuation0;
+        li.attenuation1 = lf->Attenuation1;
+        li.attenuation2 = lf->Attenuation2;
+        li.theta = lf->Theta;
+        li.phi = lf->Phi;
+        // FrameIndex → bone index 逆算
+        li.target_bone = -1;
+        if (hasSkin && lf->FrameIndex > 0) {
+            int boneBase = 1 + hdr->MeshNum;
+            if (lf->FrameIndex >= boneBase && lf->FrameIndex - boneBase < hdr->SkinBoneNum) {
+                li.target_bone = lf->FrameIndex - boneBase;
+            }
+        }
+        r.ir.lights.push_back(std::move(li));
     }
 
     // Shapes (blend shapes / morph targets) — writer の逆向け

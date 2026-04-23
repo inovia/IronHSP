@@ -449,15 +449,35 @@ LoadResult load_pmx(const std::string &path) {
                     if (newSh.meshes.empty()) newSh.meshes.push_back(ShapeMeshIR{});
                     newSh.meshes[0].vertices.push_back(sv);
                 }
+            } else if (morphType == 3 || morphType == 4 || morphType == 5 ||
+                       morphType == 6 || morphType == 7) {
+                // UV morph (3 = first UV, 4-7 = additional UV sets)
+                // vertex idx + float4 UV delta
+                // MV1 は UV morph 未対応なので IR には追加せず数値を skip のみ
+                // (PMX shape を残したい情報なら将来独立 IR 型追加)
+                for (std::uint32_t k = 0; k < offN && c.ok; ++k) {
+                    c.skip(vtxIdxSize + 16);
+                }
+            } else if (morphType == 2) {
+                // Bone morph: bone idx + float3 translate + float4 rotate (quat)
+                // MV1 shape は頂点変形のみ対応なので、bone morph は skip
+                // (将来 AnimKeySet 経由で実装可能だが 1 pose の static shape では表現不能)
+                for (std::uint32_t k = 0; k < offN && c.ok; ++k) {
+                    c.skip(boneIdxSize + 12 + 16);
+                }
+            } else if (morphType == 8) {
+                // Material morph: material idx + op (1B) + diffuse(16) + specular(16) +
+                //   power(4) + ambient(16) + edge_color(16) + edge_size(4) +
+                //   tex_factor(16) + sph_factor(16) + toon_factor(16) -- total 129
+                // MV1 非対応 (runtime shader 差し替えが必要)
+                for (std::uint32_t k = 0; k < offN && c.ok; ++k) {
+                    c.skip(matIdxSize + 1 + 16 + 16 + 4 + 16 + 16 + 4 + 16 + 16 + 16);
+                }
             } else {
-                // その他 type は skip
+                // group(0) / flip(9) / impulse(10): 再帰的/物理的 morph、全体 skip
                 for (std::uint32_t k = 0; k < offN && c.ok; ++k) {
                     switch (morphType) {
                     case 0:  c.skip(morphIdxSize + 4); break;
-                    case 2:  c.skip(boneIdxSize + 12 + 16); break;
-                    case 3: case 4: case 5: case 6: case 7:
-                        c.skip(vtxIdxSize + 16); break;
-                    case 8:  c.skip(matIdxSize + 1 + 16 + 16 + 12 + 4 + 16 + 4 + 16 + 16 + 16); break;
                     case 9:  c.skip(morphIdxSize + 4); break;
                     case 10: c.skip(rbIdxSize + 1 + 12 + 12); break;
                     default: c.ok = false; break;

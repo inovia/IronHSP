@@ -161,6 +161,21 @@ struct ModelIR {
     // Shapes (blend shapes / morph targets)
     std::vector<ShapeIR> shapes;
 
+    // Lights (MV1_LIGHT_F1)
+    struct LightIR {
+        std::string name;
+        int target_bone = -1;   // Frame index を逆算するため
+        int type = 0;           // 0:Directional, 1:Point, 2:Spot
+        std::array<float, 4> diffuse  {1,1,1,1};
+        std::array<float, 4> specular {1,1,1,1};
+        std::array<float, 4> ambient  {0,0,0,1};
+        float range = 100.0f;
+        float falloff = 1.0f;
+        float attenuation0 = 0.0f, attenuation1 = 1.0f, attenuation2 = 0.0f;
+        float theta = 1.0f, phi = 2.0f;  // spot light angles
+    };
+    std::vector<LightIR> lights;
+
     // Physics (PMX 物理演算)
     struct PhysicsRigidBodyIR {
         std::string name;
@@ -202,6 +217,11 @@ struct ModelIR {
     // MV1 → IR 経路では、元ファイルの OriginalAnimKeyDataSize をそのまま次の出力に
     // 流用するため保持 (0 なら writer が再計算)。
     std::uint32_t anim_original_keydata_size = 0;
+
+    // Change tables (round-trip 用): 元ファイルにあればそのまま保持。
+    // 空なら writer は 256 byte zeroed buffer を自動生成。
+    std::vector<std::uint8_t> change_draw_material_table;
+    std::vector<std::uint8_t> change_matrix_table;
 };
 
 }

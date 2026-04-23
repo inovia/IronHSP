@@ -1,5 +1,6 @@
 #include "vrm_import.hpp"
 #include "mini_json.hpp"
+#include <cmath>
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
@@ -204,17 +205,80 @@ LoadResult apply_vrm_extensions(const std::string &vrm_path, const ModelIR &in_m
     if (vrm1sb.is_object()) {
         const auto &springs = vrm1sb["springs"];
         if (springs.is_array() && !r.ir.bones.empty()) {
-            // bone node index → bone IR index map (node->name->bone)
+            // ---- Colliders (固定球/カプセル) を先に RigidBody として登録 ----
+            // colliders[]: {shape:{sphere:{offset,radius} | capsule:{offset,tail,radius}}, node: N}
+            std::unordered_map<int, int> colliderIdxToRb;
             std::unordered_map<std::string, int> boneIdxByName;
             for (std::size_t bi = 0; bi < r.ir.bones.size(); ++bi)
                 boneIdxByName[r.ir.bones[bi].name] = static_cast<int>(bi);
+
+            const auto &colliders = vrm1sb["colliders"];
+            if (colliders.is_array()) {
+                for (std::size_t ci = 0; ci < colliders.size(); ++ci) {
+                    const auto &cd = colliders[ci];
+                    if (!cd.is_object()) continue;
+                    int nodeIdx = static_cast<int>(cd["node"].as_number(-1));
+                    std::string nName = nodeName(nodeIdx);
+                    auto it = boneIdxByName.find(nName);
+                    if (it == boneIdxByName.end()) continue;
+
+                    const auto &shape = cd["shape"];
+                    ModelIR::PhysicsRigidBodyIR rb;
+                    rb.name = "collider_" + std::to_string(ci) + "_" + nName;
+                    rb.target_bone = it->second;
+                    rb.body_type = 0;  // bone 追従 (衝突のみ、動かない)
+                    if (shape["sphere"].is_object()) {
+                        const auto &sph = shape["sphere"];
+                        rb.shape_type = 0;  // sphere
+                        rb.shape_w = static_cast<float>(sph["radius"].as_number(0.1));
+                        const auto &off = sph["offset"];
+                        if (off.is_array() && off.size() >= 3) {
+                            rb.position[0] = static_cast<float>(off[0].as_number());
+                            rb.position[1] = static_cast<float>(off[1].as_number());
+                            rb.position[2] = static_cast<float>(off[2].as_number());
+                        }
+                    } else if (shape["capsule"].is_object()) {
+                        const auto &cap = shape["capsule"];
+                        rb.shape_type = 2;  // capsule
+                        rb.shape_w = static_cast<float>(cap["radius"].as_number(0.1));
+                        const auto &off = cap["offset"];
+                        const auto &tail = cap["tail"];
+                        if (off.is_array() && tail.is_array() && off.size() >= 3 && tail.size() >= 3) {
+                            rb.position[0] = static_cast<float>(off[0].as_number());
+                            rb.position[1] = static_cast<float>(off[1].as_number());
+                            rb.position[2] = static_cast<float>(off[2].as_number());
+                            // capsule 高さ = tail - offset の距離
+                            float dx = static_cast<float>(tail[0].as_number()) - rb.position[0];
+                            float dy = static_cast<float>(tail[1].as_number()) - rb.position[1];
+                            float dz = static_cast<float>(tail[2].as_number()) - rb.position[2];
+                            rb.shape_h = std::sqrt(dx*dx + dy*dy + dz*dz);
+                        }
+                    } else {
+                        rb.shape_type = 0; rb.shape_w = 0.1f;
+                    }
+                    colliderIdxToRb[static_cast<int>(ci)] = static_cast<int>(r.ir.physics_rigid_bodies.size());
+                    r.ir.physics_rigid_bodies.push_back(std::move(rb));
+                }
+            }
+
             int springRbAdded = 0;
             for (std::size_t si = 0; si < springs.size(); ++si) {
                 const auto &sp = springs[si];
                 if (!sp.is_object()) continue;
                 const auto &joints = sp["joints"];
                 if (!joints.is_array()) continue;
-                std::vector<int> chainRb;  // 連続 RigidBody index
+
+                // center: spring 全体の基準 bone (optional)
+                int centerBone = -1;
+                if (sp["center"].is_number()) {
+                    int nodeIdx = static_cast<int>(sp["center"].as_number(-1));
+                    std::string nName = nodeName(nodeIdx);
+                    auto it = boneIdxByName.find(nName);
+                    if (it != boneIdxByName.end()) centerBone = it->second;
+                }
+                (void)centerBone;  // MV1 には直接対応無し
+
+                std::vector<int> chainRb;
                 for (std::size_t ji = 0; ji < joints.size(); ++ji) {
                     const auto &jnt = joints[ji];
                     if (!jnt.is_object()) continue;
@@ -230,6 +294,8 @@ LoadResult apply_vrm_extensions(const std::string &vrm_path, const ModelIR &in_m
                     rb.shape_w = static_cast<float>(jnt["hitRadius"].as_number(0.1));
                     rb.weight = static_cast<float>(jnt["dragForce"].as_number(0.5));
                     rb.pos_dim = static_cast<float>(jnt["gravityPower"].as_number(0.0));
+                    // stiffness を friction に格納 (近似)
+                    rb.friction = static_cast<float>(jnt["stiffness"].as_number(1.0));
                     rb.body_type = 1;  // 物理
                     int rbIdx = static_cast<int>(r.ir.physics_rigid_bodies.size());
                     r.ir.physics_rigid_bodies.push_back(std::move(rb));
@@ -244,10 +310,13 @@ LoadResult apply_vrm_extensions(const std::string &vrm_path, const ModelIR &in_m
                     jt.rigid_b = chainRb[k + 1];
                     r.ir.physics_joints.push_back(std::move(jt));
                 }
+                // colliderGroups で参照される collider との干渉 joint (skip、
+                // MV1 Joint は pair base で spring/constrain 情報が足りない)
             }
-            if (springRbAdded > 0) {
-                std::fprintf(stderr, "VRM SpringBone: %d rigid bodies + %zu joints added\n",
-                             springRbAdded, r.ir.physics_joints.size());
+            if (springRbAdded > 0 || !colliderIdxToRb.empty()) {
+                std::fprintf(stderr,
+                    "VRM SpringBone: %zu colliders + %d spring joints RB, %zu joints\n",
+                    colliderIdxToRb.size(), springRbAdded, r.ir.physics_joints.size());
             }
         }
     }
