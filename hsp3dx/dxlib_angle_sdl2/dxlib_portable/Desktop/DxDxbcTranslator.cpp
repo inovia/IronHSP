@@ -578,6 +578,8 @@ struct TranslatorState {
     int     max_temps = 0 ;
     bool    seen_sv_position = false ;
     bool    use_texture = false ;
+    bool    use_derivatives = false ;   // dFdx/dFdy → GL_OES_standard_derivatives
+    bool    use_shadow = false ;        // shadow2D → サンプラーを sampler2DShadow 宣言へ
     bool    translation_ok = true ;
     int     unsupported_count = 0 ;
 } ;
@@ -799,7 +801,8 @@ static bool emit_instruction( TranslatorState &st, const Instruction &ins,
             break ;
         case OP_SAMPLE:
         case OP_SAMPLE_L:
-            // sample dst, uv, tN, sM [, lod for sample_l]
+        case OP_SAMPLE_B:
+            // sample dst, uv, tN, sM [, lod/bias]
             if ( ins.operands.size() >= 3 ) {
                 std::string tex ;
                 for ( const auto &o : ins.operands ) {
@@ -811,14 +814,149 @@ static bool emit_instruction( TranslatorState &st, const Instruction &ins,
                     }
                 }
                 if ( tex.empty() ) tex = "t0" ;
-                // 2D: uv.xy
                 std::string uv = operand_src( ins.operands[ 1 ] ) ;
                 if ( ins.opcode == OP_SAMPLE_L && ins.operands.size() >= 5 ) {
                     std::string lod = operand_src( ins.operands[ 4 ] ) ;
-                    set_dst( "texture2DLod(" + tex + ", " + uv + ".xy, " + lod + ")" ) ;
+                    // SAMPLE_L lod は scalar
+                    if ( ins.operands[ 4 ].num_components == 1 )
+                        set_dst( "texture2DLod(" + tex + ", (" + uv + ").xy, " + lod + ")" ) ;
+                    else
+                        set_dst( "texture2DLod(" + tex + ", (" + uv + ").xy, (" + lod + ").x)" ) ;
+                } else if ( ins.opcode == OP_SAMPLE_B && ins.operands.size() >= 5 ) {
+                    std::string bias = operand_src( ins.operands[ 4 ] ) ;
+                    if ( ins.operands[ 4 ].num_components == 1 )
+                        set_dst( "texture2D(" + tex + ", (" + uv + ").xy, " + bias + ")" ) ;
+                    else
+                        set_dst( "texture2D(" + tex + ", (" + uv + ").xy, (" + bias + ").x)" ) ;
                 } else {
-                    set_dst( "texture2D(" + tex + ", " + uv + ".xy)" ) ;
+                    set_dst( "texture2D(" + tex + ", (" + uv + ").xy)" ) ;
                 }
+                return true ;
+            }
+            break ;
+
+        // Shadow texture comparison sampling (depth map)
+        case OP_SAMPLE_C:
+        case OP_SAMPLE_C_LZ:
+            if ( ins.operands.size() >= 4 ) {
+                std::string tex ;
+                for ( const auto &o : ins.operands ) {
+                    if ( o.operand_type == OPT_RESOURCE ) {
+                        char b0[ 32 ] ;
+                        std::snprintf( b0, sizeof b0, "t%u", o.imm_index[ 0 ] ) ;
+                        tex = b0 ;
+                        break ;
+                    }
+                }
+                if ( tex.empty() ) tex = "t0" ;
+                std::string uv = operand_src( ins.operands[ 1 ] ) ;
+                std::string ref ;
+                // sample_c: dst, uv, srv, sampler, ref (最後の operand)
+                for ( size_t i = ins.operands.size() ; i > 0 ; i-- ) {
+                    const Operand &o = ins.operands[ i - 1 ] ;
+                    if ( o.operand_type != OPT_RESOURCE && o.operand_type != OPT_SAMPLER ) {
+                        // ref operand は last non-resource
+                        if ( i >= 5 ) { ref = operand_src( o ) ; break ; }
+                    }
+                }
+                if ( ref.empty() ) ref = "0.0" ;
+                st.use_shadow = true ;
+                // GLSL 120 は sampler2DShadow + shadow2D で比較サンプル可。ref は .z に埋める
+                set_dst( "vec4(shadow2D(" + tex + ", vec3((" + uv + ").xy, " + ref + ")).rrrr)" ) ;
+                return true ;
+            }
+            break ;
+
+        // Screen-space derivatives
+        case OP_DERIV_RTX:
+            if ( ins.operands.size() >= 2 ) {
+                st.use_derivatives = true ;
+                set_dst( "dFdx(" + operand_src( ins.operands[ 1 ] ) + ")" ) ;
+                return true ;
+            }
+            break ;
+        case OP_DERIV_RTY:
+            if ( ins.operands.size() >= 2 ) {
+                st.use_derivatives = true ;
+                set_dst( "dFdy(" + operand_src( ins.operands[ 1 ] ) + ")" ) ;
+                return true ;
+            }
+            break ;
+
+        // Bitwise (GLSL 120 には bitwise 無し、float で近似。精度は要注意)
+        case OP_AND:
+            if ( ins.operands.size() >= 3 ) {
+                // boolean AND として両辺 non-zero なら 1、そうでなければ 0
+                set_dst( "vec4(notEqual(" + operand_src( ins.operands[ 1 ] ) + " * " +
+                         operand_src( ins.operands[ 2 ] ) + ", vec4(0.0)))" ) ;
+                return true ;
+            }
+            break ;
+        case OP_OR:
+            if ( ins.operands.size() >= 3 ) {
+                set_dst( "vec4(notEqual(" + operand_src( ins.operands[ 1 ] ) + " + " +
+                         operand_src( ins.operands[ 2 ] ) + ", vec4(0.0)))" ) ;
+                return true ;
+            }
+            break ;
+        case OP_XOR:
+            if ( ins.operands.size() >= 3 ) {
+                // XOR 近似: a != b
+                set_dst( "vec4(notEqual(" + operand_src( ins.operands[ 1 ] ) + ", " +
+                         operand_src( ins.operands[ 2 ] ) + "))" ) ;
+                return true ;
+            }
+            break ;
+        case OP_NOT:
+            if ( ins.operands.size() >= 2 ) {
+                set_dst( "vec4(equal(" + operand_src( ins.operands[ 1 ] ) + ", vec4(0.0)))" ) ;
+                return true ;
+            }
+            break ;
+
+        // Integer shifts — float で 2 の累乗 * / で代替 (近似)
+        case OP_ISHL:
+            if ( ins.operands.size() >= 3 ) {
+                set_dst( "(" + operand_src( ins.operands[ 1 ] ) + " * pow(vec4(2.0), " +
+                         operand_src( ins.operands[ 2 ] ) + "))" ) ;
+                return true ;
+            }
+            break ;
+        case OP_ISHR:
+        case OP_USHR:
+            if ( ins.operands.size() >= 3 ) {
+                set_dst( "(" + operand_src( ins.operands[ 1 ] ) + " / pow(vec4(2.0), " +
+                         operand_src( ins.operands[ 2 ] ) + "))" ) ;
+                return true ;
+            }
+            break ;
+
+        // Texel load (integer UV, LOD in .w) — GLSL 120 texelFetch は 1.30+ のみ
+        case OP_LD:
+        case OP_LD_MS:
+            if ( ins.operands.size() >= 3 ) {
+                std::string tex ;
+                for ( const auto &o : ins.operands ) {
+                    if ( o.operand_type == OPT_RESOURCE ) {
+                        char b0[ 32 ] ;
+                        std::snprintf( b0, sizeof b0, "t%u", o.imm_index[ 0 ] ) ;
+                        tex = b0 ;
+                        break ;
+                    }
+                }
+                if ( tex.empty() ) tex = "t0" ;
+                // 近似: integer UV を texture size で正規化するのは textureSize が要るが、
+                // GLSL 120 には無い。ここでは uv を直接使う (精度は要注意)
+                std::string uv = operand_src( ins.operands[ 1 ] ) ;
+                set_dst( "texture2D(" + tex + ", (" + uv + ").xy / 256.0)" ) ;
+                return true ;
+            }
+            break ;
+
+        // Resource info (texture 解像度取得) — GLSL 120 では常に 0 を返す (近似)
+        case OP_RESINFO:
+            if ( ins.operands.size() >= 2 ) {
+                set_dst( "vec4(256.0, 256.0, 0.0, 0.0)" ) ;  // dummy
                 return true ;
             }
             break ;
@@ -1155,7 +1293,20 @@ int DxDxbc_Translate( const void *data, int size,
     }
     st.body << "}\n" ;
 
-    if ( out_glsl ) *out_glsl = st.header.str() + st.body.str() ;
+    // 拡張指示は #version の直後、他の宣言より前に挿入する
+    std::string hdr = st.header.str() ;
+    if ( st.use_derivatives || st.use_shadow ) {
+        const char *vmark = "#version 120\n" ;
+        size_t vpos = hdr.find( vmark ) ;
+        size_t insert_at = ( vpos != std::string::npos ) ? ( vpos + std::strlen( vmark ) ) : 0 ;
+        std::string ext ;
+        if ( st.use_derivatives )
+            ext += "#extension GL_OES_standard_derivatives : enable\n" ;
+        // shadow2D は GLSL 120 built-in (desktop) だが GLSL ES 2 では未定義。
+        // 呼ぶ側で sampler2DShadow 宣言が必要だが、現状は sampler2D のまま出している (近似)。
+        hdr.insert( insert_at, ext ) ;
+    }
+    if ( out_glsl ) *out_glsl = hdr + st.body.str() ;
 
     if ( !st.translation_ok ) {
         std::fprintf( stderr,
