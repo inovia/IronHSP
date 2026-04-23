@@ -1,211 +1,186 @@
-# mv1conv: DxLib MV1 サブセット抽出計画
+# mv1conv: DxLib 経由 MV1 生成計画 (案 B: PMX 中間フォーマット経由)
 
-## 背景
+## 経緯
 
-現在の mv1conv は独自 writer で .mv1 を出力しているが、
-DxLib 公式ビューア (DxLibModelViewer_64bit) との互換性で深刻な沼にハマった。
+### 2026-04-23 午前: 自作 writer 路線の行き詰まり
+- cube / yukari_obj (static) は公式ビューア描画成功
+- `Frame.Flag = MV1_FRAMEFLAG_VISIBLE (0x01)` 必須など 11 個の沼項目発見
+- skin モデル (DxChara/Alicia/Yukari PMD) は描画されず (最大頂点座標 0)
+- 根本原因: 公式は "1 frame に複数メッシュ集約"、自作 writer は "1 mesh = 1 frame"
+- 自作 writer の品質保証は実質不可能と判断
 
-### 本セッション (2026-04-23) で判明した要対応項目
-1. `ChangeMatrixTable` / `ChangeDrawMaterialTable` サイズ + bit pattern
-2. `Frame.Flag = MV1_FRAMEFLAG_VISIBLE (0x01)` **必須** (これが無いと不可視)
-3. `Mesh.UseVertexDiffuseColor = 1` 必須
-4. `Mesh.ChangeInfo` (Target/CheckBit/Size/Fill) 各値
-5. `TriangleList.UseBone[54]` 固定上限 + top-weight 選定
-6. index 型 U8/U16/U32 と VertFlag ビットの厳密整合
-7. skin モデルは **1 frame に多メッシュ集約** (未対応、現 writer は 1 mesh = 1 frame)
-8. Shape セクションの `TargetMeshVertexNum` / `SkinPosition4BNum` 集計
-9. per-corner vs per-unique-vertex の使い分け
-10. Outline bits 反転意味論 (0 = 有効、1 = 無効)
-11. Specular color = `0x00000000` 固定
+### 2026-04-23 午後 (初期案 A): DxLib source 抽出方式
+DxLibMake/ 全体を `mv1conv/dxlib_mv1/` にコピー → DX_NON_* で削る方針を検討。
 
-### 達成状況 (2026-04-23 時点)
-- **cube (static)**: 公式ビューアで表示 (ただし normal smooth のため shading 違和感)
-- **Yukari obj (static)**: 表示されるが normal / texture パスで見た目破損
-- **skin モデル全般** (DxChara/Alicia/Yukari PMD): 表示されず。
-  最大頂点座標が 0 になる (skin matrix 計算の結果全頂点が原点収束)
+しかし調査の結果、致命的な制約判明:
+- `DX_NON_GRAPHICS` → 自動的に `DX_NON_MODEL` が定義される (DxCompileConfig.h L314-316)
+- DxModel.cpp は DxGraphics.h の型定義依存 → Graphics を外せない
+- さらに `MV1_MODEL_BASE` をプログラムから組み立てる public API が無い
+- → 公開関数を private helper 呼び出しにパッチする必要あり (DxLib 本家コードに手を入れる)
+- 工数 ~25h、しかも本家コードパッチで品質保証リスク
 
-## 方針
-
-**DxLib 本家の MV1 ロード/セーブ処理を抽出して流用する。**
-
-現 writer は破棄。以下のパイプラインに置き換え:
+### 2026-04-23 決定 (案 B): PMX 中間フォーマット経由
+既存の prebuilt DxLib static lib (`hsp3dx/extlib/dxlib_win/DxLib_VC/`) をそのまま流用:
 ```
-.glb/.vrm/.stl/.wrl/.gpb/.obj/.ply/.pmx/.pmd/.fbx/.dae
-        ↓  (既存の importer 群 ~ 保持)
-    ModelIR (既存)
-        ↓  (新規: ir_to_dxlib.cpp)
-    DxLib 内部構造 (MV1_MODEL_BASE / MV1_FRAME_BASE 等) の populate
-        ↓  (DxLib 本家 API)
-    MV1SaveModelToMV1File
-        ↓
-    .mv1 (公式互換完全保証)
+各 importer → ModelIR → PMX バイト列 (メモリ) → MV1LoadModelFromMem → MV1SaveModelToMV1File → .mv1
 ```
 
-## 抽出対象ファイル
+#### 案 B の利点
+- **DxLib 本家コードに一切手を入れない** (品質 100% 保証)
+- 既存 `mv1_ref_gen` が既に DxLib lib リンク済 (依存追加ゼロ)
+- PMX は skin/morph/bone/texture/physics 全サポート
+- MMD コミュニティのドキュメントが豊富
+- 既存の全 importer (glb/vrm/stl/wrl/gpb/obj/ply/fbx/pmd/pmx/...) 保持
 
-### 必須コア (DxLib 3.24f / `hsp3dx/dxlib_angle_sdl2/extlib/DxLibMake/` より)
-| ファイル | 行数 | 役割 |
+#### 案 B のデメリット
+- PMX writer を書く (~8h、spec は well-documented)
+- UTF-16 little-endian の text field (対処必要だが自明)
+- MV1 固有機能 (DxLib 独自マテリアル設定等) は PMX で表現できない → デフォルト値
+
+## 新アーキテクチャ
+
+### プロセス分離 (MSVC ランタイム制約)
+DxLib は `/MT` (multithreaded static) 前提、assimp は `/MD` (multithreaded dll) デフォルト。
+両方同一 exe にリンク不可 → 2 プロセス構成:
+
+```
+mv1conv.exe (/MD, assimp-linked)        mv1_dxlib_saver.exe (/MT, DxLib-linked)
+├─ 各種 importer                         ├─ .pmx load (MV1LoadModelFromMem)
+├─ IR 構築                                └─ MV1SaveModelToMV1File → .mv1
+├─ ir_to_pmx.cpp → tempfile.pmx
+└─ subprocess: mv1_dxlib_saver tempfile.pmx out.mv1
+```
+
+### 新規/変更ファイル
+
+| ファイル | 状態 | 内容 |
 |---|---|---|
-| DxModel.cpp | ~34,000 | モデル管理コア (load + save + runtime 操作) |
-| DxModelRead.cpp | ~8,000 | 各フォーマット dispatch |
-| DxModelLoader0.cpp | ~4,400 | .mv1 reader (DXA 展開含む) |
-| DxModelLoader1.cpp | ~2,400 | .x reader (DirectX retained mode) |
-| DxModelLoader2.cpp | ~1,800 | .pmd reader (MMD) |
-| DxModelLoader3.cpp | ~3,400 | .pmx reader (MMD 新版) |
-| DxModelLoader4.cpp | ~4,200 | .mqo reader (Metasequoia) |
-| DxModelLoaderVMD.cpp | ~1,200 | .vmd (MMD motion) |
-| DxMath.cpp | ~8,000 | 行列/ベクトル/クォータニオン数学 |
-| DxChar.cpp | ~9,500 | SJIS/UTF-8 文字コード変換 |
-| DxCharCodeTable.cpp | ~大 | 文字コードテーブル (DxChar 依存) |
-| DxBaseFunc.cpp | 約 | DxLib 基本ユーティリティ |
-| DxFile.cpp | 中 | ファイル I/O 抽象化 |
-| DxMemory.cpp | 小 | DXALLOC/DXFREE (カスタムアロケータ) |
-| DxHandle.cpp | 小 | ハンドル管理 |
-| DxArchive_.cpp | 中 | DXA アーカイブ展開 |
-| DxLog.cpp | 小 | ログ出力 (stub 可能) |
-| DxBaseImage.cpp 一部 | | テクスチャ読込 (MV1 から呼ばれるもののみ) |
+| `src/ir_to_pmx.cpp` / `.hpp` | 新規 | IR → PMX バイト列エンコーダ |
+| `test_ref/mv1_dxlib_saver.cpp` | 新規 | PMX→MV1 変換 helper exe (/MT) |
+| `src/main.cpp` | 修正 | .mv1 出力時に ir→pmx→subprocess 呼び出しに変更 |
+| `CMakeLists.txt` | 修正 | mv1_dxlib_saver target 追加 |
+| `src/mv1_writer.cpp/hpp` | **削除** | 自作 writer 路線破棄 |
+| `src/mv1_to_ir.cpp/hpp` | 削除 | 自前 MV1 reader も DxLib 側で代替可 |
+| `src/mv1_reader.cpp/hpp` | 削除 | 同上 |
+| `src/mv1_f1.hpp` | 削除 | 独自構造体不要 |
+| `src/mv1_enums.hpp` | 削除 | 独自 enum 不要 |
+| `src/dxa.cpp/hpp` | 削除 | DxLib 内蔵 DXA 使用 |
+| 全 `*_import.cpp` | **保持** | glb/vrm/stl/wrl/gpb/obj/ply/pmx/pmd/... |
+| `assimp_export.cpp` | 保持 | 逆変換 (.mv1 → .gltf 等) |
 
-### スタブ化対象 (empty / no-op 実装)
-| ファイル | 理由 |
-|---|---|
-| DxGraphics.cpp | 描画 API (Direct3D 依存) - MV1 load/save には不要 |
-| DxGraphicsFilter.cpp | 画像フィルタ |
-| DxMask.cpp | マスク機能 |
-| DxMovie.cpp | 動画再生 |
-| DxSound.cpp | サウンド |
-| DxSoundConvert.cpp | サウンド変換 |
-| DxInput.cpp | 入力 |
-| DxInputString.cpp | 文字入力 |
-| DxNetwork.cpp | ネットワーク |
-| DxFont.cpp | フォント |
-| DxUseCLib.cpp | 各種 C ライブラリ wrapper |
-| DxLive2DCubism4.cpp | Live2D |
-| DxUseCLibPhysics.cpp | Bullet 物理 |
+## PMX 2.0 フォーマット仕様 (要点のみ)
 
-DX_NON_* フラグで無効化できるものは DxCompileConfig.h で一括指定。
-
-### 推奨 DxCompileConfig.h 設定 (MV1 サブセット向け)
-```cpp
-#define DX_PLATFORM_HEADLESS_MV1ONLY  // 新規プラットフォーム分岐
-
-#define DX_NON_GRAPHICS
-#define DX_NON_2DDRAW
-#define DX_NON_DIRECT3D9
-#define DX_NON_DIRECT3D11
-#define DX_NON_DSHOW_MP3
-#define DX_NON_DSHOW_MOVIE
-#define DX_NON_MEDIA_FOUNDATION
-#define DX_NON_MOVIE
-#define DX_NON_SOUND
-#define DX_NON_ACM
-#define DX_NON_OGGVORBIS
-#define DX_NON_OGGTHEORA
-#define DX_NON_OPUS
-#define DX_NON_BEEP
-#define DX_NON_INPUT
-#define DX_NON_INPUTSTRING
-#define DX_NON_KEYEX
-#define DX_NON_NETWORK
-#define DX_NON_FONT
-#define DX_NON_MASK
-#define DX_NON_FILTER
-#define DX_NON_NORMAL_DRAW_SHADER
-#define DX_NON_LIVE2D_CUBISM4
-#define DX_NON_BULLET_PHYSICS  // (MV1 内部 physics は別フラグ)
-#define DX_NON_ASYNCLOAD
-#define DX_NON_STOPTASKSWITCH
-#define DX_NON_SAVEFUNCTION
-#define DX_NON_PRINTF_DX
-#define DX_NON_LOG             // (または必要なら有効)
-#define DX_NON_SOFTIMAGE
-#define DX_NON_INLINE_ASM
-
-// ※ DX_NON_MODEL は当然 **有効化しない** (MV1 本体)
-// ※ DXA は必要 (mv1 ファイル圧縮)
+### ファイル構造
+```
+[Header]                    ← "PMX ", version(float), globals
+[ModelInfo]                 ← name_jp, name_en, comment_jp, comment_en
+[VertexList]                ← count + vertex data[]
+[FaceList]                  ← count + indices[] (triangles)
+[TextureList]               ← count + path[]
+[MaterialList]              ← count + material[]
+[BoneList]                  ← count + bone[]
+[MorphList]                 ← count + morph[]
+[DisplayFrameList]          ← UI 用、本プロジェクトは最小値
+[RigidBodyList]             ← physics、空でも可
+[JointList]                 ← physics、空でも可
+[SoftBodyList]              ← 2.1 のみ、省略可
 ```
 
-## 新規実装
-
-### `mv1conv/src/ir_to_dxlib.cpp` (新規)
-ModelIR から DxLib 内部構造を populate する関数群:
-
-```cpp
-// 新規 API
-int ir_to_dxlib_model(const ModelIR &ir);  // → MV1 model handle (-1 on error)
-
-// 内部で使用する DxLib 内部 API 例:
-// MV1_MODEL_BASE* CreateEmptyModelBase(...);
-// AddFrame(MV1_MODEL_BASE*, name, parent, translate, rotate, scale);
-// AddMesh(MV1_MODEL_BASE*, frame, material);
-// SetMeshVertexPosition(MV1_MODEL_BASE*, mesh, vertex_idx, position);
-// SetMeshVertexNormal / TexCoord / BoneWeight ...
-// AddSkinBone(MV1_MODEL_BASE*, frame, inv_bind_matrix);
-// ... 等
+### Header (Globals 8 byte array)
+```
+[0] encoding:    0=UTF-16 LE, 1=UTF-8   → UTF-8 採用推奨
+[1] add_uv_count: 0-4                   → 0
+[2] vertex_idx:  1/2/4                  → count に応じ
+[3] texture_idx: 1/2/4
+[4] material_idx: 1/2/4
+[5] bone_idx:    1/2/4
+[6] morph_idx:   1/2/4
+[7] rigid_idx:   1/2/4
 ```
 
-**注意**: DxLib の公開 API は "ファイルから読む" が主で、プログラムから組み立てる API は
-限定的。内部 `MV1_MODEL_BASE` を直接操作する private 関数を呼ぶ必要があるため、
-DxModel.cpp 内の build helper を public にするパッチが必要。
-
-### 代替案: 中間フォーマット経由
-DxLib API 組み立てが難しい場合、中間フォーマット (`.x` 等) を emit して
-MV1LoadModel 経由で読ませる:
+### TextField (text 型)
 ```
-IR → [write as .x in memory] → DxLib MV1LoadFromMem → MV1SaveModelToMV1File
+i32 byte_length
+u8[byte_length] utf8_bytes  (encoding=1 の場合)
 ```
-`.x` はテキスト・単純構造で書きやすい。ただし skin weight や morph に制限。
 
-## 旧コード削除
+### Vertex (weight_type に依存)
+```
+vec3 position
+vec3 normal
+vec2 uv
+vec4 × add_uv_count  (省略)
+u8 weight_type (0=BDEF1, 1=BDEF2, 2=BDEF4, 3=SDEF, 4=QDEF)
+<weight data>
+float edge_ratio
+```
 
-以下を破棄 (→ git で保持、別 branch 等に退避):
-- `src/mv1_writer.cpp` / `.hpp`
-- `src/mv1_to_ir.cpp` / `.hpp` (DxLib MV1LoadModel + MV1Get* で置換)
-- `src/mv1_reader.cpp` / `.hpp` (必要なら DxLib API で代用)
-- `src/mv1_f1.hpp` (DxLib が struct 提供)
-- `src/mv1_enums.hpp` (DxLib が提供)
-- `src/dxa.cpp` / `.hpp` (DxLib 内 DxArchive_ に置換)
+### Face
+```
+vertex_idx × 3 per triangle
+```
 
-保持:
-- 全 `*_import.cpp` (glb/vrm/stl/wrl/gpb/obj/ply/pmx/pmd/...)
-- `assimp_import.cpp` / `assimp_export.cpp`
-- `main.cpp` (引数 parse と dispatch)
-- `mv1_dump.cpp` (デバッグ用、DxLib API で再実装)
+### Bone
+```
+text name_jp
+text name_en
+vec3 position
+bone_idx parent (-1=root)
+i32 layer (default 0)
+u16 flag
+  bit 0x0001: 接続先=bone (not vec3)
+  bit 0x0002: 回転可能
+  bit 0x0004: 移動可能
+  bit 0x0008: 表示
+  bit 0x0010: 操作可
+  bit 0x0020: IK
+  ...
+<conditional fields based on flag>
+```
 
-## 工数試算
+### 実装上の最適化
+- 全頂点 BDEF1 (parent bone へ full weight) + skin の場合のみ BDEF4
+- 全マテリアル 1 本: diffuse=白, specular=黒, ambient=黒
+- morph は当面空 (将来 SHAPE 対応時に拡張)
+- display frame は最小 (root bone 1 個)
+- physics は空
+
+## 工数試算 (案 B)
 
 | フェーズ | 内容 | 見積 |
 |---|---|---|
-| 1. ファイル抽出 | DxLib .cpp/.h を mv1conv/dxlib_mv1/ にコピー | 2h |
-| 2. DX_NON_* 設定 | DxCompileConfig.h カスタマイズ、HEADLESS 分岐 | 1h |
-| 3. stub 実装 | 非 MV1 subsystem の empty impl | 4h |
-| 4. ビルド通し | link 通るまで stub 拡張を繰り返す | 4h |
-| 5. API 露出 | MV1_MODEL_BASE 直接操作の関数群を public に | 3h |
-| 6. ir_to_dxlib | 新規コンバータ実装 | 4h |
-| 7. 既存統合 | main.cpp の save 経路を切替 | 2h |
-| 8. 旧コード削除 | mv1_writer 等削除、依存整理 | 2h |
-| 9. regression 再構築 | 公式ビューアで全 24 + Alicia/Yukari の表示確認 | 3h |
-| **合計** | | **25h** (~3 営業日) |
-
-## 実行順序
-
-1. **ブランチ切る**: `git checkout -b mv1conv-dxlib-extract`
-2. **scaffold**: `tools/mv1conv/dxlib_mv1/` にファイル置き場作成
-3. **最小コンパイル PoC**: DxModel.cpp 一枚だけ link させてみる (依存発見)
-4. **段階的 stub 追加**: リンクエラーを 1 個ずつ潰す
-5. **MV1LoadModel で読み込みテスト**: 既存 DxChara.mv1 を load → 成功確認
-6. **MV1SaveModelToMV1File で保存テスト**: load → save で round-trip 成功確認
-7. **ir_to_dxlib 実装**: ここで初めて書き込み経路完成
-8. **main.cpp 切替**: 新経路で全 importer 動作確認
-9. **規定テスト + 公式ビューア**: cube/Yukari/Alicia/DxChara 全て描画確認
+| 1. PMX spec 精読 | MMD wiki + 複数 open source impl 参照 | 1h |
+| 2. ir_to_pmx.cpp 骨格 | Header/ModelInfo/Vertex/Face/Texture/Material | 3h |
+| 3. Bone 対応 | hierarchy + IK 無視で十分 | 2h |
+| 4. Skin weight 変換 | IR 4-weight → BDEF4 | 1h |
+| 5. mv1_dxlib_saver.cpp | DxLib load/save の thin wrapper | 2h |
+| 6. CMakeLists 拡張 | /MT 別 target、assimp との切り分け | 1h |
+| 7. main.cpp 統合 | tempfile 書き出し + subprocess 呼び出し | 1h |
+| 8. regression 実行 | cube/yukari_obj/DxChara/Alicia PMX 動作確認 | 2h |
+| 9. 旧コード削除 | mv1_writer 一式 | 0.5h |
+| **合計** | | **13.5h** (~2 営業日) |
 
 ## リスク / 留意事項
 
-- **DxLib ソース規模**: DxModel.cpp だけで 34K 行。依存深いかも
-- **private API アクセス**: MV1_MODEL_BASE 直接操作のためパッチ必要
-- **DXA 依存**: mv1 save 時に DXA 圧縮する。DxArchive_.cpp が必要
-- **Bullet physics**: MV1 の physics 情報 (PMX 由来) を save したい場合 bullet が必要
-  かも。とりあえず DX_NON_BULLET_PHYSICS で外して後回し
-- **character encoding**: model name に日本語。SJIS/UTF-8 変換コードが要るため DxChar.cpp 必須
-- **font texture**: DX_NON_FONT は行けそうだがモデル名表示に関わる code が残る可能性
-- **既存 regression**: 24 シナリオの load_check は DxLib 本家使用 → そのまま流用可。
-  逆エクスポート (`export .mv1 → .gltf 等`) は assimp_export 経由で引き続き使用
+- **DxLib.lib の PMX loader 品質**: 既存 mv1_ref_gen でテスト可能 (.pmx を load できれば OK)
+- **UTF-8 vs UTF-16**: PMX は両方対応、encoding byte で切り替え。UTF-8 採用でシンプル
+- **Bone index 型**: 255 bones 超は u16、大規模モデルで注意 (現 Alicia 524 bones 対応済)
+- **morph 非対応期**: 初期版は morph 省略 → SHAPE 情報は失われる
+  - 後続改修で対応 (PMX morph section 追加)
+- **DxLib /MT 制約**: subprocess 方式で回避 (既存 mv1_ref_gen と同パターン)
+- **tempfile 管理**: Windows GetTempPath + PID + random suffix で競合回避
+
+## 実行順序
+
+1. **PMX spec 確認**: reference 実装を 2-3 件参照 (Blender MMD addon / pmx.js 等)
+2. **minimum viable PMX**: cube (static, 1 material, 1 frame) を emit
+3. **mv1_dxlib_saver PoC**: cube.pmx → cube.mv1 → 公式ビューア描画確認
+4. **skin 対応**: Alicia PMX 経由で skin 動作確認 (そもそも入力が .pmx なので pass-through 相当)
+5. **bone + weight**: glTF/FBX からの skin を PMX 経由で .mv1 化
+6. **morph**: 必要に応じ後続で追加
+
+## 関連
+
+- DxLib public API: `MV1LoadModelFromMem` ([DxLib.h:5167](../../../hsp3dx/dxlib_angle_sdl2/extlib/DxLibMake/DxLib.h#L5167))
+- 既存 DxLib-linked helper: `test_ref/ref_gen.cpp` (CMakeLists L82-96)
+- PMX 仕様参考: MMD wiki / Blender MMD Tools / three-pmx-parser

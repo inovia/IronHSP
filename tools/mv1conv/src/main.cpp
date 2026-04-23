@@ -20,6 +20,7 @@
 #include "assimp_import.hpp"
 #endif
 #include "mv1_writer.hpp"
+#include "mv1_via_pmx.hpp"
 #include "dxa.hpp"
 #include <algorithm>
 #include <cstdio>
@@ -282,24 +283,29 @@ static int convert_generic(const char *in, const char *out, bool noBones = false
         }
     }
 
-    auto w = save_mv1(*ir, out);
-    if (!w.ok()) {
-        std::fprintf(stderr, "ERROR: %s\n", w.error.c_str());
-        return 1;
+    // 新経路: IR → PMX → subprocess (DxLib) → .mv1
+    // 旧自作 writer は MV1CONV_USE_LEGACY_WRITER=1 で選択可 (暫定フォールバック)
+    if (std::getenv("MV1CONV_USE_LEGACY_WRITER")) {
+        auto w = save_mv1(*ir, out);
+        if (!w.ok()) {
+            std::fprintf(stderr, "ERROR: %s\n", w.error.c_str());
+            return 1;
+        }
+        std::size_t totalTri = 0;
+        for (const auto &m : ir->meshes) totalTri += m.indices.size() / 3;
+        std::fprintf(stderr, "[legacy] wrote %s (%zu bytes)  meshes=%zu tris=%zu\n",
+                     out, w.bytes.size(), ir->meshes.size(), totalTri);
+    } else {
+        auto r = save_mv1_via_pmx(*ir, out);
+        if (!r.ok) {
+            std::fprintf(stderr, "ERROR: %s\n", r.error.c_str());
+            return 1;
+        }
+        std::size_t totalTri = 0;
+        for (const auto &m : ir->meshes) totalTri += m.indices.size() / 3;
+        std::fprintf(stderr, "wrote %s (via DxLib)  meshes=%zu tris=%zu\n",
+                     out, ir->meshes.size(), totalTri);
     }
-    std::size_t totalTri = 0;
-    for (const auto &m : ir->meshes) totalTri += m.indices.size() / 3;
-    std::fprintf(stderr, "wrote %s (%zu bytes)  meshes=%zu tris=%zu\n",
-                 out, w.bytes.size(), ir->meshes.size(), totalTri);
-
-    auto check = Mv1File::load(out);
-    if (!check.ok()) {
-        std::fprintf(stderr, "FAIL re-load: %s\n", check.error().c_str());
-        return 1;
-    }
-    auto h = check.header();
-    std::fprintf(stderr, "re-load OK: frames=%d meshes=%d mats=%d tris=%d\n",
-                 h->FrameNum, h->MeshNum, h->MaterialNum, h->TriangleNum);
     return 0;
 }
 

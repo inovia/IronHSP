@@ -57,6 +57,8 @@ add_executable(mv1conv
     src/vmd_import.cpp
     src/vrm_import.cpp
     src/mv1_to_ir.cpp
+    src/ir_to_pmx.cpp
+    src/mv1_via_pmx.cpp
 )
 
 if(MV1CONV_USE_ASSIMP)
@@ -107,6 +109,23 @@ if(MV1CONV_BUILD_REF_GEN AND WIN32 AND MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     target_compile_options(mv1_load_check PRIVATE /utf-8 /MT)
     target_compile_definitions(mv1_load_check PRIVATE _UNICODE UNICODE)
     set_target_properties(mv1_load_check PROPERTIES
+        LINK_FLAGS "/SUBSYSTEM:WINDOWS"
+        MSVC_RUNTIME_LIBRARY "MultiThreaded"
+    )
+
+    # --- mv1_dxlib_saver (mv1conv から subprocess で呼ぶ /MT exe) ---
+    # 任意フォーマット (.pmx 想定) → .mv1 を DxLib 経由で保存
+    add_executable(mv1_dxlib_saver WIN32 test_ref/mv1_dxlib_saver.cpp)
+    target_include_directories(mv1_dxlib_saver PRIVATE "${DXLIB_ROOT}")
+    target_link_directories(mv1_dxlib_saver PRIVATE "${DXLIB_ROOT}")
+    target_link_libraries(mv1_dxlib_saver PRIVATE
+        DxLibW_vs2015_x64_MT
+        DxUseCLibW_vs2015_x64_MT
+        DxDrawFunc_vs2015_x64_MT
+    )
+    target_compile_options(mv1_dxlib_saver PRIVATE /utf-8 /MT)
+    target_compile_definitions(mv1_dxlib_saver PRIVATE _UNICODE UNICODE)
+    set_target_properties(mv1_dxlib_saver PROPERTIES
         LINK_FLAGS "/SUBSYSTEM:WINDOWS"
         MSVC_RUNTIME_LIBRARY "MultiThreaded"
     )
