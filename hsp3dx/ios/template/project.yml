@@ -1,13 +1,18 @@
 #
-#  hsp3dx iOS Xcode プロジェクト (xcodegen 用)
+#  hsp3dx iOS Xcode プロジェクト (xcodegen 用) — source build 版
+#
+#  Android 側の DXLIB_FROM_SOURCE と同様、DxLib iOS / DxUseCLib_iOS /
+#  libpng_iOS / libjpeg_iOS / libzlib_iOS / libbullet_iOS の prebuilt .a を
+#  使わず dxlib_angle_sdl2/dxlib_portable + extlib から source build する構成。
+#  Cubism Core (closed-source) と libtiff/ogg/vorbis/opus/theora (bundle 未整備)
+#  のみ prebuilt 継続。
+#
+#  旧 prebuilt 版は project_prebuilt.yml.bak に退避済。
 #
 #  使い方 (Mac 側):
 #      cd hsp3dx/ios/template
-#      xcodegen generate
-#      open hsp3dx.xcodeproj    # or
+#      /opt/homebrew/bin/xcodegen generate
 #      xcodebuild -scheme hsp3dx -destination 'generic/platform=iOS Simulator' -sdk iphonesimulator build
-#
-#  Phase 3.0: シミュレータ向けに動作確認。実機 (iphoneos) は後続フェーズ。
 #
 name: hsp3dx
 
@@ -35,44 +40,58 @@ settings:
     GCC_WARN_UNUSED_PARAMETER: NO
     GCC_WARN_UNUSED_VARIABLE: NO
     GCC_WARN_64_TO_32_BIT_CONVERSION: NO
-    # DxLib iOS SDK は日本語ディレクトリ名を避けるため LinkFiles/ にリネーム済。
-    # Simulator / Device (iphoneos) で .a のパスが分かれるため $(PLATFORM_NAME) で自動切替。
+    # DxLib 本家ソースは SJIS のため warning を抑制。ASCII 互換のコード部は通る。
+    OTHER_CFLAGS:
+      - "$(inherited)"
+      - "-Wno-invalid-source-encoding"
+      - "-Wno-everything"
+    OTHER_CPLUSPLUSFLAGS:
+      - "$(inherited)"
+      - "-Wno-invalid-source-encoding"
+      - "-Wno-everything"
     HEADER_SEARCH_PATHS:
+      # prebuilt SDK は header 参照用に残す (DxLib 公開 header 互換確認用)
       - "$(SRCROOT)/../../extlib/dxlib_ios/DxLib_iOS/LinkFiles/$(CONFIGURATION)-$(PLATFORM_NAME)"
       - "$(SRCROOT)/../../../hsp3"
       - "$(SRCROOT)/../../src"
       - "$(SRCROOT)/../../extlib/picojson"
+      # DxLib source build 用 internal header
+      - "$(SRCROOT)/../../dxlib_angle_sdl2/dxlib_portable"
+      - "$(SRCROOT)/../../dxlib_angle_sdl2/dxlib_portable/iOS"
+      - "$(SRCROOT)/../../dxlib_angle_sdl2/dxlib_portable/Desktop" # DxBulletCompat.h
+      # bundle dep source
+      - "$(SRCROOT)/../../dxlib_angle_sdl2/extlib/libpng"
+      - "$(SRCROOT)/../../dxlib_angle_sdl2/extlib/libjpeg"
+      - "$(SRCROOT)/../../dxlib_angle_sdl2/extlib/zlib"
+      - "$(SRCROOT)/../../dxlib_angle_sdl2/extlib/bullet3/src"
+      - "$(SRCROOT)/../../dxlib_angle_sdl2/extlib/libogg/include"
+      - "$(SRCROOT)/../../dxlib_angle_sdl2/extlib/libvorbis/include"
+      - "$(SRCROOT)/../../dxlib_angle_sdl2/extlib/libvorbis/lib"
+      - "$(SRCROOT)/../../dxlib_angle_sdl2/extlib/libtheora/include"
+      - "$(SRCROOT)/../../dxlib_angle_sdl2/extlib/libopus/include"
+      - "$(SRCROOT)/../../dxlib_angle_sdl2/extlib/opusfile/include"
+      - "$(SRCROOT)/../../dxlib_angle_sdl2/extlib/libtiff/libtiff"
+      # Cubism SDK 4 (Cubism 5 fork bundle は API 差があるため使わず)
+      - "$(SRCROOT)/../../extlib/cubism_sdk_native/Core/include"
     LIBRARY_SEARCH_PATHS:
       - "$(SRCROOT)/../../extlib/dxlib_ios/DxLib_iOS/LinkFiles/$(CONFIGURATION)-$(PLATFORM_NAME)"
       - "$(SRCROOT)/../../extlib/cubism_sdk_native/Core/lib/ios/$(CONFIGURATION)-$(PLATFORM_NAME)"
     OTHER_LDFLAGS:
-      - "-lDxLib_iOS"
-      - "-lDxUseCLib_iOS"
-      - "-lpng_iOS"
-      - "-ljpeg_iOS"
-      - "-lzlib_iOS"
+      # prebuilt DxLib* / png / jpeg / zlib / bullet は source build に置換 (link 不要)
+      # tiff/ogg/vorbis/opus/theora は fork 側の iOS build 未整備のため当面 prebuilt 継続
       - "-ltiff_iOS"
       - "-logg_iOS"
       - "-lopus_iOS"
       - "-lvorbis_iOS"
       - "-ltheora_iOS"
-      - "-lbullet_iOS"
-      # DxLibEnableLive2D_iOS + Cubism SDK 4-r.7 Core
+      # Cubism Core (closed-source)
       - "-lLive2DCubismCore"
-    # Simulator + Device 両対応 (Phase 3.6)
     ONLY_ACTIVE_ARCH: YES
     SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
-    # Cubism SDK 4-r.7 の Core iOS simulator lib は x86_64 のみ (Apple Silicon 以前)
-    # Apple Silicon Mac でシミュレータビルドする場合、arm64 を除外して Rosetta で x86_64 実行
     "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
-    # Xcode の PNG 最適化 (CgBI 形式変換) を無効化。
-    # DxLib iOS の CreateGraphFromMem は標準 libpng で復号するため
-    # CgBI 形式の PNG は "Image File Load Error" になる。
     COMPRESS_PNG_FILES: NO
     STRIP_PNG_TEXT: NO
     ASSETCATALOG_COMPRESS_PNG_FILES: NO
-    # 実機ビルド用: Personal Team automatic signing。
-    # Simulator ビルドでは code signing はスキップされる (codesign --deep は不要)。
     CODE_SIGN_STYLE: Automatic
     DEVELOPMENT_TEAM: "744LT275TZ"
     CODE_SIGN_IDENTITY: "Apple Development"
@@ -95,26 +114,20 @@ targets:
     platform: iOS
     deploymentTarget: "14.0"
     sources:
-      # iOS app 側 (Info.plist + storyboard + xcassets)
       - path: Sources
         name: Sources
       - path: Resources
         name: Resources
-      # Data/ 配下のアセットを全て bundle Resources に同梱。
-      # サンプル実行に必要な start.ax と test_*.png/wav を含む。
-      # 起動時に main_ios.mm が Documents にコピー展開する。
       - path: Data
         buildPhase: resources
         optional: true
         excludes:
-          - "Hiyori"  # サブディレクトリは folder reference で別エントリ
-      # Live2D モデルなどサブディレクトリ構造を保持する必要があるアセットは
-      # type: folder (blue folder) で bundle root 直下に置く
+          - "Hiyori"
       - path: Data/Hiyori
         type: folder
         buildPhase: resources
         optional: true
-      # hsp3dx 本体 (iOS 用 .mm + Win/Android 非依存の共通 .cpp)
+      # hsp3dx 本体
       - path: ../../src
         name: hsp3dx
         includes:
@@ -157,9 +170,100 @@ targets:
           - "dpmread.cpp"
           - "filepack.cpp"
           - "ios/supio_ios.cpp"
-      # #defstruct (NSTRUCT) は hsp3net に集約
       - path: ../../../hsp3net/hspvar_nstruct.cpp
         name: hsp3net
+      # === DxLib portable 共通 source (pristine 3.24f) ===
+      #  DxUseCLibPhysics.cpp / DxUseCLib.cpp は DxBulletCompat.h を force-include する
+      #  ので glob 除外し、下で個別エントリとして追加
+      - path: ../../dxlib_angle_sdl2/dxlib_portable
+        name: DxLibPortable
+        type: group
+        includes:
+          - "*.cpp"
+        excludes:
+          - "DxUseCLibPhysics.cpp"
+          - "DxUseCLib.cpp"
+      - path: ../../dxlib_angle_sdl2/dxlib_portable/DxUseCLibPhysics.cpp
+        compilerFlags: "-include DxBulletCompat.h -UDX_NON_BULLET_PHYSICS"
+      - path: ../../dxlib_angle_sdl2/dxlib_portable/DxUseCLib.cpp
+        compilerFlags: "-include DxBulletCompat.h -UDX_NON_BULLET_PHYSICS"
+      # === DxLib iOS platform (pristine 3.24f) + AVPlayer Movie ===
+      - path: ../../dxlib_angle_sdl2/dxlib_portable/iOS
+        name: DxLibPortableIOS
+        type: group
+        includes:
+          - "*.cpp"
+          - "*.mm"
+        excludes:
+          # Movie stub は _AVP.mm に置換えるため除外
+          - "DxMovieiOS.cpp"
+          # _AVP.mm は個別エントリで -fno-objc-arc を付けたいため除外
+          - "DxMovieiOS_AVP.mm"
+      - path: ../../dxlib_angle_sdl2/dxlib_portable/iOS/DxMovieiOS_AVP.mm
+        compilerFlags: "-fno-objc-arc"
+      # === libpng 1.6.45 source ===
+      - path: ../../dxlib_angle_sdl2/extlib/libpng
+        name: libpng
+        type: group
+        includes:
+          - "*.c"
+          - "arm/arm_init.c"
+          - "arm/filter_neon_intrinsics.c"
+          - "arm/palette_neon_intrinsics.c"
+      # === libjpeg-turbo 3.0.4 source (SIMD 無効、pure C、8-bit 専用) ===
+      - path: ../../dxlib_angle_sdl2/extlib/libjpeg
+        name: libjpeg
+        type: group
+        includes:
+          - "*.c"
+        excludes:
+          # 他 .c から #include される template ファイル群 (standalone compile 不可)
+          - "jstdhuff.c"
+          - "jccolext.c"
+          - "jdcolext.c"
+          - "jdcol565.c"
+          - "jdmrgext.c"
+          - "jdmrg565.c"
+      # === zlib 1.3.1 source ===
+      - path: ../../dxlib_angle_sdl2/extlib/zlib
+        name: zlib
+        type: group
+        includes:
+          - "adler32.c"
+          - "compress.c"
+          - "crc32.c"
+          - "deflate.c"
+          - "infback.c"
+          - "inffast.c"
+          - "inflate.c"
+          - "inftrees.c"
+          - "trees.c"
+          - "uncompr.c"
+          - "zutil.c"
+      # === Bullet Physics (LinearMath / BulletCollision / BulletDynamics / BulletSoftBody) ===
+      - path: ../../dxlib_angle_sdl2/extlib/bullet3/src/LinearMath
+        name: bullet_LinearMath
+        type: group
+        includes:
+          - "**/*.cpp"
+      - path: ../../dxlib_angle_sdl2/extlib/bullet3/src/BulletCollision
+        name: bullet_Collision
+        type: group
+        includes:
+          - "**/*.cpp"
+      - path: ../../dxlib_angle_sdl2/extlib/bullet3/src/BulletDynamics
+        name: bullet_Dynamics
+        type: group
+        includes:
+          - "**/*.cpp"
+      - path: ../../dxlib_angle_sdl2/extlib/bullet3/src/BulletSoftBody
+        name: bullet_SoftBody
+        type: group
+        includes:
+          - "**/*.cpp"
+      # === DxUseCLibPhysics.cpp / DxUseCLib.cpp に force-include DxBulletCompat.h ===
+      #  (DxLib の D_bt* → bt* shim。上記 DxLibPortable に既に含まれるので per-file
+      #   compilerFlags は後述 targetTemplates / settings で指定)
     settings:
       base:
         INFOPLIST_FILE: Sources/Info.plist
@@ -183,10 +287,6 @@ targets:
       - sdk: MessageUI.framework
       - sdk: Metal.framework
       - sdk: GLKit.framework
-      # StoreKit.framework は DxLib iOS の In-App Purchase 機能用だが、hsp3dx では未使用。
-      # Personal Team (無料) は In-App Purchase capability 非対応のため含めない。
-      # 商用公開時に Apple Developer Program 加入 + -lDxUseCLib_iOS 内部で StoreKit 参照する
-      # 機能を使うなら戻す。
       - sdk: Security.framework
       - sdk: SystemConfiguration.framework
       - sdk: CFNetwork.framework

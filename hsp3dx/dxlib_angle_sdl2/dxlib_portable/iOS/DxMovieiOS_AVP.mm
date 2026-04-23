@@ -21,13 +21,18 @@
 
 #define DX_MAKE
 
-#include "../DxCompileConfig.h"
-
-#if defined(__APPLE__) && TARGET_OS_IOS && !defined(DX_NON_MOVIE)
-
+//  ObjC / SDK header を先に include して BOOL typedef / bool 関連を固定
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import <CoreVideo/CoreVideo.h>
+#include <vector>
+#include <unordered_map>
+#include <cwchar>
+#include <cstring>
+
+#include "../DxCompileConfig.h"
+
+#if defined(__APPLE__) && TARGET_OS_IOS && !defined(DX_NON_MOVIE)
 
 #include "../DxLib.h"
 #include "../DxMovie.h"

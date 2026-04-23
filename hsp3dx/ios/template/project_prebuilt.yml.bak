@@ -1,0 +1,196 @@
+#
+#  hsp3dx iOS Xcode プロジェクト (xcodegen 用)
+#
+#  使い方 (Mac 側):
+#      cd hsp3dx/ios/template
+#      xcodegen generate
+#      open hsp3dx.xcodeproj    # or
+#      xcodebuild -scheme hsp3dx -destination 'generic/platform=iOS Simulator' -sdk iphonesimulator build
+#
+#  Phase 3.0: シミュレータ向けに動作確認。実機 (iphoneos) は後続フェーズ。
+#
+name: hsp3dx
+
+options:
+  bundleIdPrefix: com.ironhsp
+  createIntermediateGroups: true
+  deploymentTarget:
+    iOS: "14.0"
+
+settings:
+  base:
+    IPHONEOS_DEPLOYMENT_TARGET: "14.0"
+    ENABLE_BITCODE: NO
+    CLANG_CXX_LANGUAGE_STANDARD: "gnu++17"
+    CLANG_CXX_LIBRARY: "libc++"
+    GCC_PREPROCESSOR_DEFINITIONS:
+      - "HSPIOS=1"
+      - "HSP3DX=1"
+      - "HSPDEBUG=1"
+      - "_HSP64=1"
+      - "HSP64=1"
+      - "HSPUTF8=1"
+    CLANG_ENABLE_OBJC_ARC: YES
+    CLANG_WARN_DOCUMENTATION_COMMENTS: NO
+    GCC_WARN_UNUSED_PARAMETER: NO
+    GCC_WARN_UNUSED_VARIABLE: NO
+    GCC_WARN_64_TO_32_BIT_CONVERSION: NO
+    # DxLib iOS SDK は日本語ディレクトリ名を避けるため LinkFiles/ にリネーム済。
+    # Simulator / Device (iphoneos) で .a のパスが分かれるため $(PLATFORM_NAME) で自動切替。
+    HEADER_SEARCH_PATHS:
+      - "$(SRCROOT)/../../extlib/dxlib_ios/DxLib_iOS/LinkFiles/$(CONFIGURATION)-$(PLATFORM_NAME)"
+      - "$(SRCROOT)/../../../hsp3"
+      - "$(SRCROOT)/../../src"
+      - "$(SRCROOT)/../../extlib/picojson"
+    LIBRARY_SEARCH_PATHS:
+      - "$(SRCROOT)/../../extlib/dxlib_ios/DxLib_iOS/LinkFiles/$(CONFIGURATION)-$(PLATFORM_NAME)"
+      - "$(SRCROOT)/../../extlib/cubism_sdk_native/Core/lib/ios/$(CONFIGURATION)-$(PLATFORM_NAME)"
+    OTHER_LDFLAGS:
+      - "-lDxLib_iOS"
+      - "-lDxUseCLib_iOS"
+      - "-lpng_iOS"
+      - "-ljpeg_iOS"
+      - "-lzlib_iOS"
+      - "-ltiff_iOS"
+      - "-logg_iOS"
+      - "-lopus_iOS"
+      - "-lvorbis_iOS"
+      - "-ltheora_iOS"
+      - "-lbullet_iOS"
+      # DxLibEnableLive2D_iOS + Cubism SDK 4-r.7 Core
+      - "-lLive2DCubismCore"
+    # Simulator + Device 両対応 (Phase 3.6)
+    ONLY_ACTIVE_ARCH: YES
+    SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
+    # Cubism SDK 4-r.7 の Core iOS simulator lib は x86_64 のみ (Apple Silicon 以前)
+    # Apple Silicon Mac でシミュレータビルドする場合、arm64 を除外して Rosetta で x86_64 実行
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
+    # Xcode の PNG 最適化 (CgBI 形式変換) を無効化。
+    # DxLib iOS の CreateGraphFromMem は標準 libpng で復号するため
+    # CgBI 形式の PNG は "Image File Load Error" になる。
+    COMPRESS_PNG_FILES: NO
+    STRIP_PNG_TEXT: NO
+    ASSETCATALOG_COMPRESS_PNG_FILES: NO
+    # 実機ビルド用: Personal Team automatic signing。
+    # Simulator ビルドでは code signing はスキップされる (codesign --deep は不要)。
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: "744LT275TZ"
+    CODE_SIGN_IDENTITY: "Apple Development"
+    CODE_SIGNING_REQUIRED: YES
+    CODE_SIGNING_ALLOWED: YES
+
+schemes:
+  hsp3dx:
+    build:
+      targets:
+        hsp3dx: all
+    run:
+      config: Debug
+    archive:
+      config: Release
+
+targets:
+  hsp3dx:
+    type: application
+    platform: iOS
+    deploymentTarget: "14.0"
+    sources:
+      # iOS app 側 (Info.plist + storyboard + xcassets)
+      - path: Sources
+        name: Sources
+      - path: Resources
+        name: Resources
+      # Data/ 配下のアセットを全て bundle Resources に同梱。
+      # サンプル実行に必要な start.ax と test_*.png/wav を含む。
+      # 起動時に main_ios.mm が Documents にコピー展開する。
+      - path: Data
+        buildPhase: resources
+        optional: true
+        excludes:
+          - "Hiyori"  # サブディレクトリは folder reference で別エントリ
+      # Live2D モデルなどサブディレクトリ構造を保持する必要があるアセットは
+      # type: folder (blue folder) で bundle root 直下に置く
+      - path: Data/Hiyori
+        type: folder
+        buildPhase: resources
+        optional: true
+      # hsp3dx 本体 (iOS 用 .mm + Win/Android 非依存の共通 .cpp)
+      - path: ../../src
+        name: hsp3dx
+        includes:
+          - "hgio_dx.cpp"
+          - "hsp3dxcl.cpp"
+          - "hsp3dx_extcmd.cpp"
+          - "hsp3dx_console.cpp"
+          - "hsp3dx_dxlib_auto.cpp"
+          - "hsp3dx_dxlib_auto_f.cpp"
+          - "hsp3dx_ios_dxlib_override.cpp"
+          - "hsp3dx_platform_ios.mm"
+          - "hsp3dx_platform_common.cpp"
+          - "hsp3dx_events.cpp"
+          - "hsp3dx_json.cpp"
+          - "main_ios.mm"
+          - "hsp3dx_http_ios.mm"
+          - "hsp3dx_ws_ios.mm"
+          - "hsp3dx_platform_io_ios.mm"
+      # HSP3 コア
+      - path: ../../../hsp3
+        name: hsp3
+        includes:
+          - "hsp3.cpp"
+          - "hsp3code.cpp"
+          - "hsp3crypt.cpp"
+          - "hsp3debug.cpp"
+          - "hsp3int.cpp"
+          - "hsp3utfcnv.cpp"
+          - "hspvar_core.cpp"
+          - "hspvar_double.cpp"
+          - "hspvar_int.cpp"
+          - "hspvar_int64.cpp"
+          - "hspvar_label.cpp"
+          - "hspvar_str.cpp"
+          - "hspvar_struct.cpp"
+          - "hspvar_wstr.cpp"
+          - "stack.cpp"
+          - "strbuf.cpp"
+          - "strnote.cpp"
+          - "dpmread.cpp"
+          - "filepack.cpp"
+          - "ios/supio_ios.cpp"
+      # #defstruct (NSTRUCT) は hsp3net に集約
+      - path: ../../../hsp3net/hspvar_nstruct.cpp
+        name: hsp3net
+    settings:
+      base:
+        INFOPLIST_FILE: Sources/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: "com.ironhsp.hsp3dx"
+        PRODUCT_NAME: "hsp3dx"
+        ASSETCATALOG_COMPILER_APPICON_NAME: ""
+    dependencies:
+      - sdk: OpenGLES.framework
+      - sdk: QuartzCore.framework
+      - sdk: UIKit.framework
+      - sdk: Foundation.framework
+      - sdk: CoreGraphics.framework
+      - sdk: CoreMotion.framework
+      - sdk: AVFoundation.framework
+      - sdk: AudioToolbox.framework
+      - sdk: MediaPlayer.framework
+      - sdk: CoreMedia.framework
+      - sdk: CoreVideo.framework
+      - sdk: CoreLocation.framework
+      - sdk: GameController.framework
+      - sdk: MessageUI.framework
+      - sdk: Metal.framework
+      - sdk: GLKit.framework
+      # StoreKit.framework は DxLib iOS の In-App Purchase 機能用だが、hsp3dx では未使用。
+      # Personal Team (無料) は In-App Purchase capability 非対応のため含めない。
+      # 商用公開時に Apple Developer Program 加入 + -lDxUseCLib_iOS 内部で StoreKit 参照する
+      # 機能を使うなら戻す。
+      - sdk: Security.framework
+      - sdk: SystemConfiguration.framework
+      - sdk: CFNetwork.framework
+      - sdk: CoreText.framework
+      - sdk: ImageIO.framework
+      - sdk: OpenAL.framework
+      - sdk: LocalAuthentication.framework
