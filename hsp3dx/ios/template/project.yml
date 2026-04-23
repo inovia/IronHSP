@@ -125,7 +125,12 @@ targets:
         optional: true
         excludes:
           - "Hiyori"
+          - "YUKARI"
       - path: Data/Hiyori
+        type: folder
+        buildPhase: resources
+        optional: true
+      - path: Data/YUKARI
         type: folder
         buildPhase: resources
         optional: true

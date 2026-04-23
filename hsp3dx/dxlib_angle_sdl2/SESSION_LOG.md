@@ -63,20 +63,23 @@ NS_DxLib_Init         2349 ms        ~1200 ms
 - memory 旧記述 "15-20 秒" は古い観測値で、現在は 6-8 秒。`dx_Live2D_LoadModel` の
   moc3 / PNG / physics json parse が VM 開始後 4-6 秒支配
 
-**iOS MV1 Bullet Physics 検証 → MV1LoadModel 不安定問題発見 (未解決)**:
+**iOS MV1 Bullet Physics 検証 → MV1LoadModel 構造的破綻発見 (未解決)**:
 - [hsp3dx/samples/sample_physics.hsp](../samples/sample_physics.hsp) 新規作成
   (alicia.mv1 + `dx_MV1PhysicsCalculation`)
-- iOS Simulator で実行すると `dx_MV1LoadModel "alicia.mv1"` 呼び出し付近で
-  VM が不安定化、描画停止、最終的に result=-1 で exit
-- 最小化版 (load だけ、draw なし、physics なし) でも同じ症状 →
-  Bullet Physics 以前に **MV1 load 自体が iOS で問題あり**
-- 最小 sample (MV1 完全除外) は正常動作
-- 原因調査方向: `GetApplicationDirectory() + '/' + path` でファイル解決
-  ([DxFileiOS.cpp:97-108](dxlib_portable/iOS/DxFileiOS.cpp) + [DxSystemiOS_ObjC.mm:1431](dxlib_portable/iOS/DxSystemiOS_ObjC.mm))。
-  alicia.mv1 は bundle root に存在確認済。texture 不足 or 他の原因が疑わしい
+- 3 種の .mv1 ファイルで全部 hang (60 秒待っても frame=30 のまま):
+  - alicia.mv1 (DxLib 標準) → `1906:Model File Open Error` or hang
+  - YUKARI/yukari.mv1 (MMD 結月ゆかり、日本語 texture 29 枚、16 MB) → 60 秒 hang
+  - YUKARI/yukari_1.mv1 (user 再保存版) → hang (encoding 改善しても変わらず)
+  - **DxChara.mv1 (公式、ASCII-only、texture baked)** → 18 秒 hang ★
+- DxChara.mv1 (最もシンプル) で hang = encoding / Japanese filename / user mv1 の問題ではない
+- **iOS source build の MV1LoadModel 自体が broken**。DxLib iOS は歴史的に
+  prebuilt `.a` 運用 → source build 固有の bug (static init / thread sync /
+  compiler 差分) が疑われる
+- project.yml の folder include 書き方を学習: `Data` で `excludes: ["Hiyori", "YUKARI"]`
+  + `Data/Hiyori` / `Data/YUKARI` を `type: folder` として別 entry 追加で階層保持
 - **時間切れで deep debug は次セッションに持ち越し**。memory
-  [project_ios_live2d_physics_verify_20260424.md](../../memory/project_ios_live2d_physics_verify_20260424.md)
-  に調査候補 (DxChara.mv1 で試す、ObjC exception handler 等) を記載
+  [project_ios_live2d_physics_verify_20260424.md](../../../Users/inovia/.claude/projects/j--HNWorks-IronHSP-2026/memory/project_ios_live2d_physics_verify_20260424.md)
+  に調査候補 (prebuilt .a に戻して切り分け、DxModel.cpp に printf 仕込、Android 対比) を記載
 
 ---
 
