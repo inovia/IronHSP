@@ -556,6 +556,73 @@ LoadResult load_mv1_to_ir(const std::string &path) {
         r.ir.meshes.push_back(std::move(mesh));
     }
 
+    // Physics (rigid bodies + joints)
+    if (hdr->Physics != 0) {
+        const auto *ph = f.at<f1::MV1_FILEHEAD_PHYSICS_F1>(hdr->Physics);
+        if (ph) {
+            r.ir.physics_gravity = ph->WorldGravity;
+            r.ir.physics_rigid_bodies.reserve(ph->RigidBodyNum);
+            for (int i = 0; i < ph->RigidBodyNum; ++i) {
+                const auto *rf = f.at<f1::MV1_PHYSICS_RIGIDBODY_F1>(
+                    ph->RigidBody + i * sizeof(f1::MV1_PHYSICS_RIGIDBODY_F1));
+                if (!rf) continue;
+                ModelIR::PhysicsRigidBodyIR rb;
+                rb.name = std::string(f.name(rf->Name));
+                rb.group_index = rf->RigidBodyGroupIndex;
+                rb.group_target = rf->RigidBodyGroupTarget;
+                rb.shape_type = rf->ShapeType;
+                rb.shape_w = rf->ShapeW; rb.shape_h = rf->ShapeH; rb.shape_d = rf->ShapeD;
+                rb.position[0] = rf->Position.x; rb.position[1] = rf->Position.y; rb.position[2] = rf->Position.z;
+                rb.rotation[0] = rf->Rotation.x; rb.rotation[1] = rf->Rotation.y; rb.rotation[2] = rf->Rotation.z;
+                rb.weight = rf->RigidBodyWeight;
+                rb.pos_dim = rf->RigidBodyPosDim;
+                rb.rot_dim = rf->RigidBodyRotDim;
+                rb.recoil = rf->RigidBodyRecoil;
+                rb.friction = rf->RigidBodyFriction;
+                rb.body_type = rf->RigidBodyType;
+                // TargetFrame → bone index (writer's bonesBaseIdx を逆算)
+                rb.target_bone = -1;
+                if (rf->TargetFrame != 0) {
+                    for (std::size_t bi = 0; bi < r.ir.bones.size(); ++bi) {
+                        std::uint32_t off = hdr->Frame + (bi + (hasSkin ? 1 + hdr->MeshNum : 0))
+                                            * sizeof(f1::MV1_FRAME_F1);
+                        if (off == rf->TargetFrame) { rb.target_bone = static_cast<int>(bi); break; }
+                    }
+                }
+                r.ir.physics_rigid_bodies.push_back(std::move(rb));
+            }
+            r.ir.physics_joints.reserve(ph->JointNum);
+            for (int i = 0; i < ph->JointNum; ++i) {
+                const auto *jf = f.at<f1::MV1_PHYSICS_JOINT_F1>(
+                    ph->Joint + i * sizeof(f1::MV1_PHYSICS_JOINT_F1));
+                if (!jf) continue;
+                ModelIR::PhysicsJointIR jt;
+                jt.name = std::string(f.name(jf->Name));
+                // RigidBody A/B: offset から index 逆算
+                auto findRb = [&](std::uint32_t off) -> int {
+                    if (off == 0) return -1;
+                    for (int bi = 0; bi < ph->RigidBodyNum; ++bi) {
+                        if (ph->RigidBody + bi * sizeof(f1::MV1_PHYSICS_RIGIDBODY_F1) == off)
+                            return bi;
+                    }
+                    return -1;
+                };
+                jt.rigid_a = findRb(jf->RigidBodyA);
+                jt.rigid_b = findRb(jf->RigidBodyB);
+                jt.position[0]=jf->Position.x; jt.position[1]=jf->Position.y; jt.position[2]=jf->Position.z;
+                jt.rotation[0]=jf->Rotation.x; jt.rotation[1]=jf->Rotation.y; jt.rotation[2]=jf->Rotation.z;
+                auto copyV = [](float *dst, const f1::VECTOR &v){ dst[0]=v.x; dst[1]=v.y; dst[2]=v.z; };
+                copyV(jt.constrain_pos_1, jf->ConstrainPosition1);
+                copyV(jt.constrain_pos_2, jf->ConstrainPosition2);
+                copyV(jt.constrain_rot_1, jf->ConstrainRotation1);
+                copyV(jt.constrain_rot_2, jf->ConstrainRotation2);
+                copyV(jt.spring_pos, jf->SpringPosition);
+                copyV(jt.spring_rot, jf->SpringRotation);
+                r.ir.physics_joints.push_back(std::move(jt));
+            }
+        }
+    }
+
     // Animations
     extract_animations(f, r.ir);
 

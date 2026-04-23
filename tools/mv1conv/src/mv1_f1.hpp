@@ -239,6 +239,52 @@ struct MV1_SHAPE_F1 {
     DWORD Padding[4];
 };
 
+// Physics (PMX 物理演算)
+struct MV1_PHYSICS_RIGIDBODY_F1 {
+    DWORD DimPrev, DimNext;
+    DWORD Name;
+    std::int32_t Index;
+    DWORD TargetFrame;
+    std::int32_t RigidBodyGroupIndex;
+    DWORD RigidBodyGroupTarget;
+    std::int32_t ShapeType;  // 0:sphere / 1:box / 2:capsule
+    float ShapeW, ShapeH, ShapeD;
+    VECTOR Position;
+    VECTOR Rotation;
+    float RigidBodyWeight;
+    float RigidBodyPosDim;    // 移動減衰
+    float RigidBodyRotDim;    // 回転減衰
+    float RigidBodyRecoil;    // 反発力
+    float RigidBodyFriction;  // 摩擦力
+    std::int32_t RigidBodyType;  // 0:Bone追従 / 1:物理 / 2:物理(Bone位置合わせ)
+    DWORD UserData[4];
+    DWORD Padding[4];
+};
+
+struct MV1_PHYSICS_JOINT_F1 {
+    DWORD DimPrev, DimNext;
+    DWORD Name;
+    std::int32_t Index;
+    DWORD RigidBodyA, RigidBodyB;
+    VECTOR Position;
+    VECTOR Rotation;
+    VECTOR ConstrainPosition1, ConstrainPosition2;
+    VECTOR ConstrainRotation1, ConstrainRotation2;
+    VECTOR SpringPosition, SpringRotation;
+    DWORD UserData[4];
+    DWORD Padding[4];
+};
+
+struct MV1_FILEHEAD_PHYSICS_F1 {
+    float WorldGravity;
+    std::int32_t RigidBodyNum;
+    DWORD RigidBody;
+    std::int32_t JointNum;
+    DWORD Joint;
+    DWORD UserData[4];
+    DWORD Padding[4];
+};
+
 struct MV1_FILEHEAD_SHAPE_F1 {
     std::int32_t FrameNum;
     DWORD Frame;

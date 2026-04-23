@@ -439,6 +439,12 @@ WriteResult write_mv1(const ModelIR &ir) {
     std::vector<std::uint32_t> shapeNameOff(ir.shapes.size());
     for (std::size_t i = 0; i < ir.shapes.size(); ++i)
         shapeNameOff[i] = strings.add(ir.shapes[i].name);
+    std::vector<std::uint32_t> rigidNameOff(ir.physics_rigid_bodies.size());
+    for (std::size_t i = 0; i < ir.physics_rigid_bodies.size(); ++i)
+        rigidNameOff[i] = strings.add(ir.physics_rigid_bodies[i].name);
+    std::vector<std::uint32_t> jointNameOff(ir.physics_joints.size());
+    for (std::size_t i = 0; i < ir.physics_joints.size(); ++i)
+        jointNameOff[i] = strings.add(ir.physics_joints[i].name);
 
     // ====== Shape (blend shape / morph) blobs ======
     // layout: MV1_SHAPE_VERTEX_F1[] (flat、全 shape × 全 mesh) →
@@ -450,6 +456,7 @@ WriteResult write_mv1(const ModelIR &ir) {
     std::uint32_t offFrameShapeArrForRoot = 0;  // rootFrame.FrameShape に流す
     std::uint32_t totalShapeVertexNum = 0;
     std::uint32_t totalShapeMeshNum = 0;
+    std::uint32_t offFileHeadPhysics = 0;
     if (!ir.shapes.empty()) {
         // SHAPE_VERTEX 配列 (全 shape × 全 mesh の vertex を連結)
         std::vector<std::uint32_t> shapeMeshVertexOff;  // 各 ShapeMeshIR 先頭の offset
@@ -558,6 +565,86 @@ WriteResult write_mv1(const ModelIR &ir) {
         fh.SkinPosition8BNum = 0;
         fh.SkinPositionFREEBSize = 0;
         b.append_struct(fh);
+    }
+
+    // ====== Physics (rigid bodies + joints) ======
+    if (!ir.physics_rigid_bodies.empty() || !ir.physics_joints.empty()) {
+        // RigidBody array
+        b.align4();
+        std::uint32_t offRigids = b.pos();
+        std::vector<std::uint32_t> rigidOffs(ir.physics_rigid_bodies.size());
+        for (std::size_t i = 0; i < ir.physics_rigid_bodies.size(); ++i) {
+            const auto &rb = ir.physics_rigid_bodies[i];
+            f1::MV1_PHYSICS_RIGIDBODY_F1 rf{};
+            rf.Name = rigidNameOff[i];
+            rf.Index = static_cast<std::int32_t>(i);
+            // TargetFrame: bone → Frame[bonesBaseIdx + bone] の offset (skin 時)
+            if (rb.target_bone >= 0 && isSkin) {
+                rf.TargetFrame = frameOffsets[bonesBaseIdx + rb.target_bone];
+            }
+            rf.RigidBodyGroupIndex = rb.group_index;
+            rf.RigidBodyGroupTarget = rb.group_target;
+            rf.ShapeType = rb.shape_type;
+            rf.ShapeW = rb.shape_w;
+            rf.ShapeH = rb.shape_h;
+            rf.ShapeD = rb.shape_d;
+            rf.Position = { rb.position[0], rb.position[1], rb.position[2] };
+            rf.Rotation = { rb.rotation[0], rb.rotation[1], rb.rotation[2] };
+            rf.RigidBodyWeight = rb.weight;
+            rf.RigidBodyPosDim = rb.pos_dim;
+            rf.RigidBodyRotDim = rb.rot_dim;
+            rf.RigidBodyRecoil = rb.recoil;
+            rf.RigidBodyFriction = rb.friction;
+            rf.RigidBodyType = rb.body_type;
+            rigidOffs[i] = b.append_struct(rf);
+        }
+        for (std::size_t i = 0; i < rigidOffs.size(); ++i) {
+            std::uint32_t prev = (i == 0) ? 0u : rigidOffs[i - 1];
+            std::uint32_t next = (i + 1 < rigidOffs.size()) ? rigidOffs[i + 1] : 0u;
+            b.overwrite_u32(rigidOffs[i] + 0, prev);
+            b.overwrite_u32(rigidOffs[i] + 4, next);
+        }
+
+        // Joint array
+        b.align4();
+        std::uint32_t offJoints = b.pos();
+        std::vector<std::uint32_t> jointOffs(ir.physics_joints.size());
+        for (std::size_t i = 0; i < ir.physics_joints.size(); ++i) {
+            const auto &jt = ir.physics_joints[i];
+            f1::MV1_PHYSICS_JOINT_F1 jf{};
+            jf.Name = jointNameOff[i];
+            jf.Index = static_cast<std::int32_t>(i);
+            if (jt.rigid_a >= 0 && jt.rigid_a < static_cast<int>(rigidOffs.size()))
+                jf.RigidBodyA = rigidOffs[jt.rigid_a];
+            if (jt.rigid_b >= 0 && jt.rigid_b < static_cast<int>(rigidOffs.size()))
+                jf.RigidBodyB = rigidOffs[jt.rigid_b];
+            jf.Position = { jt.position[0], jt.position[1], jt.position[2] };
+            jf.Rotation = { jt.rotation[0], jt.rotation[1], jt.rotation[2] };
+            jf.ConstrainPosition1 = { jt.constrain_pos_1[0], jt.constrain_pos_1[1], jt.constrain_pos_1[2] };
+            jf.ConstrainPosition2 = { jt.constrain_pos_2[0], jt.constrain_pos_2[1], jt.constrain_pos_2[2] };
+            jf.ConstrainRotation1 = { jt.constrain_rot_1[0], jt.constrain_rot_1[1], jt.constrain_rot_1[2] };
+            jf.ConstrainRotation2 = { jt.constrain_rot_2[0], jt.constrain_rot_2[1], jt.constrain_rot_2[2] };
+            jf.SpringPosition = { jt.spring_pos[0], jt.spring_pos[1], jt.spring_pos[2] };
+            jf.SpringRotation = { jt.spring_rot[0], jt.spring_rot[1], jt.spring_rot[2] };
+            jointOffs[i] = b.append_struct(jf);
+        }
+        for (std::size_t i = 0; i < jointOffs.size(); ++i) {
+            std::uint32_t prev = (i == 0) ? 0u : jointOffs[i - 1];
+            std::uint32_t next = (i + 1 < jointOffs.size()) ? jointOffs[i + 1] : 0u;
+            b.overwrite_u32(jointOffs[i] + 0, prev);
+            b.overwrite_u32(jointOffs[i] + 4, next);
+        }
+
+        // FILEHEAD_PHYSICS
+        b.align4();
+        offFileHeadPhysics = b.pos();
+        f1::MV1_FILEHEAD_PHYSICS_F1 ph{};
+        ph.WorldGravity = ir.physics_gravity;
+        ph.RigidBodyNum = static_cast<std::int32_t>(ir.physics_rigid_bodies.size());
+        ph.RigidBody = ir.physics_rigid_bodies.empty() ? 0u : offRigids;
+        ph.JointNum = static_cast<std::int32_t>(ir.physics_joints.size());
+        ph.Joint = ir.physics_joints.empty() ? 0u : offJoints;
+        b.append_struct(ph);
     }
 
     // ====== Animation blobs (存在時のみ) ======
@@ -1002,8 +1089,9 @@ WriteResult write_mv1(const ModelIR &ir) {
     hdr.StringSize          = static_cast<std::int32_t>(stringSize);
     hdr.StringBuffer        = offStringBuffer;
 
-    // Shape section pointer
+    // Shape / Physics section pointers
     hdr.Shape = offFileHeadShape;
+    hdr.Physics = offFileHeadPhysics;
 
     // ====== Animation header fields ======
     if (hasAnim) {

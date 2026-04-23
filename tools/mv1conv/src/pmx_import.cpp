@@ -102,7 +102,6 @@ LoadResult load_pmx(const std::string &path) {
     std::uint8_t boneIdxSize   = c.read<std::uint8_t>();
     std::uint8_t morphIdxSize  = c.read<std::uint8_t>();
     std::uint8_t rbIdxSize     = c.read<std::uint8_t>();
-    (void)morphIdxSize; (void)rbIdxSize;
     // remaining globals
     for (int g = 8; g < globN; ++g) c.skip(1);
 
@@ -372,6 +371,105 @@ LoadResult load_pmx(const std::string &path) {
     if (r.ir.meshes.empty()) { r.error = "PMX: no usable meshes"; return r; }
     r.ir.materials = std::move(mats);
     r.ir.bones     = std::move(bones);
+
+    // ========== Morphs (表情) 読み込み (skip、ただし physics section まで到達する必要あり) ==========
+    if (c.ok) {
+        std::uint32_t morphN = c.read<std::uint32_t>();
+        for (std::uint32_t mo = 0; mo < morphN && c.ok; ++mo) {
+            c.read_str(utf16le); c.read_str(utf16le);  // name, nameEn
+            c.skip(1);  // panel
+            std::uint8_t morphType = c.read<std::uint8_t>();
+            std::uint32_t offN = c.read<std::uint32_t>();
+            for (std::uint32_t k = 0; k < offN && c.ok; ++k) {
+                switch (morphType) {
+                case 0:  // group
+                    c.skip(morphIdxSize + 4); break;
+                case 1:  // vertex
+                    c.skip(vtxIdxSize + 12); break;
+                case 2:  // bone
+                    c.skip(boneIdxSize + 12 + 16); break;
+                case 3:  // uv / 4-7: additional UV
+                case 4: case 5: case 6: case 7:
+                    c.skip(vtxIdxSize + 16); break;
+                case 8:  // material
+                    c.skip(matIdxSize + 1 + 16 + 16 + 12 + 4 + 16 + 4 + 16 + 16 + 16); break;
+                case 9:  // flip
+                    c.skip(morphIdxSize + 4); break;
+                case 10: // impulse
+                    c.skip(rbIdxSize + 1 + 12 + 12); break;
+                default:
+                    c.ok = false; break;
+                }
+            }
+        }
+    }
+    // Display frames (skip)
+    if (c.ok) {
+        std::uint32_t disp = c.read<std::uint32_t>();
+        for (std::uint32_t d = 0; d < disp && c.ok; ++d) {
+            c.read_str(utf16le); c.read_str(utf16le);
+            c.skip(1);  // special flag
+            std::uint32_t elemN = c.read<std::uint32_t>();
+            for (std::uint32_t e = 0; e < elemN && c.ok; ++e) {
+                std::uint8_t kind = c.read<std::uint8_t>();
+                if (kind == 0) c.skip(boneIdxSize);
+                else           c.skip(morphIdxSize);
+            }
+        }
+    }
+
+    // ========== Rigid Bodies ==========
+    if (c.ok) {
+        std::uint32_t rbN = c.read<std::uint32_t>();
+        r.ir.physics_rigid_bodies.reserve(rbN);
+        for (std::uint32_t i = 0; i < rbN && c.ok; ++i) {
+            ModelIR::PhysicsRigidBodyIR rb;
+            rb.name = c.read_str(utf16le);
+            c.read_str(utf16le);  // nameEn
+            rb.target_bone = c.read_var_idx(boneIdxSize);
+            rb.group_index = c.read<std::uint8_t>();
+            rb.group_target = c.read<std::uint16_t>();
+            rb.shape_type = c.read<std::uint8_t>();
+            rb.shape_w = c.read<float>();
+            rb.shape_h = c.read<float>();
+            rb.shape_d = c.read<float>();
+            rb.position[0] = c.read<float>(); rb.position[1] = c.read<float>(); rb.position[2] = c.read<float>();
+            rb.rotation[0] = c.read<float>(); rb.rotation[1] = c.read<float>(); rb.rotation[2] = c.read<float>();
+            rb.weight   = c.read<float>();
+            rb.pos_dim  = c.read<float>();
+            rb.rot_dim  = c.read<float>();
+            rb.recoil   = c.read<float>();
+            rb.friction = c.read<float>();
+            rb.body_type = c.read<std::uint8_t>();
+            r.ir.physics_rigid_bodies.push_back(std::move(rb));
+        }
+    }
+
+    // ========== Joints ==========
+    if (c.ok) {
+        std::uint32_t jN = c.read<std::uint32_t>();
+        r.ir.physics_joints.reserve(jN);
+        for (std::uint32_t i = 0; i < jN && c.ok; ++i) {
+            ModelIR::PhysicsJointIR jt;
+            jt.name = c.read_str(utf16le);
+            c.read_str(utf16le);  // nameEn
+            std::uint8_t kind = c.read<std::uint8_t>();
+            (void)kind;  // 0=Spring6DOF only
+            jt.rigid_a = c.read_var_idx(rbIdxSize);
+            jt.rigid_b = c.read_var_idx(rbIdxSize);
+            jt.position[0]=c.read<float>(); jt.position[1]=c.read<float>(); jt.position[2]=c.read<float>();
+            jt.rotation[0]=c.read<float>(); jt.rotation[1]=c.read<float>(); jt.rotation[2]=c.read<float>();
+            jt.constrain_pos_1[0]=c.read<float>(); jt.constrain_pos_1[1]=c.read<float>(); jt.constrain_pos_1[2]=c.read<float>();
+            jt.constrain_pos_2[0]=c.read<float>(); jt.constrain_pos_2[1]=c.read<float>(); jt.constrain_pos_2[2]=c.read<float>();
+            jt.constrain_rot_1[0]=c.read<float>(); jt.constrain_rot_1[1]=c.read<float>(); jt.constrain_rot_1[2]=c.read<float>();
+            jt.constrain_rot_2[0]=c.read<float>(); jt.constrain_rot_2[1]=c.read<float>(); jt.constrain_rot_2[2]=c.read<float>();
+            jt.spring_pos[0]=c.read<float>(); jt.spring_pos[1]=c.read<float>(); jt.spring_pos[2]=c.read<float>();
+            jt.spring_rot[0]=c.read<float>(); jt.spring_rot[1]=c.read<float>(); jt.spring_rot[2]=c.read<float>();
+            r.ir.physics_joints.push_back(std::move(jt));
+        }
+    }
+    // 失敗しても warning 的扱いで継続 (メッシュは既に確保済みのため)
+
     return r;
 }
 

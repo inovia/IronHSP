@@ -156,6 +156,40 @@ struct ModelIR {
     // Shapes (blend shapes / morph targets)
     std::vector<ShapeIR> shapes;
 
+    // Physics (PMX 物理演算)
+    struct PhysicsRigidBodyIR {
+        std::string name;
+        int target_bone = -1;   // BoneIR index、なければ -1
+        int group_index = 0;
+        std::uint32_t group_target = 0xFFFF;
+        int shape_type = 1;  // 0:sphere 1:box 2:capsule
+        float shape_w = 0, shape_h = 0, shape_d = 0;
+        float position[3] = {0, 0, 0};
+        float rotation[3] = {0, 0, 0};
+        float weight = 1.0f;
+        float pos_dim = 0.0f;
+        float rot_dim = 0.0f;
+        float recoil = 0.0f;
+        float friction = 0.5f;
+        int body_type = 0;  // 0:Bone追従 1:物理 2:物理(Bone位置合わせ)
+    };
+    struct PhysicsJointIR {
+        std::string name;
+        int rigid_a = -1;
+        int rigid_b = -1;
+        float position[3] = {0, 0, 0};
+        float rotation[3] = {0, 0, 0};
+        float constrain_pos_1[3] = {0, 0, 0};
+        float constrain_pos_2[3] = {0, 0, 0};
+        float constrain_rot_1[3] = {0, 0, 0};
+        float constrain_rot_2[3] = {0, 0, 0};
+        float spring_pos[3] = {0, 0, 0};
+        float spring_rot[3] = {0, 0, 0};
+    };
+    float physics_gravity = -9.8f;
+    std::vector<PhysicsRigidBodyIR> physics_rigid_bodies;
+    std::vector<PhysicsJointIR>     physics_joints;
+
     // Animations (空なら writer は anim セクション省略、スキン無しでも可)
     std::vector<AnimKeySetIR> anim_keysets;
     std::vector<AnimIR>       anims;
