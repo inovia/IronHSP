@@ -1,0 +1,48 @@
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    notesel log
+    noteadd "mv1 load test (mv1conv 16/16 互換検証)"
+
+    ;  DxLib 純正サンプル + mv1conv が生成した .mv1 を全件試験
+    sdim models, 64, 20
+    models(0)  = "DxChara.mv1"             : ;  DxLib 純正
+    models(1)  = "SimpleModel.mv1"         : ;  DxLib 純正
+    models(2)  = "SimplePillarStage.mv1"   : ;  DxLib 純正
+    models(3)  = "ColTestStage.mv1"        : ;  DxLib 純正
+    models(4)  = "SimpleModelVertexColor.mv1" : ;  DxLib 純正
+    models(5)  = "SimpleModel_ours.mv1"    : ;  mv1conv 往復出力
+    models(6)  = "SimplePillarStage_ours.mv1"
+    models(7)  = "ColTestStage_ours.mv1"
+    models(8)  = "SimpleModelVertexColor_ours.mv1"
+    models(9)  = "tet_x.mv1"
+    models(10) = "tet_obj.mv1"
+    models(11) = "tet_glb.mv1"
+    models(12) = "tet_pmd.mv1"
+    models(13) = "tet_wrl.mv1"
+    models(14) = "duck_dae.mv1"
+    models(15) = "cubes3ds.mv1"
+    models(16) = "cube_usdz.mv1"
+    models(17) = "cat_usdz.mv1"
+    models(18) = "alicia.mv1"              : ;  skin mesh (PMX)
+    models(19) = "skel_fbx.mv1"            : ;  skin mesh (FBX)
+    total = 20
+
+    ok_n = 0
+    ng_n = 0
+    repeat total
+        dx_mv1load models(cnt)
+        h = stat
+        if h >= 0 {
+            noteadd strf("  OK: %s  (handle=0x%08x)", models(cnt), h)
+            ok_n = ok_n + 1
+            dx_mv1delete h
+        } else {
+            noteadd strf("  FAIL: %s  (stat=%d)", models(cnt), h)
+            ng_n = ng_n + 1
+        }
+    loop
+    noteadd strf("Result: %d OK / %d NG / %d total", ok_n, ng_n, total)
+    notesave "mv1_load_result.txt"
+    end
