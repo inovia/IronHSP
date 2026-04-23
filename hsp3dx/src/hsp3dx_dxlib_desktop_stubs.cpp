@@ -146,4 +146,60 @@ int TellMovieToGraphToFrame(int) { return 0; }
 int WritePitchShiftSoftSoundData(int, int) { return 0; }
 int WriteTimeStretchSoftSoundData(int, int) { return 0; }
 
+// --- Web (Emscripten) では SDL2_mixer 非 link なので SoundMem 系も stub ---
+#if defined(__EMSCRIPTEN__)
+int ChangePanSoundMem(int, int) { return 0; }
+int CheckSoundMem(int) { return 0; }
+int DeleteSoundMem(int) { return 0; }
+int InitSoundMem() { return 0; }
+int LoadSoundMem(char const*, int, int) { return -1; }
+int LoadSoundMem2(char const*, char const*) { return -1; }
+int LoadSoundMemBase(char const*, int, int) { return -1; }
+int LoadSoundMemFromSoftSound(int, int) { return -1; }
+int PlaySoundMem(int, int, int) { return 0; }
+int SetPanSoundMem(int, int) { return 0; }
+int SetVolumeSoundMem(int, int) { return 0; }
+int StopSoundMem(int, int) { return 0; }
+int ChangeVolumeSoundMem(int, int) { return 0; }
+int InitSoftSound() { return 0; }
+int LoadSoftSound(char const*) { return -1; }
+int MakeSoftSound(int, long long) { return -1; }
+int MakeSoftSound1Ch16Bit44KHz(long long) { return -1; }
+int MakeSoftSound2Ch16Bit22KHz(long long) { return -1; }
+int MakeSoftSound2Ch16Bit44KHz(long long) { return -1; }
+int MakeSoftSound2Ch8Bit22KHz(long long) { return -1; }
+int MakeSoftSound2Ch8Bit44KHz(long long) { return -1; }
+int Set3DPositionSoundMem(tagVECTOR, int) { return 0; }
+int Set3DRadiusSoundMem(float, int) { return 0; }
+int Set3DSoundListenerConeAngle(float, float) { return 0; }
+int Set3DSoundListenerConeVolume(float, float) { return 0; }
+int Set3DSoundListenerPosAndFrontPosAndUpVec(tagVECTOR, tagVECTOR, tagVECTOR) { return 0; }
+int Set3DSoundListenerPosAndFrontPos_UpVecY(tagVECTOR, tagVECTOR) { return 0; }
+int Set3DSoundListenerVelocity(tagVECTOR) { return 0; }
+int Set3DVelocitySoundMem(tagVECTOR, int) { return 0; }
+int SetNextPlay3DPositionSoundMem(tagVECTOR, int) { return 0; }
+int SetNextPlay3DRadiusSoundMem(float, int) { return 0; }
+int SetNextPlay3DVelocitySoundMem(tagVECTOR, int) { return 0; }
+int CheckMusicMem(int) { return 0; }
+int DeleteSoftSound(int) { return 0; }
+int GetSoftSoundFormat(int, int*, int*, int*, int*) { return -1; }
+LONGLONG GetSoftSoundSampleNum(int) { return 0; }
+int LoadMusicMem(char const*) { return -1; }
+int MakeSoftSound1Ch16Bit22KHz(long long) { return -1; }
+int MakeSoftSound1Ch8Bit22KHz(long long) { return -1; }
+int MakeSoftSound1Ch8Bit44KHz(long long) { return -1; }
+int MakeSoftSoundCustom(int, int, int, long long, int) { return -1; }
+int PlayMusic(char const*, int) { return 0; }
+int PlayMusicMem(int, int) { return 0; }
+int ReadSoftSoundData(int, long long, int*, int*) { return -1; }
+int ReadSoftSoundDataF(int, long long, float*, float*) { return -1; }
+int SaveSoftSound(int, char const*) { return -1; }
+int SetVolumeMusic(int) { return 0; }
+int SetVolumeMusicMem(int, int) { return 0; }
+int StopMusic() { return 0; }
+int StopMusicMem(int) { return 0; }
+int WriteSoftSoundData(int, long long, int, int) { return -1; }
+int WriteSoftSoundDataF(int, long long, float, float) { return -1; }
+#endif
+
 } // namespace DxLib

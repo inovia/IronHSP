@@ -606,3 +606,19 @@ if(WIN32)
             "${SDL2_LIB_DIR}/SDL2.dll"
             "$<TARGET_FILE_DIR:hsp3dx_desktop>/SDL2.dll")
 endif()
+if(EMSCRIPTEN)
+    # Web 用 emcc link flags: WebGL 2 + 固定機能 GL エミュ + ASYNCIFY (await/loop)
+    # + メモリ拡張 + .html shell 出力。出力は hsp3dx_desktop.html + .wasm + .data
+    set_target_properties(hsp3dx_desktop PROPERTIES SUFFIX ".html")
+    target_link_options(hsp3dx_desktop PRIVATE
+        "SHELL:-s USE_SDL=2"
+        "SHELL:-s ALLOW_MEMORY_GROWTH=1"
+        "SHELL:-s INITIAL_MEMORY=64MB"
+        "SHELL:-s MIN_WEBGL_VERSION=1"
+        "SHELL:-s MAX_WEBGL_VERSION=2"
+        "SHELL:-s LEGACY_GL_EMULATION=1"
+        "SHELL:-s GL_UNSAFE_OPTS=0"
+        "SHELL:-s ASYNCIFY=1"
+        "SHELL:-s ASYNCIFY_STACK_SIZE=65536"
+    )
+endif()

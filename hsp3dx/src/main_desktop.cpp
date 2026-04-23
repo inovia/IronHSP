@@ -87,11 +87,14 @@ int main( int argc, char *argv[] )
     //  Desktop fork の default font 自動作成パスが安定しないため、ここで
     //  明示的に CreateFontToHandle で fallback font handle を作って
     //  ChangeFontFromHandle で default として有効化する (mes が SIGABRT
-    //  する問題の workaround)。
+    //  する問題の workaround)。Web (Emscripten) では SDL2_ttf 非 link
+    //  なので font 自体無効、skip する。
+#ifndef __EMSCRIPTEN__
     {
         int defh = CreateFontToHandle( NULL, 16, -1 );
         if ( defh >= 0 ) ChangeFontFromHandle( defh );
     }
+#endif
 
     //  HSP VM 初期化
     if ( hsp3dxcl_init( (char *)ax_path ) != 0 ) {
