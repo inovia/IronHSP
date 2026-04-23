@@ -72,10 +72,10 @@ extern int Graphics_Hardware_DrawPrimitive2DUser_PF(struct tagVERTEX2D const *,i
 extern int Graphics_Hardware_DrawPrimitive32bitIndexed2DToShader_PF(struct tagVERTEX2DSHADER const *,int,unsigned int const *,int,int) { return 0; }
 extern int Graphics_Hardware_DrawPrimitive32bitIndexed3DToShader_PF(struct tagVERTEX3DSHADER const *,int,unsigned int const *,int,int) { return 0; }
 extern int Graphics_Hardware_DrawPrimitive3DToShader_PF(struct tagVERTEX3DSHADER const *,int,int) { return 0; }
-extern int Graphics_Hardware_DrawPrimitive3DToShader_UseVertexBuffer2_PF(int,int,int,int) { return 0; }
+// Graphics_Hardware_DrawPrimitive3DToShader_UseVertexBuffer2_PF: impl in DxGraphicsDesktop.cpp (Cubism 経路)
 extern int Graphics_Hardware_DrawPrimitiveIndexed2DToShader_PF(struct tagVERTEX2DSHADER const *,int,unsigned short const *,int,int) { return 0; }
 extern int Graphics_Hardware_DrawPrimitiveIndexed3DToShader_PF(struct tagVERTEX3DSHADER const *,int,unsigned short const *,int,int) { return 0; }
-extern int Graphics_Hardware_DrawPrimitiveIndexed3DToShader_UseVertexBuffer2_PF(int,int,int,int,int,int,int,int) { return 0; }
+// Graphics_Hardware_DrawPrimitiveIndexed3DToShader_UseVertexBuffer2_PF: impl in DxGraphicsDesktop.cpp (Cubism 経路)
 // Graphics_Hardware_DrawPrimitiveLight_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
 extern int Graphics_Hardware_DrawPrimitiveLight_UseVertexBuffer_PF(struct VERTEXBUFFERHANDLEDATA *,int,int,int,struct IMAGEDATA *,int) { return 0; }
 // Graphics_Hardware_DrawPrimitive_PF: impl in DxGraphicsDesktop.cpp (Tier 3)

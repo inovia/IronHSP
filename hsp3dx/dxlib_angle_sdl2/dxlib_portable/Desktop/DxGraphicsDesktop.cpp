@@ -121,6 +121,59 @@ static void desktop_load_fbo_funcs( void )
 #define glFramebufferRenderbuffer p_glFramebufferRenderbuffer
 #define glCheckFramebufferStatus p_glCheckFramebufferStatus
 
+// --- VBO / attribute API (GL 1.5+ / 2.0+) 動的ロード --------------------
+#ifndef GL_ARRAY_BUFFER
+#define GL_ARRAY_BUFFER             0x8892
+#define GL_ELEMENT_ARRAY_BUFFER     0x8893
+#define GL_DYNAMIC_DRAW             0x88E8
+#define GL_CURRENT_PROGRAM          0x8B8D
+#endif
+typedef ptrdiff_t DxGLintptr ;
+typedef ptrdiff_t DxGLsizeiptr ;
+typedef void   (APIENTRYP PFN_glGenBuffers)            ( GLsizei n, GLuint *buffers ) ;
+typedef void   (APIENTRYP PFN_glDeleteBuffers)         ( GLsizei n, const GLuint *buffers ) ;
+typedef void   (APIENTRYP PFN_glBindBuffer)            ( GLenum target, GLuint buffer ) ;
+typedef void   (APIENTRYP PFN_glBufferData)            ( GLenum target, DxGLsizeiptr size, const void *data, GLenum usage ) ;
+typedef void   (APIENTRYP PFN_glBufferSubData)         ( GLenum target, DxGLintptr offset, DxGLsizeiptr size, const void *data ) ;
+typedef GLint  (APIENTRYP PFN_glGetAttribLocation)     ( GLuint program, const char *name ) ;
+typedef void   (APIENTRYP PFN_glEnableVertexAttribArray)( GLuint index ) ;
+typedef void   (APIENTRYP PFN_glDisableVertexAttribArray)( GLuint index ) ;
+typedef void   (APIENTRYP PFN_glVertexAttribPointer)   ( GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer ) ;
+
+static PFN_glGenBuffers             p_glGenBuffers             = nullptr ;
+static PFN_glDeleteBuffers          p_glDeleteBuffers          = nullptr ;
+static PFN_glBindBuffer             p_glBindBuffer             = nullptr ;
+static PFN_glBufferData             p_glBufferData             = nullptr ;
+static PFN_glBufferSubData          p_glBufferSubData          = nullptr ;
+static PFN_glGetAttribLocation      p_glGetAttribLocation      = nullptr ;
+static PFN_glEnableVertexAttribArray  p_glEnableVertexAttribArray  = nullptr ;
+static PFN_glDisableVertexAttribArray p_glDisableVertexAttribArray = nullptr ;
+static PFN_glVertexAttribPointer    p_glVertexAttribPointer    = nullptr ;
+
+static void desktop_load_vbo_funcs( void )
+{
+    if ( p_glGenBuffers ) return ;
+    p_glGenBuffers             = ( PFN_glGenBuffers )            SDL_GL_GetProcAddress( "glGenBuffers" ) ;
+    p_glDeleteBuffers          = ( PFN_glDeleteBuffers )         SDL_GL_GetProcAddress( "glDeleteBuffers" ) ;
+    p_glBindBuffer             = ( PFN_glBindBuffer )            SDL_GL_GetProcAddress( "glBindBuffer" ) ;
+    p_glBufferData             = ( PFN_glBufferData )            SDL_GL_GetProcAddress( "glBufferData" ) ;
+    p_glBufferSubData          = ( PFN_glBufferSubData )         SDL_GL_GetProcAddress( "glBufferSubData" ) ;
+    p_glGetAttribLocation      = ( PFN_glGetAttribLocation )     SDL_GL_GetProcAddress( "glGetAttribLocation" ) ;
+    p_glEnableVertexAttribArray  = ( PFN_glEnableVertexAttribArray )  SDL_GL_GetProcAddress( "glEnableVertexAttribArray" ) ;
+    p_glDisableVertexAttribArray = ( PFN_glDisableVertexAttribArray ) SDL_GL_GetProcAddress( "glDisableVertexAttribArray" ) ;
+    p_glVertexAttribPointer    = ( PFN_glVertexAttribPointer )   SDL_GL_GetProcAddress( "glVertexAttribPointer" ) ;
+}
+
+#define glGenBuffers                p_glGenBuffers
+#define glDeleteBuffers             p_glDeleteBuffers
+#define glBindBuffer                p_glBindBuffer
+#define glBufferData                p_glBufferData
+#define glBufferSubData             p_glBufferSubData
+#define glGetAttribLocation         p_glGetAttribLocation
+#define glEnableVertexAttribArray   p_glEnableVertexAttribArray
+#define glDisableVertexAttribArray  p_glDisableVertexAttribArray
+#define glVertexAttribPointer       p_glVertexAttribPointer
+
 #ifndef DX_NON_NAMESPACE
 }  // close namespace DxLib — DxDesktop_* は global にする
 #endif
@@ -194,6 +247,7 @@ extern "C" int DxDesktop_MakeWinAndGL( int w, int h, const char *title )
     SDL_GL_SetSwapInterval( 1 ) ;
 
     desktop_load_fbo_funcs() ;
+    desktop_load_vbo_funcs() ;
 
     std::fprintf( stderr, "[DxLib Desktop] GL_VENDOR:   %s\n", ( const char * )glGetString( GL_VENDOR ) ) ;
     std::fprintf( stderr, "[DxLib Desktop] GL_VERSION:  %s\n", ( const char * )glGetString( GL_VERSION ) ) ;
@@ -1256,26 +1310,207 @@ extern int Graphics_Hardware_SetMaxAnisotropy_PF( int MaxAniso )
     return 0 ;
 }
 
-// --- VBO / IBO (fixed-function の glBegin/glEnd と互換なまま、buffer だけ用意) --
+// --- VBO / IBO -----------------------------------------------------------
+//
+// DxLib の VERTEXBUFFERHANDLEDATA / INDEXBUFFERHANDLEDATA は Buffer を system
+// memory に持ち、Create/SetData 時に GPU 側へ転送する。Cubism レンダリング
+// (DxUseCLibLive2DCubism4.cpp → DrawPolygonIndexed3DToShader_UseVertexBuffer)
+// の経路で使われる。VERTEXBUFFERHANDLEDATA_PF / INDEXBUFFERHANDLEDATA_PF に
+// GLuint (DxGraphicsDesktop.h 側) があるのでそこへ GL buffer object id を保存。
 
-extern int Graphics_Hardware_VertexBuffer_Create_PF( VERTEXBUFFERHANDLEDATA * /*vb*/ )
+extern int Graphics_Hardware_VertexBuffer_Create_PF( VERTEXBUFFERHANDLEDATA *vb )
 {
-    // PF 側に GLuint を保持するスペースは無いので、VBO 未使用 path のまま no-op。
-    // 実際の drawcall は Draw*PrimitiveLight_UseVertexBuffer_PF で stub なので
-    // ここで失敗しなくても描画自体はされない。将来 VBO 経路実装時に拡張。
+    if ( vb == nullptr || vb->PF == nullptr ) return -1 ;
+    if ( vb->PF->VertexBuffer == 0 ) {
+        GLuint id = 0 ;
+        glGenBuffers( 1, &id ) ;
+        vb->PF->VertexBuffer = ( DxGLuint )id ;
+    }
+    glBindBuffer( GL_ARRAY_BUFFER, ( GLuint )vb->PF->VertexBuffer ) ;
+    GLsizeiptr size = ( GLsizeiptr )( ( size_t )vb->UnitSize * ( size_t )vb->Num ) ;
+    glBufferData( GL_ARRAY_BUFFER, size, vb->Buffer, GL_DYNAMIC_DRAW ) ;
+    glBindBuffer( GL_ARRAY_BUFFER, 0 ) ;
     return 0 ;
 }
-extern int Graphics_Hardware_VertexBuffer_SetData_PF( VERTEXBUFFERHANDLEDATA * /*vb*/, int /*StartIndex*/, const void * /*Data*/, int /*UpdateVertexNum*/ )
+extern int Graphics_Hardware_VertexBuffer_SetData_PF( VERTEXBUFFERHANDLEDATA *vb, int StartIndex, const void *Data, int UpdateVertexNum )
 {
+    if ( vb == nullptr || vb->PF == nullptr || vb->PF->VertexBuffer == 0 ) return -1 ;
+    if ( Data == nullptr || UpdateVertexNum <= 0 ) return 0 ;
+    glBindBuffer( GL_ARRAY_BUFFER, ( GLuint )vb->PF->VertexBuffer ) ;
+    GLintptr   off  = ( GLintptr  )( ( size_t )vb->UnitSize * ( size_t )StartIndex ) ;
+    GLsizeiptr size = ( GLsizeiptr )( ( size_t )vb->UnitSize * ( size_t )UpdateVertexNum ) ;
+    glBufferSubData( GL_ARRAY_BUFFER, off, size, Data ) ;
+    glBindBuffer( GL_ARRAY_BUFFER, 0 ) ;
     return 0 ;
 }
-extern int Graphics_Hardware_VertexBuffer_Terminate_PF( VERTEXBUFFERHANDLEDATA * /*vb*/ )
+extern int Graphics_Hardware_VertexBuffer_Terminate_PF( VERTEXBUFFERHANDLEDATA *vb )
 {
+    if ( vb == nullptr || vb->PF == nullptr ) return -1 ;
+    if ( vb->PF->VertexBuffer != 0 ) {
+        GLuint id = ( GLuint )vb->PF->VertexBuffer ;
+        glDeleteBuffers( 1, &id ) ;
+        vb->PF->VertexBuffer = 0 ;
+    }
     return 0 ;
 }
-extern int Graphics_Hardware_IndexBuffer_Create_PF( INDEXBUFFERHANDLEDATA * /*ib*/ )   { return 0 ; }
-extern int Graphics_Hardware_IndexBuffer_SetData_PF( INDEXBUFFERHANDLEDATA * /*ib*/, int /*StartIndex*/, const void * /*Data*/, int /*UpdateIndexNum*/ ) { return 0 ; }
-extern int Graphics_Hardware_IndexBuffer_Terminate_PF( INDEXBUFFERHANDLEDATA * /*ib*/ ){ return 0 ; }
+extern int Graphics_Hardware_IndexBuffer_Create_PF( INDEXBUFFERHANDLEDATA *ib )
+{
+    if ( ib == nullptr || ib->PF == nullptr ) return -1 ;
+    if ( ib->PF->IndexBuffer == 0 ) {
+        GLuint id = 0 ;
+        glGenBuffers( 1, &id ) ;
+        ib->PF->IndexBuffer = ( DxGLuint )id ;
+    }
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ( GLuint )ib->PF->IndexBuffer ) ;
+    GLsizeiptr size = ( GLsizeiptr )( ( size_t )ib->UnitSize * ( size_t )ib->Num ) ;
+    glBufferData( GL_ELEMENT_ARRAY_BUFFER, size, ib->Buffer, GL_DYNAMIC_DRAW ) ;
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 ) ;
+    return 0 ;
+}
+extern int Graphics_Hardware_IndexBuffer_SetData_PF( INDEXBUFFERHANDLEDATA *ib, int StartIndex, const void *Data, int UpdateIndexNum )
+{
+    if ( ib == nullptr || ib->PF == nullptr || ib->PF->IndexBuffer == 0 ) return -1 ;
+    if ( Data == nullptr || UpdateIndexNum <= 0 ) return 0 ;
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ( GLuint )ib->PF->IndexBuffer ) ;
+    GLintptr   off  = ( GLintptr  )( ( size_t )ib->UnitSize * ( size_t )StartIndex ) ;
+    GLsizeiptr size = ( GLsizeiptr )( ( size_t )ib->UnitSize * ( size_t )UpdateIndexNum ) ;
+    glBufferSubData( GL_ELEMENT_ARRAY_BUFFER, off, size, Data ) ;
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 ) ;
+    return 0 ;
+}
+extern int Graphics_Hardware_IndexBuffer_Terminate_PF( INDEXBUFFERHANDLEDATA *ib )
+{
+    if ( ib == nullptr || ib->PF == nullptr ) return -1 ;
+    if ( ib->PF->IndexBuffer != 0 ) {
+        GLuint id = ( GLuint )ib->PF->IndexBuffer ;
+        glDeleteBuffers( 1, &id ) ;
+        ib->PF->IndexBuffer = 0 ;
+    }
+    return 0 ;
+}
+
+// --- Shader-based DrawPrimitive (Cubism / MV1 最小経路) ------------------
+//
+// DxLib Cubism4 wrapper が DrawPolygonIndexed3DToShader_UseVertexBuffer を
+// 呼ぶと、ここが VBO/IBO を bind して、現在 glUseProgram されている
+// shader program の "a_position" / "a_texCoord" アトリビュートに対し
+// VERTEX3DSHADER レイアウト (88B: pos @0, uv @72) からの pointer を
+// glVertexAttribPointer する。
+//
+// 他の attribute (normal, color 等) は Cubism shader では未使用なので
+// 最小実装では未バインド。MV1 実描画時は拡張が必要。
+
+static GLenum dx_primtype_to_gl( int PrimitiveType )
+{
+    switch ( PrimitiveType ) {
+        // DX_PRIMTYPE_TRIANGLELIST = 4, STRIP = 5, FAN = 6, POINTLIST = 1, LINELIST = 2, LINESTRIP = 3
+        case 1: return GL_POINTS ;
+        case 2: return GL_LINES ;
+        case 3: return GL_LINE_STRIP ;
+        case 4: return GL_TRIANGLES ;
+        case 5: return GL_TRIANGLE_STRIP ;
+        case 6: return GL_TRIANGLE_FAN ;
+        default: return GL_TRIANGLES ;
+    }
+}
+
+// 現在 glUseProgram されている program を取得して attribute location を返す。
+// location が -1 なら shader に存在しない属性。
+static GLint dx_current_attrib_loc( const char *name )
+{
+    GLint prog = 0 ;
+    glGetIntegerv( GL_CURRENT_PROGRAM, &prog ) ;
+    if ( prog == 0 ) return -1 ;
+    return glGetAttribLocation( ( GLuint )prog, name ) ;
+}
+
+// VERTEX3DSHADER (88B) のレイアウトで attribute を設定。
+// base は VBO の先頭 (0 バイト) から、BaseVertex * UnitSize のオフセットを加算。
+static void dx_setup_vertex3dshader_attribs( int BaseVertex, int UnitSize )
+{
+    // VERTEX3DSHADER (DxLib.h L1399):
+    //   VECTOR   pos   @ 0   (vec3, 12B)
+    //   FLOAT4   spos  @12   (vec4, 16B)
+    //   VECTOR   norm  @28   (vec3, 12B)
+    //   VECTOR   tan   @40   (vec3, 12B)
+    //   VECTOR   binorm@52   (vec3, 12B)
+    //   COLOR_U8 dif   @64   (4B, unsigned byte RGBA)
+    //   COLOR_U8 spc   @68   (4B)
+    //   float    u, v  @72   (vec2, 8B)
+    //   float    su,sv @80   (vec2, 8B)   total 88B
+    const GLsizei stride = ( GLsizei )UnitSize ; // 88
+    const size_t  base   = ( size_t )BaseVertex * ( size_t )UnitSize ;
+    const auto    ofs    = [ base ]( size_t o ) -> const void * {
+        return reinterpret_cast< const void * >( base + o ) ;
+    } ;
+
+    GLint loc ;
+    loc = dx_current_attrib_loc( "a_position" ) ;
+    if ( loc >= 0 ) { glEnableVertexAttribArray( loc ) ; glVertexAttribPointer( loc, 3, GL_FLOAT, GL_FALSE, stride, ofs( 0  ) ) ; }
+    loc = dx_current_attrib_loc( "a_texCoord" ) ;
+    if ( loc >= 0 ) { glEnableVertexAttribArray( loc ) ; glVertexAttribPointer( loc, 2, GL_FLOAT, GL_FALSE, stride, ofs( 72 ) ) ; }
+    // MV1 向け拡張: normal/tangent/color を shader で受けたい場合はここへ追加
+    loc = dx_current_attrib_loc( "a_normal" ) ;
+    if ( loc >= 0 ) { glEnableVertexAttribArray( loc ) ; glVertexAttribPointer( loc, 3, GL_FLOAT, GL_FALSE, stride, ofs( 28 ) ) ; }
+    loc = dx_current_attrib_loc( "a_tangent" ) ;
+    if ( loc >= 0 ) { glEnableVertexAttribArray( loc ) ; glVertexAttribPointer( loc, 3, GL_FLOAT, GL_FALSE, stride, ofs( 40 ) ) ; }
+    loc = dx_current_attrib_loc( "a_color" ) ;
+    if ( loc >= 0 ) { glEnableVertexAttribArray( loc ) ; glVertexAttribPointer( loc, 4, GL_UNSIGNED_BYTE, GL_TRUE, stride, ofs( 64 ) ) ; }
+}
+
+static void dx_disable_vertex3dshader_attribs( void )
+{
+    const char *names[] = { "a_position", "a_texCoord", "a_normal", "a_tangent", "a_color" } ;
+    for ( const char *n : names ) {
+        GLint loc = dx_current_attrib_loc( n ) ;
+        if ( loc >= 0 ) glDisableVertexAttribArray( loc ) ;
+    }
+}
+
+extern int Graphics_Hardware_DrawPrimitive3DToShader_UseVertexBuffer2_PF(
+    int VertexBufHandle, int PrimitiveType, int StartVertex, int UseVertexNum )
+{
+    VERTEXBUFFERHANDLEDATA *vb = nullptr ;
+    if ( VERTEXBUFFERCHK( VertexBufHandle, vb ) ) return -1 ;
+    if ( vb->PF == nullptr || vb->PF->VertexBuffer == 0 ) return -1 ;
+    if ( UseVertexNum <= 0 ) return 0 ;
+
+    glBindBuffer( GL_ARRAY_BUFFER, ( GLuint )vb->PF->VertexBuffer ) ;
+    dx_setup_vertex3dshader_attribs( 0, vb->UnitSize ) ;
+    glDrawArrays( dx_primtype_to_gl( PrimitiveType ), StartVertex, UseVertexNum ) ;
+    dx_disable_vertex3dshader_attribs() ;
+    glBindBuffer( GL_ARRAY_BUFFER, 0 ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_DrawPrimitiveIndexed3DToShader_UseVertexBuffer2_PF(
+    int VertexBufHandle, int IndexBufHandle,
+    int PrimitiveType, int BaseVertex, int StartVertex, int UseVertexNum,
+    int StartIndex, int UseIndexNum )
+{
+    (void)StartVertex ; (void)UseVertexNum ;
+    VERTEXBUFFERHANDLEDATA *vb = nullptr ;
+    INDEXBUFFERHANDLEDATA  *ib = nullptr ;
+    if ( VERTEXBUFFERCHK( VertexBufHandle, vb ) ) return -1 ;
+    if ( INDEXBUFFERCHK( IndexBufHandle,   ib ) ) return -1 ;
+    if ( vb->PF == nullptr || vb->PF->VertexBuffer == 0 ) return -1 ;
+    if ( ib->PF == nullptr || ib->PF->IndexBuffer  == 0 ) return -1 ;
+    if ( UseIndexNum <= 0 ) return 0 ;
+
+    glBindBuffer( GL_ARRAY_BUFFER,         ( GLuint )vb->PF->VertexBuffer ) ;
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ( GLuint )ib->PF->IndexBuffer  ) ;
+    dx_setup_vertex3dshader_attribs( BaseVertex, vb->UnitSize ) ;
+
+    GLenum idx_type   = ( ib->UnitSize == 2 ) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT ;
+    size_t idx_offset = ( size_t )StartIndex * ( size_t )ib->UnitSize ;
+    glDrawElements( dx_primtype_to_gl( PrimitiveType ), UseIndexNum, idx_type,
+                    reinterpret_cast< const void * >( idx_offset ) ) ;
+
+    dx_disable_vertex3dshader_attribs() ;
+    glBindBuffer( GL_ARRAY_BUFFER,         0 ) ;
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 ) ;
+    return 0 ;
+}
 
 extern int Graphics_Hardware_FillGraph_PF( IMAGEDATA *Image, int R, int G, int B, int A, int Surface )
 {
