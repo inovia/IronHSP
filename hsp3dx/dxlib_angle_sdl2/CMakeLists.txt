@@ -200,6 +200,12 @@ endif()
 # BulletInverseDynamics の 5 モジュール (Bullet3* experimental と OpenCL は除外)
 add_subdirectory(extlib/bullet3)
 
+# opt-in: DxLib の DxUseCLibPhysics.cpp を Desktop/DxBulletCompat.h 経由で
+# extlib/bullet3 と結線して MV1PhysicsCalculation 等を有効化。デフォルトは OFF
+# (当面は Win 実機で検証、Mac/Linux は bundle 互換性確認後に ON 推奨)。
+option(DX_DESKTOP_ENABLE_BULLET_PHYSICS
+    "Enable MV1 Bullet Physics on Desktop SDL2 fork (via DxBulletCompat.h)" OFF)
+
 # --- 共通: DxLib desktop 用コンパイル設定 ------------------------------
 function(dxlib_desktop_settings target)
     target_include_directories(${target} PRIVATE ${DXLIB_PORTABLE_DIR})
@@ -213,7 +219,8 @@ function(dxlib_desktop_settings target)
         # DxLive2DCubism4.cpp + DxUseCLibLive2DCubism4.cpp が lib に入り、
         # Live2DCubism4_*_PF は Desktop/DxLive2DCubism4Desktop.cpp の stub で満たす。
         # DX_NON_MODEL=1 を外した (Tier 4d v1 最小版: MV1 load は動くが描画は未実装)
-        DX_NON_BULLET_PHYSICS=1
+        # DX_NON_BULLET_PHYSICS は opt-in (DX_DESKTOP_ENABLE_BULLET_PHYSICS=ON) で
+        # 外せるように function 末尾の if で制御する。
         # DX_NON_FILTER=1 は lib 側のみ。user 側は宣言を通して
         # Desktop/DxGraphicsFilterDesktop.cpp の CPU 版で override する。
         # DX_NON_MASK=1 を外した (Tier 4c)。DxMask.cpp の CPU 側が動作、
@@ -247,6 +254,10 @@ function(dxlib_desktop_settings target)
             -Wno-null-dereference
             -Wno-unused-parameter
         )
+    endif()
+    # Bullet Physics: opt-in で無ければ NON 指定を立てる
+    if(NOT DX_DESKTOP_ENABLE_BULLET_PHYSICS)
+        target_compile_definitions(${target} PRIVATE DX_NON_BULLET_PHYSICS=1)
     endif()
 endfunction()
 
@@ -328,6 +339,30 @@ add_library(dxlib_portable_stage3 STATIC
     ${DXLIB_PORTABLE_DIR}/Desktop/DxLive2DCubism4Desktop.cpp
     ${DXLIB_PORTABLE_DIR}/Desktop/DxLive2DCubism4Shader_stub.cpp
 )
+
+# opt-in: MV1 Bullet Physics を Desktop で有効化する (DxBulletCompat.h 経由)
+if(DX_DESKTOP_ENABLE_BULLET_PHYSICS)
+    target_sources(dxlib_portable_stage3 PRIVATE
+        ${DXLIB_PORTABLE_DIR}/DxUseCLibPhysics.cpp
+    )
+    target_include_directories(dxlib_portable_stage3 PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/extlib/bullet3/src
+    )
+    target_link_libraries(dxlib_portable_stage3 PUBLIC dx_bullet)
+    # DxUseCLibPhysics.cpp だけ D_bt* → bt* 置換 shim を force-include
+    if(MSVC)
+        set_source_files_properties(
+            ${DXLIB_PORTABLE_DIR}/DxUseCLibPhysics.cpp PROPERTIES
+            COMPILE_FLAGS "/FI\"${DXLIB_PORTABLE_DIR}/Desktop/DxBulletCompat.h\" /UDX_NON_BULLET_PHYSICS"
+        )
+    else()
+        set_source_files_properties(
+            ${DXLIB_PORTABLE_DIR}/DxUseCLibPhysics.cpp PROPERTIES
+            COMPILE_FLAGS "-include ${DXLIB_PORTABLE_DIR}/Desktop/DxBulletCompat.h -UDX_NON_BULLET_PHYSICS"
+        )
+    endif()
+    message(STATUS "DX_DESKTOP_ENABLE_BULLET_PHYSICS=ON — MV1 Bullet physics enabled")
+endif()
 # HAS_SDL2_TTF の時だけ DxFontDesktop.cpp を追加
 if(HAS_SDL2_TTF)
     target_sources(dxlib_portable_stage3 PRIVATE ${DXLIB_PORTABLE_DIR}/Desktop/DxFontDesktop.cpp)
