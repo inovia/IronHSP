@@ -280,6 +280,10 @@ uniform int             u_fogMode ;
 uniform sampler2D       u_sphereMap ;
 uniform int             u_useSphereMap ;
 uniform int             u_sphereMapBlend ;  // 0=MULTIPLY (MMD .sph), 1=ADD (MMD .spa), 2=REPLACE
+//  Rim lighting (edge highlight、toon 系や非金属の縁発光)
+uniform float           u_rimIntensity ;    // 0 で無効、> 0 で edge に色を加算
+uniform vec3            u_rimColor ;
+uniform float           u_rimPower ;        // 2.0 標準 (狭い rim)
 //  Emissive color (self-illumination、ライティング非依存で加算)
 uniform vec3            u_emissive ;
 uniform sampler2D       u_emissiveMap ;
@@ -426,6 +430,15 @@ void main( void )
         if ( u_sphereMapBlend == 0 )      base.rgb = base.rgb * sph.rgb ;           // MULTIPLY (.sph)
         else if ( u_sphereMapBlend == 1 ) base.rgb = base.rgb + sph.rgb * sph.a ;   // ADD (.spa)
         else                               base.rgb = sph.rgb ;                     // REPLACE
+    }
+
+    //  Rim lighting: view ベクトル と normal の内積が低い (= 縁) 部分に色を加算
+    //  pow(1 - max(dot(N,V), 0), power) で edge のみ強調
+    if ( u_rimIntensity > 0.0 ) {
+        vec3 Vrim = normalize( -v_eyePos ) ;
+        float rim = 1.0 - max( dot( N, Vrim ), 0.0 ) ;
+        rim = pow( rim, max( u_rimPower, 0.5 ) ) ;
+        base.rgb = base.rgb + u_rimColor * ( rim * u_rimIntensity ) ;
     }
 
     //  Emissive: material 固有の発光 (lighting 非依存で base に加算)

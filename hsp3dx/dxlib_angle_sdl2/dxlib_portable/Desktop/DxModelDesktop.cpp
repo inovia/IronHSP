@@ -743,6 +743,27 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
             glBindTexture( GL_TEXTURE_2D, sphereTex ) ;
             p_glActiveTexture( GL_TEXTURE0 ) ;
         }
+
+        //  Rim lighting: env var HSP3DX_RIM_INTENSITY + HSP3DX_RIM_COLOR (R,G,B 0-255) + HSP3DX_RIM_POWER
+        static float s_rimIntensity = -1.0f ;
+        static float s_rimR = 1.0f, s_rimG = 1.0f, s_rimB = 1.0f ;
+        static float s_rimPower = 2.0f ;
+        if ( s_rimIntensity < 0.0f ) {
+            const char *e = std::getenv( "HSP3DX_RIM_INTENSITY" ) ;
+            s_rimIntensity = e ? ( float )std::atof( e ) : 0.0f ;
+            const char *ec = std::getenv( "HSP3DX_RIM_COLOR" ) ;
+            if ( ec ) {
+                int r = 0, g = 0, b = 0 ;
+                if ( std::sscanf( ec, "%d,%d,%d", &r, &g, &b ) == 3 ) {
+                    s_rimR = r / 255.0f ; s_rimG = g / 255.0f ; s_rimB = b / 255.0f ;
+                }
+            }
+            const char *ep = std::getenv( "HSP3DX_RIM_POWER" ) ;
+            if ( ep ) s_rimPower = ( float )std::atof( ep ) ;
+        }
+        DesktopShader_SetUniform1f( glslH, "u_rimIntensity", s_rimIntensity ) ;
+        DesktopShader_SetUniform3f( glslH, "u_rimColor",     s_rimR, s_rimG, s_rimB ) ;
+        DesktopShader_SetUniform1f( glslH, "u_rimPower",     s_rimPower ) ;
         //  DiffuseLayer[1..3]: 有効 layer 数 layerN を元に uniform 設定
         int d1 = ( layerN >= 2 ) ? 1 : 0 ;
         int d2 = ( layerN >= 3 ) ? 1 : 0 ;
