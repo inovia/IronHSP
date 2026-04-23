@@ -274,6 +274,48 @@ extern int LoadSoundMemWithStrLen( const TCHAR *FileName, size_t FileNameLength,
     return LoadSoundMem( FileName, BufferNum, UnionHandle ) ;
 }
 
+// --- Memory-image based load (from byte array, embedded asset 等) ----------
+// DxLib の LoadSoundMemByMemImage / LoadSoundMemByMemImageBase。SDL_mixer の
+// Mix_LoadWAV_RW は .wav を memory から、音声形式 detection は SDL_mixer に任せる。
+// OGG/Opus/MP3 も Mix_LoadWAV_RW が認識 (SDL_mixer 2 系は OGG/MP3/MOD 対応)
+extern int LoadSoundMemByMemImageBase( const void *FileImage, size_t FileImageSize,
+                                       int BufferNum, int UnionHandle )
+{
+    (void)BufferNum; (void)UnionHandle;
+    if ( !FileImage || FileImageSize == 0 ) return -1 ;
+    if ( desktop_sound_ensure_init() != 0 ) return -1 ;
+
+    SDL_RWops *rw = SDL_RWFromConstMem( FileImage, ( int )FileImageSize ) ;
+    if ( !rw ) return -1 ;
+    Mix_Chunk *c = Mix_LoadWAV_RW( rw, 1 /*freesrc=1 で SDL_RWops を自動解放*/ ) ;
+    if ( !c ) {
+        std::fprintf( stderr, "[DxSoundDesktop] LoadSoundMemByMemImage fail: %s\n",
+                      Mix_GetError() ) ;
+        return -1 ;
+    }
+    int h = g_NextSoundHandle++ ;
+    DesktopSoundEntry e ;
+    e.chunk = c ;
+    e.last_channel = -1 ;
+    e.volume_0_10000 = 10000 ;
+    e.raw_buffer = nullptr ;   // Mix_LoadWAV_RW が内部で alloc 済
+    Mix_VolumeChunk( c, MIX_MAX_VOLUME ) ;
+    g_Sounds[ h ] = e ;
+    return h ;
+}
+
+extern int LoadSoundMemByMemImage( const void *FileImage, size_t FileImageSize,
+                                   int BufferNum, int UnionHandle )
+{
+    return LoadSoundMemByMemImageBase( FileImage, FileImageSize, BufferNum, UnionHandle ) ;
+}
+
+extern int LoadSoundMemByMemImageToBufNumSitei( const void *FileImage, size_t FileImageSize,
+                                                int BufferNum )
+{
+    return LoadSoundMemByMemImageBase( FileImage, FileImageSize, BufferNum, -1 ) ;
+}
+
 extern int LoadSoundMemBase( const TCHAR *FileName, int BufferNum, int UnionHandle )
 {
     return LoadSoundMem( FileName, BufferNum, UnionHandle ) ;
