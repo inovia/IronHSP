@@ -532,11 +532,11 @@ td.note { font-size: 12px; color: #555; }
   <td class="tech">CPU 側 PCM 生成 → Mix_LoadWAV_RW</td>
   <td class="note">動的 WAV 生成 API。Tier 2 検討。</td>
 </tr>
-<tr><td class="fn">PlayMusic (MIDI / DirectMusic)</td>
+<tr><td class="fn">PlayMusic / LoadMusicMem / PlayMusicMem / StopMusic / SetVolumeMusic</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
-  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
-  <td class="tech">Win 以外は廃止扱い</td>
-  <td class="note">本家でも iOS/Android は未対応。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">SDL_mixer Mix_LoadMUS + Mix_PlayMusic 経由で BGM track として再生。MIDI / OGG / MP3 / MOD / WAV 全形式対応</td>
+  <td class="note">DxLib 本家は MIDI 専用だが SDL_mixer は形式統一のため BGM として多形式を扱える (拡張)。Load/Play/Stop/Check/SetVolume のメモリ経由版 + 単一 track API (PlayMusic/StopMusic/CheckMusic) 両方対応。iOS/Android は本家が未対応のため ×、SDL2/Web は Mix_Music で ✓。</td>
 </tr>
 </table>
 

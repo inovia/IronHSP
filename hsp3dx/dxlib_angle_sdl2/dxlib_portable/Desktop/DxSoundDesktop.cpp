@@ -412,6 +412,113 @@ extern int InitSoundMem( void )
     return 0 ;
 }
 
+// --- Music (BGM track、SDL_mixer Mix_Music 経由) ----------------------------
+// DxLib の PlayMusic は MIDI 専用だったが、SDL_mixer の Mix_LoadMUS は
+// MIDI / OGG / MP3 / MOD / WAV を統一的に扱う。よって PlayMusic で BGM として
+// 任意形式を再生できる (拡張)。Music は常に 1 track、PlaySoundMem の複数 sfx
+// と共存可能。
+struct DesktopMusicEntry { Mix_Music *mus ; } ;
+static std::unordered_map<int, DesktopMusicEntry> g_Musics ;
+static int g_NextMusicHandle = 1 ;
+static int g_MusicVolume_0_10000 = 10000 ;  // 0..10000 範囲で保持
+
+extern int LoadMusicMem( const TCHAR *FileName )
+{
+    if ( !FileName ) return -1 ;
+    if ( desktop_sound_ensure_init() != 0 ) return -1 ;
+    Mix_Music *m = Mix_LoadMUS( ( const char * )FileName ) ;
+    if ( !m ) {
+        std::fprintf( stderr, "[DxSoundDesktop] LoadMusicMem fail: %s (%s)\n",
+                      FileName, Mix_GetError() ) ;
+        return -1 ;
+    }
+    int h = g_NextMusicHandle++ ;
+    g_Musics[ h ] = { m } ;
+    return h ;
+}
+
+extern int LoadMusicMemWithStrLen( const TCHAR *FileName, size_t /*FileNameLength*/ )
+{
+    return LoadMusicMem( FileName ) ;
+}
+
+extern int LoadMusicMemByMemImage( const void *FileImage, size_t FileImageSize )
+{
+    if ( !FileImage || FileImageSize == 0 ) return -1 ;
+    if ( desktop_sound_ensure_init() != 0 ) return -1 ;
+    SDL_RWops *rw = SDL_RWFromConstMem( FileImage, ( int )FileImageSize ) ;
+    if ( !rw ) return -1 ;
+    Mix_Music *m = Mix_LoadMUS_RW( rw, 1 ) ;
+    if ( !m ) {
+        std::fprintf( stderr, "[DxSoundDesktop] LoadMusicMemByMemImage fail: %s\n",
+                      Mix_GetError() ) ;
+        return -1 ;
+    }
+    int h = g_NextMusicHandle++ ;
+    g_Musics[ h ] = { m } ;
+    return h ;
+}
+
+extern int PlayMusicMem( int MusicHandle, int PlayType )
+{
+    auto it = g_Musics.find( MusicHandle ) ;
+    if ( it == g_Musics.end() ) return -1 ;
+    int loops = ( PlayType & DX_PLAYTYPE_LOOPBIT ) ? -1 : 0 ;
+    Mix_VolumeMusic( desktop_vol_dx_to_mix( g_MusicVolume_0_10000 ) ) ;
+    if ( Mix_PlayMusic( it->second.mus, loops ) < 0 ) return -1 ;
+    return 0 ;
+}
+
+extern int StopMusicMem( int /*MusicHandle*/ )
+{
+    Mix_HaltMusic() ;
+    return 0 ;
+}
+
+extern int CheckMusicMem( int MusicHandle )
+{
+    auto it = g_Musics.find( MusicHandle ) ;
+    if ( it == g_Musics.end() ) return -1 ;
+    return Mix_PlayingMusic() ? 1 : 0 ;
+}
+
+extern int SetVolumeMusicMem( int Volume, int /*MusicHandle*/ )
+{
+    g_MusicVolume_0_10000 = Volume ;
+    Mix_VolumeMusic( desktop_vol_dx_to_mix( Volume ) ) ;
+    return 0 ;
+}
+
+// 単一 Music track API (DxLib 既定では 1 MIDI のみ)
+static int g_GlobalMusic = -1 ;
+
+extern int PlayMusic( const TCHAR *FileName, int PlayType )
+{
+    if ( g_GlobalMusic > 0 ) { StopMusicMem( g_GlobalMusic ) ; }
+    int h = LoadMusicMem( FileName ) ;
+    if ( h < 0 ) return -1 ;
+    g_GlobalMusic = h ;
+    return PlayMusicMem( h, PlayType ) ;
+}
+
+extern int PlayMusicWithStrLen( const TCHAR *FileName, size_t /*FileNameLength*/, int PlayType )
+{
+    return PlayMusic( FileName, PlayType ) ;
+}
+
+extern int PlayMusicByMemImage( const void *FileImage, size_t FileImageSize, int PlayType )
+{
+    if ( g_GlobalMusic > 0 ) { StopMusicMem( g_GlobalMusic ) ; }
+    int h = LoadMusicMemByMemImage( FileImage, FileImageSize ) ;
+    if ( h < 0 ) return -1 ;
+    g_GlobalMusic = h ;
+    return PlayMusicMem( h, PlayType ) ;
+}
+
+extern int SetVolumeMusic( int Volume ) { g_MusicVolume_0_10000 = Volume ; Mix_VolumeMusic( desktop_vol_dx_to_mix( Volume ) ) ; return 0 ; }
+extern int StopMusic( void )            { Mix_HaltMusic() ; return 0 ; }
+extern int CheckMusic( void )           { return Mix_PlayingMusic() ? 1 : 0 ; }
+
 // DxSystem から呼ばれる可能性があるもの
 extern int InitializeSoundSystem( void )
 {
