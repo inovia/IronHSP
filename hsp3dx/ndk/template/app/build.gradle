@@ -17,6 +17,11 @@ android {
                 cppFlags "-std=c++17"
                 // x86_64 のエミュレータで動かす用 + arm64-v8a (実機)
                 abiFilters 'x86_64', 'arm64-v8a'
+                // DxLib を source build する場合は次行を有効化。
+                // prebuilt libDxLib.a / libDxUseCLib.a / libpng.a / libjpeg.a /
+                // libzlib.a を使わず、dxlib_angle_sdl2/dxlib_portable + extlib から
+                // build する。Movie MediaCodec 差替えや本家 DxLib 改変はこちら。
+                // arguments "-DDXLIB_FROM_SOURCE=ON"
             }
         }
     }
