@@ -626,9 +626,9 @@ td.note { font-size: 12px; color: #555; }
 </tr>
 <tr><td class="fn">DrawPolygon3D / DrawPrimitive / DrawPrimitiveLight</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">VERTEX_3D / VERTEX3D → glBegin(各 PrimitiveType)</td>
-  <td class="note">Tier 3 完了。Light 版は diffuse 色のみ使用 (光源計算は未実装)。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">VERTEX_3D / VERTEX3D → glBegin(各 PrimitiveType)。Light 版は GL_COLOR_MATERIAL (GL_AMBIENT_AND_DIFFUSE) + glNormal3f で fixed-function 光源計算が機能</td>
+  <td class="note">DrawPrimitiveLight_PF 2026-04-23 修正。GL_LIGHTING 有効時に diffuse 色 (dif) が ambient + diffuse として、norm が法線として GL に渡されるようになった。SetLightEnable / SetLightDirection 等と組み合わせて per-vertex Lambert 照明が動作。</td>
 </tr>
 <tr><td class="fn">SetWriteZBuffer3D / SetUseZBuffer3D / ClearDrawScreenZBuffer / SetDrawZBuffer</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>

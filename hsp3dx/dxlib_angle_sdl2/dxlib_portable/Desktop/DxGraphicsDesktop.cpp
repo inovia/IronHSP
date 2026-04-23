@@ -2008,14 +2008,23 @@ extern int Graphics_Hardware_DrawPrimitiveLight_PF( const VERTEX3D *Vertex, int 
     }
     if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
 
+    // Light 版: GL_COLOR_MATERIAL を有効化して dif を ambient + diffuse に
+    // マップ、glNormal で法線を渡す。GL_LIGHTING は user 側で SetUseLighting で
+    // 制御済の前提
+    GLboolean prev_color_mat = glIsEnabled( GL_COLOR_MATERIAL ) ;
+    glEnable( GL_COLOR_MATERIAL ) ;
+    glColorMaterial( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
+
     glBegin( mode ) ;
     for ( int i = 0 ; i < VertexNum ; ++i ) {
         const VERTEX3D &v = Vertex[ i ] ;
         glColor4ub( v.dif.r, v.dif.g, v.dif.b, v.dif.a ) ;
+        glNormal3f( v.norm.x, v.norm.y, v.norm.z ) ;
         if ( hasTex ) glTexCoord2f( v.u, v.v ) ;
         glVertex3f( v.pos.x, v.pos.y, v.pos.z ) ;
     }
     glEnd() ;
+    if ( !prev_color_mat ) glDisable( GL_COLOR_MATERIAL ) ;
     if ( hasTex ) { glBindTexture( GL_TEXTURE_2D, 0 ) ; glDisable( GL_TEXTURE_2D ) ; }
     return 0 ;
 }
