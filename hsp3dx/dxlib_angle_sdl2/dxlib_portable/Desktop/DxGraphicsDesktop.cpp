@@ -914,12 +914,14 @@ extern int Graphics_Hardware_DrawGraph_PF( int x, int y, float xf, float yf, IMA
 
 // --- Stage 18: テクスチャ拡張 (ExtendGraph / RotaGraph) ------------------
 
-static void Desktop_DrawTexQuad( IMAGEDATA_ORIG_HARD_TEX *tex, float cx[4], float cy[4], int TransFlag )
+static void Desktop_DrawTexQuad( IMAGEDATA_ORIG_HARD_TEX *tex, float cx[4], float cy[4],
+                                  int TransFlag, IMAGEDATA *BlendImage = nullptr )
 {
     float u0 = ( float )tex->OrigPosX / ( float )tex->TexWidth ;
     float v0 = ( float )tex->OrigPosY / ( float )tex->TexHeight ;
     float u1 = u0 + ( float )tex->UseWidth  / ( float )tex->TexWidth ;
     float v1 = v0 + ( float )tex->UseHeight / ( float )tex->TexHeight ;
+    float bu0, bv0, bu1, bv1 ; desktop_blend_uv_range( BlendImage, &bu0, &bv0, &bu1, &bv1 ) ;
 
     Desktop_SetOrtho2D() ;
     if ( TransFlag ) {
@@ -929,32 +931,38 @@ static void Desktop_DrawTexQuad( IMAGEDATA_ORIG_HARD_TEX *tex, float cx[4], floa
     glColor4ub( 255, 255, 255, 255 ) ;
     glEnable( GL_TEXTURE_2D ) ;
     glBindTexture( GL_TEXTURE_2D, ( GLuint )tex->PF->Texture.TextureBuffer ) ;
+    int blend_bound = desktop_bind_blend_tmu1( BlendImage ) ;
     // cx,cy の順: 左上, 右上, 左下, 右下 → GL_TRIANGLE_STRIP
     glBegin( GL_TRIANGLE_STRIP ) ;
+        if ( blend_bound ) p_d_glMultiTexCoord2f( GL_TEXTURE1, bu0, bv0 ) ;
         glTexCoord2f( u0, v0 ) ; glVertex2f( cx[0], cy[0] ) ;
+        if ( blend_bound ) p_d_glMultiTexCoord2f( GL_TEXTURE1, bu1, bv0 ) ;
         glTexCoord2f( u1, v0 ) ; glVertex2f( cx[1], cy[1] ) ;
+        if ( blend_bound ) p_d_glMultiTexCoord2f( GL_TEXTURE1, bu0, bv1 ) ;
         glTexCoord2f( u0, v1 ) ; glVertex2f( cx[2], cy[2] ) ;
+        if ( blend_bound ) p_d_glMultiTexCoord2f( GL_TEXTURE1, bu1, bv1 ) ;
         glTexCoord2f( u1, v1 ) ; glVertex2f( cx[3], cy[3] ) ;
     glEnd() ;
+    if ( blend_bound ) desktop_unbind_blend_tmu1() ;
     glBindTexture( GL_TEXTURE_2D, 0 ) ;
     glDisable( GL_TEXTURE_2D ) ;
 }
 
 extern int Graphics_Hardware_DrawExtendGraph_PF( int x1, int y1, int x2, int y2, float x1f, float y1f, float x2f, float y2f, IMAGEDATA *Image, IMAGEDATA *BlendImage, int TransFlag, int IntFlag )
 {
-    (void)BlendImage; (void)IntFlag; (void)x1f; (void)y1f; (void)x2f; (void)y2f;
+    (void)IntFlag; (void)x1f; (void)y1f; (void)x2f; (void)y2f;
     if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) return -1 ;
     IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
     if ( !tex->PF ) return -1 ;
     float cx[4] = { ( float )x1, ( float )x2, ( float )x1, ( float )x2 } ;
     float cy[4] = { ( float )y1, ( float )y1, ( float )y2, ( float )y2 } ;
-    Desktop_DrawTexQuad( tex, cx, cy, TransFlag ) ;
+    Desktop_DrawTexQuad( tex, cx, cy, TransFlag, BlendImage ) ;
     return 0 ;
 }
 
 extern int Graphics_Hardware_DrawRotaGraph_PF( int x, int y, float xf, float yf, double ExRate, double Angle, IMAGEDATA *Image, IMAGEDATA *BlendImage, int TransFlag, int ReverseXFlag, int ReverseYFlag, int IntFlag )
 {
-    (void)BlendImage; (void)IntFlag;
+    (void)IntFlag;
     if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) return -1 ;
     IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
     if ( !tex->PF ) return -1 ;
@@ -980,7 +988,7 @@ extern int Graphics_Hardware_DrawRotaGraph_PF( int x, int y, float xf, float yf,
     rot( lx1, ly0, cx[1], cy[1] ) ;  // TR
     rot( lx0, ly1, cx[2], cy[2] ) ;  // BL
     rot( lx1, ly1, cx[3], cy[3] ) ;  // BR
-    Desktop_DrawTexQuad( tex, cx, cy, TransFlag ) ;
+    Desktop_DrawTexQuad( tex, cx, cy, TransFlag, BlendImage ) ;
     return 0 ;
 }
 
@@ -992,7 +1000,7 @@ extern int Graphics_Hardware_DrawRotaGraphFast_PF( int x, int y, float xf, float
 // 4 点自由変形。頂点順: (x1,y1)=LT, (x2,y2)=RT, (x3,y3)=RB, (x4,y4)=LB
 extern int Graphics_Hardware_DrawModiGraph_PF( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, IMAGEDATA *Image, IMAGEDATA *BlendImage, int TransFlag, bool Is3D )
 {
-    (void)BlendImage; (void)Is3D;
+    (void)Is3D;
     if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) return -1 ;
     IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
     if ( !tex->PF ) return -1 ;
@@ -1000,7 +1008,7 @@ extern int Graphics_Hardware_DrawModiGraph_PF( int x1, int y1, int x2, int y2, i
     // cx, cy の順は Desktop_DrawTexQuad: 左上 / 右上 / 左下 / 右下 (GL_TRIANGLE_STRIP)
     float cx[ 4 ] = { ( float )x1, ( float )x2, ( float )x4, ( float )x3 } ;
     float cy[ 4 ] = { ( float )y1, ( float )y2, ( float )y4, ( float )y3 } ;
-    Desktop_DrawTexQuad( tex, cx, cy, TransFlag ) ;
+    Desktop_DrawTexQuad( tex, cx, cy, TransFlag, BlendImage ) ;
     return 0 ;
 }
 
