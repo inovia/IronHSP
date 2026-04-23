@@ -153,18 +153,10 @@ int hsp3dxcl_exec( void )
     if ( s_hsp == nullptr ) return -1;
 
     try {
-#ifdef __EMSCRIPTEN__
-        //  HSPEMSCRIPTEN 定義時、code_execcmd は 1 命令で RUNMODE_RUN を返す
-        //  single-shot モードで動く (emscripten_set_main_loop 用設計)。
-        //  我々は JSPI + msgfunc 内 emscripten_sleep で yield しているので、
-        //  ここで END/ERROR まで loop で回す。各 iteration で 1 HSP 命令実行。
-        int runmode = RUNMODE_RUN;
-        while ( runmode == RUNMODE_RUN ) {
-            runmode = code_execcmd();
-        }
-#else
+        //  hsp3code.cpp の code_execcmd は END/ERROR まで native loop で回す
+        //  (HSPEMSCRIPTEN 定義時の single-shot モードは Web 用に hsp3code.cpp 側で
+        //  while(1) に固定済)。
         int runmode = code_execcmd();
-#endif
         if ( runmode == RUNMODE_ERROR ) {
             HSPERROR err = code_geterror();
             int ln = code_getdebug_line();

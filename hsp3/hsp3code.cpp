@@ -3389,11 +3389,11 @@ rerun:
 #ifdef HSPERR_HANDLE
 	try {
 #endif
-#ifdef HSPEMSCRIPTEN
-		{
-#else
+		// HSPEMSCRIPTEN 定義時の single-shot モード (1 命令で return) は
+		// emscripten_set_main_loop ベースの設計用だが、JSPI + msgfunc 内
+		// emscripten_sleep ループ運用には不適 (repeat/loop 状態が消える)。
+		// よって常に while(1) で END/ERROR まで回す。
 		while(1) {
-#endif
 			//Alertf( "#%d,%d line%d",type,val,code_getdebug_line() );
 			//Alertf( "#%d,%d",type,val );
 			//printf( "#%d,%d  line%d\n",type,val,code_getdebug_line() );
@@ -3415,10 +3415,6 @@ rerun:
 					return hspctx->runmode;
 				}
 			}
-#ifdef HSPEMSCRIPTEN
-			return RUNMODE_RUN;
-#else
-#endif
 		}
 #ifdef HSPERR_HANDLE
 	}
