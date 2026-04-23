@@ -1554,6 +1554,12 @@ static int DrawModiStringSoftware( int x1, int y1, int x2, int y2, int x3, int y
 // �t�H���g�V�X�e���̏�����
 extern int InitFontManage( void )
 {
+#ifdef __EMSCRIPTEN__
+#define DXFONT_TRACE(tag) do { fprintf(stderr, "[DXFONT] %s\n", tag); fflush(stderr); emscripten_sleep(0); } while(0)
+#else
+#define DXFONT_TRACE(tag) ((void)0)
+#endif
+	DXFONT_TRACE("InitFontManage enter");
 	int i ;
 	int j ;
 	int k ;
@@ -1564,8 +1570,10 @@ extern int InitFontManage( void )
 	// �������t���O�𗧂Ă�
 	FSYS.InitializeFlag = TRUE ;
 
+	DXFONT_TRACE("before InitializeHandleManage(FONT)");
 	// �t�H���g�n���h���Ǘ���������������
 	InitializeHandleManage( DX_HANDLETYPE_FONT, sizeof( FONTMANAGE ) + sizeof( FONTMANAGE_PF ), MAX_FONT_NUM, InitializeFontHandle, TerminateFontHandle, DumpInfoFontHandle, L"Font" ) ;
+	DXFONT_TRACE("after InitializeHandleManage(FONT)");
 
 	// �S�p�X�y�[�X�� wchar_t �R�[�h������
 	{
@@ -1574,6 +1582,7 @@ extern int InitFontManage( void )
 		ConvString( UTF16LE_DoubleByteSpaceString, 1, DX_CHARCODEFORMAT_UTF16LE, ( char * )WCHAR_T_DoubleByteSpaceString, sizeof( WCHAR_T_DoubleByteSpaceString ), WCHAR_T_CHARCODEFORMAT ) ;
 		FSYS.DoubleByteSpaceCharCode = WCHAR_T_DoubleByteSpaceString[ 0 ] ;
 	}
+	DXFONT_TRACE("after ConvString DoubleByteSpace");
 
 	// �f�t�H���g�t�H���g�̐ݒ���Z�b�g
 	if( FSYS.EnableInitDefaultFontName == FALSE )
@@ -1631,6 +1640,7 @@ extern int InitFontManage( void )
 		FSYS.DefaultFontLineSpace    = 0 ;
 	}
 	FSYS.EnableInitDefaultFontLineSpace = FALSE ;
+	DXFONT_TRACE("after default font flags init");
 
 	// �e�[�u�����쐬����
 	for( i = 0 ; i < 256 ; i ++ )
@@ -1654,6 +1664,7 @@ extern int InitFontManage( void )
 		}
 		FSYS.MAX15ToMAX64[ i ] = ( BYTE )( i * 64 / 15 ) ;
 	}
+	DXFONT_TRACE("after table loops");
 
 	// �t�H���g�n���h���̏�����
 #ifdef __EMSCRIPTEN__
