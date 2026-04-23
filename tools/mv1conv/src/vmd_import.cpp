@@ -172,13 +172,70 @@ LoadResult attach_vmd(const std::string &vmd_path, const ModelIR &existing_model
         r.ir.anims.push_back(std::move(an));
     }
 
+    // ==================== Face (表情) keys ====================
+    // Face key は 15 byte name (SJIS) + 4 byte frame + 4 byte weight (float)
+    std::unordered_map<std::string, std::vector<std::pair<float, float>>> faceKeys;  // name → [(time, weight)]
+    if (p + 4 <= end) {
+        std::uint32_t faceKeyN;
+        std::memcpy(&faceKeyN, p, 4); p += 4;
+        const std::size_t faceKeyStride = 15 + 4 + 4;
+        for (std::uint32_t i = 0; i < faceKeyN; ++i) {
+            if (p + faceKeyStride > end) break;
+            std::string fname = sjis_to_utf8(p, 15);
+            p += 15;
+            std::uint32_t frame; std::memcpy(&frame, p, 4); p += 4;
+            float w; std::memcpy(&w, p, 4); p += 4;
+            faceKeys[fname].emplace_back(frame / 30.0f, w);
+        }
+    }
+
+    // shape name → ShapeIR index map
+    std::unordered_map<std::string, int> shapeByName;
+    for (std::size_t i = 0; i < r.ir.shapes.size(); ++i) {
+        shapeByName[r.ir.shapes[i].name] = static_cast<int>(i);
+    }
+    // 各 face → TRACE single AnimIR with single SHAPE keyset
+    for (auto &[name, keys] : faceKeys) {
+        auto it = shapeByName.find(name);
+        if (it == shapeByName.end()) continue;
+        std::sort(keys.begin(), keys.end());
+        AnimIR an;
+        an.target_frame_index = 0;  // root frame を対象 (MV1 は frame 単位だがここでは root)
+        float maxT = 0;
+        AnimKeySetIR ks;
+        ks.data_type = AnimKeySetIR::DT_SHAPE;
+        ks.key_type = AnimKeySetIR::KT_LINEAR;
+        ks.target_shape_index = it->second;
+        ks.key_times.reserve(keys.size());
+        ks.key_values.reserve(keys.size());
+        for (const auto &[t, w] : keys) {
+            ks.key_times.push_back(t);
+            ks.key_values.push_back(w);
+            if (t > maxT) maxT = t;
+        }
+        an.max_time = maxT;
+        an.keyset_indices.push_back(r.ir.anim_keysets.size());
+        r.ir.anim_keysets.push_back(std::move(ks));
+
+        aset.anim_indices.push_back(r.ir.anims.size());
+        r.ir.anims.push_back(std::move(an));
+        if (maxT > maxSetT) maxSetT = maxT;
+    }
+
     aset.max_time = maxSetT;
     if (!aset.anim_indices.empty()) {
         r.ir.anim_sets.push_back(std::move(aset));
     } else {
-        r.error = "vmd: no matching bones (VMD targets model の bone 名と一致しません)";
+        r.error = "vmd: no matching bones/faces (VMD 対象が model bone/shape 名と一致しません)";
     }
-    // 以降 (FaceKey / CameraKey / LightKey 等) は未対応で skip
+
+    // ==================== Camera / Light / Shadow / IK keys (skip) ====================
+    // VMD の camera/light/shadow/IK は MV1 に対応構造が無いため skip のみ。
+    // Camera: 61 byte/key (frame + dist + pos3 + rot3 + interp24 + angle + persp)
+    // Light:  28 byte/key (frame + color3 + direction3)
+    // Shadow: 9 byte/key  (frame + mode + distance)
+    // IKKey:  追加の u32 + 可変 — ファイル末尾までだけ skip で OK
+    // 詳細な parse は不要なのでここで終了。
 
     return r;
 }

@@ -677,6 +677,12 @@ WriteResult write_mv1(const ModelIR &ir) {
                 b.align4();
                 continue;
             }
+            // DataType == SHAPE 時は先頭に WORD TargetShapeIndex
+            if (ks.data_type == AnimKeySetIR::DT_SHAPE) {
+                std::uint16_t tsi = static_cast<std::uint16_t>(
+                    ks.target_shape_index >= 0 ? ks.target_shape_index : 0);
+                b.append_bytes(&tsi, 2);
+            }
             // KeyData layout (最もシンプル): [DWORD Num] [float×N time] [keyVals...]
             std::uint32_t n = static_cast<std::uint32_t>(ks.key_times.size());
             b.append_bytes(&n, 4);

@@ -85,6 +85,7 @@ struct AnimKeySetIR {
         DT_ROTATE    = 0,   // 回転 (quaternion または 3-vec)
         DT_SCALE     = 5,   // スケール (3-vec)
         DT_TRANSLATE = 10,  // 並進 (3-vec)
+        DT_SHAPE     = 15,  // シェイプ (表情) weight
     };
     enum KeyType : std::int8_t {
         KT_QUATERNION_X = 0,  // FLOAT4 per key
@@ -93,6 +94,8 @@ struct AnimKeySetIR {
     };
     std::int8_t data_type;
     std::int8_t key_type;
+    // DataType == DT_SHAPE 時、KeyData 先頭に WORD TargetShapeIndex を書く。
+    std::int32_t target_shape_index = -1;
     std::vector<float> key_times;   // N 個 (seconds)
     // key values: key_type に応じて N*1 / N*3 / N*4 の float 配列
     std::vector<float> key_values;

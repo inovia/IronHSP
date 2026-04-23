@@ -298,6 +298,13 @@ void extract_animations(const Mv1File &f, ModelIR &ir) {
         ki.data_type = ks->DataType;
         ki.key_type  = ks->Type;
         ki.raw_flag  = ks->Flag;
+        // SHAPE データタイプ時は blob 先頭 2 byte が TargetShapeIndex (WORD)
+        if (ks->DataType == AnimKeySetIR::DT_SHAPE
+            && ks->KeyData + 2 <= f.buffer().size()) {
+            std::uint16_t tsi;
+            std::memcpy(&tsi, f.buffer().data() + ks->KeyData, 2);
+            ki.target_shape_index = tsi;
+        }
         // blob をそのままコピー
         std::uint32_t bsz = blobSize[i];
         if (ks->KeyData + bsz <= f.buffer().size()) {
@@ -554,6 +561,54 @@ LoadResult load_mv1_to_ir(const std::string &path) {
             mesh.bone_weights = fv.weights;
         }
         r.ir.meshes.push_back(std::move(mesh));
+    }
+
+    // Shapes (blend shapes / morph targets) — writer の逆向け
+    if (hdr->Shape != 0) {
+        const auto *fh = f.at<f1::MV1_FILEHEAD_SHAPE_F1>(hdr->Shape);
+        if (fh && fh->DataNum > 0) {
+            // まず全 SHAPE を走査、各 SHAPE の Mesh → MV1_SHAPE_MESH_F1 → vertices[] を展開
+            r.ir.shapes.reserve(fh->DataNum);
+            for (int si = 0; si < fh->DataNum; ++si) {
+                const auto *s = f.at<f1::MV1_SHAPE_F1>(fh->Data + si * sizeof(f1::MV1_SHAPE_F1));
+                if (!s) continue;
+                ShapeIR sh;
+                sh.name = std::string(f.name(s->Name));
+                sh.meshes.reserve(s->MeshNum);
+                // SHAPE_MESH 配列は s->Mesh から連続 (DimPrev/DimNext で繋がっている)
+                std::uint32_t smOff = s->Mesh;
+                for (int mi = 0; mi < s->MeshNum && smOff != 0; ++mi) {
+                    const auto *sm = f.at<f1::MV1_SHAPE_MESH_F1>(smOff);
+                    if (!sm) break;
+                    ShapeMeshIR smIR;
+                    // TargetMesh (MV1_MESH_F1 offset) → MeshIR index 逆引き
+                    smIR.target_mesh = 0;
+                    for (int mj = 0; mj < hdr->MeshNum; ++mj) {
+                        if (hdr->Mesh + mj * sizeof(f1::MV1_MESH_F1) == sm->TargetMesh) {
+                            smIR.target_mesh = static_cast<std::uint32_t>(mj);
+                            break;
+                        }
+                    }
+                    smIR.vertices.reserve(sm->VertexNum);
+                    if (sm->IsVertexPress == 0 && sm->Vertex != 0) {
+                        for (std::uint32_t v = 0; v < sm->VertexNum; ++v) {
+                            const auto *sv = f.at<f1::MV1_SHAPE_VERTEX_F1>(
+                                sm->Vertex + v * sizeof(f1::MV1_SHAPE_VERTEX_F1));
+                            if (!sv) break;
+                            ShapeVertexIR svIR;
+                            svIR.target_mesh_vertex = sv->TargetMeshVertex;
+                            svIR.dp[0] = sv->Position.x; svIR.dp[1] = sv->Position.y; svIR.dp[2] = sv->Position.z;
+                            svIR.dn[0] = sv->Normal.x;   svIR.dn[1] = sv->Normal.y;   svIR.dn[2] = sv->Normal.z;
+                            smIR.vertices.push_back(svIR);
+                        }
+                    }
+                    // 圧縮 shape は現状未対応 (press vertex data は skip)
+                    sh.meshes.push_back(std::move(smIR));
+                    smOff = sm->DimNext;
+                }
+                r.ir.shapes.push_back(std::move(sh));
+            }
+        }
     }
 
     // Physics (rigid bodies + joints)
