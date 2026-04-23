@@ -95,7 +95,7 @@ bash ../build_web.sh stage4        # → stage4_web.{html,js,wasm}
 | iOS (Xcode) | ✅ | ✅ libDxLib_iOS | ✅ 確認済 (Live2D / MV1+Bullet / Movie) |
 | Android (NDK) | ✅ | ✅ NDK source build | ✅ 確認済 |
 | **Mac arm64** (SDL2 fork) | ✅ | ✅ **2026-04-25 達成** | ✅ test_box+mes screenshot |
-| **Linux x86_64** (WSL2) | ✅ | ✅ **2026-04-25 達成** | 🔶 ELF runtime 起動済、WSLg visual 残 |
+| **Linux x86_64** (WSL2) | ✅ | ✅ **2026-04-25 達成** | ✅ test_linux_visual.hsp で 3 色矩形 WSLg 表示確認 |
 | **Web** (emscripten) | ✅ | ✅ **2026-04-25 達成** | ✅ test_web_draw.hsp で 2D 描画動作確認 (Chrome 123+) |
 
 ### 機能カバレッジ (Stage demo + DxLib 本体)

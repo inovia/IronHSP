@@ -1,0 +1,18 @@
+;  Linux WSLg visual test: 3 秒間 window 見える
+#bootopt hsp64 1
+#cmpopt utf8 1
+    color 30, 50, 100
+    boxf 0, 0, 640, 480
+
+    color 255, 100, 100
+    boxf 50, 50, 200, 200
+
+    color 100, 255, 100
+    boxf 250, 50, 400, 200
+
+    color 100, 100, 255
+    boxf 450, 50, 600, 200
+
+    redraw 1
+    wait 3000
+    end
