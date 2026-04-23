@@ -647,6 +647,38 @@ hdr.ChangeMatrixTable           = offChangeMatTable;
 `VertexNum` 分をスライス消費する)。ずれると 16 byte align 再計算で
 末尾の TL が overflow する。
 
+### ⚠️ Skin mesh では `TriangleListSkinPosition4BNum` に per-corner 合計を入れる (非 skin は 0)
+
+`MV1_VERTEX_TYPE_SKIN_4BONE` の triangle list を含む場合、DxLib は runtime の
+`MV1_TLIST_SKIN_POS_4B[N]` 配列を確保する。カウンタは `TriangleListSkinPosition4BNum`。
+非 skin 用の `TriangleListNormalPositionNum` はこのとき 0 でなければならない
+(両方を同時に立てると allocation 境界で overlap → crash)。
+
+| VertexType | `TriangleListNormalPositionNum` | `TriangleListSkinPosition4BNum` |
+|-----------|:---:|:---:|
+| `MV1_VERTEX_TYPE_NORMAL` | sum(TL.VertexNum) | 0 |
+| `MV1_VERTEX_TYPE_SKIN_4BONE` | 0 | sum(TL.VertexNum) |
+| `MV1_VERTEX_TYPE_SKIN_8BONE` | 0 | 0 (`SkinPosition8BNum` を使う) |
+
+### ⚠️ Skin mesh では `MeshPositionSize = Σ(PositionNum × 44)`、非 skin は × 12
+
+DxLib の runtime では `MV1_MESH_POSITION` 構造体サイズは
+`MaxBoneBlendNum` 依存で可変:
+
+```cpp
+PosUnitSize = sizeof(MV1_MESH_POSITION:44) + (MaxBoneBlendNum - 4) × sizeof(MV1_SKINBONE_BLEND:8)
+```
+
+| Mode | `MaxBoneBlendNum` | `PosUnitSize` | 内訳 |
+|------|:---:|:---:|------|
+| 非 skin | 0 | **12** | Position (VECTOR=12) のみ、BoneWeight スロット無し |
+| 4 ボーン skin | 4 | **44** | Position (12) + BoneWeight\[4\] (32) |
+| 8 ボーン skin | 8 | 76 | Position (12) + BoneWeight\[8\] (64) |
+
+Header の `MeshPositionSize` は全フレーム分の合計: `Σ(Frame.PositionNum × PosUnitSize)`。
+非 skin と同じ `× 12` で書くと、skin 時は allocation が小さすぎて隣接バッファを
+上書きしてクラッシュ。
+
 ### ⚠️ Frame 階層は DxLib save と同じ形に
 
 - **Static mesh**: 合成 root frame は作らず、各 mesh frame を `TopFrameNum=M`

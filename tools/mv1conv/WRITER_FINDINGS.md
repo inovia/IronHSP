@@ -96,11 +96,27 @@ table 内の offset を指すことを想定。サイズ ChangeMatrixTableSize �
 
 ## 現時点の Writer 実用範囲
 
-**14/16 DxLib 受付** (2026-04-23 時点、ChangeMatrixTable 修正後):
+**16/16 DxLib 受付** (2026-04-23 時点、完全合格 🎉):
 
-- 単一メッシュ static: 7/7 PASS (tet_{x,obj,glb,pmd,wrl}, tri_stl, duck_dae, cube/cat_usdz など)
-- 複数メッシュ static: PASS (SimpleModel / ColTestStage / SimplePillarStage / cubes3ds / n=50 まで全て)
-- Skin メッシュ: FAIL (alicia_pmx, skel_fbx)
+- 単一メッシュ static: 7/7 PASS
+- 複数メッシュ static: PASS (SimpleModel / ColTestStage / DxChara 往復、cubes3ds 等)
+- Skin メッシュ: PASS (alicia_pmx / skel_fbx / skin_quad)
+
+### 🎯 skin 対応修正 (2026-04-23)
+
+**問題**: skin mesh を持つ `.mv1` を書いても load 時に segfault (ログなし)。
+
+**原因**:
+1. `TriangleListSkinPosition4BNum` が 0 のままだった (skin TL なのに NORMAL 用に割り当てていた)。
+2. `MeshPositionSize` が非 skin 基準の `positionNum × 12` だった (skin では `× 44` 必要)。
+
+**修正**:
+- skin 時: `TriangleListNormalPositionNum=0`, `TriangleListSkinPosition4BNum=normalNum (per-corner total)`
+- 非 skin 時: 従来通り `TriangleListNormalPositionNum=normalNum`, `SkinPosition4BNum=0`
+- `MeshPositionSize = positionNum × (isSkin ? 44 : 12)`
+  理由: DxLib runtime の `Frame.PosUnitSize = 44 + (MaxBoneBlendNum - 4) × 8`
+    - skin (MaxBoneBlend=4) → 44 byte (Position + BoneWeight[4])
+    - 非skin (MaxBoneBlend=0) → 12 byte (Position のみ)
 
 ### 🎯 重大な修正: ChangeMatrixTable を 0 にしてはいけない (2026-04-23)
 

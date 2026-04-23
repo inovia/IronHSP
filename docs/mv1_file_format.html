@@ -1078,6 +1078,31 @@ hdr.ChangeMatrixTable           = offChangeMatTable;
 <h3>⚠️ <code>TriangleListNormalPositionNum</code> は per-corner 合計であるべき</h3>
 <p>非 skin の <code>MV1_VERTEX_TYPE_NORMAL</code> な triangle list では、この値は <strong>全 triangle list の <code>VertexNum</code> 合計</strong> でなければならない (DxLib は <code>MV1_TLIST_NORMAL_POS[N]</code> のメモリを N 個分確保し、各 TL が自分の <code>VertexNum</code> 分をスライス消費する)。ずれると 16 byte align 再計算で末尾の TL が overflow する。</p>
 
+<h3>⚠️ Skin mesh では <code>TriangleListSkinPosition4BNum</code> に per-corner 合計を入れる (非 skin は 0)</h3>
+<p><code>MV1_VERTEX_TYPE_SKIN_4BONE</code> の triangle list を含む場合、DxLib は runtime の <code>MV1_TLIST_SKIN_POS_4B[N]</code> 配列を確保する。カウンタは <code>TriangleListSkinPosition4BNum</code>。非 skin 用の <code>TriangleListNormalPositionNum</code> はこのとき 0 でなければならない (両方同時に立てると allocation 境界で overlap → crash)。</p>
+<table>
+<thead><tr><th>VertexType</th><th><code>TriangleListNormalPositionNum</code></th><th><code>TriangleListSkinPosition4BNum</code></th></tr></thead>
+<tbody>
+<tr><td><code>MV1_VERTEX_TYPE_NORMAL</code></td><td>sum(TL.VertexNum)</td><td>0</td></tr>
+<tr><td><code>MV1_VERTEX_TYPE_SKIN_4BONE</code></td><td>0</td><td>sum(TL.VertexNum)</td></tr>
+<tr><td><code>MV1_VERTEX_TYPE_SKIN_8BONE</code></td><td>0</td><td>0 (<code>SkinPosition8BNum</code> を使う)</td></tr>
+</tbody>
+</table>
+
+<h3>⚠️ Skin mesh では <code>MeshPositionSize = Σ(PositionNum × 44)</code>、非 skin は × 12</h3>
+<p>DxLib の runtime では <code>MV1_MESH_POSITION</code> 構造体サイズは <code>MaxBoneBlendNum</code> 依存で可変:</p>
+<pre><code>PosUnitSize = sizeof(MV1_MESH_POSITION:44) + (MaxBoneBlendNum - 4) × sizeof(MV1_SKINBONE_BLEND:8)
+</code></pre>
+<table>
+<thead><tr><th>Mode</th><th><code>MaxBoneBlendNum</code></th><th><code>PosUnitSize</code></th><th>内訳</th></tr></thead>
+<tbody>
+<tr><td>非 skin</td><td>0</td><td><strong>12</strong></td><td>Position (VECTOR=12) のみ、BoneWeight スロット無し</td></tr>
+<tr><td>4 ボーン skin</td><td>4</td><td><strong>44</strong></td><td>Position (12) + BoneWeight[4] (32)</td></tr>
+<tr><td>8 ボーン skin</td><td>8</td><td>76</td><td>Position (12) + BoneWeight[8] (64)</td></tr>
+</tbody>
+</table>
+<p>Header の <code>MeshPositionSize</code> は全フレーム分の合計: <code>Σ(Frame.PositionNum × PosUnitSize)</code>。非 skin と同じ <code>× 12</code> で書くと、skin 時は allocation が小さすぎて隣接バッファを上書きしてクラッシュ。</p>
+
 <h3>⚠️ Frame 階層は DxLib save と同じ形に</h3>
 <ul>
 <li><strong>Static mesh</strong>: 合成 root frame は作らず、各 mesh frame を <code>TopFrameNum=M</code> の top-level 兄弟にして <code>Prev</code> / <code>Next</code> で連結する。</li>

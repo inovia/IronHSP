@@ -701,10 +701,24 @@ WriteResult write_mv1(const ModelIR &ir) {
     hdr.MeshFaceNum         = totalTriangles;
     hdr.MeshVertexIndexNum  = sumTLVertexNum;
     hdr.TriangleListIndexNum= sumTLIndexNum;
-    // TriangleListNormalPositionNum = per-corner count (normals と同じ数)
-    // tet2_ref 観測: 各 frame の NormNum 合計 = per-corner count 総和
-    hdr.TriangleListNormalPositionNum = static_cast<std::int32_t>(normalNum);
-    hdr.MeshPositionSize    = static_cast<std::int32_t>(positionNum * 12);
+    // TriangleList の pos buffer (runtime MV1_TLIST_NORMAL_POS / SKIN_POS_4B) は
+    // VertexType に応じて割り振る:
+    //   NORMAL     → TriangleListNormalPositionNum
+    //   SKIN_4BONE → TriangleListSkinPosition4BNum
+    // 値は各 TL.VertexNum の合計 (= per-corner count 総和 = normalNum)
+    if (isSkin) {
+        hdr.TriangleListNormalPositionNum = 0;
+        hdr.TriangleListSkinPosition4BNum = static_cast<std::int32_t>(normalNum);
+    } else {
+        hdr.TriangleListNormalPositionNum = static_cast<std::int32_t>(normalNum);
+        hdr.TriangleListSkinPosition4BNum = 0;
+    }
+    // MeshPositionSize = sum(Frame.PosUnitSize × Frame.PositionNum)
+    //   PosUnitSize = sizeof(MV1_MESH_POSITION:44) + (MaxBoneBlendNum - 4) × 8
+    //   非 skin: MaxBoneBlendNum=0 → PosUnitSize = 44 - 32 = 12
+    //   skin:    MaxBoneBlendNum=4 → PosUnitSize = 44
+    const int posUnitSize = isSkin ? 44 : 12;
+    hdr.MeshPositionSize    = static_cast<std::int32_t>(positionNum * posUnitSize);
     hdr.MeshNormalNum       = static_cast<std::int32_t>(normalNum);
     std::int32_t totalMeshVertexSize = 0;
     for (const auto &m : ir.meshes) {
