@@ -56,9 +56,20 @@ LoadResult load_wrl(const std::string &path) {
     if (std::fread(s.data(), 1, sz, fp) != sz) { r.error = "short read"; std::fclose(fp); return r; }
     std::fclose(fp);
 
-    // ヘッダチェック (#VRML V2.0 / #X3D は非対応)
+    // ヘッダチェック (VRML V2.0 / V2.0 utf8 のみ、V1.0 や X3D は非対応)
     if (s.size() < 10 || s.substr(0, 7) != "#VRML V") {
-        r.error = "not a VRML 2.0 file (missing '#VRML V' header)";
+        r.error = "not a VRML file (missing '#VRML V' header); X3D (.x3d / .x3dv) も非対応";
+        return r;
+    }
+    // V1.0 は Separator ベースで互換性ないので明示拒否
+    if (s.size() >= 10 && (s[7] == '1') && (s[8] == '.')) {
+        r.error = "VRML V1.0 is not supported (built-in loader は V2.0 のみ対応). "
+                  "View3DScene 等で V2.0 / OBJ / STL に変換してから再試行してください.";
+        return r;
+    }
+    if (s.size() >= 10 && !(s[7] == '2' && s[8] == '.')) {
+        r.error = std::string("unsupported VRML version: ") + s.substr(7, 4)
+                + " (V2.0 のみ対応)";
         return r;
     }
 

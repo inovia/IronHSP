@@ -234,7 +234,22 @@ LoadResult load_via_assimp(const std::string &path) {
 
     const aiScene *scene = imp.ReadFile(path, flags);
     if (!scene || !scene->mRootNode) {
-        r.error = std::string("assimp: ") + imp.GetErrorString();
+        std::string err = imp.GetErrorString();
+        r.error = "assimp: " + err;
+        // 追加ヒント (assimp の典型エラー判別)
+        if (err.find("FBX-DOM unsupported") != std::string::npos
+            || err.find("old format version") != std::string::npos) {
+            r.error += "\n  HINT: この FBX は 2010 以前の古い形式。assimp は FBX 2011+ のみ対応。"
+                       "\n        Autodesk FBX Converter 2013 等で新形式に再保存するか、"
+                       "\n        Blender で .glb / .dae / .obj 等へエクスポートしてください。";
+        } else if (err.find("FBX-Tokenize") != std::string::npos) {
+            r.error += "\n  HINT: FBX ファイルの破損または assimp tokenizer の未対応 edge case。"
+                       "\n        別ツール (Blender 等) で読めるなら再エクスポートを試してください。";
+        } else if (err.find("No root node") != std::string::npos
+                   || err.find("Unable to open") != std::string::npos) {
+            r.error += "\n  HINT: ファイル形式が unrecognized かバイナリ構造が壊れている可能性。"
+                       "\n        テキスト/バイナリの区別、拡張子の誤り等を確認してください。";
+        }
         return r;
     }
 

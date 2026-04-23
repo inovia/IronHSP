@@ -121,7 +121,11 @@ LoadResult load_x(const std::string &path) {
         return r;
     }
     if (std::memcmp(all.data() + 8, "txt", 3) != 0) {
-        r.error = "only ASCII .x files supported (need 'txt' at offset 8)";
+        std::string mode(all.data() + 8, 3);  // "bin" / "tzi" (MSZIP) / "bzi" (MSZIP binary)
+        r.error = "built-in .x loader only supports ASCII ('txt'); this file is '"
+                  + mode + "'. Rebuild with MV1CONV_USE_ASSIMP=ON (default) and "
+                    "run without MV1CONV_X_USE_BUILTIN=1 to use assimp's .x parser "
+                    "(handles binary/MSZIP/compressed).";
         return r;
     }
 
