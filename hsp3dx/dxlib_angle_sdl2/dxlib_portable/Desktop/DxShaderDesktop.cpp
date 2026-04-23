@@ -272,6 +272,8 @@ uniform int             u_blendMode3 ;
 uniform sampler2D       u_toonRamp ;
 uniform int             u_useToonRamp ;
 uniform vec3            u_mainLightDirEye ;   // eye-space、既に正規化済みを渡す
+//  Multi-light 制御 (1..4、gl_LightSource[0..n-1] を累積評価)
+uniform int             u_numLights ;
 
 varying vec2 v_uv0 ;
 varying vec3 v_normal ;
@@ -339,28 +341,38 @@ void main( void )
     }
 
     if ( u_useLighting == 1 ) {
-        vec3 L = normalize( gl_LightSource[ 0 ].position.xyz - v_eyePos ) ;
         vec3 V = normalize( -v_eyePos ) ;
-        vec3 H = normalize( L + V ) ;
-        float ndl = max( dot( N, L ), 0.0 ) ;
-        float ndh = max( dot( N, H ), 0.0 ) ;
-
-        vec3 diffuse  = base.rgb * ( gl_LightSource[ 0 ].diffuse.rgb * ndl ) ;
-        vec3 ambient  = base.rgb *   gl_LightModel.ambient.rgb ;
-        float shininess = gl_FrontMaterial.shininess ;
-        float spec = ( shininess > 0.0 ) ? pow( ndh, max( shininess, 1.0 ) ) : 0.0 ;
-        //  Specular color: u_useSpecularMap==1 なら texture sample、そうでなければ
-        //  per-material の gl_FrontMaterial.specular を使う (fixed-function 互換)
+        //  Specular color: u_useSpecularMap==1 なら texture sample
         vec3 specColor = gl_FrontMaterial.specular.rgb ;
         if ( u_useSpecularMap == 1 ) {
             vec4 ss = texture2D( u_specularMap, v_uv0 ) ;
-            //  Specular layer の RGB を specular intensity として使用
-            //  Alpha は shininess mask (一部モデルで使う慣習) として乗算
             specColor = ss.rgb * ss.a ;
         }
-        vec3 specular = specColor * spec ;
+        float shininess = gl_FrontMaterial.shininess ;
+        vec3 ambient    = base.rgb * gl_LightModel.ambient.rgb ;
 
-        base.rgb = ambient + diffuse + specular ;
+        //  Multi-light: gl_LightSource[0..3] を累積 (GLSL 1.20 は最大 8 だが
+        //  実用域と uniform 量のバランスで 4 に制限。u_numLights で実ループ数を制御)
+        vec3 diffuseAccum  = vec3( 0.0 ) ;
+        vec3 specularAccum = vec3( 0.0 ) ;
+        int nLights = u_numLights ;
+        if ( nLights < 1 ) nLights = 1 ;
+        if ( nLights > 4 ) nLights = 4 ;
+        for ( int i = 0 ; i < 4 ; ++i ) {
+            if ( i >= nLights ) break ;
+            //  GL では position.w=0 が directional、1 が positional
+            vec3 L = ( gl_LightSource[ i ].position.w < 0.5 )
+                     ? normalize( gl_LightSource[ i ].position.xyz )
+                     : normalize( gl_LightSource[ i ].position.xyz - v_eyePos ) ;
+            vec3 H = normalize( L + V ) ;
+            float ndl = max( dot( N, L ), 0.0 ) ;
+            float ndh = max( dot( N, H ), 0.0 ) ;
+            float sp  = ( shininess > 0.0 ) ? pow( ndh, max( shininess, 1.0 ) ) : 0.0 ;
+            diffuseAccum  += gl_LightSource[ i ].diffuse.rgb  * ndl ;
+            specularAccum += specColor * ( gl_LightSource[ i ].specular.rgb * sp ) ;
+        }
+
+        base.rgb = ambient + base.rgb * diffuseAccum + specularAccum ;
     }
 
     //  Shadow: 3x3 PCF (Percentage Closer Filtering) で影境界を滑らかに

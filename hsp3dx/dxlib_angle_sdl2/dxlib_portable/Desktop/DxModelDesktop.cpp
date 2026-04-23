@@ -680,6 +680,16 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
         }
         DesktopShader_SetUniform1i( glslH, "u_useParallax", ( normTex && s_parallaxScale > 0.0f ) ? 1 : 0 ) ;
         DesktopShader_SetUniform1f( glslH, "u_parallaxHeightScale", s_parallaxScale ) ;
+        //  Multi-light: HSP3DX_NUM_LIGHTS env var (1..4) で有効光源数を opt-in
+        //  (DxLib は最大 8 光源設定可能だが shader loop は 4 に制限)
+        static int s_numLights = -1 ;
+        if ( s_numLights < 0 ) {
+            const char *e = std::getenv( "HSP3DX_NUM_LIGHTS" ) ;
+            s_numLights = e ? std::atoi( e ) : 1 ;
+            if ( s_numLights < 1 ) s_numLights = 1 ;
+            if ( s_numLights > 4 ) s_numLights = 4 ;
+        }
+        DesktopShader_SetUniform1i( glslH, "u_numLights", s_numLights ) ;
         //  DiffuseLayer[1..3]: 有効 layer 数 layerN を元に uniform 設定
         int d1 = ( layerN >= 2 ) ? 1 : 0 ;
         int d2 = ( layerN >= 3 ) ? 1 : 0 ;
