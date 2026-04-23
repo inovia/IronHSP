@@ -363,8 +363,25 @@ void main( void )
         base.rgb = ambient + diffuse + specular ;
     }
 
+    //  Shadow: 3x3 PCF (Percentage Closer Filtering) で影境界を滑らかに
+    //  shadow2DProj は depth compare 組み込みの 4x1 sampler (GLSL 1.20)、
+    //  周辺 8 tap + center 1 tap の合計 9 tap で平均化
     if ( u_useShadow == 1 ) {
-        float lit = shadow2DProj( u_shadowMap, gl_TexCoord[ 4 ] ).r ;
+        vec4 sc = gl_TexCoord[ 4 ] ;
+        //  shadow map 解像度に対する 1 texel 分の offset (1/1024 仮、実用的には
+        //  uniform 化推奨だが現段階は固定値で近似)
+        float dx = sc.w / 1024.0 ;
+        float lit = 0.0 ;
+        lit += shadow2DProj( u_shadowMap, sc ).r ;
+        lit += shadow2DProj( u_shadowMap, sc + vec4(  dx,   0.0, 0.0, 0.0 ) ).r ;
+        lit += shadow2DProj( u_shadowMap, sc + vec4( -dx,   0.0, 0.0, 0.0 ) ).r ;
+        lit += shadow2DProj( u_shadowMap, sc + vec4( 0.0,   dx, 0.0, 0.0 ) ).r ;
+        lit += shadow2DProj( u_shadowMap, sc + vec4( 0.0,  -dx, 0.0, 0.0 ) ).r ;
+        lit += shadow2DProj( u_shadowMap, sc + vec4(  dx,   dx, 0.0, 0.0 ) ).r ;
+        lit += shadow2DProj( u_shadowMap, sc + vec4( -dx,   dx, 0.0, 0.0 ) ).r ;
+        lit += shadow2DProj( u_shadowMap, sc + vec4(  dx,  -dx, 0.0, 0.0 ) ).r ;
+        lit += shadow2DProj( u_shadowMap, sc + vec4( -dx,  -dx, 0.0, 0.0 ) ).r ;
+        lit /= 9.0 ;
         base.rgb *= ( 0.3 + 0.7 * lit ) ;
     }
 
