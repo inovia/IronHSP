@@ -76,11 +76,18 @@ LoadResult load_pmd(const std::string &path) {
     std::vector<float> positions(vertN * 3);
     std::vector<float> normals(vertN * 3);
     std::vector<float> uvs(vertN * 2);
+    // PMD 頂点末尾 6 bytes: bone0 (u16), bone1 (u16), weight0 (u8 0-100), edge_flag (u8)
+    std::vector<std::uint16_t> vb0(vertN), vb1(vertN);
+    std::vector<std::uint8_t> vw0(vertN);
     for (std::uint32_t i = 0; i < vertN; ++i) {
         if (c.p + 38 > c.pEnd) { r.error = "PMD: short vertex data"; return r; }
         std::memcpy(&positions[i*3], c.p + 0,  12);
         std::memcpy(&normals[i*3],   c.p + 12, 12);
         std::memcpy(&uvs[i*2],       c.p + 24, 8);
+        std::memcpy(&vb0[i], c.p + 32, 2);
+        std::memcpy(&vb1[i], c.p + 34, 2);
+        vw0[i] = c.p[36];
+        // c.p[37] = edge_flag (無視)
         c.p += 38;
     }
 
@@ -151,9 +158,49 @@ LoadResult load_pmd(const std::string &path) {
         matFaceIdxCount[i] = faceVertCount;
         mats.push_back(m);
     }
-    // 以降のセクション (ボーン / IK / 表情 / 物理) は読み飛ばし — 静的メッシュ用なので OK
+    // ボーン
+    std::vector<BoneIR> bones;
+    if (c.p + 2 <= c.pEnd) {
+        std::uint16_t boneN;
+        std::memcpy(&boneN, c.p, 2);
+        c.p += 2;
+        // PMD bone entry = 39 bytes
+        //   name[20] (SJIS) / parent_u16 / tail_u16 / type_u8 / ik_parent_u16 / position (12)
+        bones.reserve(boneN);
+        // world-space 位置を parent-relative translate に変換するため、world を先に全部読む
+        std::vector<std::array<float, 3>> world_pos(boneN);
+        std::vector<std::int32_t> parent(boneN, -1);
+        std::vector<std::string> names(boneN);
+        for (std::uint16_t i = 0; i < boneN; ++i) {
+            if (c.p + 39 > c.pEnd) { r.error = "PMD: short bone data"; return r; }
+            names[i] = sjis_to_utf8(reinterpret_cast<const char *>(c.p + 0), 20);
+            std::uint16_t par_u16;
+            std::memcpy(&par_u16, c.p + 20, 2);
+            parent[i] = (par_u16 == 0xFFFF) ? -1 : static_cast<std::int32_t>(par_u16);
+            std::memcpy(world_pos[i].data(), c.p + 27, 12);
+            c.p += 39;
+        }
+        for (std::uint16_t i = 0; i < boneN; ++i) {
+            BoneIR b;
+            b.name = names[i];
+            b.parent = parent[i];
+            // world → parent-relative translate
+            if (b.parent >= 0 && b.parent < static_cast<int>(boneN)) {
+                b.translate[0] = world_pos[i][0] - world_pos[b.parent][0];
+                b.translate[1] = world_pos[i][1] - world_pos[b.parent][1];
+                b.translate[2] = world_pos[i][2] - world_pos[b.parent][2];
+            } else {
+                b.translate[0] = world_pos[i][0];
+                b.translate[1] = world_pos[i][1];
+                b.translate[2] = world_pos[i][2];
+            }
+            bones.push_back(std::move(b));
+        }
+    }
+    // IK / 表情 / 表示枠 / 物理はスキップ (読み込めなくても bones 取得時点で OK)
 
     // マテリアルごとにメッシュを分割
+    const bool has_bones = !bones.empty();
     std::size_t idxOff = 0;
     for (std::uint32_t i = 0; i < matN; ++i) {
         std::uint32_t fc = matFaceIdxCount[i];
@@ -176,6 +223,18 @@ LoadResult load_pmd(const std::string &path) {
                 mesh.normals.push_back(normals[src_vi*3+2]);
                 mesh.uvs.push_back(uvs[src_vi*2+0]);
                 mesh.uvs.push_back(uvs[src_vi*2+1]);
+                if (has_bones) {
+                    VertexBone vb{};
+                    vb.bone[0] = vb0[src_vi];
+                    vb.bone[1] = vb1[src_vi];
+                    float w0 = vw0[src_vi] / 100.0f;
+                    vb.weight[0] = w0;
+                    vb.weight[1] = 1.0f - w0;
+                    // weight[2/3] = 0 は VertexBone デフォルト値なので未設定 OK
+                    vb.bone[2] = -1;
+                    vb.bone[3] = -1;
+                    mesh.bone_weights.push_back(vb);
+                }
             }
             mesh.indices.push_back(static_cast<std::uint32_t>(remap[src_vi]));
         }
@@ -189,6 +248,7 @@ LoadResult load_pmd(const std::string &path) {
     }
     r.ir.materials = std::move(mats);
     r.ir.textures = std::move(textures);
+    r.ir.bones = std::move(bones);
     return r;
 }
 
