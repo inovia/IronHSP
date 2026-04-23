@@ -180,14 +180,55 @@ void main( void ) {
 }
 )GLSL" ;
 
+// SSAO (Screen-Space AO) — depth buffer 無しの簡易実装。
+// CPU 版 (DxGraphicsFilterDesktop.cpp:399-439) の輝度差ベース陰影生成を GPU 化。
+// 8 近傍 (radius=2 pixels ring) との輝度比較、暗い近傍が多ければ現ピクセルを減光。
+static const char *s_filter_ssao_fs = R"GLSL(
+#version 120
+uniform sampler2D u_input ;
+uniform vec2      u_pixelSize ;   // (1/w, 1/h)
+uniform float     u_radius ;      // pixel 単位の半径 (default 2)
+uniform float     u_strength ;    // 減光度合い (0..1、default 0.5)
+varying vec2      v_uv ;
+
+const vec3 LUMA = vec3( 0.1133, 0.5859, 0.3008 ) ;  // 29/256, 150/256, 77/256
+
+void main( void ) {
+    vec4  center = texture2D( u_input, v_uv ) ;
+    float lum    = dot( center.rgb, LUMA ) ;
+
+    float darker = 0.0 ;
+    float samples = 0.0 ;
+    // CPU 版と同じ 3x3 ring - center = 8 taps
+    for ( int j = -1 ; j <= 1 ; ++j ) {
+        for ( int i = -1 ; i <= 1 ; ++i ) {
+            if ( i == 0 && j == 0 ) continue ;
+            vec2  offset = vec2( float( i ), float( j ) ) * u_radius * u_pixelSize ;
+            vec4  s      = texture2D( u_input, clamp( v_uv + offset, vec2( 0.0 ), vec2( 1.0 ) ) ) ;
+            float sLum   = dot( s.rgb, LUMA ) ;
+            if ( sLum < lum ) darker += 1.0 ;
+            samples += 1.0 ;
+        }
+    }
+    float occ = 1.0 - ( darker * u_strength / samples ) ;
+    gl_FragColor = vec4( center.rgb * occ, center.a ) ;
+}
+)GLSL" ;
+
 // ---- shader handle cache -------------------------------------------------
 
 static int s_Shader_Bicubic  = 0 ;
 static int s_Shader_Lanczos3 = 0 ;
 static int s_Shader_Gauss    = 0 ;
+static int s_Shader_SSAO     = 0 ;
 
 static int desktop_get_filter_shader( int filterType )
 {
+    if ( filterType == DX_GRAPH_FILTER_SSAO ) {
+        if ( s_Shader_SSAO == 0 )
+            s_Shader_SSAO = DesktopShader_CompileGLSL( s_filter_vs, s_filter_ssao_fs ) ;
+        return s_Shader_SSAO ;
+    }
     if ( filterType == DX_GRAPH_FILTER_BICUBIC_SCALE ) {
         if ( s_Shader_Bicubic == 0 )
             s_Shader_Bicubic = DesktopShader_CompileGLSL( s_filter_vs, s_filter_bicubic_fs ) ;
@@ -277,6 +318,11 @@ extern int Desktop_GraphFilter_GPU( int SrcGrHandle, int DestGrHandle, int Filte
         DesktopShader_SetUniform2f( shader, "u_pixelSize", 1.0f / sw, 1.0f / sh ) ;
         // Gauss は 2-pass だが single-pass 経路に簡略化 (垂直のみ)
         DesktopShader_SetUniform1i( shader, "u_isHorizontal", 1 ) ;
+    } else if ( FilterType == DX_GRAPH_FILTER_SSAO ) {
+        DesktopShader_SetUniform2f( shader, "u_pixelSize", 1.0f / sw, 1.0f / sh ) ;
+        // CPU 版と同じ default (radius=2, strength=0.5)。将来は va_arg 経由で受け取る
+        DesktopShader_SetUniform1f( shader, "u_radius",   2.0f ) ;
+        DesktopShader_SetUniform1f( shader, "u_strength", 0.5f ) ;
     } else {
         DesktopShader_SetUniform2f( shader, "u_srcSize", ( float )sw, ( float )sh ) ;
     }

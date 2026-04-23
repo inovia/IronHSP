@@ -535,10 +535,11 @@ extern int GraphFilterBlt( int SrcGrHandle, int DestGrHandle, int FilterType, ..
     NS_GetGraphSize( SrcGrHandle, &sw, &sh ) ;
     NS_GetGraphSize( DestGrHandle, &dw, &dh ) ;
 
-    // GPU 経路を先に試す: BICUBIC / LANCZOS3 / GAUSS (dst に FBO がある時)
+    // GPU 経路を先に試す: BICUBIC / LANCZOS3 / GAUSS / SSAO (dst に FBO がある時)
     if ( FilterType == DX_GRAPH_FILTER_BICUBIC_SCALE  ||
          FilterType == DX_GRAPH_FILTER_LANCZOS3_SCALE ||
-         FilterType == DX_GRAPH_FILTER_GAUSS )
+         FilterType == DX_GRAPH_FILTER_GAUSS ||
+         FilterType == DX_GRAPH_FILTER_SSAO )
     {
         if ( Desktop_GraphFilter_GPU( SrcGrHandle, DestGrHandle, FilterType ) == 0 )
         {
