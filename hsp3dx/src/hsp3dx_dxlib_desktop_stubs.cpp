@@ -1,5 +1,10 @@
 // hsp3dx_dxlib_desktop_stubs.cpp — DxLib API stubs for Desktop (PoC)
 //
+// Note: SDL2_ttf 非 link 環境 (Linux SDL2_ttf 未 install / Web Emscripten 等) では
+// DxFontDesktop.cpp が compile されないため Desktop_*_Hook が undefined になる。
+// __attribute__((weak)) で stub 提供、TTF あり環境では強い実体が override する。
+//
+//
 // These functions are referenced by hsp3dx_dxlib_auto.cpp but not yet
 // implemented in the Desktop/ DxLib fork (Sound / Movie / String 系).
 // Linking stubs so that the hsp3dx_desktop exe can be built. Runtime
@@ -146,8 +151,9 @@ int TellMovieToGraphToFrame(int) { return 0; }
 int WritePitchShiftSoftSoundData(int, int) { return 0; }
 int WriteTimeStretchSoftSoundData(int, int) { return 0; }
 
-// --- Web (Emscripten) では SDL2_mixer 非 link なので SoundMem 系も stub ---
-#if defined(__EMSCRIPTEN__)
+// --- SDL2_mixer 非 link 環境 (Web/Linux SDL2_mixer 未 install 等) では
+//     SoundMem / Music / SoftSound / 3D Sound 系も stub ---
+#if defined(HSP3DX_NO_SDL2_MIXER) || defined(__EMSCRIPTEN__)
 int ChangePanSoundMem(int, int) { return 0; }
 int CheckSoundMem(int) { return 0; }
 int DeleteSoundMem(int) { return 0; }
@@ -203,3 +209,28 @@ int WriteSoftSoundDataF(int, long long, float, float) { return -1; }
 #endif
 
 } // namespace DxLib
+
+// --- Desktop_*_Hook の weak stub (DxFontDesktop.cpp が無い環境用) ---
+//  HAS_SDL2_TTF 環境では DxFontDesktop.cpp の strong 定義が override する。
+//  TTF 無し (Linux/Web 等) ではここの stub が link される。
+#include <wchar.h>
+namespace DxLib {
+struct FONTMANAGE;
+__attribute__((weak)) int Desktop_DrawString_Hook(
+    int, int, float, float, int, double, double, int, float, float, double,
+    const wchar_t *, size_t, unsigned int, FONTMANAGE *,
+    unsigned int, int) { return -1; }
+__attribute__((weak)) int Desktop_GetStringWidth_Hook(
+    const wchar_t *, int, FONTMANAGE *) { return -1; }
+__attribute__((weak)) int FontCacheCharAddToHandle_Timing2_PF(
+    FONTMANAGE *) { return 0; }
+} // namespace DxLib
+
+//  --- Linux/Mac の hsp3ext_linux.cpp が参照する dllcmd 系の最小 stub ---
+//  本来は hsp3extlib_ffi.cpp が提供するが、それは COM 系依存があり Linux build
+//  困難なので空 stub にする。hsp3dx は #uselib 経由 DLL ロードを使わないので
+//  実害なし (HSP の `#uselib` 命令を呼ぶと return -1 で error になるだけ)。
+struct HSP3TYPEINFO;
+int Hsp3ExtLibInit( HSP3TYPEINFO * ) { return 0; }
+int exec_dllcmd( int, int ) { return 0; }
+int cmdfunc_dllcmd( int ) { return 0; }

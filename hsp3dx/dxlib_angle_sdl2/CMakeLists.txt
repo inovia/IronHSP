@@ -599,6 +599,9 @@ target_compile_definitions(hsp3dx_desktop PRIVATE
     HSP64=1
     HSPUTF8=1
 )
+if(NOT HAS_SDL2_MIXER)
+    target_compile_definitions(hsp3dx_desktop PRIVATE HSP3DX_NO_SDL2_MIXER=1)
+endif()
 target_link_libraries(hsp3dx_desktop PRIVATE dxlib_portable_stage3 ${GL_LIB})
 if(WIN32)
     add_custom_command(TARGET hsp3dx_desktop POST_BUILD
