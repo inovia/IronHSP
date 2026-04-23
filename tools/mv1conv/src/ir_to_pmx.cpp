@@ -229,7 +229,9 @@ std::vector<std::uint8_t> ir_to_pmx(const ModelIR &ir, std::string *err_msg) {
             put_vec3(out, mat.specular[0], mat.specular[1], mat.specular[2]);
             put_float(out, mat.power);
             put_vec3(out, mat.ambient[0], mat.ambient[1], mat.ambient[2]);
-            put_u8(out, 0x01);  // flag: double-sided
+            std::uint8_t mat_flag = 0x01;  // double-sided
+            if (mat.draw_edge) mat_flag |= 0x10;  // draw edge (MMD outline)
+            put_u8(out, mat_flag);
             put_vec4(out, 0.0f, 0.0f, 0.0f, 1.0f);   // edge color
             put_float(out, 1.0f);                     // edge size
             put_tex_idx(out, mat.diffuse_texture);    // diffuse tex (-1 許容)

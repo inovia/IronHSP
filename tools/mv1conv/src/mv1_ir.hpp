@@ -38,6 +38,9 @@ struct MaterialIR {
     int pmx_toon_texture  = -1;   // ref=0 時の TextureIR index
     int pmx_toon_internal = 0;    // ref=1 時の built-in index (0..9)
 
+    // MMD edge outline (PMD edge_flag, PMX material flag bit 0x10)
+    bool draw_edge = false;
+
     // Material layer BlendType (DiffuseLayer[0] 等の BlendType、0=TEX1 に同じ)
     int diffuse_layer_blend  = 0;
     int specular_layer_blend = 0;

@@ -133,6 +133,7 @@ LoadResult load_pmd(const std::string &path) {
         std::memcpy(ambi, c.p + 32, 12);
         std::uint8_t toon_idx = c.p[44];
         std::uint8_t edge_flag = c.p[45];
+        m.draw_edge = (edge_flag != 0);
         std::uint32_t faceVertCount;
         std::memcpy(&faceVertCount, c.p + 46, 4);
         std::string tex = sjis_to_utf8(reinterpret_cast<const char *>(c.p + 50), 20);
@@ -145,29 +146,50 @@ LoadResult load_pmd(const std::string &path) {
         m.power = power;
         (void)toon_idx; (void)edge_flag;
 
-        // PMD texture 仕様: "diffuse_path[*sphere_path]"
-        //   `*` の前 = diffuse (拡張子を問わず、.sph/.spa でも diffuse として使用可)
-        //   `*` の後 = sphere map
-        // sphere mode は sphere_path の拡張子で決定:
-        //   .sph → mode=1 (乗算), .spa → mode=2 (加算)
+        // PMD texture 仕様: DxLib 本家 loader の挙動に合わせる。
+        // "main.bmp" or "main.bmp*sphere.bmp":
+        //   `*` で分割した各 part について、拡張子 .sph/.spa は sphere map、
+        //   それ以外 (.bmp/.png/.tga/.dds 等) は diffuse として振り分け。
+        // 例:
+        //   "body5.bmp*01.sph" → diffuse=body5.bmp, sphere=01.sph (mode=1)
+        //   "01.sph"           → diffuse=無し, sphere=01.sph (mode=1)
+        //   "gya.spa"          → diffuse=無し, sphere=gya.spa (mode=2)
+        //   "body0.bmp"        → diffuse=body0.bmp, sphere=無し
         auto sphere_ext_mode = [](const std::string &path) -> int {
-            if (path.size() < 4) return 1;
+            if (path.size() < 4) return 0;
             std::string lo;
             for (auto c : path) lo.push_back(static_cast<char>(std::tolower(c)));
+            if (lo.compare(lo.size() - 4, 4, ".sph") == 0) return 1;
             if (lo.compare(lo.size() - 4, 4, ".spa") == 0) return 2;
-            return 1;  // .sph など未知の拡張子は multiply 扱い
+            return 0;
         };
-        std::string diffuse_path, sphere_path;
+        std::string first_part, second_part;
         auto star = tex.find('*');
         if (star != std::string::npos) {
-            diffuse_path = tex.substr(0, star);
-            sphere_path = tex.substr(star + 1);
+            first_part = tex.substr(0, star);
+            second_part = tex.substr(star + 1);
         } else {
-            diffuse_path = tex;
+            first_part = tex;
         }
+        std::string diffuse_path, sphere_path;
+        int sphere_mode = 0;
+        auto route = [&](const std::string &p) {
+            int sm = sphere_ext_mode(p);
+            if (sm > 0) {
+                if (sphere_path.empty()) {
+                    sphere_path = p;
+                    sphere_mode = sm;
+                }
+            } else if (!p.empty()) {
+                if (diffuse_path.empty()) diffuse_path = p;
+            }
+        };
+        route(first_part);
+        route(second_part);
         m.diffuse_texture = add_texture(diffuse_path);
         m.sphere_texture  = add_texture(sphere_path);
-        m.sphere_mode     = sphere_path.empty() ? 0 : sphere_ext_mode(sphere_path);
+        m.sphere_mode     = sphere_mode;
+        (void)edge_flag; // m.draw_edge に反映済
 
         matFaceIdxCount[i] = faceVertCount;
         matToonIdx[i] = toon_idx;
