@@ -11,6 +11,7 @@
 #include "pmd_import.hpp"
 #include "pmx_import.hpp"
 #include "gpb_import.hpp"
+#include "vmd_import.hpp"
 #ifdef MV1CONV_HAVE_ASSIMP
 #include "assimp_import.hpp"
 #endif
@@ -366,6 +367,35 @@ int main(int argc, char **argv) {
     if (std::strcmp(sub, "repack") == 0) return cmd_repack(argc - 2, argv + 2);
     if (std::strcmp(sub, "from-obj") == 0) return cmd_from_obj(argc - 2, argv + 2);
     if (std::strcmp(sub, "convert") == 0)  return cmd_convert(argc - 2, argv + 2);
+    if (std::strcmp(sub, "attach-anim") == 0) {
+        if (argc < 5) {
+            std::fprintf(stderr,
+                         "usage: mv1conv attach-anim <model.mv1> <motion.vmd> <out.mv1>\n");
+            return 2;
+        }
+        const char *modelPath = argv[2];
+        const char *vmdPath   = argv[3];
+        const char *outPath   = argv[4];
+        auto lr = load_mv1_to_ir(modelPath);
+        if (!lr.ok()) {
+            std::fprintf(stderr, "ERROR: %s\n", lr.error.c_str());
+            return 1;
+        }
+        auto attached = attach_vmd(vmdPath, lr.ir);
+        if (!attached.ok()) {
+            std::fprintf(stderr, "ERROR: %s\n", attached.error.c_str());
+            return 1;
+        }
+        auto w = save_mv1(attached.ir, outPath);
+        if (!w.ok()) {
+            std::fprintf(stderr, "ERROR: %s\n", w.error.c_str());
+            return 1;
+        }
+        std::fprintf(stderr, "attached anim: animSets=%zu anims=%zu keysets=%zu\n",
+                     attached.ir.anim_sets.size(), attached.ir.anims.size(),
+                     attached.ir.anim_keysets.size());
+        return 0;
+    }
     std::fprintf(stderr, "unknown subcommand: %s\n", sub);
     return 2;
 }

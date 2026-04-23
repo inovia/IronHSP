@@ -48,6 +48,7 @@ add_executable(mv1conv
     src/pmd_import.cpp
     src/pmx_import.cpp
     src/gpb_import.cpp
+    src/vmd_import.cpp
     src/mv1_to_ir.cpp
 )
 
