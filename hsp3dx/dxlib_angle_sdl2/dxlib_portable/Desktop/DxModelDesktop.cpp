@@ -64,6 +64,7 @@ extern "C" int Desktop_MV1_GetShaderHandle( void ) ;
 extern "C" int DesktopShader_Use( int handle ) ;
 extern "C" int DesktopShader_SetUniform1i( int h, const char *name, int v ) ;
 extern "C" int DesktopShader_SetUniform1f( int h, const char *name, float v ) ;
+extern "C" int DesktopShader_SetUniform3f( int h, const char *name, float a, float b, float c ) ;
 
 #ifndef DX_NON_NAMESPACE
 namespace DxLib
@@ -679,6 +680,40 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
         DesktopShader_SetUniform1i( glslH, "u_blendMode1", d1 ? layerBlend[ 1 ] : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_blendMode2", d2 ? layerBlend[ 2 ] : 0 ) ;
         DesktopShader_SetUniform1i( glslH, "u_blendMode3", d3 ? layerBlend[ 3 ] : 0 ) ;
+        //  Toon ramp: CPU 側で作った 256 色 LUT を 256×1 texture に upload して TMU 8 に bind
+        //  (texture は毎 mesh 更新するが、実用上 material 数分のキャッシュで十分)
+        static GLuint s_ToonRampTex = 0 ;
+        int useToonRamp = ( isToon && toonRampReady ) ? 1 : 0 ;
+        if ( useToonRamp ) {
+            if ( s_ToonRampTex == 0 ) glGenTextures( 1, &s_ToonRampTex ) ;
+            p_glActiveTexture( GL_TEXTURE0 + 8 ) ;
+            glBindTexture( GL_TEXTURE_2D, s_ToonRampTex ) ;
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR ) ;
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR ) ;
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE ) ;
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE ) ;
+            //  toonRampLUT は BGRA バイト順 (DxLib ARGB8)、GL に RGBA で渡すので swap しない
+            //  (blue ←→ red swap は DxLib からの sampling で逆回しされて整合する、以下の
+            //   理由: CPU 版も同じ BGRA 読み出しを rB/rG/rR に map している)
+            //  実害避けるため、RGBA 順に rearrange した buffer を別途作って渡す:
+            static unsigned char rgba256[ 256 * 4 ] ;
+            for ( int i = 0 ; i < 256 ; ++i ) {
+                rgba256[ i * 4 + 0 ] = toonRampLUT[ i ][ 2 ] ;  //  R <- B
+                rgba256[ i * 4 + 1 ] = toonRampLUT[ i ][ 1 ] ;  //  G
+                rgba256[ i * 4 + 2 ] = toonRampLUT[ i ][ 0 ] ;  //  B <- R
+                rgba256[ i * 4 + 3 ] = toonRampLUT[ i ][ 3 ] ;  //  A
+            }
+            glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, 256, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, rgba256 ) ;
+            p_glActiveTexture( GL_TEXTURE0 ) ;
+        }
+        DesktopShader_SetUniform1i( glslH, "u_toonRamp",    8 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_useToonRamp", useToonRamp ) ;
+        //  主光源方向 (eye-space、g_MainLightDir* は既に反転済み)
+        extern float g_MainLightDirX, g_MainLightDirY, g_MainLightDirZ ;
+        float lx = g_MainLightDirX, ly = g_MainLightDirY, lz = g_MainLightDirZ ;
+        float len = std::sqrt( lx*lx + ly*ly + lz*lz ) ;
+        if ( len > 0.0001f ) { lx /= len ; ly /= len ; lz /= len ; }
+        DesktopShader_SetUniform3f( glslH, "u_mainLightDirEye", lx, ly, lz ) ;
         // normal map は TMU 2、specular map は TMU 3 に bind
         if ( normTex && p_glActiveTexture ) {
             p_glActiveTexture( GL_TEXTURE0 + 2 ) ;

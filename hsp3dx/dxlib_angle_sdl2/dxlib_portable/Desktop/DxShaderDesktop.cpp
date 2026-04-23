@@ -266,6 +266,10 @@ uniform int             u_useDiffuse3 ;
 uniform int             u_blendMode1 ;
 uniform int             u_blendMode2 ;
 uniform int             u_blendMode3 ;
+//  Toon ramp (256×1 RGBA、dot(N,L) を U 軸として sampling)
+uniform sampler2D       u_toonRamp ;
+uniform int             u_useToonRamp ;
+uniform vec3            u_mainLightDirEye ;   // eye-space、既に正規化済みを渡す
 
 varying vec2 v_uv0 ;
 varying vec3 v_normal ;
@@ -347,6 +351,17 @@ void main( void )
     if ( u_useShadow == 1 ) {
         float lit = shadow2DProj( u_shadowMap, gl_TexCoord[ 4 ] ).r ;
         base.rgb *= ( 0.3 + 0.7 * lit ) ;
+    }
+
+    //  Toon ramp: dot(N,L) を [0,1] に clamp して ramp texture から色を lookup
+    //  Lighting (u_useLighting) と排他で、toon はここで base.rgb を rampColor 側に寄せる。
+    if ( u_useToonRamp == 1 ) {
+        vec3 Ntoon = normalize( v_normal ) ;
+        //  main light direction は eye-space 単位ベクトル (hsp3dx から uniform 経由)
+        float ndl = max( dot( Ntoon, u_mainLightDirEye ), 0.0 ) ;
+        vec3 rampColor = texture2D( u_toonRamp, vec2( ndl, 0.5 ) ).rgb ;
+        //  DxLib CPU 版と同じ "ramp * material diffuse" の乗算
+        base.rgb = base.rgb * rampColor ;
     }
 
     gl_FragColor = base ;
