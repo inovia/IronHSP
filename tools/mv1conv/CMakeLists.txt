@@ -42,7 +42,6 @@ add_executable(mv1conv
     src/dxa.cpp
     src/mv1_reader.cpp
     src/mv1_dump.cpp
-    src/mv1_writer.cpp
     src/obj_export.cpp
     src/obj_import.cpp
     src/stl_import.cpp

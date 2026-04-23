@@ -19,7 +19,7 @@
 #ifdef MV1CONV_HAVE_ASSIMP
 #include "assimp_import.hpp"
 #endif
-#include "mv1_writer.hpp"
+//  mv1_writer.hpp は PMX 経由 DxLib 委譲パイプライン導入 (2026-04-23) で不要になり削除
 #include "mv1_via_pmx.hpp"
 #include "dxa.hpp"
 #include <algorithm>
@@ -310,19 +310,10 @@ static int convert_generic(const char *in, const char *out, bool noBones = false
         }
     }
 
-    // 新経路: IR → PMX → subprocess (DxLib) → .mv1
-    // 旧自作 writer は MV1CONV_USE_LEGACY_WRITER=1 で選択可 (暫定フォールバック)
-    if (std::getenv("MV1CONV_USE_LEGACY_WRITER")) {
-        auto w = save_mv1(*ir, out);
-        if (!w.ok()) {
-            std::fprintf(stderr, "ERROR: %s\n", w.error.c_str());
-            return 1;
-        }
-        std::size_t totalTri = 0;
-        for (const auto &m : ir->meshes) totalTri += m.indices.size() / 3;
-        std::fprintf(stderr, "[legacy] wrote %s (%zu bytes)  meshes=%zu tris=%zu\n",
-                     out, w.bytes.size(), ir->meshes.size(), totalTri);
-    } else {
+    // IR → PMX → subprocess (DxLib) → .mv1
+    // (旧自作 writer + MV1CONV_USE_LEGACY_WRITER fallback は 2026-04-23 に廃止。
+    //  Yukari/Pronama で公式互換描画達成、writer を維持する理由が無くなったため。)
+    {
         auto r = save_mv1_via_pmx(*ir, out);
         if (!r.ok) {
             std::fprintf(stderr, "ERROR: %s\n", r.error.c_str());
@@ -357,14 +348,14 @@ static int cmd_from_obj(int argc, char **argv) {
         std::fprintf(stderr, "ERROR: %s\n", obj.error.c_str());
         return 1;
     }
-    auto w = save_mv1(obj.ir, argv[1]);
-    if (!w.ok()) {
-        std::fprintf(stderr, "ERROR: %s\n", w.error.c_str());
+    auto r = save_mv1_via_pmx(obj.ir, argv[1]);
+    if (!r.ok) {
+        std::fprintf(stderr, "ERROR: %s\n", r.error.c_str());
         return 1;
     }
-    std::fprintf(stderr, "wrote %s (%zu bytes)  meshes=%zu tris=%zu\n",
-                 argv[1], w.bytes.size(), obj.ir.meshes.size(),
-                 obj.ir.meshes[0].indices.size() / 3);
+    std::fprintf(stderr, "wrote %s (via DxLib)  meshes=%zu tris=%zu\n",
+                 argv[1], obj.ir.meshes.size(),
+                 obj.ir.meshes.empty() ? 0 : obj.ir.meshes[0].indices.size() / 3);
 
     // 再読込 check
     auto check = Mv1File::load(argv[1]);
@@ -576,9 +567,9 @@ int main(int argc, char **argv) {
             std::fprintf(stderr, "ERROR: %s\n", attached.error.c_str());
             return 1;
         }
-        auto w = save_mv1(attached.ir, outPath);
-        if (!w.ok()) {
-            std::fprintf(stderr, "ERROR: %s\n", w.error.c_str());
+        auto r = save_mv1_via_pmx(attached.ir, outPath);
+        if (!r.ok) {
+            std::fprintf(stderr, "ERROR: %s\n", r.error.c_str());
             return 1;
         }
         std::fprintf(stderr, "attached anim: animSets=%zu anims=%zu keysets=%zu\n",
