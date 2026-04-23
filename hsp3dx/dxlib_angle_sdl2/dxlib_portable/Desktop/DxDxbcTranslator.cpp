@@ -197,10 +197,10 @@ static int parse_rdef( const Chunk &c, DxbcData &out )
     uint32_t cb_ofs     = read_u32( c.data + 4 ) ;
     uint32_t num_res    = read_u32( c.data + 8 ) ;
     uint32_t res_ofs    = read_u32( c.data + 12 ) ;
-    // uint16_t sm_ver = read_u16( c.data + 16 ) — skip
-    // uint16_t sh_type = read_u16( c.data + 18 )
-    // uint32_t flags   = read_u32( c.data + 20 )
-    // uint32_t creator = read_u32( c.data + 24 )
+    uint8_t  sm_minor   = c.data[ 16 ] ;  (void)sm_minor ;
+    uint8_t  sm_major   = c.data[ 17 ] ;
+    // SM 4.x: variable descriptor は 24B / SM 5.x: 40B (追加 4 field)
+    uint32_t var_stride = ( sm_major >= 5 ) ? 40 : 24 ;
 
     // Resource bindings: 32 bytes per entry
     for ( uint32_t i = 0 ; i < num_res ; i++ ) {
@@ -224,10 +224,9 @@ static int parse_rdef( const Chunk &c, DxbcData &out )
         uint32_t var_ofs  = read_u32( c.data + base + 8 ) ;
         cb.size_bytes = read_u32( c.data + base + 12 ) ;
 
-        // Variable descriptors: base 24 bytes (SM 4.0) / 40 bytes (SM 5.0)
-        // SM 5.0 の判定は複雑なので固定 24 bytes で読み、名前+offset+size を取る
+        // Variable descriptor stride: SM 4.x = 24B / SM 5.x = 40B
         for ( uint32_t j = 0 ; j < num_var ; j++ ) {
-            uint32_t vbase = var_ofs + j * 40 ;  // SM 5.0 の 40B stride で試す
+            uint32_t vbase = var_ofs + j * var_stride ;
             if ( vbase + 24 > c.size ) break ;
             RdefVar v ;
             read_str( read_u32( c.data + vbase + 0 ), v.name ) ;
