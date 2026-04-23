@@ -690,9 +690,11 @@ WriteResult write_mv1(const ModelIR &ir) {
             for (float v : ks.key_values) b.append_bytes(&v, 4);
             b.align4();
 
-            int val_size = 4;
-            if (ks.key_type == AnimKeySetIR::KT_VECTOR)        val_size = 12;
+            int val_size = 4;  // LINEAR default
+            if (ks.key_type == AnimKeySetIR::KT_VECTOR)            val_size = 12;
             else if (ks.key_type == AnimKeySetIR::KT_QUATERNION_X) val_size = 16;
+            else if (ks.key_type == AnimKeySetIR::KT_QUATERNION_VMD) val_size = 16;
+            else if (ks.key_type == AnimKeySetIR::KT_MATRIX4X4C)   val_size = 48;
             runtimeAnimKeyDataSize += n * (4 + val_size);
         }
         animKeyDataSize = b.pos() - offAnimKeyData;

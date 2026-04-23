@@ -88,9 +88,11 @@ struct AnimKeySetIR {
         DT_SHAPE     = 15,  // シェイプ (表情) weight
     };
     enum KeyType : std::int8_t {
-        KT_QUATERNION_X = 0,  // FLOAT4 per key
-        KT_VECTOR       = 1,  // VECTOR (3f) per key
-        KT_LINEAR       = 5,  // float per key
+        KT_QUATERNION_X   = 0,  // FLOAT4 per key (16B)
+        KT_VECTOR         = 1,  // VECTOR (3f) per key (12B)
+        KT_MATRIX4X4C     = 4,  // MATRIX_4X4CT_F (48B、回転+移動 4x3 + padding)
+        KT_LINEAR         = 5,  // float per key (4B)
+        KT_QUATERNION_VMD = 2,  // VMD 形式 quaternion (DxLib alias で FLOAT4 16B)
     };
     std::int8_t data_type;
     std::int8_t key_type;
