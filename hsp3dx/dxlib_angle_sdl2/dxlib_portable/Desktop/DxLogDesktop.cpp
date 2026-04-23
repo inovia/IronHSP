@@ -26,6 +26,9 @@
 #include <wchar.h>
 #include <cstdio>
 #include <cstring>
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
 #ifndef DX_NON_NAMESPACE
 namespace DxLib
@@ -154,6 +157,12 @@ extern int LogFileAdd_WCHAR_T_PF( const wchar_t *LogFilePath, const wchar_t *Err
 
     // iOS の NSLog 相当: stderr にも出力
     std::fprintf( stderr, "%s\n", ErrorStrUseBuffer ) ;
+
+#ifdef __EMSCRIPTEN__
+    //  Web: stderr は line-buffered なので fflush で確実に flush。
+    //  emscripten_sleep の埋め込みは regression 原因らしいので入れない。
+    std::fflush( stderr );
+#endif
 
     if ( ErrorStrTempBuffer != NULL )
     {
