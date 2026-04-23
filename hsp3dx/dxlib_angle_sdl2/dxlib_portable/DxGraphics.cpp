@@ -34167,6 +34167,7 @@ extern void Graphics_Image_InitLoadGraphGParam( LOADGRAPH_GPARAM *GParam )
 // �O���t�B�b�N�`��ݒ�֌W�̏���������
 extern	int		Graphics_DrawSetting_Initialize( void )
 {
+	DXGR_LOG("DrawSetting enter");
 	int i ;
 
 //	int NotDrawFlag                            = GSYS.NotDrawFlag ;
@@ -34179,8 +34180,10 @@ extern	int		Graphics_DrawSetting_Initialize( void )
 	int UseReversedZFlag                       = GSYS.DrawSetting.UseReversedZFlag ;
 
 	// �[��������
+	DXGR_LOG("DrawSetting before MEMSET DrawSetting/Camera");
 	_MEMSET( &GSYS.DrawSetting, 0, sizeof( GSYS.DrawSetting ) ) ;
 	_MEMSET( &GSYS.Camera,      0, sizeof( GSYS.Camera      ) ) ;
+	DXGR_LOG("DrawSetting after MEMSET");
 //	_MEMSET( &GSYS.CreateImage, 0, sizeof( GSYS.CreateImage ) ) ;
 
 //	GSYS.NotDrawFlag						     = NotDrawFlag ;
@@ -34248,14 +34251,18 @@ extern	int		Graphics_DrawSetting_Initialize( void )
 	GSYS.DrawSetting.AlphaTestMode = -1 ;
 
 	// �`��P�x���Z�b�g
+	DXGR_LOG("DrawSetting before NS_SetDrawBright");
 	NS_SetDrawBright( 255, 255, 255 ) ;
+	DXGR_LOG("DrawSetting after NS_SetDrawBright");
 //	GSYS.DrawSetting.bDrawBright = 0xffffff ;
 
 	// ���Z�F���Z�b�g
 	NS_SetDrawAddColor( 0, 0, 0 ) ;
+	DXGR_LOG("DrawSetting after NS_SetDrawAddColor");
 
 	// �t�H�O�̏����ݒ�
 	NS_SetFogMode( DX_FOGMODE_LINEAR ) ;
+	DXGR_LOG("DrawSetting after NS_SetFogMode");
 	NS_SetFogColor( 255, 255, 255 ) ;
 	NS_SetFogStartEnd( 0.0f, 1500.0f ) ;
 
