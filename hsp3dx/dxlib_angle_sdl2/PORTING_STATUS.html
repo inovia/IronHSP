@@ -100,11 +100,12 @@ td.note { font-size: 12px; color: #555; }
      extlib/cubism/CMakeLists.txt で Mac/Linux/Android Core lib 自動検出追加 (.gitignore で SDK 個別 DL 前提)。</p>
   <p><strong>2026-04-23 夜追加:</strong>
      MV1 <strong>Bullet Physics opt-in</strong> (<code>-DDX_DESKTOP_ENABLE_BULLET_PHYSICS=ON</code>) で DxUseCLibPhysics.cpp を extlib/bullet3 と結線 /
-     Cubism/MV1 <strong>VBO 描画経路</strong> (DrawPrimitive(Indexed)3DToShader_UseVertexBuffer2_PF) の実装で glDrawElements まで届く。</p>
+     Cubism/MV1 <strong>VBO 描画経路</strong> (DrawPrimitive(Indexed)3DToShader_UseVertexBuffer2_PF) の実装で glDrawElements まで届く /
+     <strong>DxLib Shader API を GLSL source 経路で動作</strong> (LoadVertexShader / SetUseVertexShader / SetVSConstF を glCreateShader + glCompileShader + (VS,PS) program cache + glUniform4fv で接続、サンプル stage26_shader.exe)。</p>
   <p><strong>保留項目 (次セッション):</strong>
      Mac/Linux/Web <strong>実行時動作検証</strong> (build は通るが window 描画テストまだ) /
      Desktop Cubism GLSL の<strong>実モデル描画検証</strong> (VBO まで届いた、uniform 合わせ + alpha blend 確認) /
-     DxLib Shader API (.vso/.pso → GLSL transpile) 完全互換 (2〜3 週間規模、HLSL バイナリパースが必要) /
+     DxLib Shader .vso/.pso (DXBC) → GLSL の <strong>transpile</strong> (SPIRV-Cross 導入、2〜3 週間規模) /
      GradMap GPU filter (SSAO と同枠組み) / SpecularLayer advanced shader /
      iOS 実機 signing + WebSocket 本実装。</p>
 </div>
@@ -713,13 +714,14 @@ td.note { font-size: 12px; color: #555; }
 <h2 id="effect">10. シェーダ / Mask / Filter / その他高度描画</h2>
 <table>
 <tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
-<tr><td class="fn">LoadVertexShader / LoadPixelShader / SetUseVertexShader 等</td>
+<tr><td class="fn">LoadVertexShader / LoadPixelShader / SetUseVertexShader / SetVSConstF 等</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">Win: HLSL 実行時 compile + .vso/.pso binary / iOS/Android: <strong>事前 compile 済 GLES bytecode</strong> 内蔵 (DxShaderCodeBin_{Base,Base3D,Model,Filter,RgbaMix,Live2D_Cubism4}_*.cpp 計 6500 行) / SDL2 fork: runtime GLSL 1.20 compile via DesktopShader_CompileGLSL + Desktop_MV1_UseGLSLShader opt-in + VBO 描画経路 (DrawPrimitiveIndexed3DToShader_UseVertexBuffer2_PF)</td>
-  <td class="note"><strong>戦略の違い:</strong> iOS/Android は DxLib 内蔵 shader (Base/Model/Filter/RgbaMix/Cubism) を予め GLES bytecode に変換して .cpp 内に const unsigned char 配列として埋め込み、runtime compile 不要で即 glShaderBinary + glLinkProgram で使える。SDL2 fork は Compatibility profile で fixed-function pipeline ベースに動かせるため、内蔵 shader は optional (Desktop_MV1_UseGLSLShader(1) で有効化)。<br>
-  <strong>Desktop 2026-04-23 追加:</strong> VBO / IBO (glGenBuffers/glBufferData/glBufferSubData) + shader attribute バインド (glGetAttribLocation / glVertexAttribPointer) + glDrawElements の PF 実装で、Cubism の DrawPolygonIndexed3DToShader_UseVertexBuffer 経路が届くようになった。VERTEX3DSHADER 88B レイアウト (pos@0, norm@28, tan@40, col@64, uv@72) を a_position / a_normal / a_tangent / a_color / a_texCoord にマップ。<br>
-  DxLib 本家 API (LoadVertexShader 等) は Win D3D binary (.vso/.pso/.cso) 前提、HLSL → GLSL transpile (SPIRV-Cross) 経由での完全互換は 2〜3 週間規模で保留。Desktop は独自拡張 API (<code>DesktopShader_CompileGLSL</code> / <code>Desktop_MV1_UseGLSLShader</code>) で GLSL 直接記述を提供。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">Win: HLSL 実行時 compile + .vso/.pso binary / iOS/Android: <strong>事前 compile 済 GLES bytecode</strong> 内蔵 (DxShaderCodeBin_{Base,Base3D,Model,Filter,RgbaMix,Live2D_Cubism4}_*.cpp 計 6500 行) / SDL2 fork: <strong>GLSL source 経路</strong> で DxLib 本家 API 互換 + DesktopShader_CompileGLSL + Desktop_MV1_UseGLSLShader opt-in + VBO 描画経路</td>
+  <td class="note"><strong>SDL2 fork 2026-04-23 拡張:</strong> <code>LoadVertexShader("foo.vert")</code> / <code>LoadPixelShader("foo.frag")</code> で GLSL source を直接読み込み、<code>SetUseVertexShader</code> / <code>SetUsePixelShader</code> で (VS, PS) ペアを選択、<code>SetVSConstF(idx, vec4)</code> / <code>SetPSConstF</code> で定数設定、<code>DrawPolygonIndexed3DToShader_UseVertexBuffer</code> で draw、まで一通り動作。<br>
+  <strong>GLSL 側の規約:</strong> <code>uniform vec4 vs_c[256]; uniform vec4 ps_c[256];</code> を宣言すると DxLib の SetVSConstF / SetPSConstF と対応。attribute は <code>a_position / a_normal / a_tangent / a_color / a_texCoord</code> を VERTEX3DSHADER 88B レイアウト (pos@0, norm@28, tan@40, col@64, uv@72) に自動マップ。サンプル: <code>stage26_shader.cpp</code>。<br>
+  <strong>PF 実装:</strong> Graphics_Hardware_Shader_Create_PF (GLSL 検知 → glCompileShader)、Shader_SetConst_PF (vec4×256 CPU buffer)、Shader_TerminateHandle_PF (glDeleteShader + program invalidate)、DrawPrimitiveIndexed3DToShader_UseVertexBuffer2_PF (VBO+IBO bind + glGetAttribLocation + glDrawElements)、DxLibShader_BindForDraw ((VS,PS) cache + glUseProgram + glUniform4fv upload)。<br>
+  <strong>保留:</strong> .vso/.pso (D3D binary / DXBC) → GLSL transpile (SPIRV-Cross 導入、2〜3 週間規模)。iOS/Android 同様 DxShaderCodeBin_* の GLSL 変換バンドルはまだ無い (user 側が shader source を置く方式)。Web (emscripten) は glUniform4fv 第 3 引数の array 長制約が厳しく部分対応。</td>
 </tr>
 <tr><td class="fn">Mask (CreateMaskScreen / SetUseMaskScreenFlag / DrawMask / FillMaskScreen 等)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
