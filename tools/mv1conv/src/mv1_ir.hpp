@@ -27,6 +27,10 @@ struct MaterialIR {
     int normal_texture   = -1;
     int emissive_texture = -1;
 
+    // Sphere map (MMD PMD/PMX 独自、反射マップ)。PMX material の sphere_tex / sphere_mode に対応。
+    int sphere_texture = -1;
+    int sphere_mode    = 0;     // 0=disable, 1=multiply(.sph), 2=add(.spa), 3=sub-texture
+
     // Material layer BlendType (DiffuseLayer[0] 等の BlendType、0=TEX1 に同じ)
     int diffuse_layer_blend  = 0;
     int specular_layer_blend = 0;

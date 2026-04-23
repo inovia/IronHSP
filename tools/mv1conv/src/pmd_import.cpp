@@ -143,17 +143,48 @@ LoadResult load_pmd(const std::string &path) {
         m.power = power;
         (void)toon_idx; (void)edge_flag;
 
-        // texture パス "main.bmp*sphere.bmp" を分割
-        std::string main_tex, sphere_tex;
+        // texture パス "main.bmp*sphere.bmp" を分割。
+        // PMD は 1 フィールドに diffuse と sphere 両方入る。拡張子で判別:
+        //   .sph = 乗算 sphere (mode=1)
+        //   .spa = 加算 sphere (mode=2)
+        //   その他 = 通常 diffuse
+        // main 単独で .sph/.spa の場合も sphere 扱い (diffuse は無し)
+        auto is_sphere_ext = [](const std::string &path) -> int {
+            if (path.size() < 4) return 0;
+            std::string lo;
+            for (auto c : path) lo.push_back(static_cast<char>(std::tolower(c)));
+            if (lo.size() >= 4 && lo.compare(lo.size() - 4, 4, ".sph") == 0) return 1;
+            if (lo.size() >= 4 && lo.compare(lo.size() - 4, 4, ".spa") == 0) return 2;
+            return 0;
+        };
+        std::string first_part, second_part;
         auto star = tex.find('*');
         if (star != std::string::npos) {
-            main_tex = tex.substr(0, star);
-            sphere_tex = tex.substr(star + 1);
+            first_part = tex.substr(0, star);
+            second_part = tex.substr(star + 1);
         } else {
-            main_tex = tex;
+            first_part = tex;
         }
-        m.diffuse_texture = add_texture(main_tex);
-        (void)sphere_tex; // sphere 環境マップは現状未対応
+        // first_part を拡張子で振り分け
+        int first_sphere = is_sphere_ext(first_part);
+        int second_sphere = is_sphere_ext(second_part);
+        std::string diffuse_path, sphere_path;
+        int sphere_mode = 0;
+        if (first_sphere) {
+            sphere_path = first_part;
+            sphere_mode = first_sphere;
+            // second_part があり非sphere なら diffuse に
+            if (!second_part.empty() && !second_sphere) diffuse_path = second_part;
+        } else {
+            diffuse_path = first_part;
+            if (second_sphere) {
+                sphere_path = second_part;
+                sphere_mode = second_sphere;
+            }
+        }
+        m.diffuse_texture = add_texture(diffuse_path);
+        m.sphere_texture  = add_texture(sphere_path);
+        m.sphere_mode     = sphere_mode;
 
         matFaceIdxCount[i] = faceVertCount;
         mats.push_back(m);

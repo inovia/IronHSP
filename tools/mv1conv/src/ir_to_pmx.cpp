@@ -233,8 +233,8 @@ std::vector<std::uint8_t> ir_to_pmx(const ModelIR &ir, std::string *err_msg) {
             put_vec4(out, 0.0f, 0.0f, 0.0f, 1.0f);   // edge color
             put_float(out, 1.0f);                     // edge size
             put_tex_idx(out, mat.diffuse_texture);    // diffuse tex (-1 許容)
-            put_tex_idx(out, -1);                     // sphere tex
-            put_u8(out, 0);                           // sphere mode
+            put_tex_idx(out, mat.sphere_texture);     // sphere tex
+            put_u8(out, static_cast<std::uint8_t>(mat.sphere_mode));  // sphere mode
             put_u8(out, 1);                           // toon ref: internal
             put_u8(out, 0);                           // internal toon 0
             put_text_utf8(out, "");                   // memo
