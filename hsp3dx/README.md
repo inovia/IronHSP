@@ -1,16 +1,18 @@
 # hsp3dx
 
-HSP3 + **DxLib** を同じ `.ax` 1 本で Windows / iOS / Android を動かすクロスプラットフォームランタイム。
+HSP3 + **DxLib** を同じ `.ax` 1 本で Windows / iOS / Android / Mac / Linux / Web を動かす
+クロスプラットフォームランタイム。
 
-- HSP3Dish との差別化 = **DxLib の 2000 関数超の API** (3D / エフェクト / 動画 / ネットワークなど) が mobile でも同じ API で呼べる
-- 3 プラットフォームで **同一 `.ax` バイト列** を VM がインタプリト実行
-- 文字コードは **UTF-8 固定** (3 プラットフォーム共通化のため)
+- HSP3Dish との差別化 = **DxLib の 2000 関数超の API** (3D / エフェクト / 動画 / Live2D / ネットワークなど) が mobile でも同じ API で呼べる
+- 6 プラットフォームで **同一 `.ax` バイト列** を VM がインタプリト実行
+- 文字コードは **UTF-8 固定**
+- Mac/Linux/Web は [dxlib_angle_sdl2/](dxlib_angle_sdl2/) (SDL2+GL fork) 経由
 
 ## 仕様
 
 → [docs/hsp3dx_spec.md](../docs/hsp3dx_spec.md)
 
-## 現状 (2026-04-21): Phase 4 (Android) 完了 — Win + Android の 2 プラットフォーム同一 `.ax` 実行
+## 現状 (2026-04-23): Win + Android + iOS + Mac + Linux + Web 全 6 プラットフォーム対応
 
 | Phase | 内容 | 状態 |
 |---|---|---|
@@ -31,9 +33,14 @@ HSP3 + **DxLib** を同じ `.ax` 1 本で Windows / iOS / Android を動かす�
 | Phase 4.j | Android マルチタッチ (`dx_getmtouchnum` / `dx_getmtouch`) | ✅ |
 | Phase 4.k | Android WebSocket 本実装 (OkHttp 3.14.9) | ✅ |
 | Phase 4.l | HTTP multipart/form-data アップロード | ✅ |
-| Phase 3 | iOS 版 `libhsp3dx.a` + Xcode テンプレ | 未着手 |
+| Phase 3 | iOS 版 `libhsp3dx.a` + Xcode テンプレ | ✅ (2026-04-22 Phase 3.0 Simulator build 到達) |
+| Phase Mac/Linux/Web | dxlib_angle_sdl2 (DxLib SDL2+GL fork) | ✅ (2026-04-22〜23、build 通過) |
+| Live2D Cubism 4 | Win/Android/iOS Simulator で Hiyori 描画 + Desktop SDL2 GLSL | ✅ (2026-04-23) |
 
-詳細: [ndk/README.md](ndk/README.md) (Android)
+詳細:
+- [ndk/README.md](ndk/README.md) (Android)
+- [ios/README.md](ios/README.md) (iOS)
+- [dxlib_angle_sdl2/README.md](dxlib_angle_sdl2/README.md) (Mac/Linux/Web の SDL2+GL fork)
 
 ## API 実装カバレッジ
 
@@ -41,11 +48,12 @@ HSP3 + **DxLib** を同じ `.ax` 1 本で Windows / iOS / Android を動かす�
 |---|---|
 | DxLib.h `extern` 総数 | 2466 |
 | 手書き `dx_*` 拡張命令 (iron_dxlib.as) | 73 |
-| 自動生成 文形式 `dx_*` (iron_dxlib_auto.as) | 1650 |
-| 自動生成 **式形式** `dx_*_f` (iron_dxlib_auto_f.as、`#ccmd`) | 1144 |
-| **合計 HSP から叩ける呼び出し口** | **2867** |
+| 自動生成 文形式 `dx_*` (iron_dxlib_auto.as) | 1577 (Live2D 34 含む) |
+| 自動生成 **式形式** `dx_*_f` (iron_dxlib_auto_f.as、`#ccmd`) | 1073 |
+| **合計 HSP から叩ける呼び出し口** | **2723** |
 | 追加: HTTP / JSON / WebSocket 独自命令 | 46 |
 | 追加: DxLib コールバック (5 種) | 5 |
+| 追加: Live2D Cubism 4 (2026-04-23 有効化) | 34 |
 
 `#defstruct` ベースの NSTRUCT 型で VECTOR / MATRIX / COLOR_F 等の DxLib 構造体を
 直接扱える。ref 引数 (out-param) と struct 戻り値も自動生成で対応済。
@@ -94,12 +102,13 @@ end
 
 ```
 hsp3dx/
-  samples/         動作確認用サンプル (25 本、全コンパイル OK)
-  src/             hsp3dx ランタイム C++ ソース
-  win32/           Windows 版 hsp3dx.exe の vcxproj
-  extlib/          DxLib SDK (win32 / ios / android) + picojson
-  ios/             Phase 3 で Xcode プロジェクトを配置 (未着手)
-  ndk/             Phase 4 で Android Studio プロジェクトを配置 (未着手)
+  samples/            動作確認用サンプル (25+ 本、全コンパイル OK)
+  src/                hsp3dx ランタイム C++ ソース
+  win32/              Windows 版 hsp3dx.exe の vcxproj
+  extlib/             DxLib SDK (win32 / ios / android) + picojson + cubism_sdk_native
+  ios/template/       iOS Xcode プロジェクトテンプレ (xcodegen + project.yml)
+  ndk/template/       Android Studio プロジェクトテンプレ (Gradle + CMakeLists.txt)
+  dxlib_angle_sdl2/   Mac/Linux/Web 用 DxLib SDL2+GL fork (Desktop 層全実装)
 ```
 
 ## 関連ツール
@@ -123,6 +132,8 @@ hsp3dx/
 | sample_ret_smoke | struct / LONGLONG 戻り値 |
 | sample_callback | 非同期画像ロード完了コールバック |
 | sample_auto | 自動生成命令の呼び出し例 |
+| sample_live2d | Live2D Cubism 4 モデル描画 (Hiyori) |
+| sample_mv1 | MV1 モデル (dx_mv1load / draw) |
 
 ## ヘルプファイル (.hs)
 

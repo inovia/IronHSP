@@ -990,3 +990,109 @@ with socketserver.TCPServer(('127.0.0.1', 8766), H) as s: s.serve_forever()
 
 # Open Chrome: http://127.0.0.1:8766/stage1_web.html
 ```
+
+---
+
+### 2026-04-23 夜 — Live2D 6 platform 対応 + Cubism GLSL + SSAO GPU + Mac/Web build 検証 🎉🎉🎉
+
+**commit**: 8e0381b3 → 031350c9 → 8dafc892 → 5adef572 → a60076a2 (6 commits、20:37〜20:42)
+
+#### 成果マトリクス
+
+| Platform | 実装 | 動作確認 |
+|---|---|---|
+| Windows | Cubism 4-r.7 DLL + gen_dxlib_bindings.py Live2D 除外撤廃 | ✅ Hiyori 描画 (VS 2022) |
+| Android | DxLibEnableLive2D_Android_3_24f.zip + Cubism 4-r.7 libLive2DCubismCore.a | ✅ エミュ Hiyori 描画 |
+| iOS Simulator | DxLibEnableLive2D_iOS_3_24f.zip + xcodegen `type: folder` + Rosetta x86_64 | ✅ iPhone 15 Hiyori 描画 |
+| Desktop SDL2 | Cubism 5-r.5 Framework + GLSL shader 7 program compile | 🔶 build 通過 (実描画未検証) |
+| Mac arm64 | SSH + brew + cmake + make | ✅ 25 stage Mach-O build |
+| Web emscripten | emcc 5.0.6 + DX_NON_LIVE2D_CUBISM4=1 | ✅ stage4_web.wasm 5.8MB |
+
+#### 1. Cubism SDK 二系統併用
+
+DxLib 3.24f prebuilt (Win/iOS/Android) は **Cubism Core 4 API** (`csmGetDrawableRenderOrders`)
+必須。Cubism 5 では `csmGetRenderOrders` に rename され非互換。
+
+- `hsp3dx/extlib/cubism_sdk_native/` → **Cubism 4-r.7** (DxLib 本家 platform 用)
+- `hsp3dx/dxlib_angle_sdl2/extlib/cubism/` → **Cubism 5-r.5** (SDL2 fork は source build なので 5 対応)
+
+どちらも Live2D Proprietary License、`.gitignore` で commit 除外。
+
+#### 2. gen_dxlib_bindings.py Live2D 復活 (8e0381b3)
+
+- 従来 `startswith('Live2D_')` で SKIP していた 34 関数を復活 (1543 → 1577 entries)
+- 生成 .cpp dispatcher で `#ifndef DX_NON_LIVE2D_CUBISM4` guard、DxLib.h の宣言と整合
+- Win: DxLibW_vs2015_x64_MT.lib に 92 Live2D/Cubism シンボル確認済、直接 link OK
+
+#### 3. Android Live2D 有効化 (73994995)
+
+- DxLibEnableLive2D_Android_3_24f.zip を Lib_AndroidStudio/<abi>/ に overlay (12 libs × 4 ABI)
+- Cubism 4-r.7 `libLive2DCubismCore.a` を各 ABI 配置
+- `ndk/template/app/src/main/cpp/CMakeLists.txt` の target_link_libraries に `Live2DCubismCore` 追加
+- `sample_live2d.hsp` → `start.ax` 差替 + Hiyori/ を assets/ 同梱
+- エミュレータ x86_64 で Hiyori 描画成功、log で `Live2D Cubism SDK Core Version 4.2.4` 確認
+
+#### 4. iOS Live2D 有効化 (031350c9)
+
+- LinkFiles/<config>/ に 11 libs × 4 config 展開
+- project.yml に Cubism iOS lib path + `-lLive2DCubismCore`
+- **Simulator lib は x86_64 only** (Apple Silicon 以前) → `EXCLUDED_ARCHS[sdk=iphonesimulator*]=arm64`
+  で Rosetta 経由 x86_64 実行
+- `type: folder` (blue folder reference) で Hiyori/ サブディレクトリ構造保持
+  (default group だと flat 展開される)
+- `main_ios.mm` の asset 展開を `subpathsOfDirectoryAtPath` で再帰化、中間 dir 自動作成
+- 罠: **hsp3dx_compat.h が `BOOL = int` typedef** → ObjC の `BOOL = bool` と衝突。
+  `(BOOL*)` cast すると `(int*)` に解釈されてエラー、`(_Bool*)` で迂回
+
+#### 5. Desktop SDL2 Cubism GLSL 実装 (8dafc892) — L4 Phase 4
+
+- `DxLive2DCubism4Shader_stub.cpp` (ファイル名は stub のまま、中身は実実装) に
+  CubismFramework Standard 3 vert + 7 frag GLSL を embed (Live2D Open Software License)
+- `D_CubismShader_DxLib::LoadShaderProgram()` を実装。初回 compile → cache、以降同 handle 返す
+- Add/Mult 系 (D_ShaderNames 7-18) は Normal 系と同 program 再利用 (blend state は外部管理)
+- `DxLive2DCubism4Desktop.cpp::Live2DCubism4_SetupShader_PF` で glUseProgram + uniform bind
+  (u_matrix / u_clipMatrix / u_baseColor / u_multiplyColor / u_screenColor / u_channelFlag)
+- 罠: **MSVC `/source-charset:.932` 下で UTF-8 日本語コメントに BOM 必須**。
+  SJIS trail byte `0x5C` (「ソ」等) で line-continuation が発動、次行の関数定義が obj から消失 →
+  link error LNK2019 unresolved external で気付く。UTF-8 BOM (EF BB BF) 付与で解決。
+
+#### 6. SSAO GPU filter 追加 (5adef572)
+
+- `DxGraphicsFilterGPUDesktop.cpp` に `s_filter_ssao_fs` 追加 (3x3 ring luminance 比較、
+  CPU 版 `DxGraphicsFilterDesktop.cpp:399-439` と同じ式の GLSL 化)
+- `DxGraphicsFilterDesktop.cpp` の GPU dispatcher 条件に `DX_GRAPH_FILTER_SSAO` 追加
+- GPU filter 計 4 種: BICUBIC / LANCZOS3 / GAUSS / SSAO
+- GradMap GPU 版は palette 256 色 uniform 配列で将来追加予定 (今は CPU fallback)
+
+#### 7. Mac arm64 build 検証 (a60076a2)
+
+- `extlib/cubism/CMakeLists.txt` に APPLE/ANDROID/UNIX 別 IMPORTED_LOCATION ロジック追加
+- Cubism 5-r.5 の macOS arm64 lib を `lib/macos/arm64/` に配置 (個別配置、.gitignore 除外)
+- SSH 経由で `cmake` + `make -j10` 実行、**25 stage 全 arm64 Mach-O build 成功**
+- `.gitignore` で extlib/cubism/lib/{macos,linux,android,ios}/ を除外追加
+
+#### 8. Web emscripten build 検証
+
+- `/c/Build/emsdk/upstream/emscripten/emcc.bat` (emcc 5.0.6) で `bash build_web.sh stage4`
+- `stage4_web.html` + `stage4_web.js` + `stage4_web.wasm` (5.8MB) 生成成功
+- Web は `DX_NON_LIVE2D_CUBISM4=1` (Cubism は外す) 運用、ビルドだけ通過確認
+
+#### 重要な学び (memory 化)
+
+1. **MSVC /source-charset:.932 + UTF-8 日本語コメント → BOM 必須** (詳細は
+   `reference_dxlib_desktop_hook_strategy.md`)
+2. **hsp3dx_compat.h の `BOOL = int` typedef が ObjC の `BOOL = bool` と衝突** (詳細は
+   `reference_ios_bool_typedef_conflict.md`)
+3. **Cubism 4 vs 5 API 非互換** (csmGetDrawableRenderOrders → csmGetRenderOrders、
+   `reference_dxlib_live2d_cubism_version.md`)
+4. **xcodegen の Data/ サブディレクトリは `type: folder` 明示**で blue folder reference 化。
+   default group だと bundle 内で flat 展開される
+5. **Mac SSH default shell の PATH に `/opt/homebrew/bin` が無い** → `export PATH=...;` 明示必須
+
+#### 次セッション候補
+
+- Mac/Linux/Web **実行時動作検証** (build は通るが window 描画テストまだ)
+- Desktop Cubism GLSL の**実モデル描画検証** (hsp3dx runtime を SDL2 fork で build 要)
+- GradMap GPU filter (SSAO と同枠組み、30 分)
+- VRM 見た目崩れ真因調査 (mv1conv 側、UV/Alpha/Cull/MToon 4 候補)
+

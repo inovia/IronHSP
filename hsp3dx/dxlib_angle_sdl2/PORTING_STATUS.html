@@ -57,7 +57,7 @@ td.note { font-size: 12px; color: #555; }
 <body>
 
 <h1>hsp3dx DxLib マルチプラットフォーム対応状況</h1>
-<p class="meta">最終更新: 2026-04-22 22:24 (GPU GraphFilter + MV1 Normal map shader 完了) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
+<p class="meta">最終更新: 2026-04-23 20:42 (Live2D 6 platform + Cubism GLSL + SSAO GPU + Mac/Web build 検証) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
 
 <div class="summary-box" style="border:2px solid #2b6cb0">
   <p style="margin:0">📋 <strong>全関数マトリクス</strong>: この HTML は主要 API 80 関数の概観です。DxLib.h に宣言されている <strong>全 2438 関数</strong> の対応状況は <a href="PORTING_STATUS_DETAIL.html" style="font-weight:700">PORTING_STATUS_DETAIL.html</a> (自動生成) を参照してください。</p>
@@ -88,12 +88,20 @@ td.note { font-size: 12px; color: #555; }
      有効化 / DX_NON_LIVE2D_CUBISM4 解除 + Live2D API stub 完成 /
      GPU GraphFilter (BICUBIC / LANCZOS3 / GAUSS) + MV1 NormalLayer shader
      (derivative TBN) 完成。</p>
-  <p><strong>保留項目 (次セッション):</strong> DxLib Cubism shader の GLSL 化
-     (Desktop Live2D 実描画の最後のピース、shader 19 種移植で 1〜2 週間) /
-     GPU filter SSAO (depth+normal buffer 基盤要) /
-     E2 Mac SSH 実ビルド (repo clone + cmake install 要) /
-     E3 Web emscripten 実ビルド (emsdk install 要)
-     残: Live2D Cubism4、Bullet Physics、Toon 階調 (要 shader)、VBO 最適化、DiffuseLayer[1+] 合成。</p>
+  <p><strong>2026-04-23 追加:</strong>
+     <strong>Live2D Cubism 4 を 6 プラットフォームで有効化</strong> (Win/Android/iOS Simulator 実描画確認 + Desktop SDL2/Mac/Web build 通過)。
+     gen_dxlib_bindings.py の Live2D 除外撤廃で 34 新 API を追加 (1543→1577 entries)。
+     <strong>L4 Phase 4 完了: Cubism GLSL shader 実装</strong> (3 vert + 7 frag embed、7 program compile、SetupShader_PF で uniform bind、Add/Mult は Normal program 再利用)。
+     <strong>SSAO GPU filter 追加</strong> (3x3 ring luminance 比較、CPU 版式の GLSL 化)。
+     <strong>E2 Mac SSH build 検証完了</strong> (25 stage arm64 Mach-O 全 build)。
+     <strong>E3 Web emscripten build 検証</strong> (stage4_web.wasm 5.8MB 生成、DX_NON_LIVE2D_CUBISM4=1 運用)。
+     extlib/cubism/CMakeLists.txt で Mac/Linux/Android Core lib 自動検出追加 (.gitignore で SDK 個別 DL 前提)。</p>
+  <p><strong>保留項目 (次セッション):</strong>
+     Mac/Linux/Web <strong>実行時動作検証</strong> (build は通るが window 描画テストまだ) /
+     Desktop Cubism GLSL の<strong>実モデル描画検証</strong> (hsp3dx runtime を SDL2 fork で build 要) /
+     DxLib Shader API (.vso/.pso → GLSL transpile) 完全互換 (2〜3 週間規模) /
+     GradMap GPU filter (SSAO と同枠組み) / SpecularLayer advanced shader /
+     Bullet Physics の hsp3dx runtime 統合 / iOS 実機 signing + WebSocket 本実装。</p>
 </div>
 
 <div class="legend">
@@ -124,7 +132,7 @@ td.note { font-size: 12px; color: #555; }
     <td>AudioUnit / AVAudioEngine</td>
     <td>CoreText / CTFont</td>
     <td>UIImage / CGImageSource</td>
-    <td>hsp3dx/ios テンプレで動作。Live2D は公式 DxLibEnableLive2D_iOS_3_24f.zip 要。</td>
+    <td>hsp3dx/ios テンプレで動作。<strong>Live2D 有効化済 (2026-04-23)</strong>: Cubism SDK 4-r.7 + DxLibEnableLive2D_iOS_3_24f.zip 適用、Simulator Hiyori 描画確認済。</td>
   </tr>
   <tr>
     <td>Android (DxLib 本家)</td>
@@ -133,7 +141,7 @@ td.note { font-size: 12px; color: #555; }
     <td>OpenSL ES</td>
     <td>FreeType (NDK)</td>
     <td>BitmapFactory (Java→JNI)</td>
-    <td>hsp3dx/ndk テンプレで動作。Live2D は公式 DxLibEnableLive2D_Android_3_24f.zip 要。</td>
+    <td>hsp3dx/ndk テンプレで動作。<strong>Live2D 有効化済 (2026-04-23)</strong>: Cubism SDK 4-r.7 + DxLibEnableLive2D_Android_3_24f.zip 適用、エミュレータ Hiyori 描画確認済。</td>
   </tr>
   <tr>
     <td>Desktop SDL2 (Mac/Linux/Win)</td>
@@ -681,10 +689,11 @@ td.note { font-size: 12px; color: #555; }
   <td class="note">D4b 完了。DxMovieTheoraDesktop.cpp が Ogg demux + YUV→BGRA 変換を実行。拡張子 .ogv / .ogg で自動 dispatch (MF backend と並列)。音声 Vorbis は未統合 (D4 次段で対応予定)。</td>
 </tr>
 <tr><td class="fn">Live2D Cubism4 API</td>
-  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">L2 Cubism SDK 5-r.5 bundle + GLEW bundle + DxLive2DCubism4.cpp (DxLib 本家 1751 行) + DxUseCLibLive2DCubism4.cpp (11666 行) を lib に含め DX_NON_LIVE2D_CUBISM4 解除、Rendering/OpenGL backend 有効化</td>
-  <td class="note">Live2DModel_LoadXFromMem 等の API call は通る。但し shader は stub (LoadShaderProgram return true / Live2DCubism4_SetupShader_PF no-op) のため実描画は no-op。本描画には CubismFramework OpenGL renderer と Desktop GLSL shader template (D_ShaderNames_Normal 他 19 種) の hook-up が要る (L4 Phase 4)。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-na">—</span></td>
+  <td class="tech">Win/iOS/Android: Cubism SDK 4-r.7 prebuilt + DxLibEnableLive2D_*_3_24f.zip / SDL2 fork: Cubism SDK 5-r.5 bundle + GLSL shader 実装 (2026-04-23) / Web: DX_NON_LIVE2D_CUBISM4=1 (build 時除外)</td>
+  <td class="note">2026-04-23 6 platform 有効化。Win/Android/iOS Simulator は Hiyori.model3.json 実描画確認。SDL2 fork は L4 Phase 4 完了 (3 vert + 7 frag GLSL embed、7 program compile、D_ShaderNames 19 全対応、Add/Mult は Normal 再利用)、ただし実モデル描画は hsp3dx フル runtime 経由の検証まだ。<br>
+  <strong>注意: DxLib 3.24f は Cubism Core 4 API 必須</strong> (Cubism 5 では csmGetDrawableRenderOrders が csmGetRenderOrders に rename、非互換)。Win/iOS/Android は 4-r.7、SDL2 fork は 5-r.5 併用。</td>
 </tr>
 <tr><td class="fn">Bullet Physics (剛体 / Soft Body)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
@@ -713,8 +722,8 @@ td.note { font-size: 12px; color: #555; }
 <tr><td class="fn">GraphFilter (MONO / INVERT / BRIGHT_CLIP/SCALE / HSB / TWO_COLOR / GAUSS / LEVEL / GRADIENT_MAP / BICUBIC_SCALE / LANCZOS3_SCALE / PREMUL_ALPHA / YUV_TO_RGB / REPLACEMENT / FLOAT_COLOR_SCALE / SSAO)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="tech">CPU 経由 (GraphLock → BGRA ピクセル書換 → GraphUnLock) + <strong>GPU 経路</strong> (BICUBIC/LANCZOS3/GAUSS は FBO + GLSL shader で CPU 版の 50〜100x 高速)</td>
-  <td class="note">Tier 4e + B3 + M3 + GPU 実装完了。計 17 種対応 (CPU 15 + GPU 3)。dst が FBO (MakeScreen 済み) なら GPU 経路、そうでなければ CPU fallback。SSAO は CPU 近似 (depth buffer 無しの輝度差法)。</td>
+  <td class="tech">CPU 経由 (GraphLock → BGRA ピクセル書換 → GraphUnLock) + <strong>GPU 経路</strong> (BICUBIC/LANCZOS3/GAUSS/SSAO は FBO + GLSL shader で CPU 版の 50〜100x 高速)</td>
+  <td class="note">Tier 4e + B3 + M3 + GPU 実装完了。計 17 種対応 (CPU 15 + GPU 4)。dst が FBO (MakeScreen 済み) なら GPU 経路、そうでなければ CPU fallback。SSAO は CPU/GPU 両方 depth buffer 無しの輝度差近似 (2026-04-23 GPU 化)。GradMap は CPU のみ (GPU は次セッション)。</td>
 </tr>
 <tr><td class="fn">GraphBlend (NORMAL / MULTIPLE / DIFFERENCE / ADD / SCREEN / OVERLAY / DODGE / BURN / DARKEN / LIGHTEN / SOFTLIGHT / HARDLIGHT / EXCLUSION / NORMAL_ALPHACH / ADD_ALPHACH / MULTIPLE_A_ONLY)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>

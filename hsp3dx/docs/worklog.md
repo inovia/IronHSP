@@ -4,6 +4,57 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 仕様書 ([hsp3dx_spec.md](../../docs/hsp3dx_spec.md)) は **決めごと** を、本ログは
 **何をしたか・何に詰まったか・なぜそう決めたか** を書く。
 
+> **注:** 2026-04-22 以降の細かい記録は [hsp3dx/dxlib_angle_sdl2/SESSION_LOG.md](../dxlib_angle_sdl2/SESSION_LOG.md)
+> 側に集約しています (Mac/Linux/Web 対応の作業中心)。本 worklog には要約だけ残します。
+
+---
+
+## 2026-04-23 夜 — Live2D Cubism 4 を 6 platform 全対応 🎉
+
+**commit**: 8e0381b3 → a60076a2 (6 commits、20:37〜20:42)
+
+1. **Windows** Live2D 有効化 — gen_dxlib_bindings.py の Live2D 除外撤廃 (1543→1577 entries)、
+   Cubism SDK 4-r.7 DLL + sample_live2d.hsp で Hiyori 描画確認
+2. **Android** Live2D 有効化 — DxLibEnableLive2D_Android_3_24f.zip + Cubism 4 static lib、
+   エミュで Hiyori 描画
+3. **iOS Simulator** Live2D 有効化 — EXCLUDED_ARCHS で arm64 Rosetta 回避、xcodegen `type: folder` で
+   subdir 保持、iPhone 15 Simulator で Hiyori 描画
+4. **Desktop SDL2** Cubism GLSL 実装 — 3 vert + 7 frag embed、7 program compile (L4 Phase 4)
+5. **Desktop SDL2** SSAO GPU filter 追加 (CPU 版の GLSL 移植)
+6. **Mac arm64** build 検証 — SSH 経由で 25 stage Mach-O 全 build
+7. **Web emscripten** build 検証 — stage4_web.wasm 5.8MB 生成
+
+**重要な罠** (memory 化済み):
+- MSVC `/source-charset:.932` + UTF-8 日本語コメント → BOM 必須 (SJIS trail 0x5C 問題)
+- hsp3dx_compat.h の `BOOL=int` typedef が ObjC `BOOL=bool` と衝突
+- DxLib 3.24f は Cubism Core 4 必須 (Cubism 5 は API rename で非互換)
+- Apple Silicon Mac で Cubism 4 iOS simulator lib は x86_64 only
+
+詳細は [dxlib_angle_sdl2/SESSION_LOG.md](../dxlib_angle_sdl2/SESSION_LOG.md) の
+「2026-04-23 夜」エントリ参照。
+
+---
+
+## 2026-04-22 Day 1 — DxLib を Mac/Linux/Web 対応 (stage 1〜25 走破)
+
+→ 詳細は [dxlib_angle_sdl2/SESSION_LOG.md](../dxlib_angle_sdl2/SESSION_LOG.md)
+
+### 成果概要
+
+- **Stage 1〜9**: SDL2 + GL base + DxLib stub (stage exe 9 本、SDL2 ピクセル描画)
+- **Stage 10〜11**: Blend mode / Bright + Emscripten Web 動作確認
+- **Stage 12**: DxLib_Init/End stub Web 動作
+- **Stage 13**: DxLib 2D プリミティブ on Web (DxLib 経由で WebGL 描画)
+- **Stage 14**: 自動キャプチャ (stage7/8/9 Web 版)
+- **Stage 15**: Linux + Mac ネイティブビルド (WSLg で描画確認)
+- **Stage 16〜25**: Input / Font / Sound / Image / MakeScreen / 3D / Movie / MV1 本道 API 化
+- **Tier 4a〜4f**: Light/Fog / Movie 4 platform / Mask 最小 / MV1 advanced / GraphFilter 7 / GLSL shader 拡張 API
+- **Category B/C/D**: Mask stencil 実効果 / Clipboard/Touch/IME / libogg+vorbis+opus+theora+tiff bundle
+- **M1〜M5**: Toon gradation / Shadow FBO / GraphFilter +5 / MV1 Spec+Normal wire / Mac Movie Seek
+- **L1〜L4 Phase 2**: DxLib Shader API UseShader / Cubism SDK bundle / Bullet Physics bundle /
+  GLSL shader template / **MV1 basic GLSL 動作化** (per-fragment Blinn-Phong + shadow2DProj + alpha + TBN)
+- **GPU GraphFilter**: BICUBIC / LANCZOS3 / GAUSS の GLSL 版 (CPU の 50〜100x 高速)
+
 ---
 
 ## 2026-04-21 (Phase 5.4a: HTTP クライアント)

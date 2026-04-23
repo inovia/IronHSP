@@ -1,116 +1,166 @@
-# hsp3dx — Mac/Linux/Web ポート作業場 (SDL2 + ANGLE)
+# hsp3dx/dxlib_angle_sdl2 — DxLib Desktop SDL2 fork
 
-DxLib を SDL2 + ANGLE 経由で Mac / Linux / Web に展開するための作業フォルダ。
+DxLib 3.24f 本家ソースを SDL2 + OpenGL (compat) で **Mac / Linux / Web** に展開する作業ツリー。
+Windows での build も同ソースで通るので、Win/Mac/Linux/Web の 4 プラットフォームを
+**同じ .cpp で** 対応する。
 
-- ベース: DxLib 3.24f 本家ソース (Windows/iOS/Android 公式サポート)
-- 方針: **DxLib 本家をフォーク** (`dxlib_portable/`) + Desktop プラットフォーム層を追加
-- 参考: DxPortLib (2017-11 停滞、2D のみ) — API カバレッジ 12% のため採用見送り
+対応状況: **[PORTING_STATUS.html](PORTING_STATUS.html)** (主要 API) /
+**[PORTING_STATUS_DETAIL.html](PORTING_STATUS_DETAIL.html)** (全 2438 関数) 参照。
+変更履歴: **[SESSION_LOG.md](SESSION_LOG.md)** に日次記録。
 
-詳細な比較は [COMPARE_NOTES.md](COMPARE_NOTES.md) 参照。
-
-## ディレクトリ構成
+## 構成
 
 ```
-hsp3dx/dxlib_angle_sdl2/
+dxlib_angle_sdl2/
+├── dxlib_portable/                 # DxLib 3.24f fork (patch 適用済)
+│   ├── Dx*.cpp / Dx*.h             # DxLib 本体
+│   ├── Desktop/                    # ★SDL2 + OpenGL 専用 platform 層
+│   │   ├── DxGraphicsDesktop.cpp   # SDL2 window + GL context + 2D/3D 描画
+│   │   ├── DxSoundDesktop.cpp      # SDL2_mixer + libogg/vorbis/opus デコード
+│   │   ├── DxFontDesktop.cpp       # SDL2_ttf
+│   │   ├── DxBaseImageDesktop.cpp  # stb_image
+│   │   ├── DxMovie*Desktop.cpp     # Theora / Media Foundation / AVFoundation / GStreamer / <video>
+│   │   ├── DxModelDesktop.cpp      # MV1 描画 (fixed-function + optional GLSL shader)
+│   │   ├── DxShaderDesktop.cpp     # GLSL compile/use/uniform API (extern "C")
+│   │   ├── DxGraphicsFilterDesktop.cpp     # GraphFilter CPU 版 (17 種)
+│   │   ├── DxGraphicsFilterGPUDesktop.cpp  # GraphFilter GPU 版 (BICUBIC/LANCZOS3/GAUSS/SSAO)
+│   │   ├── DxMaskDesktop.cpp               # Mask (stencil buffer)
+│   │   ├── DxLive2DCubism4Desktop.cpp      # Live2D PF 関数 (SetupShader_PF 他)
+│   │   ├── DxLive2DCubism4Shader_stub.cpp  # Cubism GLSL shader embed + compile
+│   │   └── glsl/                   # MV1 shader GLSL template (mv1_basic / filter_gauss 等)
+│   ├── iOS/ Android/ 他            # 本家プラットフォーム層 (非改変)
 ├── extlib/
-│   ├── SDL2/                    # SDL2 2.30.11 VC prebuilt (include + lib/x64 + bin)
-│   └── DxLibMake/               # DxLib 3.24f ソース (read-only reference)
-├── dxlib_portable/              # ★DxLib の Desktop 向けフォーク
-│   ├── DxCompileConfig.h        # patched: DX_PLATFORM_DESKTOP_SDL2 ブランチ追加
-│   ├── DxDataType.h             # patched: DxDataTypeDesktop.h 分岐
-│   ├── DxDataTypeDesktop.h      # new (UTF-8): iOS 版ベース
-│   ├── DxFunctionDesktop.h      # new (UTF-8): Desktop 固有 API 宣言
-│   ├── Dx*.h                    # patched 18 files (Desktop/ ヘッダ分岐追加)
-│   ├── Dx*.cpp                  # patched 7 files
-│   ├── iOS/ / Android/ / 他     # 未変更
-│   └── Desktop/                 # ★新規プラットフォーム層
-│       ├── DxBaseFuncDesktop.{h,cpp}    # 実装済 (iOS 版の最小移植)
-│       └── Dx*Desktop.h                 # stub 17 枚 (中身空、後日実装)
+│   ├── SDL2/ SDL2_ttf/ SDL2_mixer/ # SDL2 prebuilt (VC / Mac brew / Linux apt)
+│   ├── libogg/ libvorbis/ opusfile/ libopus/ libtheora/ libtiff/   # 音声/映像 bundle
+│   ├── bullet3/                    # Bullet Physics 3.25 source bundle
+│   ├── cubism/                     # Live2D Cubism SDK 5-r.5 (Framework source + Core lib)
+│   ├── glew/                       # GLEW 2.2 single-file
+│   └── zlib/                       # zlib bundle
 ├── src/
-│   ├── stage1_empty_window.cpp  # SDL2 + GL ES context の PoC
-│   └── stage2_header_compile.cpp # DxLib.h パース検証
-├── _research/
-│   └── DxPortLib/               # 比較用 git clone
+│   ├── stage1〜stage25_*.cpp       # 機能別 demo (window / draw / image / font / sound / 3D / mv1 / movie 等)
+│   └── stage*_web.cpp              # Web 向け entry
+├── web/
+│   ├── build_web.sh                # emscripten ビルドスクリプト
+│   ├── capture_server.py           # 自動キャプチャ用 HTTP server
+│   └── capture_shell.html          # screenshot 取得用 HTML shell
 ├── CMakeLists.txt
+├── PORTING_STATUS.html             # 主要 API 対応マトリクス
+├── PORTING_STATUS_DETAIL.html      # 全 2438 関数対応表 (自動生成)
+├── SESSION_LOG.md                  # 日次作業ログ
+├── COMPARE_NOTES.md                # DxPortLib との比較
 └── README.md (this file)
 ```
 
-## ビルド (Windows MSVC)
+## ビルド
 
+### Windows (MSVC)
 ```bash
 cmake -S . -B build -G "Visual Studio 17 2022" -A x64
 cmake --build build --config Release
 ```
 
-### 生成ターゲット
+### Mac (arm64 Apple Silicon)
+```bash
+# brew / cmake / sdl2 / sdl2_mixer / sdl2_ttf 事前インストール要
+# Mac は /opt/homebrew/bin が PATH に無いので明示
+export PATH=/opt/homebrew/bin:$PATH
+cmake -S . -B build_mac
+make -C build_mac -j$(sysctl -n hw.ncpu)
+```
 
-| ターゲット | 目的 | 状態 |
-|----------|------|------|
-| `stage1_empty_window` | SDL2 で window + GL ES context 取得 | ✓ 動作確認済 |
-| `stage2_header_compile` | DxLib.h が DX_PLATFORM_DESKTOP_SDL2 で parse 可能か検証 | ✓ pass |
+### Linux (WSL2 Ubuntu + WSLg or native)
+```bash
+sudo apt install libsdl2-dev libsdl2-ttf-dev libsdl2-mixer-dev
+cmake -S . -B build_linux
+make -C build_linux -j$(nproc)
+```
+
+### Web (emscripten)
+```bash
+# /c/Build/emsdk にインストール済
+export PATH=/c/Build/emsdk/upstream/emscripten:$PATH
+cd web/build
+bash ../build_web.sh stage4        # → stage4_web.{html,js,wasm}
+```
 
 ## 現状の到達度
 
-**Stage 1 (✓ done)** — SDL2 + OpenGL ES 2 window。
-NVIDIA ドライバの native GL ES 3.2 context を取得して毎フレーム青系カラー clear。
+**対応プラットフォーム** (2026-04-23 時点):
 
-**Stage 2 (✓ done)** — DxLib.h ヘッダ全体 (5688 行) が DX_PLATFORM_DESKTOP_SDL2
-ブランチで parse 成功。プラットフォーム抽象層 scaffolding 完了:
-- DX_PLATFORM_DESKTOP_SDL2 で WINDOWS_DESKTOP_OS を抑止
-- Apple/Android と同等の DirectX/DSHOW/MediaFoundation/Network 無効化
-- Desktop/ ディレクトリに 18 ヘッダ stub + 1 実装ファイル
+| Platform | Build | 2D | 3D/MV1 | Font | Sound | Movie | Mask/Filter | Live2D |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Windows (MSVC) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ 本家 |
+| iOS (Xcode) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ 4-r.7 |
+| Android (NDK) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ 4-r.7 |
+| **Mac arm64** (SDL2 fork) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 🔶 build |
+| **Linux** (WSL2/native) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 🔶 build |
+| **Web** (emscripten) | ✅ | ✅ | ✅ | △ | △ | △ | △ | ❌ 無効 |
 
-**Stage 3 (次)** — `DxBaseFunc.cpp` が Desktop 向けにコンパイル可能に持っていく。
-現時点では stub しか無いので、以下のファイル群の本実装が必要:
-- `Desktop/DxLogDesktop.{h,cpp}` (iOS 版 200 行参考)
-- `Desktop/DxMemoryDesktop.{h,cpp}`
-- `Desktop/DxThreadDesktop.{h,cpp}` (iOS 版 422 行、pthread → std::thread)
-- `Desktop/DxFileDesktop.{h,cpp}` (fopen + SDL_RWops で iOS NSBundle 相当)
+- ✅ = 動作確認済、🔶 = build 通過 / runtime 未検証、△ = 部分、❌ = 未対応
+- Windows/iOS/Android は DxLib 本家の platform 実装を使う
+- Mac/Linux/Web は `Desktop/` 以下の SDL2+GL 実装
 
-## 残りの工数目安 (超概算)
+**主要機能** (L4 Phase 2 + M1-M5 + L1-L4 + E1 + 2026-04-23 分まで):
 
-| 段階 | 内容 | 見込み工数 |
-|------|------|-----------|
-| Stage 3 | 基礎 stub 実装 (BaseFunc/Log/Memory/Thread/File) | 1〜2 日 |
-| Stage 4 | Desktop 版 DxBaseImage (画像 decode = libpng/jpeg 経由) | 2〜3 日 |
-| Stage 5 | Desktop 版 DxGraphics (GL ES 2 2D 描画, iOS 版 12K 行移植) | **1〜2 週間** |
-| Stage 6 | DxInput (SDL2 kbd/mouse/joy → DxLib)、DxSound (SDL2_mixer or OpenAL) | 3〜4 日 |
-| Stage 7 | DxFont (SDL2_ttf or FreeType)、DxModel (3D, 最大工数) | **2 週間+** |
-| Stage 8 | ANGLE 組み込み (Windows で libEGL/libGLESv2) | 2〜3 日 |
-| Stage 9 | Mac ビルド (Metal backend via ANGLE) | 1 週間 |
-| Stage 10 | Linux ビルド (Vulkan backend via ANGLE) | 3〜4 日 |
-| Stage 11 | Web ビルド (emscripten + WebGPU backend via ANGLE) | 1 週間+ |
-| Stage 12 | hsp3dx 統合 (hsp3dx/src を dxlib_angle_sdl2 バックエンドでビルド) | 3〜5 日 |
+- 2D プリミティブ (Box/Circle/Line/...)、GraphBlend 16 mode、Bright、SetDrawMode
+- 3D (DrawPolygon/DrawCapsule)、MV1 load + skin + 法線 + Lighting + Toon outline
+- MV1 basic GLSL shader (per-fragment Blinn-Phong + shadow2DProj + alpha discard + derivative TBN)
+- Font (SDL2_ttf)、Sound (SDL2_mixer + ogg/vorbis/opus)、Movie (Theora + platform native)
+- Mask (stencil buffer)、GraphFilter 17 種 (CPU 15 + GPU 4: BICUBIC/LANCZOS3/GAUSS/SSAO)
+- Live2D Cubism 4 (Win/iOS/Android 本家 + SDL2 fork は Cubism 5 SDK + GLSL shader embed 済)
+- Bullet Physics 3.25 source bundle
+- Shadow map projective (fixed-function + FBO)
 
-**総計**: 集中して作業しても **1.5〜2 ヶ月** 程度。
+## 残タスク
+
+ランタイム検証:
+- Mac / Linux / Web での実描画動作確認 (GUI window / draw テスト)
+- Desktop SDL2 Cubism GLSL の実モデル描画検証 (hsp3dx runtime on SDL2 fork)
+
+機能の穴:
+- DxLib Shader API 完全互換 (.vso/.pso → GLSL transpile、2〜3 週間)
+- GradMap GPU filter (今 CPU fallback)
+- MV1 SpecularLayer advanced shader / parallax mapping
+- Bullet Physics の hsp3dx runtime 統合
+
+詳細は [PORTING_STATUS.html](PORTING_STATUS.html) の「保留項目」欄参照。
 
 ## セットアップ (初回)
 
-`extlib/SDL2/` と `extlib/DxLibMake/` は git ignore してあるので、
-次の手順で取ってくる必要がある。
+`extlib/SDL2/` / `SDL2_ttf/` / `SDL2_mixer/` / `cubism/lib/` 配下は
+`.gitignore` で除外。プラットフォーム別に取得が必要:
 
 ```bash
-cd hsp3dx/dxlib_angle_sdl2/extlib
-# SDL2 prebuilt (VC)
+# Windows: SDL2 prebuilt (VC)
+cd extlib
 curl -L -o SDL2.zip https://github.com/libsdl-org/SDL/releases/download/release-2.30.11/SDL2-devel-2.30.11-VC.zip
 unzip SDL2.zip && mv SDL2-2.30.11 SDL2 && rm SDL2.zip
+# (SDL2_ttf / SDL2_mixer も同様の VC zip を取得)
 
-# DxLib 3.24f source (xsrv から手動 DL して配置)
-# https://dxlib.xsrv.jp/ の「VisualC++用 ソースコード」からDL → DxLibMake フォルダをここに置く
+# Mac: brew
+brew install sdl2 sdl2_ttf sdl2_mixer
+
+# Linux: apt
+sudo apt install libsdl2-dev libsdl2-ttf-dev libsdl2-mixer-dev
+
+# Cubism SDK (Live2D 使用時、全プラットフォーム共通)
+# https://www.live2d.com/download/cubism-sdk/ から CubismSdkForNative-5-r.5.zip を DL
+# SDK for Native を展開し、Core/lib/<platform>/libLive2DCubismCore.a を
+# extlib/cubism/lib/<platform>/ にコピー
 ```
-
-`dxlib_portable/` は git 管理されている (DxLib 3.24f + 我々の patch 適用済)。
 
 ## ライセンス
 
-- DxLib 本体: [DxLib 著作権](https://dxlib.xsrv.jp/dxlicense.html) — 著作権表記 (`DX Library Copyright (C) 2001-2025 Takumi Yamada`) を同梱すれば改変・再配布 OK の寛容なライセンス。
-- SDL2: [zlib license](https://www.libsdl.org/license.php)
-- 本リポジトリの新規コード (`Desktop/*`, `src/*`, CMake, ドキュメント類): hsp3dx 本体と同じライセンス
+- DxLib 本体: [DxLib 著作権表記同梱義務](https://dxlib.xsrv.jp/dxlicense.html)
+- SDL2 / SDL2_ttf / SDL2_mixer: zlib license
+- 音声/映像 bundle (libogg/vorbis/opus/theora/tiff): 各 BSD-like
+- Bullet Physics 3.25: zlib license
+- Cubism SDK (Core + Framework): Live2D Proprietary (各自 DL & 規約同意)
+- 本リポジトリの新規コード (`Desktop/*`, `src/*`, CMake, ドキュメント類): hsp3dx 本体と同じ
 
-## 参考資料
+## 参考
 
-- DxPortLib: [github.com/mauvecow/DxPortLib](https://github.com/mauvecow/DxPortLib)
-  - 2D 実装 / SDL2 adapter (`src/PL/SDL2/PLSDL2Window.c` 等) は参考になる
-  - 3D 全滅、採用見送り
-- ANGLE: [chromium.org/angle](https://chromium.googlesource.com/angle/angle/+/main)
-- SDL2: [libsdl.org](https://www.libsdl.org/)
+- **[PORTING_STATUS.html](PORTING_STATUS.html)** — 対応 API マトリクス
+- **[SESSION_LOG.md](SESSION_LOG.md)** — 日次作業ログ (stage 1〜25 の足跡)
+- DxPortLib [github.com/mauvecow/DxPortLib](https://github.com/mauvecow/DxPortLib) — 2017 停滞、比較用
+- DxLib 本家 [dxlib.xsrv.jp](https://dxlib.xsrv.jp/) — ベースソース
