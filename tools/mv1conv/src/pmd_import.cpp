@@ -298,28 +298,21 @@ LoadResult load_pmd(const std::string &path) {
         toon_ok = false;
     }
 
-    // toon texture を使用している material に適用。
-    // PMD は 10 slot で、default では toon01.bmp..toon10.bmp が入っている。
-    // path が default 名 (toonNN.bmp) と一致するなら DxLib 内蔵を使う (ref=1)。
-    // 一致しない場合は custom texture として追加 (ref=0)。
-    auto is_builtin = [](const std::string &p, int *out_idx) -> bool {
-        static const char *builtins[10] = {
-            "toon01.bmp","toon02.bmp","toon03.bmp","toon04.bmp","toon05.bmp",
-            "toon06.bmp","toon07.bmp","toon08.bmp","toon09.bmp","toon10.bmp"
-        };
-        for (int k = 0; k < 10; ++k) {
-            if (p == builtins[k]) { *out_idx = k; return true; }
-        }
-        return false;
-    };
+    // toon texture を各 material に適用 (DxLib 本家 PMD loader の挙動に合わせる)。
+    // 公式 DxLib は PMD の toon を常に外部 texture として扱う (ref=0)。
+    //   toon_idx = 0..9:  toon_paths[idx] を texture list に追加
+    //   toon_idx = 0xFF:  "toon0.bmp" を texture list に追加 (DxLib 独自の placeholder 名)
     for (std::uint32_t i = 0; i < matN; ++i) {
         std::uint8_t ti = matToonIdx[i];
         std::string path;
-        if (ti != 0xFF && ti < 10) path = toon_paths[ti];
-        int bi = 0;
-        if (path.empty() || is_builtin(path, &bi)) {
+        if (ti == 0xFF) {
+            path = "toon0.bmp";
+        } else if (ti < 10) {
+            path = toon_paths[ti];
+        }
+        if (path.empty()) {
             mats[i].pmx_toon_ref = 1;
-            mats[i].pmx_toon_internal = bi;
+            mats[i].pmx_toon_internal = 0;
         } else {
             mats[i].pmx_toon_ref = 0;
             mats[i].pmx_toon_texture = add_texture(path);
