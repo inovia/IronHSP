@@ -1,0 +1,52 @@
+;============================================================
+;   sample_physics.hsp — MV1 Bullet Physics 動作確認サンプル
+;   alicia.mv1 をロードして毎フレーム MV1PhysicsCalculation を呼び、
+;   物理ボーン (髪/スカート) が機能しているか目視確認する。
+;
+;   STATUS (2026-04-24): Windows では動作。
+;   iOS では MV1LoadModel 自体が不安定で VM が停止する現象あり (未解決、
+;   deep debug 必要)。Android 未検証。
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx sample: MV1 Bullet Physics"
+    dx_setbgcolor3d 40, 40, 60
+    dx_setzbuffer 1
+    dx_SetUseLighting 1
+    dx_setlightdir 0.3, -0.5, 0.8
+
+    ;  alicia は等身大 (DxLib 標準座標系) なので大きめの視点
+    dx_setcamerapos 0.0, 10.0, -40.0, 0.0, 10.0, 0.0
+
+    dx_MV1LoadModel "alicia.mv1"
+    model = stat
+    if model < 0 : dialog "alicia.mv1 load failed (stat=" + model + ")" : end
+
+    dx_MV1SetPrioritizePhysicsOverAnimFlag model, 1
+
+    angle = 0.0
+    prev_t = gettime(7)
+
+    repeat
+        now_t = gettime(7)
+        delta = double(now_t - prev_t) / 1000.0
+        if delta < 0 || delta > 0.1 : delta = 0.016
+        prev_t = now_t
+
+        angle = angle + delta * 2.0
+        dx_MV1SetRotationXYZ model, 0.0, angle, 0.0
+
+        ;  Bullet Physics 呼び出し (物理ボーンが機能していれば髪/スカートが揺れる)
+        dx_MV1PhysicsCalculation model, delta
+
+        dx_ClsDrawScreen
+        dx_MV1DrawModel model
+
+        color 255, 255, 255
+        pos 10, 10
+        mes "MV1 Bullet Physics test  angle=" + strf("%.2f", angle)
+        dx_ScreenFlip
+        await 16
+    loop

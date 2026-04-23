@@ -54,6 +54,30 @@ NS_DxLib_Init         2349 ms        ~1200 ms
 - 実機 (iphoneos) 計測 — Simulator 固有の Metal 翻訳遅延と切り分け
 - (余裕があれば) `NotSoundFlag=TRUE` 切替 API で `InitializeSoundSystem` (836ms) skip
 
+### 追加検証 (Live2D 実測 + MV1 Bullet Physics 調査)
+
+**Live2D `sample_live2d.hsp` iOS Simulator 実測** (6x skip 適用後、HSP3DX_IOS_STARTUP_TIMING=1 で計測):
+- `ios_main start → hgio_dx_init end`: 1.97 秒 (Simple sample 1.87 秒とほぼ同じ)
+- `first hgio_dx_flip returned`: 2.82 秒
+- Hiyori 描画は screenshot 時系列で **8 秒時点で視認可能** (5 秒はまだ黒)
+- memory 旧記述 "15-20 秒" は古い観測値で、現在は 6-8 秒。`dx_Live2D_LoadModel` の
+  moc3 / PNG / physics json parse が VM 開始後 4-6 秒支配
+
+**iOS MV1 Bullet Physics 検証 → MV1LoadModel 不安定問題発見 (未解決)**:
+- [hsp3dx/samples/sample_physics.hsp](../samples/sample_physics.hsp) 新規作成
+  (alicia.mv1 + `dx_MV1PhysicsCalculation`)
+- iOS Simulator で実行すると `dx_MV1LoadModel "alicia.mv1"` 呼び出し付近で
+  VM が不安定化、描画停止、最終的に result=-1 で exit
+- 最小化版 (load だけ、draw なし、physics なし) でも同じ症状 →
+  Bullet Physics 以前に **MV1 load 自体が iOS で問題あり**
+- 最小 sample (MV1 完全除外) は正常動作
+- 原因調査方向: `GetApplicationDirectory() + '/' + path` でファイル解決
+  ([DxFileiOS.cpp:97-108](dxlib_portable/iOS/DxFileiOS.cpp) + [DxSystemiOS_ObjC.mm:1431](dxlib_portable/iOS/DxSystemiOS_ObjC.mm))。
+  alicia.mv1 は bundle root に存在確認済。texture 不足 or 他の原因が疑わしい
+- **時間切れで deep debug は次セッションに持ち越し**。memory
+  [project_ios_live2d_physics_verify_20260424.md](../../memory/project_ios_live2d_physics_verify_20260424.md)
+  に調査候補 (DxChara.mv1 で試す、ObjC exception handler 等) を記載
+
 ---
 
 ## 2026-04-22 — Day 1

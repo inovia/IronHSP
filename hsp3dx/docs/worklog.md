@@ -43,6 +43,15 @@ DxLib 原作者の意図 (GetFPS 値の初期化) は実行中に勝手に更新
 
 **次:** 実機 (iphoneos) で再計測。実機 GPU では全体的に速いはず。
 
+### 追加: Live2D 起動時間実測 + iOS MV1 Bullet Physics 調査
+
+- Live2D: Simulator で Hiyori 描画は 6-8 秒 (memory 旧記述 15-20s より大幅に短い)
+- iOS MV1: `dx_MV1LoadModel "alicia.mv1"` で VM 不安定化 → Bullet Physics 以前の
+  段階で MV1 load に問題あり (時間切れで未解決、次セッションに持ち越し)
+- `sample_physics.hsp` を新規作成 (Windows 前提の WIP サンプル)
+
+詳細: memory [project_ios_live2d_physics_verify_20260424.md](../../../Users/inovia/.claude/projects/j--HNWorks-IronHSP-2026/memory/project_ios_live2d_physics_verify_20260424.md)
+
 ---
 
 ## 2026-04-23 夜 — Live2D Cubism 4 を 6 platform 全対応 🎉
