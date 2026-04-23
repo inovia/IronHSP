@@ -686,11 +686,12 @@ td.note { font-size: 12px; color: #555; }
 <table>
 <tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
 <tr><td class="fn">PlayMovie / PlayMovieToGraph (MP4 等)</td>
-  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
-  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">Win: Media Foundation (IMFSourceReader) / <strong>iOS/Android: DxLib 本家 stub</strong> (DxMovieiOS.cpp / DxMovieAndroid.cpp 各 175 行、OpenMovie_UseGParam_PF は <code>return -1</code>) / Mac: AVFoundation (AVAssetReader, Obj-C++) / Linux: GStreamer 1.0 (appsink) / Web: HTML5 &lt;video&gt; + canvas getImageData (emscripten ブリッジ)</td>
-  <td class="note"><strong>重要:</strong> iOS/Android は DxLib 本家自体が動画再生を実装していない (OpenMovie/PlayMovie 系 PF 関数は全て return -1 stub)。mobile で動画再生したい場合は hsp3dx の外で AVPlayer/VideoView を呼ぶ運用になる。<br>
-  SDL2 fork は Tier 4b で全プラットフォーム <strong>video-only</strong> 実装済。音声は全部ミュート (Mac/Linux/Web は backend 側で鳴る可能性あり、音量は SetMovieVolumeToGraph で制御)。Windows/Linux は Seek 可、Mac は AVAssetReader forward-only で Seek 要 reader 再作成。Web は user gesture + CORS 制約あり。ffmpeg は不使用 (LGPL + H.264 パテント + 20MB 肥大回避)。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">Win: Media Foundation (IMFSourceReader) / <strong>iOS: AVPlayer reference impl (DxMovieiOS_AVP.mm 283 行、18 PF 関数)</strong> / <strong>Android: AMediaExtractor + AMediaCodec NDK reference impl (DxMovieAndroid_MediaCodec.cpp 434 行、NV12→BGRA)</strong> / Mac: AVFoundation (AVAssetReader, Obj-C++) + Vorbis 音声 / Linux: GStreamer 1.0 (appsink) + audio / SDL2 fork: Theora .ogv は libtheoradec + libvorbisfile で video+audio / Web: HTML5 &lt;video&gt; + canvas getImageData (音声 native)</td>
+  <td class="note">DxLib 本家の iOS/Android は OpenMovie 系 PF 関数が全 <code>return -1</code> stub。これに対し SDL2 fork は <strong>iOS: DxMovieiOS_AVP.mm</strong> (AVPlayer + AVPlayerItemVideoOutput、video + audio)、<strong>Android: DxMovieAndroid_MediaCodec.cpp</strong> (NDK NMediaExtractor + AMediaCodec) を <strong>reference 実装として tree に commit 済</strong> (8e557a2b / 50165d25)。<br>
+  <strong>有効化未完:</strong> 両方とも DxLib prebuilt .a 内の stub を上書きする必要あり (iOS: <code>ar d libDxLib_iOS.a DxMovieiOS.o</code> + linker 順序制御 / Android: 同様の archive 操作)。現状の active build は本家 stub のまま、これらの reference impl は将来作業の足場として temp 保留中。<br>
+  SDL2 fork は MF / AVAsset / GStreamer / HTML5 + Theora で全 platform 動画 + 音声対応済 (Theora .ogv は libvorbisfile で並行音声、Mac/Linux は SDL_QueueAudio、Web は HTML5 video native)。ffmpeg は不使用 (LGPL + H.264 patent + 20MB 肥大回避)。</td>
 </tr>
 <tr><td class="fn">PlayMovieToGraph (Ogg Theora .ogv)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
