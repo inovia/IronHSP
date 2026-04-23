@@ -631,6 +631,10 @@ if(EMSCRIPTEN)
         # 不要で link 速度が桁違いに速い。Chrome 123+ / FF Nightly などで動く。
         # 6.5MB wasm + DxLib + Cubism + Bullet + HSP VM 全部入りでも build 数分。
         "SHELL:-s JSPI=1"
+        # wasm stack: emscripten default 64KB は HSP + DxLib + Cubism + Bullet の
+        # 深い call stack で overflow → Chrome タブ即 crash (Windows Exploit
+        # Protection が検出して kill する)。1MB に拡張で安定。
+        "SHELL:-s STACK_SIZE=1048576"
         "SHELL:-O0"
         # divide-by-zero の関数特定のため debug info + symbol map 残す。
         # -g4 + DWARF source map で browser DevTools が呼出スタックを source 行で
