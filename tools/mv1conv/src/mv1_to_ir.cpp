@@ -517,19 +517,35 @@ LoadResult load_mv1_to_ir(const std::string &path) {
         //        uvs=per-unique (先頭出現を採用)、indices=per-mesh-vertex そのまま。
         //        多くの fixture で動く (重複 UV あっても先頭値で round-trip)。
 
-        mesh.positions = fv.pos;
         // triangle indices — TL を辿って集める
-        mesh.indices.reserve(mm->VertexNum);  // 上限ヒント
-        // TL 配列へのアクセス: hdr->TriangleList から順番
+        std::vector<std::uint32_t> rawIndices;  // frame pos index 参照
         for (int tli = 0; tli < hdr->TriangleListNum; ++tli) {
             const auto *tl = f.at<f1::MV1_TRIANGLE_LIST_F1>(
                 hdr->TriangleList + tli * sizeof(f1::MV1_TRIANGLE_LIST_F1));
             if (!tl || tl->Container != hdr->Mesh + mi * sizeof(f1::MV1_MESH_F1)) continue;
-            auto tri = decode_tl_triangles(f, *tl);  // tri[i] = mesh vertex index
-            // mesh vertex index → frame pos index
+            auto tri = decode_tl_triangles(f, *tl);
             for (std::uint32_t mv : tri) {
-                if (mv < meshVertexMap.size()) mesh.indices.push_back(meshVertexMap[mv]);
+                if (mv < meshVertexMap.size()) rawIndices.push_back(meshVertexMap[mv]);
             }
+        }
+        // Trim positions to only vertices referenced by this mesh's triangles
+        // (frame PandN 共有時に未使用頂点が含まれる問題を回避、逆エクスポート時の
+        //  aiMesh.mNumVertices を最小化)
+        std::vector<std::int32_t> remap(fv.pos.size() / 3, -1);
+        mesh.positions.clear();
+        mesh.bone_weights.clear();
+        for (std::uint32_t pi : rawIndices) {
+            if (pi >= remap.size()) continue;
+            if (remap[pi] < 0) {
+                remap[pi] = static_cast<std::int32_t>(mesh.positions.size() / 3);
+                mesh.positions.push_back(fv.pos[pi*3+0]);
+                mesh.positions.push_back(fv.pos[pi*3+1]);
+                mesh.positions.push_back(fv.pos[pi*3+2]);
+                if (hasSkin && !fv.weights.empty() && pi < fv.weights.size()) {
+                    mesh.bone_weights.push_back(fv.weights[pi]);
+                }
+            }
+            mesh.indices.push_back(static_cast<std::uint32_t>(remap[pi]));
         }
 
         // Normals: per-corner で出したい (writer は per-corner 想定)
@@ -541,24 +557,19 @@ LoadResult load_mv1_to_ir(const std::string &path) {
         // 今回は writer の auto-normal 生成に任せて normals 空にする。
         // mesh.normals = {};
 
-        // UVs per-unique-pos: 先頭に見つかった UV を採用
-        if (!meshUV.empty() && !meshVertexMap.empty()) {
-            std::size_t posCount = fv.pos.size() / 3;
-            mesh.uvs.assign(posCount * 2, 0.0f);
-            std::vector<bool> set(posCount, false);
+        // UVs (per-trimmed-vertex): 同じ frame pos 共有時は先頭 UV 採用
+        if (!meshUV.empty()) {
+            std::size_t trimmedN = mesh.positions.size() / 3;
+            mesh.uvs.assign(trimmedN * 2, 0.0f);
+            std::vector<bool> set(trimmedN, false);
             for (std::size_t mv = 0; mv < meshVertexMap.size() && mv < meshUV.size() / 2; ++mv) {
                 std::uint32_t pIdx = meshVertexMap[mv];
-                if (pIdx < posCount && !set[pIdx]) {
-                    mesh.uvs[pIdx * 2 + 0] = meshUV[mv * 2 + 0];
-                    mesh.uvs[pIdx * 2 + 1] = meshUV[mv * 2 + 1];
-                    set[pIdx] = true;
+                if (pIdx < remap.size() && remap[pIdx] >= 0 && !set[remap[pIdx]]) {
+                    mesh.uvs[remap[pIdx] * 2 + 0] = meshUV[mv * 2 + 0];
+                    mesh.uvs[remap[pIdx] * 2 + 1] = meshUV[mv * 2 + 1];
+                    set[remap[pIdx]] = true;
                 }
             }
-        }
-
-        // Bone weights (skin 時): frame pos に対応
-        if (hasSkin && !fv.weights.empty()) {
-            mesh.bone_weights = fv.weights;
         }
         r.ir.meshes.push_back(std::move(mesh));
     }
