@@ -38,6 +38,7 @@
 #include <media/NdkMediaFormat.h>
 #include <android/log.h>
 #include <unistd.h>
+#include <aaudio/AAudio.h>    //  audio 出力 (API 26+、minSdk 27 で OK)
 
 #include "../DxLib.h"
 #include "../DxMovie.h"
@@ -58,11 +59,13 @@ namespace DxLib
 #endif
 
 struct AndroidMoviePlayer {
-    AMediaExtractor          *extractor        = nullptr ;
+    AMediaExtractor          *extractor        = nullptr ;   // video 専用
+    AMediaExtractor          *audioExtractor   = nullptr ;   // audio 専用 (別 fd)
     AMediaCodec              *videoCodec       = nullptr ;
     AMediaCodec              *audioCodec       = nullptr ;
     int                       videoTrack       = -1 ;
     int                       audioTrack       = -1 ;
+    FILE                     *audio_fp         = nullptr ;   // audio extractor 用 fd
     int                       width            = 0 ;
     int                       height           = 0 ;
     int                       color_format     = 0 ;  // OMX color format (出力 format 判明後に値入る)
@@ -79,6 +82,12 @@ struct AndroidMoviePlayer {
     std::vector<unsigned char> frame_argb ;
     std::string               path ;
     FILE                     *fp               = nullptr ;  // setDataSourceFd 用の保持
+    //  audio
+    AAudioStream             *audioStream      = nullptr ;
+    int                       audio_sample_rate = 0 ;
+    int                       audio_channels    = 0 ;
+    bool                      audio_saw_input_eof  = false ;
+    bool                      audio_saw_output_eof = false ;
 } ;
 
 //  OMX color format 定数 (android/media/NdkMediaCodec.h にも同値)
@@ -167,10 +176,16 @@ extern int TerminateMovieManage_PF( void )
 {
     for ( auto &kv : g_AndroidPlayers ) {
         if ( kv.second ) {
+            if ( kv.second->audioStream ) {
+                AAudioStream_requestStop( kv.second->audioStream ) ;
+                AAudioStream_close( kv.second->audioStream ) ;
+            }
             if ( kv.second->videoCodec ) AMediaCodec_delete( kv.second->videoCodec ) ;
             if ( kv.second->audioCodec ) AMediaCodec_delete( kv.second->audioCodec ) ;
-            if ( kv.second->extractor )  AMediaExtractor_delete( kv.second->extractor ) ;
+            if ( kv.second->extractor )      AMediaExtractor_delete( kv.second->extractor ) ;
+            if ( kv.second->audioExtractor ) AMediaExtractor_delete( kv.second->audioExtractor ) ;
             if ( kv.second->fp )         fclose( kv.second->fp ) ;
+            if ( kv.second->audio_fp )   fclose( kv.second->audio_fp ) ;
             delete kv.second ;
         }
     }
@@ -280,19 +295,40 @@ extern int OpenMovie_UseGParam_PF( MOVIEGRAPH *Movie, OPENMOVIE_GPARAM * /*GPara
     AMediaCodec_start( vcodec ) ;
     AMediaFormat_delete( vfmt ) ;
 
-    //  audio codec 起動 (optional)
+    //  audio codec 起動 (optional): video と track を混ぜない専用 extractor を開く。
+    //  同じ fd は AMediaExtractor 側で内部 dup されるが ensure の意味でも
+    //  2 つ目の FILE* を開いて別 fd を渡す。
     AMediaCodec *acodec = nullptr ;
+    AMediaExtractor *aex = nullptr ;
+    FILE *afp = nullptr ;
+    int audio_sr = 0, audio_ch = 0 ;
     if ( atrack >= 0 ) {
-        AMediaExtractor_selectTrack( ex, atrack ) ;
-        AMediaFormat *afmt = AMediaExtractor_getTrackFormat( ex, atrack ) ;
-        const char *amime = nullptr ;
-        AMediaFormat_getString( afmt, AMEDIAFORMAT_KEY_MIME, &amime ) ;
-        acodec = AMediaCodec_createDecoderByType( amime ? amime : "audio/mp4a-latm" ) ;
-        if ( acodec ) {
-            AMediaCodec_configure( acodec, afmt, nullptr, nullptr, 0 ) ;
-            AMediaCodec_start( acodec ) ;
+        afp = fopen( path.c_str(), "rb" ) ;
+        if ( afp ) {
+            fseek( afp, 0, SEEK_END ) ;
+            off_t afsize = ftello( afp ) ;
+            fseek( afp, 0, SEEK_SET ) ;
+            aex = AMediaExtractor_new() ;
+            if ( AMediaExtractor_setDataSourceFd( aex, fileno( afp ), 0, afsize ) == AMEDIA_OK ) {
+                AMediaExtractor_selectTrack( aex, atrack ) ;
+                AMediaFormat *afmt = AMediaExtractor_getTrackFormat( aex, atrack ) ;
+                const char *amime = nullptr ;
+                AMediaFormat_getString( afmt, AMEDIAFORMAT_KEY_MIME, &amime ) ;
+                AMediaFormat_getInt32( afmt, AMEDIAFORMAT_KEY_SAMPLE_RATE,    &audio_sr ) ;
+                AMediaFormat_getInt32( afmt, AMEDIAFORMAT_KEY_CHANNEL_COUNT,  &audio_ch ) ;
+                acodec = AMediaCodec_createDecoderByType( amime ? amime : "audio/mp4a-latm" ) ;
+                if ( acodec ) {
+                    AMediaCodec_configure( acodec, afmt, nullptr, nullptr, 0 ) ;
+                    AMediaCodec_start( acodec ) ;
+                }
+                AMediaFormat_delete( afmt ) ;
+            } else {
+                AMediaExtractor_delete( aex ) ;
+                aex = nullptr ;
+                fclose( afp ) ;
+                afp = nullptr ;
+            }
         }
-        AMediaFormat_delete( afmt ) ;
     }
 
     AndroidMoviePlayer *p = new AndroidMoviePlayer() ;
@@ -305,6 +341,27 @@ extern int OpenMovie_UseGParam_PF( MOVIEGRAPH *Movie, OPENMOVIE_GPARAM * /*GPara
     p->height       = vh ;
     p->duration_ms  = dur_us / 1000 ;
     p->fp           = fp ;    //  setDataSourceFd 用の FILE*、destroy 時に close
+    p->audioExtractor = aex ;
+    p->audio_fp     = afp ;
+    p->audio_sample_rate = audio_sr ;
+    p->audio_channels    = audio_ch ;
+
+    //  audio track がある場合は AAudio stream を open (16-bit PCM)
+    if ( acodec && audio_sr > 0 && audio_ch > 0 ) {
+        AAudioStreamBuilder *builder = nullptr ;
+        if ( AAudio_createStreamBuilder( &builder ) == AAUDIO_OK ) {
+            AAudioStreamBuilder_setSampleRate( builder, audio_sr ) ;
+            AAudioStreamBuilder_setChannelCount( builder, audio_ch ) ;
+            AAudioStreamBuilder_setFormat( builder, AAUDIO_FORMAT_PCM_I16 ) ;
+            AAudioStreamBuilder_setSharingMode( builder, AAUDIO_SHARING_MODE_SHARED ) ;
+            AAudioStreamBuilder_setPerformanceMode( builder, AAUDIO_PERFORMANCE_MODE_NONE ) ;
+            AAudioStreamBuilder_setDirection( builder, AAUDIO_DIRECTION_OUTPUT ) ;
+            if ( AAudioStreamBuilder_openStream( builder, &p->audioStream ) == AAUDIO_OK ) {
+                AAudioStream_requestStart( p->audioStream ) ;
+            }
+            AAudioStreamBuilder_delete( builder ) ;
+        }
+    }
     p->path         = path ;
     g_AndroidPlayers[ Movie ] = p ;
     Movie->Width  = vw ;
@@ -321,10 +378,16 @@ extern int TerminateMovieHandle_PF( HANDLEINFO *HandleInfo )
     if ( it == g_AndroidPlayers.end() ) return 0 ;
     AndroidMoviePlayer *p = it->second ;
     if ( p ) {
+        if ( p->audioStream ) {
+            AAudioStream_requestStop( p->audioStream ) ;
+            AAudioStream_close( p->audioStream ) ;
+        }
         if ( p->videoCodec ) { AMediaCodec_stop( p->videoCodec ) ; AMediaCodec_delete( p->videoCodec ) ; }
         if ( p->audioCodec ) { AMediaCodec_stop( p->audioCodec ) ; AMediaCodec_delete( p->audioCodec ) ; }
-        if ( p->extractor )  AMediaExtractor_delete( p->extractor ) ;
+        if ( p->extractor )      AMediaExtractor_delete( p->extractor ) ;
+        if ( p->audioExtractor ) AMediaExtractor_delete( p->audioExtractor ) ;
         if ( p->fp )         fclose( p->fp ) ;
+        if ( p->audio_fp )   fclose( p->audio_fp ) ;
         delete p ;
     }
     g_AndroidPlayers.erase( it ) ;
@@ -377,6 +440,52 @@ extern int SetMovieVolume_PF( MOVIEGRAPH *Movie, int Volume )
     p->volume_0_10000 = Volume ;
     //  audio codec に直接 volume 反映は NDK に API が無い。audio sink (AAudio)
     //  側で scale する実装が要る。現段階は volume 保持のみ。
+    return 0 ;
+}
+
+//  audio: 専用 extractor → audio codec → AAudio stream に流す。戻り値: 進んだ = 1, 無し = 0
+static int android_pump_audio( AndroidMoviePlayer *p )
+{
+    if ( !p || !p->audioCodec || !p->audioExtractor || !p->audioStream ) return 0 ;
+
+    //  input: audio extractor から読み出して codec に queue (複数可能なだけ queue)
+    while ( !p->audio_saw_input_eof ) {
+        ssize_t idx = AMediaCodec_dequeueInputBuffer( p->audioCodec, 0 ) ;
+        if ( idx < 0 ) break ;
+        size_t bufsize = 0 ;
+        uint8_t *buf = AMediaCodec_getInputBuffer( p->audioCodec, idx, &bufsize ) ;
+        if ( !buf ) break ;
+        ssize_t sampleSize = AMediaExtractor_readSampleData( p->audioExtractor, buf, bufsize ) ;
+        if ( sampleSize < 0 ) {
+            AMediaCodec_queueInputBuffer( p->audioCodec, idx, 0, 0, 0,
+                                           AMEDIACODEC_BUFFER_FLAG_END_OF_STREAM ) ;
+            p->audio_saw_input_eof = true ;
+            break ;
+        } else {
+            int64_t pts = AMediaExtractor_getSampleTime( p->audioExtractor ) ;
+            AMediaCodec_queueInputBuffer( p->audioCodec, idx, 0,
+                                           ( size_t )sampleSize, pts, 0 ) ;
+            AMediaExtractor_advance( p->audioExtractor ) ;
+        }
+    }
+
+    //  output: 取り出して AAudio に write
+    AMediaCodecBufferInfo info ;
+    ssize_t outIdx = AMediaCodec_dequeueOutputBuffer( p->audioCodec, &info, 0 ) ;
+    if ( outIdx >= 0 ) {
+        size_t outSize = 0 ;
+        uint8_t *out = AMediaCodec_getOutputBuffer( p->audioCodec, outIdx, &outSize ) ;
+        if ( out && info.size > 0 ) {
+            //  AAudio に write。16-bit PCM 前提。frame 数 = bytes / (channels * 2)
+            int32_t frames = info.size / ( p->audio_channels * 2 ) ;
+            AAudioStream_write( p->audioStream, out + info.offset, frames, 0 ) ;
+        }
+        AMediaCodec_releaseOutputBuffer( p->audioCodec, outIdx, false ) ;
+        if ( info.flags & AMEDIACODEC_BUFFER_FLAG_END_OF_STREAM ) {
+            p->audio_saw_output_eof = true ;
+        }
+        return 1 ;
+    }
     return 0 ;
 }
 
@@ -568,15 +677,21 @@ extern int UpdateMovie_PF( MOVIEGRAPH *Movie, int /*AlwaysFlag*/ )
         updated = true ;
     }
 
+    //  audio も毎フレ pump (AAudio stream にフィード)
+    android_pump_audio( p ) ;
+
     //  loop 時 EOF → seek 0
     if ( p->saw_output_eof && p->loop_flag ) {
         AMediaExtractor_seekTo( p->extractor, 0, AMEDIAEXTRACTOR_SEEK_CLOSEST_SYNC ) ;
         AMediaCodec_flush( p->videoCodec ) ;
         if ( p->audioCodec ) AMediaCodec_flush( p->audioCodec ) ;
+        if ( p->audioExtractor ) AMediaExtractor_seekTo( p->audioExtractor, 0, AMEDIAEXTRACTOR_SEEK_CLOSEST_SYNC ) ;
         p->last_pts_ms = 0 ;
         p->start_monotonic_ms = android_now_ms() ;
         p->saw_input_eof = false ;
         p->saw_output_eof = false ;
+        p->audio_saw_input_eof = false ;
+        p->audio_saw_output_eof = false ;
     }
 
     if ( updated && !p->frame_argb.empty() ) {

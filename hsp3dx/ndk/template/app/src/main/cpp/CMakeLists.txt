@@ -248,6 +248,8 @@ if(DXLIB_FROM_SOURCE)
         Live2DCubismCore
         # Movie MediaCodec 用 (AMediaExtractor / AMediaCodec / AMediaFormat)
         mediandk
+        # Movie audio 用 (AAudio、API 26+)
+        aaudio
     )
 else()
     # =============================================================================
