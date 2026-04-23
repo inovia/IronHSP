@@ -78,6 +78,12 @@ int main( int argc, char *argv[] )
         fprintf( stderr, "hgio_dx_init failed\n" );
         return -1;
     }
+#ifdef __EMSCRIPTEN__
+    //  Web: ここで一旦 browser event loop に control を返す。Init 完了の
+    //  ログを capture_shell.html 経由で post させて、stuck していないことを
+    //  視認できるようにする。ASYNCIFY 経由で rAF 待ち。
+    emscripten_sleep( 1 );
+#endif
 
     //  letterbox 余白を黒に
     SetBackgroundColor( 0, 0, 0 );
@@ -102,12 +108,18 @@ int main( int argc, char *argv[] )
         hgio_dx_term();
         return -1;
     }
+#ifdef __EMSCRIPTEN__
+    emscripten_sleep( 1 );
+#endif
 
     //  VM 実行 (await/loop 内での ScreenFlip + ProcessMessage は hsp3dxcl 側で回る)
     int vm_result = hsp3dxcl_exec();
     fprintf( stderr, "[hsp3dx_desktop] VM end result=%d\n", vm_result );
 
     hgio_dx_flip();
+#ifdef __EMSCRIPTEN__
+    emscripten_sleep( 1 );
+#endif
 
 #ifdef __EMSCRIPTEN__
     //  Web: VM 終了後にポスト描画を回す main loop (window close 検出用)

@@ -16,6 +16,9 @@
 #else
 #include <unistd.h>    // usleep
 #endif
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
 #include "../../hsp3/hsp3config.h"
 #include "../../hsp3/strbuf.h"
@@ -77,7 +80,14 @@ static void hsp3dxcl_msgfunc( HSPCTX *hspctx )
             // fall-through
         case RUNMODE_AWAIT:
             if ( code_exec_await( tick ) != RUNMODE_RUN ) {
+#ifdef __EMSCRIPTEN__
+                //  Web は browser に event loop を返さないと canvas 描画も
+                //  fetch POST も走らない。ASYNCIFY 経由で yield して
+                //  rAF 1 フレーム分待つ。
+                emscripten_sleep( 1 );
+#else
                 Sleep( 1 );
+#endif
                 continue;
             }
             return;

@@ -610,11 +610,13 @@ if(WIN32)
             "$<TARGET_FILE_DIR:hsp3dx_desktop>/SDL2.dll")
 endif()
 if(EMSCRIPTEN)
-    # Web 用 emcc link flags: WebGL 2 + 固定機能 GL エミュ + ASYNCIFY (await/loop)
-    # + メモリ拡張 + .html shell 出力。出力は hsp3dx_desktop.html + .wasm + .data
-    #
-    # 注: ASYNCIFY + wasm-opt が大規模 wasm で永遠に終わらないため、初回 build は
-    # -O0 で wasm-opt を最小化。Production には -O2 で再 link 推奨。
+    # Web 用 emcc link flags:
+    # - WebGL1/2 + LEGACY_GL_EMULATION で DxLib の固定機能 GL を fall through
+    # - ASYNCIFY で同期 HSP VM ループ (wait/await) を browser event loop にも yield
+    # - ASYNCIFY_STACK_SIZE は Cubism/Bullet 深いコールスタックのため大きめ
+    # - INITIAL_MEMORY 64MB + ALLOW_MEMORY_GROWTH (Cubism + DxLib 内部が結構使う)
+    # - -O1 で wasm-opt を通しつつ速度を確保 (-O0 だと wasm が太り、ASYNCIFY も重い。
+    #   -O2/-O3 は過去 wasm-opt が永遠終わらない事例あり、-O1 で balance)
     set_target_properties(hsp3dx_desktop PROPERTIES SUFFIX ".html")
     target_link_options(hsp3dx_desktop PRIVATE
         "SHELL:-s USE_SDL=2"
@@ -624,6 +626,11 @@ if(EMSCRIPTEN)
         "SHELL:-s MAX_WEBGL_VERSION=2"
         "SHELL:-s LEGACY_GL_EMULATION=1"
         "SHELL:-s GL_UNSAFE_OPTS=0"
+        # ASYNCIFY=2 (JSPI: JavaScript Promise Integration) を使う。ASYNCIFY=1 は
+        # wasm-opt が大規模 wasm で 30+ 分掛かり実用にならないが、JSPI は wasm-opt
+        # 不要で link 速度が桁違いに速い。Chrome 123+ / FF Nightly などで動く。
+        # 6.5MB wasm + DxLib + Cubism + Bullet + HSP VM 全部入りでも build 数分。
+        "SHELL:-s JSPI=1"
         "SHELL:-O0"
         "SHELL:--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/web/capture_shell.html"
     )
