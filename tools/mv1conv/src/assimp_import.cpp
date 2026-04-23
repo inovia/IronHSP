@@ -3,13 +3,46 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <algorithm>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
+#include <filesystem>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 namespace mv1conv {
 
 namespace {
+
+// FBX binary header pre-scan: 「古い形式」「破損」など assimp が
+// わかりにくいエラーを出す典型ケースを、呼び出し前に検出する。
+struct FbxPreScan {
+    bool        is_fbx_binary;   // "Kaydara FBX Binary" ヘッダ持ち
+    bool        is_corrupted;    // 0x00 → 0x20 置換のような text-mode 破損パターン
+    int         version;         // 0 なら不明。7100=2011, 7200=2012, 7300=2013, 7400=2014, 7500=2015...
+};
+
+FbxPreScan pre_scan_fbx(const std::string &path) {
+    FbxPreScan r{false, false, 0};
+    std::FILE *fp = std::fopen(path.c_str(), "rb");
+    if (!fp) return r;
+    unsigned char head[32] = {};
+    std::size_t n = std::fread(head, 1, sizeof(head), fp);
+    std::fclose(fp);
+    if (n < 32) return r;
+    if (std::memcmp(head, "Kaydara FBX Binary", 18) != 0) return r;
+    r.is_fbx_binary = true;
+    // バイト 0x15 == 0x00 1a 00 00 00 (end-of-header magic), 0x17〜 = 4 byte version (LE)
+    // 壊れた box (0x00 → 0x20 置換) だと 0x14 が 0x20 になる。
+    if (head[0x14] == 0x20 && head[0x15] == 0x1a && head[0x16] == 0x20) {
+        r.is_corrupted = true;
+    }
+    if (head[0x14] == 0x00 && head[0x15] == 0x1a && head[0x16] == 0x00) {
+        r.version = head[0x17] | (head[0x18] << 8) | (head[0x19] << 16) | (head[0x1a] << 24);
+    }
+    return r;
+}
 
 std::array<float, 4> to_color(const aiColor3D &c, float a = 1.0f) {
     return {c.r, c.g, c.b, a};
@@ -220,8 +253,93 @@ void fill_inv_bind(const aiScene *scene,
 
 }
 
+// Blender が PATH 上、または Windows の標準インストール先に存在するかチェック。
+// 見つかればフルパスを返す (空文字列なら未発見)。
+// 環境変数 MV1CONV_BLENDER があればそれを最優先。
+std::string find_blender() {
+    if (const char *env = std::getenv("MV1CONV_BLENDER")) {
+        if (*env) return std::string(env);
+    }
+    std::vector<std::string> candidates = {
+        "blender",            // PATH 上 (Unix / Windows どちらでも)
+        "blender.exe",
+#ifdef _WIN32
+        // Windows 標準インストールパス (3.x / 4.x)
+        "C:/Program Files/Blender Foundation/Blender 4.2/blender.exe",
+        "C:/Program Files/Blender Foundation/Blender 4.1/blender.exe",
+        "C:/Program Files/Blender Foundation/Blender 4.0/blender.exe",
+        "C:/Program Files/Blender Foundation/Blender 3.6/blender.exe",
+        "C:/Program Files/Blender Foundation/Blender 3.5/blender.exe",
+        "C:/Program Files/Blender Foundation/Blender 3.4/blender.exe",
+#endif
+    };
+    for (const auto &c : candidates) {
+#ifdef _WIN32
+        std::string cmd = "\"\"" + c + "\" --version\" >nul 2>&1";
+#else
+        std::string cmd = "\"" + c + "\" --version >/dev/null 2>&1";
+#endif
+        if (std::system(cmd.c_str()) == 0) return c;
+    }
+    return "";
+}
+
+// Blender を subprocess で呼び、input.fbx → output.glb に変換。
+// 成功時 true、失敗時 false (stderr にはユーザ向けメッセージは出さない)。
+bool blender_convert_to_glb(const std::string &blender_exe,
+                            const std::string &in_path,
+                            const std::string &out_glb_path) {
+    // Python one-liner で FBX → GLB
+    // import bpy; bpy.ops.wm.read_factory_settings(use_empty=True);
+    // bpy.ops.import_scene.fbx(filepath='X'); bpy.ops.export_scene.gltf(filepath='Y', export_format='GLB')
+    std::string pyexpr =
+        "import bpy, sys;"
+        "bpy.ops.wm.read_factory_settings(use_empty=True);"
+        "bpy.ops.import_scene.fbx(filepath=r'" + in_path + "');"
+        "bpy.ops.export_scene.gltf(filepath=r'" + out_glb_path + "', export_format='GLB')";
+    std::string cmd = "\"" + blender_exe + "\" -b --factory-startup --python-expr \"" +
+                      pyexpr + "\" >nul 2>&1";
+    int rc = std::system(cmd.c_str());
+    if (rc != 0) return false;
+    // 生成物が存在するか確認
+    std::error_code ec;
+    return std::filesystem::exists(out_glb_path, ec);
+}
+
 LoadResult load_via_assimp(const std::string &path) {
     LoadResult r;
+
+    // FBX は典型 fail パターン (破損 / 古い形式) を事前検出して
+    // 具体的なエラーメッセージを返す。
+    {
+        auto ext_pos = path.find_last_of('.');
+        std::string ext = (ext_pos == std::string::npos) ? "" : path.substr(ext_pos + 1);
+        for (auto &c : ext) c = static_cast<char>(std::tolower(c));
+        if (ext == "fbx") {
+            auto scan = pre_scan_fbx(path);
+            if (scan.is_corrupted) {
+                r.error = "FBX file appears corrupted (0x00 bytes replaced with 0x20 spaces). "
+                          "This is a known damage pattern from text-mode git/CRLF handling of binary files. "
+                          "Re-download the .fbx with binary mode (git-lfs or verified archive).";
+                return r;
+            }
+            if (scan.is_fbx_binary && scan.version > 0 && scan.version < 7100) {
+                char buf[256];
+                std::snprintf(buf, sizeof(buf),
+                    "FBX version %d is too old (pre-FBX 2011). assimp と Blender の FBX importer は "
+                    "7100 (=FBX 2011) 以降のみ対応。本ファイルを読む手段:",
+                    scan.version);
+                r.error = buf;
+                r.error += "\n  1. Autodesk FBX Converter 2013 (free): 古い FBX → FBX 2013 に変換";
+                r.error += "\n     https://www.autodesk.com/developer-network/platform-technologies/fbx-converter-archives";
+                r.error += "\n     変換後の .fbx を mv1conv に渡す。";
+                r.error += "\n  2. FBX SDK 2013+ (proprietary) を自前で統合する (要ライセンス)";
+                r.error += "\n  3. 元データの DCC ツール (3ds Max 等) で .glb / .fbx 新形式で再エクスポート";
+                r.error += "\n  ※ Blender 3.6/4.x の FBX importer も 7100+ のみのため、Blender 経由は不可。";
+                return r;
+            }
+        }
+    }
 
     Assimp::Importer imp;
     const unsigned flags =
@@ -235,16 +353,36 @@ LoadResult load_via_assimp(const std::string &path) {
     const aiScene *scene = imp.ReadFile(path, flags);
     if (!scene || !scene->mRootNode) {
         std::string err = imp.GetErrorString();
+
+        // Blender fallback: MV1CONV_VIA_BLENDER=1 + blender 実在時に .glb 経由で再試行。
+        // assimp の FBX edge case や Collada バグ回避に有効 (ただし古い FBX は Blender も不可)。
+        if (std::getenv("MV1CONV_VIA_BLENDER")) {
+            std::string blender = find_blender();
+            if (!blender.empty()) {
+                std::string tmp_glb = path + ".mv1conv_tmp.glb";
+                std::fprintf(stderr, "assimp failed (%s), trying Blender fallback via %s\n",
+                             err.c_str(), blender.c_str());
+                if (blender_convert_to_glb(blender, path, tmp_glb)) {
+                    LoadResult r2 = load_via_assimp(tmp_glb);
+                    std::error_code ec;
+                    std::filesystem::remove(tmp_glb, ec);
+                    if (r2.ok()) return r2;
+                    // Blender 経由も失敗 → assimp 側のエラーにフォールスルー
+                }
+            }
+        }
+
         r.error = "assimp: " + err;
         // 追加ヒント (assimp の典型エラー判別)
         if (err.find("FBX-DOM unsupported") != std::string::npos
             || err.find("old format version") != std::string::npos) {
             r.error += "\n  HINT: この FBX は 2010 以前の古い形式。assimp は FBX 2011+ のみ対応。"
-                       "\n        Autodesk FBX Converter 2013 等で新形式に再保存するか、"
-                       "\n        Blender で .glb / .dae / .obj 等へエクスポートしてください。";
+                       "\n        Autodesk FBX Converter 2013 で新形式に再保存してください "
+                       "(Blender も FBX 6xxx は未対応)。";
         } else if (err.find("FBX-Tokenize") != std::string::npos) {
             r.error += "\n  HINT: FBX ファイルの破損または assimp tokenizer の未対応 edge case。"
-                       "\n        別ツール (Blender 等) で読めるなら再エクスポートを試してください。";
+                       "\n        MV1CONV_VIA_BLENDER=1 を設定すれば Blender 経由で .glb に再変換後 "
+                       "\n        assimp に再投入します (PATH 上 or 標準インストールパス上の Blender)。";
         } else if (err.find("No root node") != std::string::npos
                    || err.find("Unable to open") != std::string::npos) {
             r.error += "\n  HINT: ファイル形式が unrecognized かバイナリ構造が壊れている可能性。"
