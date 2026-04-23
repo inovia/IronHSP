@@ -490,11 +490,11 @@ td.note { font-size: 12px; color: #555; }
   <td class="tech">Mix_LoadWAV (WAV) / bundled libvorbisfile (.ogg, D2) / bundled opusfile (.opus, D3) を DxSoundDesktop.cpp で dispatch。</td>
   <td class="note">OGG Vorbis / Opus は source bundle で vcpkg 非依存。MP3 は未対応 (libmpg123 リンク要)。Win/iOS/Android は libvorbis/libopus prebuilt .lib リンク、SDL2 fork は bundled source 経由。</td>
 </tr>
-<tr><td class="fn">LoadSoundMemByMemImage / *Base / *ToBufNumSitei</td>
+<tr><td class="fn">LoadSoundMem2 / LoadSoundMemByMemImage / *Base / *ToBufNumSitei</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="tech">SDL_RWFromConstMem + Mix_LoadWAV_RW でメモリから直接 decode (WAV / OGG / MP3 / MOD 自動認識)</td>
-  <td class="note">埋め込みアセット (embed .inc) や memory stream からの sound 再生に対応 (2026-04-23)。LoadSoundMem2 (前奏+ループ分離) は別タスク。</td>
+  <td class="tech">SDL_RWFromConstMem + Mix_LoadWAV_RW (メモリ) / Mix_LoadWAV (ファイル、WAV/OGG/Opus 対応) / LoadSoundMem2 は Mix_ChannelFinished callback で prelude → loop 接続</td>
+  <td class="note">埋め込みアセット読込 + 前奏+ループ分離 (2026-04-23)。LoadSoundMem2(prelude, loop_part) → PlaySoundMem は prelude を 1 回再生、終了 callback で loop_part を無限ループ。channel → SoundHandle の map を SDL_CreateMutex で保護。</td>
 </tr>
 <tr><td class="fn">PlaySoundMem (BACK / NORMAL / LOOP)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>

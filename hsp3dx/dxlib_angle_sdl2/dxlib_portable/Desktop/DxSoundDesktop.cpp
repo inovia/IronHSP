@@ -32,6 +32,7 @@ extern "C" {
 #include <cstdlib>
 #include <cctype>
 #include <unordered_map>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -52,6 +53,10 @@ struct DesktopSoundEntry {
     bool   has_3d_pos = false ;
     float  pos_x = 0, pos_y = 0, pos_z = 0 ;
     float  radius = 1000.0f ;        // 距離減衰の最大、これ以上は無音
+    // LoadSoundMem2 (prelude+loop) 用: prelude=chunk、loop_chunk が non-null なら
+    // PlaySoundMem 完了時に Mix_ChannelFinished callback で loop_chunk を再生
+    Mix_Chunk *loop_chunk = nullptr ;
+    Uint8     *loop_raw_buffer = nullptr ;
 } ;
 
 // ファイルを丸ごと PCM S16LE stereo 44100Hz に decode する。
@@ -325,6 +330,98 @@ extern int LoadSoundMemBase( const TCHAR *FileName, int BufferNum, int UnionHand
     return LoadSoundMem( FileName, BufferNum, UnionHandle ) ;
 }
 
+// --- LoadSoundMem2 (prelude + loop): 前奏 + 後ループの 2 ファイル合成再生 -----
+// チャンネル終了時のコールバックで loop_chunk を再生する。
+// SDL_mixer の Mix_ChannelFinished は global 1 callback のため、
+// channel → SoundHandle map で「どの handle が終了したか」を引いて loop 起動
+
+static std::map<int, int>  g_Channel2Handle ;   // SDL_mixer channel → SoundHandle
+static SDL_mutex          *g_ChannelMutex = nullptr ;
+
+static void desktop_sound_finished_cb( int channel )
+{
+    int h = -1 ;
+    if ( g_ChannelMutex ) SDL_LockMutex( g_ChannelMutex ) ;
+    auto it = g_Channel2Handle.find( channel ) ;
+    if ( it != g_Channel2Handle.end() ) {
+        h = it->second ;
+        g_Channel2Handle.erase( it ) ;
+    }
+    if ( g_ChannelMutex ) SDL_UnlockMutex( g_ChannelMutex ) ;
+    if ( h <= 0 ) return ;
+    auto sit = g_Sounds.find( h ) ;
+    if ( sit == g_Sounds.end() || !sit->second.loop_chunk ) return ;
+    // loop_chunk を無限ループで再生開始
+    int ch = Mix_PlayChannel( -1, sit->second.loop_chunk, -1 ) ;
+    if ( ch >= 0 ) sit->second.last_channel = ch ;
+}
+
+static void desktop_install_finished_cb( void )
+{
+    static int s_installed = 0 ;
+    if ( s_installed ) return ;
+    if ( !g_ChannelMutex ) g_ChannelMutex = SDL_CreateMutex() ;
+    Mix_ChannelFinished( desktop_sound_finished_cb ) ;
+    s_installed = 1 ;
+}
+
+// 内部ヘルパ: 1 ファイルを読み込んで Mix_Chunk + raw_buffer を返す
+// (LoadSoundMem の中身を再利用したいが直接 chunk を返すために抽出)
+static Mix_Chunk *desktop_load_chunk_from_file( const char *path, Uint8 **out_raw )
+{
+    *out_raw = nullptr ;
+    if ( !path ) return nullptr ;
+    if ( desktop_path_is_ogg( path ) ) {
+        int bytes = 0 ;
+        Uint8 *raw = desktop_decode_ogg_to_pcm( path, &bytes ) ;
+        if ( !raw ) return nullptr ;
+        Mix_Chunk *c = Mix_QuickLoad_RAW( raw, ( Uint32 )bytes ) ;
+        if ( !c ) { std::free( raw ) ; return nullptr ; }
+        *out_raw = raw ;
+        return c ;
+    }
+    if ( desktop_path_is_opus( path ) ) {
+        int bytes = 0 ;
+        Uint8 *raw = desktop_decode_opus_to_pcm( path, &bytes ) ;
+        if ( !raw ) return nullptr ;
+        Mix_Chunk *c = Mix_QuickLoad_RAW( raw, ( Uint32 )bytes ) ;
+        if ( !c ) { std::free( raw ) ; return nullptr ; }
+        *out_raw = raw ;
+        return c ;
+    }
+    return Mix_LoadWAV( path ) ;
+}
+
+extern int LoadSoundMem2( const TCHAR *FileName1, const TCHAR *FileName2 )
+{
+    if ( desktop_sound_ensure_init() != 0 ) return -1 ;
+    Uint8 *raw1 = nullptr, *raw2 = nullptr ;
+    Mix_Chunk *c1 = desktop_load_chunk_from_file( ( const char * )FileName1, &raw1 ) ;
+    Mix_Chunk *c2 = desktop_load_chunk_from_file( ( const char * )FileName2, &raw2 ) ;
+    if ( !c1 || !c2 ) {
+        if ( c1 ) Mix_FreeChunk( c1 ) ;
+        if ( c2 ) Mix_FreeChunk( c2 ) ;
+        if ( raw1 ) std::free( raw1 ) ;
+        if ( raw2 ) std::free( raw2 ) ;
+        std::fprintf( stderr, "[DxSoundDesktop] LoadSoundMem2 fail: %s / %s\n",
+                      ( const char * )FileName1, ( const char * )FileName2 ) ;
+        return -1 ;
+    }
+    int h = g_NextSoundHandle++ ;
+    DesktopSoundEntry e ;
+    e.chunk           = c1 ;
+    e.raw_buffer      = raw1 ;
+    e.loop_chunk      = c2 ;
+    e.loop_raw_buffer = raw2 ;
+    e.volume_0_10000  = 10000 ;
+    e.last_channel    = -1 ;
+    Mix_VolumeChunk( c1, MIX_MAX_VOLUME ) ;
+    Mix_VolumeChunk( c2, MIX_MAX_VOLUME ) ;
+    g_Sounds[ h ] = e ;
+    desktop_install_finished_cb() ;
+    return h ;
+}
+
 // --- 3D サウンド: リスナー位置/前方ベクトル + per-sound position/radius ----
 // SDL_mixer の Mix_SetPosition(channel, angle_deg, distance_0_255) で近似
 // (フル 3D ではなく方角と距離減衰の単純モデル)
@@ -409,9 +506,22 @@ extern int PlaySoundMem( int SoundHandle, int PlayType, int TopPositionFlag )
     auto it = g_Sounds.find( SoundHandle ) ;
     if ( it == g_Sounds.end() ) return -1 ;
 
-    int loops = ( PlayType & DX_PLAYTYPE_LOOPBIT ) ? -1 : 0 ;
+    bool has_loop_part = ( it->second.loop_chunk != nullptr ) ;
+    // 2-part sound では prelude を 1 回再生、終了 callback で loop_chunk を ループ
+    // 通常 sound では PlayType の LOOPBIT で loop 制御 (-1 = 無限)
+    int loops ;
+    if ( has_loop_part ) {
+        loops = 0 ;  // prelude は必ず 1 回
+    } else {
+        loops = ( PlayType & DX_PLAYTYPE_LOOPBIT ) ? -1 : 0 ;
+    }
     int ch = Mix_PlayChannel( -1, it->second.chunk, loops ) ;
     it->second.last_channel = ch ;
+    if ( ch >= 0 && has_loop_part ) {
+        if ( g_ChannelMutex ) SDL_LockMutex( g_ChannelMutex ) ;
+        g_Channel2Handle[ ch ] = SoundHandle ;
+        if ( g_ChannelMutex ) SDL_UnlockMutex( g_ChannelMutex ) ;
+    }
     if ( ch >= 0 && it->second.has_3d_pos ) {
         int ang = 0, dist = 0 ;
         desktop_compute_3d_pan( it->second, &ang, &dist ) ;
@@ -482,8 +592,10 @@ extern int DeleteSoundMem( int SoundHandle )
     auto it = g_Sounds.find( SoundHandle ) ;
     if ( it == g_Sounds.end() ) return -1 ;
     if ( it->second.last_channel >= 0 ) Mix_HaltChannel( it->second.last_channel ) ;
-    if ( it->second.chunk ) Mix_FreeChunk( it->second.chunk ) ;
-    if ( it->second.raw_buffer ) std::free( it->second.raw_buffer ) ;
+    if ( it->second.chunk )           Mix_FreeChunk( it->second.chunk ) ;
+    if ( it->second.raw_buffer )      std::free( it->second.raw_buffer ) ;
+    if ( it->second.loop_chunk )      Mix_FreeChunk( it->second.loop_chunk ) ;
+    if ( it->second.loop_raw_buffer ) std::free( it->second.loop_raw_buffer ) ;
     g_Sounds.erase( it ) ;
     return 0 ;
 }
@@ -492,10 +604,17 @@ extern int InitSoundMem( void )
 {
     for ( auto &p : g_Sounds ) {
         if ( p.second.last_channel >= 0 ) Mix_HaltChannel( p.second.last_channel ) ;
-        if ( p.second.chunk ) Mix_FreeChunk( p.second.chunk ) ;
-        if ( p.second.raw_buffer ) std::free( p.second.raw_buffer ) ;
+        if ( p.second.chunk )           Mix_FreeChunk( p.second.chunk ) ;
+        if ( p.second.raw_buffer )      std::free( p.second.raw_buffer ) ;
+        if ( p.second.loop_chunk )      Mix_FreeChunk( p.second.loop_chunk ) ;
+        if ( p.second.loop_raw_buffer ) std::free( p.second.loop_raw_buffer ) ;
     }
     g_Sounds.clear() ;
+    if ( g_ChannelMutex ) {
+        SDL_LockMutex( g_ChannelMutex ) ;
+        g_Channel2Handle.clear() ;
+        SDL_UnlockMutex( g_ChannelMutex ) ;
+    }
     return 0 ;
 }
 
