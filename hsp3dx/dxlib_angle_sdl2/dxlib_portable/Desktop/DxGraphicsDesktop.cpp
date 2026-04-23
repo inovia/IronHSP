@@ -2220,6 +2220,58 @@ extern int Graphics_Hardware_DrawIndexedPrimitiveLight_UseVertexBuffer_PF(
     return 0 ;
 }
 
+// DeviceDirect_SetViewMatrix / SetWorldMatrix:
+// DxLib の内部 view / world 行列を直接書き換える経路。s_ViewMat / s_WorldMat は
+// Desktop_Apply3DMatrices で glLoadMatrixf に流し込まれるので、ここで上書きするだけで
+// 次の 3D 描画に反映される。
+extern int Graphics_Hardware_DeviceDirect_SetViewMatrix_PF( const MATRIX *Matrix )
+{
+    if ( !Matrix ) return -1 ;
+    s_ViewMat = *Matrix ;
+    return 0 ;
+}
+extern int Graphics_Hardware_DeviceDirect_SetWorldMatrix_PF( const MATRIX *Matrix )
+{
+    if ( !Matrix ) return -1 ;
+    s_WorldMat = *Matrix ;
+    return 0 ;
+}
+
+// LockDrawScreenBuffer / UnlockDrawScreenBuffer:
+// 描画 screen の pixel を CPU 側に読み出す。glReadPixels で対応。
+// 完全互換 (subrect, formats) ではないが、最低限の screenshot 等は動く。
+extern int Graphics_Hardware_LockDrawScreenBuffer_PF( RECT *Rect, BASEIMAGE *BaseImage, int /*ChildPixelFormat*/, IMAGEDATA *Image, int /*UseSWBuffer*/, int /*ZeroIsBaseImagePtr*/, int /*UpRow*/, int /*Force*/ )
+{
+    if ( !BaseImage || !BaseImage->GraphData ) return -1 ;
+    int x = 0, y = 0 ;
+    int w = s_DrawTargetW, h = s_DrawTargetH ;
+    if ( Rect ) {
+        x = Rect->left ;
+        y = Rect->top ;
+        w = Rect->right  - Rect->left ;
+        h = Rect->bottom - Rect->top  ;
+    }
+    if ( w <= 0 || h <= 0 ) return -1 ;
+    // 描画対象 framebuffer を bind
+    GLuint fbo = 0 ;
+    if ( Image && Image->Orig && Image->Orig->Hard.TexNum > 0 && Image->Orig->Hard.Tex[ 0 ].PF ) {
+        fbo = ( GLuint )Image->Orig->Hard.Tex[ 0 ].PF->FrameBuffer ;
+    }
+    GLint prev = 0 ;
+    glGetIntegerv( GL_FRAMEBUFFER_BINDING, &prev ) ;
+    glBindFramebuffer( GL_FRAMEBUFFER, fbo ) ;
+    // GL は左下原点なので Y を反転
+    int gly = ( fbo == 0 ) ? ( s_DrawTargetH - ( y + h ) ) : y ;
+    glReadPixels( x, gly, w, h, GL_RGBA, GL_UNSIGNED_BYTE, BaseImage->GraphData ) ;
+    glBindFramebuffer( GL_FRAMEBUFFER, ( GLuint )prev ) ;
+    return 0 ;
+}
+extern int Graphics_Hardware_UnlockDrawScreenBuffer_PF( void )
+{
+    // glReadPixels は immediate なので unlock は no-op で OK
+    return 0 ;
+}
+
 // SetDrawCustomBlendMode: カスタム blend mode を glBlendFunc{Separate} で反映
 extern int Graphics_Hardware_SetDrawCustomBlendMode_PF( int BlendEnable, int SrcBlendRGB, int DestBlendRGB, int BlendOpRGB, int SrcBlendA, int DestBlendA, int BlendOpA, int /*BlendParam*/ )
 {
