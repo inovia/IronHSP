@@ -153,7 +153,9 @@ int WriteTimeStretchSoftSoundData(int, int) { return 0; }
 
 // --- SDL2_mixer 非 link 環境 (Web/Linux SDL2_mixer 未 install 等) では
 //     SoundMem / Music / SoftSound / 3D Sound 系も stub ---
-#if defined(HSP3DX_NO_SDL2_MIXER) || defined(__EMSCRIPTEN__)
+// 注: emscripten port の SDL2_mixer (-s USE_SDL_MIXER=2) を link するように
+// なったので __EMSCRIPTEN__ branch は外した (DxSoundDesktop.cpp が compile される)。
+#if defined(HSP3DX_NO_SDL2_MIXER)
 int ChangePanSoundMem(int, int) { return 0; }
 int CheckSoundMem(int) { return 0; }
 int DeleteSoundMem(int) { return 0; }

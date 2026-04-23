@@ -132,6 +132,12 @@ if(EMSCRIPTEN)
     target_compile_options(SDL2::ttf INTERFACE "SHELL:-s USE_SDL_TTF=2")
     target_link_options(SDL2::ttf INTERFACE "SHELL:-s USE_SDL_TTF=2")
     set(HAS_SDL2_TTF 1)
+
+    # emscripten 内蔵 SDL2_mixer port を使う。同じパターン。
+    add_library(SDL2::mixer INTERFACE IMPORTED)
+    target_compile_options(SDL2::mixer INTERFACE "SHELL:-s USE_SDL_MIXER=2")
+    target_link_options(SDL2::mixer INTERFACE "SHELL:-s USE_SDL_MIXER=2")
+    set(HAS_SDL2_MIXER 1)
 endif()
 
 if(HAS_SDL2_TTF)
@@ -669,6 +675,9 @@ if(EMSCRIPTEN)
         "SHELL:--emit-symbol-map"
         "SHELL:--preload-file ${CMAKE_CURRENT_BINARY_DIR}/start.ax@/start.ax"
         "SHELL:--preload-file ${CMAKE_CURRENT_BINARY_DIR}/MSGOTHIC.TTC@/MSGOTHIC.TTC"
+        # sample_sound.hsp 用テスト音 (任意、無くても build OK にはしてない注意)
+        "SHELL:--preload-file ${CMAKE_CURRENT_BINARY_DIR}/test_bgm.wav@/test_bgm.wav"
+        "SHELL:--preload-file ${CMAKE_CURRENT_BINARY_DIR}/test_se.wav@/test_se.wav"
         "SHELL:--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/web/capture_shell.html"
     )
 endif()
