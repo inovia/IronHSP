@@ -196,17 +196,17 @@ td.note { font-size: 12px; color: #555; }
   <td class="tech">SDL2: <code>DxSystemDesktop.cpp</code> で SDL_InitSubSystem + MakeWinAndGL</td>
   <td class="note">GL context は COMPATIBILITY profile 2.1 (Win/Mac/Linux) または LEGACY_GL_EMULATION (Web)。</td>
 </tr>
-<tr><td class="fn">ChangeWindowMode</td>
+<tr><td class="fn">ChangeWindowMode / GetWindowModeFlag</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-na">—</span></td><td class="center"><span class="badge b-na">—</span></td>
-  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-na">—</span></td>
-  <td class="tech">SDL_SetWindowFullscreen 切り替え</td>
-  <td class="note">SDL2 経路は stub。呼び出し時 TRUE/FALSE 切替は未接続。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-na">—</span></td>
+  <td class="tech">SDL_SetWindowFullscreen(SDL_WINDOW_FULLSCREEN_DESKTOP) で borderless full / 0 で window mode 切替。NS_GetWindowModeFlag は s_WindowModeFlag (1=window / 0=fs) 返す</td>
+  <td class="note">DxGraphicsDesktop.cpp 2026-04-23 実装。init 前は flag のみ保存、init 後は SDL_SetWindowFullscreen で即時切替。</td>
 </tr>
-<tr><td class="fn">SetGraphMode</td>
+<tr><td class="fn">SetGraphMode (動的解像度変更)</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
-  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
-  <td class="tech">SDL_CreateWindow の w/h</td>
-  <td class="note">初期化前に呼ぶ必要あり。動的変更は未対応。</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">init 前: SDL_CreateWindow の w/h を予約 / init 後: Graphics_Hardware_ChangeMainScreenSize_PF が SDL_SetWindowSize + glViewport で即時リサイズ</td>
+  <td class="note">DxGraphicsDesktop.cpp 2026-04-23 実装。Web は emscripten canvas のリサイズに制約 (HTML 側 CSS で制御するのが基本) のため △。</td>
 </tr>
 <tr><td class="fn">SetBackgroundColor</td>
   <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>

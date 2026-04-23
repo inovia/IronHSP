@@ -2313,6 +2313,45 @@ int ( *DefaultImageLoadFunc_PF[] )( STREAMDATA *, BASEIMAGE *, int ) = {
     nullptr
 } ;
 
+// ChangeWindowMode (フルスクリーン⇔ウィンドウ切替) と GetWindowModeFlag。
+// DxLib portable Gateway は NS_ChangeWindowMode を呼ぶが、本家 NS は
+// Win 専用 (Windows/DxWindow.cpp) なので、Desktop layer で SDL2 ベースに
+// 上書き実装する。
+static int s_WindowModeFlag = 1 ;   // 1 = window mode, 0 = fullscreen
+
+extern int NS_ChangeWindowMode( int Flag )
+{
+    if ( !s_Window ) {
+        s_WindowModeFlag = Flag ? 1 : 0 ;   // init 前は flag だけ保存
+        return 0 ;
+    }
+    if ( Flag ) {
+        // window mode
+        if ( SDL_SetWindowFullscreen( s_Window, 0 ) < 0 ) return -1 ;
+    } else {
+        // fullscreen (borderless desktop)
+        if ( SDL_SetWindowFullscreen( s_Window, SDL_WINDOW_FULLSCREEN_DESKTOP ) < 0 ) return -1 ;
+    }
+    s_WindowModeFlag = Flag ? 1 : 0 ;
+    return 0 ;
+}
+
+extern int NS_GetWindowModeFlag( void )
+{
+    return s_WindowModeFlag ;
+}
+
+// Graphics_Hardware の解像度変更フック (NS_SetGraphMode 後段から呼ばれる)。
+// 既に init 済の SDL_Window をリサイズして GL viewport も合わせる。
+extern int Graphics_Hardware_ChangeMainScreenSize_PF( int Width, int Height )
+{
+    if ( !s_Window || Width <= 0 || Height <= 0 ) return -1 ;
+    SDL_SetWindowSize( s_Window, Width, Height ) ;
+    s_WinW = Width ; s_WinH = Height ;
+    glViewport( 0, 0, Width, Height ) ;
+    return 0 ;
+}
+
 #ifndef DX_NON_NAMESPACE
 }
 #endif
