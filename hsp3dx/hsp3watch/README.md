@@ -1,29 +1,32 @@
-# mini_hsp.exe — Windows 版 mini HSP ランタイム
+# hsp3watch_64.exe — Apple Watch ランタイムの Windows デバッグ版
 
 Apple Watch 用の Swift 製 mini HSP インタプリタ
 ([../ios/template/Watch/Sources/HSPRuntime.swift](../ios/template/Watch/Sources/HSPRuntime.swift))
 を **Win32 + GDI** に C++17 で移植したもの。同じ `.ax` を Watch sim を回さずに
 Windows 上で確認・デバッグするためのツール。
 
+命名規則は他の HSP ランタイム (`hsp3.exe` / `hsp3_64.exe` / `hsp3cl_64.exe` / `hsp3_net_64.exe`) と
+揃え、 64bit 版を `hsp3watch_64.exe` とする。
+
 ## ビルド
 
 ```cmd
 "x64 Native Tools Command Prompt for VS 2022" を起動
-cd j:\HNWorks\IronHSP_2026\hsp3dx\mini_hsp
+cd j:\HNWorks\IronHSP_2026\hsp3dx\hsp3watch
 build.bat
 ```
 
-`mini_hsp.cpp` 1 ファイル + `cl.exe` 1 発で `mini_hsp.exe` が出来る。
+`hsp3watch.cpp` 1 ファイル + `cl.exe` 1 発で `hsp3watch_64.exe` が出来る。
 追加依存無し (user32 / gdi32 / 標準 C++17 のみ)。
 
 ## 実行
 
 ```cmd
-mini_hsp.exe                                       # デフォルト ../ios/template/Watch/Resources/demo.ax
-mini_hsp.exe path\to\file.ax                       # 任意 .ax を実行
+hsp3watch_64.exe                                     # デフォルト ../ios/template/Watch/Resources/demo.ax
+hsp3watch_64.exe path\to\file.ax                     # 任意 .ax を実行
 ```
 
-ビルド済バイナリは [J:\HNWorks\IronHSP_2026\package\win32\mini_hsp.exe](../../package/win32/mini_hsp.exe)
+ビルド済バイナリは [J:\HNWorks\IronHSP_2026\package\win32\hsp3watch_64.exe](../../package/win32/hsp3watch_64.exe)
 にも配置されている (他の hsp3.exe / hspcmp.exe と同じ場所)。
 コンパイルなしで動作確認したいときは package/win32 から直接呼べる。
 
@@ -52,7 +55,7 @@ cd path\to\hello.hsp
 copy J:\HNWorks\IronHSP_2026\package\win32\hspcmp.exe .
 mklink /D common J:\HNWorks\IronHSP_2026\package\win32\common
 hspcmp.exe -i -u hello.hsp                         # → hello.ax 生成
-mini_hsp.exe hello.ax
+hsp3watch_64.exe hello.ax
 ```
 
 `-i` = 入力 UTF-8 / `-u` = 出力 UTF-8。日本語を含む `.hsp` には両方必要。
@@ -64,7 +67,7 @@ mini_hsp.exe hello.ax
 | 環境 | frame=97 | frame=309 |
 |---|---|---|
 | Apple Watch S11 46mm sim | x=43 | (未測定) |
-| Windows mini_hsp.exe | (未測定) | x=71 |
+| Windows hsp3watch_64.exe | (未測定) | x=71 |
 
 計算式 `x = abs((cnt \ 240) - 120) + 20`:
 - frame=97: `(97 \ 240=97) - 120 = -23 → 23 + 20 = 43` ✓
@@ -72,5 +75,5 @@ mini_hsp.exe hello.ax
 
 ## ファイル
 
-- [mini_hsp.cpp](mini_hsp.cpp) — runtime + Win32 viewer (1 TU、約 600 行)
+- [hsp3watch.cpp](hsp3watch.cpp) — runtime + Win32 viewer (1 TU、約 600 行)
 - [build.bat](build.bat) — `cl.exe` 1 発ビルドスクリプト

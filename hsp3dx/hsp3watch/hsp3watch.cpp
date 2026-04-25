@@ -1,4 +1,5 @@
-// mini_hsp.cpp — Apple Watch 用 mini HSP ランタイムの Windows 移植
+// hsp3watch.cpp — Apple Watch 用 mini HSP ランタイムの Windows 移植
+//                 (hsp3watch_64.exe)
 //
 // 目的:
 //   ../ios/template/Watch/Sources/HSPRuntime.swift と「同じ .ax で同じ動作」を
@@ -17,7 +18,7 @@
 //
 // ビルド: ./build.bat (cl.exe 一発、 user32 / gdi32 link)
 //
-// 使い方: mini_hsp.exe <path/to/file.ax>
+// 使い方: hsp3watch_64.exe <path/to/file.ax>
 //   引数省略時は ../ios/template/Watch/Resources/demo.ax を試行。
 //
 #define WIN32_LEAN_AND_MEAN
@@ -746,13 +747,13 @@ int wmain(int argc, wchar_t** argv) {
     wc.hInstance     = hInst;
     wc.hCursor       = LoadCursor(nullptr, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-    wc.lpszClassName = L"MiniHSPWnd";
+    wc.lpszClassName = L"HSP3WatchWnd";
     RegisterClassW(&wc);
 
     RECT rc{0, 0, WIN_W, WIN_H};
     AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
     HWND hwnd = CreateWindowW(
-        L"MiniHSPWnd", L"mini_hsp",
+        L"HSP3WatchWnd", L"hsp3watch",
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT,
         rc.right - rc.left, rc.bottom - rc.top,

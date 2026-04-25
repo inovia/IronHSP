@@ -1,14 +1,14 @@
 @echo off
-rem mini_hsp.exe build script (MSVC cl.exe)
+rem hsp3watch_64.exe build script (MSVC cl.exe, x64)
 rem
 rem Usage:
 rem   1. Open "x64 Native Tools Command Prompt for VS 2022" (or 2019)
-rem   2. cd j:\HNWorks\IronHSP_2026\hsp3dx\mini_hsp
+rem   2. cd j:\HNWorks\IronHSP_2026\hsp3dx\hsp3watch
 rem   3. build.bat
 rem
-rem Output: mini_hsp.exe
-rem Run:    mini_hsp.exe                     (default demo.ax)
-rem         mini_hsp.exe path\to\file.ax     (any .ax)
+rem Output: hsp3watch_64.exe
+rem Run:    hsp3watch_64.exe                     (default demo.ax)
+rem         hsp3watch_64.exe path\to\file.ax     (any .ax)
 rem Keys:   F5 = reload .ax / Esc = quit
 
 setlocal
@@ -19,8 +19,8 @@ if errorlevel 1 (
 )
 
 cl /nologo /EHsc /std:c++17 /O2 /W3 /utf-8 ^
-    mini_hsp.cpp ^
-    /link /SUBSYSTEM:CONSOLE user32.lib gdi32.lib /OUT:mini_hsp.exe
+    hsp3watch.cpp ^
+    /link /SUBSYSTEM:CONSOLE user32.lib gdi32.lib /OUT:hsp3watch_64.exe
 
 if errorlevel 1 (
     echo [ERROR] build failed.
@@ -28,5 +28,5 @@ if errorlevel 1 (
 )
 
 echo.
-echo [OK] mini_hsp.exe built.
+echo [OK] hsp3watch_64.exe built.
 endlocal
