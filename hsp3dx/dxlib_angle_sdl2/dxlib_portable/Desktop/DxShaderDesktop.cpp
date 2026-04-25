@@ -123,10 +123,52 @@ static void desktop_shader_load_funcs( void )
 static std::unordered_map<int, GLuint> g_Programs ;
 static int g_NextHandle = 1 ;
 
+// Apple は OpenGL を Core Profile 3.2 強制取得しているため、shader source も
+// GLSL 1.50 core 様式が必要。既存 shader source は GLSL 1.20 様式 (attribute /
+// varying / gl_FragColor / texture2D) なので、compile 直前に compatibility
+// header を inject して両者を橋渡しする。
+//
+// VS 用 header:
+//   #version 150
+//   #define attribute in
+//   #define varying out
+//
+// FS 用 header:
+//   #version 150
+//   #define varying in
+//   #define texture2D texture
+//   out vec4 _outColor;
+//   #define gl_FragColor _outColor
+//
+// 既存 source は無修正で Core profile で動作するようになる。
+// Win/Linux Compat profile は #version directive なしでそのまま compile。
+#if defined(__APPLE__)
+static const char *VS_CORE_HEADER =
+    "#version 150\n"
+    "#define attribute in\n"
+    "#define varying out\n" ;
+static const char *FS_CORE_HEADER =
+    "#version 150\n"
+    "#define varying in\n"
+    "#define texture2D texture\n"
+    "out vec4 _hsp3dx_FragColor;\n"
+    "#define gl_FragColor _hsp3dx_FragColor\n" ;
+#endif
+
 static GLuint desktop_compile_one( GLenum type, const char *src )
 {
     GLuint sh = p_glCreateShader( type ) ;
+
+#if defined(__APPLE__)
+    const char *header = ( type == GL_VERTEX_SHADER ) ? VS_CORE_HEADER : FS_CORE_HEADER ;
+    // 既存 shader が `#ifdef GL_ES precision mediump float; #endif` で始まっていても、
+    // Core Profile では GL_ES 未定義なので skip される。OK。
+    const char *srcs[ 2 ] = { header, src } ;
+    p_glShaderSource( sh, 2, srcs, nullptr ) ;
+#else
     p_glShaderSource( sh, 1, &src, nullptr ) ;
+#endif
+
     p_glCompileShader( sh ) ;
     GLint ok = 0 ;
     p_glGetShaderiv( sh, GL_COMPILE_STATUS, &ok ) ;

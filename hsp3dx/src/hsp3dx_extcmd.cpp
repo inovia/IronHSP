@@ -310,7 +310,7 @@ static int cmdfunc_extcmd( int cmd )
 {
 #ifdef __EMSCRIPTEN__
     static int s_dispcount = 0;
-    if ( s_dispcount++ < 16 ) {
+    if ( s_dispcount++ < 200 ) {
         fprintf( stderr, "[EXTCMD] cmd=0x%x\n", cmd );
         fflush(stderr);
     }

@@ -140,6 +140,11 @@ typedef void   (APIENTRYP PFN_glEnableVertexAttribArray)( GLuint index ) ;
 typedef void   (APIENTRYP PFN_glDisableVertexAttribArray)( GLuint index ) ;
 typedef void   (APIENTRYP PFN_glVertexAttribPointer)   ( GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer ) ;
 
+// VAO (GL 3.0+ / ARB_vertex_array_object / Apple は GL 3.2 Core 強制で必須)
+typedef void   (APIENTRYP PFN_glGenVertexArrays)       ( GLsizei n, GLuint *arrays ) ;
+typedef void   (APIENTRYP PFN_glDeleteVertexArrays)    ( GLsizei n, const GLuint *arrays ) ;
+typedef void   (APIENTRYP PFN_glBindVertexArray)       ( GLuint array ) ;
+
 static PFN_glGenBuffers             p_glGenBuffers             = nullptr ;
 static PFN_glDeleteBuffers          p_glDeleteBuffers          = nullptr ;
 static PFN_glBindBuffer             p_glBindBuffer             = nullptr ;
@@ -149,6 +154,10 @@ static PFN_glGetAttribLocation      p_glGetAttribLocation      = nullptr ;
 static PFN_glEnableVertexAttribArray  p_glEnableVertexAttribArray  = nullptr ;
 static PFN_glDisableVertexAttribArray p_glDisableVertexAttribArray = nullptr ;
 static PFN_glVertexAttribPointer    p_glVertexAttribPointer    = nullptr ;
+
+static PFN_glGenVertexArrays        p_glGenVertexArrays        = nullptr ;
+static PFN_glDeleteVertexArrays     p_glDeleteVertexArrays     = nullptr ;
+static PFN_glBindVertexArray        p_glBindVertexArray        = nullptr ;
 
 static void desktop_load_vbo_funcs( void )
 {
@@ -162,6 +171,16 @@ static void desktop_load_vbo_funcs( void )
     p_glEnableVertexAttribArray  = ( PFN_glEnableVertexAttribArray )  SDL_GL_GetProcAddress( "glEnableVertexAttribArray" ) ;
     p_glDisableVertexAttribArray = ( PFN_glDisableVertexAttribArray ) SDL_GL_GetProcAddress( "glDisableVertexAttribArray" ) ;
     p_glVertexAttribPointer    = ( PFN_glVertexAttribPointer )   SDL_GL_GetProcAddress( "glVertexAttribPointer" ) ;
+
+    // VAO: 標準 → APPLE 拡張 → ARB の順で fallback
+    p_glGenVertexArrays    = ( PFN_glGenVertexArrays )    SDL_GL_GetProcAddress( "glGenVertexArrays" ) ;
+    p_glDeleteVertexArrays = ( PFN_glDeleteVertexArrays ) SDL_GL_GetProcAddress( "glDeleteVertexArrays" ) ;
+    p_glBindVertexArray    = ( PFN_glBindVertexArray )    SDL_GL_GetProcAddress( "glBindVertexArray" ) ;
+    if ( !p_glGenVertexArrays ) {
+        p_glGenVertexArrays    = ( PFN_glGenVertexArrays )    SDL_GL_GetProcAddress( "glGenVertexArraysAPPLE" ) ;
+        p_glDeleteVertexArrays = ( PFN_glDeleteVertexArrays ) SDL_GL_GetProcAddress( "glDeleteVertexArraysAPPLE" ) ;
+        p_glBindVertexArray    = ( PFN_glBindVertexArray )    SDL_GL_GetProcAddress( "glBindVertexArrayAPPLE" ) ;
+    }
 }
 
 #define glGenBuffers                p_glGenBuffers
@@ -173,6 +192,9 @@ static void desktop_load_vbo_funcs( void )
 #define glEnableVertexAttribArray   p_glEnableVertexAttribArray
 #define glDisableVertexAttribArray  p_glDisableVertexAttribArray
 #define glVertexAttribPointer       p_glVertexAttribPointer
+#define glGenVertexArrays           p_glGenVertexArrays
+#define glDeleteVertexArrays        p_glDeleteVertexArrays
+#define glBindVertexArray           p_glBindVertexArray
 
 #ifndef DX_NON_NAMESPACE
 }  // close namespace DxLib — DxDesktop_* は global にする
@@ -199,9 +221,21 @@ extern "C" int DxDesktop_MakeWinAndGL( int w, int h, const char *title )
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 ) ;
     SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 ) ;
     SDL_GL_SetAttribute( SDL_GL_STENCIL_SIZE, 8 ) ;    // Mask 用 8-bit stencil
+#elif defined(__APPLE__)
+    // Apple は OpenGL を 2017 以降 deprecate。Compat 2.1 は Metal-backed legacy で
+    // shader-based draw が silent skip する driver bug あり (2026-04-26 解析)。
+    // → Core Profile 3.2 + Forward Compat を強制取得して modern path のみ使う。
+    // fixed-function (glBegin/glEnd, glOrtho 等) は使えなくなるため、boxf/mes 等
+    // HSP 標準描画は別途 shader-based 化が必要 (Phase 2)。
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE ) ;
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 ) ;
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 2 ) ;
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG ) ;
+    SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 ) ;
+    SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 24 ) ;
+    SDL_GL_SetAttribute( SDL_GL_STENCIL_SIZE, 8 ) ;
 #else
-    // Stage 7 暫定: Windows では compat profile を指定して fixed-function も
-    // 使えるようにする (glBegin/glEnd 可)。ES context は ANGLE 差し替え時に戻す。
+    // Win/Linux は compat profile を指定して fixed-function も使える状態にする。
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY ) ;
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 2 ) ;
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 ) ;
@@ -217,9 +251,12 @@ extern "C" int DxDesktop_MakeWinAndGL( int w, int h, const char *title )
     s_DrawArea_R  = w ;
     s_DrawArea_B  = h ;
 
+    // WSLg の XWayland が "131072x1 bogus screen size" を返してくる場合、
+    // SDL_WINDOWPOS_CENTERED で window が画面外に行く問題を避けるため、
+    // 固定座標 (100, 100) で配置。Mac/native Linux でも問題無いはず。
     s_Window = SDL_CreateWindow(
         title ? title : "hsp3dx dxlib_angle_sdl2",
-        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+        100, 100,
         w, h, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN ) ;
     if ( s_Window == nullptr )
     {
@@ -300,6 +337,9 @@ extern int Graphics_Hardware_ClearDrawScreen_PF( const RECT *ClearRect )
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ) ;
     return 0 ;
 }
+
+extern "C" int DesktopShader_CompileGLSL( const char *vs_src, const char *fs_src ) ;
+extern "C" int DesktopShader_Use( int handle ) ;
 
 extern int Graphics_ScreenFlipBase_PF( void )
 {
@@ -1662,6 +1702,16 @@ static GLint dx_current_attrib_loc( const char *name )
 
 // VERTEX3DSHADER (88B) のレイアウトで attribute を設定。
 // base は VBO の先頭 (0 バイト) から、BaseVertex * UnitSize のオフセットを加算。
+// Core Profile (Apple) では VAO bind 必須。1 つだけ作って常に bind し続ける。
+// Compat profile (Win/Linux) では不要だが副作用なし。
+static GLuint s_dummy_vao = 0 ;
+static void dx_ensure_dummy_vao_bound( void )
+{
+    if ( !p_glGenVertexArrays || !p_glBindVertexArray ) return ;
+    if ( s_dummy_vao == 0 ) glGenVertexArrays( 1, &s_dummy_vao ) ;
+    if ( s_dummy_vao != 0 ) glBindVertexArray( s_dummy_vao ) ;
+}
+
 static void dx_setup_vertex3dshader_attribs( int BaseVertex, int UnitSize )
 {
     // VERTEX3DSHADER (DxLib.h L1399):
@@ -1685,7 +1735,6 @@ static void dx_setup_vertex3dshader_attribs( int BaseVertex, int UnitSize )
     if ( loc >= 0 ) { glEnableVertexAttribArray( loc ) ; glVertexAttribPointer( loc, 3, GL_FLOAT, GL_FALSE, stride, ofs( 0  ) ) ; }
     loc = dx_current_attrib_loc( "a_texCoord" ) ;
     if ( loc >= 0 ) { glEnableVertexAttribArray( loc ) ; glVertexAttribPointer( loc, 2, GL_FLOAT, GL_FALSE, stride, ofs( 72 ) ) ; }
-    // MV1 向け拡張: normal/tangent/color を shader で受けたい場合はここへ追加
     loc = dx_current_attrib_loc( "a_normal" ) ;
     if ( loc >= 0 ) { glEnableVertexAttribArray( loc ) ; glVertexAttribPointer( loc, 3, GL_FLOAT, GL_FALSE, stride, ofs( 28 ) ) ; }
     loc = dx_current_attrib_loc( "a_tangent" ) ;
@@ -1759,6 +1808,7 @@ extern int Graphics_Hardware_DrawPrimitive3DToShader_UseVertexBuffer2_PF(
 
     dx_ensure_shader_bound() ;
     dx_bind_user_shader_textures() ;
+    dx_ensure_dummy_vao_bound() ;
     glBindBuffer( GL_ARRAY_BUFFER, ( GLuint )vb->PF->VertexBuffer ) ;
     dx_setup_vertex3dshader_attribs( 0, vb->UnitSize ) ;
     glDrawArrays( dx_primtype_to_gl( PrimitiveType ), StartVertex, UseVertexNum ) ;
@@ -1783,6 +1833,7 @@ extern int Graphics_Hardware_DrawPrimitiveIndexed3DToShader_UseVertexBuffer2_PF(
 
     dx_ensure_shader_bound() ;
     dx_bind_user_shader_textures() ;
+    dx_ensure_dummy_vao_bound() ;
     glBindBuffer( GL_ARRAY_BUFFER,         ( GLuint )vb->PF->VertexBuffer ) ;
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ( GLuint )ib->PF->IndexBuffer  ) ;
     dx_setup_vertex3dshader_attribs( BaseVertex, vb->UnitSize ) ;
