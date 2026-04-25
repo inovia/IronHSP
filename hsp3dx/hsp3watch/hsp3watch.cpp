@@ -806,6 +806,14 @@ private:
             Beep(freq[idx], 60);
             break;
         }
+        case 0x203: {  // notify "title", "body" — Win では console + Beep で代替
+            std::string title = args.size() > 0 ? args[0].asString() : "";
+            std::string body  = args.size() > 1 ? args[1].asString() : "";
+            Beep(1500, 80);
+            wprintf(L"[notify] %hs: %hs\n", title.c_str(), body.c_str());
+            fflush(stdout);
+            break;
+        }
         }
     }
 

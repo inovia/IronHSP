@@ -4,6 +4,7 @@
 
 import SwiftUI
 import WatchKit
+import UserNotifications
 
 struct ContentView: View {
     @State private var ops: [HSPDrawOp] = []
@@ -16,6 +17,7 @@ struct ContentView: View {
     // Digital Crown 値 (連続的)。 HSPRuntime 側で整数化して累積デルタとして使う。
     @State private var crownValue: Double = 0
     @State private var crownLast:  Double = 0
+    @State private var notifyCount: Int = 0
 
     private let timer = Timer.publish(every: 1.0 / 30.0, on: .main, in: .common)
         .autoconnect()
@@ -80,6 +82,14 @@ struct ContentView: View {
                 }
                 WKInterfaceDevice.current().play(h)
             }
+            runtime.notifyCallback = { title, body in
+                DispatchQueue.main.async { self.notifyCount += 1 }
+                Self.scheduleNotification(title: title, body: body)
+            }
+            // Phase 10 (b): 通知権限を 1 度だけ要求
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, err in
+                NSLog("[notify] auth granted=\(granted) err=\(err?.localizedDescription ?? "")")
+            }
         } else {
             self.fallback = true
             self.ops = sampleOps()
@@ -103,7 +113,22 @@ struct ContentView: View {
         }
         rt.runFrame()
         ops = rt.drawOps
-        statusLine = "step=\(rt.step) ops=\(rt.drawOps.count) crn=\(rt.crownDelta) tap=\(rt.tapCount)"
+        statusLine = "step=\(rt.step) ops=\(rt.drawOps.count) crn=\(rt.crownDelta) tap=\(rt.tapCount) ntf=\(notifyCount)"
+    }
+
+    /// Phase 10 (b): notify "title", "body" を即時 (trigger=nil) ローカル通知として投函
+    private static func scheduleNotification(title: String, body: String) {
+        // foreground でも banner を出すために delegate を都度差し直す
+        UNUserNotificationCenter.current().delegate = NotificationForegroundDelegate.shared
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body  = body
+        content.sound = .default
+        let req = UNNotificationRequest(identifier: UUID().uuidString,
+                                        content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(req) { err in
+            if let err = err { NSLog("[notify] add err: \(err)") }
+        }
     }
 
     private func sampleOps() -> [HSPDrawOp] {
@@ -119,4 +144,14 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+}
+
+/// Phase 10 (b): app が foreground のとき、 willPresent を実装しないと banner/list が出ない (iOS/watchOS 14+)
+final class NotificationForegroundDelegate: NSObject, UNUserNotificationCenterDelegate {
+    static let shared = NotificationForegroundDelegate()
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                 willPresent notification: UNNotification,
+                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner, .list, .sound])
+    }
 }

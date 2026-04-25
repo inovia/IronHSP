@@ -1,7 +1,8 @@
-; hello_watch.hsp — Phase 8 gosub + 文字列関数 demo
+; hello_watch.hsp — Phase 8 gosub + 文字列関数 demo + Phase 10 notify
 ;
 ; gosub で時刻文字列を組み立てる subroutine を呼び、 strmid / strlen / instr で
 ; 文字列を切り出して表示する。
+; Phase 10: tap が増えるたびに haptic + ローカル通知を投函する。
 ;
 #bootopt hsp64 1
 #cmpopt utf8 1
@@ -9,12 +10,27 @@
 
 	greeting = "Hello, HSP on Watch!"
 	count_label = "frame#"
+	last_tap = 0
+	booted = 0
 
 	repeat
 		cls
 
 		; gosub でアニメ円計算
 		gosub *update_pos
+
+		; 起動から 30 frame (1 秒) 後に 1 回 boot 通知
+		if cnt >= 30 : if booted = 0 {
+			booted = 1
+			notify "hsp3watch", "boot ok at frame=" + cnt
+		}
+
+		; tap 検出 → haptic + 通知 (Phase 10)
+		if tapcnt != last_tap {
+			last_tap = tapcnt
+			haptic 1
+			notify "Watch tap", "tap=" + tapcnt + " frame=" + cnt
+		}
 
 		; ガイド + 動く矩形
 		color 40, 80, 100

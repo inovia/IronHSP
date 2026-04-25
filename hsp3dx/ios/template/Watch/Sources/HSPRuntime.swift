@@ -842,6 +842,10 @@ final class HSPRuntime {
             // type: 0=notification 1=success 2=failure 3=click 4=start 5=stop
             let t = Int(args.first?.asInt ?? 0)
             hapticCallback?(t)
+        case 0x203:  // notify "title", "body" (watch_api.as)
+            let title = args.indices.contains(0) ? args[0].asString : ""
+            let body  = args.indices.contains(1) ? args[1].asString : ""
+            notifyCallback?(title, body)
         default:
             break
         }
@@ -849,6 +853,9 @@ final class HSPRuntime {
 
     /// SwiftUI / Win 側から set する haptic ハンドラ
     var hapticCallback: ((Int) -> Void)?
+
+    /// SwiftUI / Win 側から set する notification ハンドラ (title, body)
+    var notifyCallback: ((String, String) -> Void)?
 
     /// wcrecv var (watch_api.as) — 第一引数の var に最新メッセージを書く
     private func execWcRecv() {
