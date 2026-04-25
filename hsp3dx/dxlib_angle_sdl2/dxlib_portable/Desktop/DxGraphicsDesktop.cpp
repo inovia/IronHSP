@@ -632,6 +632,11 @@ static const MATRIX *dx_get_view_matrix( void ) ;
 static const MATRIX *dx_get_proj_matrix( void ) ;
 static const MATRIX *dx_get_world_matrix( void ) ;
 
+// 他 unit (DxModelDesktop.cpp 等) からも MV1 描画用に呼べるよう extern 公開。
+// vertex layout: (x,y,z, r,g,b,a, u,v) 9 float = 36 byte stride。
+extern "C" void Desktop_3D_DrawArrays( unsigned int mode, const float *xyzrgbauv, int vertex_count,
+                                        unsigned int tex_id, int TransFlag, int WriteZ ) ;
+
 static void dx_3d_draw_arrays( GLenum mode, const float *xyzrgbauv, int vertex_count,
                                GLuint tex_id, int TransFlag, int WriteZ )
 {
@@ -675,6 +680,13 @@ static void dx_3d_draw_arrays( GLenum mode, const float *xyzrgbauv, int vertex_c
     if ( acol >= 0 ) glDisableVertexAttribArray( acol ) ;
     if ( auv  >= 0 ) glDisableVertexAttribArray( auv  ) ;
     glDepthMask( GL_TRUE ) ;
+}
+
+// extern wrapper (DxModelDesktop.cpp 等から呼ぶ用)
+extern "C" void Desktop_3D_DrawArrays( unsigned int mode, const float *xyzrgbauv, int vertex_count,
+                                        unsigned int tex_id, int TransFlag, int WriteZ )
+{
+    dx_3d_draw_arrays( ( GLenum )mode, xyzrgbauv, vertex_count, ( GLuint )tex_id, TransFlag, WriteZ ) ;
 }
 
 // vertices = 4 個の (x, y, u, v) で一つの quad、 GL_TRIANGLE_STRIP で描画

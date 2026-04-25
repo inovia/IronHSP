@@ -33,6 +33,12 @@
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
+#include <vector>
+
+// MV1 描画 (Apple/Linux Core profile 用): 共通 3D shader 経由で 1 batch を描画。
+// vertex layout: (x,y,z, r,g,b,a, u,v) 9 float / 36 byte stride。
+extern "C" void Desktop_3D_DrawArrays( unsigned int mode, const float *xyzrgbauv, int vertex_count,
+                                        unsigned int tex_id, int TransFlag, int WriteZ ) ;
 
 // GL 1.3+ 関数 (glActiveTexture / glMultiTexCoord2f) は GDI32 の opengl32.lib
 // には無いので SDL_GL_GetProcAddress で動的解決する。
@@ -427,14 +433,93 @@ static void desktop_mv1_draw_outline_pass( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TL
 static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TList )
 {
 #if ( defined(__APPLE__) || defined(__linux__) )
-    // Apple Core profile では MV1 描画パス全体が fixed-function に依存
-    // (glBegin/glColor/glTexCoord/glNormal/glVertex 経由 + GLSL shader も
-    // gl_Vertex/gl_Normal/gl_MultiTexCoord0/gl_FrontMaterial 等 deprecated
-    // built-in を使用)。 完全 modernization は VBO/skinning/multi-UV/toon ramp/
-    // multi-light 全部を新 shader と attribute path で書き直す大改修が必要。
-    // 一旦 Apple では描画 skip。 sample_mv1_load_test.hsp 等は Apple で表示なし。
-    (void)Mesh; (void)TList;
+{
+    // Apple/Linux Core profile では fixed-function (glBegin/glColor/glNormal/
+    // glVertex) と既存 GLSL shader (gl_Vertex/gl_Normal/gl_FrontMaterial 等
+    // deprecated built-in 使用) が動かない。
+    // 最小実装: vertex (pos, color, uv) を VBO に packing して、 共通 3D shader
+    // (Desktop_3D_DrawArrays = u_proj/u_view/u_world + diffuse texture) で描画。
+    // lighting / toon ramp / multi-tex / specular / normal map / shadow map は
+    // 当面 skip (Phase 7 で実装)。
+    if ( !TList || !TList->BaseData ) return ;
+    MV1_TRIANGLE_LIST_BASE *bd = TList->BaseData ;
+    if ( !bd->Index || bd->IndexNum < 3 ) return ;
+    if ( !Mesh || !Mesh->BaseData ) return ;
+    if ( !TList->NormalPosition ) return ;
+    MV1_MESH_BASE *mbase = Mesh->BaseData ;
+    unsigned char *vraw = ( unsigned char * )mbase->Vertex ;
+    int vsize = mbase->VertUnitSize ;
+
+    // material diffuse 色を u_color として乗算
+    int mR = 255, mG = 255, mB = 255, mA = 255 ;
+    GLuint texId = 0 ;
+    bool useVertexColor = ( Mesh->BaseData->UseVertexDiffuseColor != 0 ) ;
+    if ( Mesh->Material && Mesh->Material->BaseData ) {
+        MV1_MATERIAL_BASE *mb = Mesh->Material->BaseData ;
+        mR = ( int )( mb->Diffuse.r * 255.0f + 0.5f ) ;
+        mG = ( int )( mb->Diffuse.g * 255.0f + 0.5f ) ;
+        mB = ( int )( mb->Diffuse.b * 255.0f + 0.5f ) ;
+        mA = ( int )( mb->Diffuse.a * 255.0f + 0.5f ) ;
+        if ( mR > 255 ) mR = 255 ; if ( mR < 0 ) mR = 0 ;
+        if ( mG > 255 ) mG = 255 ; if ( mG < 0 ) mG = 0 ;
+        if ( mB > 255 ) mB = 255 ; if ( mB < 0 ) mB = 0 ;
+        if ( mA > 255 ) mA = 255 ; if ( mA < 0 ) mA = 0 ;
+        // diffuse texture を bind
+        if ( mb->DiffuseLayerNum > 0 && mb->DiffuseLayer ) {
+            int graphHandle = mb->DiffuseLayer[ 0 ].GraphHandle ;
+            if ( graphHandle >= 0 ) {
+                IMAGEDATA *Image = nullptr ;
+                if ( !GRAPHCHK( graphHandle, Image ) && Image && Image->Orig &&
+                     Image->Orig->Hard.TexNum > 0 && Image->Orig->Hard.Tex[ 0 ].PF ) {
+                    texId = ( GLuint )Image->Orig->Hard.Tex[ 0 ].PF->Texture.TextureBuffer ;
+                }
+            }
+        }
+    }
+
+    bool hasUV = ( mbase->UVUnitNum > 0 ) ;
+
+    // index ごとに頂点を展開 (drawArrays 用)
+    int vcount = 0 ;
+    for ( int i = 0 ; i + 2 < bd->IndexNum ; i += 3 ) vcount += 3 ;
+    if ( vcount <= 0 ) return ;
+
+    std::vector< float > buf ;
+    buf.reserve( ( size_t )vcount * 9 ) ;
+    for ( int i = 0 ; i + 2 < bd->IndexNum ; i += 3 ) {
+        for ( int k = 0 ; k < 3 ; ++k ) {
+            unsigned short vi = bd->Index[ i + k ] ;
+            if ( vi >= bd->VertexNum ) {
+                // skip: 同じ三角形内の全 vertex を 0 で埋めて degenerate 化
+                buf.push_back( 0 ); buf.push_back( 0 ); buf.push_back( 0 );
+                buf.push_back( 1 ); buf.push_back( 1 ); buf.push_back( 1 ); buf.push_back( 1 );
+                buf.push_back( 0 ); buf.push_back( 0 );
+                continue ;
+            }
+            DWORD meshVi = bd->MeshVertexIndex ? bd->MeshVertexIndex[ vi ] : ( DWORD )vi ;
+            MV1_MESH_VERTEX *mv = ( vraw && vsize > 0 )
+                ? ( MV1_MESH_VERTEX * )( vraw + meshVi * vsize )
+                : nullptr ;
+            float p[ 3 ], n[ 3 ] ;
+            desktop_mv1_get_vertex_pos( Mesh, TList, vi, p, n ) ;
+            float u = 0.0f, v = 0.0f ;
+            if ( mv && hasUV ) { u = mv->UVs[ 0 ][ 0 ] ; v = mv->UVs[ 0 ][ 1 ] ; }
+            float r = mR / 255.0f, g = mG / 255.0f, b = mB / 255.0f, a = mA / 255.0f ;
+            if ( useVertexColor && mv ) {
+                r = mv->DiffuseColor.r / 255.0f * ( mR / 255.0f ) ;
+                g = mv->DiffuseColor.g / 255.0f * ( mG / 255.0f ) ;
+                b = mv->DiffuseColor.b / 255.0f * ( mB / 255.0f ) ;
+                a = mv->DiffuseColor.a / 255.0f * ( mA / 255.0f ) ;
+            }
+            buf.push_back( p[ 0 ] ); buf.push_back( p[ 1 ] ); buf.push_back( p[ 2 ] ) ;
+            buf.push_back( r ); buf.push_back( g ); buf.push_back( b ); buf.push_back( a ) ;
+            buf.push_back( u ); buf.push_back( v ) ;
+        }
+    }
+    bool transFlag = ( mA < 255 ) ;
+    Desktop_3D_DrawArrays( /*GL_TRIANGLES*/0x0004, buf.data(), vcount, ( unsigned int )texId, transFlag ? 1 : 0, 1 ) ;
     return ;
+}
 #endif
     if ( !TList || !TList->BaseData ) return ;
     MV1_TRIANGLE_LIST_BASE *bd = TList->BaseData ;

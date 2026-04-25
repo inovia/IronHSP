@@ -43,6 +43,9 @@ extern int InitializeInputSystem( void ) ;
 #ifndef DX_NON_LIVE2D_CUBISM4
 extern int Live2DCubism4_Initialize( void ) ;
 #endif
+#ifndef DX_NON_MODEL
+extern int MV1Initialize( void ) ;
+#endif
 
 extern int NS_DxLib_Init( void )
 {
@@ -67,6 +70,13 @@ extern int NS_DxLib_Init( void )
     // UpdateKeyboardInputState_PF が一度も呼ばれない。
 #ifndef DX_NON_INPUT
     InitializeInputSystem() ;
+#endif
+
+    // MV1 (3D model) 機能の初期化。MV1Man.Initialize=true を立てる。
+    // これが無いと NS_MV1DrawModel / NS_MV1LoadModel が即 -1 で落ちる。
+#ifndef DX_NON_MODEL
+    std::fprintf( stderr, "[DxLib Desktop] MV1Initialize\n" ) ;
+    MV1Initialize() ;
 #endif
 
     // Live2D Cubism4 の初期化 (LIVE2DSYS.InitializeFlag を立てる)。
