@@ -742,13 +742,18 @@ int wmain(int argc, wchar_t** argv) {
     wprintf(L"loaded: %ls (%zu bytes)\n", g_axPath.c_str(), data.size());
 
     HINSTANCE hInst = GetModuleHandle(nullptr);
-    WNDCLASSW wc{};
+    WNDCLASSEXW wc{};
+    wc.cbSize        = sizeof(wc);
     wc.lpfnWndProc   = WndProc;
     wc.hInstance     = hInst;
     wc.hCursor       = LoadCursor(nullptr, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
     wc.lpszClassName = L"HSP3WatchWnd";
-    RegisterClassW(&wc);
+    // hsp3watch.rc の IDI_MAIN (= 1) を埋め込み済アイコンから読む
+    wc.hIcon         = LoadIconW(hInst, MAKEINTRESOURCEW(1));
+    wc.hIconSm       = (HICON)LoadImageW(hInst, MAKEINTRESOURCEW(1),
+                                         IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
+    RegisterClassExW(&wc);
 
     RECT rc{0, 0, WIN_W, WIN_H};
     AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
