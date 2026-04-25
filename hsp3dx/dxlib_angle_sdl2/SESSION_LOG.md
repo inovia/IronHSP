@@ -4,6 +4,72 @@
 
 ---
 
+## 2026-04-26 夜 — Apple Watch ランタイム Phase 3 (代入/if/repeat/loop/wait/cnt/line)
+
+### 背景
+Phase 2 (静的描画) 完了 (commit 23596e5a)。Phase 3 で制御構文 + フレーム loop 化。
+
+### やったこと
+1. [Watch/Sources/HSPRuntime.swift](../ios/template/Watch/Sources/HSPRuntime.swift) を Phase 3 用に大幅拡張
+   - `LoopFrame` 構造体で repeat / loop の cnt 管理
+   - `callStack` で gosub / return 対応
+   - `yielded` フラグで wait/await をフレーム境界に
+   - `execAssignment(varIdx)` で `var = expr` (CALCCODE_EQ) と `+=` `-=` `*=` `/=`
+   - `execCmpCmd(0=if, 1=else)` — skip-offset 直後を anchor に jumpTarget 算出
+   - `execProgCmd` 拡充: goto/gosub/return/break/repeat/loop/continue/wait/await/end/stop
+   - sysvar `cnt` (id 0x004) を `loops.last?.cnt` で返す
+   - `evalExpression` を再構成: EXFLG_1 (stmt 終端) と EXFLG_2 (引数区切り、ただし work 非空時のみ)
+   - 文字列 + 数値の concatenation を applyCalc(op:0) で対応
+2. [Watch/Sources/HSPCanvasView.swift](../ios/template/Watch/Sources/HSPCanvasView.swift) に line / pset / font size 反映を追加
+3. [Watch/Sources/ContentView.swift](../ios/template/Watch/Sources/ContentView.swift) を 30Hz Timer 駆動に変更 — 各 tick で `runFrame()` を呼ぶ
+4. [Watch/Resources/hello_watch.hsp](../ios/template/Watch/Resources/hello_watch.hsp) を animation テスト
+   ```hsp
+   repeat
+     cls
+     x = (cnt \ 240) - 120
+     if x < 0 { x = -x }
+     x = x + 20
+     color 240, 80, 80
+     boxf x, 28, x + 40, 56
+     ...
+     await 33
+   loop
+   ```
+5. Mac で xcodebuild + simctl install/launch → Apple Watch Series 11 (46mm) Sim で
+   赤矩形が往復アニメ + frame counter + x 計算結果表示 を確認
+
+### 直したバグ (3 つ)
+1. **EXFLG_2 の誤認**: 「引数省略」ではなく「引数区切り」だった (`color 255, 64, 96` の
+   2nd/3rd の通常引数にも EXFLG_2 が立つ)。`nextArg` で `EXFLG_2 → return .int(0)` (pc 進めず)
+   していたため無限ループ → 高 CPU。修正: 引数区切りは `evalExpression` 内で work 非空時のみ break。
+2. **if skip-offset の基点**: condition 評価**後**の pc から +offset していたが、
+   標準 HSP3 (`mcstmp = mcs + i;` line 2123) は offset 直後の anchor + offset。
+   修正: condition eval 前に `let jumpTarget = pc + skipOffset` 確定。
+3. **Swift init で instance method 呼び出し**: init 内で `self.i32(...)` を呼んでいたが
+   stored properties 全初期化前は不可。局所関数 `i32at(_:)` に切り出し。
+
+### 学び
+- Apple Watch S11 46mm の SwiftUI Canvas size は **論理 pt 単位で約 200pt 幅** (pixel ではない)。
+  最初 boxf x=200 が右端に出て if の clamp が効いていないと誤認し回り道した。
+  画面の実サイズは Canvas closure の `size` 引数 (CGSize) で取得可能。
+- HSP3 の .ax bytecode フォーマット要点:
+  - 1 word = 16bit、type は下位 12bit、上位 4bit が exflg
+  - EXFLG_3 (0x8000) で val が 32bit 拡張
+  - EXFLG_1 (0x2000) = 文の先頭 (= 前の文の終端マーカーとして読む)
+  - EXFLG_0 (0x1000) = 式の最終トークン (fast path)
+  - EXFLG_2 (0x4000) = 引数区切り (slow path 終端、 fast path では `exflg &= ~EXFLG_2` で消費)
+  - 代入: VAR + MARK CALCCODE_8(=) + expr
+  - if: CMPCMD val=0 + 16bit skipOffset + condition expr
+  - else: CMPCMD val=1 + 16bit skipOffset (無条件 jump)
+  - repeat: PROGCMD val=4 + LABEL token (break target = OT idx) + count expr
+  - loop: PROGCMD val=5
+  - wait/await: PROGCMD val=7/8 + ms expr → frame yield
+
+### 残件 / 次セッション
+- Phase 4: WatchConnectivity (iOS ↔ Watch メッセージ) / Complication (Watch face widget) / Notification
+
+---
+
 ## 2026-04-26 夕 — Apple Watch 専用ランタイム Phase 2 (mini .ax interpreter)
 
 ### 背景

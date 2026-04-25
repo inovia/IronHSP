@@ -1,47 +1,56 @@
 //
-//  ContentView.swift — Phase 2: HSP runtime + Canvas 描画
+//  ContentView.swift — Phase 3: HSPRuntime の frame loop 駆動
 //
-//  Bundle 内に "demo.ax" があれば HSPRuntime で実行し DrawList を構築する。
-//  無ければハンドメイドの DrawList で Canvas pipeline を確認する。
+//  動作:
+//    1. Bundle に "demo.ax" あれば HSPRuntime で読み込む
+//    2. 60 Hz Timer で runFrame() を呼び、 wait/await で yield されたら次 tick
+//    3. drawOps を Canvas に流す
 //
 
 import SwiftUI
 
 struct ContentView: View {
     @State private var ops: [HSPDrawOp] = []
-    @State private var statusLine: String = "loading…"
-    @State private var now = Date()
-    private let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
+    @State private var statusLine: String = ""
+    @State private var rt: HSPRuntime? = nil
+    @State private var fallback: Bool = false
+
+    private let timer = Timer.publish(every: 1.0 / 30.0, on: .main, in: .common)
+        .autoconnect()
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             HSPCanvasView(ops: ops)
-            VStack(alignment: .leading, spacing: 1) {
-                Text(timeString)
-                    .font(.system(size: 12, weight: .regular, design: .monospaced))
-                    .foregroundColor(.white.opacity(0.85))
-                Text(statusLine)
-                    .font(.system(size: 9))
-                    .foregroundColor(.gray)
-            }
-            .padding(.leading, 6)
-            .padding(.bottom, 4)
+            Text(statusLine)
+                .font(.system(size: 9))
+                .foregroundColor(.gray)
+                .padding(.leading, 6)
+                .padding(.bottom, 4)
         }
-        .onAppear { reload() }
-        .onReceive(timer) { now = $0 }
+        .onAppear { load() }
+        .onReceive(timer) { _ in tick() }
     }
 
-    private func reload() {
+    private func load() {
         if let url = Bundle.main.url(forResource: "demo", withExtension: "ax"),
            let data = try? Data(contentsOf: url),
-           let rt = try? HSPRuntime(data) {
-            rt.run()
-            ops = rt.drawOps
-            statusLine = "demo.ax steps=\(rt.step) ops=\(rt.drawOps.count)"
+           let runtime = try? HSPRuntime(data) {
+            self.rt = runtime
+            self.fallback = false
+            self.statusLine = "demo.ax loaded"
         } else {
-            ops = sampleOps()
-            statusLine = "no demo.ax — fallback"
+            self.fallback = true
+            self.ops = sampleOps()
+            self.statusLine = "no demo.ax"
         }
+    }
+
+    private func tick() {
+        guard let rt = rt, !fallback else { return }
+        if rt.isHalted { return }
+        rt.runFrame()
+        ops = rt.drawOps
+        statusLine = "step=\(rt.step) ops=\(rt.drawOps.count)"
     }
 
     private func sampleOps() -> [HSPDrawOp] {
@@ -52,14 +61,8 @@ struct ContentView: View {
             .setColor(r: 0.2, g: 0.8, b: 1.0),
             .boxF(x: 84, y: 24, w: 64, h: 24),
             .setColor(r: 1, g: 1, b: 1),
-            .text(x: 14, y: 56, s: "HSP runtime ready"),
+            .text(x: 14, y: 56, s: "HSP runtime ready", size: 14),
         ]
-    }
-
-    private var timeString: String {
-        let f = DateFormatter()
-        f.dateFormat = "HH:mm:ss"
-        return f.string(from: now)
     }
 }
 
