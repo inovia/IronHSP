@@ -99,7 +99,7 @@ EM_JS( void *, csmInitializeModelInPlace, (void *moc, void *memory, unsigned int
     var jsMoc = window.__hsp3dxL2D.mocs[moc];
     if ( !jsMoc ) { if ( window.__l2d_log ) window.__l2d_log('[L2D bridge] csmInitModel: no jsMoc for ' + moc); return 0; }
     var jsModel = Live2DCubismCore.Model.fromMoc( jsMoc );
-    if ( window.__l2d_log ) window.__l2d_log('[L2D bridge] csmInitModel parts=' + (jsModel?jsModel.parts.count:'?') + ' drawables=' + (jsModel?jsModel.drawables.count:'?'));
+    if ( window.__l2d_log ) window.__l2d_log('[L2D bridge] csmInitModel memory=' + memory + ' parts=' + (jsModel?jsModel.parts.count:'?') + ' drawables=' + (jsModel?jsModel.drawables.count:'?'));
     if ( !jsModel ) return 0;
     window.__hsp3dxL2D.models[memory] = jsModel;
     return memory;
@@ -394,17 +394,31 @@ EM_JS( const int *, csmGetDrawableDrawOrders, (void *model), {
     return jsModel.__cDrwOrd;
 } )
 
+// 注意: 当 Cubism Web SDK では renderOrders は jsModel 直下に存在し、
+// jsModel.drawables.renderOrders は無い。バージョン差異と思われる。
+// (SDK 4-r.7 の標準は drawables.renderOrders だが、当リポジトリ同梱の
+// live2dcubismcore.min.js は別 build みたい。)
 EM_JS( const int *, csmGetDrawableRenderOrders, (void *model), {
-    if ( !window.__hsp3dxL2D ) return 0;
-    var jsModel = window.__hsp3dxL2D.models[model];
-    if ( !jsModel ) return 0;
-    if ( !jsModel.__cDrwRnd ) {
-        jsModel.__cDrwRnd = _malloc( jsModel.drawables.renderOrders.length * 4 );
-        jsModel.__cDrwRndN = jsModel.drawables.renderOrders.length;
+    try {
+        if ( !window.__hsp3dxL2D ) return 0;
+        var jsModel = window.__hsp3dxL2D.models[model];
+        if ( !jsModel ) return 0;
+        var arr = jsModel.renderOrders || (jsModel.drawables && jsModel.drawables.renderOrders);
+        if ( !arr ) {
+            if ( window.__l2d_log ) window.__l2d_log('[bridge RO] no renderOrders');
+            return 0;
+        }
+        if ( !jsModel.__cDrwRnd ) {
+            jsModel.__cDrwRnd = _malloc( arr.length * 4 );
+            jsModel.__cDrwRndN = arr.length;
+        }
+        var n = jsModel.__cDrwRndN;
+        for ( var i = 0; i < n; i++ ) HEAP32[(jsModel.__cDrwRnd >> 2) + i] = arr[i];
+        return jsModel.__cDrwRnd;
+    } catch (e) {
+        if ( window.__l2d_log ) window.__l2d_log('[bridge RO] EXCEPTION: ' + e.message);
+        return 0;
     }
-    var n = jsModel.__cDrwRndN;
-    for ( var i = 0; i < n; i++ ) HEAP32[(jsModel.__cDrwRnd >> 2) + i] = jsModel.drawables.renderOrders[i];
-    return jsModel.__cDrwRnd;
 } )
 
 EM_JS( const float *, csmGetDrawableOpacities, (void *model), {
