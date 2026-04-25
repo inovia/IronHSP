@@ -22,6 +22,7 @@
 //   引数省略時は ../ios/template/Watch/Resources/demo.ax を試行。
 //
 #define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #define UNICODE
 #define _UNICODE
 #include <windows.h>
@@ -457,6 +458,36 @@ private:
             if (v < lo) v = lo; if (v > hi) v = hi; return Value::Dbl(v);
         }
         case 0x18a: return Value::Dbl(pow(a0.asDouble(), a1.asDouble()));
+
+        // --- 文字列関数
+        case 0x00f: {  // instr(s, start, sub)
+            std::string s = a0.asString();
+            int start = (int)a1.asInt();
+            std::string sub = (args.size() > 2 ? args[2] : Value::Str("")).asString();
+            if (start < 0 || start > (int)s.size() || sub.empty()) return Value::Int(-1);
+            size_t pos = s.find(sub, start);
+            if (pos == std::string::npos) return Value::Int(-1);
+            return Value::Int((int32_t)(pos - start));
+        }
+        case 0x100: return Value::Str(a0.asString());          // str(v)
+        case 0x101: {  // strmid(s, n, len)
+            std::string s = a0.asString();
+            int n   = (int)a1.asInt();
+            int len = (int)(args.size() > 2 ? args[2] : Value::Int(0)).asInt();
+            if (s.empty() || len <= 0) return Value::Str("");
+            int total = (int)s.size();
+            int start = (n < 0) ? std::max(0, total - len)
+                                : std::min(n, total);
+            int end   = std::min(total, start + len);
+            return Value::Str(s.substr(start, end - start));
+        }
+        case 0x105: {  // strtrim(s)
+            std::string s = a0.asString();
+            size_t lo = s.find_first_not_of(" \t\r\n");
+            size_t hi = s.find_last_not_of(" \t\r\n");
+            if (lo == std::string::npos) return Value::Str("");
+            return Value::Str(s.substr(lo, hi - lo + 1));
+        }
         }
         return Value::Int(0);
     }

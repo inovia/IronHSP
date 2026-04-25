@@ -473,9 +473,42 @@ final class HSPRuntime {
             return .double(min(max(a0.asDouble, a1.asDouble), a2.asDouble))
         case 0x18a:                                                 // powf(b, e)
             return .double(pow(a0.asDouble, a1.asDouble))
+
+        // --- 文字列関数
+        case 0x00f:  // instr(s, start, sub)
+            return strInstr(a0.asString, Int(a1.asInt),
+                            (args.count > 2 ? args[2] : .string("")).asString)
+        case 0x100:  // str(v)
+            return .string(a0.asString)
+        case 0x101:  // strmid(s, n, len)
+            return strMid(a0.asString, Int(a1.asInt),
+                          Int((args.count > 2 ? args[2] : .int(0)).asInt))
+        case 0x105:  // strtrim(s)
+            return .string(a0.asString.trimmingCharacters(in: .whitespacesAndNewlines))
+
         default:
             return .int(0)
         }
+    }
+
+    private func strInstr(_ s: String, _ start: Int, _ sub: String) -> HSPValue {
+        if start < 0 || start > s.count || sub.isEmpty { return .int(-1) }
+        let from = s.index(s.startIndex, offsetBy: start)
+        if let r = s.range(of: sub, range: from..<s.endIndex) {
+            let off = s.distance(from: from, to: r.lowerBound)
+            return .int(Int32(off))
+        }
+        return .int(-1)
+    }
+
+    private func strMid(_ s: String, _ n: Int, _ len: Int) -> HSPValue {
+        if s.isEmpty || len <= 0 { return .string("") }
+        let total = s.count
+        let start: Int = (n < 0) ? max(0, total - len) : min(n, total)
+        let end = min(total, start + len)
+        let si = s.index(s.startIndex, offsetBy: start)
+        let ei = s.index(s.startIndex, offsetBy: end)
+        return .string(String(s[si..<ei]))
     }
 
     private func applyCalc(op: Int32, l: HSPValue, r: HSPValue) -> HSPValue {

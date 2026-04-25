@@ -1,54 +1,54 @@
-; hello_watch.hsp — Phase 7 simplified
+; hello_watch.hsp — Phase 8 gosub + 文字列関数 demo
+;
+; gosub で時刻文字列を組み立てる subroutine を呼び、 strmid / strlen / instr で
+; 文字列を切り出して表示する。
 ;
 #bootopt hsp64 1
 #cmpopt utf8 1
 #include "watch_api.as"
 
-	last_tap = 0
+	greeting = "Hello, HSP on Watch!"
+	count_label = "frame#"
 
 	repeat
 		cls
 
-		; 半径 = 50 + crown
-		r = 50 + crown
-		if r < 10 {
-			r = 10
-		}
-		if r > 90 {
-			r = 90
-		}
+		; gosub でアニメ円計算
+		gosub *update_pos
 
-		; 円軌道
-		theta = double(cnt) / 30.0 * 3.14159
-		x = 100.0 + sin(theta) * double(r)
-		y = 75.0  + cos(theta) * double(r)
-
-		; ガイド
+		; ガイド + 動く矩形
 		color 40, 80, 100
-		boxf 100 - r, 75 - r, 100 + r, 75 + r
-
-		; 動く矩形
+		boxf 100 - 50, 75 - 50, 100 + 50, 75 + 50
 		color 255, 80, 80
-		boxf int(x) - 6, int(y) - 6, int(x) + 6, int(y) + 6
+		boxf bx - 5, by - 5, bx + 5, by + 5
 
-		; HUD
-		color 255, 255, 255
-		pos 4, 130
-		mes "f=" + cnt
+		; 文字列関数 demo
+		head = strmid(greeting, 0, 5)        ; "Hello"
+		tail = strmid(greeting, 7, 13)       ; "HSP on Watch!"
+		hsplen = strlen(greeting)
+		ww = instr(greeting, 0, "Watch")     ; 14
 
 		color 200, 220, 255
-		pos 4, 150
-		mes "crown=" + crown
+		pos 4, 100
+		mes "head=" + head
 
-		color 255, 200, 100
-		pos 4, 170
-		mes "tap=" + tapcnt + " r=" + r
+		color 100, 255, 200
+		pos 4, 118
+		mes "tail=" + tail
 
-		; tap 検出 → haptic
-		if tapcnt != last_tap {
-			haptic 1
-			last_tap = tapcnt
-		}
+		color 255, 220, 100
+		pos 4, 136
+		mes "len=" + hsplen + " atW=" + ww
+
+		color 255, 255, 255
+		pos 4, 154
+		mes count_label + cnt
 
 		await 33
 	loop
+
+*update_pos
+	theta = double(cnt) / 30.0 * 3.14159
+	bx = int(100.0 + sin(theta) * 50.0)
+	by = int(75.0  + cos(theta) * 50.0)
+	return
