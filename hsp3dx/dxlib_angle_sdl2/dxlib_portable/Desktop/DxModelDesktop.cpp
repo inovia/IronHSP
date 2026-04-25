@@ -347,16 +347,27 @@ static void desktop_mv1_get_vertex_pos(
         return ;
     }
     case MV1_VERTEX_TYPE_SKIN_4BONE: {
-        // 当面 skinning skip、 base position をそのまま使う (T-pose)
         const MV1_TLIST_SKIN_POS_4B &v = bd->SkinPosition4B[ vi ] ;
-        outPos[ 0 ] = v.Position.x ; outPos[ 1 ] = v.Position.y ; outPos[ 2 ] = v.Position.z ;
-        outNrm[ 0 ] = v.Normal.x   ; outNrm[ 1 ] = v.Normal.y   ; outNrm[ 2 ] = v.Normal.z ;
+        // skinning 試みる (Frame->UseSkinBoneMatrix から bone matrix で transform)
+        desktop_mv1_skin_vertex( Frame, bd, &v, nullptr,
+            MV1_VERTEX_TYPE_SKIN_4BONE, outPos, outNrm ) ;
+        // 結果が ほぼ 0 (skin transform 失敗 or matrix 不整) なら base position fallback
+        float lenSq = outPos[0]*outPos[0] + outPos[1]*outPos[1] + outPos[2]*outPos[2] ;
+        if ( lenSq < 0.0001f ) {
+            outPos[ 0 ] = v.Position.x ; outPos[ 1 ] = v.Position.y ; outPos[ 2 ] = v.Position.z ;
+            outNrm[ 0 ] = v.Normal.x   ; outNrm[ 1 ] = v.Normal.y   ; outNrm[ 2 ] = v.Normal.z ;
+        }
         return ;
     }
     case MV1_VERTEX_TYPE_SKIN_8BONE: {
         const MV1_TLIST_SKIN_POS_8B &v = bd->SkinPosition8B[ vi ] ;
-        outPos[ 0 ] = v.Position.x ; outPos[ 1 ] = v.Position.y ; outPos[ 2 ] = v.Position.z ;
-        outNrm[ 0 ] = v.Normal.x   ; outNrm[ 1 ] = v.Normal.y   ; outNrm[ 2 ] = v.Normal.z ;
+        desktop_mv1_skin_vertex( Frame, bd, nullptr, &v,
+            MV1_VERTEX_TYPE_SKIN_8BONE, outPos, outNrm ) ;
+        float lenSq = outPos[0]*outPos[0] + outPos[1]*outPos[1] + outPos[2]*outPos[2] ;
+        if ( lenSq < 0.0001f ) {
+            outPos[ 0 ] = v.Position.x ; outPos[ 1 ] = v.Position.y ; outPos[ 2 ] = v.Position.z ;
+            outNrm[ 0 ] = v.Normal.x   ; outNrm[ 1 ] = v.Normal.y   ; outNrm[ 2 ] = v.Normal.z ;
+        }
         return ;
     }
     case MV1_VERTEX_TYPE_SKIN_FREEBONE: {
