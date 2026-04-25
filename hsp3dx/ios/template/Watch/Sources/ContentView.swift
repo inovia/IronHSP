@@ -1,34 +1,59 @@
 //
-//  ContentView.swift — Phase 1 skeleton
+//  ContentView.swift — Phase 2: HSP runtime + Canvas 描画
 //
-//  Phase 1: 時計 + "HSP runtime: skeleton" 表示。
-//  Phase 2 以降で .ax interpreter を呼んで Canvas 描画に置換。
+//  Bundle 内に "demo.ax" があれば HSPRuntime で実行し DrawList を構築する。
+//  無ければハンドメイドの DrawList で Canvas pipeline を確認する。
 //
 
 import SwiftUI
 
 struct ContentView: View {
+    @State private var ops: [HSPDrawOp] = []
+    @State private var statusLine: String = "loading…"
     @State private var now = Date()
-    let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
+    private let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        VStack(spacing: 4) {
-            // 時計 (placeholder、 Phase 2 で .ax で書き換え可能に)
-            Text(timeString)
-                .font(.system(size: 36, weight: .thin, design: .rounded))
-                .monospacedDigit()
-                .foregroundColor(.white)
+        ZStack(alignment: .bottomLeading) {
+            HSPCanvasView(ops: ops)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(timeString)
+                    .font(.system(size: 12, weight: .regular, design: .monospaced))
+                    .foregroundColor(.white.opacity(0.85))
+                Text(statusLine)
+                    .font(.system(size: 9))
+                    .foregroundColor(.gray)
+            }
+            .padding(.leading, 6)
+            .padding(.bottom, 4)
+        }
+        .onAppear { reload() }
+        .onReceive(timer) { now = $0 }
+    }
 
-            Text("HSP runtime: skeleton")
-                .font(.caption2)
-                .foregroundColor(.gray)
+    private func reload() {
+        if let url = Bundle.main.url(forResource: "demo", withExtension: "ax"),
+           let data = try? Data(contentsOf: url),
+           let rt = try? HSPRuntime(data) {
+            rt.run()
+            ops = rt.drawOps
+            statusLine = "demo.ax steps=\(rt.step) ops=\(rt.drawOps.count)"
+        } else {
+            ops = sampleOps()
+            statusLine = "no demo.ax — fallback"
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black)
-        .ignoresSafeArea()
-        .onReceive(timer) { input in
-            now = input
-        }
+    }
+
+    private func sampleOps() -> [HSPDrawOp] {
+        return [
+            .clear(r: 0.05, g: 0.07, b: 0.12),
+            .setColor(r: 1.0, g: 0.2, b: 0.3),
+            .boxF(x: 12, y: 24, w: 64, h: 24),
+            .setColor(r: 0.2, g: 0.8, b: 1.0),
+            .boxF(x: 84, y: 24, w: 64, h: 24),
+            .setColor(r: 1, g: 1, b: 1),
+            .text(x: 14, y: 56, s: "HSP runtime ready"),
+        ]
     }
 
     private var timeString: String {

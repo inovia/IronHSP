@@ -4,6 +4,44 @@
 
 ---
 
+## 2026-04-26 夕 — Apple Watch 専用ランタイム Phase 2 (mini .ax interpreter)
+
+### 背景
+Phase 1 で SwiftUI スケルトン (時計表示) を Mac で build 成功 (commit 3f83340e)。
+ユーザー意向確認後、専用ランタイム方針 (Watch 上で Swift 製 .ax interpreter)
+で Phase 2 開始。
+
+### やったこと
+1. [hsp3dx/ios/template/Watch/Sources/HSPRuntime.swift](../ios/template/Watch/Sources/HSPRuntime.swift) 新規 — Phase 2 最小 .ax interpreter
+   - `HSPHeader` (HSPHED 32bit フィールド主要 12 個を bytes から復元)
+   - 16bit instruction word + EXFLG_3 で 32bit val 拡張に対応した `fetchToken`
+   - 値型 `HSPValue` (int/int64/double/string/label/mark) と asInt/asDouble/asString
+   - `collectArgs` で文先頭 (EXFLG_0) の次トークンから次の文先頭手前までを式評価
+   - `applyCalc` で CALCCODE_0..15 (ADD/SUB/MUL/DIV/MOD/AND/OR/XOR/EQ/NE/GT/LT/GTEQ/LTEQ/RR/LR)
+   - `execProgCmd` で goto/wait/await/end/stop の 5 個
+   - `execIntCmd` で color/boxf/mes/pos/cls **opcode は暫定** (Phase 2e で hspcmp 連携時に補正)
+2. [hsp3dx/ios/template/Watch/Sources/HSPCanvasView.swift](../ios/template/Watch/Sources/HSPCanvasView.swift) 新規 — SwiftUI Canvas で `HSPDrawOp` (clear/setColor/boxF/text/setPos) を描画
+3. [hsp3dx/ios/template/Watch/Sources/ContentView.swift](../ios/template/Watch/Sources/ContentView.swift) を Canvas 化
+   - Bundle に `demo.ax` があれば `HSPRuntime` で実行し drawOps 表示、無ければ fallback ops
+   - 時計 + status 行は左下に小さくオーバレイ
+4. Mac 側 (`~/hsp3dx_mac/`) に rsync → `xcodegen` → `xcodebuild -target hsp3dx_watch -sdk watchsimulator`
+   → **BUILD SUCCEEDED** (バイナリ 269KB → 512KB に増、universal arm64+x86_64)
+
+### 残件 / 注意
+- watchOS Simulator runtime が Mac に未インストール (`xcrun simctl list runtimes` に watchOS 行が無い)。
+  `xcodebuild -downloadPlatform watchOS` で導入要、もしくは Xcode GUI から。
+  → 実機 / Sim での GUI 動作確認は次セッションへ繰り越し。
+- `execIntCmd` の opcode (color/boxf/mes/pos/cls) は **HSP3 標準** runtime のものを暫定指定。
+  Watch 用 `common.as` を hspcmp 向けに別途用意し、確定値で振り直しが必要 (Phase 2e)。
+- ContentView fallback ops で Canvas pipeline は確認可能 (Sim/実機なしでも視覚的に妥当性検証は preview から可能)。
+
+### 次セッション
+- Phase 2e: hspcmp watch ランタイム設定 (`#regcmd` で cls/color/boxf/mes/pos 登録) + hello_watch.hsp → demo.ax → bundle
+- watchOS Sim runtime DL & 実 Sim での画面確認
+- 余力があれば Phase 3 着手 (if/repeat/loop/array/string/line/font/haptic/crown)
+
+---
+
 ## 2026-04-24 夜 — iOS Simulator 起動時間調査 + 6x warmup skip
 
 ### 背景

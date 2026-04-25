@@ -1,0 +1,30 @@
+; hello_watch.hsp — Apple Watch 専用ランタイム最小デモ
+;
+; HSPRuntime.swift (Phase 2) は cls / color / boxf / mes / pos のみサポート。
+; 1 frame 分実行 → drawOps 構築 → SwiftUI Canvas で描画。
+;
+;   #bootopt hsp64 1     ; Watch ランタイムは 32bit/64bit 区別しないが、
+;                          記述を 64bit 統一しておく
+;   #cmpopt utf8 1       ; 文字列を UTF-8 で .ax DS に書き出す
+;
+#bootopt hsp64 1
+#cmpopt utf8 1
+
+	cls
+
+	color 255, 64, 96
+	boxf 12, 22, 76, 50
+
+	color 64, 192, 255
+	pos 84, 22
+	mes "Watch"
+
+	color 255, 255, 255
+	pos 12, 60
+	mes "HSP demo.ax OK"
+
+	color 200, 200, 200
+	pos 12, 80
+	mes "by HSPRuntime"
+
+	stop

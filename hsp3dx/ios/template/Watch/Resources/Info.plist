@@ -23,7 +23,7 @@
     <key>WKApplication</key>
     <true/>
     <key>WKWatchOnly</key>
-    <false/>
+    <true/>
     <key>UISupportedInterfaceOrientations</key>
     <array>
         <string>UIInterfaceOrientationPortrait</string>
