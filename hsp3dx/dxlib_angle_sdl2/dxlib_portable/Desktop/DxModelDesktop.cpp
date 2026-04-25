@@ -368,7 +368,7 @@ static void desktop_mv1_get_vertex_pos(
 // 前面カリングで描画して輪郭線を作る。drawModel の 1 回目のパスとして呼ぶ。
 static void desktop_mv1_draw_outline_pass( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TList )
 {
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     // Apple Core profile では fixed-function (glBegin/glColor/glVertex) が
     // 使えないため、 toon outline は一旦 skip。 必要なら shader-based 実装に置換 (TODO)。
     (void)Mesh; (void)TList;
@@ -426,7 +426,7 @@ static void desktop_mv1_draw_outline_pass( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TL
 // 単一トライアングルリストを描画。全 VertexType 対応。
 static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TList )
 {
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     // Apple Core profile では MV1 描画パス全体が fixed-function に依存
     // (glBegin/glColor/glTexCoord/glNormal/glVertex 経由 + GLSL shader も
     // gl_Vertex/gl_Normal/gl_MultiTexCoord0/gl_FrontMaterial 等 deprecated

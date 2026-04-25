@@ -221,12 +221,14 @@ extern "C" int DxDesktop_MakeWinAndGL( int w, int h, const char *title )
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 ) ;
     SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 ) ;
     SDL_GL_SetAttribute( SDL_GL_STENCIL_SIZE, 8 ) ;    // Mask 用 8-bit stencil
-#elif defined(__APPLE__)
+#elif defined(__APPLE__) || defined(__linux__)
     // Apple は OpenGL を 2017 以降 deprecate。Compat 2.1 は Metal-backed legacy で
     // shader-based draw が silent skip する driver bug あり (2026-04-26 解析)。
-    // → Core Profile 3.2 + Forward Compat を強制取得して modern path のみ使う。
-    // fixed-function (glBegin/glEnd, glOrtho 等) は使えなくなるため、boxf/mes 等
-    // HSP 標準描画は別途 shader-based 化が必要 (Phase 2)。
+    // Linux (WSLg / X11+Mesa) でも同じ症状を確認したため、両方とも Core Profile
+    // 3.2 + Forward Compat を強制取得して modern path のみ使う。
+    // fixed-function (glBegin/glEnd, glOrtho 等) は使えなくなるが、boxf/mes 等
+    // HSP 標準描画は既に Apple 用 shader-based 化が完了しているので Linux でも
+    // そのまま動く。 MV1 描画は Apple と同様 skip (Phase 5 で modernize)。
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE ) ;
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 ) ;
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 2 ) ;
@@ -235,7 +237,7 @@ extern "C" int DxDesktop_MakeWinAndGL( int w, int h, const char *title )
     SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 24 ) ;
     SDL_GL_SetAttribute( SDL_GL_STENCIL_SIZE, 8 ) ;
 #else
-    // Win/Linux は compat profile を指定して fixed-function も使える状態にする。
+    // Windows は compat profile を指定して fixed-function も使える状態にする。
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY ) ;
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 2 ) ;
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 ) ;
@@ -396,7 +398,7 @@ static void Desktop_SetOrtho2D( void )
 static int s_BrightR = 255, s_BrightG = 255, s_BrightB = 255 ;
 static int s_AddR    = 0,   s_AddG    = 0,   s_AddB    = 0 ;
 
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
 // ====================================================================
 // 2D color shader (Apple Core Profile 用 fixed-function 代替)
 // glBegin/glVertex/glColor/glOrtho に頼らず、screen 座標 + 単色 quad を
@@ -776,7 +778,7 @@ static inline void Desktop_SetGLColor( unsigned int Color )
 
 extern int Graphics_Hardware_DrawFillBox_PF( int x1, int y1, int x2, int y2, unsigned int Color )
 {
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     dx_2d_use_shader_with_color( Color ) ;
     const float verts[] = {
         ( float )x1, ( float )y1,
@@ -819,7 +821,7 @@ extern int Graphics_Hardware_DrawFillBox_PF( int x1, int y1, int x2, int y2, uns
 
 extern int Graphics_Hardware_DrawLine_PF( int x1, int y1, int x2, int y2, unsigned int Color )
 {
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     dx_2d_use_shader_with_color( Color ) ;
     const float v[] = {
         ( float )x1 + 0.5f, ( float )y1 + 0.5f,
@@ -840,7 +842,7 @@ extern int Graphics_Hardware_DrawLine_PF( int x1, int y1, int x2, int y2, unsign
 
 extern int Graphics_Hardware_DrawPixel_PF( int x, int y, unsigned int Color )
 {
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     dx_2d_use_shader_with_color( Color ) ;
     const float v[] = { ( float )x + 0.5f, ( float )y + 0.5f } ;
     dx_2d_draw_arrays( GL_POINTS, v, 1 ) ;
@@ -860,7 +862,7 @@ extern int Graphics_Hardware_DrawPixel_PF( int x, int y, unsigned int Color )
 extern int Graphics_Hardware_DrawLineBox_PF( int x1, int y1, int x2, int y2, unsigned int Color, int Thickness )
 {
     (void)Thickness;
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     dx_2d_use_shader_with_color( Color ) ;
     const float v[] = {
         ( float )x1 + 0.5f, ( float )y1 + 0.5f,
@@ -886,7 +888,7 @@ extern int Graphics_Hardware_DrawLineBox_PF( int x1, int y1, int x2, int y2, uns
 extern int Graphics_Hardware_DrawCircle_PF( int x, int y, int r, unsigned int Color, int FillFlag, int Rx_One_Minus, int Ry_One_Minus )
 {
     (void)Rx_One_Minus; (void)Ry_One_Minus;
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     const int N = 48 ;
     float v[ ( N + 2 ) * 2 ] ;
     int vi = 0 ;
@@ -918,7 +920,7 @@ extern int Graphics_Hardware_DrawCircle_PF( int x, int y, int r, unsigned int Co
 extern int Graphics_Hardware_DrawOval_PF( int x, int y, int rx, int ry, unsigned int Color, int FillFlag, int Rx_One_Minus, int Ry_One_Minus )
 {
     (void)Rx_One_Minus; (void)Ry_One_Minus;
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     const int N = 48 ;
     float v[ ( N + 2 ) * 2 ] ;
     int vi = 0 ;
@@ -949,7 +951,7 @@ extern int Graphics_Hardware_DrawOval_PF( int x, int y, int rx, int ry, unsigned
 
 extern int Graphics_Hardware_DrawTriangle_PF( int x1, int y1, int x2, int y2, int x3, int y3, unsigned int Color, int FillFlag )
 {
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     dx_2d_use_shader_with_color( Color ) ;
     const float v[] = {
         ( float )x1, ( float )y1,
@@ -972,7 +974,7 @@ extern int Graphics_Hardware_DrawTriangle_PF( int x1, int y1, int x2, int y2, in
 
 extern int Graphics_Hardware_DrawQuadrangle_PF( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, unsigned int Color, int FillFlag )
 {
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     dx_2d_use_shader_with_color( Color ) ;
     const float v[] = {
         ( float )x1, ( float )y1,
@@ -1009,7 +1011,7 @@ extern int Graphics_Hardware_DrawQuadrangle_PF( int x1, int y1, int x2, int y2, 
 extern int Graphics_Hardware_DrawBoxSet_PF( const RECTDATA *RectData, int Num )
 {
     if ( !RectData || Num <= 0 ) return 0 ;
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     std::vector< float > buf( Num * 6 * 6 ) ;  // 6 vertices/box × 6 floats
     int bi = 0 ;
     for ( int i = 0 ; i < Num ; ++i ) {
@@ -1052,7 +1054,7 @@ extern int Graphics_Hardware_DrawBoxSet_PF( const RECTDATA *RectData, int Num )
 extern int Graphics_Hardware_DrawLineSet_PF( const LINEDATA *LineData, int Num )
 {
     if ( !LineData || Num <= 0 ) return 0 ;
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     std::vector< float > buf( Num * 2 * 6 ) ;
     int bi = 0 ;
     for ( int i = 0 ; i < Num ; ++i ) {
@@ -1085,7 +1087,7 @@ extern int Graphics_Hardware_DrawLineSet_PF( const LINEDATA *LineData, int Num )
 extern int Graphics_Hardware_DrawPixelSet_PF( const POINTDATA *PointData, int Num )
 {
     if ( !PointData || Num <= 0 ) return 0 ;
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     std::vector< float > buf( Num * 6 ) ;
     int bi = 0 ;
     for ( int i = 0 ; i < Num ; ++i ) {
@@ -1115,7 +1117,7 @@ extern int Graphics_Hardware_DrawPixelSet_PF( const POINTDATA *PointData, int Nu
 
 extern int Graphics_Hardware_DrawCircle_Thickness_PF( int x, int y, int r, unsigned int Color, int Thickness )
 {
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     // Core profile では glLineWidth >1.0 は許可されないため Thickness は 1 固定。
     // 厳密な実装は別途 quad ストリップで太線を描く必要 (TODO)。
     (void)Thickness;
@@ -1148,7 +1150,7 @@ extern int Graphics_Hardware_DrawCircle_Thickness_PF( int x, int y, int r, unsig
 
 extern int Graphics_Hardware_DrawOval_Thickness_PF( int x, int y, int rx, int ry, unsigned int Color, int Thickness )
 {
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     (void)Thickness;
     const int N = 48 ;
     float v[ N * 2 ] ;
@@ -1181,7 +1183,7 @@ extern int Graphics_Hardware_DrawOval_Thickness_PF( int x, int y, int rx, int ry
 
 extern int Graphics_Hardware_DrawQuadrangleF_PF( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, unsigned int Color, int FillFlag )
 {
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     dx_2d_use_shader_with_color( Color ) ;
     const float v[] = { x1, y1, x2, y2, x3, y3, x4, y4 } ;
     dx_2d_draw_arrays( FillFlag ? GL_TRIANGLE_FAN : GL_LINE_LOOP, v, 4 ) ;
@@ -1623,7 +1625,7 @@ extern int Graphics_Hardware_DrawGraph_PF( int x, int y, float xf, float yf, IMA
     float bu0, bv0, bu1, bv1 ; desktop_blend_uv_range( BlendImage, &bu0, &bv0, &bu1, &bv1 ) ;
     (void)bu0;(void)bv0;(void)bu1;(void)bv1;
 
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     // multi-tex/wipe blend は未対応 (single texture only)
     float w = ( float )tex->UseWidth, h = ( float )tex->UseHeight ;
     const float xyuv[ 16 ] = {
@@ -1682,7 +1684,7 @@ static void Desktop_DrawTexQuad( IMAGEDATA_ORIG_HARD_TEX *tex, float cx[4], floa
     float bu0, bv0, bu1, bv1 ; desktop_blend_uv_range( BlendImage, &bu0, &bv0, &bu1, &bv1 ) ;
     (void)bu0;(void)bv0;(void)bu1;(void)bv1;
 
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     // multi-tex/wipe blend は未対応 (single texture only)
     const float xyuv[ 16 ] = {
         cx[0], cy[0], u0, v0,
@@ -1825,7 +1827,7 @@ extern int Graphics_Hardware_DrawPrimitive2D_PF( VERTEX_2D *Vertex, int VertexNu
         if ( tex->PF ) tex_id = ( GLuint )tex->PF->Texture.TextureBuffer ;
     }
 
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     std::vector< float > buf( VertexNum * 8 ) ;
     int bi = 0 ;
     for ( int i = 0 ; i < VertexNum ; ++i ) {
@@ -2641,7 +2643,7 @@ static void Desktop_Apply3DMatrices( void )
 extern int Graphics_Hardware_DrawLine3D_PF( VECTOR Pos1, VECTOR Pos2, unsigned int Color, int WriteZBufferFlag, RECT *DrawArea )
 {
     (void)DrawArea;
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     int R, G, B ; NS_GetColor2( Color, &R, &G, &B ) ;
     float r = R / 255.0f, g = G / 255.0f, b = B / 255.0f ;
     const float v[] = {
@@ -2665,7 +2667,7 @@ extern int Graphics_Hardware_DrawLine3D_PF( VECTOR Pos1, VECTOR Pos2, unsigned i
 extern int Graphics_Hardware_DrawPixel3D_PF( VECTOR Pos, unsigned int Color, int WriteZBufferFlag, RECT *DrawArea )
 {
     (void)DrawArea;
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     int R, G, B ; NS_GetColor2( Color, &R, &G, &B ) ;
     const float v[] = { Pos.x, Pos.y, Pos.z,
                         R / 255.0f, G / 255.0f, B / 255.0f, 1.0f, 0.0f, 0.0f } ;
@@ -2749,7 +2751,7 @@ static int Desktop_DrawIndexed3D( const VTX *Vertex, const IDX *Indices,
         IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
         if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
     }
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     std::vector< float > buf( IndexNum * 9 ) ;
     int bi = 0 ;
     for ( int i = 0 ; i < IndexNum ; ++i ) {
@@ -2821,7 +2823,7 @@ static int Desktop_DrawIndexed2D( const VERTEX2D *Vertex, const IDX *Indices,
         if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
     }
 
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     std::vector< float > buf( IndexNum * 8 ) ;
     int bi = 0 ;
     for ( int i = 0 ; i < IndexNum ; ++i ) {
@@ -2872,7 +2874,7 @@ extern int Graphics_Hardware_DrawPrimitive2DUser_PF( const VERTEX2D *Vertex, int
         IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
         if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
     }
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     std::vector< float > buf( VertexNum * 8 ) ;
     int bi = 0 ;
     for ( int i = 0 ; i < VertexNum ; ++i ) {
@@ -2914,7 +2916,7 @@ extern int Graphics_Hardware_DrawSimpleTriangleGraphF_PF( const GRAPHICS_DRAW_DR
         if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
     }
     int N = Param->TriangleNum * 3 ;
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     std::vector< float > buf( N * 8 ) ;
     int bi = 0 ;
     for ( int i = 0 ; i < N ; ++i ) {
@@ -2968,7 +2970,7 @@ extern int Graphics_Hardware_DrawModiBillboard3D_PF( VECTOR Pos, float x1, float
     float us[ 4 ] = { u0, u1, u0, u1 } ;
     float vs[ 4 ] = { v0, v0, v1, v1 } ;
 
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     float verts[ 4 * 9 ] ;
     for ( int i = 0 ; i < 4 ; i++ ) {
         float wpx = Pos.x + rx * px[ i ] + ux * py[ i ] ;
@@ -3015,7 +3017,7 @@ extern int Graphics_Hardware_DrawPrimitiveLight_UseVertexBuffer_PF(
         if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
     }
     const VERTEX3D *vb = ( const VERTEX3D * )VertexBuffer->Buffer ;
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     std::vector< float > buf( UseVertexNum * 9 ) ;
     int bi = 0 ;
     for ( int i = 0 ; i < UseVertexNum ; ++i ) {
@@ -3059,7 +3061,7 @@ extern int Graphics_Hardware_DrawIndexedPrimitiveLight_UseVertexBuffer_PF(
     }
     const VERTEX3D *vb = ( const VERTEX3D * )VertexBuffer->Buffer ;
 
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     std::vector< float > buf( UseIndexNum * 9 ) ;
     int bi = 0 ;
     auto packV = [ & ]( const VERTEX3D &v ) {
@@ -3204,7 +3206,7 @@ extern int Graphics_Hardware_DrawSimpleQuadrangleGraphF_PF( const GRAPHICS_DRAW_
         if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
     }
     int N = Param->QuadrangleNum * 6 ;  // 各 quad = 2 tri = 6 vertex
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     std::vector< float > buf( N * 8 ) ;
     int bi = 0 ;
     for ( int q = 0 ; q < Param->QuadrangleNum ; ++q ) {
@@ -3247,7 +3249,7 @@ extern int Graphics_Hardware_DrawSimpleQuadrangleGraphF_PF( const GRAPHICS_DRAW_
 extern int Graphics_Hardware_DrawTriangle3D_PF( VECTOR Pos1, VECTOR Pos2, VECTOR Pos3, unsigned int Color, int FillFlag, int WriteZBufferFlag, RECT *DrawArea )
 {
     (void)DrawArea;
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     int R, G, B ; NS_GetColor2( Color, &R, &G, &B ) ;
     float r = R / 255.0f, g = G / 255.0f, b = B / 255.0f ;
     const float v[] = {
@@ -3296,7 +3298,7 @@ extern int Graphics_Hardware_DrawBillboard3D_PF( VECTOR Pos, float cx, float cy,
     IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
     if ( !tex->PF ) return -1 ;
 
-#if !defined(__APPLE__)
+#if !( defined(__APPLE__) || defined(__linux__) )
     Desktop_Apply3DMatrices() ;
     if ( WriteZBufferFlag ) glEnable( GL_DEPTH_TEST ) ; else glDisable( GL_DEPTH_TEST ) ;
 #endif
@@ -3330,7 +3332,7 @@ extern int Graphics_Hardware_DrawBillboard3D_PF( VECTOR Pos, float cx, float cy,
     float u1 = u0 + ( float )tex->UseWidth  / ( float )tex->TexWidth ;
     float v1 = v0 + ( float )tex->UseHeight / ( float )tex->TexHeight ;
 
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     const float v[] = {
         wpx[0], wpy[0], wpz[0], 1.0f, 1.0f, 1.0f, 1.0f, u0, v0,
         wpx[1], wpy[1], wpz[1], 1.0f, 1.0f, 1.0f, 1.0f, u1, v0,
@@ -3368,7 +3370,7 @@ extern int Graphics_Hardware_DrawPrimitive_PF( const VERTEX_3D *Vertex, int Vert
         IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
         if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
     }
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     std::vector< float > buf( VertexNum * 9 ) ;
     int bi = 0 ;
     for ( int i = 0 ; i < VertexNum ; ++i ) {
@@ -3408,7 +3410,7 @@ extern int Graphics_Hardware_DrawPrimitiveLight_PF( const VERTEX3D *Vertex, int 
         IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
         if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
     }
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     std::vector< float > buf( VertexNum * 9 ) ;
     int bi = 0 ;
     for ( int i = 0 ; i < VertexNum ; ++i ) {

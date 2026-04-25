@@ -46,7 +46,7 @@ static int    s_MaskTexH   = 0 ;
 static int    s_MaskCreated = 0 ;
 
 // Apple Core profile では GL_LUMINANCE は廃止。GL_RED で代替する (shader で .r を sample)。
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
   #define DX_MASK_INTERNAL_FMT GL_RED
   #define DX_MASK_DATA_FMT     GL_RED
 #else
@@ -130,7 +130,7 @@ extern int Mask_UpdateMaskImageTexture_PF( RECT *Rect )
     return 0 ;
 }
 
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
 // Apple Core profile 用 mask shader (alpha test を shader 内 discard で代替)
 extern "C" int DesktopShader_CompileGLSL ( const char *vs, const char *fs ) ;
 extern "C" int DesktopShader_Use         ( int handle ) ;
@@ -212,7 +212,7 @@ static void desktop_mask_setup_stencil( void )
     glStencilFunc ( GL_ALWAYS, 1, 0xFF ) ;
     glStencilOp   ( GL_KEEP, GL_KEEP, GL_REPLACE ) ;
 
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     // shader-based: discard で alpha test 代替、 NDC 直接 quad
     desktop_mask_init_shader() ;
     if ( s_mask_shader_h <= 0 ) {

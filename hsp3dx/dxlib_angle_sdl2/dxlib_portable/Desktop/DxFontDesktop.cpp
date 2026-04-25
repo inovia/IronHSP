@@ -46,7 +46,7 @@ static const char *default_font_path( void )
 {
 #if defined(_WIN32)
     return "C:/Windows/Fonts/YuGothR.ttc" ;   // Yu Gothic (Windows 10+ 標準)
-#elif defined(__APPLE__)
+#elif ( defined(__APPLE__) || defined(__linux__) )
     return "/System/Library/Fonts/ヒラギノ角ゴシック W3.ttc" ;  // Hiragino
 #else
     return "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf" ;  // Linux/WSL 標準
@@ -64,7 +64,7 @@ static const char * const *fallback_font_paths( void )
         "C:/Windows/Fonts/meiryo.ttc",
         "C:/Windows/Fonts/msgothic.ttc",
         "C:/Windows/Fonts/arial.ttf",
-#elif defined(__APPLE__)
+#elif ( defined(__APPLE__) || defined(__linux__) )
         "/System/Library/Fonts/Hiragino Sans GB.ttc",
         "/System/Library/Fonts/ヒラギノ角ゴシック W3.ttc",
         "/System/Library/Fonts/Helvetica.ttc",
@@ -425,7 +425,7 @@ static void desktop_font_set_ortho2d( void )
     glDisable( GL_DEPTH_TEST ) ;
 }
 
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
 // Apple Core Profile は fixed-function なし。 shader-based で描画。
 extern "C" int DesktopShader_CompileGLSL( const char *vs_src, const char *fs_src ) ;
 extern "C" int DesktopShader_Use( int handle ) ;
@@ -490,7 +490,7 @@ static void desktop_font_draw_surface( SDL_Surface *surf,
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, rgba->w, rgba->h, 0,
                   GL_RGBA, GL_UNSIGNED_BYTE, rgba->pixels ) ;
     SDL_FreeSurface( rgba ) ;
-#elif defined(__APPLE__)
+#elif ( defined(__APPLE__) || defined(__linux__) )
     //  Apple Core Profile も GL_BGRA + GL_UNSIGNED_BYTE は valid (GL 1.2+)、 GL_UNPACK_ROW_LENGTH は GL 1.4+ で OK。
     glPixelStorei( GL_UNPACK_ALIGNMENT, 1 ) ;
     glPixelStorei( GL_UNPACK_ROW_LENGTH, surf->pitch / surf->format->BytesPerPixel ) ;
@@ -512,7 +512,7 @@ static void desktop_font_draw_surface( SDL_Surface *surf,
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE ) ;
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE ) ;
 
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     // shader-based path
     desktop_font_init_shader() ;
     if ( s_font_shader_h <= 0 ) {

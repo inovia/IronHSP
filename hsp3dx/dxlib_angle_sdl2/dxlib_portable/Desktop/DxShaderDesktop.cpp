@@ -142,7 +142,7 @@ static int g_NextHandle = 1 ;
 //
 // 既存 source は無修正で Core profile で動作するようになる。
 // Win/Linux Compat profile は #version directive なしでそのまま compile。
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
 static const char *VS_CORE_HEADER =
     "#version 150\n"
     "#define attribute in\n"
@@ -159,7 +159,7 @@ static GLuint desktop_compile_one( GLenum type, const char *src )
 {
     GLuint sh = p_glCreateShader( type ) ;
 
-#if defined(__APPLE__)
+#if ( defined(__APPLE__) || defined(__linux__) )
     const char *header = ( type == GL_VERTEX_SHADER ) ? VS_CORE_HEADER : FS_CORE_HEADER ;
     // 既存 shader が `#ifdef GL_ES precision mediump float; #endif` で始まっていても、
     // Core Profile では GL_ES 未定義なので skip される。OK。
