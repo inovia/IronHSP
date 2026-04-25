@@ -425,6 +425,49 @@ static void desktop_font_set_ortho2d( void )
     glDisable( GL_DEPTH_TEST ) ;
 }
 
+#if defined(__APPLE__)
+// Apple Core Profile は fixed-function なし。 shader-based で描画。
+extern "C" int DesktopShader_CompileGLSL( const char *vs_src, const char *fs_src ) ;
+extern "C" int DesktopShader_Use( int handle ) ;
+extern "C" int DesktopShader_SetUniform1f( int h, const char *name, float v ) ;
+extern "C" int DesktopShader_SetUniform2f( int h, const char *name, float a, float b ) ;
+extern "C" int DesktopShader_SetUniform4f( int h, const char *name, float a, float b, float c, float d ) ;
+extern "C" int DesktopShader_SetUniform1i( int h, const char *name, int v ) ;
+
+static int    s_font_shader_h = 0 ;
+static GLuint s_font_vbo      = 0 ;
+static GLuint s_font_vao      = 0 ;
+
+static void desktop_font_init_shader( void )
+{
+    if ( s_font_shader_h ) return ;
+    const char *vs =
+        "attribute vec2 a_pos;\n"
+        "attribute vec2 a_uv;\n"
+        "uniform vec2 u_screen;\n"
+        "uniform float u_yflip;\n"
+        "varying vec2 v_uv;\n"
+        "void main() {\n"
+        "    vec2 ndc = a_pos / u_screen * 2.0 - 1.0;\n"
+        "    ndc.y *= u_yflip;\n"
+        "    gl_Position = vec4(ndc, 0.0, 1.0);\n"
+        "    v_uv = a_uv;\n"
+        "}\n" ;
+    const char *fs =
+        "uniform sampler2D u_tex;\n"
+        "uniform vec4 u_color;\n"
+        "varying vec2 v_uv;\n"
+        "void main() { gl_FragColor = texture2D(u_tex, v_uv) * u_color; }\n" ;
+    s_font_shader_h = DesktopShader_CompileGLSL( vs, fs ) ;
+    typedef void (APIENTRY *PFN_glGenBuffers)(GLsizei, GLuint*) ;
+    typedef void (APIENTRY *PFN_glGenVertexArrays)(GLsizei, GLuint*) ;
+    static PFN_glGenBuffers      pGB  = (PFN_glGenBuffers)     SDL_GL_GetProcAddress( "glGenBuffers" ) ;
+    static PFN_glGenVertexArrays pGVA = (PFN_glGenVertexArrays)SDL_GL_GetProcAddress( "glGenVertexArrays" ) ;
+    if ( pGB ) pGB( 1, &s_font_vbo ) ;
+    if ( pGVA ) pGVA( 1, &s_font_vao ) ;
+}
+#endif
+
 // SDL_Surface を一時 GL texture にして、指定四角形へ描画する (color は multiply)
 static void desktop_font_draw_surface( SDL_Surface *surf,
                                        float cx[ 4 ], float cy[ 4 ],
@@ -447,6 +490,13 @@ static void desktop_font_draw_surface( SDL_Surface *surf,
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, rgba->w, rgba->h, 0,
                   GL_RGBA, GL_UNSIGNED_BYTE, rgba->pixels ) ;
     SDL_FreeSurface( rgba ) ;
+#elif defined(__APPLE__)
+    //  Apple Core Profile も GL_BGRA + GL_UNSIGNED_BYTE は valid (GL 1.2+)、 GL_UNPACK_ROW_LENGTH は GL 1.4+ で OK。
+    glPixelStorei( GL_UNPACK_ALIGNMENT, 1 ) ;
+    glPixelStorei( GL_UNPACK_ROW_LENGTH, surf->pitch / surf->format->BytesPerPixel ) ;
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, surf->w, surf->h, 0,
+                  GL_BGRA, GL_UNSIGNED_BYTE, surf->pixels ) ;
+    glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 ) ;
 #else
     // SDL_ttf の Blended surface は 32bit RGBA だが、ネイティブ endianness に依存。
     // SDL2 の masks を見て RGBA/BGRA を判別するのが確実だが、little-endian + SDL2 の
@@ -462,6 +512,61 @@ static void desktop_font_draw_surface( SDL_Surface *surf,
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE ) ;
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE ) ;
 
+#if defined(__APPLE__)
+    // shader-based path
+    desktop_font_init_shader() ;
+    if ( s_font_shader_h <= 0 ) {
+        glBindTexture( GL_TEXTURE_2D, 0 ) ;
+        glDeleteTextures( 1, &tex ) ;
+        return ;
+    }
+    GLint vp[ 4 ] ; glGetIntegerv( GL_VIEWPORT, vp ) ;
+    GLint fbo = 0 ; glGetIntegerv( 0x8CA6 /*GL_FRAMEBUFFER_BINDING*/, &fbo ) ;
+    glDisable( GL_DEPTH_TEST ) ;
+    glEnable( GL_BLEND ) ;
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ;
+    DesktopShader_Use( s_font_shader_h ) ;
+    DesktopShader_SetUniform2f( s_font_shader_h, "u_screen", ( float )vp[ 2 ], ( float )vp[ 3 ] ) ;
+    DesktopShader_SetUniform1f( s_font_shader_h, "u_yflip", ( fbo != 0 ) ? 1.0f : -1.0f ) ;
+    DesktopShader_SetUniform4f( s_font_shader_h, "u_color", R / 255.0f, G / 255.0f, B / 255.0f, 1.0f ) ;
+    DesktopShader_SetUniform1i( s_font_shader_h, "u_tex", 0 ) ;
+
+    typedef void (APIENTRY *PFN_glBindVAO)(GLuint) ;
+    typedef void (APIENTRY *PFN_glBindBuffer)(GLenum, GLuint) ;
+    typedef void (APIENTRY *PFN_glBufferData)(GLenum, GLsizeiptr, const void*, GLenum) ;
+    typedef void (APIENTRY *PFN_glEnableVAA)(GLuint) ;
+    typedef void (APIENTRY *PFN_glDisableVAA)(GLuint) ;
+    typedef void (APIENTRY *PFN_glVAttribPtr)(GLuint, GLint, GLenum, GLboolean, GLsizei, const void*) ;
+    typedef GLint (APIENTRY *PFN_glGetAttribLoc)(GLuint, const char*) ;
+    static PFN_glBindVAO   pBVA = (PFN_glBindVAO)  SDL_GL_GetProcAddress( "glBindVertexArray" ) ;
+    static PFN_glBindBuffer pBB = (PFN_glBindBuffer)SDL_GL_GetProcAddress( "glBindBuffer" ) ;
+    static PFN_glBufferData pBD = (PFN_glBufferData)SDL_GL_GetProcAddress( "glBufferData" ) ;
+    static PFN_glEnableVAA  pEV = (PFN_glEnableVAA) SDL_GL_GetProcAddress( "glEnableVertexAttribArray" ) ;
+    static PFN_glDisableVAA pDV = (PFN_glDisableVAA)SDL_GL_GetProcAddress( "glDisableVertexAttribArray" ) ;
+    static PFN_glVAttribPtr pVP = (PFN_glVAttribPtr)SDL_GL_GetProcAddress( "glVertexAttribPointer" ) ;
+    static PFN_glGetAttribLoc pGAL = (PFN_glGetAttribLoc)SDL_GL_GetProcAddress( "glGetAttribLocation" ) ;
+
+    if ( pBVA && s_font_vao ) pBVA( s_font_vao ) ;
+    glActiveTexture( GL_TEXTURE0 ) ;
+    glBindTexture( GL_TEXTURE_2D, tex ) ;
+    if ( pBB ) pBB( 0x8892 /*GL_ARRAY_BUFFER*/, s_font_vbo ) ;
+    const float xyuv[ 16 ] = {
+        cx[0], cy[0], 0.0f, 0.0f,
+        cx[1], cy[1], 1.0f, 0.0f,
+        cx[2], cy[2], 0.0f, 1.0f,
+        cx[3], cy[3], 1.0f, 1.0f,
+    } ;
+    if ( pBD ) pBD( 0x8892, ( GLsizeiptr )sizeof( xyuv ), xyuv, 0x88E8 /*GL_DYNAMIC_DRAW*/ ) ;
+    GLint cur_prog = 0 ; glGetIntegerv( GL_CURRENT_PROGRAM, &cur_prog ) ;
+    GLint apos = ( cur_prog > 0 && pGAL ) ? pGAL( ( GLuint )cur_prog, "a_pos" ) : -1 ;
+    GLint auv  = ( cur_prog > 0 && pGAL ) ? pGAL( ( GLuint )cur_prog, "a_uv"  ) : -1 ;
+    if ( apos >= 0 && pEV && pVP ) { pEV( apos ) ; pVP( apos, 2, GL_FLOAT, GL_FALSE, 16, ( const void * )0 ) ; }
+    if ( auv  >= 0 && pEV && pVP ) { pEV( auv  ) ; pVP( auv,  2, GL_FLOAT, GL_FALSE, 16, ( const void * )8 ) ; }
+    glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 ) ;
+    if ( apos >= 0 && pDV ) pDV( apos ) ;
+    if ( auv  >= 0 && pDV ) pDV( auv  ) ;
+    DesktopShader_Use( 0 ) ;
+#else
     desktop_font_set_ortho2d() ;
     glEnable( GL_BLEND ) ;
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ;
@@ -473,9 +578,10 @@ static void desktop_font_draw_surface( SDL_Surface *surf,
         glTexCoord2f( 0, 1 ) ; glVertex2f( cx[ 2 ], cy[ 2 ] ) ;  // BL
         glTexCoord2f( 1, 1 ) ; glVertex2f( cx[ 3 ], cy[ 3 ] ) ;  // BR
     glEnd() ;
+    glDisable( GL_TEXTURE_2D ) ;
+#endif
 
     glBindTexture( GL_TEXTURE_2D, 0 ) ;
-    glDisable( GL_TEXTURE_2D ) ;
     glDeleteTextures( 1, &tex ) ;
 }
 

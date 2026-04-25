@@ -396,6 +396,155 @@ static void Desktop_SetOrtho2D( void )
 static int s_BrightR = 255, s_BrightG = 255, s_BrightB = 255 ;
 static int s_AddR    = 0,   s_AddG    = 0,   s_AddB    = 0 ;
 
+#if defined(__APPLE__)
+// ====================================================================
+// 2D color shader (Apple Core Profile 用 fixed-function 代替)
+// glBegin/glVertex/glColor/glOrtho に頼らず、screen 座標 + 単色 quad を
+// shader-based で描画する。座標は DxLib 同様 左上原点 (0,0)〜(W,H)。
+// FBO 時のみ Y 反転しない (DxLib テクスチャメモリ row 0 = y=0)。
+// ====================================================================
+extern "C" int DesktopShader_SetUniform1f( int h, const char *name, float v ) ;
+extern "C" int DesktopShader_SetUniform2f( int h, const char *name, float a, float b ) ;
+extern "C" int DesktopShader_SetUniform4f( int h, const char *name, float a, float b, float c, float d ) ;
+
+static int    s_dx2d_color_h   = 0 ;
+static GLuint s_dx2d_color_vbo = 0 ;
+
+static void dx_2d_color_init( void )
+{
+    if ( s_dx2d_color_h ) return ;
+    const char *vs =
+        "attribute vec2 a_pos;\n"
+        "uniform vec2 u_screen;\n"
+        "uniform float u_yflip;\n"
+        "void main() {\n"
+        "    vec2 ndc = a_pos / u_screen * 2.0 - 1.0;\n"
+        "    ndc.y *= u_yflip;\n"
+        "    gl_Position = vec4(ndc, 0.0, 1.0);\n"
+        "}\n" ;
+    const char *fs =
+        "uniform vec4 u_color;\n"
+        "void main() { gl_FragColor = u_color; }\n" ;
+    s_dx2d_color_h = DesktopShader_CompileGLSL( vs, fs ) ;
+    glGenBuffers( 1, &s_dx2d_color_vbo ) ;
+}
+
+// Apple Core では VAO bind 必須なため、 共通の dummy VAO を再利用
+static void dx_ensure_dummy_vao_bound( void ) ;
+
+// ---- 2D textured shader (DrawGraph 系用) ----
+extern "C" int DesktopShader_SetUniform1i( int h, const char *name, int v ) ;
+static int    s_dx2d_tex_h   = 0 ;
+static GLuint s_dx2d_tex_vbo = 0 ;
+static void dx_2d_tex_init( void )
+{
+    if ( s_dx2d_tex_h ) return ;
+    const char *vs =
+        "attribute vec2 a_pos;\n"
+        "attribute vec2 a_uv;\n"
+        "uniform vec2 u_screen;\n"
+        "uniform float u_yflip;\n"
+        "varying vec2 v_uv;\n"
+        "void main() {\n"
+        "    vec2 ndc = a_pos / u_screen * 2.0 - 1.0;\n"
+        "    ndc.y *= u_yflip;\n"
+        "    gl_Position = vec4(ndc, 0.0, 1.0);\n"
+        "    v_uv = a_uv;\n"
+        "}\n" ;
+    const char *fs =
+        "uniform sampler2D u_tex;\n"
+        "uniform vec4 u_color;\n"
+        "varying vec2 v_uv;\n"
+        "void main() { gl_FragColor = texture2D(u_tex, v_uv) * u_color; }\n" ;
+    s_dx2d_tex_h = DesktopShader_CompileGLSL( vs, fs ) ;
+    glGenBuffers( 1, &s_dx2d_tex_vbo ) ;
+}
+
+// vertices = 4 個の (x, y, u, v) で一つの quad、 GL_TRIANGLE_STRIP で描画
+static void dx_2d_tex_draw_quad( GLuint tex, const float xyuv[ 16 ], int TransFlag )
+{
+    dx_2d_tex_init() ;
+    if ( s_dx2d_tex_h <= 0 ) return ;
+
+    glViewport( 0, 0, s_DrawTargetW, s_DrawTargetH ) ;
+    glDisable( GL_DEPTH_TEST ) ;
+    Desktop_ApplyScissor() ;
+
+    if ( TransFlag ) {
+        glEnable( GL_BLEND ) ;
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ;
+    }
+
+    int R = ( s_BrightR > 255 ) ? 255 : ( s_BrightR < 0 ? 0 : s_BrightR ) ;
+    int G = ( s_BrightG > 255 ) ? 255 : ( s_BrightG < 0 ? 0 : s_BrightG ) ;
+    int B = ( s_BrightB > 255 ) ? 255 : ( s_BrightB < 0 ? 0 : s_BrightB ) ;
+
+    DesktopShader_Use( s_dx2d_tex_h ) ;
+    DesktopShader_SetUniform2f( s_dx2d_tex_h, "u_screen", ( float )s_DrawTargetW, ( float )s_DrawTargetH ) ;
+    DesktopShader_SetUniform1f( s_dx2d_tex_h, "u_yflip", ( s_CurrentFBO != 0 ) ? 1.0f : -1.0f ) ;
+    DesktopShader_SetUniform4f( s_dx2d_tex_h, "u_color", R / 255.0f, G / 255.0f, B / 255.0f, 1.0f ) ;
+    DesktopShader_SetUniform1i( s_dx2d_tex_h, "u_tex", 0 ) ;
+    glActiveTexture( GL_TEXTURE0 ) ;
+    glBindTexture( GL_TEXTURE_2D, tex ) ;
+
+    dx_ensure_dummy_vao_bound() ;
+    glBindBuffer( GL_ARRAY_BUFFER, s_dx2d_tex_vbo ) ;
+    glBufferData( GL_ARRAY_BUFFER, ( GLsizeiptr )( 16 * sizeof( float ) ), xyuv, GL_DYNAMIC_DRAW ) ;
+
+    GLint cur_prog = 0 ;
+    glGetIntegerv( GL_CURRENT_PROGRAM, &cur_prog ) ;
+    GLint apos = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_pos" ) : -1 ;
+    GLint auv  = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_uv" )  : -1 ;
+    if ( apos >= 0 ) { glEnableVertexAttribArray( apos ) ; glVertexAttribPointer( apos, 2, GL_FLOAT, GL_FALSE, 16, ( const void * )0 ) ; }
+    if ( auv  >= 0 ) { glEnableVertexAttribArray( auv  ) ; glVertexAttribPointer( auv,  2, GL_FLOAT, GL_FALSE, 16, ( const void * )8 ) ; }
+    glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 ) ;
+    if ( apos >= 0 ) glDisableVertexAttribArray( apos ) ;
+    if ( auv  >= 0 ) glDisableVertexAttribArray( auv  ) ;
+}
+
+static void dx_2d_use_shader_with_color( unsigned int Color )
+{
+    dx_2d_color_init() ;
+    if ( s_dx2d_color_h <= 0 ) return ;
+
+    int R, G, B ;
+    NS_GetColor2( Color, &R, &G, &B ) ;
+    R = ( R * s_BrightR ) / 255 + s_AddR ;
+    G = ( G * s_BrightG ) / 255 + s_AddG ;
+    B = ( B * s_BrightB ) / 255 + s_AddB ;
+    if ( R < 0 ) R = 0 ; if ( R > 255 ) R = 255 ;
+    if ( G < 0 ) G = 0 ; if ( G > 255 ) G = 255 ;
+    if ( B < 0 ) B = 0 ; if ( B > 255 ) B = 255 ;
+
+    glViewport( 0, 0, s_DrawTargetW, s_DrawTargetH ) ;
+    glDisable( GL_DEPTH_TEST ) ;
+    Desktop_ApplyScissor() ;
+
+    DesktopShader_Use( s_dx2d_color_h ) ;
+    DesktopShader_SetUniform2f( s_dx2d_color_h, "u_screen", ( float )s_DrawTargetW, ( float )s_DrawTargetH ) ;
+    DesktopShader_SetUniform1f( s_dx2d_color_h, "u_yflip", ( s_CurrentFBO != 0 ) ? 1.0f : -1.0f ) ;
+    DesktopShader_SetUniform4f( s_dx2d_color_h, "u_color", R / 255.0f, G / 255.0f, B / 255.0f, 1.0f ) ;
+    dx_ensure_dummy_vao_bound() ;
+    glBindBuffer( GL_ARRAY_BUFFER, s_dx2d_color_vbo ) ;
+}
+
+// 引数は DxLib 流の描画コマンドを解釈した GL_TRIANGLE_STRIP / LINES / etc + screen 座標 vec2 配列
+static void dx_2d_draw_arrays( GLenum mode, const float *xy, int vertex_count )
+{
+    if ( s_dx2d_color_h <= 0 || vertex_count <= 0 ) return ;
+    glBufferData( GL_ARRAY_BUFFER, ( GLsizeiptr )( vertex_count * 2 * sizeof( float ) ), xy, GL_DYNAMIC_DRAW ) ;
+    GLint cur_prog = 0 ;
+    glGetIntegerv( GL_CURRENT_PROGRAM, &cur_prog ) ;
+    GLint apos = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_pos" ) : -1 ;
+    if ( apos >= 0 ) {
+        glEnableVertexAttribArray( apos ) ;
+        glVertexAttribPointer( apos, 2, GL_FLOAT, GL_FALSE, 0, ( const void * )0 ) ;
+    }
+    glDrawArrays( mode, 0, vertex_count ) ;
+    if ( apos >= 0 ) glDisableVertexAttribArray( apos ) ;
+}
+#endif // __APPLE__
+
 // DxLib の unsigned int Color を DrawBright 乗算 + DrawAddColor 加算して glColor に渡す
 static inline void Desktop_SetGLColor( unsigned int Color )
 {
@@ -412,6 +561,17 @@ static inline void Desktop_SetGLColor( unsigned int Color )
 
 extern int Graphics_Hardware_DrawFillBox_PF( int x1, int y1, int x2, int y2, unsigned int Color )
 {
+#if defined(__APPLE__)
+    dx_2d_use_shader_with_color( Color ) ;
+    const float verts[] = {
+        ( float )x1, ( float )y1,
+        ( float )x2, ( float )y1,
+        ( float )x1, ( float )y2,
+        ( float )x2, ( float )y2,
+    } ;
+    dx_2d_draw_arrays( GL_TRIANGLE_STRIP, verts, 4 ) ;
+    return 0 ;
+#else
 #ifdef __EMSCRIPTEN__
     static int s_drawcount = 0;
     if ( s_drawcount++ < 8 ) {
@@ -439,35 +599,63 @@ extern int Graphics_Hardware_DrawFillBox_PF( int x1, int y1, int x2, int y2, uns
     }
 #endif
     return 0 ;
+#endif
 }
 
 extern int Graphics_Hardware_DrawLine_PF( int x1, int y1, int x2, int y2, unsigned int Color )
 {
+#if defined(__APPLE__)
+    dx_2d_use_shader_with_color( Color ) ;
+    const float v[] = {
+        ( float )x1 + 0.5f, ( float )y1 + 0.5f,
+        ( float )x2 + 0.5f, ( float )y2 + 0.5f,
+    } ;
+    dx_2d_draw_arrays( GL_LINES, v, 2 ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     Desktop_SetGLColor( Color ) ;
-
     glBegin( GL_LINES ) ;
         glVertex2f( ( float )x1 + 0.5f, ( float )y1 + 0.5f ) ;
         glVertex2f( ( float )x2 + 0.5f, ( float )y2 + 0.5f ) ;
     glEnd() ;
     return 0 ;
+#endif
 }
 
 extern int Graphics_Hardware_DrawPixel_PF( int x, int y, unsigned int Color )
 {
+#if defined(__APPLE__)
+    dx_2d_use_shader_with_color( Color ) ;
+    const float v[] = { ( float )x + 0.5f, ( float )y + 0.5f } ;
+    dx_2d_draw_arrays( GL_POINTS, v, 1 ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     Desktop_SetGLColor( Color ) ;
     glBegin( GL_POINTS ) ;
         glVertex2f( ( float )x + 0.5f, ( float )y + 0.5f ) ;
     glEnd() ;
     return 0 ;
+#endif
 }
 
 // --- 追加の 2D primitive (Stage 8) ----------------------------------------
 
 extern int Graphics_Hardware_DrawLineBox_PF( int x1, int y1, int x2, int y2, unsigned int Color, int Thickness )
 {
-    (void)Thickness;  // 太さは fixed-function では線幅を glLineWidth で設定すべきだが省略
+    (void)Thickness;
+#if defined(__APPLE__)
+    dx_2d_use_shader_with_color( Color ) ;
+    const float v[] = {
+        ( float )x1 + 0.5f, ( float )y1 + 0.5f,
+        ( float )x2 + 0.5f, ( float )y1 + 0.5f,
+        ( float )x2 + 0.5f, ( float )y2 + 0.5f,
+        ( float )x1 + 0.5f, ( float )y2 + 0.5f,
+    } ;
+    dx_2d_draw_arrays( GL_LINE_LOOP, v, 4 ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     Desktop_SetGLColor( Color ) ;
     glBegin( GL_LINE_LOOP ) ;
@@ -477,14 +665,28 @@ extern int Graphics_Hardware_DrawLineBox_PF( int x1, int y1, int x2, int y2, uns
         glVertex2f( ( float )x1 + 0.5f, ( float )y2 + 0.5f ) ;
     glEnd() ;
     return 0 ;
+#endif
 }
 
 extern int Graphics_Hardware_DrawCircle_PF( int x, int y, int r, unsigned int Color, int FillFlag, int Rx_One_Minus, int Ry_One_Minus )
 {
     (void)Rx_One_Minus; (void)Ry_One_Minus;
+#if defined(__APPLE__)
+    const int N = 48 ;
+    float v[ ( N + 2 ) * 2 ] ;
+    int vi = 0 ;
+    if ( FillFlag ) { v[ vi++ ] = ( float )x ; v[ vi++ ] = ( float )y ; }
+    for ( int i = 0 ; i <= N ; ++i ) {
+        float a = ( float )i * 2.0f * 3.14159265358979f / ( float )N ;
+        v[ vi++ ] = x + std::cos( a ) * r ;
+        v[ vi++ ] = y + std::sin( a ) * r ;
+    }
+    dx_2d_use_shader_with_color( Color ) ;
+    dx_2d_draw_arrays( FillFlag ? GL_TRIANGLE_FAN : GL_LINE_LOOP, v, vi / 2 ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     Desktop_SetGLColor( Color ) ;
-
     const int N = 48 ;
     glBegin( FillFlag ? GL_TRIANGLE_FAN : GL_LINE_LOOP ) ;
     if ( FillFlag ) glVertex2f( ( float )x, ( float )y ) ;
@@ -495,14 +697,28 @@ extern int Graphics_Hardware_DrawCircle_PF( int x, int y, int r, unsigned int Co
     }
     glEnd() ;
     return 0 ;
+#endif
 }
 
 extern int Graphics_Hardware_DrawOval_PF( int x, int y, int rx, int ry, unsigned int Color, int FillFlag, int Rx_One_Minus, int Ry_One_Minus )
 {
     (void)Rx_One_Minus; (void)Ry_One_Minus;
+#if defined(__APPLE__)
+    const int N = 48 ;
+    float v[ ( N + 2 ) * 2 ] ;
+    int vi = 0 ;
+    if ( FillFlag ) { v[ vi++ ] = ( float )x ; v[ vi++ ] = ( float )y ; }
+    for ( int i = 0 ; i <= N ; ++i ) {
+        float a = ( float )i * 2.0f * 3.14159265358979f / ( float )N ;
+        v[ vi++ ] = x + std::cos( a ) * rx ;
+        v[ vi++ ] = y + std::sin( a ) * ry ;
+    }
+    dx_2d_use_shader_with_color( Color ) ;
+    dx_2d_draw_arrays( FillFlag ? GL_TRIANGLE_FAN : GL_LINE_LOOP, v, vi / 2 ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     Desktop_SetGLColor( Color ) ;
-
     const int N = 48 ;
     glBegin( FillFlag ? GL_TRIANGLE_FAN : GL_LINE_LOOP ) ;
     if ( FillFlag ) glVertex2f( ( float )x, ( float )y ) ;
@@ -513,10 +729,21 @@ extern int Graphics_Hardware_DrawOval_PF( int x, int y, int rx, int ry, unsigned
     }
     glEnd() ;
     return 0 ;
+#endif
 }
 
 extern int Graphics_Hardware_DrawTriangle_PF( int x1, int y1, int x2, int y2, int x3, int y3, unsigned int Color, int FillFlag )
 {
+#if defined(__APPLE__)
+    dx_2d_use_shader_with_color( Color ) ;
+    const float v[] = {
+        ( float )x1, ( float )y1,
+        ( float )x2, ( float )y2,
+        ( float )x3, ( float )y3,
+    } ;
+    dx_2d_draw_arrays( FillFlag ? GL_TRIANGLES : GL_LINE_LOOP, v, 3 ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     Desktop_SetGLColor( Color ) ;
     glBegin( FillFlag ? GL_TRIANGLES : GL_LINE_LOOP ) ;
@@ -525,10 +752,22 @@ extern int Graphics_Hardware_DrawTriangle_PF( int x1, int y1, int x2, int y2, in
         glVertex2f( ( float )x3, ( float )y3 ) ;
     glEnd() ;
     return 0 ;
+#endif
 }
 
 extern int Graphics_Hardware_DrawQuadrangle_PF( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, unsigned int Color, int FillFlag )
 {
+#if defined(__APPLE__)
+    dx_2d_use_shader_with_color( Color ) ;
+    const float v[] = {
+        ( float )x1, ( float )y1,
+        ( float )x2, ( float )y2,
+        ( float )x3, ( float )y3,
+        ( float )x4, ( float )y4,
+    } ;
+    dx_2d_draw_arrays( FillFlag ? GL_TRIANGLE_FAN : GL_LINE_LOOP, v, 4 ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     Desktop_SetGLColor( Color ) ;
     if ( FillFlag ) {
@@ -547,6 +786,7 @@ extern int Graphics_Hardware_DrawQuadrangle_PF( int x1, int y1, int x2, int y2, 
         glEnd() ;
     }
     return 0 ;
+#endif
 }
 
 // --- Stage 9: *_Set 系 (配列一括描画) ------------------------------------
@@ -1079,7 +1319,21 @@ extern int Graphics_Hardware_DrawGraph_PF( int x, int y, float xf, float yf, IMA
     float u1 = u0 + ( float )tex->UseWidth  / ( float )tex->TexWidth ;
     float v1 = v0 + ( float )tex->UseHeight / ( float )tex->TexHeight ;
     float bu0, bv0, bu1, bv1 ; desktop_blend_uv_range( BlendImage, &bu0, &bv0, &bu1, &bv1 ) ;
+    (void)bu0;(void)bv0;(void)bu1;(void)bv1;
 
+#if defined(__APPLE__)
+    // multi-tex/wipe blend は未対応 (single texture only)
+    float w = ( float )tex->UseWidth, h = ( float )tex->UseHeight ;
+    const float xyuv[ 16 ] = {
+        fx,     fy,     u0, v0,
+        fx + w, fy,     u1, v0,
+        fx,     fy + h, u0, v1,
+        fx + w, fy + h, u1, v1,
+    } ;
+    dx_2d_tex_draw_quad( ( GLuint )tex->PF->Texture.TextureBuffer, xyuv, TransFlag ) ;
+    DesktopShader_Use( 0 ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     if ( TransFlag ) {
         glEnable( GL_BLEND ) ;
@@ -1111,6 +1365,7 @@ extern int Graphics_Hardware_DrawGraph_PF( int x, int y, float xf, float yf, IMA
     glBindTexture( GL_TEXTURE_2D, 0 ) ;
     glDisable( GL_TEXTURE_2D ) ;
     return 0 ;
+#endif
 }
 
 // --- Stage 18: テクスチャ拡張 (ExtendGraph / RotaGraph) ------------------
@@ -1123,7 +1378,20 @@ static void Desktop_DrawTexQuad( IMAGEDATA_ORIG_HARD_TEX *tex, float cx[4], floa
     float u1 = u0 + ( float )tex->UseWidth  / ( float )tex->TexWidth ;
     float v1 = v0 + ( float )tex->UseHeight / ( float )tex->TexHeight ;
     float bu0, bv0, bu1, bv1 ; desktop_blend_uv_range( BlendImage, &bu0, &bv0, &bu1, &bv1 ) ;
+    (void)bu0;(void)bv0;(void)bu1;(void)bv1;
 
+#if defined(__APPLE__)
+    // multi-tex/wipe blend は未対応 (single texture only)
+    const float xyuv[ 16 ] = {
+        cx[0], cy[0], u0, v0,
+        cx[1], cy[1], u1, v0,
+        cx[2], cy[2], u0, v1,
+        cx[3], cy[3], u1, v1,
+    } ;
+    dx_2d_tex_draw_quad( ( GLuint )tex->PF->Texture.TextureBuffer, xyuv, TransFlag ) ;
+    DesktopShader_Use( 0 ) ;
+    return ;
+#else
     Desktop_SetOrtho2D() ;
     if ( TransFlag ) {
         glEnable( GL_BLEND ) ;
@@ -1147,6 +1415,7 @@ static void Desktop_DrawTexQuad( IMAGEDATA_ORIG_HARD_TEX *tex, float cx[4], floa
     if ( blend_bound ) desktop_unbind_blend_tmu1() ;
     glBindTexture( GL_TEXTURE_2D, 0 ) ;
     glDisable( GL_TEXTURE_2D ) ;
+#endif
 }
 
 extern int Graphics_Hardware_DrawExtendGraph_PF( int x1, int y1, int x2, int y2, float x1f, float y1f, float x2f, float y2f, IMAGEDATA *Image, IMAGEDATA *BlendImage, int TransFlag, int IntFlag )
