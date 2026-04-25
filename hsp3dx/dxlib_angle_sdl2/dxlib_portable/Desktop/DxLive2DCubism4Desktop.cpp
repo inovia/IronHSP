@@ -17,6 +17,7 @@
 #endif
 
 #include <cstring>
+#include <cstdio>
 
 // extern "C" 宣言はヘッダ include 前に global scope で済ませる
 // (後段のヘッダで namespace が開く可能性があるため)
@@ -151,11 +152,12 @@ extern int Live2DCubism4_SetupShader_PF( int                                 /*C
     DesktopShader_SetUniform1i( h, "s_texture0", 0 ) ;
     DesktopShader_SetUniform1i( h, "s_texture1", 1 ) ;
 
-    // 行列: DxLib MATRIX は row-major、GL は column-major を期待 → transpose=1
+    // 行列: Cubism は CreateTransposeMatrix で既に row→col 変換しているので
+    // GL に渡す際は transpose=0 で OK (二重 transpose にすると誤動作)
     DesktopShader_SetUniformMatrix4f( h, "u_matrix",
-                                      (const float *)&ConstantBuffer->projectMatrix, 1 ) ;
+                                      (const float *)&ConstantBuffer->projectMatrix, 0 ) ;
     DesktopShader_SetUniformMatrix4f( h, "u_clipMatrix",
-                                      (const float *)&ConstantBuffer->clipMatrix, 1 ) ;
+                                      (const float *)&ConstantBuffer->clipMatrix, 0 ) ;
 
     // 色 (COLOR_F は r,g,b,a float の struct)
     DesktopShader_SetUniform4f( h, "u_baseColor",
