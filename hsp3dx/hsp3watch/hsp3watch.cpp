@@ -28,6 +28,9 @@
 #include <windowsx.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <math.h>
+#include <stdlib.h>
+#include <time.h>
 #include <vector>
 #include <string>
 #include <variant>
@@ -189,6 +192,12 @@ private:
     double colR = 1, colG = 1, colB = 1;
     double fontSize = 14;
 
+public:
+    // 外部 (Win32 message handler) から更新する擬似入力
+    int32_t mouseX = 0, mouseY = 0;
+    int32_t keyState = 0;
+private:
+
     // ---- low-level read
 
     int32_t i32at(size_t off) const {
@@ -255,6 +264,12 @@ private:
             uint16_t exflg = w & (EXFLG_0 | EXFLG_1 | EXFLG_2 | EXFLG_3);
             if (exflg & EXFLG_1) break;
             if (!work.empty() && (exflg & EXFLG_2)) break;
+            // MARK '(' ')' ',' は式境界 — 消費せず caller に戻す
+            uint16_t typeRaw = w & CSTYPE_MASK;
+            if (typeRaw == 0) {
+                uint16_t v = csU16(pc + 1);
+                if (v == 40 || v == 41 || v == 44) break;
+            }
             Token tk = fetchToken(pc);
             pc += tk.adv;
             switch (tk.t) {
@@ -277,8 +292,10 @@ private:
             }
             case T_SYSVAR: work.push_back(readSysvar(tk.v));         break;
             case T_INTFUNC:
+                work.push_back(callIntFunc(tk.v));
+                break;
             case T_EXTSYSVAR:
-                work.push_back(Value::Int(0));
+                work.push_back(readExtSysvar(tk.v));
                 break;
             default:
                 work.push_back(Value::Int(tk.v));
@@ -307,6 +324,70 @@ private:
             return Value::Int(loops.empty() ? 0 : loops.back().cnt);
         case 0x002:  // hspver
             return Value::Int(0x3600);
+        }
+        return Value::Int(0);
+    }
+
+    Value readExtSysvar(int32_t id) const {
+        // mousex/mousey は WM_MOUSEMOVE で外部更新 (今は 0 固定)
+        switch (id) {
+        case 0x000: return Value::Int(mouseX);  // mousex
+        case 0x001: return Value::Int(mouseY);  // mousey
+        }
+        return Value::Int(0);
+    }
+
+    /// 関数呼び出しの args を読む (MARK '(' arg [, arg]... MARK ')')
+    std::vector<Value> collectFuncArgs() {
+        std::vector<Value> args;
+        if (pc >= csWords) return args;
+        Token open = fetchToken(pc);
+        if (open.t == T_MARK && open.v == 40) pc += open.adv;  // '('
+        while (pc < csWords) {
+            Token p = fetchToken(pc);
+            if (p.t == T_MARK && p.v == 41) { pc += p.adv; break; }  // ')'
+            args.push_back(evalExpression());
+            if (pc < csWords) {
+                Token n = fetchToken(pc);
+                if (n.t == T_MARK && n.v == 44) pc += n.adv;  // ','
+            }
+        }
+        return args;
+    }
+
+    Value callIntFunc(int32_t id) {
+        std::vector<Value> args = collectFuncArgs();
+        Value a0 = args.empty() ? Value::Int(0) : args[0];
+        Value a1 = args.size() > 1 ? args[1] : Value::Int(0);
+        switch (id) {
+        case 0x000: return Value::Int(a0.asInt());
+        case 0x001: {  // rnd(N)
+            int32_t n = a0.asInt(); if (n < 1) n = 1;
+            return Value::Int((int32_t)(rand() % n));
+        }
+        case 0x002: return Value::Int((int32_t)a0.asString().size());
+        case 0x008: return Value::Int((int32_t)time(nullptr));
+        case 0x010: return Value::Int(std::abs(a0.asInt()));
+        case 0x011: {  // limit
+            Value a2 = args.size() > 2 ? args[2] : Value::Int(0);
+            int32_t v = a0.asInt(), lo = a1.asInt(), hi = a2.asInt();
+            if (v < lo) v = lo; if (v > hi) v = hi; return Value::Int(v);
+        }
+        case 0x180: return Value::Dbl(sin(a0.asDouble()));
+        case 0x181: return Value::Dbl(cos(a0.asDouble()));
+        case 0x182: return Value::Dbl(tan(a0.asDouble()));
+        case 0x183: return Value::Dbl(atan(a0.asDouble()));
+        case 0x184: return Value::Dbl(sqrt(a0.asDouble()));
+        case 0x185: return Value::Dbl(a0.asDouble());
+        case 0x186: return Value::Dbl(fabs(a0.asDouble()));
+        case 0x187: return Value::Dbl(exp(a0.asDouble()));
+        case 0x188: return Value::Dbl(log(a0.asDouble()));
+        case 0x189: {  // limitf
+            Value a2 = args.size() > 2 ? args[2] : Value::Int(0);
+            double v = a0.asDouble(), lo = a1.asDouble(), hi = a2.asDouble();
+            if (v < lo) v = lo; if (v > hi) v = hi; return Value::Dbl(v);
+        }
+        case 0x18a: return Value::Dbl(pow(a0.asDouble(), a1.asDouble()));
         }
         return Value::Int(0);
     }
@@ -371,12 +452,26 @@ private:
         switch (tk.t) {
         case T_VAR:    execAssignment(tk.v);          break;
         case T_PROGCMD:execProgCmd(tk.v);             break;
-        case T_INTCMD:
-        case T_EXTCMD: execExtCmd(tk.v);              break;
+        case T_INTCMD: execExtCmd(tk.v);              break;
+        case T_EXTCMD:
+            if (tk.v == 0x034) execStick();
+            else               execExtCmd(tk.v);
+            break;
         case T_CMPCMD: execCmpCmd(tk.v);              break;
         default:       collectArgs();                 break;
         }
         return !yielded;
+    }
+
+    /// stick var [, mask] — 第一引数の var に keyState を書き込む
+    void execStick() {
+        if (pc >= csWords) return;
+        Token v0 = fetchToken(pc);
+        if (v0.t != T_VAR) return;
+        pc += v0.adv;
+        if (nextArgValid()) (void)evalExpression();   // mask は無視
+        collectArgs();                                  // 残りも食う
+        vars[v0.v] = Value::Int(keyState);
     }
 
     void execAssignment(int32_t varIdx) {
@@ -709,6 +804,33 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         } else if (wp == VK_ESCAPE) {
             DestroyWindow(hwnd);
         }
+        // HSP stick の standard mask:
+        //   1=Left 2=Up 4=Right 8=Down 16=Space 32=Enter 64=Ctrl 128=Esc(?)
+        //   256=Tab 512=A 1024=B (using HSP convention loose mapping)
+        switch (wp) {
+        case VK_LEFT:    g_rt.keyState |=   1; break;
+        case VK_UP:      g_rt.keyState |=   2; break;
+        case VK_RIGHT:   g_rt.keyState |=   4; break;
+        case VK_DOWN:    g_rt.keyState |=   8; break;
+        case VK_SPACE:   g_rt.keyState |=  16; break;
+        case VK_RETURN:  g_rt.keyState |=  32; break;
+        case VK_CONTROL: g_rt.keyState |=  64; break;
+        }
+        return 0;
+    case WM_KEYUP:
+        switch (wp) {
+        case VK_LEFT:    g_rt.keyState &= ~  1; break;
+        case VK_UP:      g_rt.keyState &= ~  2; break;
+        case VK_RIGHT:   g_rt.keyState &= ~  4; break;
+        case VK_DOWN:    g_rt.keyState &= ~  8; break;
+        case VK_SPACE:   g_rt.keyState &= ~ 16; break;
+        case VK_RETURN:  g_rt.keyState &= ~ 32; break;
+        case VK_CONTROL: g_rt.keyState &= ~ 64; break;
+        }
+        return 0;
+    case WM_MOUSEMOVE:
+        g_rt.mouseX = GET_X_LPARAM(lp) / SCALE;
+        g_rt.mouseY = GET_Y_LPARAM(lp) / SCALE;
         return 0;
     case WM_PAINT: {
         PAINTSTRUCT ps;
@@ -728,6 +850,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 }
 
 int wmain(int argc, wchar_t** argv) {
+    srand((unsigned)time(nullptr));
     g_axPath = (argc >= 2) ? std::wstring(argv[1])
                            : L"../ios/template/Watch/Resources/demo.ax";
     std::vector<uint8_t> data = loadFile(g_axPath);

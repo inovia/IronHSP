@@ -234,7 +234,7 @@ final class HSPRuntime {
     // MARK: token fetch
 
     /// (type, val, exflg, advance words). advance は 2 (16bit val) または 3 (32bit val)
-    private func fetchToken(at p: Int) -> (HSPType, Int32, UInt16, Int) {
+    private func fetchToken(at p: Int) -> (t: HSPType, v: Int32, exflg: UInt16, adv: Int) {
         let w = csU16(p)
         let typeRaw = w & CSTYPE_MASK
         let exflg = w & (EXFLG_0 | EXFLG_1 | EXFLG_2 | EXFLG_3)
@@ -242,8 +242,6 @@ final class HSPRuntime {
         if (exflg & EXFLG_3) != 0 {
             return (t, Int32(bitPattern: csU32(p + 1)), exflg, 3)
         } else {
-            // 16bit val は INUM 用に符号付き、それ以外 (var idx / string offset 等) は基本正の値
-            // 安全のため、TYPE_INUM/MARK は signed、 他は unsigned として返す
             let raw = csU16(p + 1)
             switch t {
             case .inum, .mark:
@@ -268,6 +266,12 @@ final class HSPRuntime {
             let exflg = w & (EXFLG_0 | EXFLG_1 | EXFLG_2 | EXFLG_3)
             if (exflg & EXFLG_1) != 0 { break }
             if !work.isEmpty, (exflg & EXFLG_2) != 0 { break }
+            // MARK '(' ')' ',' は式の境界 — 消費せず caller に戻す
+            let peekRaw = w & CSTYPE_MASK
+            if peekRaw == 0 {  // TYPE_MARK
+                let valWord = csU16(pc + 1)
+                if valWord == 40 || valWord == 41 || valWord == 44 { break }
+            }
             let (t, v, _, adv) = fetchToken(at: pc)
             pc += adv
             switch t {
@@ -289,8 +293,11 @@ final class HSPRuntime {
                 }
             case .sysvar:
                 work.append(readSysvar(Int(v)))
-            case .intfunc, .extsysvar:
-                work.append(.int(0))
+            case .intfunc:
+                // sin/cos/sqrt/abs/rnd/int 等。 後続の MARK '(' arg ')' を読む
+                work.append(callIntFunc(Int(v)))
+            case .extsysvar:
+                work.append(readExtSysvar(Int(v)))
             default:
                 work.append(.int(v))
             }
@@ -319,6 +326,89 @@ final class HSPRuntime {
             return .int(loops.last?.cnt ?? 0)
         case 0x002:  // hspver
             return .int(0x3600)
+        default:
+            return .int(0)
+        }
+    }
+
+    /// extsysvar (mousex/mousey/ginfo 等) — Watch では大半は 0 固定
+    private func readExtSysvar(_ id: Int) -> HSPValue {
+        switch id {
+        case 0x000: return .int(0)  // mousex (Watch には無い)
+        case 0x001: return .int(0)  // mousey
+        default:    return .int(0)
+        }
+    }
+
+    /// 関数呼び出しの引数群を読む。
+    ///   bytecode: MARK '(' arg [, arg ...] MARK ')'
+    /// '(' は呼び出し時に既に消費済の前提ではなく、 ここで読む。
+    private func collectFuncArgs() -> [HSPValue] {
+        var args: [HSPValue] = []
+        // '(' を消費
+        guard pc < csWords else { return args }
+        let openTok = fetchToken(at: pc)
+        if openTok.t == .mark && openTok.v == 40 {
+            pc += openTok.adv
+        }
+        // ')' まで args を集める
+        while pc < csWords {
+            // 次のトークンが ')' なら終了
+            let peek = fetchToken(at: pc)
+            if peek.t == .mark && peek.v == 41 {
+                pc += peek.adv
+                break
+            }
+            // 1 つの式を評価
+            let v = evalExpression()
+            args.append(v)
+            // 区切り (MARK ',' または EXFLG_2 / EXFLG_0 既に消費) は evalExpression 内で
+            // 適切に止まる。 ここで MARK ',' (val=44) なら明示消費。
+            if pc < csWords {
+                let nxt = fetchToken(at: pc)
+                if nxt.t == .mark && nxt.v == 44 {
+                    pc += nxt.adv
+                }
+            }
+        }
+        return args
+    }
+
+    /// TYPE_INTFUNC (id=13) の呼び出し処理。
+    /// hspcmd.cpp の opcode 表より:
+    ///   $000 int / $001 rnd / $002 strlen / $008 gettime / $009 peek /
+    ///   $00a wpeek / $00b lpeek / $00f instr / $010 abs / $011 limit /
+    ///   $180 sin / $181 cos / $182 tan / $183 atan / $184 sqrt /
+    ///   $185 double / $186 absf / $187 expf / $188 logf / $189 limitf
+    private func callIntFunc(_ id: Int) -> HSPValue {
+        let args = collectFuncArgs()
+        let a0 = args.first ?? .int(0)
+        let a1 = args.count > 1 ? args[1] : .int(0)
+        switch id {
+        case 0x000: return .int(a0.asInt)                          // int
+        case 0x001:                                                 // rnd(N)
+            let n = max(1, a0.asInt)
+            return .int(Int32.random(in: 0..<n))
+        case 0x002: return .int(Int32(a0.asString.count))          // strlen
+        case 0x008: return .int(Int32(Date().timeIntervalSince1970)) // gettime (簡易)
+        case 0x010: return .int(abs(a0.asInt))                     // abs
+        case 0x011:                                                 // limit(v, lo, hi)
+            let a2 = args.count > 2 ? args[2] : .int(0)
+            return .int(min(max(a0.asInt, a1.asInt), a2.asInt))
+        case 0x180: return .double(sin(a0.asDouble))               // sin
+        case 0x181: return .double(cos(a0.asDouble))               // cos
+        case 0x182: return .double(tan(a0.asDouble))               // tan
+        case 0x183: return .double(atan(a0.asDouble))              // atan
+        case 0x184: return .double(sqrt(a0.asDouble))              // sqrt
+        case 0x185: return .double(a0.asDouble)                    // double
+        case 0x186: return .double(abs(a0.asDouble))               // absf
+        case 0x187: return .double(exp(a0.asDouble))               // expf
+        case 0x188: return .double(log(a0.asDouble))               // logf
+        case 0x189:                                                 // limitf(v, lo, hi)
+            let a2 = args.count > 2 ? args[2] : .int(0)
+            return .double(min(max(a0.asDouble, a1.asDouble), a2.asDouble))
+        case 0x18a:                                                 // powf(b, e)
+            return .double(pow(a0.asDouble, a1.asDouble))
         default:
             return .int(0)
         }
@@ -393,8 +483,15 @@ final class HSPRuntime {
             execAssignment(varIdx: v)
         case .progcmd:
             execProgCmd(Int(v))
-        case .intcmd, .extcmd:
+        case .intcmd:
             execExtCmd(Int(v))
+        case .extcmd:
+            // stick は var 第一引数を取るので特別扱い
+            if v == 0x034 {
+                execStick()
+            } else {
+                execExtCmd(Int(v))
+            }
         case .cmpcmd:
             execCmpCmd(Int(v))
         case .modcmd, .userdef:
@@ -595,6 +692,27 @@ final class HSPRuntime {
             break
         }
     }
+
+    /// stick var [, mask]
+    /// 第一引数 = 書き込み先変数、 第二引数 = 抑制マスク (Watch では未使用)
+    /// 戻り値: 押下されているキーのビットマスク (Watch では keyState を返す)
+    /// 簡易: WC bridge.lastMessage が空でなければ bit 0、 Crown delta があれば bit 4..5。
+    private func execStick() {
+        // 第一引数は VAR トークン
+        guard pc < csWords else { return }
+        let var0 = fetchToken(at: pc)
+        if var0.t != .variable { return }
+        pc += var0.adv
+        // 第二引数 (mask) は読み捨て
+        _ = nextArg()
+        // 残りの引数も消費
+        _ = collectArgs()
+        // Watch では keyState は外部から注入される (Crown / tap)。 Phase 5 では 0 固定。
+        vars[var0.v] = .int(keyState)
+    }
+
+    /// 外部 (SwiftUI / Win32) から注入する擬似キー入力
+    var keyState: Int32 = 0
 
     // MARK: 公開 API
 

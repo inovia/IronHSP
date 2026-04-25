@@ -1,6 +1,6 @@
-; hello_watch.hsp — Phase 3 animation
+; hello_watch.hsp — Phase 5 sin/cos アニメ
 ;
-; Apple Watch 画面は 200pt 幅程度なので座標は控えめに。
+; cnt 連動で円軌道に小さい矩形が回る。 中央に sin/cos の値も表示。
 ;
 #bootopt hsp64 1
 #cmpopt utf8 1
@@ -8,30 +8,37 @@
 	repeat
 		cls
 
-		; cnt 連動の赤矩形 (横軸を 0..120 で往復)
-		x = (cnt \ 240) - 120
-		if x < 0 {
-			x = -x
-		}
-		x = x + 20
+		; 角度を cnt から計算 (1 周 = 120 frame)
+		theta = double(cnt) / 60.0 * 3.14159
+
+		; 中心 100, 75。 半径 50。
+		x = 100.0 + sin(theta) * 50.0
+		y = 75.0  + cos(theta) * 40.0
+
+		; 軌跡円 (薄い色の輪郭)
+		color 60, 60, 90
+		boxf 50, 35, 150, 115
+
+		; 動く矩形 (赤)
 		color 240, 80, 80
-		boxf x, 28, x + 40, 56
+		boxf int(x) - 8, int(y) - 8, int(x) + 8, int(y) + 8
 
-		; 3 本のサイアン横線
-		color 80, 200, 240
-		line 8, 70, 180, 70
-		line 8, 78, 180, 78
-		line 8, 86, 180, 86
-
-		; cnt 表示
-		color 255, 255, 255
-		pos 8, 96
-		mes "frame=" + cnt
-
-		; 値もテスト (式評価が動いていることの証明)
+		; HUD
 		color 200, 220, 255
-		pos 8, 116
-		mes "x=" + x
+		pos 4, 130
+		mes "f=" + cnt + " th=" + int(theta * 100)
+
+		color 255, 255, 255
+		pos 4, 150
+		mes "x=" + int(x) + " y=" + int(y)
+
+		; rnd で色変化テスト
+		r = rnd(256)
+		g = rnd(256)
+		b = rnd(256)
+		color r, g, b
+		pos 4, 170
+		mes "rnd=(" + r + "," + g + "," + b + ")"
 
 		await 33
 	loop
