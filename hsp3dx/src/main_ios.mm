@@ -177,10 +177,10 @@ int ios_main( void )
     hsp3dx_install_event_observers();
 
     //  Phase 4b: WatchConnectivity 開始 (paired Apple Watch との連携)
-    //  起動 3 秒後から 5 秒間隔でテスト ping を Watch に送る
+    //  Phase 9: 5 秒間隔の自動 send (5 種交互) + Watch からの受信ログ
 #if __has_include("hsp3dx-Swift.h")
     [[WatchConnectivityIOSBridge shared] startPeriodicTestSend];
-    NSLog( @"[WC-iOS] startPeriodicTestSend scheduled" );
+    NSLog( @"[WC-iOS] periodic send scheduled" );
 #endif
 
     //  参考: 物理画面サイズ (hgio_dx 側で letterbox 計算に使う)
