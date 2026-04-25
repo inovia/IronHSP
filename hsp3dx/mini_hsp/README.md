@@ -23,6 +23,10 @@ mini_hsp.exe                                       # デフォルト ../ios/temp
 mini_hsp.exe path\to\file.ax                       # 任意 .ax を実行
 ```
 
+ビルド済バイナリは [J:\HNWorks\IronHSP_2026\package\win32\mini_hsp.exe](../../package/win32/mini_hsp.exe)
+にも配置されている (他の hsp3.exe / hspcmp.exe と同じ場所)。
+コンパイルなしで動作確認したいときは package/win32 から直接呼べる。
+
 - ウィンドウサイズ: 200×250 pt × 2x scale = 400×500 px (Apple Watch S11 46mm 相当)
 - 30Hz timer で `runFrame()` を反復、`wait`/`await` で frame 境界
 - F5 = .ax 再読み込み / Esc = 終了
