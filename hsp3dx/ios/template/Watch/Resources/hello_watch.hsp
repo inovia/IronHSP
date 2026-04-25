@@ -1,44 +1,64 @@
-; hello_watch.hsp — Phase 5 sin/cos アニメ
+; hello_watch.hsp — Phase 6 配列 + Phase 4d WC API
 ;
-; cnt 連動で円軌道に小さい矩形が回る。 中央に sin/cos の値も表示。
+; - 配列で trail (32 frame 履歴) を残してアニメ
+; - WC で受信したメッセージを HUD に表示 (Win なら F2 で擬似受信)
 ;
 #bootopt hsp64 1
 #cmpopt utf8 1
+#include "watch_api.as"
+
+	dim trail_x, 32
+	dim trail_y, 32
+	idx = 0
+	last_msg = ""
 
 	repeat
 		cls
 
-		; 角度を cnt から計算 (1 周 = 120 frame)
+		; 円軌道 (sin/cos)
 		theta = double(cnt) / 60.0 * 3.14159
+		x = 100.0 + sin(theta) * 60.0
+		y = 75.0  + cos(theta) * 50.0
 
-		; 中心 100, 75。 半径 50。
-		x = 100.0 + sin(theta) * 50.0
-		y = 75.0  + cos(theta) * 40.0
+		; 履歴登録
+		trail_x(idx) = int(x)
+		trail_y(idx) = int(y)
+		idx = (idx + 1) \ 32
 
-		; 軌跡円 (薄い色の輪郭)
-		color 60, 60, 90
-		boxf 50, 35, 150, 115
+		; 履歴 32 連描画 (色 fade)
+		i = 0
+		repeat 32
+			ti = (idx + i) \ 32
+			tx = trail_x(ti)
+			ty = trail_y(ti)
+			alpha = i * 8
+			color alpha, alpha / 2, alpha
+			boxf tx - 3, ty - 3, tx + 3, ty + 3
+			i = i + 1
+		loop
 
-		; 動く矩形 (赤)
-		color 240, 80, 80
-		boxf int(x) - 8, int(y) - 8, int(x) + 8, int(y) + 8
+		; 現位置
+		color 255, 80, 80
+		boxf int(x) - 5, int(y) - 5, int(x) + 5, int(y) + 5
+
+		; WC API: 受信があれば取り込んで保持
+		if wcready {
+			wcrecv last_msg
+		}
 
 		; HUD
-		color 200, 220, 255
-		pos 4, 130
-		mes "f=" + cnt + " th=" + int(theta * 100)
-
 		color 255, 255, 255
-		pos 4, 150
-		mes "x=" + int(x) + " y=" + int(y)
+		pos 4, 130
+		mes "f=" + cnt
 
-		; rnd で色変化テスト
-		r = rnd(256)
-		g = rnd(256)
-		b = rnd(256)
-		color r, g, b
-		pos 4, 170
-		mes "rnd=(" + r + "," + g + "," + b + ")"
+		; WC 受信メッセージ
+		color 100, 255, 200
+		pos 4, 150
+		if last_msg != "" {
+			mes "WC: " + last_msg
+		} else {
+			mes "WC: waiting..."
+		}
 
 		await 33
 	loop

@@ -150,6 +150,8 @@ final class HSPRuntime {
     // 実行状態
     private(set) var pc: Int = 0   // CS word index
     private var vars: [Int32: HSPValue] = [:]
+    /// dim/sdim で確保した配列。 scalar 変数は vars 側に置く。
+    private var arrays: [Int32: [HSPValue]] = [:]
     private var loops: [LoopFrame] = []
     private var callStack: [Int] = []   // gosub return PC
     private var halted: Bool = false
@@ -284,7 +286,7 @@ final class HSPRuntime {
             case .label:
                 work.append(.label(Int32(otLookup(v))))
             case .variable:
-                work.append(vars[v] ?? .int(0))
+                work.append(readVarMaybeArray(v))
             case .mark:
                 if work.count >= 2 {
                     let r = work.removeLast()
@@ -336,8 +338,64 @@ final class HSPRuntime {
         switch id {
         case 0x000: return .int(0)  // mousex (Watch には無い)
         case 0x001: return .int(0)  // mousey
+        case 0x300: return .int(wcReadyFlag ? 1 : 0)  // wcready (watch_api.as)
         default:    return .int(0)
         }
+    }
+
+    // ---- WC API state (Phase 4d, watch_api.as 連携)
+    /// wcrecv で読み出すと false に戻す。 SwiftUI 側 (Bridge) から外部 set。
+    var wcReadyFlag: Bool = false
+    /// 最後の受信メッセージ。 wcrecv var で var に書き出される。
+    var wcLastMessage: String = ""
+
+    // MARK: 配列アクセス
+    //
+    // VAR の直後に MARK '(' が来たら配列インデックス読み出し。
+    // varIdx で参照される変数が arrays に登録済なら arrays[varIdx][i] を返す。
+    // 未登録なら scalar として vars[varIdx] を返す (idx 無視)。
+
+    /// VAR トークン消費後に呼ぶ。 直後が '(' なら index を読み、 末尾の ')' まで消費。
+    /// 配列でない場合は scalar 値を返す。
+    private func readVarMaybeArray(_ varIdx: Int32) -> HSPValue {
+        // 次トークンが MARK '(' か peek
+        if pc < csWords {
+            let w = csU16(pc)
+            if (w & CSTYPE_MASK) == 0 && csU16(pc + 1) == 40 {
+                // '(' を消費
+                pc += 2
+                let idx = evalExpression().asInt
+                // ')' を消費
+                if pc < csWords {
+                    let w2 = csU16(pc)
+                    if (w2 & CSTYPE_MASK) == 0 && csU16(pc + 1) == 41 {
+                        pc += 2
+                    }
+                }
+                if let arr = arrays[varIdx], (0..<arr.count).contains(Int(idx)) {
+                    return arr[Int(idx)]
+                }
+                return .int(0)
+            }
+        }
+        // scalar
+        if let arr = arrays[varIdx], !arr.isEmpty { return arr[0] }
+        return vars[varIdx] ?? .int(0)
+    }
+
+    /// VAR (statement-start) 直後に '(' があるなら配列代入と判定。 添字を返し pc を ')' の後まで進める。
+    /// 配列代入でなければ nil を返す (pc 不変)。
+    private func tryReadArrayIndex() -> Int? {
+        guard pc < csWords else { return nil }
+        let w = csU16(pc)
+        if (w & CSTYPE_MASK) != 0 || csU16(pc + 1) != 40 { return nil }
+        pc += 2  // '('
+        let idx = Int(evalExpression().asInt)
+        if pc < csWords {
+            let w2 = csU16(pc)
+            if (w2 & CSTYPE_MASK) == 0 && csU16(pc + 1) == 41 { pc += 2 }
+        }
+        return idx
     }
 
     /// 関数呼び出しの引数群を読む。
@@ -489,6 +547,8 @@ final class HSPRuntime {
             // stick は var 第一引数を取るので特別扱い
             if v == 0x034 {
                 execStick()
+            } else if v == 0x201 {
+                execWcRecv()
             } else {
                 execExtCmd(Int(v))
             }
@@ -507,24 +567,49 @@ final class HSPRuntime {
     //   var (EXFLG_1) + MARK CALCCODE_xx + 値式
     //   CALCCODE: 8=EQ (=), 0=ADD (+=), 1=SUB (-=), 2=MUL (*=), 3=DIV (/=)
     private func execAssignment(varIdx: Int32) {
-        // 次トークンは MARK
+        // 配列代入か検出: VAR 直後が '(' なら array idx を読む
+        let arrIdx = tryReadArrayIndex()
+        // 次トークンは MARK (CALCCODE_EQ 等)
         guard pc < csWords else { return }
         let (t, op, _, adv) = fetchToken(at: pc)
         pc += adv
         let value = evalExpression()
         if t != .mark {
-            // 想定外 — 単純代入として扱う
-            vars[varIdx] = value
+            writeVar(varIdx, idx: arrIdx, value: value)
             return
         }
-        let cur = vars[varIdx] ?? .int(0)
+        let cur = (arrIdx != nil ? readArrayCell(varIdx, arrIdx!) : (vars[varIdx] ?? .int(0)))
         switch op {
-        case 8: vars[varIdx] = value
-        case 0: vars[varIdx] = applyCalc(op: 0, l: cur, r: value)  // +=
-        case 1: vars[varIdx] = applyCalc(op: 1, l: cur, r: value)  // -=
-        case 2: vars[varIdx] = applyCalc(op: 2, l: cur, r: value)  // *=
-        case 3: vars[varIdx] = applyCalc(op: 3, l: cur, r: value)  // /=
-        default: vars[varIdx] = value
+        case 8: writeVar(varIdx, idx: arrIdx, value: value)
+        case 0: writeVar(varIdx, idx: arrIdx, value: applyCalc(op: 0, l: cur, r: value))
+        case 1: writeVar(varIdx, idx: arrIdx, value: applyCalc(op: 1, l: cur, r: value))
+        case 2: writeVar(varIdx, idx: arrIdx, value: applyCalc(op: 2, l: cur, r: value))
+        case 3: writeVar(varIdx, idx: arrIdx, value: applyCalc(op: 3, l: cur, r: value))
+        default: writeVar(varIdx, idx: arrIdx, value: value)
+        }
+    }
+
+    private func readArrayCell(_ v: Int32, _ idx: Int) -> HSPValue {
+        if let a = arrays[v], (0..<a.count).contains(idx) { return a[idx] }
+        return .int(0)
+    }
+
+    private func writeVar(_ v: Int32, idx: Int?, value: HSPValue) {
+        if let i = idx {
+            // 配列書き込み (未確保なら自動拡張)
+            var arr = arrays[v] ?? []
+            if i >= arr.count {
+                arr.append(contentsOf: Array(repeating: HSPValue.int(0), count: i + 1 - arr.count))
+            }
+            if i >= 0 { arr[i] = value }
+            arrays[v] = arr
+        } else {
+            // 配列が既に確保されていれば arrays[0] に書き、 そうでなければ scalar
+            if arrays[v] != nil {
+                arrays[v]![0] = value
+            } else {
+                vars[v] = value
+            }
         }
     }
 
@@ -597,6 +682,28 @@ final class HSPRuntime {
         case 0x07, 0x08:  // wait / await
             _ = collectArgs()
             yielded = true
+        case 0x09:  // dim var, n
+            // bytecode: VAR token + size INUM
+            if pc < csWords {
+                let v0 = fetchToken(at: pc)
+                if v0.t == .variable {
+                    pc += v0.adv
+                    let n = Int(evalExpression().asInt)
+                    arrays[v0.v] = Array(repeating: .int(0), count: max(1, n))
+                    _ = collectArgs()
+                }
+            }
+        case 0x0a:  // sdim var, sz, n
+            if pc < csWords {
+                let v0 = fetchToken(at: pc)
+                if v0.t == .variable {
+                    pc += v0.adv
+                    _ = evalExpression()  // sz は無視 (Watch では文字列長制限なし)
+                    let n = Int(nextArg()?.asInt ?? 1)
+                    arrays[v0.v] = Array(repeating: .string(""), count: max(1, n))
+                    _ = collectArgs()
+                }
+            }
         case 0x10, 0x11:  // end / stop
             _ = collectArgs()
             halted = true
@@ -688,10 +795,28 @@ final class HSPRuntime {
             drawOps.append(.pset(x: x, y: y))
         case 0x01b:  // redraw — Watch では no-op (フレーム終端で表示)
             break
+        case 0x200:  // wcsend "string" (watch_api.as)
+            if let s = args.first {
+                wcSendCallback?(s.asString)
+            }
         default:
             break
         }
     }
+
+    /// wcrecv var (watch_api.as) — 第一引数の var に最新メッセージを書く
+    private func execWcRecv() {
+        guard pc < csWords else { return }
+        let v0 = fetchToken(at: pc)
+        if v0.t != .variable { return }
+        pc += v0.adv
+        _ = collectArgs()
+        writeVar(v0.v, idx: nil, value: .string(wcLastMessage))
+        wcReadyFlag = false
+    }
+
+    /// SwiftUI / Win 側から set する送信ハンドラ
+    var wcSendCallback: ((String) -> Void)?
 
     /// stick var [, mask]
     /// 第一引数 = 書き込み先変数、 第二引数 = 抑制マスク (Watch では未使用)
@@ -732,6 +857,7 @@ final class HSPRuntime {
     func reset() {
         pc = 0
         vars.removeAll()
+        arrays.removeAll()
         loops.removeAll()
         callStack.removeAll()
         drawOps.removeAll()

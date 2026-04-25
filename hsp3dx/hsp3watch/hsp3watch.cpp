@@ -154,6 +154,7 @@ public:
     void reset() {
         pc = 0;
         vars.clear();
+        arrays.clear();
         loops.clear();
         callStack.clear();
         drawOps.clear();
@@ -184,6 +185,7 @@ private:
 
     size_t pc = 0;
     std::unordered_map<int32_t, Value> vars;
+    std::unordered_map<int32_t, std::vector<Value>> arrays;  // dim/sdim 用
     std::vector<LoopFrame> loops;
     std::vector<size_t> callStack;
     bool halted = false, yielded = false;
@@ -278,8 +280,7 @@ private:
             case T_STRING:  work.push_back(Value::Str(dsString(tk.v))); break;
             case T_LABEL:   work.push_back(Value::Lbl((int32_t)otLookup(tk.v))); break;
             case T_VAR: {
-                auto it = vars.find(tk.v);
-                work.push_back(it != vars.end() ? it->second : Value::Int(0));
+                work.push_back(readVarMaybeArray(tk.v));
                 break;
             }
             case T_MARK: {
@@ -329,11 +330,75 @@ private:
     }
 
     Value readExtSysvar(int32_t id) const {
-        // mousex/mousey は WM_MOUSEMOVE で外部更新 (今は 0 固定)
         switch (id) {
-        case 0x000: return Value::Int(mouseX);  // mousex
-        case 0x001: return Value::Int(mouseY);  // mousey
+        case 0x000: return Value::Int(mouseX);                  // mousex
+        case 0x001: return Value::Int(mouseY);                  // mousey
+        case 0x300: return Value::Int(wcReadyFlag ? 1 : 0);     // wcready (watch_api.as)
         }
+        return Value::Int(0);
+    }
+
+public:
+    bool        wcReadyFlag   = false;   // 外部から set
+    std::string wcLastMessage;
+private:
+
+    // 配列アクセス: VAR の直後に MARK '(' があるなら index を読み arrays[v][i] を返す
+    Value readVarMaybeArray(int32_t v) {
+        if (pc < csWords) {
+            uint16_t w = csU16(pc);
+            if ((w & CSTYPE_MASK) == 0 && csU16(pc + 1) == 40) {
+                pc += 2;  // '('
+                int idx = (int)evalExpression().asInt();
+                if (pc < csWords) {
+                    uint16_t w2 = csU16(pc);
+                    if ((w2 & CSTYPE_MASK) == 0 && csU16(pc + 1) == 41) pc += 2;
+                }
+                auto it = arrays.find(v);
+                if (it != arrays.end() && idx >= 0 && (size_t)idx < it->second.size())
+                    return it->second[idx];
+                return Value::Int(0);
+            }
+        }
+        auto ait = arrays.find(v);
+        if (ait != arrays.end() && !ait->second.empty()) return ait->second[0];
+        auto it = vars.find(v);
+        return it != vars.end() ? it->second : Value::Int(0);
+    }
+
+    int tryReadArrayIndex() {
+        if (pc >= csWords) return -1;
+        uint16_t w = csU16(pc);
+        if ((w & CSTYPE_MASK) != 0 || csU16(pc + 1) != 40) return -1;
+        pc += 2;
+        int idx = (int)evalExpression().asInt();
+        if (pc < csWords) {
+            uint16_t w2 = csU16(pc);
+            if ((w2 & CSTYPE_MASK) == 0 && csU16(pc + 1) == 41) pc += 2;
+        }
+        return idx;
+    }
+
+    void writeVar(int32_t v, int idx, const Value& value) {
+        if (idx >= 0) {
+            auto& arr = arrays[v];
+            if ((size_t)idx >= arr.size()) arr.resize(idx + 1, Value::Int(0));
+            arr[idx] = value;
+        } else {
+            auto it = arrays.find(v);
+            if (it != arrays.end()) {
+                if (!it->second.empty()) it->second[0] = value;
+                else                     it->second.push_back(value);
+            } else {
+                vars[v] = value;
+            }
+        }
+    }
+
+    Value readArrayCell(int32_t v, int idx) {
+        auto it = arrays.find(v);
+        if (it != arrays.end() && idx >= 0 && (size_t)idx < it->second.size())
+            return it->second[idx];
         return Value::Int(0);
     }
 
@@ -454,8 +519,9 @@ private:
         case T_PROGCMD:execProgCmd(tk.v);             break;
         case T_INTCMD: execExtCmd(tk.v);              break;
         case T_EXTCMD:
-            if (tk.v == 0x034) execStick();
-            else               execExtCmd(tk.v);
+            if      (tk.v == 0x034) execStick();
+            else if (tk.v == 0x201) execWcRecv();
+            else                    execExtCmd(tk.v);
             break;
         case T_CMPCMD: execCmpCmd(tk.v);              break;
         default:       collectArgs();                 break;
@@ -475,19 +541,22 @@ private:
     }
 
     void execAssignment(int32_t varIdx) {
+        int arrIdx = tryReadArrayIndex();
         if (pc >= csWords) return;
         Token tk = fetchToken(pc);
         pc += tk.adv;
         Value v = evalExpression();
-        if (tk.t != T_MARK) { vars[varIdx] = v; return; }
-        Value cur = vars.count(varIdx) ? vars[varIdx] : Value::Int(0);
+        if (tk.t != T_MARK) { writeVar(varIdx, arrIdx, v); return; }
+        Value cur = (arrIdx >= 0)
+            ? readArrayCell(varIdx, arrIdx)
+            : (vars.count(varIdx) ? vars[varIdx] : Value::Int(0));
         switch (tk.v) {
-        case 8: vars[varIdx] = v; break;
-        case 0: vars[varIdx] = applyCalc(0, cur, v); break;
-        case 1: vars[varIdx] = applyCalc(1, cur, v); break;
-        case 2: vars[varIdx] = applyCalc(2, cur, v); break;
-        case 3: vars[varIdx] = applyCalc(3, cur, v); break;
-        default: vars[varIdx] = v; break;
+        case 8: writeVar(varIdx, arrIdx, v); break;
+        case 0: writeVar(varIdx, arrIdx, applyCalc(0, cur, v)); break;
+        case 1: writeVar(varIdx, arrIdx, applyCalc(1, cur, v)); break;
+        case 2: writeVar(varIdx, arrIdx, applyCalc(2, cur, v)); break;
+        case 3: writeVar(varIdx, arrIdx, applyCalc(3, cur, v)); break;
+        default: writeVar(varIdx, arrIdx, v); break;
         }
     }
 
@@ -561,6 +630,33 @@ private:
             collectArgs();
             yielded = true;
             break;
+        case 0x09: {  // dim var, n
+            if (pc < csWords) {
+                Token v0 = fetchToken(pc);
+                if (v0.t == T_VAR) {
+                    pc += v0.adv;
+                    int n = (int)evalExpression().asInt();
+                    if (n < 1) n = 1;
+                    arrays[v0.v] = std::vector<Value>(n, Value::Int(0));
+                    collectArgs();
+                }
+            }
+            break;
+        }
+        case 0x0a: {  // sdim var, sz, n
+            if (pc < csWords) {
+                Token v0 = fetchToken(pc);
+                if (v0.t == T_VAR) {
+                    pc += v0.adv;
+                    (void)evalExpression();  // sz 無視
+                    int n = nextArgValid() ? (int)evalExpression().asInt() : 1;
+                    if (n < 1) n = 1;
+                    arrays[v0.v] = std::vector<Value>(n, Value::Str(""));
+                    collectArgs();
+                }
+            }
+            break;
+        }
         case 0x10:    // end
         case 0x11:    // stop
             collectArgs();
@@ -661,7 +757,25 @@ private:
         }
         case 0x01b:  // redraw — no-op (frame 末で表示)
             break;
+        case 0x200:  // wcsend "string" (watch_api.as)
+            // hsp3watch では companion 概念無し — printf でエコーするだけ
+            if (!args.empty()) {
+                std::string s = args[0].asString();
+                wprintf(L"[wcsend] %hs\n", s.c_str());
+            }
+            break;
         }
+    }
+
+    /// wcrecv var (watch_api.as) — 第一引数 var に最新メッセージを書き、 ready=false に
+    void execWcRecv() {
+        if (pc >= csWords) return;
+        Token v0 = fetchToken(pc);
+        if (v0.t != T_VAR) return;
+        pc += v0.adv;
+        collectArgs();
+        writeVar(v0.v, -1, Value::Str(wcLastMessage));
+        wcReadyFlag = false;
     }
 };
 
@@ -801,6 +915,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             // Reload .ax
             std::vector<uint8_t> data = loadFile(g_axPath);
             if (g_rt.load(data)) InvalidateRect(hwnd, nullptr, TRUE);
+        } else if (wp == VK_F2) {
+            // 擬似 WC メッセージ注入 (hsp3watch では companion 無いので、 F2 でテスト)
+            char buf[64];
+            time_t t = time(nullptr);
+            struct tm tm_;
+            localtime_s(&tm_, &t);
+            snprintf(buf, sizeof(buf), "F2 %02d:%02d:%02d",
+                     tm_.tm_hour, tm_.tm_min, tm_.tm_sec);
+            g_rt.wcLastMessage = buf;
+            g_rt.wcReadyFlag = true;
         } else if (wp == VK_ESCAPE) {
             DestroyWindow(hwnd);
         }

@@ -66,6 +66,10 @@ struct ContentView: View {
             self.rt = runtime
             self.fallback = false
             self.statusLine = "demo.ax loaded"
+            // WC bridge → HSPRuntime 連携
+            runtime.wcSendCallback = { msg in
+                WatchConnectivityBridge.shared.sendToPhone(["text": msg])
+            }
         } else {
             self.fallback = true
             self.ops = sampleOps()
@@ -76,6 +80,11 @@ struct ContentView: View {
     private func tick() {
         guard let rt = rt, !fallback else { return }
         if rt.isHalted { return }
+        // WC bridge から HSPRuntime に最新メッセージ転送
+        if !wc.lastMessage.isEmpty, rt.wcLastMessage != wc.lastMessage {
+            rt.wcLastMessage = wc.lastMessage
+            rt.wcReadyFlag = true
+        }
         rt.runFrame()
         ops = rt.drawOps
         statusLine = "step=\(rt.step) ops=\(rt.drawOps.count)"
