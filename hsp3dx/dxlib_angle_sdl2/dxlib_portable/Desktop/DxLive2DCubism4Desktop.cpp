@@ -40,10 +40,17 @@ extern "C" {
 #include "../DxLive2DCubism4.h"
 #include "Live2DCubismCore.h"
 
-// Cubism Core 5.x ヘッダから rename/削除された API を Web bridge 側で shim
-// として持っている (DxLive2DCubism4WebBridge.cpp)。前方宣言だけ追加。
+// Cubism Core 5.x で `csmGetDrawableRenderOrders` → `csmGetRenderOrders` に
+// rename されたが、DxLib 本家 (Cubism 4) は旧名を呼ぶので shim で繋ぐ。
+//   - Web (__EMSCRIPTEN__): DxLive2DCubism4WebBridge.cpp の EM_JS が定義
+//   - Mac/Linux native: extlib/cubism prebuilt が csmGetRenderOrders を export
+//     しているのでこの .cpp で thin wrapper を書く
 #ifdef __EMSCRIPTEN__
 extern "C" const int *csmGetDrawableRenderOrders( const csmModel *model ) ;
+#else
+extern "C" const int *csmGetDrawableRenderOrders( const csmModel *model ) {
+    return csmGetRenderOrders( model ) ;
+}
 #endif
 
 // DxLib の MATRIX (row-major 4x4 float) を GL の column-major 4x4 にそのまま
@@ -60,13 +67,10 @@ extern "C" const int *csmGetDrawableRenderOrders( const csmModel *model ) ;
 // EM_JS bridge (Web) 経由で symbol resolved 済み、ここで関数ポインタ
 // 構造体に詰めるだけ。詰めないと CALL_csmXxx 経由で NULL deref して落ちる。
 //
-// 注: Mac/Linux native build は Cubism Core 5-r.5 を bundle 済 (extlib/cubism/lib/)
-// で、5 では csmGetDrawableRenderOrders が削除/rename されている。Web bridge は
-// shim を提供するので __EMSCRIPTEN__ ビルドでは安全に bind できる。Mac/Linux で
-// Live2D を動かすには別途 5→4 互換 shim が必要 (現時点 Web 限定で動かす)。
+// csmGetDrawableRenderOrders は Cubism 5 で削除/rename されているが上の shim で
+// __EMSCRIPTEN__ / Mac/Linux 両方で名前解決される。
 static int Live2DCubism4_DLL_Load_Desktop( void )
 {
-#ifdef __EMSCRIPTEN__
     LIVE2DDLL.csmGetVersion                     = ( DWORD                       (*)( void ) )csmGetVersion ;
     LIVE2DDLL.csmGetLatestMocVersion            = ( DWORD                       (*)( void ) )csmGetLatestMocVersion ;
     LIVE2DDLL.csmGetMocVersion                  = ( DWORD                       (*)( const void* address, const DWORD size ) )csmGetMocVersion ;
@@ -110,7 +114,6 @@ static int Live2DCubism4_DLL_Load_Desktop( void )
     LIVE2DDLL.csmGetDrawableScreenColors        = ( const D_CubismVector4*      (*)( const void* model ) )csmGetDrawableScreenColors ;
     LIVE2DDLL.csmGetDrawableParentPartIndices   = ( const int*                  (*)( const void* model ) )csmGetDrawableParentPartIndices ;
     LIVE2DDLL.csmResetDrawableDynamicFlags      = ( void                        (*)( void* model ) )csmResetDrawableDynamicFlags ;
-#endif // __EMSCRIPTEN__
     return 0 ;
 }
 

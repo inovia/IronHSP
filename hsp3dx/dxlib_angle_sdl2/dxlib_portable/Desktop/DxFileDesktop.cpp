@@ -43,10 +43,34 @@ static int Desktop_wchar_t_to_utf8_Path( const wchar_t *Path, char *utf8_PathBuf
 {
     wchar_t DirPath[ 512 ] = L"" ;
     wchar_t FullPath[ 512 ] ;
+    wchar_t PathNoBS[ 512 ] ;
 
-    _WGETCWD( DirPath, sizeof( DirPath ) ) ;
-    ConvertFullPathW_( Path, FullPath, sizeof( FullPath ), DirPath ) ;
-    ChangeEnMarkToSlashW_( FullPath ) ;
+    // backslash を slash に置換 (Win-style パスを POSIX に正規化)
+    {
+        size_t i = 0 ;
+        for ( ; i < ( sizeof( PathNoBS ) / sizeof( PathNoBS[ 0 ] ) ) - 1 && Path[ i ] ; ++i )
+            PathNoBS[ i ] = ( Path[ i ] == L'\\' ) ? L'/' : Path[ i ] ;
+        PathNoBS[ i ] = 0 ;
+    }
+
+    // ConvertFullPathW_ は POSIX 絶対パス (/foo/bar) を相対パス扱いして
+    // CurrentDir を prepend してしまう (DxLib の Win 仕様)。
+    // 既に絶対パスなら ConvertFullPathW_ をスキップして直接コピー。
+#if !defined(_WIN32)
+    if ( PathNoBS[ 0 ] == L'/' )
+    {
+        size_t i = 0 ;
+        for ( ; i < ( sizeof( FullPath ) / sizeof( FullPath[ 0 ] ) ) - 1 && PathNoBS[ i ] ; ++i )
+            FullPath[ i ] = PathNoBS[ i ] ;
+        FullPath[ i ] = 0 ;
+    }
+    else
+#endif
+    {
+        _WGETCWD( DirPath, sizeof( DirPath ) ) ;
+        ConvertFullPathW_( PathNoBS, FullPath, sizeof( FullPath ), DirPath ) ;
+        ChangeEnMarkToSlashW_( FullPath ) ;
+    }
 
     // wchar_t → UTF-8
     ConvString( ( const char * )FullPath, -1, WCHAR_T_CHARCODEFORMAT,
