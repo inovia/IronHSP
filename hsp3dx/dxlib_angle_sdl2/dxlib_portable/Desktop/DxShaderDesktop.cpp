@@ -573,6 +573,10 @@ extern "C" int Desktop_MV1_GetShaderHandle( void )
 
 extern "C" int Desktop_MV1_IsGLSLEnabled( void )
 {
+    // Note: Apple Core profile では MV1 GLSL shader も gl_Vertex/gl_Normal/
+    // gl_FrontMaterial 等 deprecated built-in を使うため compile fail する。
+    // → MV1 描画は DxModelDesktop.cpp の desktop_mv1_draw_triangle_list 冒頭で
+    // skip。 ここでは default (s_MV1_UseGLSL) のまま。
     return s_MV1_UseGLSL ;
 }
 

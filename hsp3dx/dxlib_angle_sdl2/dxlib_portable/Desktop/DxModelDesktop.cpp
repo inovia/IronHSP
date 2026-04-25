@@ -368,6 +368,12 @@ static void desktop_mv1_get_vertex_pos(
 // 前面カリングで描画して輪郭線を作る。drawModel の 1 回目のパスとして呼ぶ。
 static void desktop_mv1_draw_outline_pass( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TList )
 {
+#if defined(__APPLE__)
+    // Apple Core profile では fixed-function (glBegin/glColor/glVertex) が
+    // 使えないため、 toon outline は一旦 skip。 必要なら shader-based 実装に置換 (TODO)。
+    (void)Mesh; (void)TList;
+    return ;
+#else
     if ( !TList || !TList->BaseData ) return ;
     if ( !Mesh || !Mesh->BaseData || !Mesh->Material || !Mesh->Material->BaseData ) return ;
     MV1_MATERIAL_BASE *mb = Mesh->Material->BaseData ;
@@ -414,11 +420,22 @@ static void desktop_mv1_draw_outline_pass( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TL
 
     // 元のカリング設定に戻す (呼び側が CullFace(GL_BACK) を改めて指定する想定)
     glCullFace( GL_BACK ) ;
+#endif
 }
 
 // 単一トライアングルリストを描画。全 VertexType 対応。
 static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TList )
 {
+#if defined(__APPLE__)
+    // Apple Core profile では MV1 描画パス全体が fixed-function に依存
+    // (glBegin/glColor/glTexCoord/glNormal/glVertex 経由 + GLSL shader も
+    // gl_Vertex/gl_Normal/gl_MultiTexCoord0/gl_FrontMaterial 等 deprecated
+    // built-in を使用)。 完全 modernization は VBO/skinning/multi-UV/toon ramp/
+    // multi-light 全部を新 shader と attribute path で書き直す大改修が必要。
+    // 一旦 Apple では描画 skip。 sample_mv1_load_test.hsp 等は Apple で表示なし。
+    (void)Mesh; (void)TList;
+    return ;
+#endif
     if ( !TList || !TList->BaseData ) return ;
     MV1_TRIANGLE_LIST_BASE *bd = TList->BaseData ;
     if ( !bd->Index || bd->IndexNum < 3 ) return ;
