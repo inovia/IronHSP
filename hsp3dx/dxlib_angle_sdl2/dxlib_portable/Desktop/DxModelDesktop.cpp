@@ -251,9 +251,21 @@ static void desktop_mv1_skin_vertex(
 {
     outPos[ 0 ] = outPos[ 1 ] = outPos[ 2 ] = 0.0f ;
     outNrm[ 0 ] = outNrm[ 1 ] = outNrm[ 2 ] = 0.0f ;
-    if ( !Frame || !Frame->UseSkinBoneMatrix || !bd ) return ;
+    // Frame->UseSkinBoneMatrix が NULL の場合 (Apple/Linux で SetupVertexBuffer 未実装、
+    // Phase 7 で MV1 skinning を実装するまで)、 base position (T-pose) を fallback として使う。
+    if ( !Frame || !Frame->UseSkinBoneMatrix || !bd ) {
+        if ( vertexType == MV1_VERTEX_TYPE_SKIN_4BONE && v4 ) {
+            outPos[ 0 ] = v4->Position.x ; outPos[ 1 ] = v4->Position.y ; outPos[ 2 ] = v4->Position.z ;
+            outNrm[ 0 ] = v4->Normal.x   ; outNrm[ 1 ] = v4->Normal.y   ; outNrm[ 2 ] = v4->Normal.z ;
+        } else if ( vertexType == MV1_VERTEX_TYPE_SKIN_8BONE && v8 ) {
+            outPos[ 0 ] = v8->Position.x ; outPos[ 1 ] = v8->Position.y ; outPos[ 2 ] = v8->Position.z ;
+            outNrm[ 0 ] = v8->Normal.x   ; outNrm[ 1 ] = v8->Normal.y   ; outNrm[ 2 ] = v8->Normal.z ;
+        }
+        return ;
+    }
 
     if ( vertexType == MV1_VERTEX_TYPE_SKIN_4BONE && v4 ) {
+        float totalW = 0.0f ;
         for ( int k = 0 ; k < 4 ; ++k ) {
             float w = v4->MatrixWeight[ k ] ;
             if ( w <= 0.0f ) continue ;
@@ -273,6 +285,12 @@ static void desktop_mv1_skin_vertex(
             outNrm[ 0 ] += nx * w ;
             outNrm[ 1 ] += ny * w ;
             outNrm[ 2 ] += nz * w ;
+            totalW += w ;
+        }
+        // 有効な bone matrix が無ければ base position 使用
+        if ( totalW <= 0.0f ) {
+            outPos[ 0 ] = v4->Position.x ; outPos[ 1 ] = v4->Position.y ; outPos[ 2 ] = v4->Position.z ;
+            outNrm[ 0 ] = v4->Normal.x   ; outNrm[ 1 ] = v4->Normal.y   ; outNrm[ 2 ] = v4->Normal.z ;
         }
     } else if ( vertexType == MV1_VERTEX_TYPE_SKIN_8BONE && v8 ) {
         BYTE idx_all[ 8 ] ;
@@ -313,25 +331,30 @@ static void desktop_mv1_get_vertex_pos(
     MV1_FRAME *Frame = Mesh ? Mesh->Container : nullptr ;
     outNrm[ 0 ] = 0 ; outNrm[ 1 ] = 1 ; outNrm[ 2 ] = 0 ;  // デフォルト上向き
 
+    // bd (= TList->BaseData) は static base data。 TList->Xxx は per-frame transformed
+    // buffer だが Apple/Linux 経路では setup されてないので bd の方を読む。
     switch ( bd->VertexType ) {
     case MV1_VERTEX_TYPE_NORMAL: {
-        const MV1_TLIST_NORMAL_POS &v = TList->NormalPosition[ vi ] ;
+        const MV1_TLIST_NORMAL_POS &v = bd->NormalPosition[ vi ] ;
         outPos[ 0 ] = v.Position.x ; outPos[ 1 ] = v.Position.y ; outPos[ 2 ] = v.Position.z ;
         outNrm[ 0 ] = v.Normal.x   ; outNrm[ 1 ] = v.Normal.y   ; outNrm[ 2 ] = v.Normal.z ;
         return ;
     }
-    case MV1_VERTEX_TYPE_SKIN_4BONE:
-        desktop_mv1_skin_vertex( Frame, bd,
-            &TList->SkinPosition4B[ vi ], nullptr,
-            MV1_VERTEX_TYPE_SKIN_4BONE, outPos, outNrm ) ;
+    case MV1_VERTEX_TYPE_SKIN_4BONE: {
+        // 当面 skinning skip、 base position をそのまま使う (T-pose)
+        const MV1_TLIST_SKIN_POS_4B &v = bd->SkinPosition4B[ vi ] ;
+        outPos[ 0 ] = v.Position.x ; outPos[ 1 ] = v.Position.y ; outPos[ 2 ] = v.Position.z ;
+        outNrm[ 0 ] = v.Normal.x   ; outNrm[ 1 ] = v.Normal.y   ; outNrm[ 2 ] = v.Normal.z ;
         return ;
-    case MV1_VERTEX_TYPE_SKIN_8BONE:
-        desktop_mv1_skin_vertex( Frame, bd,
-            nullptr, &TList->SkinPosition8B[ vi ],
-            MV1_VERTEX_TYPE_SKIN_8BONE, outPos, outNrm ) ;
+    }
+    case MV1_VERTEX_TYPE_SKIN_8BONE: {
+        const MV1_TLIST_SKIN_POS_8B &v = bd->SkinPosition8B[ vi ] ;
+        outPos[ 0 ] = v.Position.x ; outPos[ 1 ] = v.Position.y ; outPos[ 2 ] = v.Position.z ;
+        outNrm[ 0 ] = v.Normal.x   ; outNrm[ 1 ] = v.Normal.y   ; outNrm[ 2 ] = v.Normal.z ;
         return ;
+    }
     case MV1_VERTEX_TYPE_SKIN_FREEBONE: {
-        const unsigned char *base = ( const unsigned char * )TList->SkinPositionFREEB ;
+        const unsigned char *base = ( const unsigned char * )bd->SkinPositionFREEB ;
         int unitSize = bd->PosUnitSize ;
         const MV1_TLIST_SKIN_POS_FREEB *v =
             ( const MV1_TLIST_SKIN_POS_FREEB * )( base + ( size_t )vi * unitSize ) ;
@@ -445,7 +468,17 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
     MV1_TRIANGLE_LIST_BASE *bd = TList->BaseData ;
     if ( !bd->Index || bd->IndexNum < 3 ) return ;
     if ( !Mesh || !Mesh->BaseData ) return ;
-    if ( !TList->NormalPosition ) return ;
+    // VertexType に応じて bd (TRIANGLE_LIST_BASE) 内の vertex データ pointer を check
+    // (TList の方は per-frame transformed buffer で animation 後の値、 minimal 描画では不要)
+    bool hasVtxData = false ;
+    switch ( bd->VertexType ) {
+    case MV1_VERTEX_TYPE_NORMAL:        hasVtxData = ( bd->NormalPosition != nullptr ) ; break ;
+    case MV1_VERTEX_TYPE_SKIN_4BONE:    hasVtxData = ( bd->SkinPosition4B != nullptr ) ; break ;
+    case MV1_VERTEX_TYPE_SKIN_8BONE:    hasVtxData = ( bd->SkinPosition8B != nullptr ) ; break ;
+    case MV1_VERTEX_TYPE_SKIN_FREEBONE: hasVtxData = ( bd->SkinPositionFREEB != nullptr ) ; break ;
+    default: break ;
+    }
+    if ( !hasVtxData ) return ;
     MV1_MESH_BASE *mbase = Mesh->BaseData ;
     unsigned char *vraw = ( unsigned char * )mbase->Vertex ;
     int vsize = mbase->VertUnitSize ;
