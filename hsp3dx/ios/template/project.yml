@@ -337,6 +337,21 @@ targets:
         PRODUCT_NAME: "hsp3dx"
         TARGETED_DEVICE_FAMILY: "4"   # 4 = Apple Watch
         SWIFT_VERSION: "5.0"
+        # iOS app の base settings を継承するが、 watchOS には不要 / 無効な
+        # 設定を override する。
+        SDKROOT: watchos
+        SUPPORTED_PLATFORMS: "watchsimulator watchos"
+        WATCHOS_DEPLOYMENT_TARGET: "9.0"
+        IPHONEOS_DEPLOYMENT_TARGET: ""
+        EXCLUDED_ARCHS: ""
+        # iOS prebuilt lib (tiff_iOS / Cubism Core 等) は Watch では link 不要
+        # base settings を完全 override (空文字列で inherit 無効化)
+        OTHER_LDFLAGS: ""
+        LIBRARY_SEARCH_PATHS: ""
+        HEADER_SEARCH_PATHS: ""
+        OTHER_CFLAGS: ""
+        OTHER_CPLUSPLUSFLAGS: ""
+        GCC_PREPROCESSOR_DEFINITIONS: ""
         # Code signing (iOS app と同じ team)
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: "744LT275TZ"
