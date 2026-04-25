@@ -20,6 +20,16 @@
 #include "hsp3dxcl.h"
 #include "hsp3dx_events.h"
 
+//  Phase 4b: Apple Watch (hsp3watch) との WatchConnectivity 連携
+//  Swift で書いた WatchConnectivityIOSBridge を ObjC++ から呼ぶ。
+//  Xcode は Swift ファイルを target に含めると自動で <ProductName>-Swift.h を生成する。
+//  hsp3dx target なので "hsp3dx-Swift.h"。
+//  (Swift 生成 header が WCSessionDelegate を参照するので先に import 必要)
+#import <WatchConnectivity/WatchConnectivity.h>
+#if __has_include("hsp3dx-Swift.h")
+#import "hsp3dx-Swift.h"
+#endif
+
 //  iOS 起動時間計測用ログ (HSP3DX_IOS_STARTUP_TIMING 定義時のみ有効)
 #if defined(HSP3DX_IOS_STARTUP_TIMING)
 #define TIMING_NSLOG(...) NSLog(__VA_ARGS__)
@@ -165,6 +175,13 @@ int ios_main( void )
 
     //  Phase M.3: アプリライフサイクル通知を events queue にブリッジ
     hsp3dx_install_event_observers();
+
+    //  Phase 4b: WatchConnectivity 開始 (paired Apple Watch との連携)
+    //  起動 3 秒後から 5 秒間隔でテスト ping を Watch に送る
+#if __has_include("hsp3dx-Swift.h")
+    [[WatchConnectivityIOSBridge shared] startPeriodicTestSend];
+    NSLog( @"[WC-iOS] startPeriodicTestSend scheduled" );
+#endif
 
     //  参考: 物理画面サイズ (hgio_dx 側で letterbox 計算に使う)
     int disp_w = 0, disp_h = 0;

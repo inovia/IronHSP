@@ -310,6 +310,7 @@ targets:
       - sdk: ImageIO.framework
       - sdk: OpenAL.framework
       - sdk: LocalAuthentication.framework
+      - sdk: WatchConnectivity.framework
 
   # ===========================================================================
   # hsp3dx_watch — watchOS app (HSP for Apple Watch、 mini interpreter)

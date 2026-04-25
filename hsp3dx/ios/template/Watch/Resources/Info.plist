@@ -23,7 +23,9 @@
     <key>WKApplication</key>
     <true/>
     <key>WKWatchOnly</key>
-    <true/>
+    <false/>
+    <key>WKCompanionAppBundleIdentifier</key>
+    <string>com.ironhsp.hsp3dx</string>
     <key>UISupportedInterfaceOrientations</key>
     <array>
         <string>UIInterfaceOrientationPortrait</string>
