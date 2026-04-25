@@ -40,6 +40,9 @@ extern int Graphics_Initialize( void ) ;
 #ifndef DX_NON_INPUT
 extern int InitializeInputSystem( void ) ;
 #endif
+#ifndef DX_NON_LIVE2D_CUBISM4
+extern int Live2DCubism4_Initialize( void ) ;
+#endif
 
 extern int NS_DxLib_Init( void )
 {
@@ -64,6 +67,14 @@ extern int NS_DxLib_Init( void )
     // UpdateKeyboardInputState_PF が一度も呼ばれない。
 #ifndef DX_NON_INPUT
     InitializeInputSystem() ;
+#endif
+
+    // Live2D Cubism4 の初期化 (LIVE2DSYS.InitializeFlag を立てる)。
+    // dx_Live2D_LoadModel で LIVE2DSYS.InitializeFlag==FALSE だと即 -1 で
+    // 落ちるので、Win/iOS/Android と同様 Init 中に呼んでおく。
+#ifndef DX_NON_LIVE2D_CUBISM4
+    std::fprintf( stderr, "[DxLib Desktop] Live2DCubism4_Initialize\n" ) ;
+    Live2DCubism4_Initialize() ;
 #endif
 
     DxSysData.DxLib_InitializeFlag = TRUE ;

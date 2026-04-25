@@ -12,6 +12,8 @@ canvas:focus{border-color:#4af}</style>
 <div id="status">starting…</div>
 <canvas id="canvas" width="640" height="480" tabindex="-1"></canvas>
 <textarea id="output" readonly></textarea>
+<!-- Live2D Cubism Core (self-contained wasm module, must load before main wasm) -->
+<script src="live2dcubismcore.min.js"></script>
 <script>
 // ?capture=N で N 枚スナップショット送信、?interval=MS で間隔指定
 const q = new URLSearchParams(location.search);
@@ -40,6 +42,14 @@ function post(path, body) {
     return fetch(path, {method:'POST', body: body, headers:{'Content-Type':'text/plain'}})
         .catch(e => console.error('post err', path, e));
 }
+
+// 早期マーカー: page が読み込まれた瞬間と Live2DCubismCore の存在を /log に送る
+post('/log', '[shell] page loaded, Live2DCubismCore=' + (typeof Live2DCubismCore) + '\n');
+window.addEventListener('error', function(ev) {
+    post('/log', '[shell-error] ' + ev.message + ' @ ' + ev.filename + ':' + ev.lineno + '\n');
+});
+// EM_JS bridge から呼べるロガー (DxLive2DCubism4WebBridge.cpp が使う)
+window.__l2d_log = function(msg) { post('/log', msg + '\n'); };
 
 let shotsTaken = 0;
 function takeShot() {

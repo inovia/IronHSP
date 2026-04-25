@@ -208,8 +208,14 @@ add_subdirectory(extlib/glew)
 # --- Live2D Cubism SDK (L2): Core (prebuilt) + Framework (source) ---------
 # Live2D Proprietary + MIT (LICENSE_Core.md / LICENSE_Framework.md 参照)
 # extlib/cubism/lib に prebuilt static lib があれば有効化、無ければ skip
+# Web (emscripten) では Cubism Core の native .a を link できない (.o が
+# Wasm bitcode じゃない)。代わりに Cubism Web SDK (live2dcubismcore.min.js) を
+# pre-js で bundle、C API は Desktop/DxLive2DCubism4WebBridge.cpp の EM_JS
+# wrapper で OOP API (Live2DCubismCore.Model.fromMoc 等) に bridge する。
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/extlib/cubism/include/Live2DCubismCore.h")
-    add_subdirectory(extlib/cubism)
+    if(NOT EMSCRIPTEN)
+        add_subdirectory(extlib/cubism)
+    endif()
     set(HAVE_LIVE2D_CUBISM4 TRUE)
     message(STATUS "Live2D Cubism SDK found — dx_cubism_framework enabled")
 else()
@@ -358,12 +364,27 @@ add_library(dxlib_portable_stage3 STATIC
     ${DXLIB_PORTABLE_DIR}/DxModelLoader4.cpp
     ${DXLIB_PORTABLE_DIR}/DxModelLoaderVMD.cpp
     ${DXLIB_PORTABLE_DIR}/Desktop/DxModelDesktop.cpp
-    # Live2D Cubism4 (DxLib 本家の integration + Desktop PF stub)
-    ${DXLIB_PORTABLE_DIR}/DxLive2DCubism4.cpp
-    ${DXLIB_PORTABLE_DIR}/DxUseCLibLive2DCubism4.cpp
-    ${DXLIB_PORTABLE_DIR}/Desktop/DxLive2DCubism4Desktop.cpp
-    ${DXLIB_PORTABLE_DIR}/Desktop/DxLive2DCubism4Shader_stub.cpp
 )
+
+# Live2D Cubism4 (DxLib 本家の integration + Desktop PF stub)
+if(HAVE_LIVE2D_CUBISM4)
+    target_sources(dxlib_portable_stage3 PRIVATE
+        ${DXLIB_PORTABLE_DIR}/DxLive2DCubism4.cpp
+        ${DXLIB_PORTABLE_DIR}/DxUseCLibLive2DCubism4.cpp
+        ${DXLIB_PORTABLE_DIR}/Desktop/DxLive2DCubism4Desktop.cpp
+        ${DXLIB_PORTABLE_DIR}/Desktop/DxLive2DCubism4Shader_stub.cpp
+    )
+    # Live2DCubismCore.h を DxLive2DCubism4Desktop.cpp に通す
+    target_include_directories(dxlib_portable_stage3 PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/extlib/cubism/include
+    )
+    # Web 専用: Cubism Core C API → live2dcubismcore.js OOP API の bridge
+    if(EMSCRIPTEN)
+        target_sources(dxlib_portable_stage3 PRIVATE
+            ${DXLIB_PORTABLE_DIR}/Desktop/DxLive2DCubism4WebBridge.cpp
+        )
+    endif()
+endif()
 
 # opt-in: MV1 Bullet Physics を Desktop で有効化する (DxBulletCompat.h 経由)
 if(DX_DESKTOP_ENABLE_BULLET_PHYSICS)
@@ -407,7 +428,9 @@ target_link_libraries(dxlib_portable_stage3 PUBLIC dx_theoradec)
 # libtiff を DxBaseImage.cpp の LoadTiffImage で使う
 target_link_libraries(dxlib_portable_stage3 PUBLIC dx_tiff)
 # Live2D Cubism SDK (L2 で bundle 済) と link
-if(HAVE_LIVE2D_CUBISM4)
+# Web (emscripten) では dx_cubism_framework は build せず Web SDK の JS module
+# を pre-js で bundle、C API を DxLive2DCubism4WebBridge.cpp で bridge する。
+if(HAVE_LIVE2D_CUBISM4 AND NOT EMSCRIPTEN)
     target_link_libraries(dxlib_portable_stage3 PUBLIC dx_cubism_framework)
 endif()
 dxlib_desktop_settings(dxlib_portable_stage3)
@@ -678,6 +701,12 @@ if(EMSCRIPTEN)
         # sample_sound.hsp 用テスト音 (任意、無くても build OK にはしてない注意)
         "SHELL:--preload-file ${CMAKE_CURRENT_BINARY_DIR}/test_bgm.wav@/test_bgm.wav"
         "SHELL:--preload-file ${CMAKE_CURRENT_BINARY_DIR}/test_se.wav@/test_se.wav"
+        # sample_live2d.hsp 用 Cubism 4 モデル (Hiyori 一式: moc3 + textures + json)
+        "SHELL:--preload-file ${CMAKE_CURRENT_BINARY_DIR}/Hiyori@/Hiyori"
+        # Live2D Cubism Core for Web は独立した emscripten module (IIFE で
+        # 自前 wasm を base64 embed)。--pre-js で同 .js に concat すると 2 つの
+        # emscripten module が同 scope で init 競合する → capture_shell.html 側で
+        # 別 <script> タグ経由でロードする。
         "SHELL:--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/web/capture_shell.html"
     )
 endif()

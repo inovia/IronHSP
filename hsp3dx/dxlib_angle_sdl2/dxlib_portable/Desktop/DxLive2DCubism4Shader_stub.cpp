@@ -36,7 +36,9 @@ extern "C" int DesktopShader_CompileGLSL( const char *vs_src, const char *fs_src
 // CubismPubliclyLicensedLive2DSdk_ja の Live2D Open Software license に準拠)
 // ---------------------------------------------------------------------------
 
-static const char *VS_NORMAL = R"GLSL(#version 120
+static const char *VS_NORMAL = R"GLSL(#ifdef GL_ES
+precision mediump float;
+#endif
 attribute vec4 a_position;
 attribute vec2 a_texCoord;
 varying vec2 v_texCoord;
@@ -48,7 +50,9 @@ void main() {
 }
 )GLSL" ;
 
-static const char *VS_MASKED = R"GLSL(#version 120
+static const char *VS_MASKED = R"GLSL(#ifdef GL_ES
+precision mediump float;
+#endif
 attribute vec4 a_position;
 attribute vec2 a_texCoord;
 varying vec2 v_texCoord;
@@ -63,7 +67,9 @@ void main() {
 }
 )GLSL" ;
 
-static const char *VS_SETUP_MASK = R"GLSL(#version 120
+static const char *VS_SETUP_MASK = R"GLSL(#ifdef GL_ES
+precision mediump float;
+#endif
 attribute vec4 a_position;
 attribute vec2 a_texCoord;
 varying vec2 v_texCoord;
@@ -77,7 +83,9 @@ void main() {
 }
 )GLSL" ;
 
-static const char *FS_SETUP_MASK = R"GLSL(#version 120
+static const char *FS_SETUP_MASK = R"GLSL(#ifdef GL_ES
+precision mediump float;
+#endif
 varying vec2 v_texCoord;
 varying vec4 v_myPos;
 uniform sampler2D s_texture0;
@@ -93,7 +101,9 @@ void main() {
 }
 )GLSL" ;
 
-static const char *FS_NORMAL = R"GLSL(#version 120
+static const char *FS_NORMAL = R"GLSL(#ifdef GL_ES
+precision mediump float;
+#endif
 varying vec2 v_texCoord;
 uniform sampler2D s_texture0;
 uniform vec4 u_baseColor;
@@ -108,7 +118,9 @@ void main() {
 }
 )GLSL" ;
 
-static const char *FS_NORMAL_PA = R"GLSL(#version 120
+static const char *FS_NORMAL_PA = R"GLSL(#ifdef GL_ES
+precision mediump float;
+#endif
 varying vec2 v_texCoord;
 uniform sampler2D s_texture0;
 uniform vec4 u_baseColor;
@@ -122,7 +134,9 @@ void main() {
 }
 )GLSL" ;
 
-static const char *FS_MASK = R"GLSL(#version 120
+static const char *FS_MASK = R"GLSL(#ifdef GL_ES
+precision mediump float;
+#endif
 varying vec2 v_texCoord;
 varying vec4 v_clipPos;
 uniform sampler2D s_texture0;
@@ -143,7 +157,9 @@ void main() {
 }
 )GLSL" ;
 
-static const char *FS_MASK_INV = R"GLSL(#version 120
+static const char *FS_MASK_INV = R"GLSL(#ifdef GL_ES
+precision mediump float;
+#endif
 varying vec2 v_texCoord;
 varying vec4 v_clipPos;
 uniform sampler2D s_texture0;
@@ -164,7 +180,9 @@ void main() {
 }
 )GLSL" ;
 
-static const char *FS_MASK_PA = R"GLSL(#version 120
+static const char *FS_MASK_PA = R"GLSL(#ifdef GL_ES
+precision mediump float;
+#endif
 varying vec2 v_texCoord;
 varying vec4 v_clipPos;
 uniform sampler2D s_texture0;
@@ -184,7 +202,9 @@ void main() {
 }
 )GLSL" ;
 
-static const char *FS_MASK_INV_PA = R"GLSL(#version 120
+static const char *FS_MASK_INV_PA = R"GLSL(#ifdef GL_ES
+precision mediump float;
+#endif
 varying vec2 v_texCoord;
 varying vec4 v_clipPos;
 uniform sampler2D s_texture0;

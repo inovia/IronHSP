@@ -769,7 +769,13 @@ extern int Graphics_Hardware_CreateOrigTexture_PF( IMAGEDATA_ORIG *Orig, int ASy
 
         glGenRenderbuffers( 1, &rb_depth ) ;
         glBindRenderbuffer( GL_RENDERBUFFER, rb_depth ) ;
+        // WebGL 1 (GLES2) は DEPTH_COMPONENT24 を持たないので 16 に落とす。
+        // 16bit でも mask 描画には十分。Desktop は 24 のままで OK。
+#ifdef __EMSCRIPTEN__
+        glRenderbufferStorage( GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, tw, th ) ;
+#else
         glRenderbufferStorage( GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, tw, th ) ;
+#endif
         glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rb_depth ) ;
 
         GLenum fbstat = glCheckFramebufferStatus( GL_FRAMEBUFFER ) ;
