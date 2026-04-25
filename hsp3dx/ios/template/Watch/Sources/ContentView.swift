@@ -1,8 +1,9 @@
 //
-//  ContentView.swift — Phase 4: HSPRuntime + Canvas + WatchConnectivity overlay
+//  ContentView.swift — Phase 7: HSPRuntime + Canvas + WatchConnectivity + Crown/Tap/Haptic
 //
 
 import SwiftUI
+import WatchKit
 
 struct ContentView: View {
     @State private var ops: [HSPDrawOp] = []
@@ -12,6 +13,10 @@ struct ContentView: View {
 
     @StateObject private var wc = WatchConnectivityBridge.shared
 
+    // Digital Crown 値 (連続的)。 HSPRuntime 側で整数化して累積デルタとして使う。
+    @State private var crownValue: Double = 0
+    @State private var crownLast:  Double = 0
+
     private let timer = Timer.publish(every: 1.0 / 30.0, on: .main, in: .common)
         .autoconnect()
 
@@ -19,7 +24,6 @@ struct ContentView: View {
         ZStack(alignment: .bottomLeading) {
             HSPCanvasView(ops: ops)
 
-            // 上部に WC ステータス + 最後のメッセージ
             VStack(alignment: .leading, spacing: 1) {
                 Text("WC: \(wc.sessionState)\(wc.isReachable ? " ⟷" : "")")
                     .font(.system(size: 9))
@@ -32,28 +36,23 @@ struct ContentView: View {
                         .background(Color.blue.opacity(0.6))
                         .cornerRadius(3)
                 }
-                if wc.receiveCount > 0 {
-                    Text("rx=\(wc.receiveCount)")
-                        .font(.system(size: 8))
-                        .foregroundColor(.gray)
-                }
-                if !wc.debugLog.isEmpty {
-                    Text(wc.debugLog)
-                        .font(.system(size: 7))
-                        .foregroundColor(.cyan)
-                        .lineLimit(2)
-                }
             }
             .padding(.leading, 4)
             .padding(.top, 4)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
-            // 下部に runtime status
             Text(statusLine)
                 .font(.system(size: 9))
                 .foregroundColor(.gray)
                 .padding(.leading, 6)
                 .padding(.bottom, 4)
+        }
+        .focusable(true)
+        .digitalCrownRotation($crownValue, from: -10000, through: 10000,
+                              by: 1, sensitivity: .medium, isContinuous: true,
+                              isHapticFeedbackEnabled: false)
+        .onTapGesture {
+            rt?.tapCount += 1
         }
         .onAppear { load() }
         .onReceive(timer) { _ in tick() }
@@ -66,9 +65,20 @@ struct ContentView: View {
             self.rt = runtime
             self.fallback = false
             self.statusLine = "demo.ax loaded"
-            // WC bridge → HSPRuntime 連携
             runtime.wcSendCallback = { msg in
                 WatchConnectivityBridge.shared.sendToPhone(["text": msg])
+            }
+            runtime.hapticCallback = { type in
+                let h: WKHapticType
+                switch type {
+                case 1: h = .success
+                case 2: h = .failure
+                case 3: h = .click
+                case 4: h = .start
+                case 5: h = .stop
+                default: h = .notification
+                }
+                WKInterfaceDevice.current().play(h)
             }
         } else {
             self.fallback = true
@@ -80,14 +90,20 @@ struct ContentView: View {
     private func tick() {
         guard let rt = rt, !fallback else { return }
         if rt.isHalted { return }
-        // WC bridge から HSPRuntime に最新メッセージ転送
+        // WC 受信転送
         if !wc.lastMessage.isEmpty, rt.wcLastMessage != wc.lastMessage {
             rt.wcLastMessage = wc.lastMessage
             rt.wcReadyFlag = true
         }
+        // Crown delta 累積を runtime に転送
+        let delta = crownValue - crownLast
+        if delta != 0 {
+            rt.crownDelta &+= Int32(delta.rounded())
+            crownLast = crownValue
+        }
         rt.runFrame()
         ops = rt.drawOps
-        statusLine = "step=\(rt.step) ops=\(rt.drawOps.count)"
+        statusLine = "step=\(rt.step) ops=\(rt.drawOps.count) crn=\(rt.crownDelta) tap=\(rt.tapCount)"
     }
 
     private func sampleOps() -> [HSPDrawOp] {

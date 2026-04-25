@@ -14,6 +14,9 @@
 #regcmd 9                    ; TYPE_EXTCMD
 #cmd wcsend $200             ; wcsend "string"
 #cmd wcrecv $201             ; wcrecv var
+#cmd haptic $202             ; haptic <type> (0=notif 1=success 2=fail 3=click 4=start 5=stop)
 
 #regcmd 10                   ; TYPE_EXTSYSVAR (括弧なしで参照可能)
 #cmd wcready $300            ; if wcready { ... }
+#cmd crown   $301            ; Digital Crown 累積 (Win では mouse wheel)
+#cmd tapcnt  $302            ; tap 累積数 (Win では mouse click)

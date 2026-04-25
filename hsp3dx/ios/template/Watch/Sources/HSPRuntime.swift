@@ -339,15 +339,21 @@ final class HSPRuntime {
         case 0x000: return .int(0)  // mousex (Watch には無い)
         case 0x001: return .int(0)  // mousey
         case 0x300: return .int(wcReadyFlag ? 1 : 0)  // wcready (watch_api.as)
+        case 0x301: return .int(crownDelta)           // crown — 累積回転 (整数)
+        case 0x302: return .int(tapCount)             // tapcnt — 累積タップ数
         default:    return .int(0)
         }
     }
 
     // ---- WC API state (Phase 4d, watch_api.as 連携)
-    /// wcrecv で読み出すと false に戻す。 SwiftUI 側 (Bridge) から外部 set。
     var wcReadyFlag: Bool = false
-    /// 最後の受信メッセージ。 wcrecv var で var に書き出される。
     var wcLastMessage: String = ""
+
+    // ---- Phase 7 ハードウェア入力 state
+    /// Digital Crown / mouse wheel の累積デルタ (整数化)
+    var crownDelta: Int32 = 0
+    /// 累積タップ回数 (新規タップごとに +1)
+    var tapCount: Int32 = 0
 
     // MARK: 配列アクセス
     //
@@ -799,10 +805,17 @@ final class HSPRuntime {
             if let s = args.first {
                 wcSendCallback?(s.asString)
             }
+        case 0x202:  // haptic <type>  (watch_api.as)
+            // type: 0=notification 1=success 2=failure 3=click 4=start 5=stop
+            let t = Int(args.first?.asInt ?? 0)
+            hapticCallback?(t)
         default:
             break
         }
     }
+
+    /// SwiftUI / Win 側から set する haptic ハンドラ
+    var hapticCallback: ((Int) -> Void)?
 
     /// wcrecv var (watch_api.as) — 第一引数の var に最新メッセージを書く
     private func execWcRecv() {

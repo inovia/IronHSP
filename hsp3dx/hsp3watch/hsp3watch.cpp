@@ -334,6 +334,8 @@ private:
         case 0x000: return Value::Int(mouseX);                  // mousex
         case 0x001: return Value::Int(mouseY);                  // mousey
         case 0x300: return Value::Int(wcReadyFlag ? 1 : 0);     // wcready (watch_api.as)
+        case 0x301: return Value::Int(crownDelta);              // crown
+        case 0x302: return Value::Int(tapCount);                // tapcnt
         }
         return Value::Int(0);
     }
@@ -341,6 +343,8 @@ private:
 public:
     bool        wcReadyFlag   = false;   // 外部から set
     std::string wcLastMessage;
+    int32_t     crownDelta    = 0;       // mouse wheel 累積 (擬似 Crown)
+    int32_t     tapCount      = 0;       // mouse click 累積 (擬似 Tap)
 private:
 
     // 配列アクセス: VAR の直後に MARK '(' があるなら index を読み arrays[v][i] を返す
@@ -757,13 +761,20 @@ private:
         }
         case 0x01b:  // redraw — no-op (frame 末で表示)
             break;
-        case 0x200:  // wcsend "string" (watch_api.as)
-            // hsp3watch では companion 概念無し — printf でエコーするだけ
+        case 0x200:  // wcsend "string"
             if (!args.empty()) {
                 std::string s = args[0].asString();
                 wprintf(L"[wcsend] %hs\n", s.c_str());
             }
             break;
+        case 0x202: {  // haptic <type>
+            // Win では Beep で代替 (type で周波数を変える)
+            int t = args.empty() ? 0 : (int)args[0].asInt();
+            int freq[] = { 880, 1320, 220, 660, 1760, 110 };  // notif/success/fail/click/start/stop
+            int idx = (t >= 0 && t < 6) ? t : 0;
+            Beep(freq[idx], 60);
+            break;
+        }
         }
     }
 
@@ -955,6 +966,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
     case WM_MOUSEMOVE:
         g_rt.mouseX = GET_X_LPARAM(lp) / SCALE;
         g_rt.mouseY = GET_Y_LPARAM(lp) / SCALE;
+        return 0;
+    case WM_MOUSEWHEEL: {
+        // 1 ノッチ = 120。 Crown 擬似: ノッチ単位で +/- 1 累積
+        int delta = GET_WHEEL_DELTA_WPARAM(wp) / WHEEL_DELTA;
+        g_rt.crownDelta += delta;
+        return 0;
+    }
+    case WM_LBUTTONDOWN:
+        g_rt.tapCount += 1;
         return 0;
     case WM_PAINT: {
         PAINTSTRUCT ps;
