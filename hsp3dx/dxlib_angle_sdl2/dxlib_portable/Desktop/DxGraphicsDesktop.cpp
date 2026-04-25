@@ -1686,6 +1686,35 @@ static void dx_ensure_shader_bound( void )
     }
 }
 
+// SetUseTextureToShader(stage, GraphHandle) で設定された GL texture を
+// 各 sampler unit に bind する。DxLib 本家 (Win/iOS/Android) では
+// SetUseTextureToShader が GraphHandle を struct に保存するだけで、実際の
+// GL bind は描画コールの直前に内部で行う。Desktop SDL2 fork ではこれを
+// 我々の DrawPrimitive3DToShader PF 内で代行する必要がある。
+//
+// Cubism shader は s_texture0 / s_texture1 をそれぞれ GL_TEXTURE0 /
+// GL_TEXTURE1 に固定 mapping している (DxLive2DCubism4Desktop.cpp の
+// SetupShader_PF 参照)。これが無いと Live2D ModelDraw 時に tex0=0 で
+// 描画され、画面に何も出ない。
+static void dx_bind_user_shader_textures( void )
+{
+    for ( int i = 0 ; i < USE_TEXTURESTAGE_NUM && i < 8 ; ++i )
+    {
+        int gh = GSYS.DrawSetting.UserShaderRenderInfo.SetTextureGraphHandle[ i ] ;
+        if ( gh <= 0 ) continue ;
+        IMAGEDATA *Image = nullptr ;
+        if ( GRAPHCHK( gh, Image ) ) continue ;
+        if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) continue ;
+        IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
+        if ( !tex->PF ) continue ;
+        GLuint tid = ( GLuint )tex->PF->Texture.TextureBuffer ;
+        if ( !tid ) continue ;
+        glActiveTexture( GL_TEXTURE0 + i ) ;
+        glBindTexture( GL_TEXTURE_2D, tid ) ;
+    }
+    glActiveTexture( GL_TEXTURE0 ) ;
+}
+
 extern int Graphics_Hardware_DrawPrimitive3DToShader_UseVertexBuffer2_PF(
     int VertexBufHandle, int PrimitiveType, int StartVertex, int UseVertexNum )
 {
@@ -1695,6 +1724,7 @@ extern int Graphics_Hardware_DrawPrimitive3DToShader_UseVertexBuffer2_PF(
     if ( UseVertexNum <= 0 ) return 0 ;
 
     dx_ensure_shader_bound() ;
+    dx_bind_user_shader_textures() ;
     glBindBuffer( GL_ARRAY_BUFFER, ( GLuint )vb->PF->VertexBuffer ) ;
     dx_setup_vertex3dshader_attribs( 0, vb->UnitSize ) ;
     glDrawArrays( dx_primtype_to_gl( PrimitiveType ), StartVertex, UseVertexNum ) ;
@@ -1718,6 +1748,7 @@ extern int Graphics_Hardware_DrawPrimitiveIndexed3DToShader_UseVertexBuffer2_PF(
     if ( UseIndexNum <= 0 ) return 0 ;
 
     dx_ensure_shader_bound() ;
+    dx_bind_user_shader_textures() ;
     glBindBuffer( GL_ARRAY_BUFFER,         ( GLuint )vb->PF->VertexBuffer ) ;
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ( GLuint )ib->PF->IndexBuffer  ) ;
     dx_setup_vertex3dshader_attribs( BaseVertex, vb->UnitSize ) ;
