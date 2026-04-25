@@ -626,12 +626,24 @@ extern int Graphics_Hardware_DrawQuadrangleF_PF( float x1, float y1, float x2, f
 #endif
 typedef void (APIENTRYP PFN_d_glBlendEquation)( GLenum mode ) ;
 static PFN_d_glBlendEquation p_d_glBlendEquation = nullptr ;
+typedef void (APIENTRYP PFN_d_glBlendFuncSeparate)( GLenum, GLenum, GLenum, GLenum ) ;
+static PFN_d_glBlendFuncSeparate p_d_glBlendFuncSeparate = nullptr ;
 static void desktop_load_blend_equation( void )
 {
     if ( p_d_glBlendEquation ) return ;
     p_d_glBlendEquation = ( PFN_d_glBlendEquation )SDL_GL_GetProcAddress( "glBlendEquation" ) ;
     if ( !p_d_glBlendEquation )
         p_d_glBlendEquation = ( PFN_d_glBlendEquation )SDL_GL_GetProcAddress( "glBlendEquationEXT" ) ;
+    p_d_glBlendFuncSeparate = ( PFN_d_glBlendFuncSeparate )SDL_GL_GetProcAddress( "glBlendFuncSeparate" ) ;
+}
+static void d_glBlendFuncSeparate( GLenum srcRGB, GLenum dstRGB, GLenum srcA, GLenum dstA )
+{
+    if ( p_d_glBlendFuncSeparate ) {
+        p_d_glBlendFuncSeparate( srcRGB, dstRGB, srcA, dstA ) ;
+    } else {
+        // RGB と alpha を別々に指定できない環境では RGB の式で代替
+        glBlendFunc( srcRGB, dstRGB ) ;
+    }
 }
 
 // Blend mode state (DxLib の SetDrawBlendMode → GL の glBlendFunc)
@@ -675,6 +687,28 @@ extern int Graphics_Hardware_SetDrawBlendMode_PF( int BlendMode, int BlendParam 
         case DX_BLENDMODE_INVSRC:
             glEnable( GL_BLEND ) ;
             glBlendFunc( GL_ONE_MINUS_SRC_COLOR, GL_ZERO ) ;
+            break ;
+        // Live2D Cubism4 用 (premultiplied alpha 前提)
+        case DX_BLENDMODE_LIVE2D_ZERO:
+            glEnable( GL_BLEND ) ;
+            d_glBlendFuncSeparate( GL_ZERO, GL_ZERO, GL_ZERO, GL_ZERO ) ;
+            break ;
+        case DX_BLENDMODE_LIVE2D_NORMAL:
+            glEnable( GL_BLEND ) ;
+            d_glBlendFuncSeparate( GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA ) ;
+            break ;
+        case DX_BLENDMODE_LIVE2D_ADD:
+            glEnable( GL_BLEND ) ;
+            d_glBlendFuncSeparate( GL_ONE, GL_ONE, GL_ZERO, GL_ONE ) ;
+            break ;
+        case DX_BLENDMODE_LIVE2D_MULT:
+            glEnable( GL_BLEND ) ;
+            d_glBlendFuncSeparate( GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ONE ) ;
+            break ;
+        case DX_BLENDMODE_LIVE2D_MASK:
+            // クリッピングマスク描画用: alpha チャンネルへ書き込む
+            glEnable( GL_BLEND ) ;
+            d_glBlendFuncSeparate( GL_ZERO, GL_ONE_MINUS_SRC_COLOR, GL_ZERO, GL_ONE_MINUS_SRC_ALPHA ) ;
             break ;
         default:
             glDisable( GL_BLEND ) ;
