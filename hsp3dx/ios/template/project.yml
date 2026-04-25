@@ -105,6 +105,15 @@ schemes:
     build:
       targets:
         hsp3dx: all
+        hsp3dx_watch: all
+    run:
+      config: Debug
+    archive:
+      config: Release
+  hsp3dx_watch:
+    build:
+      targets:
+        hsp3dx_watch: all
     run:
       config: Debug
     archive:
@@ -301,3 +310,39 @@ targets:
       - sdk: ImageIO.framework
       - sdk: OpenAL.framework
       - sdk: LocalAuthentication.framework
+
+  # ===========================================================================
+  # hsp3dx_watch — watchOS app (HSP for Apple Watch、 mini interpreter)
+  # ===========================================================================
+  # Phase 1 (skeleton): SwiftUI で時計表示。 .ax interpreter は Phase 2 以降。
+  # standalone watchOS app (paired iPhone なしでも動作)。
+  # 使い方:
+  #   /opt/homebrew/bin/xcodegen generate
+  #   xcodebuild -scheme hsp3dx_watch -destination 'generic/platform=watchOS Simulator' build
+  hsp3dx_watch:
+    type: application
+    platform: watchOS
+    deploymentTarget: "9.0"
+    sources:
+      - path: Watch/Sources
+        name: Sources
+      - path: Watch/Resources
+        name: Resources
+        excludes:
+          - "Info.plist"
+    settings:
+      base:
+        INFOPLIST_FILE: Watch/Resources/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: "com.ironhsp.hsp3dx.watch"
+        PRODUCT_NAME: "hsp3dx"
+        TARGETED_DEVICE_FAMILY: "4"   # 4 = Apple Watch
+        SWIFT_VERSION: "5.0"
+        # Code signing (iOS app と同じ team)
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: "744LT275TZ"
+        CODE_SIGN_IDENTITY: "Apple Development"
+    dependencies:
+      - sdk: SwiftUI.framework
+      - sdk: WatchKit.framework
+      - sdk: Foundation.framework
+      - sdk: WatchConnectivity.framework
