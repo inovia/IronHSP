@@ -407,6 +407,7 @@ static int s_AddR    = 0,   s_AddG    = 0,   s_AddB    = 0 ;
 // ====================================================================
 extern "C" int DesktopShader_SetUniform1f( int h, const char *name, float v ) ;
 extern "C" int DesktopShader_SetUniform2f( int h, const char *name, float a, float b ) ;
+extern "C" int DesktopShader_SetUniform3f( int h, const char *name, float a, float b, float c ) ;
 extern "C" int DesktopShader_SetUniform4f( int h, const char *name, float a, float b, float c, float d ) ;
 
 static int    s_dx2d_color_h   = 0 ;
@@ -637,6 +638,118 @@ static const MATRIX *dx_get_world_matrix( void ) ;
 extern "C" void Desktop_3D_DrawArrays( unsigned int mode, const float *xyzrgbauv, int vertex_count,
                                         unsigned int tex_id, int TransFlag, int WriteZ ) ;
 
+// lighting 対応版 vertex layout: (x,y,z, r,g,b,a, u,v, nx,ny,nz) 12 float = 48 byte stride。
+// light_dir はワールド空間方向 (主光源)、 ambient は 0..1 の環境光強度。
+// lighting=0 なら normal 無視、 v_col そのまま (diffuse = 1.0 相当)。
+extern "C" void Desktop_3D_DrawArrays_Lit( unsigned int mode, const float *xyzrgbauv_n, int vertex_count,
+                                            unsigned int tex_id, int TransFlag, int WriteZ,
+                                            int lighting,
+                                            float light_dir_x, float light_dir_y, float light_dir_z,
+                                            float ambient ) ;
+
+// lighting 用 shader (3D + normal)
+static int    s_dx3d_lit_h   = 0 ;
+static GLuint s_dx3d_lit_vbo = 0 ;
+static void dx_3d_lit_init( void )
+{
+    if ( s_dx3d_lit_h ) return ;
+    const char *vs =
+        "attribute vec3 a_pos;\n"
+        "attribute vec4 a_col;\n"
+        "attribute vec2 a_uv;\n"
+        "attribute vec3 a_norm;\n"
+        "uniform mat4 u_proj;\n"
+        "uniform mat4 u_view;\n"
+        "uniform mat4 u_world;\n"
+        "varying vec4 v_col;\n"
+        "varying vec2 v_uv;\n"
+        "varying vec3 v_norm;\n"
+        "void main() {\n"
+        "    gl_Position = u_proj * u_view * u_world * vec4(a_pos, 1.0);\n"
+        "    v_col = a_col; v_uv = a_uv;\n"
+        // world-space normal (u_world は scale 含む可能性があるが minimal 実装は素直に変換)
+        "    v_norm = mat3(u_world) * a_norm;\n"
+        "}\n" ;
+    const char *fs =
+        "uniform sampler2D u_tex;\n"
+        "uniform float u_use_tex;\n"
+        "uniform float u_lighting;\n"
+        "uniform vec3 u_light_dir;\n"   // ワールド空間、 主光源の進む方向 (光源→対象)
+        "uniform float u_ambient;\n"
+        "varying vec4 v_col;\n"
+        "varying vec2 v_uv;\n"
+        "varying vec3 v_norm;\n"
+        "void main() {\n"
+        "    vec4 tex = mix(vec4(1.0), texture2D(u_tex, v_uv), u_use_tex);\n"
+        "    vec4 baseColor = v_col * tex;\n"
+        "    if (u_lighting > 0.5) {\n"
+        "        vec3 N = normalize(v_norm);\n"
+        // 光源方向は u_light_dir (光源→面)、 反対ベクトルが入射 (面→光源) として dot
+        "        vec3 L = normalize(-u_light_dir);\n"
+        "        float diff = max(dot(N, L), 0.0);\n"
+        "        float lit = u_ambient + (1.0 - u_ambient) * diff;\n"
+        "        baseColor.rgb *= lit;\n"
+        "    }\n"
+        "    gl_FragColor = baseColor;\n"
+        "}\n" ;
+    s_dx3d_lit_h = DesktopShader_CompileGLSL( vs, fs ) ;
+    glGenBuffers( 1, &s_dx3d_lit_vbo ) ;
+}
+
+static void dx_3d_lit_draw_arrays( GLenum mode, const float *xyzrgbauv_n, int vertex_count,
+                                    GLuint tex_id, int TransFlag, int WriteZ,
+                                    int lighting,
+                                    float light_dir_x, float light_dir_y, float light_dir_z,
+                                    float ambient )
+{
+    dx_3d_lit_init() ;
+    if ( s_dx3d_lit_h <= 0 || vertex_count <= 0 ) return ;
+
+    glViewport( 0, 0, s_DrawTargetW, s_DrawTargetH ) ;
+    glEnable( GL_DEPTH_TEST ) ;
+    glDepthMask( WriteZ ? GL_TRUE : GL_FALSE ) ;
+    Desktop_ApplyScissor() ;
+    if ( TransFlag ) {
+        glEnable( GL_BLEND ) ;
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ;
+    } else {
+        glDisable( GL_BLEND ) ;
+    }
+
+    DesktopShader_Use( s_dx3d_lit_h ) ;
+    DesktopShader_SetUniformMatrix4f( s_dx3d_lit_h, "u_proj",  ( const float * )dx_get_proj_matrix()->m, 0 ) ;
+    DesktopShader_SetUniformMatrix4f( s_dx3d_lit_h, "u_view",  ( const float * )dx_get_view_matrix()->m, 0 ) ;
+    DesktopShader_SetUniformMatrix4f( s_dx3d_lit_h, "u_world", ( const float * )dx_get_world_matrix()->m, 0 ) ;
+    DesktopShader_SetUniform1f( s_dx3d_lit_h, "u_use_tex", ( tex_id != 0 ) ? 1.0f : 0.0f ) ;
+    DesktopShader_SetUniform1i( s_dx3d_lit_h, "u_tex", 0 ) ;
+    DesktopShader_SetUniform1f( s_dx3d_lit_h, "u_lighting", lighting ? 1.0f : 0.0f ) ;
+    DesktopShader_SetUniform3f( s_dx3d_lit_h, "u_light_dir", light_dir_x, light_dir_y, light_dir_z ) ;
+    DesktopShader_SetUniform1f( s_dx3d_lit_h, "u_ambient", ambient ) ;
+    if ( tex_id ) {
+        glActiveTexture( GL_TEXTURE0 ) ;
+        glBindTexture( GL_TEXTURE_2D, tex_id ) ;
+    }
+
+    dx_ensure_dummy_vao_bound() ;
+    glBindBuffer( GL_ARRAY_BUFFER, s_dx3d_lit_vbo ) ;
+    glBufferData( GL_ARRAY_BUFFER, ( GLsizeiptr )( vertex_count * 12 * sizeof( float ) ), xyzrgbauv_n, GL_DYNAMIC_DRAW ) ;
+    GLint cur_prog = 0 ; glGetIntegerv( GL_CURRENT_PROGRAM, &cur_prog ) ;
+    GLint apos = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_pos"  ) : -1 ;
+    GLint acol = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_col"  ) : -1 ;
+    GLint auv  = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_uv"   ) : -1 ;
+    GLint anrm = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_norm" ) : -1 ;
+    if ( apos >= 0 ) { glEnableVertexAttribArray( apos ) ; glVertexAttribPointer( apos, 3, GL_FLOAT, GL_FALSE, 48, ( const void * )0  ) ; }
+    if ( acol >= 0 ) { glEnableVertexAttribArray( acol ) ; glVertexAttribPointer( acol, 4, GL_FLOAT, GL_FALSE, 48, ( const void * )12 ) ; }
+    if ( auv  >= 0 ) { glEnableVertexAttribArray( auv  ) ; glVertexAttribPointer( auv,  2, GL_FLOAT, GL_FALSE, 48, ( const void * )28 ) ; }
+    if ( anrm >= 0 ) { glEnableVertexAttribArray( anrm ) ; glVertexAttribPointer( anrm, 3, GL_FLOAT, GL_FALSE, 48, ( const void * )36 ) ; }
+    glDrawArrays( mode, 0, vertex_count ) ;
+    if ( apos >= 0 ) glDisableVertexAttribArray( apos ) ;
+    if ( acol >= 0 ) glDisableVertexAttribArray( acol ) ;
+    if ( auv  >= 0 ) glDisableVertexAttribArray( auv  ) ;
+    if ( anrm >= 0 ) glDisableVertexAttribArray( anrm ) ;
+    glDepthMask( GL_TRUE ) ;
+}
+
 static void dx_3d_draw_arrays( GLenum mode, const float *xyzrgbauv, int vertex_count,
                                GLuint tex_id, int TransFlag, int WriteZ )
 {
@@ -687,6 +800,16 @@ extern "C" void Desktop_3D_DrawArrays( unsigned int mode, const float *xyzrgbauv
                                         unsigned int tex_id, int TransFlag, int WriteZ )
 {
     dx_3d_draw_arrays( ( GLenum )mode, xyzrgbauv, vertex_count, ( GLuint )tex_id, TransFlag, WriteZ ) ;
+}
+
+extern "C" void Desktop_3D_DrawArrays_Lit( unsigned int mode, const float *xyzrgbauv_n, int vertex_count,
+                                            unsigned int tex_id, int TransFlag, int WriteZ,
+                                            int lighting,
+                                            float light_dir_x, float light_dir_y, float light_dir_z,
+                                            float ambient )
+{
+    dx_3d_lit_draw_arrays( ( GLenum )mode, xyzrgbauv_n, vertex_count, ( GLuint )tex_id, TransFlag, WriteZ,
+                           lighting, light_dir_x, light_dir_y, light_dir_z, ambient ) ;
 }
 
 // vertices = 4 個の (x, y, u, v) で一つの quad、 GL_TRIANGLE_STRIP で描画

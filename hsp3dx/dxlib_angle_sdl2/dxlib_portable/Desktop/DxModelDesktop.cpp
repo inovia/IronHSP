@@ -36,9 +36,15 @@
 #include <vector>
 
 // MV1 描画 (Apple/Linux Core profile 用): 共通 3D shader 経由で 1 batch を描画。
-// vertex layout: (x,y,z, r,g,b,a, u,v) 9 float / 36 byte stride。
+// vertex layout (no lighting): (x,y,z, r,g,b,a, u,v) 9 float / 36 byte stride。
 extern "C" void Desktop_3D_DrawArrays( unsigned int mode, const float *xyzrgbauv, int vertex_count,
                                         unsigned int tex_id, int TransFlag, int WriteZ ) ;
+// vertex layout (lit): (x,y,z, r,g,b,a, u,v, nx,ny,nz) 12 float / 48 byte stride。
+extern "C" void Desktop_3D_DrawArrays_Lit( unsigned int mode, const float *xyzrgbauv_n, int vertex_count,
+                                            unsigned int tex_id, int TransFlag, int WriteZ,
+                                            int lighting,
+                                            float light_dir_x, float light_dir_y, float light_dir_z,
+                                            float ambient ) ;
 
 // GL 1.3+ 関数 (glActiveTexture / glMultiTexCoord2f) は GDI32 の opengl32.lib
 // には無いので SDL_GL_GetProcAddress で動的解決する。
@@ -513,20 +519,19 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
     bool hasUV = ( mbase->UVUnitNum > 0 ) ;
 
     // index ごとに頂点を展開 (drawArrays 用)
+    // lit shader 用 layout: (pos, col, uv, normal) 12 float
     int vcount = 0 ;
     for ( int i = 0 ; i + 2 < bd->IndexNum ; i += 3 ) vcount += 3 ;
     if ( vcount <= 0 ) return ;
 
     std::vector< float > buf ;
-    buf.reserve( ( size_t )vcount * 9 ) ;
+    buf.reserve( ( size_t )vcount * 12 ) ;
     for ( int i = 0 ; i + 2 < bd->IndexNum ; i += 3 ) {
         for ( int k = 0 ; k < 3 ; ++k ) {
             unsigned short vi = bd->Index[ i + k ] ;
             if ( vi >= bd->VertexNum ) {
                 // skip: 同じ三角形内の全 vertex を 0 で埋めて degenerate 化
-                buf.push_back( 0 ); buf.push_back( 0 ); buf.push_back( 0 );
-                buf.push_back( 1 ); buf.push_back( 1 ); buf.push_back( 1 ); buf.push_back( 1 );
-                buf.push_back( 0 ); buf.push_back( 0 );
+                for ( int z = 0 ; z < 12 ; ++z ) buf.push_back( 0.0f ) ;
                 continue ;
             }
             DWORD meshVi = bd->MeshVertexIndex ? bd->MeshVertexIndex[ vi ] : ( DWORD )vi ;
@@ -547,10 +552,17 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
             buf.push_back( p[ 0 ] ); buf.push_back( p[ 1 ] ); buf.push_back( p[ 2 ] ) ;
             buf.push_back( r ); buf.push_back( g ); buf.push_back( b ); buf.push_back( a ) ;
             buf.push_back( u ); buf.push_back( v ) ;
+            buf.push_back( n[ 0 ] ); buf.push_back( n[ 1 ] ); buf.push_back( n[ 2 ] ) ;
         }
     }
     bool transFlag = ( mA < 255 ) ;
-    Desktop_3D_DrawArrays( /*GL_TRIANGLES*/0x0004, buf.data(), vcount, ( unsigned int )texId, transFlag ? 1 : 0, 1 ) ;
+    int  lighting  = NS_GetLightEnable() ;
+    extern float g_MainLightDirX, g_MainLightDirY, g_MainLightDirZ ;
+    Desktop_3D_DrawArrays_Lit( /*GL_TRIANGLES*/0x0004, buf.data(), vcount,
+                               ( unsigned int )texId, transFlag ? 1 : 0, 1,
+                               lighting,
+                               g_MainLightDirX, g_MainLightDirY, g_MainLightDirZ,
+                               0.5f /*ambient*/ ) ;
     return ;
 }
 #endif
