@@ -18,8 +18,14 @@ if errorlevel 1 (
     exit /b 1
 )
 
+rc /nologo /fo hsp3watch.res hsp3watch.rc
+if errorlevel 1 (
+    echo [ERROR] rc.exe failed.
+    exit /b 1
+)
+
 cl /nologo /EHsc /std:c++17 /O2 /W3 /utf-8 ^
-    hsp3watch.cpp ^
+    hsp3watch.cpp hsp3watch.res ^
     /link /SUBSYSTEM:CONSOLE user32.lib gdi32.lib /OUT:hsp3watch_64.exe
 
 if errorlevel 1 (

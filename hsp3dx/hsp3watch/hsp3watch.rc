@@ -1,0 +1,8 @@
+// hsp3watch.rc — リソース定義 (アイコン埋め込み)
+//
+// 標準 HSP の hsp3.ico を流用 (他の hsp3 系ランタイムと統一)。
+// IDI_MAIN は VS の慣習で 1 (ID 1 が exe アイコン)。
+
+#define IDI_MAIN 1
+
+IDI_MAIN ICON "hsp3watch.ico"
