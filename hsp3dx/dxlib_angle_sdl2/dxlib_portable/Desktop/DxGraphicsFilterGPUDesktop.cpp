@@ -72,13 +72,18 @@ namespace DxLib
 
 // ---- GLSL sources (embed) --------------------------------------------------
 
+// Apple Core profile では gl_Vertex / gl_MultiTexCoord0 (fixed-function attribute)
+// が使えないため、attribute 経由で受ける形式に統一。compat profile (Win/Linux)
+// では DesktopShader_CompileGLSL の compat header inject はないが、attribute は
+// GLSL 1.20 構文として valid なのでそのまま動く。
 static const char *s_filter_vs = R"GLSL(
-#version 120
+attribute vec2 a_pos ;
+attribute vec2 a_uv ;
 varying vec2 v_uv ;
 void main( void )
 {
-    gl_Position = vec4( gl_Vertex.xy, 0.0, 1.0 ) ;      // NDC 直接
-    v_uv        = gl_MultiTexCoord0.xy ;
+    gl_Position = vec4( a_pos, 0.0, 1.0 ) ;
+    v_uv        = a_uv ;
 }
 )GLSL" ;
 
@@ -558,17 +563,48 @@ static void desktop_render_fullscreen_quad( GLuint srcTex, GLuint dstFBO, int ds
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE ) ;
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE ) ;
 
-    // Full-screen quad in NDC, UV 0..1
-    glMatrixMode( GL_PROJECTION ) ; glPushMatrix() ; glLoadIdentity() ;
-    glMatrixMode( GL_MODELVIEW  ) ; glPushMatrix() ; glLoadIdentity() ;
-    glBegin( GL_QUADS ) ;
-        glTexCoord2f( 0, 0 ) ; glVertex2f( -1, -1 ) ;
-        glTexCoord2f( 1, 0 ) ; glVertex2f(  1, -1 ) ;
-        glTexCoord2f( 1, 1 ) ; glVertex2f(  1,  1 ) ;
-        glTexCoord2f( 0, 1 ) ; glVertex2f( -1,  1 ) ;
-    glEnd() ;
-    glMatrixMode( GL_PROJECTION ) ; glPopMatrix() ;
-    glMatrixMode( GL_MODELVIEW  ) ; glPopMatrix() ;
+    // Full-screen quad: a_pos (NDC -1..1) + a_uv (0..1) を VBO で
+    // GL_TRIANGLE_STRIP 4 vertex (modern path)
+    typedef void (APIENTRY *PFN_glGenBuffers_)(GLsizei, GLuint*) ;
+    typedef void (APIENTRY *PFN_glBindBuffer_)(GLenum, GLuint) ;
+    typedef void (APIENTRY *PFN_glBufferData_)(GLenum, ptrdiff_t, const void*, GLenum) ;
+    typedef void (APIENTRY *PFN_glEnableVAA_)(GLuint) ;
+    typedef void (APIENTRY *PFN_glDisableVAA_)(GLuint) ;
+    typedef void (APIENTRY *PFN_glVAttribPtr_)(GLuint, GLint, GLenum, GLboolean, GLsizei, const void*) ;
+    typedef GLint (APIENTRY *PFN_glGetAttribLoc_)(GLuint, const char*) ;
+    typedef void (APIENTRY *PFN_glGenVAO_)(GLsizei, GLuint*) ;
+    typedef void (APIENTRY *PFN_glBindVAO_)(GLuint) ;
+    static PFN_glGenBuffers_     pGB  = (PFN_glGenBuffers_)    SDL_GL_GetProcAddress( "glGenBuffers" ) ;
+    static PFN_glBindBuffer_     pBB  = (PFN_glBindBuffer_)    SDL_GL_GetProcAddress( "glBindBuffer" ) ;
+    static PFN_glBufferData_     pBD  = (PFN_glBufferData_)    SDL_GL_GetProcAddress( "glBufferData" ) ;
+    static PFN_glEnableVAA_      pEV  = (PFN_glEnableVAA_)     SDL_GL_GetProcAddress( "glEnableVertexAttribArray" ) ;
+    static PFN_glDisableVAA_     pDV  = (PFN_glDisableVAA_)    SDL_GL_GetProcAddress( "glDisableVertexAttribArray" ) ;
+    static PFN_glVAttribPtr_     pVP  = (PFN_glVAttribPtr_)    SDL_GL_GetProcAddress( "glVertexAttribPointer" ) ;
+    static PFN_glGetAttribLoc_   pGAL = (PFN_glGetAttribLoc_)  SDL_GL_GetProcAddress( "glGetAttribLocation" ) ;
+    static PFN_glGenVAO_         pGVA = (PFN_glGenVAO_)        SDL_GL_GetProcAddress( "glGenVertexArrays" ) ;
+    static PFN_glBindVAO_        pBVA = (PFN_glBindVAO_)       SDL_GL_GetProcAddress( "glBindVertexArray" ) ;
+    static GLuint s_quad_vbo = 0 ;
+    static GLuint s_quad_vao = 0 ;
+    if ( !s_quad_vbo && pGB ) pGB( 1, &s_quad_vbo ) ;
+    if ( !s_quad_vao && pGVA ) pGVA( 1, &s_quad_vao ) ;
+    if ( pBVA && s_quad_vao ) pBVA( s_quad_vao ) ;
+    if ( pBB && s_quad_vbo ) pBB( 0x8892 /*GL_ARRAY_BUFFER*/, s_quad_vbo ) ;
+    // (x,y, u,v) × 4 (TRIANGLE_STRIP)
+    static const float quad_xyuv[ 16 ] = {
+        -1.0f, -1.0f,  0.0f, 0.0f,
+         1.0f, -1.0f,  1.0f, 0.0f,
+        -1.0f,  1.0f,  0.0f, 1.0f,
+         1.0f,  1.0f,  1.0f, 1.0f,
+    } ;
+    if ( pBD ) pBD( 0x8892, ( ptrdiff_t )sizeof( quad_xyuv ), quad_xyuv, 0x88E4 /*GL_STATIC_DRAW*/ ) ;
+    GLint cur_prog = 0 ; glGetIntegerv( GL_CURRENT_PROGRAM, &cur_prog ) ;
+    GLint apos = ( cur_prog > 0 && pGAL ) ? pGAL( ( GLuint )cur_prog, "a_pos" ) : -1 ;
+    GLint auv  = ( cur_prog > 0 && pGAL ) ? pGAL( ( GLuint )cur_prog, "a_uv"  ) : -1 ;
+    if ( apos >= 0 && pEV && pVP ) { pEV( apos ) ; pVP( apos, 2, GL_FLOAT, GL_FALSE, 16, ( const void * )0 ) ; }
+    if ( auv  >= 0 && pEV && pVP ) { pEV( auv  ) ; pVP( auv,  2, GL_FLOAT, GL_FALSE, 16, ( const void * )8 ) ; }
+    glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 ) ;
+    if ( apos >= 0 && pDV ) pDV( apos ) ;
+    if ( auv  >= 0 && pDV ) pDV( auv  ) ;
 
     p_glBindFramebuffer( GL_FRAMEBUFFER, ( GLuint )prev_fbo ) ;
     glViewport( prev_vp[ 0 ], prev_vp[ 1 ], prev_vp[ 2 ], prev_vp[ 3 ] ) ;
