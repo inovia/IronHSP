@@ -460,6 +460,221 @@ static void dx_2d_tex_init( void )
     glGenBuffers( 1, &s_dx2d_tex_vbo ) ;
 }
 
+// ---- 2D multi-color shader (DrawBoxSet/LineSet/PixelSet/DrawPrimitive 用) ----
+// vertex layout: (x, y, r, g, b, a) × N、 24 byte stride
+static int    s_dx2d_mc_h   = 0 ;
+static GLuint s_dx2d_mc_vbo = 0 ;
+static void dx_2d_mc_init( void )
+{
+    if ( s_dx2d_mc_h ) return ;
+    const char *vs =
+        "attribute vec2 a_pos;\n"
+        "attribute vec4 a_col;\n"
+        "uniform vec2 u_screen;\n"
+        "uniform float u_yflip;\n"
+        "varying vec4 v_col;\n"
+        "void main() {\n"
+        "    vec2 ndc = a_pos / u_screen * 2.0 - 1.0;\n"
+        "    ndc.y *= u_yflip;\n"
+        "    gl_Position = vec4(ndc, 0.0, 1.0);\n"
+        "    v_col = a_col;\n"
+        "}\n" ;
+    const char *fs =
+        "varying vec4 v_col;\n"
+        "void main() { gl_FragColor = v_col; }\n" ;
+    s_dx2d_mc_h = DesktopShader_CompileGLSL( vs, fs ) ;
+    glGenBuffers( 1, &s_dx2d_mc_vbo ) ;
+}
+
+// vertex_count 個の (x, y, r, g, b, a) を draw する
+static void dx_2d_mc_draw_arrays( GLenum mode, const float *xyrgba, int vertex_count )
+{
+    dx_2d_mc_init() ;
+    if ( s_dx2d_mc_h <= 0 || vertex_count <= 0 ) return ;
+
+    glViewport( 0, 0, s_DrawTargetW, s_DrawTargetH ) ;
+    glDisable( GL_DEPTH_TEST ) ;
+    Desktop_ApplyScissor() ;
+
+    DesktopShader_Use( s_dx2d_mc_h ) ;
+    DesktopShader_SetUniform2f( s_dx2d_mc_h, "u_screen", ( float )s_DrawTargetW, ( float )s_DrawTargetH ) ;
+    DesktopShader_SetUniform1f( s_dx2d_mc_h, "u_yflip", ( s_CurrentFBO != 0 ) ? 1.0f : -1.0f ) ;
+    dx_ensure_dummy_vao_bound() ;
+    glBindBuffer( GL_ARRAY_BUFFER, s_dx2d_mc_vbo ) ;
+    glBufferData( GL_ARRAY_BUFFER, ( GLsizeiptr )( vertex_count * 6 * sizeof( float ) ), xyrgba, GL_DYNAMIC_DRAW ) ;
+    GLint cur_prog = 0 ;
+    glGetIntegerv( GL_CURRENT_PROGRAM, &cur_prog ) ;
+    GLint apos = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_pos" ) : -1 ;
+    GLint acol = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_col" ) : -1 ;
+    if ( apos >= 0 ) { glEnableVertexAttribArray( apos ) ; glVertexAttribPointer( apos, 2, GL_FLOAT, GL_FALSE, 24, ( const void * )0 ) ; }
+    if ( acol >= 0 ) { glEnableVertexAttribArray( acol ) ; glVertexAttribPointer( acol, 4, GL_FLOAT, GL_FALSE, 24, ( const void * )8 ) ; }
+    glDrawArrays( mode, 0, vertex_count ) ;
+    if ( apos >= 0 ) glDisableVertexAttribArray( apos ) ;
+    if ( acol >= 0 ) glDisableVertexAttribArray( acol ) ;
+}
+
+// ---- 2D multi-color + optional texture shader (DrawPrimitive2D 用) ----
+// vertex layout: (x, y, r, g, b, a, u, v) × N、 32 byte stride
+static int    s_dx2d_mctex_h   = 0 ;
+static GLuint s_dx2d_mctex_vbo = 0 ;
+static void dx_2d_mctex_init( void )
+{
+    if ( s_dx2d_mctex_h ) return ;
+    const char *vs =
+        "attribute vec2 a_pos;\n"
+        "attribute vec4 a_col;\n"
+        "attribute vec2 a_uv;\n"
+        "uniform vec2 u_screen;\n"
+        "uniform float u_yflip;\n"
+        "varying vec4 v_col;\n"
+        "varying vec2 v_uv;\n"
+        "void main() {\n"
+        "    vec2 ndc = a_pos / u_screen * 2.0 - 1.0;\n"
+        "    ndc.y *= u_yflip;\n"
+        "    gl_Position = vec4(ndc, 0.0, 1.0);\n"
+        "    v_col = a_col; v_uv = a_uv;\n"
+        "}\n" ;
+    const char *fs =
+        "uniform sampler2D u_tex;\n"
+        "uniform float u_use_tex;\n"
+        "varying vec4 v_col;\n"
+        "varying vec2 v_uv;\n"
+        "void main() {\n"
+        "    vec4 tex = mix(vec4(1.0), texture2D(u_tex, v_uv), u_use_tex);\n"
+        "    gl_FragColor = v_col * tex;\n"
+        "}\n" ;
+    s_dx2d_mctex_h = DesktopShader_CompileGLSL( vs, fs ) ;
+    glGenBuffers( 1, &s_dx2d_mctex_vbo ) ;
+}
+
+static void dx_2d_mctex_draw_arrays( GLenum mode, const float *xyrgbauv, int vertex_count,
+                                     GLuint tex_id /*0=なし*/, int TransFlag )
+{
+    dx_2d_mctex_init() ;
+    if ( s_dx2d_mctex_h <= 0 || vertex_count <= 0 ) return ;
+
+    glViewport( 0, 0, s_DrawTargetW, s_DrawTargetH ) ;
+    glDisable( GL_DEPTH_TEST ) ;
+    Desktop_ApplyScissor() ;
+    if ( TransFlag ) {
+        glEnable( GL_BLEND ) ;
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ;
+    }
+
+    DesktopShader_Use( s_dx2d_mctex_h ) ;
+    DesktopShader_SetUniform2f( s_dx2d_mctex_h, "u_screen", ( float )s_DrawTargetW, ( float )s_DrawTargetH ) ;
+    DesktopShader_SetUniform1f( s_dx2d_mctex_h, "u_yflip", ( s_CurrentFBO != 0 ) ? 1.0f : -1.0f ) ;
+    DesktopShader_SetUniform1f( s_dx2d_mctex_h, "u_use_tex", ( tex_id != 0 ) ? 1.0f : 0.0f ) ;
+    DesktopShader_SetUniform1i( s_dx2d_mctex_h, "u_tex", 0 ) ;
+    if ( tex_id ) {
+        glActiveTexture( GL_TEXTURE0 ) ;
+        glBindTexture( GL_TEXTURE_2D, tex_id ) ;
+    }
+
+    dx_ensure_dummy_vao_bound() ;
+    glBindBuffer( GL_ARRAY_BUFFER, s_dx2d_mctex_vbo ) ;
+    glBufferData( GL_ARRAY_BUFFER, ( GLsizeiptr )( vertex_count * 8 * sizeof( float ) ), xyrgbauv, GL_DYNAMIC_DRAW ) ;
+    GLint cur_prog = 0 ; glGetIntegerv( GL_CURRENT_PROGRAM, &cur_prog ) ;
+    GLint apos = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_pos" ) : -1 ;
+    GLint acol = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_col" ) : -1 ;
+    GLint auv  = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_uv" )  : -1 ;
+    if ( apos >= 0 ) { glEnableVertexAttribArray( apos ) ; glVertexAttribPointer( apos, 2, GL_FLOAT, GL_FALSE, 32, ( const void * )0  ) ; }
+    if ( acol >= 0 ) { glEnableVertexAttribArray( acol ) ; glVertexAttribPointer( acol, 4, GL_FLOAT, GL_FALSE, 32, ( const void * )8  ) ; }
+    if ( auv  >= 0 ) { glEnableVertexAttribArray( auv  ) ; glVertexAttribPointer( auv,  2, GL_FLOAT, GL_FALSE, 32, ( const void * )24 ) ; }
+    glDrawArrays( mode, 0, vertex_count ) ;
+    if ( apos >= 0 ) glDisableVertexAttribArray( apos ) ;
+    if ( acol >= 0 ) glDisableVertexAttribArray( acol ) ;
+    if ( auv  >= 0 ) glDisableVertexAttribArray( auv  ) ;
+}
+
+// ---- 3D shader (DrawLine3D/Triangle3D/Billboard3D/DrawPrimitive 系) ----
+// vertex layout: (x, y, z, r, g, b, a, u, v) × N、 36 byte stride
+// uniform: u_proj, u_view (mat4) でMVP変換、u_tex+u_use_tex でテクスチャ optional
+extern "C" int DesktopShader_SetUniformMatrix4f( int h, const char *name, const float *m16, int transpose ) ;
+
+static int    s_dx3d_h   = 0 ;
+static GLuint s_dx3d_vbo = 0 ;
+static void dx_3d_init( void )
+{
+    if ( s_dx3d_h ) return ;
+    const char *vs =
+        "attribute vec3 a_pos;\n"
+        "attribute vec4 a_col;\n"
+        "attribute vec2 a_uv;\n"
+        "uniform mat4 u_proj;\n"
+        "uniform mat4 u_view;\n"
+        "uniform mat4 u_world;\n"
+        "varying vec4 v_col;\n"
+        "varying vec2 v_uv;\n"
+        "void main() {\n"
+        // DxLib MATRIX は行 major、 GL は列 major として解釈する → 結果整合する
+        // (DxLib: v' = v*M, GL: v' = M*v、 storage layout 逆で相殺)
+        "    gl_Position = u_proj * u_view * u_world * vec4(a_pos, 1.0);\n"
+        "    v_col = a_col; v_uv = a_uv;\n"
+        "}\n" ;
+    const char *fs =
+        "uniform sampler2D u_tex;\n"
+        "uniform float u_use_tex;\n"
+        "varying vec4 v_col;\n"
+        "varying vec2 v_uv;\n"
+        "void main() {\n"
+        "    vec4 tex = mix(vec4(1.0), texture2D(u_tex, v_uv), u_use_tex);\n"
+        "    gl_FragColor = v_col * tex;\n"
+        "}\n" ;
+    s_dx3d_h = DesktopShader_CompileGLSL( vs, fs ) ;
+    glGenBuffers( 1, &s_dx3d_vbo ) ;
+}
+
+// s_ViewMat / s_ProjMat / s_WorldMat の getter (実体は下流で定義)
+static const MATRIX *dx_get_view_matrix( void ) ;
+static const MATRIX *dx_get_proj_matrix( void ) ;
+static const MATRIX *dx_get_world_matrix( void ) ;
+
+static void dx_3d_draw_arrays( GLenum mode, const float *xyzrgbauv, int vertex_count,
+                               GLuint tex_id, int TransFlag, int WriteZ )
+{
+    dx_3d_init() ;
+    if ( s_dx3d_h <= 0 || vertex_count <= 0 ) return ;
+
+    glViewport( 0, 0, s_DrawTargetW, s_DrawTargetH ) ;
+    glEnable( GL_DEPTH_TEST ) ;
+    glDepthMask( WriteZ ? GL_TRUE : GL_FALSE ) ;
+    Desktop_ApplyScissor() ;
+    if ( TransFlag ) {
+        glEnable( GL_BLEND ) ;
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ;
+    } else {
+        glDisable( GL_BLEND ) ;
+    }
+
+    DesktopShader_Use( s_dx3d_h ) ;
+    DesktopShader_SetUniformMatrix4f( s_dx3d_h, "u_proj",  ( const float * )dx_get_proj_matrix()->m, 0 ) ;
+    DesktopShader_SetUniformMatrix4f( s_dx3d_h, "u_view",  ( const float * )dx_get_view_matrix()->m, 0 ) ;
+    DesktopShader_SetUniformMatrix4f( s_dx3d_h, "u_world", ( const float * )dx_get_world_matrix()->m, 0 ) ;
+    DesktopShader_SetUniform1f( s_dx3d_h, "u_use_tex", ( tex_id != 0 ) ? 1.0f : 0.0f ) ;
+    DesktopShader_SetUniform1i( s_dx3d_h, "u_tex", 0 ) ;
+    if ( tex_id ) {
+        glActiveTexture( GL_TEXTURE0 ) ;
+        glBindTexture( GL_TEXTURE_2D, tex_id ) ;
+    }
+
+    dx_ensure_dummy_vao_bound() ;
+    glBindBuffer( GL_ARRAY_BUFFER, s_dx3d_vbo ) ;
+    glBufferData( GL_ARRAY_BUFFER, ( GLsizeiptr )( vertex_count * 9 * sizeof( float ) ), xyzrgbauv, GL_DYNAMIC_DRAW ) ;
+    GLint cur_prog = 0 ; glGetIntegerv( GL_CURRENT_PROGRAM, &cur_prog ) ;
+    GLint apos = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_pos" ) : -1 ;
+    GLint acol = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_col" ) : -1 ;
+    GLint auv  = ( cur_prog > 0 ) ? glGetAttribLocation( ( GLuint )cur_prog, "a_uv" )  : -1 ;
+    if ( apos >= 0 ) { glEnableVertexAttribArray( apos ) ; glVertexAttribPointer( apos, 3, GL_FLOAT, GL_FALSE, 36, ( const void * )0  ) ; }
+    if ( acol >= 0 ) { glEnableVertexAttribArray( acol ) ; glVertexAttribPointer( acol, 4, GL_FLOAT, GL_FALSE, 36, ( const void * )12 ) ; }
+    if ( auv  >= 0 ) { glEnableVertexAttribArray( auv  ) ; glVertexAttribPointer( auv,  2, GL_FLOAT, GL_FALSE, 36, ( const void * )28 ) ; }
+    glDrawArrays( mode, 0, vertex_count ) ;
+    if ( apos >= 0 ) glDisableVertexAttribArray( apos ) ;
+    if ( acol >= 0 ) glDisableVertexAttribArray( acol ) ;
+    if ( auv  >= 0 ) glDisableVertexAttribArray( auv  ) ;
+    glDepthMask( GL_TRUE ) ;
+}
+
 // vertices = 4 個の (x, y, u, v) で一つの quad、 GL_TRIANGLE_STRIP で描画
 static void dx_2d_tex_draw_quad( GLuint tex, const float xyuv[ 16 ], int TransFlag )
 {
@@ -794,8 +1009,28 @@ extern int Graphics_Hardware_DrawQuadrangle_PF( int x1, int y1, int x2, int y2, 
 extern int Graphics_Hardware_DrawBoxSet_PF( const RECTDATA *RectData, int Num )
 {
     if ( !RectData || Num <= 0 ) return 0 ;
+#if defined(__APPLE__)
+    std::vector< float > buf( Num * 6 * 6 ) ;  // 6 vertices/box × 6 floats
+    int bi = 0 ;
+    for ( int i = 0 ; i < Num ; ++i ) {
+        int R, G, B ;
+        NS_GetColor2( RectData[i].color, &R, &G, &B ) ;
+        float r = R / 255.0f, g = G / 255.0f, b = B / 255.0f ;
+        float x1 = ( float )RectData[i].x1 ;
+        float y1 = ( float )RectData[i].y1 ;
+        float x2 = ( float )RectData[i].x2 ;
+        float y2 = ( float )RectData[i].y2 ;
+        // 6 vertices: (x1,y1), (x2,y1), (x1,y2), (x2,y1), (x2,y2), (x1,y2)
+        float pts[ 6 ][ 2 ] = { {x1,y1},{x2,y1},{x1,y2},{x2,y1},{x2,y2},{x1,y2} } ;
+        for ( int k = 0 ; k < 6 ; ++k ) {
+            buf[ bi++ ] = pts[ k ][ 0 ] ; buf[ bi++ ] = pts[ k ][ 1 ] ;
+            buf[ bi++ ] = r ; buf[ bi++ ] = g ; buf[ bi++ ] = b ; buf[ bi++ ] = 1.0f ;
+        }
+    }
+    dx_2d_mc_draw_arrays( GL_TRIANGLES, buf.data(), Num * 6 ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
-    // 1 件ずつ色が違うので毎回 color 設定する。TRIANGLES で済ませる
     glBegin( GL_TRIANGLES ) ;
     for ( int i = 0 ; i < Num ; ++i )
     {
@@ -811,11 +1046,27 @@ extern int Graphics_Hardware_DrawBoxSet_PF( const RECTDATA *RectData, int Num )
     }
     glEnd() ;
     return 0 ;
+#endif
 }
 
 extern int Graphics_Hardware_DrawLineSet_PF( const LINEDATA *LineData, int Num )
 {
     if ( !LineData || Num <= 0 ) return 0 ;
+#if defined(__APPLE__)
+    std::vector< float > buf( Num * 2 * 6 ) ;
+    int bi = 0 ;
+    for ( int i = 0 ; i < Num ; ++i ) {
+        int R, G, B ;
+        NS_GetColor2( LineData[i].color, &R, &G, &B ) ;
+        float r = R / 255.0f, g = G / 255.0f, b = B / 255.0f ;
+        buf[ bi++ ] = ( float )LineData[i].x1 + 0.5f ; buf[ bi++ ] = ( float )LineData[i].y1 + 0.5f ;
+        buf[ bi++ ] = r ; buf[ bi++ ] = g ; buf[ bi++ ] = b ; buf[ bi++ ] = 1.0f ;
+        buf[ bi++ ] = ( float )LineData[i].x2 + 0.5f ; buf[ bi++ ] = ( float )LineData[i].y2 + 0.5f ;
+        buf[ bi++ ] = r ; buf[ bi++ ] = g ; buf[ bi++ ] = b ; buf[ bi++ ] = 1.0f ;
+    }
+    dx_2d_mc_draw_arrays( GL_LINES, buf.data(), Num * 2 ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     glBegin( GL_LINES ) ;
     for ( int i = 0 ; i < Num ; ++i )
@@ -828,11 +1079,24 @@ extern int Graphics_Hardware_DrawLineSet_PF( const LINEDATA *LineData, int Num )
     }
     glEnd() ;
     return 0 ;
+#endif
 }
 
 extern int Graphics_Hardware_DrawPixelSet_PF( const POINTDATA *PointData, int Num )
 {
     if ( !PointData || Num <= 0 ) return 0 ;
+#if defined(__APPLE__)
+    std::vector< float > buf( Num * 6 ) ;
+    int bi = 0 ;
+    for ( int i = 0 ; i < Num ; ++i ) {
+        int R, G, B ;
+        NS_GetColor2( PointData[i].color, &R, &G, &B ) ;
+        buf[ bi++ ] = ( float )PointData[i].x + 0.5f ; buf[ bi++ ] = ( float )PointData[i].y + 0.5f ;
+        buf[ bi++ ] = R / 255.0f ; buf[ bi++ ] = G / 255.0f ; buf[ bi++ ] = B / 255.0f ; buf[ bi++ ] = 1.0f ;
+    }
+    dx_2d_mc_draw_arrays( GL_POINTS, buf.data(), Num ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     glBegin( GL_POINTS ) ;
     for ( int i = 0 ; i < Num ; ++i )
@@ -844,12 +1108,28 @@ extern int Graphics_Hardware_DrawPixelSet_PF( const POINTDATA *PointData, int Nu
     }
     glEnd() ;
     return 0 ;
+#endif
 }
 
 // --- Stage 9: *_Thickness 系 ---------------------------------------------
 
 extern int Graphics_Hardware_DrawCircle_Thickness_PF( int x, int y, int r, unsigned int Color, int Thickness )
 {
+#if defined(__APPLE__)
+    // Core profile では glLineWidth >1.0 は許可されないため Thickness は 1 固定。
+    // 厳密な実装は別途 quad ストリップで太線を描く必要 (TODO)。
+    (void)Thickness;
+    const int N = 48 ;
+    float v[ N * 2 ] ;
+    for ( int i = 0 ; i < N ; ++i ) {
+        float a = ( float )i * 2.0f * 3.14159265358979f / ( float )N ;
+        v[ i * 2 + 0 ] = x + std::cos( a ) * r ;
+        v[ i * 2 + 1 ] = y + std::sin( a ) * r ;
+    }
+    dx_2d_use_shader_with_color( Color ) ;
+    dx_2d_draw_arrays( GL_LINE_LOOP, v, N ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     Desktop_SetGLColor( Color ) ;
     glLineWidth( ( float )Thickness ) ;
@@ -863,10 +1143,24 @@ extern int Graphics_Hardware_DrawCircle_Thickness_PF( int x, int y, int r, unsig
     glEnd() ;
     glLineWidth( 1.0f ) ;
     return 0 ;
+#endif
 }
 
 extern int Graphics_Hardware_DrawOval_Thickness_PF( int x, int y, int rx, int ry, unsigned int Color, int Thickness )
 {
+#if defined(__APPLE__)
+    (void)Thickness;
+    const int N = 48 ;
+    float v[ N * 2 ] ;
+    for ( int i = 0 ; i < N ; ++i ) {
+        float a = ( float )i * 2.0f * 3.14159265358979f / ( float )N ;
+        v[ i * 2 + 0 ] = x + std::cos( a ) * rx ;
+        v[ i * 2 + 1 ] = y + std::sin( a ) * ry ;
+    }
+    dx_2d_use_shader_with_color( Color ) ;
+    dx_2d_draw_arrays( GL_LINE_LOOP, v, N ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     Desktop_SetGLColor( Color ) ;
     glLineWidth( ( float )Thickness ) ;
@@ -880,12 +1174,19 @@ extern int Graphics_Hardware_DrawOval_Thickness_PF( int x, int y, int rx, int ry
     glEnd() ;
     glLineWidth( 1.0f ) ;
     return 0 ;
+#endif
 }
 
 // --- Stage 10: float 座標版 + Blend Mode + Bright ------------------------
 
 extern int Graphics_Hardware_DrawQuadrangleF_PF( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, unsigned int Color, int FillFlag )
 {
+#if defined(__APPLE__)
+    dx_2d_use_shader_with_color( Color ) ;
+    const float v[] = { x1, y1, x2, y2, x3, y3, x4, y4 } ;
+    dx_2d_draw_arrays( FillFlag ? GL_TRIANGLE_FAN : GL_LINE_LOOP, v, 4 ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     Desktop_SetGLColor( Color ) ;
     glBegin( FillFlag ? GL_TRIANGLE_FAN : GL_LINE_LOOP ) ;
@@ -895,6 +1196,7 @@ extern int Graphics_Hardware_DrawQuadrangleF_PF( float x1, float y1, float x2, f
         glVertex2f( x4, y4 ) ;
     glEnd() ;
     return 0 ;
+#endif
 }
 
 // glBlendEquation は GL 1.4 core (2002〜)、Windows opengl32.dll は 1.1 までしか
@@ -1506,13 +1808,6 @@ extern int Graphics_Hardware_DrawPrimitive2D_PF( VERTEX_2D *Vertex, int VertexNu
     (void)BillboardFlag; (void)Is3D; (void)ReverseXFlag; (void)ReverseYFlag; (void)TextureNo; (void)IsShadowMap;
     if ( !Vertex || VertexNum <= 0 ) return 0 ;
 
-    Desktop_SetOrtho2D() ;
-
-    if ( TransFlag ) {
-        glEnable( GL_BLEND ) ;
-        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ;
-    }
-
     GLenum mode = GL_TRIANGLES ;
     switch ( PrimitiveType ) {
         case 1: mode = GL_POINTS        ; break ;
@@ -1524,37 +1819,55 @@ extern int Graphics_Hardware_DrawPrimitive2D_PF( VERTEX_2D *Vertex, int VertexNu
         default: mode = GL_TRIANGLES    ; break ;
     }
 
-    // テクスチャ指定があればバインド
-    bool hasTex = false ;
+    GLuint tex_id = 0 ;
     if ( Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
         IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
-        if ( tex->PF ) {
-            glEnable( GL_TEXTURE_2D ) ;
-            glBindTexture( GL_TEXTURE_2D, ( GLuint )tex->PF->Texture.TextureBuffer ) ;
-            hasTex = true ;
-        }
+        if ( tex->PF ) tex_id = ( GLuint )tex->PF->Texture.TextureBuffer ;
     }
 
+#if defined(__APPLE__)
+    std::vector< float > buf( VertexNum * 8 ) ;
+    int bi = 0 ;
+    for ( int i = 0 ; i < VertexNum ; ++i ) {
+        const VERTEX_2D &v = Vertex[ i ] ;
+        int R, G, B ; NS_GetColor2( v.color, &R, &G, &B ) ;
+        unsigned int A = ( v.color >> 24 ) & 0xFF ;
+        if ( A == 0 && ( v.color & 0x00FFFFFF ) != 0 ) A = 255 ;
+        buf[ bi++ ] = v.pos.x ; buf[ bi++ ] = v.pos.y ;
+        buf[ bi++ ] = R / 255.0f ; buf[ bi++ ] = G / 255.0f ; buf[ bi++ ] = B / 255.0f ; buf[ bi++ ] = A / 255.0f ;
+        buf[ bi++ ] = v.u ; buf[ bi++ ] = v.v ;
+    }
+    dx_2d_mctex_draw_arrays( mode, buf.data(), VertexNum, tex_id, TransFlag ) ;
+    return 0 ;
+#else
+    Desktop_SetOrtho2D() ;
+    if ( TransFlag ) {
+        glEnable( GL_BLEND ) ;
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ;
+    }
+    if ( tex_id ) {
+        glEnable( GL_TEXTURE_2D ) ;
+        glBindTexture( GL_TEXTURE_2D, tex_id ) ;
+    }
     glBegin( mode ) ;
     for ( int i = 0 ; i < VertexNum ; ++i )
     {
         const VERTEX_2D &v = Vertex[ i ] ;
-        // color は DxLib 内部 ARGB8 (DxLib GetColor 形式)
         int R, G, B ;
         NS_GetColor2( v.color, &R, &G, &B ) ;
         GLubyte A = ( GLubyte )( ( v.color >> 24 ) & 0xFF ) ;
-        if ( A == 0 && ( v.color & 0x00FFFFFF ) != 0 ) A = 255 ;  // 色があって α=0 は不透明扱い
+        if ( A == 0 && ( v.color & 0x00FFFFFF ) != 0 ) A = 255 ;
         glColor4ub( ( GLubyte )R, ( GLubyte )G, ( GLubyte )B, A ) ;
-        if ( hasTex ) glTexCoord2f( v.u, v.v ) ;
+        if ( tex_id ) glTexCoord2f( v.u, v.v ) ;
         glVertex2f( v.pos.x, v.pos.y ) ;
     }
     glEnd() ;
-
-    if ( hasTex ) {
+    if ( tex_id ) {
         glBindTexture( GL_TEXTURE_2D, 0 ) ;
         glDisable( GL_TEXTURE_2D ) ;
     }
     return 0 ;
+#endif
 }
 
 // --- その他 (Stage 5 から継続) -------------------------------------------
@@ -2301,7 +2614,10 @@ extern int Graphics_Hardware_GetDrawScreenGraphBase_PF( IMAGEDATA *Image, IMAGED
 
 static MATRIX s_ViewMat    = { { { 1,0,0,0 },{ 0,1,0,0 },{ 0,0,1,0 },{ 0,0,0,1 } } } ;
 static MATRIX s_ProjMat    = { { { 1,0,0,0 },{ 0,1,0,0 },{ 0,0,1,0 },{ 0,0,0,1 } } } ;
+static const MATRIX *dx_get_view_matrix( void ) { return &s_ViewMat ; }
+static const MATRIX *dx_get_proj_matrix( void ) { return &s_ProjMat ; }
 static MATRIX s_WorldMat   = { { { 1,0,0,0 },{ 0,1,0,0 },{ 0,0,1,0 },{ 0,0,0,1 } } } ;
+static const MATRIX *dx_get_world_matrix( void ) { return &s_WorldMat ; }
 
 extern int Graphics_Hardware_SetTransformToView_PF      ( const MATRIX *m ) { if ( m ) s_ViewMat  = *m ; return 0 ; }
 extern int Graphics_Hardware_SetTransformToProjection_PF( const MATRIX *m ) { if ( m ) s_ProjMat  = *m ; return 0 ; }
@@ -2325,6 +2641,16 @@ static void Desktop_Apply3DMatrices( void )
 extern int Graphics_Hardware_DrawLine3D_PF( VECTOR Pos1, VECTOR Pos2, unsigned int Color, int WriteZBufferFlag, RECT *DrawArea )
 {
     (void)DrawArea;
+#if defined(__APPLE__)
+    int R, G, B ; NS_GetColor2( Color, &R, &G, &B ) ;
+    float r = R / 255.0f, g = G / 255.0f, b = B / 255.0f ;
+    const float v[] = {
+        Pos1.x, Pos1.y, Pos1.z, r, g, b, 1.0f, 0.0f, 0.0f,
+        Pos2.x, Pos2.y, Pos2.z, r, g, b, 1.0f, 0.0f, 0.0f,
+    } ;
+    dx_3d_draw_arrays( GL_LINES, v, 2, 0, 0, WriteZBufferFlag ) ;
+    return 0 ;
+#else
     Desktop_Apply3DMatrices() ;
     if ( WriteZBufferFlag ) glEnable( GL_DEPTH_TEST ) ; else glDisable( GL_DEPTH_TEST ) ;
     Desktop_SetGLColor( Color ) ;
@@ -2333,11 +2659,19 @@ extern int Graphics_Hardware_DrawLine3D_PF( VECTOR Pos1, VECTOR Pos2, unsigned i
         glVertex3f( Pos2.x, Pos2.y, Pos2.z ) ;
     glEnd() ;
     return 0 ;
+#endif
 }
 
 extern int Graphics_Hardware_DrawPixel3D_PF( VECTOR Pos, unsigned int Color, int WriteZBufferFlag, RECT *DrawArea )
 {
     (void)DrawArea;
+#if defined(__APPLE__)
+    int R, G, B ; NS_GetColor2( Color, &R, &G, &B ) ;
+    const float v[] = { Pos.x, Pos.y, Pos.z,
+                        R / 255.0f, G / 255.0f, B / 255.0f, 1.0f, 0.0f, 0.0f } ;
+    dx_3d_draw_arrays( GL_POINTS, v, 1, 0, 0, WriteZBufferFlag ) ;
+    return 0 ;
+#else
     Desktop_Apply3DMatrices() ;
     if ( WriteZBufferFlag ) glEnable( GL_DEPTH_TEST ) ; else glDisable( GL_DEPTH_TEST ) ;
     Desktop_SetGLColor( Color ) ;
@@ -2345,6 +2679,7 @@ extern int Graphics_Hardware_DrawPixel3D_PF( VECTOR Pos, unsigned int Color, int
         glVertex3f( Pos.x, Pos.y, Pos.z ) ;
     glEnd() ;
     return 0 ;
+#endif
 }
 
 // =====================================================================
@@ -2392,6 +2727,14 @@ static inline void Desktop_DrawVertex3D( const VERTEX_3D *v, bool tex )
     glVertex3f( v->pos.x, v->pos.y, v->pos.z ) ;
 }
 
+// VERTEX3D / VERTEX_3D から (r,g,b,a) を取り出す helper
+static inline void dx_v3d_color( const VERTEX3D  *v, float &r, float &g, float &b, float &a ) {
+    r = v->dif.r / 255.0f ; g = v->dif.g / 255.0f ; b = v->dif.b / 255.0f ; a = v->dif.a / 255.0f ;
+}
+static inline void dx_v3d_color( const VERTEX_3D *v, float &r, float &g, float &b, float &a ) {
+    r = v->r / 255.0f ; g = v->g / 255.0f ; b = v->b / 255.0f ; a = v->a / 255.0f ;
+}
+
 // 3D 頂点 (VERTEX3D / VERTEX_3D) を indices で描画する内部実装
 template<typename VTX, typename IDX>
 static int Desktop_DrawIndexed3D( const VTX *Vertex, const IDX *Indices,
@@ -2400,6 +2743,25 @@ static int Desktop_DrawIndexed3D( const VTX *Vertex, const IDX *Indices,
                                    bool useUV )
 {
     if ( !Vertex || !Indices || IndexNum <= 0 ) return 0;
+
+    GLuint tex_id = 0 ;
+    if ( useUV && Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
+        IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
+        if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
+    }
+#if defined(__APPLE__)
+    std::vector< float > buf( IndexNum * 9 ) ;
+    int bi = 0 ;
+    for ( int i = 0 ; i < IndexNum ; ++i ) {
+        const VTX *v = &Vertex[ Indices[ i ] ] ;
+        float r, g, b, a ; dx_v3d_color( v, r, g, b, a ) ;
+        buf[ bi++ ] = v->pos.x ; buf[ bi++ ] = v->pos.y ; buf[ bi++ ] = v->pos.z ;
+        buf[ bi++ ] = r ; buf[ bi++ ] = g ; buf[ bi++ ] = b ; buf[ bi++ ] = a ;
+        buf[ bi++ ] = v->u ; buf[ bi++ ] = v->v ;
+    }
+    dx_3d_draw_arrays( Desktop_PrimType( PrimitiveType ), buf.data(), IndexNum, tex_id, TransFlag, 1 ) ;
+    return 0 ;
+#else
     Desktop_Apply3DMatrices() ;
     glEnable( GL_DEPTH_TEST ) ;
     if ( TransFlag ) {
@@ -2418,6 +2780,7 @@ static int Desktop_DrawIndexed3D( const VTX *Vertex, const IDX *Indices,
     }
     glEnd() ;
     return 0 ;
+#endif
 }
 
 // VERTEX3D + 16bit/32bit indices (lit-style: 法線あり、ここでは fixed-function
@@ -2451,6 +2814,26 @@ static int Desktop_DrawIndexed2D( const VERTEX2D *Vertex, const IDX *Indices,
                                    IMAGEDATA *Image, int TransFlag )
 {
     if ( !Vertex || !Indices || IndexNum <= 0 ) return 0;
+
+    GLuint tex_id = 0 ;
+    if ( Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
+        IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
+        if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
+    }
+
+#if defined(__APPLE__)
+    std::vector< float > buf( IndexNum * 8 ) ;
+    int bi = 0 ;
+    for ( int i = 0 ; i < IndexNum ; ++i ) {
+        const VERTEX2D *v = &Vertex[ Indices[ i ] ] ;
+        buf[ bi++ ] = v->pos.x ; buf[ bi++ ] = v->pos.y ;
+        buf[ bi++ ] = v->dif.r / 255.0f ; buf[ bi++ ] = v->dif.g / 255.0f ;
+        buf[ bi++ ] = v->dif.b / 255.0f ; buf[ bi++ ] = v->dif.a / 255.0f ;
+        buf[ bi++ ] = v->u ; buf[ bi++ ] = v->v ;
+    }
+    dx_2d_mctex_draw_arrays( Desktop_PrimType( PrimitiveType ), buf.data(), IndexNum, tex_id, TransFlag ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
     else             { glDisable( GL_BLEND ) ; }
@@ -2465,6 +2848,7 @@ static int Desktop_DrawIndexed2D( const VERTEX2D *Vertex, const IDX *Indices,
     }
     glEnd() ;
     return 0 ;
+#endif
 }
 
 extern int Graphics_Hardware_DrawIndexedPrimitive2DUser_PF( const VERTEX2D *Vertex, int VertexNum, const unsigned short *Indices, int IndexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag )
@@ -2482,10 +2866,31 @@ extern int Graphics_Hardware_Draw32bitIndexedPrimitive2DUser_PF( const VERTEX2D 
 extern int Graphics_Hardware_DrawPrimitive2DUser_PF( const VERTEX2D *Vertex, int VertexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag, int /*UseSpcColor*/, int /*BlendImage*/, int /*UseTexUV2*/, int /*UseFogShade*/ )
 {
     if ( !Vertex || VertexNum <= 0 ) return 0;
+
+    GLuint tex_id = 0 ;
+    if ( Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
+        IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
+        if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
+    }
+#if defined(__APPLE__)
+    std::vector< float > buf( VertexNum * 8 ) ;
+    int bi = 0 ;
+    for ( int i = 0 ; i < VertexNum ; ++i ) {
+        const VERTEX2D *v = &Vertex[ i ] ;
+        buf[ bi++ ] = v->pos.x ; buf[ bi++ ] = v->pos.y ;
+        buf[ bi++ ] = v->dif.r / 255.0f ; buf[ bi++ ] = v->dif.g / 255.0f ;
+        buf[ bi++ ] = v->dif.b / 255.0f ; buf[ bi++ ] = v->dif.a / 255.0f ;
+        buf[ bi++ ] = v->u ; buf[ bi++ ] = v->v ;
+    }
+    dx_2d_mctex_draw_arrays( Desktop_PrimType( PrimitiveType ), buf.data(), VertexNum, tex_id, TransFlag ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
     else             { glDisable( GL_BLEND ) ; }
-    bool tex = Desktop_BindImage2D( Image ) ;
+    bool tex = ( tex_id != 0 ) ;
+    if ( tex ) { glEnable( GL_TEXTURE_2D ) ; glBindTexture( GL_TEXTURE_2D, tex_id ) ; }
+    else       { glDisable( GL_TEXTURE_2D ) ; }
     glBegin( Desktop_PrimType( PrimitiveType ) ) ;
     for ( int i = 0 ; i < VertexNum ; i++ ) {
         const VERTEX2D *v = &Vertex[ i ] ;
@@ -2495,50 +2900,65 @@ extern int Graphics_Hardware_DrawPrimitive2DUser_PF( const VERTEX2D *Vertex, int
     }
     glEnd() ;
     return 0 ;
+#endif
 }
 
 // テクスチャ付き三角形 / 四角形 (DrawSimple系)
 extern int Graphics_Hardware_DrawSimpleTriangleGraphF_PF( const GRAPHICS_DRAW_DRAWSIMPLETRIANGLEGRAPHF_PARAM *Param, IMAGEDATA *Image, IMAGEDATA * /*BlendImage*/ )
 {
     if ( !Param || !Param->Vertex || Param->TriangleNum <= 0 ) return 0;
+
+    GLuint tex_id = 0 ;
+    if ( Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
+        IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
+        if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
+    }
+    int N = Param->TriangleNum * 3 ;
+#if defined(__APPLE__)
+    std::vector< float > buf( N * 8 ) ;
+    int bi = 0 ;
+    for ( int i = 0 ; i < N ; ++i ) {
+        const GRAPHICS_DRAW_DRAWSIMPLEANGLEGRAPHF_VERTEX *v = &Param->Vertex[ i ] ;
+        buf[ bi++ ] = v->x ; buf[ bi++ ] = v->y ;
+        buf[ bi++ ] = 1.0f ; buf[ bi++ ] = 1.0f ; buf[ bi++ ] = 1.0f ; buf[ bi++ ] = 1.0f ;
+        buf[ bi++ ] = v->u ; buf[ bi++ ] = v->v ;
+    }
+    dx_2d_mctex_draw_arrays( GL_TRIANGLES, buf.data(), N, tex_id, Param->TransFlag ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     if ( Param->TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
     else                    { glDisable( GL_BLEND ) ; }
-    bool tex = Desktop_BindImage2D( Image ) ;
+    bool tex = ( tex_id != 0 ) ;
+    if ( tex ) { glEnable( GL_TEXTURE_2D ) ; glBindTexture( GL_TEXTURE_2D, tex_id ) ; }
+    else       { glDisable( GL_TEXTURE_2D ) ; }
     glColor4ub( 255, 255, 255, 255 ) ;
     glBegin( GL_TRIANGLES ) ;
-    for ( int i = 0 ; i < Param->TriangleNum * 3 ; i++ ) {
+    for ( int i = 0 ; i < N ; i++ ) {
         const GRAPHICS_DRAW_DRAWSIMPLEANGLEGRAPHF_VERTEX *v = &Param->Vertex[ i ] ;
         if ( tex ) glTexCoord2f( v->u, v->v ) ;
         glVertex2f( v->x, v->y ) ;
     }
     glEnd() ;
     return 0 ;
+#endif
 }
-// 3D Billboard with deformation: Pos 中心、x1y1〜x4y4 の四頂点をビューに対して
-// 横/上ベクトル基底で展開する (BillBoardの自由変形版)。
+// 3D Billboard with deformation
 extern int Graphics_Hardware_DrawModiBillboard3D_PF( VECTOR Pos, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, IMAGEDATA *Image, IMAGEDATA * /*BlendImage*/, int TransFlag, int DrawFlag, RECT * /*DrawArea*/ )
 {
     if ( !DrawFlag ) return 0 ;
-    Desktop_Apply3DMatrices() ;
-    glEnable( GL_DEPTH_TEST ) ;
-    if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
-    else             { glDisable( GL_BLEND ) ; }
-    bool tex = Desktop_BindImage2D( Image ) ;
-    glColor4ub( 255, 255, 255, 255 ) ;
 
-    // ビュー行列の右ベクトル / 上ベクトル (DrawBillboard3D_PF と同じ計算)
+    GLuint tex_id = 0 ;
+    if ( Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
+        IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
+        if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
+    }
     float rx = s_ViewMat.m[ 0 ][ 0 ], ry = s_ViewMat.m[ 1 ][ 0 ], rz = s_ViewMat.m[ 2 ][ 0 ] ;
     float ux = s_ViewMat.m[ 0 ][ 1 ], uy = s_ViewMat.m[ 1 ][ 1 ], uz = s_ViewMat.m[ 2 ][ 1 ] ;
-
     float px[ 4 ] = { x1, x2, x3, x4 } ;
     float py[ 4 ] = { y1, y2, y3, y4 } ;
-    float u_uv[ 4 ] = { 0.0f, 1.0f, 0.0f, 1.0f } ;
-    float v_uv[ 4 ] = { 0.0f, 0.0f, 1.0f, 1.0f } ;
-
-    // tex がある場合は image の UV 範囲も考慮
     float u0 = 0.0f, v0 = 0.0f, u1 = 1.0f, v1 = 1.0f ;
-    if ( tex && Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
+    if ( tex_id && Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
         IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
         u0 = ( float )t->OrigPosX / ( float )t->TexWidth ;
         v0 = ( float )t->OrigPosY / ( float )t->TexHeight ;
@@ -2547,8 +2967,27 @@ extern int Graphics_Hardware_DrawModiBillboard3D_PF( VECTOR Pos, float x1, float
     }
     float us[ 4 ] = { u0, u1, u0, u1 } ;
     float vs[ 4 ] = { v0, v0, v1, v1 } ;
-    (void)u_uv; (void)v_uv;
 
+#if defined(__APPLE__)
+    float verts[ 4 * 9 ] ;
+    for ( int i = 0 ; i < 4 ; i++ ) {
+        float wpx = Pos.x + rx * px[ i ] + ux * py[ i ] ;
+        float wpy = Pos.y + ry * px[ i ] + uy * py[ i ] ;
+        float wpz = Pos.z + rz * px[ i ] + uz * py[ i ] ;
+        verts[ i*9+0 ] = wpx ; verts[ i*9+1 ] = wpy ; verts[ i*9+2 ] = wpz ;
+        verts[ i*9+3 ] = 1.0f ; verts[ i*9+4 ] = 1.0f ; verts[ i*9+5 ] = 1.0f ; verts[ i*9+6 ] = 1.0f ;
+        verts[ i*9+7 ] = us[ i ] ; verts[ i*9+8 ] = vs[ i ] ;
+    }
+    dx_3d_draw_arrays( GL_TRIANGLE_STRIP, verts, 4, tex_id, TransFlag, 1 ) ;
+    return 0 ;
+#else
+    Desktop_Apply3DMatrices() ;
+    glEnable( GL_DEPTH_TEST ) ;
+    if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
+    else             { glDisable( GL_BLEND ) ; }
+    bool tex = ( tex_id != 0 ) ;
+    if ( tex ) { glEnable( GL_TEXTURE_2D ) ; glBindTexture( GL_TEXTURE_2D, tex_id ) ; }
+    glColor4ub( 255, 255, 255, 255 ) ;
     glBegin( GL_TRIANGLE_STRIP ) ;
     for ( int i = 0 ; i < 4 ; i++ ) {
         float wpx = Pos.x + rx * px[ i ] + ux * py[ i ] ;
@@ -2558,30 +2997,52 @@ extern int Graphics_Hardware_DrawModiBillboard3D_PF( VECTOR Pos, float x1, float
         glVertex3f( wpx, wpy, wpz ) ;
     }
     glEnd() ;
+    if ( tex ) { glBindTexture( GL_TEXTURE_2D, 0 ) ; glDisable( GL_TEXTURE_2D ) ; }
     return 0 ;
+#endif
 }
 
-// VBO: VERTEX3D 配列を頂点バッファから読み出して描画 (light 経路、fixed-function)
+// VBO: VERTEX3D 配列を頂点バッファから読み出して描画
 extern int Graphics_Hardware_DrawPrimitiveLight_UseVertexBuffer_PF(
     VERTEXBUFFERHANDLEDATA *VertexBuffer, int PrimitiveType, int StartVertex, int UseVertexNum,
     IMAGEDATA *Image, int TransFlag )
 {
     if ( !VertexBuffer || !VertexBuffer->Buffer || UseVertexNum <= 0 ) return 0 ;
+
+    GLuint tex_id = 0 ;
+    if ( Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
+        IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
+        if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
+    }
+    const VERTEX3D *vb = ( const VERTEX3D * )VertexBuffer->Buffer ;
+#if defined(__APPLE__)
+    std::vector< float > buf( UseVertexNum * 9 ) ;
+    int bi = 0 ;
+    for ( int i = 0 ; i < UseVertexNum ; ++i ) {
+        const VERTEX3D &v = vb[ StartVertex + i ] ;
+        buf[ bi++ ] = v.pos.x ; buf[ bi++ ] = v.pos.y ; buf[ bi++ ] = v.pos.z ;
+        buf[ bi++ ] = v.dif.r / 255.0f ; buf[ bi++ ] = v.dif.g / 255.0f ; buf[ bi++ ] = v.dif.b / 255.0f ; buf[ bi++ ] = v.dif.a / 255.0f ;
+        buf[ bi++ ] = v.u ; buf[ bi++ ] = v.v ;
+    }
+    dx_3d_draw_arrays( Desktop_PrimType( PrimitiveType ), buf.data(), UseVertexNum, tex_id, TransFlag, 1 ) ;
+    return 0 ;
+#else
     Desktop_Apply3DMatrices() ;
     glEnable( GL_DEPTH_TEST ) ;
     if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
     else             { glDisable( GL_BLEND ) ; }
-    bool tex = Desktop_BindImage2D( Image ) ;
-    const VERTEX3D *vb = ( const VERTEX3D * )VertexBuffer->Buffer ;
+    bool tex = ( tex_id != 0 ) ;
+    if ( tex ) { glEnable( GL_TEXTURE_2D ) ; glBindTexture( GL_TEXTURE_2D, tex_id ) ; }
     glBegin( Desktop_PrimType( PrimitiveType ) ) ;
     for ( int i = 0 ; i < UseVertexNum ; i++ ) {
         Desktop_DrawVertex3D( &vb[ StartVertex + i ], tex ) ;
     }
     glEnd() ;
     return 0 ;
+#endif
 }
 
-// VBO + IBO: VERTEX3D 頂点 + indices で描画 (light 経路)
+// VBO + IBO: VERTEX3D 頂点 + indices で描画
 extern int Graphics_Hardware_DrawIndexedPrimitiveLight_UseVertexBuffer_PF(
     VERTEXBUFFERHANDLEDATA *VertexBuffer, INDEXBUFFERHANDLEDATA *IndexBuffer,
     int PrimitiveType, int BaseVertex, int /*StartVertex*/, int /*UseVertexNum*/,
@@ -2590,13 +3051,38 @@ extern int Graphics_Hardware_DrawIndexedPrimitiveLight_UseVertexBuffer_PF(
     if ( !VertexBuffer || !VertexBuffer->Buffer ) return 0 ;
     if ( !IndexBuffer  || !IndexBuffer->Buffer  ) return 0 ;
     if ( UseIndexNum <= 0 ) return 0 ;
+
+    GLuint tex_id = 0 ;
+    if ( Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
+        IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
+        if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
+    }
+    const VERTEX3D *vb = ( const VERTEX3D * )VertexBuffer->Buffer ;
+
+#if defined(__APPLE__)
+    std::vector< float > buf( UseIndexNum * 9 ) ;
+    int bi = 0 ;
+    auto packV = [ & ]( const VERTEX3D &v ) {
+        buf[ bi++ ] = v.pos.x ; buf[ bi++ ] = v.pos.y ; buf[ bi++ ] = v.pos.z ;
+        buf[ bi++ ] = v.dif.r / 255.0f ; buf[ bi++ ] = v.dif.g / 255.0f ; buf[ bi++ ] = v.dif.b / 255.0f ; buf[ bi++ ] = v.dif.a / 255.0f ;
+        buf[ bi++ ] = v.u ; buf[ bi++ ] = v.v ;
+    } ;
+    if ( IndexBuffer->UnitSize == 2 ) {
+        const unsigned short *ib = ( const unsigned short * )IndexBuffer->Buffer + StartIndex ;
+        for ( int i = 0 ; i < UseIndexNum ; i++ ) packV( vb[ BaseVertex + ib[ i ] ] ) ;
+    } else {
+        const DWORD *ib = ( const DWORD * )IndexBuffer->Buffer + StartIndex ;
+        for ( int i = 0 ; i < UseIndexNum ; i++ ) packV( vb[ BaseVertex + ib[ i ] ] ) ;
+    }
+    dx_3d_draw_arrays( Desktop_PrimType( PrimitiveType ), buf.data(), UseIndexNum, tex_id, TransFlag, 1 ) ;
+    return 0 ;
+#else
     Desktop_Apply3DMatrices() ;
     glEnable( GL_DEPTH_TEST ) ;
     if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
     else             { glDisable( GL_BLEND ) ; }
-    bool tex = Desktop_BindImage2D( Image ) ;
-    const VERTEX3D *vb = ( const VERTEX3D * )VertexBuffer->Buffer ;
-
+    bool tex = ( tex_id != 0 ) ;
+    if ( tex ) { glEnable( GL_TEXTURE_2D ) ; glBindTexture( GL_TEXTURE_2D, tex_id ) ; }
     glBegin( Desktop_PrimType( PrimitiveType ) ) ;
     if ( IndexBuffer->UnitSize == 2 ) {
         const unsigned short *ib = ( const unsigned short * )IndexBuffer->Buffer + StartIndex ;
@@ -2609,6 +3095,7 @@ extern int Graphics_Hardware_DrawIndexedPrimitiveLight_UseVertexBuffer_PF(
     }
     glEnd() ;
     return 0 ;
+#endif
 }
 
 // DeviceDirect_SetViewMatrix / SetWorldMatrix:
@@ -2710,22 +3197,43 @@ extern int Graphics_Hardware_SetDrawCustomBlendMode_PF( int BlendEnable, int Src
 extern int Graphics_Hardware_DrawSimpleQuadrangleGraphF_PF( const GRAPHICS_DRAW_DRAWSIMPLEQUADRANGLEGRAPHF_PARAM *Param, IMAGEDATA *Image, IMAGEDATA * /*BlendImage*/ )
 {
     if ( !Param || !Param->Vertex || Param->QuadrangleNum <= 0 ) return 0;
+
+    GLuint tex_id = 0 ;
+    if ( Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
+        IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
+        if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
+    }
+    int N = Param->QuadrangleNum * 6 ;  // 各 quad = 2 tri = 6 vertex
+#if defined(__APPLE__)
+    std::vector< float > buf( N * 8 ) ;
+    int bi = 0 ;
+    for ( int q = 0 ; q < Param->QuadrangleNum ; ++q ) {
+        const GRAPHICS_DRAW_DRAWSIMPLEANGLEGRAPHF_VERTEX *vs = &Param->Vertex[ q * 4 ] ;
+        int order[ 6 ] = { 0, 1, 2, 0, 2, 3 } ;
+        for ( int k = 0 ; k < 6 ; ++k ) {
+            const auto &v = vs[ order[ k ] ] ;
+            buf[ bi++ ] = v.x ; buf[ bi++ ] = v.y ;
+            buf[ bi++ ] = 1.0f ; buf[ bi++ ] = 1.0f ; buf[ bi++ ] = 1.0f ; buf[ bi++ ] = 1.0f ;
+            buf[ bi++ ] = v.u ; buf[ bi++ ] = v.v ;
+        }
+    }
+    dx_2d_mctex_draw_arrays( GL_TRIANGLES, buf.data(), N, tex_id, Param->TransFlag ) ;
+    return 0 ;
+#else
     Desktop_SetOrtho2D() ;
     if ( Param->TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
     else                    { glDisable( GL_BLEND ) ; }
-    bool tex = Desktop_BindImage2D( Image ) ;
+    bool tex = ( tex_id != 0 ) ;
+    if ( tex ) { glEnable( GL_TEXTURE_2D ) ; glBindTexture( GL_TEXTURE_2D, tex_id ) ; }
+    else       { glDisable( GL_TEXTURE_2D ) ; }
     glColor4ub( 255, 255, 255, 255 ) ;
-    // 四角形 1 個 = 4 頂点 = 2 三角形。GL_QUADS は WebGL 非対応なので
-    // GL_TRIANGLES で展開 (0,1,2 / 0,2,3)
     glBegin( GL_TRIANGLES ) ;
     for ( int q = 0 ; q < Param->QuadrangleNum ; q++ ) {
         const GRAPHICS_DRAW_DRAWSIMPLEANGLEGRAPHF_VERTEX *vs = &Param->Vertex[ q * 4 ] ;
-        // tri1: 0,1,2
         for ( int k : { 0, 1, 2 } ) {
             if ( tex ) glTexCoord2f( vs[ k ].u, vs[ k ].v ) ;
             glVertex2f( vs[ k ].x, vs[ k ].y ) ;
         }
-        // tri2: 0,2,3
         for ( int k : { 0, 2, 3 } ) {
             if ( tex ) glTexCoord2f( vs[ k ].u, vs[ k ].v ) ;
             glVertex2f( vs[ k ].x, vs[ k ].y ) ;
@@ -2733,11 +3241,23 @@ extern int Graphics_Hardware_DrawSimpleQuadrangleGraphF_PF( const GRAPHICS_DRAW_
     }
     glEnd() ;
     return 0 ;
+#endif
 }
 
 extern int Graphics_Hardware_DrawTriangle3D_PF( VECTOR Pos1, VECTOR Pos2, VECTOR Pos3, unsigned int Color, int FillFlag, int WriteZBufferFlag, RECT *DrawArea )
 {
     (void)DrawArea;
+#if defined(__APPLE__)
+    int R, G, B ; NS_GetColor2( Color, &R, &G, &B ) ;
+    float r = R / 255.0f, g = G / 255.0f, b = B / 255.0f ;
+    const float v[] = {
+        Pos1.x, Pos1.y, Pos1.z, r, g, b, 1.0f, 0.0f, 0.0f,
+        Pos2.x, Pos2.y, Pos2.z, r, g, b, 1.0f, 0.0f, 0.0f,
+        Pos3.x, Pos3.y, Pos3.z, r, g, b, 1.0f, 0.0f, 0.0f,
+    } ;
+    dx_3d_draw_arrays( FillFlag ? GL_TRIANGLES : GL_LINE_LOOP, v, 3, 0, 0, WriteZBufferFlag ) ;
+    return 0 ;
+#else
 #ifdef __EMSCRIPTEN__
     static int s_tri = 0;
     if ( s_tri++ < 5 ) {
@@ -2766,6 +3286,7 @@ extern int Graphics_Hardware_DrawTriangle3D_PF( VECTOR Pos1, VECTOR Pos2, VECTOR
     }
 #endif
     return 0 ;
+#endif
 }
 
 extern int Graphics_Hardware_DrawBillboard3D_PF( VECTOR Pos, float cx, float cy, float Size, float Angle, IMAGEDATA *Image, IMAGEDATA *BlendImage, int TransFlag, int WriteZBufferFlag, int Is3D, int IntFlag, RECT *DrawArea )
@@ -2775,8 +3296,10 @@ extern int Graphics_Hardware_DrawBillboard3D_PF( VECTOR Pos, float cx, float cy,
     IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
     if ( !tex->PF ) return -1 ;
 
+#if !defined(__APPLE__)
     Desktop_Apply3DMatrices() ;
     if ( WriteZBufferFlag ) glEnable( GL_DEPTH_TEST ) ; else glDisable( GL_DEPTH_TEST ) ;
+#endif
 
     // View 行列の逆から「右ベクトル (X)」「上ベクトル (Y)」をワールド空間で取り出し、
     // billboard quad に適用する。回転 Angle は view 前の quad を Z 軸周りに回転。
@@ -2807,6 +3330,16 @@ extern int Graphics_Hardware_DrawBillboard3D_PF( VECTOR Pos, float cx, float cy,
     float u1 = u0 + ( float )tex->UseWidth  / ( float )tex->TexWidth ;
     float v1 = v0 + ( float )tex->UseHeight / ( float )tex->TexHeight ;
 
+#if defined(__APPLE__)
+    const float v[] = {
+        wpx[0], wpy[0], wpz[0], 1.0f, 1.0f, 1.0f, 1.0f, u0, v0,
+        wpx[1], wpy[1], wpz[1], 1.0f, 1.0f, 1.0f, 1.0f, u1, v0,
+        wpx[2], wpy[2], wpz[2], 1.0f, 1.0f, 1.0f, 1.0f, u0, v1,
+        wpx[3], wpy[3], wpz[3], 1.0f, 1.0f, 1.0f, 1.0f, u1, v1,
+    } ;
+    dx_3d_draw_arrays( GL_TRIANGLE_STRIP, v, 4, ( GLuint )tex->PF->Texture.TextureBuffer, TransFlag, WriteZBufferFlag ) ;
+    return 0 ;
+#else
     if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
     glEnable( GL_TEXTURE_2D ) ;
     glBindTexture( GL_TEXTURE_2D, ( GLuint )tex->PF->Texture.TextureBuffer ) ;
@@ -2820,6 +3353,7 @@ extern int Graphics_Hardware_DrawBillboard3D_PF( VECTOR Pos, float cx, float cy,
     glBindTexture( GL_TEXTURE_2D, 0 ) ;
     glDisable( GL_TEXTURE_2D ) ;
     return 0 ;
+#endif
 }
 
 // DxLib VERTEX_3D は pos(x,y,z) + b,g,r,a + u,v。PrimitiveType:
@@ -2827,89 +3361,84 @@ extern int Graphics_Hardware_DrawBillboard3D_PF( VECTOR Pos, float cx, float cy,
 extern int Graphics_Hardware_DrawPrimitive_PF( const VERTEX_3D *Vertex, int VertexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag )
 {
     if ( !Vertex || VertexNum <= 0 ) return 0 ;
-    Desktop_Apply3DMatrices() ;
 
-    GLenum mode = GL_TRIANGLES ;
-    switch ( PrimitiveType ) {
-        case 1: mode = GL_POINTS        ; break ;
-        case 2: mode = GL_LINES         ; break ;
-        case 3: mode = GL_LINE_STRIP    ; break ;
-        case 4: mode = GL_TRIANGLES     ; break ;
-        case 5: mode = GL_TRIANGLE_STRIP; break ;
-        case 6: mode = GL_TRIANGLE_FAN  ; break ;
-        default: mode = GL_TRIANGLES    ; break ;
-    }
-
-    bool hasTex = false ;
+    GLenum mode = Desktop_PrimType( PrimitiveType ) ;
+    GLuint tex_id = 0 ;
     if ( Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
-        IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
-        if ( tex->PF ) {
-            glEnable( GL_TEXTURE_2D ) ;
-            glBindTexture( GL_TEXTURE_2D, ( GLuint )tex->PF->Texture.TextureBuffer ) ;
-            hasTex = true ;
-        }
+        IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
+        if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
     }
+#if defined(__APPLE__)
+    std::vector< float > buf( VertexNum * 9 ) ;
+    int bi = 0 ;
+    for ( int i = 0 ; i < VertexNum ; ++i ) {
+        const VERTEX_3D &v = Vertex[ i ] ;
+        buf[ bi++ ] = v.pos.x ; buf[ bi++ ] = v.pos.y ; buf[ bi++ ] = v.pos.z ;
+        buf[ bi++ ] = v.r / 255.0f ; buf[ bi++ ] = v.g / 255.0f ; buf[ bi++ ] = v.b / 255.0f ; buf[ bi++ ] = v.a / 255.0f ;
+        buf[ bi++ ] = v.u ; buf[ bi++ ] = v.v ;
+    }
+    dx_3d_draw_arrays( mode, buf.data(), VertexNum, tex_id, TransFlag, 1 ) ;
+    return 0 ;
+#else
+    Desktop_Apply3DMatrices() ;
+    if ( tex_id ) { glEnable( GL_TEXTURE_2D ) ; glBindTexture( GL_TEXTURE_2D, tex_id ) ; }
     if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
-
     glBegin( mode ) ;
     for ( int i = 0 ; i < VertexNum ; ++i ) {
         const VERTEX_3D &v = Vertex[ i ] ;
         glColor4ub( v.r, v.g, v.b, v.a ) ;
-        if ( hasTex ) glTexCoord2f( v.u, v.v ) ;
+        if ( tex_id ) glTexCoord2f( v.u, v.v ) ;
         glVertex3f( v.pos.x, v.pos.y, v.pos.z ) ;
     }
     glEnd() ;
-    if ( hasTex ) { glBindTexture( GL_TEXTURE_2D, 0 ) ; glDisable( GL_TEXTURE_2D ) ; }
+    if ( tex_id ) { glBindTexture( GL_TEXTURE_2D, 0 ) ; glDisable( GL_TEXTURE_2D ) ; }
     return 0 ;
+#endif
 }
 
-// DrawPrimitiveLight: VERTEX3D (pos/norm/dif/spc/uv) 版。ライティングは未実装
-// なので diffuse 色のみ使用 (dif) して DrawPrimitive と同等の fallback に。
+// DrawPrimitiveLight: VERTEX3D (pos/norm/dif/spc/uv) 版。 ライティングは Apple
+// Core Profile では shader-based の独自実装が必要。Apple では diffuse のみ使用。
 extern int Graphics_Hardware_DrawPrimitiveLight_PF( const VERTEX3D *Vertex, int VertexNum, int PrimitiveType, IMAGEDATA *Image, int TransFlag )
 {
     if ( !Vertex || VertexNum <= 0 ) return 0 ;
-    Desktop_Apply3DMatrices() ;
 
-    GLenum mode = GL_TRIANGLES ;
-    switch ( PrimitiveType ) {
-        case 1: mode = GL_POINTS        ; break ;
-        case 2: mode = GL_LINES         ; break ;
-        case 3: mode = GL_LINE_STRIP    ; break ;
-        case 4: mode = GL_TRIANGLES     ; break ;
-        case 5: mode = GL_TRIANGLE_STRIP; break ;
-        case 6: mode = GL_TRIANGLE_FAN  ; break ;
-        default: mode = GL_TRIANGLES    ; break ;
-    }
-    bool hasTex = false ;
+    GLenum mode = Desktop_PrimType( PrimitiveType ) ;
+    GLuint tex_id = 0 ;
     if ( Image && Image->Orig && Image->Orig->Hard.TexNum > 0 ) {
-        IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
-        if ( tex->PF ) {
-            glEnable( GL_TEXTURE_2D ) ;
-            glBindTexture( GL_TEXTURE_2D, ( GLuint )tex->PF->Texture.TextureBuffer ) ;
-            hasTex = true ;
-        }
+        IMAGEDATA_ORIG_HARD_TEX *t = &Image->Orig->Hard.Tex[ 0 ] ;
+        if ( t->PF ) tex_id = ( GLuint )t->PF->Texture.TextureBuffer ;
     }
+#if defined(__APPLE__)
+    std::vector< float > buf( VertexNum * 9 ) ;
+    int bi = 0 ;
+    for ( int i = 0 ; i < VertexNum ; ++i ) {
+        const VERTEX3D &v = Vertex[ i ] ;
+        buf[ bi++ ] = v.pos.x ; buf[ bi++ ] = v.pos.y ; buf[ bi++ ] = v.pos.z ;
+        buf[ bi++ ] = v.dif.r / 255.0f ; buf[ bi++ ] = v.dif.g / 255.0f ; buf[ bi++ ] = v.dif.b / 255.0f ; buf[ bi++ ] = v.dif.a / 255.0f ;
+        buf[ bi++ ] = v.u ; buf[ bi++ ] = v.v ;
+    }
+    dx_3d_draw_arrays( mode, buf.data(), VertexNum, tex_id, TransFlag, 1 ) ;
+    return 0 ;
+#else
+    Desktop_Apply3DMatrices() ;
+    if ( tex_id ) { glEnable( GL_TEXTURE_2D ) ; glBindTexture( GL_TEXTURE_2D, tex_id ) ; }
     if ( TransFlag ) { glEnable( GL_BLEND ) ; glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ; }
-
-    // Light 版: GL_COLOR_MATERIAL を有効化して dif を ambient + diffuse に
-    // マップ、glNormal で法線を渡す。GL_LIGHTING は user 側で SetUseLighting で
-    // 制御済の前提
     GLboolean prev_color_mat = glIsEnabled( GL_COLOR_MATERIAL ) ;
     glEnable( GL_COLOR_MATERIAL ) ;
     glColorMaterial( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
-
     glBegin( mode ) ;
     for ( int i = 0 ; i < VertexNum ; ++i ) {
         const VERTEX3D &v = Vertex[ i ] ;
         glColor4ub( v.dif.r, v.dif.g, v.dif.b, v.dif.a ) ;
         glNormal3f( v.norm.x, v.norm.y, v.norm.z ) ;
-        if ( hasTex ) glTexCoord2f( v.u, v.v ) ;
+        if ( tex_id ) glTexCoord2f( v.u, v.v ) ;
         glVertex3f( v.pos.x, v.pos.y, v.pos.z ) ;
     }
     glEnd() ;
     if ( !prev_color_mat ) glDisable( GL_COLOR_MATERIAL ) ;
-    if ( hasTex ) { glBindTexture( GL_TEXTURE_2D, 0 ) ; glDisable( GL_TEXTURE_2D ) ; }
+    if ( tex_id ) { glBindTexture( GL_TEXTURE_2D, 0 ) ; glDisable( GL_TEXTURE_2D ) ; }
     return 0 ;
+#endif
 }
 
 // --- Tier 4a: Light / Fog (fixed-function GL) -----------------------------
