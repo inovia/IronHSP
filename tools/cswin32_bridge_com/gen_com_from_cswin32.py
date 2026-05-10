@@ -194,10 +194,14 @@ class ComMethod:
     def __init__(self, slot: int, name: str, ret_cs: str,
                  args_cs: str, doc: Dict[str, str]):
         self.slot = slot
-        self.name = name
+        self.name = name             # MSDN method name; key for doc lookup
         self.ret_cs = ret_cs
         self.args_cs = args_cs
         self.doc = doc
+        # Symbol name to emit in `.as` / `.hs` (HSP can't register two
+        # `#comfunc` entries with the same name, so overloads get `_at`,
+        # `_at2`, ... appended). Set by assign_emit_names() after scan.
+        self.emit_name: str = name
 
     def hsp_args(self) -> List[Tuple[str, str]]:
         """Return list of (hsp_type, arg_name)."""
@@ -218,13 +222,18 @@ class ComMethod:
 
 class ComInterface:
     def __init__(self, name: str, iid: str, base: int,
-                 methods: List[ComMethod], summary: str, category: str):
+                 methods: List[ComMethod], summary: str, category: str,
+                 parents: Optional[List[str]] = None):
         self.name = name
         self.iid = iid            # canonical "xxxxxxxx-xxxx-..." (lower/upper)
         self.base = base          # starting vtable slot (3 or 7)
         self.methods = methods
         self.summary = summary
         self.category = category  # e.g. "ole", "shell", "dialog"
+        # Parent interfaces in declaration order (e.g. ["ID2D1Resource", "ID2D1Brush"]).
+        # CsWin32 emits inherited methods in the derived interface's body without
+        # docstrings, so we need this chain to resolve docs at emit time.
+        self.parents = parents or []
 
 
 def split_top_commas(s: str) -> List[str]:
@@ -276,6 +285,14 @@ def scan_interfaces(sources: Dict[Path, str]) -> List[ComInterface]:
         hm = INTERFACE_HEADER_RE.search(text)
         if not hm: continue
         name = hm.group(1)
+        # Parent interfaces (CsWin32 fully-qualifies them, e.g.
+        # "winmdroot.Graphics.Direct2D.ID2D1Resource,winmdroot...ID2D1Brush").
+        parents: List[str] = []
+        if hm.group(2):
+            for raw in hm.group(2).split(","):
+                bare = short_type(raw).strip()
+                if bare:
+                    parents.append(bare)
 
         # Grab the interface body: everything between `{` and matching `}`
         start = hm.end()  # right after `{`
@@ -343,7 +360,8 @@ def scan_interfaces(sources: Dict[Path, str]) -> List[ComInterface]:
             summary = doc.get("summary", "")
 
         if methods:
-            ifaces.append(ComInterface(name, iid, base, methods, summary, category))
+            ifaces.append(ComInterface(name, iid, base, methods, summary,
+                                       category, parents))
             _INTERFACE_NAMES.add(name)
 
     return ifaces
@@ -352,6 +370,29 @@ def scan_interfaces(sources: Dict[Path, str]) -> List[ComInterface]:
 # ----------------------------------------------------------------------------
 # Emitters
 # ----------------------------------------------------------------------------
+
+def assign_emit_names(ifaces: List[ComInterface]) -> None:
+    """Disambiguate overloaded methods within each interface.
+
+    HSP can't register two `#comfunc` entries with the same symbol name. When
+    CsWin32 emits two methods with the same MSDN name (e.g. IDWriteTextLayout
+    has both the inherited `GetFontCollection(out coll)` and the overload
+    `GetFontCollection(uint pos, out coll, DWRITE_TEXT_RANGE*)`), the second
+    becomes `Method_at`, third `Method_at2`, etc. Doc lookups still use the
+    original `m.name` so MSDN translations resolve correctly.
+    """
+    for iface in ifaces:
+        used: Dict[str, int] = {}
+        for m in iface.methods:
+            n = used.get(m.name, 0)
+            if n == 0:
+                m.emit_name = m.name
+            elif n == 1:
+                m.emit_name = f"{m.name}_at"
+            else:
+                m.emit_name = f"{m.name}_at{n}"
+            used[m.name] = n + 1
+
 
 def emit_as(ifaces: List[ComInterface], category: str) -> str:
     L: List[str] = []
@@ -364,7 +405,9 @@ def emit_as(ifaces: List[ComInterface], category: str) -> str:
     ap(";============================================================")
     ap("")
     ap(f"#ifndef __com_{category}_gen2_as__")
-    ap(f"#define __com_{category}_gen2_as__")
+    # `global` is required so the include guard is visible from outside the
+    # module that ends up #include'ing this .as.
+    ap(f"#define global __com_{category}_gen2_as__")
     ap("")
     for iface in ifaces:
         ap(f";--- {iface.name}")
@@ -376,7 +419,7 @@ def emit_as(ifaces: List[ComInterface], category: str) -> str:
         for m in iface.methods:
             args = m.hsp_args()
             types_txt = ", ".join(t for (t, _n) in args)
-            sig = f"{iface.name}_{m.name}"
+            sig = f"{iface.name}_{m.emit_name}"
             if types_txt:
                 ap(f"#comfunc {sig} {m.slot} {types_txt}")
             else:
@@ -404,22 +447,75 @@ def wrap_jp(text: str, width: int = 70) -> str:
     return "\n".join(out)
 
 
-def emit_hs(ifaces: List[ComInterface], category: str) -> str:
+def lookup_field(iface_name: str, method_name: str, field: str,
+                 m_doc: Dict[str, str],
+                 iface_by_name: Dict[str, ComInterface],
+                 _seen: Optional[set] = None) -> str:
+    """Look up a doc field with inheritance fallback.
+
+    field: 'summary' | 'returns' | 'remarks' | 'param:<argname>'
+
+    CsWin32 re-emits inherited methods in the derived interface's body but drops
+    their docstrings, so `com::<derived>::<method>::*` is empty. Walk the parent
+    chain (DFS, declaration order) and return the first non-empty hit, preferring
+    JA over EN at each level.
+    """
+    if _seen is None:
+        _seen = set()
+    if iface_name in _seen:
+        return ""
+    _seen.add(iface_name)
+
+    # docs_ja.json key shape: "com::Iface::Method::summary"
+    # or "com::Iface::Method::param::argname"
+    key_field = field.replace(":", "::") if field.startswith("param:") else field
+    full_key = f"com::{iface_name}::{method_name}::{key_field}"
+    v = _DOCS_JA.get(full_key)
+    if v:
+        return v
+    v = m_doc.get(field)
+    if v:
+        return v
+
+    iface = iface_by_name.get(iface_name)
+    if not iface:
+        return ""
+    for parent_name in iface.parents:
+        parent = iface_by_name.get(parent_name)
+        if not parent:
+            continue
+        parent_doc: Dict[str, str] = {}
+        for pm in parent.methods:
+            if pm.name == method_name:
+                parent_doc = pm.doc
+                break
+        v = lookup_field(parent_name, method_name, field, parent_doc,
+                         iface_by_name, _seen)
+        if v:
+            return v
+    return ""
+
+
+def emit_hs(ifaces: List[ComInterface], category: str,
+            iface_by_name: Dict[str, ComInterface]) -> str:
     L: List[str] = []
     ap = L.append
     ap(";============================================================")
     ap(f";  COM ({category}) ヘルプ — CsWin32 / win32metadata から自動抽出")
     ap(";  docs_ja.json に日本語訳があればそちらを使用、無ければ英語原文。")
+    ap(";  継承メソッドは親インターフェースの doc に fallback。")
     ap(";============================================================")
     ap("")
     for iface in ifaces:
         for m in iface.methods:
-            key_base = f"com::{iface.name}::{m.name}"
-            summary = ja(f"{key_base}::summary", m.doc.get("summary", ""))
-            ret_doc = ja(f"{key_base}::returns", m.doc.get("returns", ""))
-            remarks = ja(f"{key_base}::remarks", m.doc.get("remarks", ""))
+            summary = lookup_field(iface.name, m.name, "summary",
+                                   m.doc, iface_by_name)
+            ret_doc = lookup_field(iface.name, m.name, "returns",
+                                   m.doc, iface_by_name)
+            remarks = lookup_field(iface.name, m.name, "remarks",
+                                   m.doc, iface_by_name)
             ap("%index")
-            ap(f"{iface.name}_{m.name}")
+            ap(f"{iface.name}_{m.emit_name}")
             if summary:
                 ap(summary.splitlines()[0])
             else:
@@ -432,8 +528,8 @@ def emit_hs(ifaces: List[ComInterface], category: str) -> str:
             ap(prm_names)
             ap(f"this : [comobj] {iface.name} インターフェースの COM オブジェクト変数")
             for (hsp_ty, aname) in args:
-                doc_ja = ja(f"{key_base}::param::{aname}",
-                            m.doc.get(f"param:{aname}", ""))
+                doc_ja = lookup_field(iface.name, m.name, f"param:{aname}",
+                                      m.doc, iface_by_name)
                 first = doc_ja.splitlines()[0] if doc_ja else ""
                 ap(f"{aname} : [{hsp_ty}] {first}")
             ap("%inst")
@@ -510,7 +606,12 @@ def main() -> int:
     ifaces = scan_interfaces(sources)
     print(f"[scan] interfaces: {len(ifaces)}")
 
+    assign_emit_names(ifaces)
+
     dump_docs_en(ifaces)
+
+    # Build name → interface index for inheritance-aware doc lookup.
+    iface_by_name: Dict[str, ComInterface] = {i.name: i for i in ifaces}
 
     # Group by category
     by_cat: Dict[str, List[ComInterface]] = {}
@@ -519,7 +620,7 @@ def main() -> int:
 
     for cat, lst in sorted(by_cat.items()):
         as_text = emit_as(lst, cat)
-        hs_text = emit_hs(lst, cat)
+        hs_text = emit_hs(lst, cat, iface_by_name)
         as_path = OUT_AS_DIR / f"com_{cat}_gen2.as"
         hs_path = OUT_HS_DIR / f"win32_com_{cat}_gen2.hs"
         nb1 = write_sjis_crlf(as_path, as_text)

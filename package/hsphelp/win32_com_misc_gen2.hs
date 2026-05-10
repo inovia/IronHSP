@@ -1,34 +1,14 @@
-; ============================================================
-;   com_misc.dll ƒwƒ‹ƒv (CsWin32 / win32metadata ‚©‚ç©“®’Šo)
-;   docs_ja.json ‚É“ú–{Œê–ó‚ª‚ ‚ê‚Î‚»‚¿‚ç‚ğg—pA–³‚¯‚ê‚Î‰pŒêŒ´•¶B
-;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
-; ============================================================
-
-%type
-Šg’£–½—ß
-%ver
-1.0
-%dll
-com_misc.dll
-%date
-2026/04/16
-%author
-IronHSP / CsWin32 bridge
-%url
-https://github.com/inovia/IronHSP
-%port
-Win
-
-%note
-Win32 API ‚Ì com_misc.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
-hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
-
-%group
-Win32API
+;============================================================
+;  COM (misc) ƒwƒ‹ƒv ? CsWin32 / win32metadata ‚©‚ç©“®’Šo
+;  docs_ja.json ‚É“ú–{Œê–ó‚ª‚ ‚ê‚Î‚»‚¿‚ç‚ğg—pA–³‚¯‚ê‚Î‰pŒêŒ´•¶B
+;  Œp³ƒƒ\ƒbƒh‚ÍeƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì doc ‚É fallbackB
+;============================================================
 
 %index
 IAdviseSink_OnDataChange
 ƒf[ƒ^ƒIƒuƒWƒFƒNƒg“à‚Ìƒf[ƒ^‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğAŒ»İ“o˜^‚³‚ê‚Ä‚¢‚éƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚é‚½‚ß‚ÉƒT[ƒo[‚©‚çŒÄ‚Ño‚³‚ê‚éB
+%group
+COM misc / IAdviseSink
 %prm
 this, pFormatetc, pStgmed
 this : [comobj] IAdviseSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -54,6 +34,8 @@ IStorage ‚â IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğw‚µ‚Ä‚¢‚éê‡AƒVƒ“ƒN‚ÍQÆƒJƒEƒ“ƒg‚ğƒCƒ“
 %index
 IAdviseSink_OnViewChange
 ƒrƒ…[‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğAƒIƒuƒWƒFƒNƒg‚É“o˜^‚³‚ê‚½ƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚éB
+%group
+COM misc / IAdviseSink
 %prm
 this, dwAspect, lindex
 this : [comobj] IAdviseSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -77,6 +59,8 @@ IAdviseSink::OnViewChange ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·BOnViewChange
 %index
 IAdviseSink_OnRename
 ƒIƒuƒWƒFƒNƒg‚Ì–¼‘O‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğA“o˜^‚³‚ê‚½‚·‚×‚Ä‚ÌƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚é‚½‚ß‚ÉƒT[ƒo[‚©‚çŒÄ‚Ño‚³‚ê‚éB
+%group
+COM misc / IAdviseSink
 %prm
 this, pmk
 this : [comobj] IAdviseSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -93,6 +77,8 @@ OLE ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Í’ÊíAƒŠƒ“ƒNƒ\[ƒX‚Ü‚½‚Í‚»‚ÌƒRƒ“ƒeƒi‚Ì–¼‘O•ÏX’Ê’m‚ğó‚¯
 %index
 IAdviseSink_OnSave
 ƒIƒuƒWƒFƒNƒg‚ª•Û‘¶‚³‚ê‚½‚±‚Æ‚ğA“o˜^‚³‚ê‚½‚·‚×‚Ä‚ÌƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚é‚½‚ß‚ÉƒT[ƒo[‚©‚çŒÄ‚Ño‚³‚ê‚éB
+%group
+COM misc / IAdviseSink
 %prm
 this
 this : [comobj] IAdviseSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -111,6 +97,8 @@ ADVFCACHE_ONSAVE
 %index
 IAdviseSink_OnClose
 ƒIƒuƒWƒFƒNƒg‚ªÀsó‘Ô‚©‚çƒ[ƒhó‘Ô‚Ö•Ï‰»‚µ‚½‚±‚Æ‚ğA“o˜^‚³‚ê‚½‚·‚×‚Ä‚ÌƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚é‚½‚ß‚ÉƒT[ƒo[‚©‚çŒÄ‚Ño‚³‚ê‚éB
+%group
+COM misc / IAdviseSink
 %prm
 this
 this : [comobj] IAdviseSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -127,6 +115,8 @@ OLE
 %index
 IBindCtx_RegisterObjectBound
 ƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ª‰ğ•ú‚³‚ê‚é‚Ü‚ÅƒIƒuƒWƒFƒNƒg‚ªƒAƒNƒeƒBƒu‚Ì‚Ü‚Ü•Û‚½‚ê‚é‚æ‚¤A‚»‚ÌƒIƒuƒWƒFƒNƒg‚ğƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚É“o˜^‚·‚éB
+%group
+COM misc / IBindCtx
 %prm
 this, punk
 this : [comobj] IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -154,6 +144,8 @@ IRunningObjectTable::GetObject ‚ğŒÄ‚Ño‚µ‚ÄƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğæ“¾‚Å‚«‚
 %index
 IBindCtx_RevokeObjectBound
 RegisterObjectBound ‚ÌŒÄ‚Ño‚µ‚ğæ‚èÁ‚µAƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚©‚çƒIƒuƒWƒFƒNƒg‚ğíœ‚·‚éB
+%group
+COM misc / IBindCtx
 %prm
 this, punk
 this : [comobj] IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -172,6 +164,8 @@ RegisterObjectBound ‚ÌŒÄ‚Ño‚µ‚ğæ‚èÁ‚µAƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚©‚çƒIƒuƒWƒFƒNƒg‚ğ
 %index
 IBindCtx_ReleaseBoundObjects
 RegisterObjectBound ‚ÌŒÄ‚Ño‚µ‚ÅˆÈ‘O‚É“o˜^‚³‚ê‚½‚·‚×‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ‰ğ•ú‚·‚éB
+%group
+COM misc / IBindCtx
 %prm
 this
 this : [comobj] IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -190,6 +184,8 @@ Release ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·B
 %index
 IBindCtx_SetBindOptions
 ƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒoƒCƒ“ƒhƒpƒ‰ƒ[ƒ^[‚ÉV‚µ‚¢’l‚ğİ’è‚·‚éB
+%group
+COM misc / IBindCtx
 %prm
 this, pbindopts
 this : [comobj] IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -212,6 +208,8 @@ IBindCtx::GetBindOptions ‚ğŒÄ‚Ño‚µ‚Ä‚±‚ê‚ç‚Ìƒpƒ‰ƒ[ƒ^[‚ğæ“¾‚Å‚«‚éBŒÄ‚Ño‚µ‘
 %index
 IBindCtx_GetBindOptions
 ‚±‚ÌƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒoƒCƒ“ƒhƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IBindCtx
 %prm
 this, pbindopts
 this : [comobj] IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -233,6 +231,8 @@ cbStruct ƒƒ“ƒo[‚ğ\‘¢‘Ì‚ÌƒTƒCƒY‚É‰Šú‰»‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
 %index
 IBindCtx_GetRunningObjectTable
 ‚±‚ÌƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ª“®ì‚µ‚Ä‚¢‚éƒRƒ“ƒsƒ…[ƒ^[‚Ìƒ‰ƒ“ƒjƒ“ƒOƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^[‚ğæ“¾‚·‚éB
+%group
+COM misc / IBindCtx
 %prm
 this, pprot
 this : [comobj] IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -258,6 +258,8 @@ GetRunningObjectTable ŠÖ”‚ğg‚í‚¸‚É‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB‚±‚ê‚É‚æ‚è
 %index
 IBindCtx_RegisterObjectParam
 ƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ì•¶š—ñƒL[•t‚«ƒ|ƒCƒ“ƒ^[ƒe[ƒuƒ‹‚ÅAƒIƒuƒWƒFƒNƒg‚ğ•¶š—ñƒL[‚ÉŠÖ˜A•t‚¯‚éB
+%group
+COM misc / IBindCtx
 %prm
 this, pszKey, punk
 this : [comobj] IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -281,6 +283,8 @@ RegisterObjectParam ‚ÍV‚µ‚¢ƒ‚ƒjƒJƒNƒ‰ƒX‚ğÀ‘•‚·‚é‘¤iIMoniker
 %index
 IBindCtx_GetObjectParam
 ƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ì•¶š—ñƒL[•t‚«ƒ|ƒCƒ“ƒ^[ƒe[ƒuƒ‹‚ÅAw’èƒL[‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^[‚ğæ“¾‚·‚éB
+%group
+COM misc / IBindCtx
 %prm
 this, pszKey, ppunk
 this : [comobj] IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -305,6 +309,8 @@ CLSID ‚Ì•¶š—ñŒ`®‚Ån‚Ü‚éƒL[–¼‚ğg—p‚·‚é‚×‚«‚Å‚ ‚éiStringFromCLSID ŠÖ”‚ğQÆ
 %index
 IBindCtx_EnumObjectParam
 ƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ì•¶š—ñƒL[•t‚«ƒ|ƒCƒ“ƒ^[ƒe[ƒuƒ‹‚ÌƒL[‚ğ—ñ‹“‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğæ“¾‚·‚éB
+%group
+COM misc / IBindCtx
 %prm
 this, ppenum
 this : [comobj] IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -325,6 +331,8 @@ ppenum : [comobj] —ñ‹“q‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^[‚ğó‚¯æ‚é IEnumString* ƒ|
 %index
 IBindCtx_RevokeObjectParam
 ƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ì•¶š—ñƒL[•t‚«ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹‚©‚çAw’èƒL[‚Æ‚»‚ê‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒ|ƒCƒ“ƒ^[‚ğíœ‚·‚éB‚±‚ÌƒL[‚Í–‘O‚É RegisterObjectParam ‚ÌŒÄ‚Ño‚µ‚Åƒe[ƒuƒ‹‚É‘}“ü‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+%group
+COM misc / IBindCtx
 %prm
 this, pszKey
 this : [comobj] IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -345,6 +353,8 @@ RegisterObjectParam ‚ÌŒÄ‚Ño‚µ‚Åƒe[ƒuƒ‹‚É‘}“ü‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 %index
 IBinding_Abort
 IBinding::Abort (vtable slot 3)
+%group
+COM misc / IBinding
 %prm
 this
 this : [comobj] IBinding ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -354,6 +364,8 @@ this : [comobj] IBinding ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IBinding_Suspend
 IBinding::Suspend (vtable slot 4)
+%group
+COM misc / IBinding
 %prm
 this
 this : [comobj] IBinding ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -363,6 +375,8 @@ this : [comobj] IBinding ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IBinding_Resume
 IBinding::Resume (vtable slot 5)
+%group
+COM misc / IBinding
 %prm
 this
 this : [comobj] IBinding ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -372,6 +386,8 @@ this : [comobj] IBinding ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IBinding_SetPriority
 IBinding::SetPriority (vtable slot 6)
+%group
+COM misc / IBinding
 %prm
 this, nPriority
 this : [comobj] IBinding ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -382,6 +398,8 @@ nPriority : [int]
 %index
 IBinding_GetPriority
 IBinding::GetPriority (vtable slot 7)
+%group
+COM misc / IBinding
 %prm
 this, pnPriority
 this : [comobj] IBinding ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -392,6 +410,8 @@ pnPriority : [int]
 %index
 IBinding_GetBindResult
 IBinding::GetBindResult (vtable slot 8)
+%group
+COM misc / IBinding
 %prm
 this, pclsidProtocol, pdwResult, pszResult, pdwReserved
 this : [comobj] IBinding ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -405,6 +425,8 @@ pdwReserved : [int]
 %index
 IBindStatusCallback_OnStartBinding
 IBindStatusCallback::OnStartBinding (vtable slot 3)
+%group
+COM misc / IBindStatusCallback
 %prm
 this, dwReserved, pib
 this : [comobj] IBindStatusCallback ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -416,6 +438,8 @@ pib : [comobj]
 %index
 IBindStatusCallback_GetPriority
 IBindStatusCallback::GetPriority (vtable slot 4)
+%group
+COM misc / IBindStatusCallback
 %prm
 this, pnPriority
 this : [comobj] IBindStatusCallback ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -426,6 +450,8 @@ pnPriority : [int]
 %index
 IBindStatusCallback_OnLowResource
 IBindStatusCallback::OnLowResource (vtable slot 5)
+%group
+COM misc / IBindStatusCallback
 %prm
 this, reserved
 this : [comobj] IBindStatusCallback ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -436,6 +462,8 @@ reserved : [int]
 %index
 IBindStatusCallback_OnProgress
 IBindStatusCallback::OnProgress (vtable slot 6)
+%group
+COM misc / IBindStatusCallback
 %prm
 this, ulProgress, ulProgressMax, ulStatusCode, szStatusText
 this : [comobj] IBindStatusCallback ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -449,6 +477,8 @@ szStatusText : [wstr]
 %index
 IBindStatusCallback_OnStopBinding
 IBindStatusCallback::OnStopBinding (vtable slot 7)
+%group
+COM misc / IBindStatusCallback
 %prm
 this, hresult, szError
 this : [comobj] IBindStatusCallback ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -460,6 +490,8 @@ szError : [wstr]
 %index
 IBindStatusCallback_GetBindInfo
 IBindStatusCallback::GetBindInfo (vtable slot 8)
+%group
+COM misc / IBindStatusCallback
 %prm
 this, grfBINDF, pbindinfo
 this : [comobj] IBindStatusCallback ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -471,6 +503,8 @@ pbindinfo : [int]
 %index
 IBindStatusCallback_OnDataAvailable
 IBindStatusCallback::OnDataAvailable (vtable slot 9)
+%group
+COM misc / IBindStatusCallback
 %prm
 this, grfBSCF, dwSize, pformatetc, pstgmed
 this : [comobj] IBindStatusCallback ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -484,6 +518,8 @@ pstgmed : [int]
 %index
 IBindStatusCallback_OnObjectAvailable
 IBindStatusCallback::OnObjectAvailable (vtable slot 10)
+%group
+COM misc / IBindStatusCallback
 %prm
 this, riid, punk
 this : [comobj] IBindStatusCallback ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -494,17 +530,22 @@ punk : [int]
 
 %index
 ID2D1Bitmap_GetFactory
-ID2D1Bitmap::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1Bitmap
 %prm
 this, factory
 this : [comobj] ID2D1Bitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1Bitmap_GetSize
 ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹ (DIP) ’PˆÊ‚Å‚Ìƒrƒbƒgƒ}ƒbƒv‚ÌƒTƒCƒY‚ğ•Ô‚·B
+%group
+COM misc / ID2D1Bitmap
 %prm
 this
 this : [comobj] ID2D1Bitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -522,6 +563,8 @@ DIP ‚Í 1/96 ƒCƒ“ƒ`‚Å‚ ‚éBƒfƒoƒCƒXƒsƒNƒZƒ‹’PˆÊ‚ÌƒTƒCƒY‚ğæ“¾‚·‚é‚É‚Í ID2D1Bitmap
 %index
 ID2D1Bitmap_GetPixelSize
 ƒfƒoƒCƒXˆË‘¶’PˆÊiƒsƒNƒZƒ‹j‚Å‚Ìƒrƒbƒgƒ}ƒbƒv‚ÌƒTƒCƒY‚ğ•Ô‚·B
+%group
+COM misc / ID2D1Bitmap
 %prm
 this
 this : [comobj] ID2D1Bitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -535,6 +578,8 @@ this : [comobj] ID2D1Bitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1Bitmap_GetPixelFormat
 ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1Bitmap
 %prm
 this
 this : [comobj] ID2D1Bitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -548,6 +593,8 @@ this : [comobj] ID2D1Bitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1Bitmap_GetDpi
 ƒrƒbƒgƒ}ƒbƒv‚Ì DPI (dots per inch) ‚ğ•Ô‚·B
+%group
+COM misc / ID2D1Bitmap
 %prm
 this, dpiX, dpiY
 this : [comobj] ID2D1Bitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -560,6 +607,8 @@ dpiY : [float] Œ^: FLOAT* ‰æ‘œ‚Ì‚’¼ DPIB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ÌŠi”[—Ìˆæ‚ÍŒÄ‚Ño‚µ‘¤
 %index
 ID2D1Bitmap_CopyFromBitmap
 w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚©‚çw’è‚µ‚½—Ìˆæ‚ğŒ»İ‚Ìƒrƒbƒgƒ}ƒbƒv‚ÉƒRƒs[‚·‚éB
+%group
+COM misc / ID2D1Bitmap
 %prm
 this, destPoint, bitmap, srcRect
 this : [comobj] ID2D1Bitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -585,6 +634,8 @@ HRESULT ‚Æƒ^ƒOó‘Ô‚ÍŸ‚Ì EndDraw ‚Ü‚½‚Í Flush ‚ÌŒÄ‚Ño‚µ‚É•Ô‚³‚ê‚éBWindows 8.
 %index
 ID2D1Bitmap_CopyFromRenderTarget
 w’è‚µ‚½ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ìw’è—Ìˆæ‚ğŒ»İ‚Ìƒrƒbƒgƒ}ƒbƒv‚ÉƒRƒs[‚·‚éB
+%group
+COM misc / ID2D1Bitmap
 %prm
 this, destPoint, renderTarget, srcRect
 this : [comobj] ID2D1Bitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -610,6 +661,8 @@ D2DERR_RENDER_TARGET_HAS_LAYER_OR_CLIPRECT ‚ğ•Ô‚·B
 %index
 ID2D1Bitmap_CopyFromMemory
 ƒƒ‚ƒŠã‚Ìw’è—Ìˆæ‚ğŒ»İ‚Ìƒrƒbƒgƒ}ƒbƒv‚ÉƒRƒs[‚·‚éB
+%group
+COM misc / ID2D1Bitmap
 %prm
 this, dstRect, srcData, pitch
 this : [comobj] ID2D1Bitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -635,56 +688,98 @@ HRESULT ‚Æƒ^ƒOó‘Ô‚ÍŸ‚Ì EndDraw ‚Ü‚½‚Í Flush ‚ÌŒÄ‚Ño‚µ‚É•Ô‚³‚ê‚éBWindows 8.
 
 %index
 ID2D1BitmapBrush_GetFactory
-ID2D1BitmapBrush::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapBrush
 %prm
 this, factory
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1BitmapBrush_SetOpacity
-ID2D1BitmapBrush::SetOpacity (vtable slot 4)
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğİ’è‚·‚éB
+%group
+COM misc / ID2D1BitmapBrush
 %prm
 this, opacity
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-opacity : [float] 
+opacity : [float] Œ^: FLOAT ƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğ¦‚· 0 ‚©‚ç 1 ‚Ü‚Å‚Ì’lB‚±‚Ì’l‚Íƒuƒ‰ƒV‚É‚æ‚Á‚Ä“h‚è‚Â‚Ô‚³‚ê‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹‚ÌƒAƒ‹ƒtƒ@’l‚É‘Î‚·‚éüŒ`ƒXƒP[ƒŠƒ“ƒOŒW”‚Æ‚µ‚Äì—p‚·‚é’è””{—¦‚Å‚ ‚éB•s“§–¾“x‚Ì’l‚ÍæZ‘O‚É 0?1 ‚Ì”ÍˆÍ‚ÉƒNƒ‰ƒ“ƒv‚³‚ê‚éB
 %inst
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğİ’è‚·‚éB
 
 
 %index
 ID2D1BitmapBrush_SetTransform
-ID2D1BitmapBrush::SetTransform (vtable slot 5)
+ƒuƒ‰ƒV‚É“K—p‚·‚é•ÏŠ·‚ğİ’è‚·‚éB
+%group
+COM misc / ID2D1BitmapBrush
 %prm
 this, transform
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 transform : [var] 
 %inst
+ƒuƒ‰ƒV‚É“K—p‚·‚é•ÏŠ·‚ğİ’è‚·‚éB
+
+[”õl]
+
+ƒuƒ‰ƒV‚Å•`‰æ‚·‚éÛ‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌÀ•W‹óŠÔ‚Å“h‚è‚Â‚Ô‚µ‚ªs‚í‚ê‚éBƒuƒ‰ƒV‚Í•`‰æ‘ÎÛ‚É®—ñ‚·‚é‚æ‚¤©“®“I‚ÉˆÊ’u‚ğ‡‚í‚¹‚é‚í‚¯‚Å‚Í‚È‚­AƒfƒtƒHƒ‹ƒg‚Å‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ´“_
+(0, 0)
+‚©‚ç•`‰æ‚ğŠJn‚·‚éB[**ID2D1LinearGradientBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1lineargradientbrush)
+‚Å’è‹`‚³‚ê‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÍAŠJn“_‚ÆI—¹“_‚ğİ’è‚·‚é‚±‚Æ‚Å‘ÎÛ—Ìˆæ‚ÖuˆÚ“®v‚Å‚«‚éB“¯—l‚É
+[**ID2D1RadialGradientBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1radialgradientbrush)
+‚Å’è‹`‚³‚ê‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Í’†S‚Æ”¼Œa‚ğ•ÏX‚·‚é‚±‚Æ‚ÅˆÚ“®‚Å‚«‚éB[**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
+‚Ì“à—e‚ğ“h‚è‚Â‚Ô‚µ‘ÎÛ—Ìˆæ‚É®—ñ‚³‚¹‚½‚¢ê‡‚Í **SetTransform**
+ƒƒ\ƒbƒh‚ğg‚Á‚Äƒrƒbƒgƒ}ƒbƒv‚ğ–Ú“I‚ÌˆÊ’u‚Ö•½sˆÚ“®‚Å‚«‚éB‚±‚Ì•ÏŠ·‚Íƒuƒ‰ƒV‚Ì‚İ‚Éì—p‚µAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É‚æ‚Á‚Ä•`‰æ‚³‚ê‚é‘¼‚ÌƒRƒ“ƒeƒ“ƒc‚É‚Í‰e‹¿‚µ‚È‚¢BŸ‚Ì}‚Í
+(100, 100) ‚ÉˆÊ’u‚·‚é‹éŒ`‚ğ
+[**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
+‚Å“h‚è‚Â‚Ô‚µ‚½‚Æ‚«‚ÌŒø‰Ê‚ğ¦‚·B¶‚Ì}‚Íƒuƒ‰ƒV‚ğ•ÏŠ·‚µ‚È‚¢‚Ü‚Ü‹éŒ`‚ğ“h‚è‚Â‚Ô‚µ‚½Œ‹‰Ê‚ÅAƒrƒbƒgƒ}ƒbƒv‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ´“_‚É•`‰æ‚³‚ê‚éB‚»‚ÌŒ‹‰ÊA‹éŒ`‚É‚Íƒrƒbƒgƒ}ƒbƒv‚Ìˆê•”‚µ‚©Œ»‚ê‚È‚¢B‰E‚Ì}‚Í
+[**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
+‚ğ•ÏŠ·‚µ‚Ä‚»‚Ì“à—e‚ğ‰E‚Ö 50 ƒsƒNƒZƒ‹A‰º‚Ö 50
+ƒsƒNƒZƒ‹‚¸‚ç‚µ‚½Œ‹‰Ê‚ÅAƒrƒbƒgƒ}ƒbƒv‚ª‹éŒ`‚ğ–„‚ß‚Ä‚¢‚éB![•ÏŠ·‚µ‚Ä‚¢‚È‚¢ƒuƒ‰ƒV‚Å“h‚ç‚ê‚½³•ûŒ`‚ÆA•ÏŠ·‚µ‚½ƒuƒ‰ƒV‚Å“h‚ç‚ê‚½³•ûŒ`‚ğ¦‚·}](images/brushes-ovw-transform.png)
 
 
 %index
 ID2D1BitmapBrush_GetOpacity
-ID2D1BitmapBrush::GetOpacity (vtable slot 6)
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapBrush
 %prm
 this
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: FLOAT ƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğ¦‚· 0 ‚©‚ç 1
+‚Ü‚Å‚Ì’lB‚±‚Ì’l‚Íƒuƒ‰ƒV‚É‚æ‚Á‚Ä“h‚è‚Â‚Ô‚³‚ê‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹‚ÌƒAƒ‹ƒtƒ@’l‚É‘Î‚·‚éüŒ`ƒXƒP[ƒŠƒ“ƒOŒW”‚Æ‚µ‚Äì—p‚·‚é’è””{—¦‚Å‚ ‚éB•s“§–¾“x‚Ì’l‚ÍæZ‘O‚É
+0?1 ‚Ì”ÍˆÍ‚ÉƒNƒ‰ƒ“ƒv‚³‚ê‚éB
 
 
 %index
 ID2D1BitmapBrush_GetTransform
-ID2D1BitmapBrush::GetTransform (vtable slot 7)
+‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapBrush
 %prm
 this, transform
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-transform : [var] 
+transform : [var] Œ^: D2D1_MATRIX_3X2_F* ‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·B
 %inst
+‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·‚ğæ“¾‚·‚éB
+
+[”õl]
+ƒuƒ‰ƒV‚Ì•ÏŠ·‚ª’PˆÊs—ñ‚Ìê‡Aƒuƒ‰ƒV‚Í•`‰æ‚³‚ê‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Æ“¯‚¶À•W‹óŠÔ‚ÉoŒ»‚·‚éB
 
 
 %index
 ID2D1BitmapBrush_SetExtendModeX
 ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª…•½•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1BitmapBrush
 %prm
 this, extendModeX
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -704,6 +799,8 @@ extendModeX : [int] Œ^: D2D1_EXTEND_MODE ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª…•
 %index
 ID2D1BitmapBrush_SetExtendModeY
 ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª‚’¼•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1BitmapBrush
 %prm
 this, extendModeY
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -723,6 +820,8 @@ extendModeY : [int] Œ^: D2D1_EXTEND_MODE ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª‚’
 %index
 ID2D1BitmapBrush_SetInterpolationMode
 ƒuƒ‰ƒV‚Ìƒrƒbƒgƒ}ƒbƒv‚ªŠg‘åk¬‚Ü‚½‚Í‰ñ“]‚³‚ê‚½Û‚Ég—p‚³‚ê‚é•âŠÔƒ‚[ƒh‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1BitmapBrush
 %prm
 this, interpolationMode
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -741,6 +840,8 @@ interpolationMode : [int] Œ^: D2D1_BITMAP_INTERPOLATION_MODE ƒuƒ‰ƒV‚Ìƒrƒbƒgƒ}ƒbƒ
 %index
 ID2D1BitmapBrush_SetBitmap
 ‚±‚Ìƒuƒ‰ƒV‚ª•`‰æ‚Ég‚¤ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1BitmapBrush
 %prm
 this, bitmap
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -759,6 +860,8 @@ bitmap : [comobj] Œ^: ID2D1Bitmap* ƒuƒ‰ƒV‚ªg‚¤ƒrƒbƒgƒ}ƒbƒvƒ\[ƒXB
 %index
 ID2D1BitmapBrush_GetExtendModeX
 ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª…•½•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğ¦‚·•û®‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapBrush
 %prm
 this
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -776,6 +879,8 @@ this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1BitmapBrush_GetExtendModeY
 ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª‚’¼•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğ¦‚·•û®‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapBrush
 %prm
 this
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -793,6 +898,8 @@ this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1BitmapBrush_GetInterpolationMode
 ƒuƒ‰ƒV‚Ìƒrƒbƒgƒ}ƒbƒv‚ªŠg‘åk¬‚Ü‚½‚Í‰ñ“]‚³‚ê‚½Û‚Ég—p‚³‚ê‚é•âŠÔ•û®‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapBrush
 %prm
 this
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -813,6 +920,8 @@ this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1BitmapBrush_GetBitmap
 ‚±‚Ìƒuƒ‰ƒV‚ª•`‰æ‚Ég‚¤ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapBrush
 %prm
 this, bitmap
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -823,17 +932,22 @@ bitmap : [comobj] Œ^: ID2D1Bitmap** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A‚±‚Ìƒuƒ‰ƒV‚ª•`‰æ‚Ég
 
 %index
 ID2D1BitmapRenderTarget_GetFactory
-ID2D1BitmapRenderTarget::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, factory
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_CreateBitmap
-ID2D1BitmapRenderTarget::CreateBitmap (vtable slot 4)
+Direct2D ƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, size, srcData, pitch, bitmapProperties, bitmap
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -843,11 +957,14 @@ pitch : [int]
 bitmapProperties : [var] 
 bitmap : [comobj] 
 %inst
+Direct2D ƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_CreateBitmapFromWicBitmap
-ID2D1BitmapRenderTarget::CreateBitmapFromWicBitmap (vtable slot 5)
+w’è‚µ‚½ Microsoft Windows Imaging Component (WIC) ƒrƒbƒgƒ}ƒbƒv‚ğƒRƒs[‚µ‚Ä ID2D1Bitmap ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, wicBitmapSource, bitmapProperties, bitmap
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -855,24 +972,70 @@ wicBitmapSource : [comobj]
 bitmapProperties : [var] 
 bitmap : [comobj] 
 %inst
+w’è‚µ‚½ Microsoft Windows Imaging Component (WIC) ƒrƒbƒgƒ}ƒbƒv‚ğƒRƒs[‚µ‚Ä
+ID2D1Bitmap ‚ğì¬‚·‚éB
+
+[”õl]
+Direct2D ‚ª WIC
+‰æ‘œ‚ğ“Ç‚İ‚Ş‘O‚ÉA‘Î‰‚·‚éƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚Ö‚Ì•ÏŠ·‚ª•K—v‚Å‚ ‚éB‘Î‰‚·‚éƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚Ìˆê——‚É‚Â‚¢‚Ä‚Í
+[Supported Pixel Formats and Alpha
+Modes](supported-pixel-formats-and-alpha-modes.md) ‚ğQÆB
 
 
 %index
 ID2D1BitmapRenderTarget_CreateSharedBitmap
-ID2D1BitmapRenderTarget::CreateSharedBitmap (vtable slot 6)
+‘¼‚ÌƒŠƒ\[ƒX‚Æƒf[ƒ^‚ğ‹¤—L‚·‚é ID2D1Bitmap ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, riid, data, bitmapProperties, bitmap
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-riid : [var] 
-data : [intptr] 
-bitmapProperties : [var] 
-bitmap : [comobj] 
+riid : [var] Œ^: REFIID ƒ\[ƒXƒf[ƒ^‚ğ’ñ‹Ÿ‚·‚éƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX IDB
+data : [intptr] Œ^: void* V‚µ‚¢ ID2D1Bitmap ‚Æ‹¤—L‚·‚éƒf[ƒ^‚ğŠÜ‚Ş ID2D1BitmapAIDXGISurfaceA‚Ü‚½‚Í IWICBitmapLockBÚ×‚Í Remarks ‚ğQÆB
+bitmapProperties : [var] Œ^: D2D1_BITMAP_PROPERTIES* ì¬‚·‚éƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹Œ`®‚Æ DPIBƒsƒNƒZƒ‹Œ`®‚Ì DXGI_FORMAT •”•ª‚Í data ‚Ì DXGI_FORMAT ‚Æˆê’v‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éiƒAƒ‹ƒtƒ@ƒ‚[ƒh‚Íˆê’v‚µ‚Ä‚¢‚È‚­‚Ä‚à‚æ‚¢jB•sˆê’v‚ğ”ğ‚¯‚é‚É‚Í NULL ‚Ü‚½‚Í D2D1::PixelFormat ƒwƒ‹ƒp[ŠÖ”‚©‚ç“¾‚½’l‚ğ“n‚¹‚éBDPI İ’è‚Í data ‚Æˆê’v‚µ‚Ä‚¢‚é•K—v‚Í‚È‚¢BdpiX ‚Æ dpiY ‚ª‚¢‚¸‚ê‚à 0.0f ‚Ìê‡‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI ‚ªg—p‚³‚ê‚éB
+bitmap : [comobj] Œ^: ID2D1Bitmap** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAV‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+‘¼‚ÌƒŠƒ\[ƒX‚Æƒf[ƒ^‚ğ‹¤—L‚·‚é ID2D1Bitmap ‚ğì¬‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î
+[**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+CreateSharedBitmap ƒƒ\ƒbƒh‚Íƒrƒbƒgƒ}ƒbƒvƒf[ƒ^‚ğŒø—¦‚æ‚­Ä—˜—p‚·‚é‚Ì‚É•Ö—˜‚ÅADirect3D
+‚Æ‚Ì‘ŠŒİ‰^—p‚É‚àg‚¦‚éBID2D1Bitmap ‚Ì‹¤—L ƒŠƒ\[ƒXŒİŠ·«‚Ì‚ ‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Åì¬‚³‚ê‚½ ID2D1Bitmap
+‚ğ“n‚·‚±‚Æ‚ÅA‚»‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Æƒrƒbƒgƒ}ƒbƒv‚ğ‹¤—L‚Å‚«‚éBŒ³‚Ì ID2D1Bitmap ‚Æ‚±‚Ìƒƒ\ƒbƒh‚Åì¬‚³‚ê‚éV‚µ‚¢
+ID2D1Bitmap ‚Í‚Æ‚à‚É“¯‚¶ƒrƒbƒgƒ}ƒbƒvƒf[ƒ^‚ğw‚·BƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgƒŠƒ\[ƒX‚ğ‚¢‚Â‹¤—L‚Å‚«‚é‚©‚É‚Â‚¢‚Ä‚Í Resources
+Overview ‚Ì Sharing Render Target Resources ƒZƒNƒVƒ‡ƒ“‚ğQÆBŠù‘¶‚Ìƒrƒbƒgƒ}ƒbƒv‚Ìƒf[ƒ^‚ğV‚µ‚¢
+DPI ‚Ü‚½‚ÍƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ÅÄ‰ğß‚·‚é‚½‚ß‚É‚±‚Ìƒƒ\ƒbƒh‚ğg‚¤‚±‚Æ‚à‚Å‚«‚éB—á‚¦‚Îƒrƒbƒgƒ}ƒbƒvƒAƒgƒ‰ƒX‚Ìê‡AID2D1Bitmap
+‚É•¡”‚ÌƒTƒu‰æ‘œ‚ªŠÜ‚Ü‚êA‚»‚ê‚¼‚êˆÙ‚È‚é D2D1_ALPHA_MODE (D2D1_ALPHA_MODE_PREMULTIPLIED
+‚Ü‚½‚Í D2D1_ALPHA_MODE_IGNORE) ‚ÅƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚é‚×‚«‚Å‚ ‚é‚±‚Æ‚ª‚ ‚éBCreateSharedBitmap
+‚ğg‚¦‚Îƒrƒbƒgƒ}ƒbƒv‚ğ•Ê‚ÌƒRƒs[‚Æ‚µ‚Äƒƒ‚ƒŠ‚É“Ç‚İ‚İ’¼‚·‚±‚Æ‚È‚­A–]‚ŞƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ÅÄ‰ğß‚Å‚«‚éBIDXGISurface ‚Ì‹¤—L
+DXGI ƒT[ƒtƒFƒCƒXƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgiCreateDxgiSurfaceRenderTarget ƒƒ\ƒbƒh‚Åì¬‚³‚ê‚½
+ID2D1RenderTarget ƒIƒuƒWƒFƒNƒgj‚ğg—p‚µ‚Ä‚¢‚éê‡AIDXGISurface ƒT[ƒtƒFƒCƒX‚ğ
+CreateSharedBitmap ‚É“n‚·‚±‚Æ‚ÅƒrƒfƒIƒƒ‚ƒŠ‚ğ Direct3D ‚Æ‹¤—L‚µADirect3D ƒRƒ“ƒeƒ“ƒc‚ğ
+ID2D1Bitmap ‚Æ‚µ‚Ä‘€ì‚Å‚«‚éBResources Overview ‚Åà–¾‚³‚ê‚Ä‚¢‚é‚Æ‚¨‚èAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Æ
+IDXGISurface ‚Í“¯‚¶ Direct3D ƒfƒoƒCƒX‚ğg—p‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+“¯—l‚É IDXGISurface ‚Í Supported Pixel Formats and Alpha Modes
+‚É‹LÚ‚³‚ê‚Ä‚¢‚éƒTƒ|[ƒg‘ÎÛ‚ÌƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚Ì‚¢‚¸‚ê‚©‚ğg—p‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BDirect3D
+‚Æ‚Ì‘ŠŒİ‰^—p‚ÌÚ×‚É‚Â‚¢‚Ä‚Í Direct2D and Direct3D Interoperability Overview
+‚ğQÆBIWICBitmapLock ‚Ì‹¤—L IWICBitmapLock ‚Í WIC
+ƒrƒbƒgƒ}ƒbƒv‚Ì“à—e‚ğŠi”[‚µA“¯ƒAƒNƒZƒX‚©‚ç•ÛŒì‚·‚éBIWICBitmapLock ‚ğ CreateSharedBitmap
+‚É“n‚·‚±‚Æ‚ÅAIWICBitmapLock ‚ÉŠù‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒrƒbƒgƒ}ƒbƒvƒf[ƒ^‚ğw‚· ID2D1Bitmap
+‚ğì¬‚Å‚«‚éBCreateSharedBitmap ‚Å IWICBitmapLock
+‚ğg—p‚·‚é‚É‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Íƒ\ƒtƒgƒEƒFƒAƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğg—p‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Éƒ\ƒtƒgƒEƒFƒAƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğ‹­§‚·‚é‚É‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgì¬‚Ég‚¤
+D2D1_RENDER_TARGET_PROPERTIES \‘¢‘Ì‚Ì type ƒtƒB[ƒ‹ƒh‚ğ
+D2D1_RENDER_TARGET_TYPE_SOFTWARE
+‚Éİ’è‚·‚éBŠù‘¶‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªƒ\ƒtƒgƒEƒFƒAƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğg—p‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğŠm”F‚·‚é‚É‚Í IsSupported
+ƒƒ\ƒbƒh‚ğg—p‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_CreateBitmapBrush
-ID2D1BitmapRenderTarget::CreateBitmapBrush (vtable slot 7)
+w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚©‚ç ID2D1BitmapBrush ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, bitmap, bitmapBrushProperties, brushProperties, bitmapBrush
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -881,11 +1044,14 @@ bitmapBrushProperties : [var]
 brushProperties : [var] 
 bitmapBrush : [comobj] 
 %inst
+w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚©‚ç ID2D1BitmapBrush ‚ğì¬‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_CreateSolidColorBrush
-ID2D1BitmapRenderTarget::CreateSolidColorBrush (vtable slot 8)
+’PF‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ég—p‚Å‚«‚éV‚µ‚¢ ID2D1SolidColorBrush ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, color, brushProperties, solidColorBrush
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -893,11 +1059,14 @@ color : [var]
 brushProperties : [var] 
 solidColorBrush : [comobj] 
 %inst
+’PF‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ég—p‚Å‚«‚éV‚µ‚¢ ID2D1SolidColorBrush ‚ğì¬‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_CreateGradientStopCollection
-ID2D1BitmapRenderTarget::CreateGradientStopCollection (vtable slot 9)
+w’è‚µ‚½ D2D1\_GRADIENT\_STOP \‘¢‘Ì‚Ì”z—ñ‚©‚ç ID2D1GradientStopCollection ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, gradientStops, gradientStopsCount, colorInterpolationGamma, extendMode, gradientStopCollection
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -907,11 +1076,14 @@ colorInterpolationGamma : [int]
 extendMode : [int] 
 gradientStopCollection : [comobj] 
 %inst
+w’è‚µ‚½ D2D1\_GRADIENT\_STOP \‘¢‘Ì‚Ì”z—ñ‚©‚ç ID2D1GradientStopCollection ‚ğì¬‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_CreateLinearGradientBrush
-ID2D1BitmapRenderTarget::CreateLinearGradientBrush (vtable slot 10)
+üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ì ID2D1LinearGradientBrush ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, linearGradientBrushProperties, brushProperties, gradientStopCollection, linearGradientBrush
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -920,11 +1092,14 @@ brushProperties : [var]
 gradientStopCollection : [comobj] 
 linearGradientBrush : [comobj] 
 %inst
+üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ì ID2D1LinearGradientBrush ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_CreateRadialGradientBrush
-ID2D1BitmapRenderTarget::CreateRadialGradientBrush (vtable slot 11)
+•úËóƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ég—p‚Å‚«‚é ID2D1RadialGradientBrush ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, radialGradientBrushProperties, brushProperties, gradientStopCollection, radialGradientBrush
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -933,11 +1108,14 @@ brushProperties : [var]
 gradientStopCollection : [comobj] 
 radialGradientBrush : [comobj] 
 %inst
+•úËóƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ég—p‚Å‚«‚é ID2D1RadialGradientBrush ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_CreateCompatibleRenderTarget
-ID2D1BitmapRenderTarget::CreateCompatibleRenderTarget (vtable slot 12)
+Œ»İ‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÆŒİŠ·«‚Ì‚ ‚éAƒIƒtƒXƒNƒŠ[ƒ“’†ŠÔ•`‰æ—p‚ÌV‚µ‚¢ƒrƒbƒgƒ}ƒbƒvƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, desiredSize, desiredPixelSize, desiredFormat, options, bitmapRenderTarget
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -947,46 +1125,75 @@ desiredFormat : [var]
 options : [int] 
 bitmapRenderTarget : [comobj] 
 %inst
+Œ»İ‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÆŒİŠ·«‚Ì‚ ‚éAƒIƒtƒXƒNƒŠ[ƒ“’†ŠÔ•`‰æ—p‚ÌV‚µ‚¢ƒrƒbƒgƒ}ƒbƒvƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğì¬‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_CreateLayer
-ID2D1BitmapRenderTarget::CreateLayer (vtable slot 13)
+‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚¨‚æ‚Ñ‚»‚ê‚ÆŒİŠ·«‚Ì‚ ‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Åg—p‚Å‚«‚éƒŒƒCƒ„[ƒŠƒ\[ƒX‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, size, layer
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 size : [var] 
 layer : [comobj] 
 %inst
+‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚¨‚æ‚Ñ‚»‚ê‚ÆŒİŠ·«‚Ì‚ ‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Åg—p‚Å‚«‚éƒŒƒCƒ„[ƒŠƒ\[ƒX‚ğì¬‚·‚éB
+
+[”õl]
+ƒŒƒCƒ„[‚Í•K—v‚É‰‚¶‚Ä©“®“I‚ÉƒTƒCƒY•ÏX‚³‚ê‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_CreateMesh
-ID2D1BitmapRenderTarget::CreateMesh (vtable slot 14)
+OŠpŒ`‚ğg‚Á‚ÄŒ`ó‚ğ‹Lq‚·‚éƒƒbƒVƒ…‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, mesh
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-mesh : [comobj] 
+mesh : [comobj] Œ^: ID2D1Mesh** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAV‚µ‚¢ƒƒbƒVƒ…‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ªŠi”[‚³‚ê‚éB
 %inst
+OŠpŒ`‚ğg‚Á‚ÄŒ`ó‚ğ‹Lq‚·‚éƒƒbƒVƒ…‚ğì¬‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î
+[**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒƒbƒVƒ…‚ğ–„‚ß‚é‚É‚Í Open ƒƒ\ƒbƒh‚ğg‚Á‚Ä ID2D1TessellationSink
+‚ğæ“¾‚·‚éBƒƒbƒVƒ…‚ğ•`‰æ‚·‚é‚É‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì FillMesh ƒƒ\ƒbƒh‚ğg—p‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_DrawLine
-ID2D1BitmapRenderTarget::DrawLine (vtable slot 15)
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ 2 “_ŠÔ‚Éü‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, point0, point1, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-point0 : [int] 
-point1 : [int] 
-brush : [comobj] 
-strokeWidth : [float] 
-strokeStyle : [comobj] 
+point0 : [int] Œ^: D2D1_POINT_2F ü‚Ìn“_iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
+point1 : [int] Œ^: D2D1_POINT_2F ü‚ÌI“_iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
+brush : [comobj] Œ^: ID2D1Brush* ü‚ÌƒXƒgƒ[ƒN‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
+strokeWidth : [float] Œ^: FLOAT ƒXƒgƒ[ƒN‚Ì•iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB’l‚Í 0.0f ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğw’è‚µ‚È‚¢ê‡‚ÌŠù’è’l‚Í 1.0fBƒXƒgƒ[ƒN‚Íü‚Ì’†S‚É”z’u‚³‚ê‚éB
+strokeStyle : [comobj] Œ^: ID2D1StrokeStyle* “K—p‚·‚éƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹Bƒxƒ^‚Ìü‚ğ•`‰æ‚·‚éê‡‚Í NULL ‚ğw’è‚·‚éB
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ 2 “_ŠÔ‚Éü‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BDrawLine
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_DrawRectangle
-ID2D1BitmapRenderTarget::DrawRectangle (vtable slot 16)
+w’è‚µ‚½¡–@‚ÆƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğ‚Â‹éŒ`‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, rect, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -995,22 +1202,42 @@ brush : [comobj]
 strokeWidth : [float] 
 strokeStyle : [comobj] 
 %inst
+w’è‚µ‚½¡–@‚ÆƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğ‚Â‹éŒ`‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawRectangle**
+‚Ì‚æ‚¤‚È•`‰æƒƒ\ƒbƒh‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_FillRectangle
-ID2D1BitmapRenderTarget::FillRectangle (vtable slot 17)
+w’è‚µ‚½‹éŒ`‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, rect, brush
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 rect : [var] 
 brush : [comobj] 
 %inst
+w’è‚µ‚½‹éŒ`‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**FillRectangle**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_DrawRoundedRectangle
-ID2D1BitmapRenderTarget::DrawRoundedRectangle (vtable slot 18)
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ŠpŠÛ‹éŒ`‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, roundedRect, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1019,22 +1246,42 @@ brush : [comobj]
 strokeWidth : [float] 
 strokeStyle : [comobj] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ŠpŠÛ‹éŒ`‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawRoundedRectangle**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_FillRoundedRectangle
-ID2D1BitmapRenderTarget::FillRoundedRectangle (vtable slot 19)
+w’è‚µ‚½ŠpŠÛ‹éŒ`‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, roundedRect, brush
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 roundedRect : [var] 
 brush : [comobj] 
 %inst
+w’è‚µ‚½ŠpŠÛ‹éŒ`‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**FillRoundedRectangle**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_DrawEllipse
-ID2D1BitmapRenderTarget::DrawEllipse (vtable slot 20)
+w’è‚µ‚½¡–@‚ÆƒXƒgƒ[ƒN‚Å‘È‰~‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, ellipse, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1043,58 +1290,108 @@ brush : [comobj]
 strokeWidth : [float] 
 strokeStyle : [comobj] 
 %inst
+w’è‚µ‚½¡–@‚ÆƒXƒgƒ[ƒN‚Å‘È‰~‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+
+[”õl]
+**DrawEllipse** ƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawEllipse**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_FillEllipse
-ID2D1BitmapRenderTarget::FillEllipse (vtable slot 21)
+w’è‚µ‚½‘È‰~‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, ellipse, brush
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 ellipse : [var] 
 brush : [comobj] 
 %inst
+w’è‚µ‚½‘È‰~‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**FillEllipse**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_DrawGeometry
-ID2D1BitmapRenderTarget::DrawGeometry (vtable slot 22)
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ƒWƒIƒƒgƒŠ[‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, geometry, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-geometry : [comobj] 
-brush : [comobj] 
-strokeWidth : [float] 
-strokeStyle : [comobj] 
+geometry : [comobj] Œ^: ID2D1Geometry* •`‰æ‚·‚éƒWƒIƒƒgƒŠ[B
+brush : [comobj] Œ^: ID2D1Brush* ƒWƒIƒƒgƒŠ[‚ÌƒXƒgƒ[ƒN‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
+strokeWidth : [float] Œ^: FLOAT ƒXƒgƒ[ƒN‚Ì•iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB’l‚Í 0.0f ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğw’è‚µ‚È‚¢ê‡‚ÌŠù’è’l‚Í 1.0fBƒXƒgƒ[ƒN‚Íü‚Ì’†S‚É”z’u‚³‚ê‚éB
+strokeStyle : [comobj] Œ^: ID2D1StrokeStyle* ƒWƒIƒƒgƒŠ[‚Ì—ÖŠs‚É“K—p‚·‚éƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹Bƒxƒ^‚ÌƒXƒgƒ[ƒN‚ğ•`‰æ‚·‚éê‡‚Í NULL ‚ğw’è‚·‚éB
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ƒWƒIƒƒgƒŠ[‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BDrawGeometry
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_FillGeometry
-ID2D1BitmapRenderTarget::FillGeometry (vtable slot 23)
+w’è‚µ‚½ƒWƒIƒƒgƒŠ[‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, geometry, brush, opacityBrush
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-geometry : [comobj] 
-brush : [comobj] 
-opacityBrush : [comobj] 
+geometry : [comobj] Œ^: ID2D1Geometry* “h‚è‚Â‚Ô‚·ƒWƒIƒƒgƒŠ[B
+brush : [comobj] Œ^: ID2D1Brush* ƒWƒIƒƒgƒŠ[‚Ì“à•”‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
+opacityBrush : [comobj] Œ^: ID2D1Brush* ƒWƒIƒƒgƒŠ[‚É“K—p‚·‚é•s“§–¾“xƒ}ƒXƒNB•s“§–¾“xƒ}ƒXƒN‚ğg—p‚µ‚È‚¢ê‡‚Í NULLB•s“§–¾“xƒ}ƒXƒNiopacityBrush ƒpƒ‰ƒ[ƒ^[j‚ğw’è‚·‚éê‡Abrush ‚Í x/y Šg’£ƒ‚[ƒh‚ª D2D1_EXTEND_MODE_CLAMP ‚Éİ’è‚³‚ê‚½ ID2D1BitmapBrush ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Remarks ‚ğQÆB
 %inst
+w’è‚µ‚½ƒWƒIƒƒgƒŠ[‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+opacityBrush ƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Å‚È‚¢ê‡Aƒ}ƒbƒv‚³‚ê‚½ opacityBrush
+‚ÌŠeƒsƒNƒZƒ‹‚ÌƒAƒ‹ƒtƒ@’l‚ğg‚Á‚ÄƒWƒIƒƒgƒŠ[‚Ì‘Î‰‚·‚éŠeƒsƒNƒZƒ‹‚ÌÅI“I‚È•s“§–¾“x‚ªŒˆ’è‚³‚ê‚éB‚±‚Ìˆ—‚É‚Íƒuƒ‰ƒV“à‚ÌŠeF‚ÌƒAƒ‹ƒtƒ@’l‚Ì‚İ‚ªg‚í‚êA‘¼‚ÌFî•ñ‚Í‚·‚×‚Ä–³‹‚³‚ê‚éBƒuƒ‰ƒV‚ªw’è‚·‚éƒAƒ‹ƒtƒ@’l‚ÍAƒWƒIƒƒgƒŠ[‚ª
+brush ‚Å“h‚ç‚ê‚½ŒãAƒWƒIƒƒgƒŠ[‚ÌƒAƒ‹ƒtƒ@’l‚ÉæZ‚³‚ê‚éB
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BFillGeometry
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_FillMesh
-ID2D1BitmapRenderTarget::FillMesh (vtable slot 24)
+w’è‚µ‚½ƒƒbƒVƒ…‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, mesh, brush
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-mesh : [comobj] 
-brush : [comobj] 
+mesh : [comobj] Œ^: ID2D1Mesh* “h‚è‚Â‚Ô‚·ƒƒbƒVƒ…B
+brush : [comobj] Œ^: ID2D1Brush* ƒƒbƒVƒ…‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
 %inst
+w’è‚µ‚½ƒƒbƒVƒ…‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+FillMesh ‚ğŒÄ‚Ño‚·ÛAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚Í D2D1_ANTIALIAS_MODE_ALIASED
+‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğ•ÏX‚·‚é‚É‚Í SetAntialiasMode
+ƒƒ\ƒbƒh‚ğg—p‚·‚éBFillMesh ‚Í ID2D1Mesh
+“à‚ÌOŠpŒ`‚É“Á’è‚ÌƒƒCƒ“ƒfƒBƒ“ƒO‡‚ğŠú‘Ò‚µ‚È‚¢BŒv‰ñ‚èE”½Œv‰ñ‚è‚Ì‚Ç‚¿‚ç‚Å‚à“®ì‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BFillMesh
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_FillOpacityMask
-ID2D1BitmapRenderTarget::FillOpacityMask (vtable slot 25)
+w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚ª‹Lq‚·‚é•s“§–¾“xƒ}ƒXƒN‚ğƒuƒ‰ƒV‚É“K—p‚µA‚»‚Ìƒuƒ‰ƒV‚ğg‚Á‚ÄƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, opacityMask, brush, content, destinationRectangle, sourceRectangle
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1104,11 +1401,25 @@ content : [int]
 destinationRectangle : [var] 
 sourceRectangle : [var] 
 %inst
+w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚ª‹Lq‚·‚é•s“§–¾“xƒ}ƒXƒN‚ğƒuƒ‰ƒV‚É“K—p‚µA‚»‚Ìƒuƒ‰ƒV‚ğg‚Á‚ÄƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚ª³‚µ‚­“®ì‚·‚é‚É‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ª
+[**D2D1\_ANTIALIAS\_MODE\_ALIASED**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_antialias_mode)
+ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğg—p‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éBƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚Í
+[**ID2D1RenderTarget::SetAntialiasMode**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-setantialiasmode)
+ƒƒ\ƒbƒh‚Åİ’è‚Å‚«‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**FillOpacityMask**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_DrawBitmap
-ID2D1BitmapRenderTarget::DrawBitmap (vtable slot 26)
+w’è‚µ‚½ ID2D1Bitmap ‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, bitmap, destinationRectangle, opacity, interpolationMode, sourceRectangle
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1118,11 +1429,21 @@ opacity : [float]
 interpolationMode : [int] 
 sourceRectangle : [var] 
 %inst
+w’è‚µ‚½ ID2D1Bitmap ‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawBitmap**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_DrawText
-ID2D1BitmapRenderTarget::DrawText (vtable slot 27)
+IDWriteTextFormat ƒIƒuƒWƒFƒNƒg‚ª’ñ‹Ÿ‚·‚é‘®î•ñ‚ğg‚Á‚Äw’è‚µ‚½ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, string, stringLength, textFormat, layoutRect, defaultFillBrush, options, measuringMode
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1134,306 +1455,582 @@ defaultFillBrush : [comobj]
 options : [int] 
 measuringMode : [int] 
 %inst
+IDWriteTextFormat ƒIƒuƒWƒFƒNƒg‚ª’ñ‹Ÿ‚·‚é‘®î•ñ‚ğg‚Á‚Äw’è‚µ‚½ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+
+[”õl]
+Direct2D ‚ÅƒeƒLƒXƒg‚ğ•`‰æ‚·‚é‚É‚ÍA’Pˆê‚Ì‘®‚ÌƒeƒLƒXƒg‚É‚Í
+[**ID2D1RenderTarget::DrawText**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-drawtext(constwchar_uint32_idwritetextformat_constd2d1_rect_f__id2d1brush_d2d1_draw_text_options_dwrite_measuring_mode))
+ƒƒ\ƒbƒh‚ğA•¡”‘®E‚“x‚È OpenType ‹@”\EƒqƒbƒgƒeƒXƒg‚ª•K—v‚Èê‡‚Í
+[**ID2D1RenderTarget::DrawTextLayout**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-drawtextlayout)
+ƒƒ\ƒbƒh‚ğg—p‚·‚éB‚±‚ê‚ç‚Ìƒƒ\ƒbƒh‚Í DirectWrite API
+‚ğ—˜—p‚µ‚Ä‚•i¿‚ÌƒeƒLƒXƒg•\¦‚ğ’ñ‹Ÿ‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawText**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_DrawTextLayout
-ID2D1BitmapRenderTarget::DrawTextLayout (vtable slot 28)
+w’è‚µ‚½ IDWriteTextLayout ƒIƒuƒWƒFƒNƒg‚ª‹Lq‚·‚é‘®•t‚«ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, origin, textLayout, defaultFillBrush, options
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-origin : [int] 
-textLayout : [comobj] 
-defaultFillBrush : [comobj] 
-options : [int] 
+origin : [int] Œ^: D2D1_POINT_2F textLayout ‚ª‹Lq‚·‚éƒeƒLƒXƒg‚Ì¶ã‹÷‚ª•`‰æ‚³‚ê‚é“_iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
+textLayout : [comobj] Œ^: IDWriteTextLayout* •`‰æ‚·‚é‘®•t‚«ƒeƒLƒXƒgBID2D1Resource ‚ğŒp³‚µ‚È‚¢•`‰æŒø‰Ê‚Í–³‹‚³‚ê‚éBID2D1Resource ‚ğŒp³‚·‚é‚ªƒuƒ‰ƒV‚Å‚Í‚È‚¢•`‰æŒø‰Ê‚ª‚ ‚éê‡A‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğƒGƒ‰[ó‘Ô‚É‚·‚éB
+defaultFillBrush : [comobj] Œ^: ID2D1Brush* textLayout “à‚ÅA•`‰æŒø‰Ê‚Æ‚µ‚ÄŠÖ˜A•t‚¯‚ç‚ê‚½ƒuƒ‰ƒViIDWriteTextLayout::SetDrawingEffect ƒƒ\ƒbƒh‚Åw’èj‚ğ‚½‚È‚¢ƒeƒLƒXƒg‚ğ“h‚é‚½‚ß‚Ég—p‚·‚éƒuƒ‰ƒVB
+options : [int] Œ^: D2D1_DRAW_TEXT_OPTIONS ƒeƒLƒXƒg‚ğƒsƒNƒZƒ‹‹«ŠE‚ÉƒXƒiƒbƒv‚·‚é‚©‚Ç‚¤‚©A‚¨‚æ‚ÑƒŒƒCƒAƒEƒg‹éŒ`‚ÅƒNƒŠƒbƒv‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’lBŠù’è’l‚Í D2D1_DRAW_TEXT_OPTIONS_NONE ‚ÅAƒeƒLƒXƒg‚ÍƒsƒNƒZƒ‹‹«ŠE‚ÉƒXƒiƒbƒv‚³‚êAƒŒƒCƒAƒEƒg‹éŒ`‚Å‚ÍƒNƒŠƒbƒv‚³‚ê‚È‚¢‚±‚Æ‚ğ¦‚·B
 %inst
+w’è‚µ‚½ IDWriteTextLayout ƒIƒuƒWƒFƒNƒg‚ª‹Lq‚·‚é‘®•t‚«ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+
+[”õl]
+“¯‚¶ƒeƒLƒXƒg‚ğŒJ‚è•Ô‚µ•`‰æ‚·‚éê‡AŒÄ‚Ño‚µ‚²‚Æ‚ÉƒeƒLƒXƒg‚Ì‘®İ’è‚ÆƒŒƒCƒAƒEƒgˆ—‚ğ•K—v‚Æ‚µ‚È‚¢‚½‚ßADrawText ƒƒ\ƒbƒh‚æ‚è‚à
+DrawTextLayout ƒƒ\ƒbƒh‚Ì•û‚ªŒø—¦“I‚Å‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BDrawTextLayout
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_DrawGlyphRun
-ID2D1BitmapRenderTarget::DrawGlyphRun (vtable slot 29)
+w’è‚µ‚½ƒOƒŠƒt‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, baselineOrigin, glyphRun, foregroundBrush, measuringMode
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-baselineOrigin : [int] 
-glyphRun : [int] 
-foregroundBrush : [comobj] 
-measuringMode : [int] 
+baselineOrigin : [int] Œ^: D2D1_POINT_2F ƒOƒŠƒt‚Ìƒx[ƒXƒ‰ƒCƒ“‚ÌŒ´“_iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
+glyphRun : [int] Œ^: const DWRITE_GLYPH_RUN* ƒŒƒ“ƒ_ƒŠƒ“ƒO‚·‚éƒOƒŠƒtB
+foregroundBrush : [comobj] Œ^: ID2D1Brush* w’è‚µ‚½ƒOƒŠƒt‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
+measuringMode : [int] Œ^: DWRITE_MEASURING_MODE ƒeƒLƒXƒg‚Ì‘®İ’è‚ÉƒOƒŠƒtƒƒgƒŠƒbƒN‚ğ‚Ç‚Ì‚æ‚¤‚Ég—p‚µ‚ÄƒeƒLƒXƒg‚ğ‘ª’è‚·‚é‚©‚ğ¦‚·’lBŠù’è’l‚Í DWRITE_MEASURING_MODE_NATURALB
 %inst
+w’è‚µ‚½ƒOƒŠƒt‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BDrawGlyphRun
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_SetTransform
-ID2D1BitmapRenderTarget::SetTransform (vtable slot 30)
+w’è‚µ‚½•ÏŠ·‚ğƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É“K—p‚µAŠù‘¶‚Ì•ÏŠ·‚ğ’u‚«Š·‚¦‚éBŒã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚Í•ÏŠ·Œã‚Ì‹óŠÔ‚Ås‚í‚ê‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, transform
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 transform : [var] 
 %inst
+w’è‚µ‚½•ÏŠ·‚ğƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É“K—p‚µAŠù‘¶‚Ì•ÏŠ·‚ğ’u‚«Š·‚¦‚éBŒã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚Í•ÏŠ·Œã‚Ì‹óŠÔ‚Ås‚í‚ê‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_GetTransform
-ID2D1BitmapRenderTarget::GetTransform (vtable slot 31)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚Ì•ÏŠ·‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, transform
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-transform : [var] 
+transform : [var] Œ^: D2D1_MATRIX_3X2_F* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚Ì•ÏŠ·‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚Ì•ÏŠ·‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_SetAntialiasMode
-ID2D1BitmapRenderTarget::SetAntialiasMode (vtable slot 32)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğİ’è‚·‚éB‚±‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ÍAƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ğœ‚­Œã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚É“K—p‚³‚ê‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, antialiasMode
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-antialiasMode : [int] 
+antialiasMode : [int] Œ^: D2D1_ANTIALIAS_MODE ˆÈ~‚Ì•`‰æ‘€ì‚Åg—p‚·‚éƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhB
 %inst
+
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğİ’è‚·‚éB‚±‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ÍAƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ğœ‚­Œã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚É“K—p‚³‚ê‚éB
+
+[”õl]
+ƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt‘€ì‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğw’è‚·‚é‚É‚Í SetTextAntialiasMode ƒƒ\ƒbƒh‚ğg—p‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_GetAntialiasMode
-ID2D1BitmapRenderTarget::GetAntialiasMode (vtable slot 33)
+”ñƒeƒLƒXƒg•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+”ñƒeƒLƒXƒg•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: D2D1_ANTIALIAS_MODE ”ñƒeƒLƒXƒg•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhB
 
 
 %index
 ID2D1BitmapRenderTarget_SetTextAntialiasMode
-ID2D1BitmapRenderTarget::SetTextAntialiasMode (vtable slot 34)
+ˆÈ~‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Åg—p‚·‚éƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, textAntialiasMode
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textAntialiasMode : [int] 
+textAntialiasMode : [int] Œ^: D2D1_TEXT_ANTIALIAS_MODE ˆÈ~‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Åg—p‚·‚éƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhB
 %inst
+ˆÈ~‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Åg—p‚·‚éƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğw’è‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_GetTextAntialiasMode
-ID2D1BitmapRenderTarget::GetTextAntialiasMode (vtable slot 35)
+ƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: D2D1_TEXT_ANTIALIAS_MODE ƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhB
 
 
 %index
 ID2D1BitmapRenderTarget_SetTextRenderingParams
-ID2D1BitmapRenderTarget::SetTextRenderingParams (vtable slot 36)
+ˆÈ~‚Ì‚·‚×‚Ä‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚É“K—p‚·‚éƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, textRenderingParams
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textRenderingParams : [comobj] 
+textRenderingParams : [comobj] Œ^: IDWriteRenderingParams* ˆÈ~‚Ì‚·‚×‚Ä‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚É“K—p‚·‚éƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“BŒ»İ‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğƒNƒŠƒA‚·‚é‚É‚Í NULL ‚ğw’è‚·‚éB
 %inst
+ˆÈ~‚Ì‚·‚×‚Ä‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚É“K—p‚·‚éƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éB
+
+[”õl]
+textRenderingParams
+‚Åw’è‚³‚ê‚½İ’è‚ªƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒeƒLƒXƒgƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhiSetTextAntialiasMode
+‚Åw’èj‚ÆŒİŠ·«‚ª‚È‚¢ê‡AŒã‘±‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Í¸”s‚µAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_GetTextRenderingParams
-ID2D1BitmapRenderTarget::GetTextRenderingParams (vtable slot 37)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, textRenderingParams
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textRenderingParams : [comobj] 
+textRenderingParams : [comobj] Œ^: IDWriteRenderingParams** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAtextRenderingParams ‚É‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚éB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+
+[”õl]
+textRenderingParams
+‚Åw’è‚³‚ê‚½İ’è‚ªƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒeƒLƒXƒgƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhiSetTextAntialiasMode
+‚Åw’èj‚ÆŒİŠ·«‚ª‚È‚¢ê‡AŒã‘±‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Í¸”s‚µAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_SetTags
-ID2D1BitmapRenderTarget::SetTags (vtable slot 38)
+Œã‘±‚Ì•`‰æ‘€ì‚Ìƒ‰ƒxƒ‹‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-tag1 : [int64] 
-tag2 : [int64] 
+tag1 : [int64] Œ^: D2D1_TAG Œã‘±‚Ì•`‰æ‘€ì‚É“K—p‚·‚éƒ‰ƒxƒ‹B
+tag2 : [int64] Œ^: D2D1_TAG Œã‘±‚Ì•`‰æ‘€ì‚É“K—p‚·‚éƒ‰ƒxƒ‹B
 %inst
+Œã‘±‚Ì•`‰æ‘€ì‚Ìƒ‰ƒxƒ‹‚ğw’è‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Åw’è‚µ‚½ƒ‰ƒxƒ‹‚ÍƒfƒoƒbƒO‚ÌƒGƒ‰[ƒƒbƒZ[ƒW‚Åo—Í‚³‚ê‚éBƒ^ƒO‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AŠeƒ^ƒO‚ÌŠù’è’l‚Í 0B
 
 
 %index
 ID2D1BitmapRenderTarget_GetTags
-ID2D1BitmapRenderTarget::GetTags (vtable slot 39)
+Œã‘±‚Ì•`‰æ‘€ì‚Ìƒ‰ƒxƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-tag1 : [var] 
-tag2 : [var] 
+tag1 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAŒã‘±‚Ì•`‰æ‘€ì‚É•t‚¯‚éÅ‰‚Ìƒ‰ƒxƒ‹‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éBNULL ‚ğw’è‚µ‚½ê‡‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É’l‚Íæ“¾‚³‚ê‚È‚¢B
+tag2 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAŒã‘±‚Ì•`‰æ‘€ì‚É•t‚¯‚é 2 ‚Â–Ú‚Ìƒ‰ƒxƒ‹‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éBNULL ‚ğw’è‚µ‚½ê‡‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É’l‚Íæ“¾‚³‚ê‚È‚¢B
 %inst
+Œã‘±‚Ì•`‰æ‘€ì‚Ìƒ‰ƒxƒ‹‚ğæ“¾‚·‚éB
+
+[”õl]
+—¼•û‚Ìƒpƒ‰ƒ[ƒ^[‚É“¯‚¶ƒAƒhƒŒƒX‚ğ“n‚µ‚½ê‡A—¼•û‚Ìƒpƒ‰ƒ[ƒ^[‚ª 2 ‚Â–Ú‚Ìƒ^ƒO‚Ì’l‚ğó‚¯æ‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_PushLayer
-ID2D1BitmapRenderTarget::PushLayer (vtable slot 40)
+PopLayer ‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚Å‚ÌŒã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚ğó‚¯æ‚é‚æ‚¤Aw’è‚µ‚½ƒŒƒCƒ„[‚ğƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É’Ç‰Á‚·‚éB(overload 1/2)
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, layerParameters, layer
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-layerParameters : [int] 
-layer : [comobj] 
+layerParameters : [int] Œ^: const D2D1_LAYER_PARAMETERS* ƒŒƒCƒ„[‚ÌƒRƒ“ƒeƒ“ƒc‹«ŠEAƒWƒIƒƒgƒŠƒbƒNƒ}ƒXƒNA•s“§–¾“xA•s“§–¾“xƒ}ƒXƒNA‚¨‚æ‚ÑƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒIƒvƒVƒ‡ƒ“B
+layer : [comobj] Œ^: ID2D1Layer* Œã‘±‚Ì•`‰æ‘€ì‚ğó‚¯æ‚éƒŒƒCƒ„[B’ˆÓ Windows 8 ˆÈ~A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ÍÈ—ª‰Â”\‚Å‚ ‚éBƒŒƒCƒ„[‚ğw’è‚µ‚È‚¢ê‡ADirect2D ‚ªƒŒƒCƒ„[ƒŠƒ\[ƒX‚ğ©“®“I‚ÉŠÇ—‚·‚éB
 %inst
+PopLayer
+‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚Å‚ÌŒã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚ğó‚¯æ‚é‚æ‚¤Aw’è‚µ‚½ƒŒƒCƒ„[‚ğƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É’Ç‰Á‚·‚éB(overload 1/2)
+
+[”õl]
+PushLayer
+ƒƒ\ƒbƒh‚ÍŒÄ‚Ño‚µ‘¤‚ªƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğƒŒƒCƒ„[‚ÖƒŠƒ_ƒCƒŒƒNƒg‚µn‚ß‚é‚±‚Æ‚ğ‰Â”\‚É‚·‚éBƒŒƒCƒ„[“à‚Å‚Í‚·‚×‚Ä‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‘€ì‚ª—LŒø‚Å‚ ‚éBƒŒƒCƒ„[‚ÌˆÊ’u‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Éİ’è‚³‚ê‚½ƒ[ƒ‹ƒh•ÏŠ·‚Ì‰e‹¿‚ğó‚¯‚éBPushLayer
+‚ÌŒÄ‚Ño‚µ‚É‚Í‘Î‰‚·‚é PopLayer ‚ÌŒÄ‚Ño‚µ‚ª•K—v‚Å‚ ‚éBPopLayer ‚ÌŒÄ‚Ño‚µ‚ª PushLayer
+‚ÌŒÄ‚Ño‚µ‚æ‚è‚à‘½‚¢ê‡AƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éB–¢‰ğŒˆ‚ÌƒŒƒCƒ„[‚ª‚·‚×‚Äƒ|ƒbƒv‚³‚ê‚é‘O‚É Flush
+‚ğŒÄ‚Ño‚·‚ÆƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒGƒ‰[ó‘Ô‚É‚È‚èAƒGƒ‰[‚ª•Ô‚³‚ê‚éB‚±‚ÌƒGƒ‰[ó‘Ô‚Í EndDraw ‚ÌŒÄ‚Ño‚µ‚ÅƒNƒŠƒA‚Å‚«‚éB“Á’è‚Ì
+ID2D1Layer ƒŠƒ\[ƒX‚Í“¯‚É 1 ‚Â‚µ‚©ƒAƒNƒeƒBƒu‚É‚Å‚«‚È‚¢B‚Â‚Ü‚è PushLayer
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½’¼Œã‚É“¯‚¶ƒŒƒCƒ„[ƒŠƒ\[ƒX‚Å PushLayer ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B2 ‚Â–Ú‚Ì PushLayer
+ƒƒ\ƒbƒh‚Í•Ê‚ÌƒŒƒCƒ„[ƒŠƒ\[ƒX‚ÅŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BPushLayer
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_PopLayer
-ID2D1BitmapRenderTarget::PopLayer (vtable slot 41)
+’¼‘O‚Ì PushLayer ŒÄ‚Ño‚µ‚Åw’è‚µ‚½ƒŒƒCƒ„[‚Ö‚Ì•`‰æ‘€ì‚ÌƒŠƒ_ƒCƒŒƒNƒg‚ğ’â~‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+’¼‘O‚Ì PushLayer ŒÄ‚Ño‚µ‚Åw’è‚µ‚½ƒŒƒCƒ„[‚Ö‚Ì•`‰æ‘€ì‚ÌƒŠƒ_ƒCƒŒƒNƒg‚ğ’â~‚·‚éB
+
+[”õl]
+PopLayer ‚Í’¼‘O‚Ì PushLayer
+ŒÄ‚Ño‚µ‚Æ‘Î‰‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BPopLayer
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_Flush
-ID2D1BitmapRenderTarget::Flush (vtable slot 42)
+•Û—¯’†‚Ì‚·‚×‚Ä‚Ì•`‰æƒRƒ}ƒ“ƒh‚ğÀs‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-tag1 : [var] 
-tag2 : [var] 
+tag1 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒGƒ‰[‚ğ”­¶‚³‚¹‚½•`‰æ‘€ì‚Ìƒ^ƒOA‚Ü‚½‚ÍƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡‚Í 0 ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
+tag2 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒGƒ‰[‚ğ”­¶‚³‚¹‚½•`‰æ‘€ì‚Ìƒ^ƒOA‚Ü‚½‚ÍƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡‚Í 0 ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+•Û—¯’†‚Ì‚·‚×‚Ä‚Ì•`‰æƒRƒ}ƒ“ƒh‚ğÀs‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚µAƒGƒ‰[”­¶‚ÉƒAƒNƒeƒBƒu‚¾‚Á‚½ƒ^ƒO‚ğ tag1 ‚¨‚æ‚Ñ tag2
+‚Éİ’è‚·‚éBƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍƒGƒ‰[ƒ^ƒOó‘Ô‚ğ (0,0) ‚Éİ’è‚·‚éB
+
+[”õl]
+‚±‚ÌƒRƒ}ƒ“ƒh‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ Direct3D
+ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğƒtƒ‰ƒbƒVƒ…‚µ‚È‚¢B‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚ÆƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒGƒ‰[ó‘Ô‚ªƒŠƒZƒbƒg‚³‚ê‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_SaveDrawingState
-ID2D1BitmapRenderTarget::SaveDrawingState (vtable slot 43)
+Œ»İ‚Ì•`‰æó‘Ô‚ğAw’è‚µ‚½ ID2D1DrawingStateBlock ‚É•Û‘¶‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, drawingStateBlock
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-drawingStateBlock : [comobj] 
+drawingStateBlock : [comobj] Œ^: ID2D1DrawingStateBlock* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚Ì•`‰æó‘Ô‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Íƒƒ\ƒbƒh‚É“n‚·‘O‚É‰Šú‰»‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
 %inst
+Œ»İ‚Ì•`‰æó‘Ô‚ğAw’è‚µ‚½ ID2D1DrawingStateBlock ‚É•Û‘¶‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_RestoreDrawingState
-ID2D1BitmapRenderTarget::RestoreDrawingState (vtable slot 44)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì•`‰æó‘Ô‚ğAw’è‚µ‚½ ID2D1DrawingStateBlock ‚Ìó‘Ô‚Éİ’è‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, drawingStateBlock
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-drawingStateBlock : [comobj] 
+drawingStateBlock : [comobj] Œ^: ID2D1DrawingStateBlock* ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌV‚µ‚¢•`‰æó‘ÔB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì•`‰æó‘Ô‚ğAw’è‚µ‚½ ID2D1DrawingStateBlock ‚Ìó‘Ô‚Éİ’è‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_PushAxisAlignedClip
-ID2D1BitmapRenderTarget::PushAxisAlignedClip (vtable slot 45)
+ˆÈ~‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚ÌƒNƒŠƒbƒvæ‚Æ‚È‚é‹éŒ`‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, clipRect, antialiasMode
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 clipRect : [var] 
 antialiasMode : [int] 
 %inst
+ˆÈ~‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚ÌƒNƒŠƒbƒvæ‚Æ‚È‚é‹éŒ`‚ğw’è‚·‚éB
+
+[”õl]
+
+[**PushAxisAlignedClip**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-pushaxisalignedclip(constd2d1_rect_f__d2d1_antialias_mode))
+‚Æ
+[**PopAxisAlignedClip**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-popaxisalignedclip)
+‚ÌƒyƒA‚Í
+[**PushLayer**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-pushlayer(constd2d1_layer_parameters__id2d1layer))
+‚Æ
+[**PopLayer**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-poplayer)
+‚ÌƒyƒA‚ÌŠO‘¤‚Ü‚½‚Í“à‘¤‚ÉoŒ»‚Å‚«‚é‚ªAŒİ‚¢‚Éd‚È‚è‡‚Á‚Ä‚Í‚È‚ç‚È‚¢B—á‚¦‚Î
+**PushAxisAlignedClip**A[**PushLayer**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-pushlayer(constd2d1_layer_parameters__id2d1layer))A**PopLayer**A**PopAxisAlignedClip**
+‚ÌƒV[ƒPƒ“ƒX‚Í—LŒø‚¾‚ªA**PushAxisAlignedClip**A**PushLayer**A**PopAxisAlignedClip**A**PopLayer**
+‚ÌƒV[ƒPƒ“ƒX‚Í–³Œø‚Å‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**PushAxisAlignedClip**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_PopAxisAlignedClip
-ID2D1BitmapRenderTarget::PopAxisAlignedClip (vtable slot 46)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚©‚çÅŒã‚Ì²‘µ‚¦ƒNƒŠƒbƒv‚ğæ‚èœ‚­B‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½Œã‚ÍA‚»‚ÌƒNƒŠƒbƒv‚ÍŒã‘±‚Ì•`‰æ‘€ì‚É“K—p‚³‚ê‚È‚¢B
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚©‚çÅŒã‚Ì²‘µ‚¦ƒNƒŠƒbƒv‚ğæ‚èœ‚­B‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½Œã‚ÍA‚»‚ÌƒNƒŠƒbƒv‚ÍŒã‘±‚Ì•`‰æ‘€ì‚É“K—p‚³‚ê‚È‚¢B
+
+[”õl]
+PushAxisAlignedClip ‚Æ PopAxisAlignedClip ‚ÌƒyƒA‚Í PushLayer ‚Æ PopLayer
+‚ÌƒyƒA‚ÌŠO‘¤‚Ü‚½‚Í“à‘¤‚ÉoŒ»‚Å‚«‚é‚ªAŒİ‚¢‚Éd‚È‚è‡‚Á‚Ä‚Í‚È‚ç‚È‚¢B—á‚¦‚Î
+PushAxisAlignedClipAPushLayerAPopLayerAPopAxisAlignedClip
+‚ÌƒV[ƒPƒ“ƒX‚Í—LŒø‚¾‚ªAPushAxisAlignedClipAPushLayerAPopAxisAlignedClipAPopLayer
+‚ÌƒV[ƒPƒ“ƒX‚Í–³Œø‚Å‚ ‚éBPopAxisAlignedClip ‚Í PushAxisAlignedClip ‚ÌŒÄ‚Ño‚µ‚²‚Æ‚É 1
+‰ñŒÄ‚Ño‚·•K—v‚ª‚ ‚éB—á‚É‚Â‚¢‚Ä‚ÍuHow to Clip with an Axis-Aligned Clip
+Rectanglev‚ğQÆB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BPopAxisAlignedClip
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_Clear
-ID2D1BitmapRenderTarget::Clear (vtable slot 47)
+•`‰æ—Ìˆæ‚ğw’è‚µ‚½F‚ÅƒNƒŠƒA‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, clearColor
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 clearColor : [var] 
 %inst
+•`‰æ—Ìˆæ‚ğw’è‚µ‚½F‚ÅƒNƒŠƒA‚·‚éB
+
+[”õl]
+Direct2D ‚Í *clearColor*
+‚ğƒXƒgƒŒ[ƒgƒAƒ‹ƒtƒ@iƒvƒŠƒ}ƒ‹ƒ`ƒvƒ‰ƒCƒh‚Å‚Í‚È‚¢j‚Æ‚µ‚Ä‰ğß‚·‚éBƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ª
+[**D2D1\_ALPHA\_MODE\_IGNORE**](/windows/desktop/api/dcommon/ne-dcommon-d2d1_alpha_mode)
+‚Ìê‡A*clearColor* ‚ÌƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹‚Í–³‹‚³‚ê
+1.0fiŠ®‘S•s“§–¾j‚É’u‚«Š·‚¦‚ç‚ê‚éBƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÉƒAƒNƒeƒBƒu‚ÈƒNƒŠƒbƒvi[**PushAxisAlignedClip**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-pushaxisalignedclip(constd2d1_rect_f__d2d1_antialias_mode))
+‚Åw’èj‚ª‚ ‚éê‡AƒNƒŠƒA‘€ì‚ÍƒNƒŠƒbƒv—Ìˆæ“à‚Ì‚İ‚É“K—p‚³‚ê‚éB
 
 
 %index
 ID2D1BitmapRenderTarget_BeginDraw
-ID2D1BitmapRenderTarget::BeginDraw (vtable slot 48)
+‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚Ì•`‰æ‚ğŠJn‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚Ì•`‰æ‚ğŠJn‚·‚éB
+
+[”õl]
+•`‰æ‘€ì‚Í BeginDraw ‚Æ EndDraw ‚ÌŒÄ‚Ño‚µ‚ÌŠÔ‚Å‚Ì‚İ”­s‚Å‚«‚éBBeginDraw ‚Æ EndDraw
+‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ª Direct2D ƒVƒXƒeƒ€‚É‚æ‚Á‚Äg—p’†‚Å‚ ‚é‚±‚Æ‚ğ¦‚·‚½‚ß‚Ég‚í‚ê‚éBBeginDraw ‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚Ì
+ID2D1RenderTarget ‚ÌŠeÀ‘•‚ÌU‚é•‘‚¢‚ÍˆÙ‚È‚éê‡‚ª‚ ‚éB—á‚¦‚Î ID2D1BitmapRenderTarget ‚Í
+BeginDraw/EndDraw ŒÄ‚Ño‚µ‚ÌŠÔƒƒbƒN‚³‚ê‚é‚±‚Æ‚ª‚ ‚èADXGI ƒT[ƒtƒFƒCƒXƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Í BeginDraw
+‚Éæ“¾‚³‚ê‚Ä EndDraw ‚É‰ğ•ú‚³‚ê‚é‚±‚Æ‚ª‚ ‚èAID2D1HwndRenderTarget ‚Í BeginDraw
+‚Éƒoƒbƒ`‚ğŠJn‚µ EndDraw ‚ÉƒvƒŒƒ[ƒ“ƒg‚·‚é‚±‚Æ‚ª‚ ‚éBƒŒƒ“ƒ_ƒŠƒ“ƒO‘€ì‚ğŒÄ‚Ño‚·‚É‚Í BeginDraw
+ƒƒ\ƒbƒh‚ğæ‚ÉŒÄ‚Ño‚·•K—v‚ª‚ ‚é‚ªAó‘Ô‚Ìİ’è‚Ææ“¾‚Í BeginDraw/EndDraw ‚ÌŠO‚Å‚às‚¦‚éBBeginDraw
+‚ªŒÄ‚Ño‚³‚ê‚é‚ÆA’ÊíƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ}ƒ“ƒh‚Ìƒoƒbƒ`‚ğ’~Ï‚·‚é‚ªA“à•”ƒoƒbƒtƒ@‚ª‚¢‚Á‚Ï‚¢‚É‚È‚é‚© Flush
+ƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚é‚© EndDraw ‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚ÅA‚±‚ê‚çƒRƒ}ƒ“ƒh‚Ìˆ—‚ğ’x‰„‚·‚éBEndDraw
+ƒƒ\ƒbƒh‚Íƒoƒbƒ`‰»‚³‚ê‚½•`‰æ‘€ì‚ğŠ®—¹‚³‚¹A‚»‚ÌŒã‘€ì‚Ì¬”Û‚ğ¦‚· HRESULT
+‚ÆAƒIƒvƒVƒ‡ƒ“‚ÅƒGƒ‰[”­¶‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ìƒ^ƒOó‘Ô‚ğ•Ô‚·BEndDraw ‚Íí‚É¬Œ÷‚·‚éB’¼‘O‚Ì EndDraw ‚ª¸”s‚µ‚½
+HRESULT ‚ğ•Ô‚µ‚½ê‡‚Å‚à“ñ“xŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢BBeginDraw ‚Æ‘Î‰‚µ‚È‚¢ EndDraw ‚ğŒÄ‚Ño‚·‚ÆAEndDraw
+‚Ì‘O‚É BeginDraw ‚ğŒÄ‚Ô•K—v‚ª‚ ‚é‚±‚Æ‚ğ¦‚·ƒGƒ‰[‚ğ•Ô‚·B“¯ˆê‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å BeginDraw
+‚ğ“ñ“xŒÄ‚Ô‚ÆƒGƒ‰[ó‘Ô‚É‚È‚èA‚»‚êˆÈ~‚Í‰½‚à•`‰æ‚³‚ê‚¸AEndDraw ‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚É“KØ‚È HRESULT ‚ÆƒGƒ‰[î•ñ‚ğ•Ô‚·B
 
 
 %index
 ID2D1BitmapRenderTarget_EndDraw
-ID2D1BitmapRenderTarget::EndDraw (vtable slot 49)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚Ì•`‰æ‘€ì‚ğI—¹‚µAŒ»İ‚ÌƒGƒ‰[ó‘Ô‚ÆŠÖ˜Aƒ^ƒO‚ğ¦‚·B
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-tag1 : [var] 
-tag2 : [var] 
+tag1 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒGƒ‰[‚ğ”­¶‚³‚¹‚½•`‰æ‘€ì‚Ìƒ^ƒOA‚Ü‚½‚ÍƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡‚Í 0 ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
+tag2 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒGƒ‰[‚ğ”­¶‚³‚¹‚½•`‰æ‘€ì‚Ìƒ^ƒOA‚Ü‚½‚ÍƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡‚Í 0 ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚Ì•`‰æ‘€ì‚ğI—¹‚µAŒ»İ‚ÌƒGƒ‰[ó‘Ô‚ÆŠÖ˜Aƒ^ƒO‚ğ¦‚·B
+
+[–ß‚è’l]
+Œ^: HRESULT ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚µAƒGƒ‰[”­¶‚ÉƒAƒNƒeƒBƒu‚¾‚Á‚½ƒ^ƒO‚ğ tag1 ‚¨‚æ‚Ñ tag2 ‚Éİ’è‚·‚éB
+
+[”õl]
+•`‰æ‘€ì‚Í BeginDraw ‚Æ EndDraw ‚ÌŒÄ‚Ño‚µ‚ÌŠÔ‚Å‚Ì‚İ”­s‚Å‚«‚éB
+BeginDraw ‚Æ EndDraw ‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ª Direct2D
+ƒVƒXƒeƒ€‚É‚æ‚Á‚Äg—p’†‚Å‚ ‚é‚±‚Æ‚ğ¦‚·‚½‚ß‚Ég‚í‚ê‚éBBeginDraw ‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚Ì ID2D1RenderTarget
+‚ÌŠeÀ‘•‚ÌU‚é•‘‚¢‚ÍˆÙ‚È‚éê‡‚ª‚ ‚éB—á‚¦‚Î ID2D1BitmapRenderTarget ‚Í BeginDraw/EndDraw
+ŒÄ‚Ño‚µ‚ÌŠÔƒƒbƒN‚³‚ê‚é‚±‚Æ‚ª‚ ‚èADXGI ƒT[ƒtƒFƒCƒXƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Í BeginDraw ‚Éæ“¾‚³‚ê‚Ä EndDraw
+‚É‰ğ•ú‚³‚ê‚é‚±‚Æ‚ª‚ ‚èAID2D1HwndRenderTarget ‚Í BeginDraw ‚Éƒoƒbƒ`‚ğŠJn‚µ EndDraw
+‚ÉƒvƒŒƒ[ƒ“ƒg‚·‚é‚±‚Æ‚ª‚ ‚éBƒŒƒ“ƒ_ƒŠƒ“ƒO‘€ì‚ğŒÄ‚Ño‚·‚É‚Í BeginDraw ƒƒ\ƒbƒh‚ğæ‚ÉŒÄ‚Ño‚·•K—v‚ª‚ ‚é‚ªAó‘Ô‚Ìİ’è‚Ææ“¾‚Í
+BeginDraw/EndDraw ‚ÌŠO‚Å‚às‚¦‚éBBeginDraw
+‚ªŒÄ‚Ño‚³‚ê‚é‚ÆA’ÊíƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ}ƒ“ƒh‚Ìƒoƒbƒ`‚ğ’~Ï‚·‚é‚ªA“à•”ƒoƒbƒtƒ@‚ª‚¢‚Á‚Ï‚¢‚É‚È‚é‚© Flush
+ƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚é‚© EndDraw ‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚ÅA‚±‚ê‚çƒRƒ}ƒ“ƒh‚Ìˆ—‚ğ’x‰„‚·‚éBEndDraw
+ƒƒ\ƒbƒh‚Íƒoƒbƒ`‰»‚³‚ê‚½•`‰æ‘€ì‚ğŠ®—¹‚³‚¹A‚»‚ÌŒã‘€ì‚Ì¬”Û‚ğ¦‚· HRESULT
+‚ÆAƒIƒvƒVƒ‡ƒ“‚ÅƒGƒ‰[”­¶‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ìƒ^ƒOó‘Ô‚ğ•Ô‚·BEndDraw ‚Íí‚É¬Œ÷‚·‚éB’¼‘O‚Ì EndDraw ‚ª¸”s‚µ‚½
+HRESULT ‚ğ•Ô‚µ‚½ê‡‚Å‚à“ñ“xŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢BBeginDraw ‚Æ‘Î‰‚µ‚È‚¢ EndDraw ‚ğŒÄ‚Ño‚·‚ÆAEndDraw
+‚Ì‘O‚É BeginDraw ‚ğŒÄ‚Ô•K—v‚ª‚ ‚é‚±‚Æ‚ğ¦‚·ƒGƒ‰[‚ğ•Ô‚·B“¯ˆê‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å BeginDraw
+‚ğ“ñ“xŒÄ‚Ô‚ÆƒGƒ‰[ó‘Ô‚É‚È‚èA‚»‚êˆÈ~‚Í‰½‚à•`‰æ‚³‚ê‚¸AEndDraw ‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚É“KØ‚È HRESULT ‚ÆƒGƒ‰[î•ñ‚ğ•Ô‚·B
 
 
 %index
 ID2D1BitmapRenderTarget_GetPixelFormat
-ID2D1BitmapRenderTarget::GetPixelFormat (vtable slot 50)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: D2D1_PIXEL_FORMAT ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒhB
 
 
 %index
 ID2D1BitmapRenderTarget_SetDpi
-ID2D1BitmapRenderTarget::SetDpi (vtable slot 51)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI (dots per inch) ‚ğİ’è‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, dpiX, dpiY
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dpiX : [float] 
-dpiY : [float] 
+dpiX : [float] Œ^: FLOAT ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì…•½ DPI ‚ğw’è‚·‚é 0 ˆÈã‚Ì’lB
+dpiY : [float] Œ^: FLOAT ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì‚’¼ DPI ‚ğw’è‚·‚é 0 ˆÈã‚Ì’lB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI (dots per inch) ‚ğİ’è‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹‹óŠÔ‚©‚çƒfƒoƒCƒX”ñˆË‘¶‹óŠÔ‚Ö‚Ìƒ}ƒbƒsƒ“ƒO‚ğw’è‚·‚éBdpiX ‚Æ dpiY ‚ª‚¢‚¸‚ê‚à 0
+‚Ìê‡‚ÍAƒtƒ@ƒNƒgƒŠ[‚ª“Ç‚İæ‚Á‚½ƒVƒXƒeƒ€ DPI ‚ª‘I‚Î‚ê‚éBˆê•û‚ª 0 ‚Å‚à‚¤ˆê•û‚ª–¢w’è‚Ìê‡ADPI
+‚Í•ÏX‚³‚ê‚È‚¢BID2D1HwndRenderTarget ‚Ì DPI Šù’è’l‚Í’¼‹ß‚Éƒtƒ@ƒNƒgƒŠ[‚ª“Ç‚İæ‚Á‚½ƒVƒXƒeƒ€ DPI
+‚Å‚ ‚éB‚»‚Ì‘¼‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŠù’è’l‚Í 96 DPIB
 
 
 %index
 ID2D1BitmapRenderTarget_GetDpi
-ID2D1BitmapRenderTarget::GetDpi (vtable slot 52)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI (dots per inch) ‚ğ•Ô‚·B
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, dpiX, dpiY
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dpiX : [float] 
-dpiY : [float] 
+dpiX : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì…•½ DPI ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
+dpiY : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì‚’¼ DPI ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI (dots per inch) ‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹‹óŠÔ‚©‚çƒfƒoƒCƒX”ñˆË‘¶‹óŠÔ‚Ö‚Ìƒ}ƒbƒsƒ“ƒO‚ğ¦‚·BID2D1HwndRenderTarget ‚Ì
+DPI Šù’è’l‚Í’¼‹ß‚Éƒtƒ@ƒNƒgƒŠ[‚ª“Ç‚İæ‚Á‚½ƒVƒXƒeƒ€ DPI ‚Å‚ ‚éB‚»‚Ì‘¼‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŠù’è’l‚Í 96 DPIB
 
 
 %index
 ID2D1BitmapRenderTarget_GetSize
-ID2D1BitmapRenderTarget::GetSize (vtable slot 53)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
+
+[–ß‚è’l]
+Œ^: D2D1_SIZE_F ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒTƒCƒYiƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
 
 
 %index
 ID2D1BitmapRenderTarget_GetPixelSize
-ID2D1BitmapRenderTarget::GetPixelSize (vtable slot 54)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğƒfƒoƒCƒXƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğƒfƒoƒCƒXƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
+
+[–ß‚è’l]
+Œ^: D2D1_SIZE_U ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒYiƒfƒoƒCƒXƒsƒNƒZƒ‹’PˆÊjB
 
 
 %index
 ID2D1BitmapRenderTarget_GetMaximumBitmapSize
-ID2D1BitmapRenderTarget::GetMaximumBitmapSize (vtable slot 55)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªƒTƒ|[ƒg‚·‚éƒrƒbƒgƒ}ƒbƒv‚Ì 1 ŸŒ³‚ ‚½‚è‚ÌÅ‘åƒTƒCƒY‚ğƒfƒoƒCƒXˆË‘¶’PˆÊiƒsƒNƒZƒ‹j‚Åæ“¾‚·‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªƒTƒ|[ƒg‚·‚éƒrƒbƒgƒ}ƒbƒv‚Ì 1 ŸŒ³‚ ‚½‚è‚ÌÅ‘åƒTƒCƒY‚ğƒfƒoƒCƒXˆË‘¶’PˆÊiƒsƒNƒZƒ‹j‚Åæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: UINT32 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªƒTƒ|[ƒg‚·‚éƒrƒbƒgƒ}ƒbƒv‚Ì 1 ŸŒ³‚ ‚½‚è‚ÌÅ‘åƒTƒCƒYiƒsƒNƒZƒ‹’PˆÊjB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í Direct3D ƒfƒoƒCƒX‚ÌÅ‘åƒeƒNƒXƒ`ƒƒ[ƒTƒCƒY‚ğ•Ô‚·B’ˆÓ ƒ\ƒtƒgƒEƒFƒAƒŒƒ“ƒ_ƒ‰[‚Æ WARP ƒfƒoƒCƒX‚Í 16
+ƒƒKƒsƒNƒZƒ‹ (16*1024*1024) ‚Ì’l‚ğ•Ô‚·B‚±‚ÌƒTƒCƒY‚Ì Direct2D ƒeƒNƒXƒ`ƒƒ[‚Íì¬‚Å‚«‚é‚ªA“¯‚¶ƒTƒCƒY‚Ì
+Direct3D ƒeƒNƒXƒ`ƒƒ[‚Íì¬‚Å‚«‚È‚¢B
 
 
 %index
 ID2D1BitmapRenderTarget_IsSupported
-ID2D1BitmapRenderTarget::IsSupported (vtable slot 56)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªw’è‚³‚ê‚½ƒvƒƒpƒeƒB‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·B(overload 1/2)
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, renderTargetProperties
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-renderTargetProperties : [var] 
+renderTargetProperties : [var] Œ^: const D2D1_RENDER_TARGET_PROPERTIES* ƒeƒXƒg‚·‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgƒvƒƒpƒeƒBB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªw’è‚³‚ê‚½ƒvƒƒpƒeƒB‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·B(overload 1/2)
+
+[–ß‚è’l]
+Œ^: BOOL w’è‚µ‚½ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgƒvƒƒpƒeƒB‚ª‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¯‚ê‚Î
+FALSEB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í renderTargetProperties ƒpƒ‰ƒ[ƒ^[‚Åw’è‚³‚ê‚½ DPI İ’è‚ğ•]‰¿‚µ‚È‚¢B
 
 
 %index
 ID2D1BitmapRenderTarget_GetBitmap
 ‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg—p‚Ìƒrƒbƒgƒ}ƒbƒv‚ğæ“¾‚·‚éB•Ô‚³‚ê‚éƒrƒbƒgƒ}ƒbƒv‚Í•`‰æ‘€ì‚Ég—p‚Å‚«‚éB
+%group
+COM misc / ID2D1BitmapRenderTarget
 %prm
 this, bitmap
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1457,17 +2054,22 @@ ID2D1BitmapRenderTarget ‚Ì DPI
 
 %index
 ID2D1Brush_GetFactory
-ID2D1Brush::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1Brush
 %prm
 this, factory
 this : [comobj] ID2D1Brush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1Brush_SetOpacity
 ‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğİ’è‚·‚éB
+%group
+COM misc / ID2D1Brush
 %prm
 this, opacity
 this : [comobj] ID2D1Brush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1479,6 +2081,8 @@ opacity : [float] Œ^: FLOAT ƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğ¦‚· 0 ‚©‚ç 1 ‚Ü‚Å‚Ì’lB‚±‚Ì’l‚Íƒu
 %index
 ID2D1Brush_SetTransform
 ƒuƒ‰ƒV‚É“K—p‚·‚é•ÏŠ·‚ğİ’è‚·‚éB
+%group
+COM misc / ID2D1Brush
 %prm
 this, transform
 this : [comobj] ID2D1Brush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1507,6 +2111,8 @@ transform : [var]
 %index
 ID2D1Brush_GetOpacity
 ‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1Brush
 %prm
 this
 this : [comobj] ID2D1Brush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1522,6 +2128,8 @@ this : [comobj] ID2D1Brush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1Brush_GetTransform
 ‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1Brush
 %prm
 this, transform
 this : [comobj] ID2D1Brush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1535,17 +2143,22 @@ transform : [var] Œ^: D2D1_MATRIX_3X2_F* ‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·B
 
 %index
 ID2D1DCRenderTarget_GetFactory
-ID2D1DCRenderTarget::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, factory
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_CreateBitmap
-ID2D1DCRenderTarget::CreateBitmap (vtable slot 4)
+Direct2D ƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, size, srcData, pitch, bitmapProperties, bitmap
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1555,11 +2168,14 @@ pitch : [int]
 bitmapProperties : [var] 
 bitmap : [comobj] 
 %inst
+Direct2D ƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_CreateBitmapFromWicBitmap
-ID2D1DCRenderTarget::CreateBitmapFromWicBitmap (vtable slot 5)
+w’è‚µ‚½ Microsoft Windows Imaging Component (WIC) ƒrƒbƒgƒ}ƒbƒv‚ğƒRƒs[‚µ‚Ä ID2D1Bitmap ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, wicBitmapSource, bitmapProperties, bitmap
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1567,24 +2183,70 @@ wicBitmapSource : [comobj]
 bitmapProperties : [var] 
 bitmap : [comobj] 
 %inst
+w’è‚µ‚½ Microsoft Windows Imaging Component (WIC) ƒrƒbƒgƒ}ƒbƒv‚ğƒRƒs[‚µ‚Ä
+ID2D1Bitmap ‚ğì¬‚·‚éB
+
+[”õl]
+Direct2D ‚ª WIC
+‰æ‘œ‚ğ“Ç‚İ‚Ş‘O‚ÉA‘Î‰‚·‚éƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚Ö‚Ì•ÏŠ·‚ª•K—v‚Å‚ ‚éB‘Î‰‚·‚éƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚Ìˆê——‚É‚Â‚¢‚Ä‚Í
+[Supported Pixel Formats and Alpha
+Modes](supported-pixel-formats-and-alpha-modes.md) ‚ğQÆB
 
 
 %index
 ID2D1DCRenderTarget_CreateSharedBitmap
-ID2D1DCRenderTarget::CreateSharedBitmap (vtable slot 6)
+‘¼‚ÌƒŠƒ\[ƒX‚Æƒf[ƒ^‚ğ‹¤—L‚·‚é ID2D1Bitmap ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, riid, data, bitmapProperties, bitmap
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-riid : [var] 
-data : [intptr] 
-bitmapProperties : [var] 
-bitmap : [comobj] 
+riid : [var] Œ^: REFIID ƒ\[ƒXƒf[ƒ^‚ğ’ñ‹Ÿ‚·‚éƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX IDB
+data : [intptr] Œ^: void* V‚µ‚¢ ID2D1Bitmap ‚Æ‹¤—L‚·‚éƒf[ƒ^‚ğŠÜ‚Ş ID2D1BitmapAIDXGISurfaceA‚Ü‚½‚Í IWICBitmapLockBÚ×‚Í Remarks ‚ğQÆB
+bitmapProperties : [var] Œ^: D2D1_BITMAP_PROPERTIES* ì¬‚·‚éƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹Œ`®‚Æ DPIBƒsƒNƒZƒ‹Œ`®‚Ì DXGI_FORMAT •”•ª‚Í data ‚Ì DXGI_FORMAT ‚Æˆê’v‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éiƒAƒ‹ƒtƒ@ƒ‚[ƒh‚Íˆê’v‚µ‚Ä‚¢‚È‚­‚Ä‚à‚æ‚¢jB•sˆê’v‚ğ”ğ‚¯‚é‚É‚Í NULL ‚Ü‚½‚Í D2D1::PixelFormat ƒwƒ‹ƒp[ŠÖ”‚©‚ç“¾‚½’l‚ğ“n‚¹‚éBDPI İ’è‚Í data ‚Æˆê’v‚µ‚Ä‚¢‚é•K—v‚Í‚È‚¢BdpiX ‚Æ dpiY ‚ª‚¢‚¸‚ê‚à 0.0f ‚Ìê‡‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI ‚ªg—p‚³‚ê‚éB
+bitmap : [comobj] Œ^: ID2D1Bitmap** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAV‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+‘¼‚ÌƒŠƒ\[ƒX‚Æƒf[ƒ^‚ğ‹¤—L‚·‚é ID2D1Bitmap ‚ğì¬‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î
+[**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+CreateSharedBitmap ƒƒ\ƒbƒh‚Íƒrƒbƒgƒ}ƒbƒvƒf[ƒ^‚ğŒø—¦‚æ‚­Ä—˜—p‚·‚é‚Ì‚É•Ö—˜‚ÅADirect3D
+‚Æ‚Ì‘ŠŒİ‰^—p‚É‚àg‚¦‚éBID2D1Bitmap ‚Ì‹¤—L ƒŠƒ\[ƒXŒİŠ·«‚Ì‚ ‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Åì¬‚³‚ê‚½ ID2D1Bitmap
+‚ğ“n‚·‚±‚Æ‚ÅA‚»‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Æƒrƒbƒgƒ}ƒbƒv‚ğ‹¤—L‚Å‚«‚éBŒ³‚Ì ID2D1Bitmap ‚Æ‚±‚Ìƒƒ\ƒbƒh‚Åì¬‚³‚ê‚éV‚µ‚¢
+ID2D1Bitmap ‚Í‚Æ‚à‚É“¯‚¶ƒrƒbƒgƒ}ƒbƒvƒf[ƒ^‚ğw‚·BƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgƒŠƒ\[ƒX‚ğ‚¢‚Â‹¤—L‚Å‚«‚é‚©‚É‚Â‚¢‚Ä‚Í Resources
+Overview ‚Ì Sharing Render Target Resources ƒZƒNƒVƒ‡ƒ“‚ğQÆBŠù‘¶‚Ìƒrƒbƒgƒ}ƒbƒv‚Ìƒf[ƒ^‚ğV‚µ‚¢
+DPI ‚Ü‚½‚ÍƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ÅÄ‰ğß‚·‚é‚½‚ß‚É‚±‚Ìƒƒ\ƒbƒh‚ğg‚¤‚±‚Æ‚à‚Å‚«‚éB—á‚¦‚Îƒrƒbƒgƒ}ƒbƒvƒAƒgƒ‰ƒX‚Ìê‡AID2D1Bitmap
+‚É•¡”‚ÌƒTƒu‰æ‘œ‚ªŠÜ‚Ü‚êA‚»‚ê‚¼‚êˆÙ‚È‚é D2D1_ALPHA_MODE (D2D1_ALPHA_MODE_PREMULTIPLIED
+‚Ü‚½‚Í D2D1_ALPHA_MODE_IGNORE) ‚ÅƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚é‚×‚«‚Å‚ ‚é‚±‚Æ‚ª‚ ‚éBCreateSharedBitmap
+‚ğg‚¦‚Îƒrƒbƒgƒ}ƒbƒv‚ğ•Ê‚ÌƒRƒs[‚Æ‚µ‚Äƒƒ‚ƒŠ‚É“Ç‚İ‚İ’¼‚·‚±‚Æ‚È‚­A–]‚ŞƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ÅÄ‰ğß‚Å‚«‚éBIDXGISurface ‚Ì‹¤—L
+DXGI ƒT[ƒtƒFƒCƒXƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgiCreateDxgiSurfaceRenderTarget ƒƒ\ƒbƒh‚Åì¬‚³‚ê‚½
+ID2D1RenderTarget ƒIƒuƒWƒFƒNƒgj‚ğg—p‚µ‚Ä‚¢‚éê‡AIDXGISurface ƒT[ƒtƒFƒCƒX‚ğ
+CreateSharedBitmap ‚É“n‚·‚±‚Æ‚ÅƒrƒfƒIƒƒ‚ƒŠ‚ğ Direct3D ‚Æ‹¤—L‚µADirect3D ƒRƒ“ƒeƒ“ƒc‚ğ
+ID2D1Bitmap ‚Æ‚µ‚Ä‘€ì‚Å‚«‚éBResources Overview ‚Åà–¾‚³‚ê‚Ä‚¢‚é‚Æ‚¨‚èAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Æ
+IDXGISurface ‚Í“¯‚¶ Direct3D ƒfƒoƒCƒX‚ğg—p‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+“¯—l‚É IDXGISurface ‚Í Supported Pixel Formats and Alpha Modes
+‚É‹LÚ‚³‚ê‚Ä‚¢‚éƒTƒ|[ƒg‘ÎÛ‚ÌƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚Ì‚¢‚¸‚ê‚©‚ğg—p‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BDirect3D
+‚Æ‚Ì‘ŠŒİ‰^—p‚ÌÚ×‚É‚Â‚¢‚Ä‚Í Direct2D and Direct3D Interoperability Overview
+‚ğQÆBIWICBitmapLock ‚Ì‹¤—L IWICBitmapLock ‚Í WIC
+ƒrƒbƒgƒ}ƒbƒv‚Ì“à—e‚ğŠi”[‚µA“¯ƒAƒNƒZƒX‚©‚ç•ÛŒì‚·‚éBIWICBitmapLock ‚ğ CreateSharedBitmap
+‚É“n‚·‚±‚Æ‚ÅAIWICBitmapLock ‚ÉŠù‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒrƒbƒgƒ}ƒbƒvƒf[ƒ^‚ğw‚· ID2D1Bitmap
+‚ğì¬‚Å‚«‚éBCreateSharedBitmap ‚Å IWICBitmapLock
+‚ğg—p‚·‚é‚É‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Íƒ\ƒtƒgƒEƒFƒAƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğg—p‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Éƒ\ƒtƒgƒEƒFƒAƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğ‹­§‚·‚é‚É‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgì¬‚Ég‚¤
+D2D1_RENDER_TARGET_PROPERTIES \‘¢‘Ì‚Ì type ƒtƒB[ƒ‹ƒh‚ğ
+D2D1_RENDER_TARGET_TYPE_SOFTWARE
+‚Éİ’è‚·‚éBŠù‘¶‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªƒ\ƒtƒgƒEƒFƒAƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğg—p‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğŠm”F‚·‚é‚É‚Í IsSupported
+ƒƒ\ƒbƒh‚ğg—p‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_CreateBitmapBrush
-ID2D1DCRenderTarget::CreateBitmapBrush (vtable slot 7)
+w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚©‚ç ID2D1BitmapBrush ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, bitmap, bitmapBrushProperties, brushProperties, bitmapBrush
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1593,11 +2255,14 @@ bitmapBrushProperties : [var]
 brushProperties : [var] 
 bitmapBrush : [comobj] 
 %inst
+w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚©‚ç ID2D1BitmapBrush ‚ğì¬‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_CreateSolidColorBrush
-ID2D1DCRenderTarget::CreateSolidColorBrush (vtable slot 8)
+’PF‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ég—p‚Å‚«‚éV‚µ‚¢ ID2D1SolidColorBrush ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, color, brushProperties, solidColorBrush
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1605,11 +2270,14 @@ color : [var]
 brushProperties : [var] 
 solidColorBrush : [comobj] 
 %inst
+’PF‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ég—p‚Å‚«‚éV‚µ‚¢ ID2D1SolidColorBrush ‚ğì¬‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_CreateGradientStopCollection
-ID2D1DCRenderTarget::CreateGradientStopCollection (vtable slot 9)
+w’è‚µ‚½ D2D1\_GRADIENT\_STOP \‘¢‘Ì‚Ì”z—ñ‚©‚ç ID2D1GradientStopCollection ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, gradientStops, gradientStopsCount, colorInterpolationGamma, extendMode, gradientStopCollection
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1619,11 +2287,14 @@ colorInterpolationGamma : [int]
 extendMode : [int] 
 gradientStopCollection : [comobj] 
 %inst
+w’è‚µ‚½ D2D1\_GRADIENT\_STOP \‘¢‘Ì‚Ì”z—ñ‚©‚ç ID2D1GradientStopCollection ‚ğì¬‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_CreateLinearGradientBrush
-ID2D1DCRenderTarget::CreateLinearGradientBrush (vtable slot 10)
+üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ì ID2D1LinearGradientBrush ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, linearGradientBrushProperties, brushProperties, gradientStopCollection, linearGradientBrush
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1632,11 +2303,14 @@ brushProperties : [var]
 gradientStopCollection : [comobj] 
 linearGradientBrush : [comobj] 
 %inst
+üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ì ID2D1LinearGradientBrush ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_CreateRadialGradientBrush
-ID2D1DCRenderTarget::CreateRadialGradientBrush (vtable slot 11)
+•úËóƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ég—p‚Å‚«‚é ID2D1RadialGradientBrush ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, radialGradientBrushProperties, brushProperties, gradientStopCollection, radialGradientBrush
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1645,11 +2319,14 @@ brushProperties : [var]
 gradientStopCollection : [comobj] 
 radialGradientBrush : [comobj] 
 %inst
+•úËóƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ég—p‚Å‚«‚é ID2D1RadialGradientBrush ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_CreateCompatibleRenderTarget
-ID2D1DCRenderTarget::CreateCompatibleRenderTarget (vtable slot 12)
+Œ»İ‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÆŒİŠ·«‚Ì‚ ‚éAƒIƒtƒXƒNƒŠ[ƒ“’†ŠÔ•`‰æ—p‚ÌV‚µ‚¢ƒrƒbƒgƒ}ƒbƒvƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, desiredSize, desiredPixelSize, desiredFormat, options, bitmapRenderTarget
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1659,46 +2336,75 @@ desiredFormat : [var]
 options : [int] 
 bitmapRenderTarget : [comobj] 
 %inst
+Œ»İ‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÆŒİŠ·«‚Ì‚ ‚éAƒIƒtƒXƒNƒŠ[ƒ“’†ŠÔ•`‰æ—p‚ÌV‚µ‚¢ƒrƒbƒgƒ}ƒbƒvƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğì¬‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_CreateLayer
-ID2D1DCRenderTarget::CreateLayer (vtable slot 13)
+‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚¨‚æ‚Ñ‚»‚ê‚ÆŒİŠ·«‚Ì‚ ‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Åg—p‚Å‚«‚éƒŒƒCƒ„[ƒŠƒ\[ƒX‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, size, layer
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 size : [var] 
 layer : [comobj] 
 %inst
+‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚¨‚æ‚Ñ‚»‚ê‚ÆŒİŠ·«‚Ì‚ ‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Åg—p‚Å‚«‚éƒŒƒCƒ„[ƒŠƒ\[ƒX‚ğì¬‚·‚éB
+
+[”õl]
+ƒŒƒCƒ„[‚Í•K—v‚É‰‚¶‚Ä©“®“I‚ÉƒTƒCƒY•ÏX‚³‚ê‚éB
 
 
 %index
 ID2D1DCRenderTarget_CreateMesh
-ID2D1DCRenderTarget::CreateMesh (vtable slot 14)
+OŠpŒ`‚ğg‚Á‚ÄŒ`ó‚ğ‹Lq‚·‚éƒƒbƒVƒ…‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, mesh
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-mesh : [comobj] 
+mesh : [comobj] Œ^: ID2D1Mesh** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAV‚µ‚¢ƒƒbƒVƒ…‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ªŠi”[‚³‚ê‚éB
 %inst
+OŠpŒ`‚ğg‚Á‚ÄŒ`ó‚ğ‹Lq‚·‚éƒƒbƒVƒ…‚ğì¬‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î
+[**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒƒbƒVƒ…‚ğ–„‚ß‚é‚É‚Í Open ƒƒ\ƒbƒh‚ğg‚Á‚Ä ID2D1TessellationSink
+‚ğæ“¾‚·‚éBƒƒbƒVƒ…‚ğ•`‰æ‚·‚é‚É‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì FillMesh ƒƒ\ƒbƒh‚ğg—p‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_DrawLine
-ID2D1DCRenderTarget::DrawLine (vtable slot 15)
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ 2 “_ŠÔ‚Éü‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, point0, point1, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-point0 : [int] 
-point1 : [int] 
-brush : [comobj] 
-strokeWidth : [float] 
-strokeStyle : [comobj] 
+point0 : [int] Œ^: D2D1_POINT_2F ü‚Ìn“_iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
+point1 : [int] Œ^: D2D1_POINT_2F ü‚ÌI“_iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
+brush : [comobj] Œ^: ID2D1Brush* ü‚ÌƒXƒgƒ[ƒN‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
+strokeWidth : [float] Œ^: FLOAT ƒXƒgƒ[ƒN‚Ì•iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB’l‚Í 0.0f ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğw’è‚µ‚È‚¢ê‡‚ÌŠù’è’l‚Í 1.0fBƒXƒgƒ[ƒN‚Íü‚Ì’†S‚É”z’u‚³‚ê‚éB
+strokeStyle : [comobj] Œ^: ID2D1StrokeStyle* “K—p‚·‚éƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹Bƒxƒ^‚Ìü‚ğ•`‰æ‚·‚éê‡‚Í NULL ‚ğw’è‚·‚éB
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ 2 “_ŠÔ‚Éü‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BDrawLine
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_DrawRectangle
-ID2D1DCRenderTarget::DrawRectangle (vtable slot 16)
+w’è‚µ‚½¡–@‚ÆƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğ‚Â‹éŒ`‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, rect, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1707,22 +2413,42 @@ brush : [comobj]
 strokeWidth : [float] 
 strokeStyle : [comobj] 
 %inst
+w’è‚µ‚½¡–@‚ÆƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğ‚Â‹éŒ`‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawRectangle**
+‚Ì‚æ‚¤‚È•`‰æƒƒ\ƒbƒh‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_FillRectangle
-ID2D1DCRenderTarget::FillRectangle (vtable slot 17)
+w’è‚µ‚½‹éŒ`‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, rect, brush
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 rect : [var] 
 brush : [comobj] 
 %inst
+w’è‚µ‚½‹éŒ`‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**FillRectangle**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_DrawRoundedRectangle
-ID2D1DCRenderTarget::DrawRoundedRectangle (vtable slot 18)
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ŠpŠÛ‹éŒ`‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, roundedRect, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1731,22 +2457,42 @@ brush : [comobj]
 strokeWidth : [float] 
 strokeStyle : [comobj] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ŠpŠÛ‹éŒ`‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawRoundedRectangle**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_FillRoundedRectangle
-ID2D1DCRenderTarget::FillRoundedRectangle (vtable slot 19)
+w’è‚µ‚½ŠpŠÛ‹éŒ`‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, roundedRect, brush
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 roundedRect : [var] 
 brush : [comobj] 
 %inst
+w’è‚µ‚½ŠpŠÛ‹éŒ`‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**FillRoundedRectangle**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_DrawEllipse
-ID2D1DCRenderTarget::DrawEllipse (vtable slot 20)
+w’è‚µ‚½¡–@‚ÆƒXƒgƒ[ƒN‚Å‘È‰~‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, ellipse, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1755,58 +2501,108 @@ brush : [comobj]
 strokeWidth : [float] 
 strokeStyle : [comobj] 
 %inst
+w’è‚µ‚½¡–@‚ÆƒXƒgƒ[ƒN‚Å‘È‰~‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+
+[”õl]
+**DrawEllipse** ƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawEllipse**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_FillEllipse
-ID2D1DCRenderTarget::FillEllipse (vtable slot 21)
+w’è‚µ‚½‘È‰~‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, ellipse, brush
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 ellipse : [var] 
 brush : [comobj] 
 %inst
+w’è‚µ‚½‘È‰~‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**FillEllipse**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_DrawGeometry
-ID2D1DCRenderTarget::DrawGeometry (vtable slot 22)
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ƒWƒIƒƒgƒŠ[‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, geometry, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-geometry : [comobj] 
-brush : [comobj] 
-strokeWidth : [float] 
-strokeStyle : [comobj] 
+geometry : [comobj] Œ^: ID2D1Geometry* •`‰æ‚·‚éƒWƒIƒƒgƒŠ[B
+brush : [comobj] Œ^: ID2D1Brush* ƒWƒIƒƒgƒŠ[‚ÌƒXƒgƒ[ƒN‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
+strokeWidth : [float] Œ^: FLOAT ƒXƒgƒ[ƒN‚Ì•iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB’l‚Í 0.0f ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğw’è‚µ‚È‚¢ê‡‚ÌŠù’è’l‚Í 1.0fBƒXƒgƒ[ƒN‚Íü‚Ì’†S‚É”z’u‚³‚ê‚éB
+strokeStyle : [comobj] Œ^: ID2D1StrokeStyle* ƒWƒIƒƒgƒŠ[‚Ì—ÖŠs‚É“K—p‚·‚éƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹Bƒxƒ^‚ÌƒXƒgƒ[ƒN‚ğ•`‰æ‚·‚éê‡‚Í NULL ‚ğw’è‚·‚éB
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ƒWƒIƒƒgƒŠ[‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BDrawGeometry
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_FillGeometry
-ID2D1DCRenderTarget::FillGeometry (vtable slot 23)
+w’è‚µ‚½ƒWƒIƒƒgƒŠ[‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, geometry, brush, opacityBrush
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-geometry : [comobj] 
-brush : [comobj] 
-opacityBrush : [comobj] 
+geometry : [comobj] Œ^: ID2D1Geometry* “h‚è‚Â‚Ô‚·ƒWƒIƒƒgƒŠ[B
+brush : [comobj] Œ^: ID2D1Brush* ƒWƒIƒƒgƒŠ[‚Ì“à•”‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
+opacityBrush : [comobj] Œ^: ID2D1Brush* ƒWƒIƒƒgƒŠ[‚É“K—p‚·‚é•s“§–¾“xƒ}ƒXƒNB•s“§–¾“xƒ}ƒXƒN‚ğg—p‚µ‚È‚¢ê‡‚Í NULLB•s“§–¾“xƒ}ƒXƒNiopacityBrush ƒpƒ‰ƒ[ƒ^[j‚ğw’è‚·‚éê‡Abrush ‚Í x/y Šg’£ƒ‚[ƒh‚ª D2D1_EXTEND_MODE_CLAMP ‚Éİ’è‚³‚ê‚½ ID2D1BitmapBrush ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Remarks ‚ğQÆB
 %inst
+w’è‚µ‚½ƒWƒIƒƒgƒŠ[‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+opacityBrush ƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Å‚È‚¢ê‡Aƒ}ƒbƒv‚³‚ê‚½ opacityBrush
+‚ÌŠeƒsƒNƒZƒ‹‚ÌƒAƒ‹ƒtƒ@’l‚ğg‚Á‚ÄƒWƒIƒƒgƒŠ[‚Ì‘Î‰‚·‚éŠeƒsƒNƒZƒ‹‚ÌÅI“I‚È•s“§–¾“x‚ªŒˆ’è‚³‚ê‚éB‚±‚Ìˆ—‚É‚Íƒuƒ‰ƒV“à‚ÌŠeF‚ÌƒAƒ‹ƒtƒ@’l‚Ì‚İ‚ªg‚í‚êA‘¼‚ÌFî•ñ‚Í‚·‚×‚Ä–³‹‚³‚ê‚éBƒuƒ‰ƒV‚ªw’è‚·‚éƒAƒ‹ƒtƒ@’l‚ÍAƒWƒIƒƒgƒŠ[‚ª
+brush ‚Å“h‚ç‚ê‚½ŒãAƒWƒIƒƒgƒŠ[‚ÌƒAƒ‹ƒtƒ@’l‚ÉæZ‚³‚ê‚éB
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BFillGeometry
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_FillMesh
-ID2D1DCRenderTarget::FillMesh (vtable slot 24)
+w’è‚µ‚½ƒƒbƒVƒ…‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, mesh, brush
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-mesh : [comobj] 
-brush : [comobj] 
+mesh : [comobj] Œ^: ID2D1Mesh* “h‚è‚Â‚Ô‚·ƒƒbƒVƒ…B
+brush : [comobj] Œ^: ID2D1Brush* ƒƒbƒVƒ…‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
 %inst
+w’è‚µ‚½ƒƒbƒVƒ…‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+FillMesh ‚ğŒÄ‚Ño‚·ÛAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚Í D2D1_ANTIALIAS_MODE_ALIASED
+‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğ•ÏX‚·‚é‚É‚Í SetAntialiasMode
+ƒƒ\ƒbƒh‚ğg—p‚·‚éBFillMesh ‚Í ID2D1Mesh
+“à‚ÌOŠpŒ`‚É“Á’è‚ÌƒƒCƒ“ƒfƒBƒ“ƒO‡‚ğŠú‘Ò‚µ‚È‚¢BŒv‰ñ‚èE”½Œv‰ñ‚è‚Ì‚Ç‚¿‚ç‚Å‚à“®ì‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BFillMesh
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_FillOpacityMask
-ID2D1DCRenderTarget::FillOpacityMask (vtable slot 25)
+w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚ª‹Lq‚·‚é•s“§–¾“xƒ}ƒXƒN‚ğƒuƒ‰ƒV‚É“K—p‚µA‚»‚Ìƒuƒ‰ƒV‚ğg‚Á‚ÄƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, opacityMask, brush, content, destinationRectangle, sourceRectangle
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1816,11 +2612,25 @@ content : [int]
 destinationRectangle : [var] 
 sourceRectangle : [var] 
 %inst
+w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚ª‹Lq‚·‚é•s“§–¾“xƒ}ƒXƒN‚ğƒuƒ‰ƒV‚É“K—p‚µA‚»‚Ìƒuƒ‰ƒV‚ğg‚Á‚ÄƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚ª³‚µ‚­“®ì‚·‚é‚É‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ª
+[**D2D1\_ANTIALIAS\_MODE\_ALIASED**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_antialias_mode)
+ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğg—p‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éBƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚Í
+[**ID2D1RenderTarget::SetAntialiasMode**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-setantialiasmode)
+ƒƒ\ƒbƒh‚Åİ’è‚Å‚«‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**FillOpacityMask**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_DrawBitmap
-ID2D1DCRenderTarget::DrawBitmap (vtable slot 26)
+w’è‚µ‚½ ID2D1Bitmap ‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, bitmap, destinationRectangle, opacity, interpolationMode, sourceRectangle
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1830,11 +2640,21 @@ opacity : [float]
 interpolationMode : [int] 
 sourceRectangle : [var] 
 %inst
+w’è‚µ‚½ ID2D1Bitmap ‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawBitmap**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_DrawText
-ID2D1DCRenderTarget::DrawText (vtable slot 27)
+IDWriteTextFormat ƒIƒuƒWƒFƒNƒg‚ª’ñ‹Ÿ‚·‚é‘®î•ñ‚ğg‚Á‚Äw’è‚µ‚½ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, string, stringLength, textFormat, layoutRect, defaultFillBrush, options, measuringMode
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -1846,306 +2666,582 @@ defaultFillBrush : [comobj]
 options : [int] 
 measuringMode : [int] 
 %inst
+IDWriteTextFormat ƒIƒuƒWƒFƒNƒg‚ª’ñ‹Ÿ‚·‚é‘®î•ñ‚ğg‚Á‚Äw’è‚µ‚½ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+
+[”õl]
+Direct2D ‚ÅƒeƒLƒXƒg‚ğ•`‰æ‚·‚é‚É‚ÍA’Pˆê‚Ì‘®‚ÌƒeƒLƒXƒg‚É‚Í
+[**ID2D1RenderTarget::DrawText**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-drawtext(constwchar_uint32_idwritetextformat_constd2d1_rect_f__id2d1brush_d2d1_draw_text_options_dwrite_measuring_mode))
+ƒƒ\ƒbƒh‚ğA•¡”‘®E‚“x‚È OpenType ‹@”\EƒqƒbƒgƒeƒXƒg‚ª•K—v‚Èê‡‚Í
+[**ID2D1RenderTarget::DrawTextLayout**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-drawtextlayout)
+ƒƒ\ƒbƒh‚ğg—p‚·‚éB‚±‚ê‚ç‚Ìƒƒ\ƒbƒh‚Í DirectWrite API
+‚ğ—˜—p‚µ‚Ä‚•i¿‚ÌƒeƒLƒXƒg•\¦‚ğ’ñ‹Ÿ‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawText**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_DrawTextLayout
-ID2D1DCRenderTarget::DrawTextLayout (vtable slot 28)
+w’è‚µ‚½ IDWriteTextLayout ƒIƒuƒWƒFƒNƒg‚ª‹Lq‚·‚é‘®•t‚«ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, origin, textLayout, defaultFillBrush, options
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-origin : [int] 
-textLayout : [comobj] 
-defaultFillBrush : [comobj] 
-options : [int] 
+origin : [int] Œ^: D2D1_POINT_2F textLayout ‚ª‹Lq‚·‚éƒeƒLƒXƒg‚Ì¶ã‹÷‚ª•`‰æ‚³‚ê‚é“_iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
+textLayout : [comobj] Œ^: IDWriteTextLayout* •`‰æ‚·‚é‘®•t‚«ƒeƒLƒXƒgBID2D1Resource ‚ğŒp³‚µ‚È‚¢•`‰æŒø‰Ê‚Í–³‹‚³‚ê‚éBID2D1Resource ‚ğŒp³‚·‚é‚ªƒuƒ‰ƒV‚Å‚Í‚È‚¢•`‰æŒø‰Ê‚ª‚ ‚éê‡A‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğƒGƒ‰[ó‘Ô‚É‚·‚éB
+defaultFillBrush : [comobj] Œ^: ID2D1Brush* textLayout “à‚ÅA•`‰æŒø‰Ê‚Æ‚µ‚ÄŠÖ˜A•t‚¯‚ç‚ê‚½ƒuƒ‰ƒViIDWriteTextLayout::SetDrawingEffect ƒƒ\ƒbƒh‚Åw’èj‚ğ‚½‚È‚¢ƒeƒLƒXƒg‚ğ“h‚é‚½‚ß‚Ég—p‚·‚éƒuƒ‰ƒVB
+options : [int] Œ^: D2D1_DRAW_TEXT_OPTIONS ƒeƒLƒXƒg‚ğƒsƒNƒZƒ‹‹«ŠE‚ÉƒXƒiƒbƒv‚·‚é‚©‚Ç‚¤‚©A‚¨‚æ‚ÑƒŒƒCƒAƒEƒg‹éŒ`‚ÅƒNƒŠƒbƒv‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’lBŠù’è’l‚Í D2D1_DRAW_TEXT_OPTIONS_NONE ‚ÅAƒeƒLƒXƒg‚ÍƒsƒNƒZƒ‹‹«ŠE‚ÉƒXƒiƒbƒv‚³‚êAƒŒƒCƒAƒEƒg‹éŒ`‚Å‚ÍƒNƒŠƒbƒv‚³‚ê‚È‚¢‚±‚Æ‚ğ¦‚·B
 %inst
+w’è‚µ‚½ IDWriteTextLayout ƒIƒuƒWƒFƒNƒg‚ª‹Lq‚·‚é‘®•t‚«ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+
+[”õl]
+“¯‚¶ƒeƒLƒXƒg‚ğŒJ‚è•Ô‚µ•`‰æ‚·‚éê‡AŒÄ‚Ño‚µ‚²‚Æ‚ÉƒeƒLƒXƒg‚Ì‘®İ’è‚ÆƒŒƒCƒAƒEƒgˆ—‚ğ•K—v‚Æ‚µ‚È‚¢‚½‚ßADrawText ƒƒ\ƒbƒh‚æ‚è‚à
+DrawTextLayout ƒƒ\ƒbƒh‚Ì•û‚ªŒø—¦“I‚Å‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BDrawTextLayout
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_DrawGlyphRun
-ID2D1DCRenderTarget::DrawGlyphRun (vtable slot 29)
+w’è‚µ‚½ƒOƒŠƒt‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, baselineOrigin, glyphRun, foregroundBrush, measuringMode
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-baselineOrigin : [int] 
-glyphRun : [int] 
-foregroundBrush : [comobj] 
-measuringMode : [int] 
+baselineOrigin : [int] Œ^: D2D1_POINT_2F ƒOƒŠƒt‚Ìƒx[ƒXƒ‰ƒCƒ“‚ÌŒ´“_iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
+glyphRun : [int] Œ^: const DWRITE_GLYPH_RUN* ƒŒƒ“ƒ_ƒŠƒ“ƒO‚·‚éƒOƒŠƒtB
+foregroundBrush : [comobj] Œ^: ID2D1Brush* w’è‚µ‚½ƒOƒŠƒt‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
+measuringMode : [int] Œ^: DWRITE_MEASURING_MODE ƒeƒLƒXƒg‚Ì‘®İ’è‚ÉƒOƒŠƒtƒƒgƒŠƒbƒN‚ğ‚Ç‚Ì‚æ‚¤‚Ég—p‚µ‚ÄƒeƒLƒXƒg‚ğ‘ª’è‚·‚é‚©‚ğ¦‚·’lBŠù’è’l‚Í DWRITE_MEASURING_MODE_NATURALB
 %inst
+w’è‚µ‚½ƒOƒŠƒt‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BDrawGlyphRun
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_SetTransform
-ID2D1DCRenderTarget::SetTransform (vtable slot 30)
+w’è‚µ‚½•ÏŠ·‚ğƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É“K—p‚µAŠù‘¶‚Ì•ÏŠ·‚ğ’u‚«Š·‚¦‚éBŒã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚Í•ÏŠ·Œã‚Ì‹óŠÔ‚Ås‚í‚ê‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, transform
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 transform : [var] 
 %inst
+w’è‚µ‚½•ÏŠ·‚ğƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É“K—p‚µAŠù‘¶‚Ì•ÏŠ·‚ğ’u‚«Š·‚¦‚éBŒã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚Í•ÏŠ·Œã‚Ì‹óŠÔ‚Ås‚í‚ê‚éB
 
 
 %index
 ID2D1DCRenderTarget_GetTransform
-ID2D1DCRenderTarget::GetTransform (vtable slot 31)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚Ì•ÏŠ·‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, transform
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-transform : [var] 
+transform : [var] Œ^: D2D1_MATRIX_3X2_F* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚Ì•ÏŠ·‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚Ì•ÏŠ·‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_SetAntialiasMode
-ID2D1DCRenderTarget::SetAntialiasMode (vtable slot 32)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğİ’è‚·‚éB‚±‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ÍAƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ğœ‚­Œã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚É“K—p‚³‚ê‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, antialiasMode
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-antialiasMode : [int] 
+antialiasMode : [int] Œ^: D2D1_ANTIALIAS_MODE ˆÈ~‚Ì•`‰æ‘€ì‚Åg—p‚·‚éƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhB
 %inst
+
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğİ’è‚·‚éB‚±‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ÍAƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ğœ‚­Œã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚É“K—p‚³‚ê‚éB
+
+[”õl]
+ƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt‘€ì‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğw’è‚·‚é‚É‚Í SetTextAntialiasMode ƒƒ\ƒbƒh‚ğg—p‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_GetAntialiasMode
-ID2D1DCRenderTarget::GetAntialiasMode (vtable slot 33)
+”ñƒeƒLƒXƒg•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+”ñƒeƒLƒXƒg•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: D2D1_ANTIALIAS_MODE ”ñƒeƒLƒXƒg•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhB
 
 
 %index
 ID2D1DCRenderTarget_SetTextAntialiasMode
-ID2D1DCRenderTarget::SetTextAntialiasMode (vtable slot 34)
+ˆÈ~‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Åg—p‚·‚éƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, textAntialiasMode
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textAntialiasMode : [int] 
+textAntialiasMode : [int] Œ^: D2D1_TEXT_ANTIALIAS_MODE ˆÈ~‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Åg—p‚·‚éƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhB
 %inst
+ˆÈ~‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Åg—p‚·‚éƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğw’è‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_GetTextAntialiasMode
-ID2D1DCRenderTarget::GetTextAntialiasMode (vtable slot 35)
+ƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: D2D1_TEXT_ANTIALIAS_MODE ƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhB
 
 
 %index
 ID2D1DCRenderTarget_SetTextRenderingParams
-ID2D1DCRenderTarget::SetTextRenderingParams (vtable slot 36)
+ˆÈ~‚Ì‚·‚×‚Ä‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚É“K—p‚·‚éƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, textRenderingParams
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textRenderingParams : [comobj] 
+textRenderingParams : [comobj] Œ^: IDWriteRenderingParams* ˆÈ~‚Ì‚·‚×‚Ä‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚É“K—p‚·‚éƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“BŒ»İ‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğƒNƒŠƒA‚·‚é‚É‚Í NULL ‚ğw’è‚·‚éB
 %inst
+ˆÈ~‚Ì‚·‚×‚Ä‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚É“K—p‚·‚éƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éB
+
+[”õl]
+textRenderingParams
+‚Åw’è‚³‚ê‚½İ’è‚ªƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒeƒLƒXƒgƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhiSetTextAntialiasMode
+‚Åw’èj‚ÆŒİŠ·«‚ª‚È‚¢ê‡AŒã‘±‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Í¸”s‚µAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éB
 
 
 %index
 ID2D1DCRenderTarget_GetTextRenderingParams
-ID2D1DCRenderTarget::GetTextRenderingParams (vtable slot 37)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, textRenderingParams
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textRenderingParams : [comobj] 
+textRenderingParams : [comobj] Œ^: IDWriteRenderingParams** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAtextRenderingParams ‚É‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚éB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+
+[”õl]
+textRenderingParams
+‚Åw’è‚³‚ê‚½İ’è‚ªƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒeƒLƒXƒgƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhiSetTextAntialiasMode
+‚Åw’èj‚ÆŒİŠ·«‚ª‚È‚¢ê‡AŒã‘±‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Í¸”s‚µAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éB
 
 
 %index
 ID2D1DCRenderTarget_SetTags
-ID2D1DCRenderTarget::SetTags (vtable slot 38)
+Œã‘±‚Ì•`‰æ‘€ì‚Ìƒ‰ƒxƒ‹‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-tag1 : [int64] 
-tag2 : [int64] 
+tag1 : [int64] Œ^: D2D1_TAG Œã‘±‚Ì•`‰æ‘€ì‚É“K—p‚·‚éƒ‰ƒxƒ‹B
+tag2 : [int64] Œ^: D2D1_TAG Œã‘±‚Ì•`‰æ‘€ì‚É“K—p‚·‚éƒ‰ƒxƒ‹B
 %inst
+Œã‘±‚Ì•`‰æ‘€ì‚Ìƒ‰ƒxƒ‹‚ğw’è‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Åw’è‚µ‚½ƒ‰ƒxƒ‹‚ÍƒfƒoƒbƒO‚ÌƒGƒ‰[ƒƒbƒZ[ƒW‚Åo—Í‚³‚ê‚éBƒ^ƒO‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AŠeƒ^ƒO‚ÌŠù’è’l‚Í 0B
 
 
 %index
 ID2D1DCRenderTarget_GetTags
-ID2D1DCRenderTarget::GetTags (vtable slot 39)
+Œã‘±‚Ì•`‰æ‘€ì‚Ìƒ‰ƒxƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-tag1 : [var] 
-tag2 : [var] 
+tag1 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAŒã‘±‚Ì•`‰æ‘€ì‚É•t‚¯‚éÅ‰‚Ìƒ‰ƒxƒ‹‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éBNULL ‚ğw’è‚µ‚½ê‡‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É’l‚Íæ“¾‚³‚ê‚È‚¢B
+tag2 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAŒã‘±‚Ì•`‰æ‘€ì‚É•t‚¯‚é 2 ‚Â–Ú‚Ìƒ‰ƒxƒ‹‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éBNULL ‚ğw’è‚µ‚½ê‡‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É’l‚Íæ“¾‚³‚ê‚È‚¢B
 %inst
+Œã‘±‚Ì•`‰æ‘€ì‚Ìƒ‰ƒxƒ‹‚ğæ“¾‚·‚éB
+
+[”õl]
+—¼•û‚Ìƒpƒ‰ƒ[ƒ^[‚É“¯‚¶ƒAƒhƒŒƒX‚ğ“n‚µ‚½ê‡A—¼•û‚Ìƒpƒ‰ƒ[ƒ^[‚ª 2 ‚Â–Ú‚Ìƒ^ƒO‚Ì’l‚ğó‚¯æ‚éB
 
 
 %index
 ID2D1DCRenderTarget_PushLayer
-ID2D1DCRenderTarget::PushLayer (vtable slot 40)
+PopLayer ‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚Å‚ÌŒã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚ğó‚¯æ‚é‚æ‚¤Aw’è‚µ‚½ƒŒƒCƒ„[‚ğƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É’Ç‰Á‚·‚éB(overload 1/2)
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, layerParameters, layer
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-layerParameters : [int] 
-layer : [comobj] 
+layerParameters : [int] Œ^: const D2D1_LAYER_PARAMETERS* ƒŒƒCƒ„[‚ÌƒRƒ“ƒeƒ“ƒc‹«ŠEAƒWƒIƒƒgƒŠƒbƒNƒ}ƒXƒNA•s“§–¾“xA•s“§–¾“xƒ}ƒXƒNA‚¨‚æ‚ÑƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒIƒvƒVƒ‡ƒ“B
+layer : [comobj] Œ^: ID2D1Layer* Œã‘±‚Ì•`‰æ‘€ì‚ğó‚¯æ‚éƒŒƒCƒ„[B’ˆÓ Windows 8 ˆÈ~A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ÍÈ—ª‰Â”\‚Å‚ ‚éBƒŒƒCƒ„[‚ğw’è‚µ‚È‚¢ê‡ADirect2D ‚ªƒŒƒCƒ„[ƒŠƒ\[ƒX‚ğ©“®“I‚ÉŠÇ—‚·‚éB
 %inst
+PopLayer
+‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚Å‚ÌŒã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚ğó‚¯æ‚é‚æ‚¤Aw’è‚µ‚½ƒŒƒCƒ„[‚ğƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É’Ç‰Á‚·‚éB(overload 1/2)
+
+[”õl]
+PushLayer
+ƒƒ\ƒbƒh‚ÍŒÄ‚Ño‚µ‘¤‚ªƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğƒŒƒCƒ„[‚ÖƒŠƒ_ƒCƒŒƒNƒg‚µn‚ß‚é‚±‚Æ‚ğ‰Â”\‚É‚·‚éBƒŒƒCƒ„[“à‚Å‚Í‚·‚×‚Ä‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‘€ì‚ª—LŒø‚Å‚ ‚éBƒŒƒCƒ„[‚ÌˆÊ’u‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Éİ’è‚³‚ê‚½ƒ[ƒ‹ƒh•ÏŠ·‚Ì‰e‹¿‚ğó‚¯‚éBPushLayer
+‚ÌŒÄ‚Ño‚µ‚É‚Í‘Î‰‚·‚é PopLayer ‚ÌŒÄ‚Ño‚µ‚ª•K—v‚Å‚ ‚éBPopLayer ‚ÌŒÄ‚Ño‚µ‚ª PushLayer
+‚ÌŒÄ‚Ño‚µ‚æ‚è‚à‘½‚¢ê‡AƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éB–¢‰ğŒˆ‚ÌƒŒƒCƒ„[‚ª‚·‚×‚Äƒ|ƒbƒv‚³‚ê‚é‘O‚É Flush
+‚ğŒÄ‚Ño‚·‚ÆƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒGƒ‰[ó‘Ô‚É‚È‚èAƒGƒ‰[‚ª•Ô‚³‚ê‚éB‚±‚ÌƒGƒ‰[ó‘Ô‚Í EndDraw ‚ÌŒÄ‚Ño‚µ‚ÅƒNƒŠƒA‚Å‚«‚éB“Á’è‚Ì
+ID2D1Layer ƒŠƒ\[ƒX‚Í“¯‚É 1 ‚Â‚µ‚©ƒAƒNƒeƒBƒu‚É‚Å‚«‚È‚¢B‚Â‚Ü‚è PushLayer
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½’¼Œã‚É“¯‚¶ƒŒƒCƒ„[ƒŠƒ\[ƒX‚Å PushLayer ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B2 ‚Â–Ú‚Ì PushLayer
+ƒƒ\ƒbƒh‚Í•Ê‚ÌƒŒƒCƒ„[ƒŠƒ\[ƒX‚ÅŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BPushLayer
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_PopLayer
-ID2D1DCRenderTarget::PopLayer (vtable slot 41)
+’¼‘O‚Ì PushLayer ŒÄ‚Ño‚µ‚Åw’è‚µ‚½ƒŒƒCƒ„[‚Ö‚Ì•`‰æ‘€ì‚ÌƒŠƒ_ƒCƒŒƒNƒg‚ğ’â~‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+’¼‘O‚Ì PushLayer ŒÄ‚Ño‚µ‚Åw’è‚µ‚½ƒŒƒCƒ„[‚Ö‚Ì•`‰æ‘€ì‚ÌƒŠƒ_ƒCƒŒƒNƒg‚ğ’â~‚·‚éB
+
+[”õl]
+PopLayer ‚Í’¼‘O‚Ì PushLayer
+ŒÄ‚Ño‚µ‚Æ‘Î‰‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BPopLayer
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_Flush
-ID2D1DCRenderTarget::Flush (vtable slot 42)
+•Û—¯’†‚Ì‚·‚×‚Ä‚Ì•`‰æƒRƒ}ƒ“ƒh‚ğÀs‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-tag1 : [var] 
-tag2 : [var] 
+tag1 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒGƒ‰[‚ğ”­¶‚³‚¹‚½•`‰æ‘€ì‚Ìƒ^ƒOA‚Ü‚½‚ÍƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡‚Í 0 ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
+tag2 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒGƒ‰[‚ğ”­¶‚³‚¹‚½•`‰æ‘€ì‚Ìƒ^ƒOA‚Ü‚½‚ÍƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡‚Í 0 ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+•Û—¯’†‚Ì‚·‚×‚Ä‚Ì•`‰æƒRƒ}ƒ“ƒh‚ğÀs‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚µAƒGƒ‰[”­¶‚ÉƒAƒNƒeƒBƒu‚¾‚Á‚½ƒ^ƒO‚ğ tag1 ‚¨‚æ‚Ñ tag2
+‚Éİ’è‚·‚éBƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍƒGƒ‰[ƒ^ƒOó‘Ô‚ğ (0,0) ‚Éİ’è‚·‚éB
+
+[”õl]
+‚±‚ÌƒRƒ}ƒ“ƒh‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ Direct3D
+ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğƒtƒ‰ƒbƒVƒ…‚µ‚È‚¢B‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚ÆƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒGƒ‰[ó‘Ô‚ªƒŠƒZƒbƒg‚³‚ê‚éB
 
 
 %index
 ID2D1DCRenderTarget_SaveDrawingState
-ID2D1DCRenderTarget::SaveDrawingState (vtable slot 43)
+Œ»İ‚Ì•`‰æó‘Ô‚ğAw’è‚µ‚½ ID2D1DrawingStateBlock ‚É•Û‘¶‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, drawingStateBlock
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-drawingStateBlock : [comobj] 
+drawingStateBlock : [comobj] Œ^: ID2D1DrawingStateBlock* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚Ì•`‰æó‘Ô‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Íƒƒ\ƒbƒh‚É“n‚·‘O‚É‰Šú‰»‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
 %inst
+Œ»İ‚Ì•`‰æó‘Ô‚ğAw’è‚µ‚½ ID2D1DrawingStateBlock ‚É•Û‘¶‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_RestoreDrawingState
-ID2D1DCRenderTarget::RestoreDrawingState (vtable slot 44)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì•`‰æó‘Ô‚ğAw’è‚µ‚½ ID2D1DrawingStateBlock ‚Ìó‘Ô‚Éİ’è‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, drawingStateBlock
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-drawingStateBlock : [comobj] 
+drawingStateBlock : [comobj] Œ^: ID2D1DrawingStateBlock* ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌV‚µ‚¢•`‰æó‘ÔB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì•`‰æó‘Ô‚ğAw’è‚µ‚½ ID2D1DrawingStateBlock ‚Ìó‘Ô‚Éİ’è‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_PushAxisAlignedClip
-ID2D1DCRenderTarget::PushAxisAlignedClip (vtable slot 45)
+ˆÈ~‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚ÌƒNƒŠƒbƒvæ‚Æ‚È‚é‹éŒ`‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, clipRect, antialiasMode
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 clipRect : [var] 
 antialiasMode : [int] 
 %inst
+ˆÈ~‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚ÌƒNƒŠƒbƒvæ‚Æ‚È‚é‹éŒ`‚ğw’è‚·‚éB
+
+[”õl]
+
+[**PushAxisAlignedClip**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-pushaxisalignedclip(constd2d1_rect_f__d2d1_antialias_mode))
+‚Æ
+[**PopAxisAlignedClip**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-popaxisalignedclip)
+‚ÌƒyƒA‚Í
+[**PushLayer**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-pushlayer(constd2d1_layer_parameters__id2d1layer))
+‚Æ
+[**PopLayer**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-poplayer)
+‚ÌƒyƒA‚ÌŠO‘¤‚Ü‚½‚Í“à‘¤‚ÉoŒ»‚Å‚«‚é‚ªAŒİ‚¢‚Éd‚È‚è‡‚Á‚Ä‚Í‚È‚ç‚È‚¢B—á‚¦‚Î
+**PushAxisAlignedClip**A[**PushLayer**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-pushlayer(constd2d1_layer_parameters__id2d1layer))A**PopLayer**A**PopAxisAlignedClip**
+‚ÌƒV[ƒPƒ“ƒX‚Í—LŒø‚¾‚ªA**PushAxisAlignedClip**A**PushLayer**A**PopAxisAlignedClip**A**PopLayer**
+‚ÌƒV[ƒPƒ“ƒX‚Í–³Œø‚Å‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**PushAxisAlignedClip**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_PopAxisAlignedClip
-ID2D1DCRenderTarget::PopAxisAlignedClip (vtable slot 46)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚©‚çÅŒã‚Ì²‘µ‚¦ƒNƒŠƒbƒv‚ğæ‚èœ‚­B‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½Œã‚ÍA‚»‚ÌƒNƒŠƒbƒv‚ÍŒã‘±‚Ì•`‰æ‘€ì‚É“K—p‚³‚ê‚È‚¢B
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚©‚çÅŒã‚Ì²‘µ‚¦ƒNƒŠƒbƒv‚ğæ‚èœ‚­B‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½Œã‚ÍA‚»‚ÌƒNƒŠƒbƒv‚ÍŒã‘±‚Ì•`‰æ‘€ì‚É“K—p‚³‚ê‚È‚¢B
+
+[”õl]
+PushAxisAlignedClip ‚Æ PopAxisAlignedClip ‚ÌƒyƒA‚Í PushLayer ‚Æ PopLayer
+‚ÌƒyƒA‚ÌŠO‘¤‚Ü‚½‚Í“à‘¤‚ÉoŒ»‚Å‚«‚é‚ªAŒİ‚¢‚Éd‚È‚è‡‚Á‚Ä‚Í‚È‚ç‚È‚¢B—á‚¦‚Î
+PushAxisAlignedClipAPushLayerAPopLayerAPopAxisAlignedClip
+‚ÌƒV[ƒPƒ“ƒX‚Í—LŒø‚¾‚ªAPushAxisAlignedClipAPushLayerAPopAxisAlignedClipAPopLayer
+‚ÌƒV[ƒPƒ“ƒX‚Í–³Œø‚Å‚ ‚éBPopAxisAlignedClip ‚Í PushAxisAlignedClip ‚ÌŒÄ‚Ño‚µ‚²‚Æ‚É 1
+‰ñŒÄ‚Ño‚·•K—v‚ª‚ ‚éB—á‚É‚Â‚¢‚Ä‚ÍuHow to Clip with an Axis-Aligned Clip
+Rectanglev‚ğQÆB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BPopAxisAlignedClip
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1DCRenderTarget_Clear
-ID2D1DCRenderTarget::Clear (vtable slot 47)
+•`‰æ—Ìˆæ‚ğw’è‚µ‚½F‚ÅƒNƒŠƒA‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, clearColor
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 clearColor : [var] 
 %inst
+•`‰æ—Ìˆæ‚ğw’è‚µ‚½F‚ÅƒNƒŠƒA‚·‚éB
+
+[”õl]
+Direct2D ‚Í *clearColor*
+‚ğƒXƒgƒŒ[ƒgƒAƒ‹ƒtƒ@iƒvƒŠƒ}ƒ‹ƒ`ƒvƒ‰ƒCƒh‚Å‚Í‚È‚¢j‚Æ‚µ‚Ä‰ğß‚·‚éBƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ª
+[**D2D1\_ALPHA\_MODE\_IGNORE**](/windows/desktop/api/dcommon/ne-dcommon-d2d1_alpha_mode)
+‚Ìê‡A*clearColor* ‚ÌƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹‚Í–³‹‚³‚ê
+1.0fiŠ®‘S•s“§–¾j‚É’u‚«Š·‚¦‚ç‚ê‚éBƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÉƒAƒNƒeƒBƒu‚ÈƒNƒŠƒbƒvi[**PushAxisAlignedClip**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-pushaxisalignedclip(constd2d1_rect_f__d2d1_antialias_mode))
+‚Åw’èj‚ª‚ ‚éê‡AƒNƒŠƒA‘€ì‚ÍƒNƒŠƒbƒv—Ìˆæ“à‚Ì‚İ‚É“K—p‚³‚ê‚éB
 
 
 %index
 ID2D1DCRenderTarget_BeginDraw
-ID2D1DCRenderTarget::BeginDraw (vtable slot 48)
+‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚Ì•`‰æ‚ğŠJn‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚Ì•`‰æ‚ğŠJn‚·‚éB
+
+[”õl]
+•`‰æ‘€ì‚Í BeginDraw ‚Æ EndDraw ‚ÌŒÄ‚Ño‚µ‚ÌŠÔ‚Å‚Ì‚İ”­s‚Å‚«‚éBBeginDraw ‚Æ EndDraw
+‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ª Direct2D ƒVƒXƒeƒ€‚É‚æ‚Á‚Äg—p’†‚Å‚ ‚é‚±‚Æ‚ğ¦‚·‚½‚ß‚Ég‚í‚ê‚éBBeginDraw ‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚Ì
+ID2D1RenderTarget ‚ÌŠeÀ‘•‚ÌU‚é•‘‚¢‚ÍˆÙ‚È‚éê‡‚ª‚ ‚éB—á‚¦‚Î ID2D1BitmapRenderTarget ‚Í
+BeginDraw/EndDraw ŒÄ‚Ño‚µ‚ÌŠÔƒƒbƒN‚³‚ê‚é‚±‚Æ‚ª‚ ‚èADXGI ƒT[ƒtƒFƒCƒXƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Í BeginDraw
+‚Éæ“¾‚³‚ê‚Ä EndDraw ‚É‰ğ•ú‚³‚ê‚é‚±‚Æ‚ª‚ ‚èAID2D1HwndRenderTarget ‚Í BeginDraw
+‚Éƒoƒbƒ`‚ğŠJn‚µ EndDraw ‚ÉƒvƒŒƒ[ƒ“ƒg‚·‚é‚±‚Æ‚ª‚ ‚éBƒŒƒ“ƒ_ƒŠƒ“ƒO‘€ì‚ğŒÄ‚Ño‚·‚É‚Í BeginDraw
+ƒƒ\ƒbƒh‚ğæ‚ÉŒÄ‚Ño‚·•K—v‚ª‚ ‚é‚ªAó‘Ô‚Ìİ’è‚Ææ“¾‚Í BeginDraw/EndDraw ‚ÌŠO‚Å‚às‚¦‚éBBeginDraw
+‚ªŒÄ‚Ño‚³‚ê‚é‚ÆA’ÊíƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ}ƒ“ƒh‚Ìƒoƒbƒ`‚ğ’~Ï‚·‚é‚ªA“à•”ƒoƒbƒtƒ@‚ª‚¢‚Á‚Ï‚¢‚É‚È‚é‚© Flush
+ƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚é‚© EndDraw ‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚ÅA‚±‚ê‚çƒRƒ}ƒ“ƒh‚Ìˆ—‚ğ’x‰„‚·‚éBEndDraw
+ƒƒ\ƒbƒh‚Íƒoƒbƒ`‰»‚³‚ê‚½•`‰æ‘€ì‚ğŠ®—¹‚³‚¹A‚»‚ÌŒã‘€ì‚Ì¬”Û‚ğ¦‚· HRESULT
+‚ÆAƒIƒvƒVƒ‡ƒ“‚ÅƒGƒ‰[”­¶‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ìƒ^ƒOó‘Ô‚ğ•Ô‚·BEndDraw ‚Íí‚É¬Œ÷‚·‚éB’¼‘O‚Ì EndDraw ‚ª¸”s‚µ‚½
+HRESULT ‚ğ•Ô‚µ‚½ê‡‚Å‚à“ñ“xŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢BBeginDraw ‚Æ‘Î‰‚µ‚È‚¢ EndDraw ‚ğŒÄ‚Ño‚·‚ÆAEndDraw
+‚Ì‘O‚É BeginDraw ‚ğŒÄ‚Ô•K—v‚ª‚ ‚é‚±‚Æ‚ğ¦‚·ƒGƒ‰[‚ğ•Ô‚·B“¯ˆê‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å BeginDraw
+‚ğ“ñ“xŒÄ‚Ô‚ÆƒGƒ‰[ó‘Ô‚É‚È‚èA‚»‚êˆÈ~‚Í‰½‚à•`‰æ‚³‚ê‚¸AEndDraw ‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚É“KØ‚È HRESULT ‚ÆƒGƒ‰[î•ñ‚ğ•Ô‚·B
 
 
 %index
 ID2D1DCRenderTarget_EndDraw
-ID2D1DCRenderTarget::EndDraw (vtable slot 49)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚Ì•`‰æ‘€ì‚ğI—¹‚µAŒ»İ‚ÌƒGƒ‰[ó‘Ô‚ÆŠÖ˜Aƒ^ƒO‚ğ¦‚·B
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-tag1 : [var] 
-tag2 : [var] 
+tag1 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒGƒ‰[‚ğ”­¶‚³‚¹‚½•`‰æ‘€ì‚Ìƒ^ƒOA‚Ü‚½‚ÍƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡‚Í 0 ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
+tag2 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒGƒ‰[‚ğ”­¶‚³‚¹‚½•`‰æ‘€ì‚Ìƒ^ƒOA‚Ü‚½‚ÍƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡‚Í 0 ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚Ì•`‰æ‘€ì‚ğI—¹‚µAŒ»İ‚ÌƒGƒ‰[ó‘Ô‚ÆŠÖ˜Aƒ^ƒO‚ğ¦‚·B
+
+[–ß‚è’l]
+Œ^: HRESULT ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚µAƒGƒ‰[”­¶‚ÉƒAƒNƒeƒBƒu‚¾‚Á‚½ƒ^ƒO‚ğ tag1 ‚¨‚æ‚Ñ tag2 ‚Éİ’è‚·‚éB
+
+[”õl]
+•`‰æ‘€ì‚Í BeginDraw ‚Æ EndDraw ‚ÌŒÄ‚Ño‚µ‚ÌŠÔ‚Å‚Ì‚İ”­s‚Å‚«‚éB
+BeginDraw ‚Æ EndDraw ‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ª Direct2D
+ƒVƒXƒeƒ€‚É‚æ‚Á‚Äg—p’†‚Å‚ ‚é‚±‚Æ‚ğ¦‚·‚½‚ß‚Ég‚í‚ê‚éBBeginDraw ‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚Ì ID2D1RenderTarget
+‚ÌŠeÀ‘•‚ÌU‚é•‘‚¢‚ÍˆÙ‚È‚éê‡‚ª‚ ‚éB—á‚¦‚Î ID2D1BitmapRenderTarget ‚Í BeginDraw/EndDraw
+ŒÄ‚Ño‚µ‚ÌŠÔƒƒbƒN‚³‚ê‚é‚±‚Æ‚ª‚ ‚èADXGI ƒT[ƒtƒFƒCƒXƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Í BeginDraw ‚Éæ“¾‚³‚ê‚Ä EndDraw
+‚É‰ğ•ú‚³‚ê‚é‚±‚Æ‚ª‚ ‚èAID2D1HwndRenderTarget ‚Í BeginDraw ‚Éƒoƒbƒ`‚ğŠJn‚µ EndDraw
+‚ÉƒvƒŒƒ[ƒ“ƒg‚·‚é‚±‚Æ‚ª‚ ‚éBƒŒƒ“ƒ_ƒŠƒ“ƒO‘€ì‚ğŒÄ‚Ño‚·‚É‚Í BeginDraw ƒƒ\ƒbƒh‚ğæ‚ÉŒÄ‚Ño‚·•K—v‚ª‚ ‚é‚ªAó‘Ô‚Ìİ’è‚Ææ“¾‚Í
+BeginDraw/EndDraw ‚ÌŠO‚Å‚às‚¦‚éBBeginDraw
+‚ªŒÄ‚Ño‚³‚ê‚é‚ÆA’ÊíƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ}ƒ“ƒh‚Ìƒoƒbƒ`‚ğ’~Ï‚·‚é‚ªA“à•”ƒoƒbƒtƒ@‚ª‚¢‚Á‚Ï‚¢‚É‚È‚é‚© Flush
+ƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚é‚© EndDraw ‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚ÅA‚±‚ê‚çƒRƒ}ƒ“ƒh‚Ìˆ—‚ğ’x‰„‚·‚éBEndDraw
+ƒƒ\ƒbƒh‚Íƒoƒbƒ`‰»‚³‚ê‚½•`‰æ‘€ì‚ğŠ®—¹‚³‚¹A‚»‚ÌŒã‘€ì‚Ì¬”Û‚ğ¦‚· HRESULT
+‚ÆAƒIƒvƒVƒ‡ƒ“‚ÅƒGƒ‰[”­¶‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ìƒ^ƒOó‘Ô‚ğ•Ô‚·BEndDraw ‚Íí‚É¬Œ÷‚·‚éB’¼‘O‚Ì EndDraw ‚ª¸”s‚µ‚½
+HRESULT ‚ğ•Ô‚µ‚½ê‡‚Å‚à“ñ“xŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢BBeginDraw ‚Æ‘Î‰‚µ‚È‚¢ EndDraw ‚ğŒÄ‚Ño‚·‚ÆAEndDraw
+‚Ì‘O‚É BeginDraw ‚ğŒÄ‚Ô•K—v‚ª‚ ‚é‚±‚Æ‚ğ¦‚·ƒGƒ‰[‚ğ•Ô‚·B“¯ˆê‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å BeginDraw
+‚ğ“ñ“xŒÄ‚Ô‚ÆƒGƒ‰[ó‘Ô‚É‚È‚èA‚»‚êˆÈ~‚Í‰½‚à•`‰æ‚³‚ê‚¸AEndDraw ‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚É“KØ‚È HRESULT ‚ÆƒGƒ‰[î•ñ‚ğ•Ô‚·B
 
 
 %index
 ID2D1DCRenderTarget_GetPixelFormat
-ID2D1DCRenderTarget::GetPixelFormat (vtable slot 50)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: D2D1_PIXEL_FORMAT ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒhB
 
 
 %index
 ID2D1DCRenderTarget_SetDpi
-ID2D1DCRenderTarget::SetDpi (vtable slot 51)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI (dots per inch) ‚ğİ’è‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, dpiX, dpiY
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dpiX : [float] 
-dpiY : [float] 
+dpiX : [float] Œ^: FLOAT ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì…•½ DPI ‚ğw’è‚·‚é 0 ˆÈã‚Ì’lB
+dpiY : [float] Œ^: FLOAT ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì‚’¼ DPI ‚ğw’è‚·‚é 0 ˆÈã‚Ì’lB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI (dots per inch) ‚ğİ’è‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹‹óŠÔ‚©‚çƒfƒoƒCƒX”ñˆË‘¶‹óŠÔ‚Ö‚Ìƒ}ƒbƒsƒ“ƒO‚ğw’è‚·‚éBdpiX ‚Æ dpiY ‚ª‚¢‚¸‚ê‚à 0
+‚Ìê‡‚ÍAƒtƒ@ƒNƒgƒŠ[‚ª“Ç‚İæ‚Á‚½ƒVƒXƒeƒ€ DPI ‚ª‘I‚Î‚ê‚éBˆê•û‚ª 0 ‚Å‚à‚¤ˆê•û‚ª–¢w’è‚Ìê‡ADPI
+‚Í•ÏX‚³‚ê‚È‚¢BID2D1HwndRenderTarget ‚Ì DPI Šù’è’l‚Í’¼‹ß‚Éƒtƒ@ƒNƒgƒŠ[‚ª“Ç‚İæ‚Á‚½ƒVƒXƒeƒ€ DPI
+‚Å‚ ‚éB‚»‚Ì‘¼‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŠù’è’l‚Í 96 DPIB
 
 
 %index
 ID2D1DCRenderTarget_GetDpi
-ID2D1DCRenderTarget::GetDpi (vtable slot 52)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI (dots per inch) ‚ğ•Ô‚·B
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, dpiX, dpiY
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dpiX : [float] 
-dpiY : [float] 
+dpiX : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì…•½ DPI ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
+dpiY : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì‚’¼ DPI ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI (dots per inch) ‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹‹óŠÔ‚©‚çƒfƒoƒCƒX”ñˆË‘¶‹óŠÔ‚Ö‚Ìƒ}ƒbƒsƒ“ƒO‚ğ¦‚·BID2D1HwndRenderTarget ‚Ì
+DPI Šù’è’l‚Í’¼‹ß‚Éƒtƒ@ƒNƒgƒŠ[‚ª“Ç‚İæ‚Á‚½ƒVƒXƒeƒ€ DPI ‚Å‚ ‚éB‚»‚Ì‘¼‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŠù’è’l‚Í 96 DPIB
 
 
 %index
 ID2D1DCRenderTarget_GetSize
-ID2D1DCRenderTarget::GetSize (vtable slot 53)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
+
+[–ß‚è’l]
+Œ^: D2D1_SIZE_F ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒTƒCƒYiƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
 
 
 %index
 ID2D1DCRenderTarget_GetPixelSize
-ID2D1DCRenderTarget::GetPixelSize (vtable slot 54)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğƒfƒoƒCƒXƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğƒfƒoƒCƒXƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
+
+[–ß‚è’l]
+Œ^: D2D1_SIZE_U ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒYiƒfƒoƒCƒXƒsƒNƒZƒ‹’PˆÊjB
 
 
 %index
 ID2D1DCRenderTarget_GetMaximumBitmapSize
-ID2D1DCRenderTarget::GetMaximumBitmapSize (vtable slot 55)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªƒTƒ|[ƒg‚·‚éƒrƒbƒgƒ}ƒbƒv‚Ì 1 ŸŒ³‚ ‚½‚è‚ÌÅ‘åƒTƒCƒY‚ğƒfƒoƒCƒXˆË‘¶’PˆÊiƒsƒNƒZƒ‹j‚Åæ“¾‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªƒTƒ|[ƒg‚·‚éƒrƒbƒgƒ}ƒbƒv‚Ì 1 ŸŒ³‚ ‚½‚è‚ÌÅ‘åƒTƒCƒY‚ğƒfƒoƒCƒXˆË‘¶’PˆÊiƒsƒNƒZƒ‹j‚Åæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: UINT32 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªƒTƒ|[ƒg‚·‚éƒrƒbƒgƒ}ƒbƒv‚Ì 1 ŸŒ³‚ ‚½‚è‚ÌÅ‘åƒTƒCƒYiƒsƒNƒZƒ‹’PˆÊjB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í Direct3D ƒfƒoƒCƒX‚ÌÅ‘åƒeƒNƒXƒ`ƒƒ[ƒTƒCƒY‚ğ•Ô‚·B’ˆÓ ƒ\ƒtƒgƒEƒFƒAƒŒƒ“ƒ_ƒ‰[‚Æ WARP ƒfƒoƒCƒX‚Í 16
+ƒƒKƒsƒNƒZƒ‹ (16*1024*1024) ‚Ì’l‚ğ•Ô‚·B‚±‚ÌƒTƒCƒY‚Ì Direct2D ƒeƒNƒXƒ`ƒƒ[‚Íì¬‚Å‚«‚é‚ªA“¯‚¶ƒTƒCƒY‚Ì
+Direct3D ƒeƒNƒXƒ`ƒƒ[‚Íì¬‚Å‚«‚È‚¢B
 
 
 %index
 ID2D1DCRenderTarget_IsSupported
-ID2D1DCRenderTarget::IsSupported (vtable slot 56)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªw’è‚³‚ê‚½ƒvƒƒpƒeƒB‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·B(overload 1/2)
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, renderTargetProperties
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-renderTargetProperties : [var] 
+renderTargetProperties : [var] Œ^: const D2D1_RENDER_TARGET_PROPERTIES* ƒeƒXƒg‚·‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgƒvƒƒpƒeƒBB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªw’è‚³‚ê‚½ƒvƒƒpƒeƒB‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·B(overload 1/2)
+
+[–ß‚è’l]
+Œ^: BOOL w’è‚µ‚½ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgƒvƒƒpƒeƒB‚ª‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¯‚ê‚Î
+FALSEB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í renderTargetProperties ƒpƒ‰ƒ[ƒ^[‚Åw’è‚³‚ê‚½ DPI İ’è‚ğ•]‰¿‚µ‚È‚¢B
 
 
 %index
 ID2D1DCRenderTarget_BindDC
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğA•`‰æƒRƒ}ƒ“ƒh‚ğ”­s‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉƒoƒCƒ“ƒh‚·‚éB
+%group
+COM misc / ID2D1DCRenderTarget
 %prm
 this, hDC, pSubRect
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2166,17 +3262,22 @@ DC ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÅƒŒƒ“ƒ_ƒŠƒ“ƒO‚·‚é‘O‚ÉA‚»‚Ì BindDC ƒƒ\ƒbƒh‚ğg‚Á‚Ä GDI DC
 
 %index
 ID2D1DrawingStateBlock_GetFactory
-ID2D1DrawingStateBlock::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1DrawingStateBlock
 %prm
 this, factory
 this : [comobj] ID2D1DrawingStateBlock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1DrawingStateBlock_GetDescription
 •`‰æó‘Ô‚Ì‚¤‚¿ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhA•ÏŠ·Aƒ^ƒO‚Ì•”•ª‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1DrawingStateBlock
 %prm
 this, stateDescription
 this : [comobj] ID2D1DrawingStateBlock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2188,6 +3289,8 @@ stateDescription : [var] Œ^: D2D1_DRAWING_STATE_DESCRIPTION* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚
 %index
 ID2D1DrawingStateBlock_SetDescription
 •`‰æó‘Ô‚Ì‚¤‚¿ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhA•ÏŠ·Aƒ^ƒO‚Ì•”•ª‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1DrawingStateBlock
 %prm
 this, stateDescription
 this : [comobj] ID2D1DrawingStateBlock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2199,6 +3302,8 @@ stateDescription : [var]
 %index
 ID2D1DrawingStateBlock_SetTextRenderingParams
 •`‰æó‘Ô‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOİ’è‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1DrawingStateBlock
 %prm
 this, textRenderingParams
 this : [comobj] ID2D1DrawingStateBlock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2210,6 +3315,8 @@ textRenderingParams : [comobj] Œ^: IDWriteRenderingParams* •`‰æó‘Ô‚ÌƒeƒLƒXƒgƒŒƒ
 %index
 ID2D1DrawingStateBlock_GetTextRenderingParams
 •`‰æó‘Ô‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOİ’è‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1DrawingStateBlock
 %prm
 this, textRenderingParams
 this : [comobj] ID2D1DrawingStateBlock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2220,28 +3327,36 @@ textRenderingParams : [comobj] Œ^: IDWriteRenderingParams** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ
 
 %index
 ID2D1EllipseGeometry_GetFactory
-ID2D1EllipseGeometry::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, factory
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1EllipseGeometry_GetBounds
-ID2D1EllipseGeometry::GetBounds (vtable slot 4)
+ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, worldTransform, bounds
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 worldTransform : [var] 
 bounds : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1EllipseGeometry_GetWidenedBounds
-ID2D1EllipseGeometry::GetWidenedBounds (vtable slot 5)
+w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, bounds
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2251,11 +3366,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 bounds : [var] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1EllipseGeometry_StrokeContainsPoint
-ID2D1EllipseGeometry::StrokeContainsPoint (vtable slot 6)
+ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, point, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, contains
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2266,11 +3384,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 contains : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 
 %index
 ID2D1EllipseGeometry_FillContainsPoint
-ID2D1EllipseGeometry::FillContainsPoint (vtable slot 7)
+ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, point, worldTransform, flatteningTolerance, contains
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2279,11 +3400,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 contains : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
 
 
 %index
 ID2D1EllipseGeometry_CompareWithGeometry
-ID2D1EllipseGeometry::CompareWithGeometry (vtable slot 8)
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, inputGeometry, inputGeometryTransform, flatteningTolerance, relation
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2292,11 +3416,23 @@ inputGeometryTransform : [var]
 flatteningTolerance : [float] 
 relation : [var] 
 %inst
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
+
+[”õl]
+•Ô‚³‚ê‚é *relation*
+‚Ì’l‚ğ‰ğß‚·‚éÛ‚ÍA[**D2D1\_GEOMETRY\_RELATION\_IS\_CONTAINED**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
+‚Æ‚¢‚¤ **D2D1\_GEOMETRY\_RELATION** —ñ‹“‘Ì‚Ìƒƒ“ƒo[‚ªu‚±‚ÌƒWƒIƒƒgƒŠ‚ª *inputGeometry*
+‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚év‚±‚Æ‚ğˆÓ–¡‚µAu‚±‚ÌƒWƒIƒƒgƒŠ‚ª *inputGeometry*
+‚ğŠÜ‚Şv‚Æ‚¢‚¤ˆÓ–¡‚Å‚Í‚È‚¢“_‚É’ˆÓ‚·‚é‚±‚Æ‚ªd—v‚Å‚ ‚éB‘¼‚Éæ‚è“¾‚é–ß‚è’l‚Ì‰ğß‚É‚Â‚¢‚Ä‚Í
+[**D2D1\_GEOMETRY\_RELATION**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
+‚ğQÆB
 
 
 %index
 ID2D1EllipseGeometry_Simplify
-ID2D1EllipseGeometry::Simplify (vtable slot 9)
+’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, simplificationOption, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2305,11 +3441,15 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ
+ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 
 %index
 ID2D1EllipseGeometry_Tessellate
-ID2D1EllipseGeometry::Tessellate (vtable slot 10)
+w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, worldTransform, flatteningTolerance, tessellationSink
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2317,11 +3457,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 tessellationSink : [comobj] 
 %inst
+w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
 
 
 %index
 ID2D1EllipseGeometry_CombineWithGeometry
-ID2D1EllipseGeometry::CombineWithGeometry (vtable slot 11)
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, inputGeometry, combineMode, inputGeometryTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2331,11 +3474,14 @@ inputGeometryTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
 
 
 %index
 ID2D1EllipseGeometry_Outline
-ID2D1EllipseGeometry::Outline (vtable slot 12)
+ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2343,11 +3489,28 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+
+[”õl]
+
+[**Outline**](/windows/win32/api/d2d1/nf-d2d1-id2d1geometry-outline(constd2d1_matrix_3x2_f__id2d1simplifiedgeometrysink))
+ƒƒ\ƒbƒh‚ğg‚¤‚ÆA“ü—ÍƒWƒIƒƒgƒŠ‚Æ“™‰¿‚È“h‚è‚Â‚Ô‚µ‚ğ‚¿A‚³‚ç‚ÉŸ‚Ì“Á«‚ğ”õ‚¦‚½ƒWƒIƒƒgƒŠ‚ğŒÄ‚Ño‚µ‘¤‚ª¶¬‚Å‚«‚éB-
+o—ÍƒWƒIƒƒgƒŠ‚É‚Í‰¡’f“I‚ÈŒğ·‚ªŠÜ‚Ü‚ê‚È‚¢B‚·‚È‚í‚¿ƒZƒOƒƒ“ƒg“¯m‚ÍÚ‚·‚é‚±‚Æ‚Í‚ ‚Á‚Ä‚àŒˆ‚µ‚ÄŒğ·‚µ‚È‚¢B-
+o—ÍƒWƒIƒƒgƒŠ‚ÌÅŠO}Œ`‚Í‚·‚×‚Ä”½Œv‰ñ‚è‚ÉŒü‚«•t‚¯‚³‚ê‚éB-
+o—ÍƒWƒIƒƒgƒŠ‚Í“h‚è‚Â‚Ô‚µƒ‚[ƒh•s•Ï‚Å‚ ‚éB‚·‚È‚í‚¿ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ‚Í“h‚è‚Â‚Ô‚µƒ‚[ƒh‚Ì‘I‘ğ‚ÉˆË‘¶‚µ‚È‚¢B“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+[**D2D1\_FILL\_MODE**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_fill_mode)
+‚ğQÆB‚³‚ç‚É
+[**Outline**](/windows/win32/api/d2d1/nf-d2d1-id2d1geometry-outline(constd2d1_matrix_3x2_f__id2d1simplifiedgeometrysink))
+ƒƒ\ƒbƒh‚ÍA•¡G‚ÈƒWƒIƒƒgƒŠ‚ğ’Pƒ‰»‚·‚é‚½‚ß‚É‘Oq‚ÌƒWƒIƒƒgƒŠ‚Ìç’·•”•ª‚ğæ‚èœ‚­‚Ì‚É‚à—L—p‚Å‚ ‚éB‚Ü‚½
+[**ID2D1GeometryGroup**](/windows/win32/api/d2d1/nn-d2d1-id2d1geometrygroup)
+‚Æ‘g‚İ‡‚í‚¹‚ÄA•¡”‚ÌƒWƒIƒƒgƒŠ‚Ì˜aW‡‚ğˆê“x‚Éì¬‚·‚é‚Ì‚É‚à–ğ—§‚ÂB
 
 
 %index
 ID2D1EllipseGeometry_ComputeArea
-ID2D1EllipseGeometry::ComputeArea (vtable slot 13)
+ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, worldTransform, flatteningTolerance, area
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2355,11 +3518,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 area : [float] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1EllipseGeometry_ComputeLength
-ID2D1EllipseGeometry::ComputeLength (vtable slot 14)
+ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, worldTransform, flatteningTolerance, length
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2367,11 +3533,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 length : [float] 
 %inst
+ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1EllipseGeometry_ComputePointAtLength
-ID2D1EllipseGeometry::ComputePointAtLength (vtable slot 15)
+ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, length, worldTransform, flatteningTolerance, point, unitTangentVector
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2381,11 +3550,14 @@ flatteningTolerance : [float]
 point : [var] 
 unitTangentVector : [var] 
 %inst
+ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1EllipseGeometry_Widen
-ID2D1EllipseGeometry::Widen (vtable slot 16)
+w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2395,11 +3567,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 
 %index
 ID2D1EllipseGeometry_GetEllipse
 ‚±‚Ì‘È‰~ƒWƒIƒƒgƒŠ‚ğ•\‚· D2D1_ELLIPSE \‘¢‘Ì‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1EllipseGeometry
 %prm
 this, ellipse
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2411,6 +3586,8 @@ ellipse : [var] Œ^: D2D1_ELLIPSE* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‘È‰~‚ÌƒTƒCƒY‚ÆˆÊ’u‚ğ
 %index
 ID2D1Factory_ReloadSystemMetrics
 ƒtƒ@ƒNƒgƒŠ[ì¬Œã‚É•ÏX‚³‚ê‚½‰Â”\«‚Ì‚ ‚éƒVƒXƒeƒ€Šù’è’l‚ğA‹­§“I‚ÉƒŠƒ[ƒh‚·‚éB
+%group
+COM misc / ID2D1Factory
 %prm
 this
 this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2431,6 +3608,8 @@ this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1Factory_GetDesktopDpi
 Œ»İ‚ÌƒfƒXƒNƒgƒbƒv‚Ì DPI (dots per inch) ‚ğæ“¾‚·‚éB‚±‚Ì’l‚ğXV‚·‚é‚É‚Í ReloadSystemMetrics ‚ğŒÄ‚Ño‚·B
+%group
+COM misc / ID2D1Factory
 %prm
 this, dpiX, dpiY
 this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2447,6 +3626,8 @@ dpiY : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆƒfƒXƒNƒgƒbƒv‚Ì‚’¼ DPI ‚ªŠi”[‚³‚ê‚
 %index
 ID2D1Factory_CreateRectangleGeometry
 ID2D1RectangleGeometry ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1Factory
 %prm
 this, rectangle, rectangleGeometry
 this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2459,6 +3640,8 @@ ID2D1RectangleGeometry ‚ğì¬‚·‚éB
 %index
 ID2D1Factory_CreateRoundedRectangleGeometry
 ID2D1RoundedRectangleGeometry ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1Factory
 %prm
 this, roundedRectangle, roundedRectangleGeometry
 this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2471,6 +3654,8 @@ ID2D1RoundedRectangleGeometry ‚ğì¬‚·‚éB
 %index
 ID2D1Factory_CreateEllipseGeometry
 ID2D1EllipseGeometry ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1Factory
 %prm
 this, ellipse, ellipseGeometry
 this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2483,6 +3668,8 @@ ID2D1EllipseGeometry ‚ğì¬‚·‚éB
 %index
 ID2D1Factory_CreateGeometryGroup
 ‘¼‚ÌƒWƒIƒƒgƒŠ[‚ğ•Û‚·‚éƒIƒuƒWƒFƒNƒg‚Å‚ ‚é ID2D1GeometryGroup ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1Factory
 %prm
 this, fillMode, geometries, geometriesCount, geometryGroup
 this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2508,6 +3695,8 @@ D2D1_FILL_MODE_WINDINGjAƒWƒIƒƒgƒŠ[ƒOƒ‹[ƒv‚É’Ç‰Á‚·‚éƒWƒIƒƒgƒŠ[ƒIƒuƒWƒFƒNƒg
 %index
 ID2D1Factory_CreateTransformedGeometry
 w’è‚µ‚½ƒWƒIƒƒgƒŠ[‚ğ•ÏŠ·‚µA‚»‚ÌŒ‹‰Ê‚ğ ID2D1TransformedGeometry ƒIƒuƒWƒFƒNƒg‚Æ‚µ‚ÄŠi”[‚·‚éB
+%group
+COM misc / ID2D1Factory
 %prm
 this, sourceGeometry, transform, transformedGeometry
 this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2527,6 +3716,8 @@ transformedGeometry : [comobj]
 %index
 ID2D1Factory_CreatePathGeometry
 ‹ó‚Ì ID2D1PathGeometry ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1Factory
 %prm
 this, pathGeometry
 this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2543,6 +3734,8 @@ pathGeometry : [comobj] Œ^: ID2D1PathGeometry** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆA‚±‚Ìƒƒ\ƒb
 %index
 ID2D1Factory_CreateStrokeStyle
 ƒXƒgƒ[ƒN‚ÌŠJnƒLƒƒƒbƒvA”jüƒpƒ^[ƒ“A‚»‚Ì‘¼‚Ì“Á’¥‚ğ‹Lq‚·‚é ID2D1StrokeStyle ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1Factory
 %prm
 this, strokeStyleProperties, dashes, dashesCount, strokeStyle
 this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2557,6 +3750,8 @@ strokeStyle : [comobj]
 %index
 ID2D1Factory_CreateDrawingStateBlock
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì SaveDrawingState ƒƒ\ƒbƒh‚¨‚æ‚Ñ RestoreDrawingState ƒƒ\ƒbƒh‚Åg—p‚Å‚«‚é ID2D1DrawingStateBlock ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1Factory
 %prm
 this, drawingStateDescription, textRenderingParams, drawingStateBlock
 this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2571,6 +3766,8 @@ ID2D1DrawingStateBlock ‚ğì¬‚·‚éB
 %index
 ID2D1Factory_CreateWicBitmapRenderTarget
 Microsoft Windows Imaging Component (WIC) ƒrƒbƒgƒ}ƒbƒv‚É•`‰æ‚·‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1Factory
 %prm
 this, target, renderTargetProperties, renderTarget
 this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2593,6 +3790,8 @@ Emulator ‚Í WARP ƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğƒTƒ|[ƒg‚·‚é‚½‚ßAƒGƒ~ƒ…ƒŒ[ƒ^[ã‚ÅŒÄ‚Ño‚·‚Æ•Ê‚
 %index
 ID2D1Factory_CreateHwndRenderTarget
 ƒEƒBƒ“ƒhƒE‚É•`‰æ‚·‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚ ‚é ID2D1HwndRenderTarget ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1Factory
 %prm
 this, renderTargetProperties, hwndRenderTargetProperties, hwndRenderTarget
 this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2612,6 +3811,8 @@ hwndRenderTarget : [comobj]
 %index
 ID2D1Factory_CreateDxgiSurfaceRenderTarget
 DXGI (DirectX Graphics Infrastructure) ƒT[ƒtƒFƒCƒX‚É•`‰æ‚·‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğì¬‚·‚éB(overload 1/2)
+%group
+COM misc / ID2D1Factory
 %prm
 this, dxgiSurface, renderTargetProperties, renderTarget
 this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2647,6 +3848,8 @@ EndDraw ƒƒ\ƒbƒh‚ª D2DERR_RECREATE_TARGET
 %index
 ID2D1Factory_CreateDCRenderTarget
 Windows GDI ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É•`‰æ‚·‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1Factory
 %prm
 this, renderTargetProperties, dcRenderTarget
 this : [comobj] ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2672,17 +3875,22 @@ DC ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÅƒŒƒ“ƒ_ƒŠƒ“ƒO‚·‚é‘O‚ÉAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì BindDC ƒƒ\ƒbƒ
 
 %index
 ID2D1Geometry_GetFactory
-ID2D1Geometry::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1Geometry
 %prm
 this, factory
 this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1Geometry_GetBounds
 ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1Geometry
 %prm
 this, worldTransform, bounds
 this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2695,6 +3903,8 @@ bounds : [var]
 %index
 ID2D1Geometry_GetWidenedBounds
 w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1Geometry
 %prm
 this, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, bounds
 this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2710,6 +3920,8 @@ bounds : [var]
 %index
 ID2D1Geometry_StrokeContainsPoint
 ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+%group
+COM misc / ID2D1Geometry
 %prm
 this, point, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, contains
 this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2726,6 +3938,8 @@ contains : [var]
 %index
 ID2D1Geometry_FillContainsPoint
 ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
+%group
+COM misc / ID2D1Geometry
 %prm
 this, point, worldTransform, flatteningTolerance, contains
 this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2740,6 +3954,8 @@ contains : [var]
 %index
 ID2D1Geometry_CompareWithGeometry
 ‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
+%group
+COM misc / ID2D1Geometry
 %prm
 this, inputGeometry, inputGeometryTransform, flatteningTolerance, relation
 this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2763,6 +3979,8 @@ relation : [var]
 %index
 ID2D1Geometry_Simplify
 ’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1Geometry
 %prm
 this, simplificationOption, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2778,6 +3996,8 @@ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 %index
 ID2D1Geometry_Tessellate
 w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
+%group
+COM misc / ID2D1Geometry
 %prm
 this, worldTransform, flatteningTolerance, tessellationSink
 this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2791,6 +4011,8 @@ tessellationSink : [comobj]
 %index
 ID2D1Geometry_CombineWithGeometry
 ‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
+%group
+COM misc / ID2D1Geometry
 %prm
 this, inputGeometry, combineMode, inputGeometryTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2806,6 +4028,8 @@ geometrySink : [comobj]
 %index
 ID2D1Geometry_Outline
 ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1Geometry
 %prm
 this, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2833,6 +4057,8 @@ geometrySink : [comobj]
 %index
 ID2D1Geometry_ComputeArea
 ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1Geometry
 %prm
 this, worldTransform, flatteningTolerance, area
 this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2846,6 +4072,8 @@ area : [float]
 %index
 ID2D1Geometry_ComputeLength
 ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1Geometry
 %prm
 this, worldTransform, flatteningTolerance, length
 this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2859,6 +4087,8 @@ length : [float]
 %index
 ID2D1Geometry_ComputePointAtLength
 ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1Geometry
 %prm
 this, length, worldTransform, flatteningTolerance, point, unitTangentVector
 this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2874,6 +4104,8 @@ unitTangentVector : [var]
 %index
 ID2D1Geometry_Widen
 w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1Geometry
 %prm
 this, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2888,28 +4120,36 @@ geometrySink : [comobj]
 
 %index
 ID2D1GeometryGroup_GetFactory
-ID2D1GeometryGroup::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, factory
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1GeometryGroup_GetBounds
-ID2D1GeometryGroup::GetBounds (vtable slot 4)
+ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, worldTransform, bounds
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 worldTransform : [var] 
 bounds : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1GeometryGroup_GetWidenedBounds
-ID2D1GeometryGroup::GetWidenedBounds (vtable slot 5)
+w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, bounds
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2919,11 +4159,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 bounds : [var] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1GeometryGroup_StrokeContainsPoint
-ID2D1GeometryGroup::StrokeContainsPoint (vtable slot 6)
+ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, point, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, contains
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2934,11 +4177,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 contains : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 
 %index
 ID2D1GeometryGroup_FillContainsPoint
-ID2D1GeometryGroup::FillContainsPoint (vtable slot 7)
+ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, point, worldTransform, flatteningTolerance, contains
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2947,11 +4193,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 contains : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
 
 
 %index
 ID2D1GeometryGroup_CompareWithGeometry
-ID2D1GeometryGroup::CompareWithGeometry (vtable slot 8)
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, inputGeometry, inputGeometryTransform, flatteningTolerance, relation
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2960,11 +4209,23 @@ inputGeometryTransform : [var]
 flatteningTolerance : [float] 
 relation : [var] 
 %inst
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
+
+[”õl]
+•Ô‚³‚ê‚é *relation*
+‚Ì’l‚ğ‰ğß‚·‚éÛ‚ÍA[**D2D1\_GEOMETRY\_RELATION\_IS\_CONTAINED**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
+‚Æ‚¢‚¤ **D2D1\_GEOMETRY\_RELATION** —ñ‹“‘Ì‚Ìƒƒ“ƒo[‚ªu‚±‚ÌƒWƒIƒƒgƒŠ‚ª *inputGeometry*
+‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚év‚±‚Æ‚ğˆÓ–¡‚µAu‚±‚ÌƒWƒIƒƒgƒŠ‚ª *inputGeometry*
+‚ğŠÜ‚Şv‚Æ‚¢‚¤ˆÓ–¡‚Å‚Í‚È‚¢“_‚É’ˆÓ‚·‚é‚±‚Æ‚ªd—v‚Å‚ ‚éB‘¼‚Éæ‚è“¾‚é–ß‚è’l‚Ì‰ğß‚É‚Â‚¢‚Ä‚Í
+[**D2D1\_GEOMETRY\_RELATION**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
+‚ğQÆB
 
 
 %index
 ID2D1GeometryGroup_Simplify
-ID2D1GeometryGroup::Simplify (vtable slot 9)
+’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, simplificationOption, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2973,11 +4234,15 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ
+ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 
 %index
 ID2D1GeometryGroup_Tessellate
-ID2D1GeometryGroup::Tessellate (vtable slot 10)
+w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, worldTransform, flatteningTolerance, tessellationSink
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2985,11 +4250,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 tessellationSink : [comobj] 
 %inst
+w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
 
 
 %index
 ID2D1GeometryGroup_CombineWithGeometry
-ID2D1GeometryGroup::CombineWithGeometry (vtable slot 11)
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, inputGeometry, combineMode, inputGeometryTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -2999,11 +4267,14 @@ inputGeometryTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
 
 
 %index
 ID2D1GeometryGroup_Outline
-ID2D1GeometryGroup::Outline (vtable slot 12)
+ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3011,11 +4282,28 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+
+[”õl]
+
+[**Outline**](/windows/win32/api/d2d1/nf-d2d1-id2d1geometry-outline(constd2d1_matrix_3x2_f__id2d1simplifiedgeometrysink))
+ƒƒ\ƒbƒh‚ğg‚¤‚ÆA“ü—ÍƒWƒIƒƒgƒŠ‚Æ“™‰¿‚È“h‚è‚Â‚Ô‚µ‚ğ‚¿A‚³‚ç‚ÉŸ‚Ì“Á«‚ğ”õ‚¦‚½ƒWƒIƒƒgƒŠ‚ğŒÄ‚Ño‚µ‘¤‚ª¶¬‚Å‚«‚éB-
+o—ÍƒWƒIƒƒgƒŠ‚É‚Í‰¡’f“I‚ÈŒğ·‚ªŠÜ‚Ü‚ê‚È‚¢B‚·‚È‚í‚¿ƒZƒOƒƒ“ƒg“¯m‚ÍÚ‚·‚é‚±‚Æ‚Í‚ ‚Á‚Ä‚àŒˆ‚µ‚ÄŒğ·‚µ‚È‚¢B-
+o—ÍƒWƒIƒƒgƒŠ‚ÌÅŠO}Œ`‚Í‚·‚×‚Ä”½Œv‰ñ‚è‚ÉŒü‚«•t‚¯‚³‚ê‚éB-
+o—ÍƒWƒIƒƒgƒŠ‚Í“h‚è‚Â‚Ô‚µƒ‚[ƒh•s•Ï‚Å‚ ‚éB‚·‚È‚í‚¿ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ‚Í“h‚è‚Â‚Ô‚µƒ‚[ƒh‚Ì‘I‘ğ‚ÉˆË‘¶‚µ‚È‚¢B“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+[**D2D1\_FILL\_MODE**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_fill_mode)
+‚ğQÆB‚³‚ç‚É
+[**Outline**](/windows/win32/api/d2d1/nf-d2d1-id2d1geometry-outline(constd2d1_matrix_3x2_f__id2d1simplifiedgeometrysink))
+ƒƒ\ƒbƒh‚ÍA•¡G‚ÈƒWƒIƒƒgƒŠ‚ğ’Pƒ‰»‚·‚é‚½‚ß‚É‘Oq‚ÌƒWƒIƒƒgƒŠ‚Ìç’·•”•ª‚ğæ‚èœ‚­‚Ì‚É‚à—L—p‚Å‚ ‚éB‚Ü‚½
+[**ID2D1GeometryGroup**](/windows/win32/api/d2d1/nn-d2d1-id2d1geometrygroup)
+‚Æ‘g‚İ‡‚í‚¹‚ÄA•¡”‚ÌƒWƒIƒƒgƒŠ‚Ì˜aW‡‚ğˆê“x‚Éì¬‚·‚é‚Ì‚É‚à–ğ—§‚ÂB
 
 
 %index
 ID2D1GeometryGroup_ComputeArea
-ID2D1GeometryGroup::ComputeArea (vtable slot 13)
+ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, worldTransform, flatteningTolerance, area
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3023,11 +4311,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 area : [float] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1GeometryGroup_ComputeLength
-ID2D1GeometryGroup::ComputeLength (vtable slot 14)
+ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, worldTransform, flatteningTolerance, length
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3035,11 +4326,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 length : [float] 
 %inst
+ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1GeometryGroup_ComputePointAtLength
-ID2D1GeometryGroup::ComputePointAtLength (vtable slot 15)
+ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, length, worldTransform, flatteningTolerance, point, unitTangentVector
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3049,11 +4343,14 @@ flatteningTolerance : [float]
 point : [var] 
 unitTangentVector : [var] 
 %inst
+ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1GeometryGroup_Widen
-ID2D1GeometryGroup::Widen (vtable slot 16)
+w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3063,11 +4360,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 
 %index
 ID2D1GeometryGroup_GetFillMode
 ‚±‚ÌƒWƒIƒƒgƒŠƒOƒ‹[ƒv‚ÉŠÜ‚Ü‚ê‚éƒWƒIƒƒgƒŠ‚ÌŒğ·—Ìˆæ‚ª‚Ç‚Ì‚æ‚¤‚ÉŒ‹‡‚³‚ê‚é‚©‚ğ¦‚·B
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3081,6 +4381,8 @@ this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1GeometryGroup_GetSourceGeometryCount
 ƒWƒIƒƒgƒŠƒOƒ‹[ƒv“à‚ÌƒWƒIƒƒgƒŠƒIƒuƒWƒFƒNƒg‚Ì”‚ğ¦‚·B
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3094,6 +4396,8 @@ this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1GeometryGroup_GetSourceGeometries
 ƒWƒIƒƒgƒŠƒOƒ‹[ƒv“à‚ÌƒWƒIƒƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1GeometryGroup
 %prm
 this, geometries, geometriesCount
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3108,79 +4412,130 @@ geometriesCount : [int] Œ^: UINT geometries ”z—ñ‚É•Ô‚·ƒWƒIƒƒgƒŠ‚Ì”‚ğ¦‚·’lB‚±
 
 %index
 ID2D1GeometrySink_SetFillMode
-ID2D1GeometrySink::SetFillMode (vtable slot 3)
+‚±‚ÌƒWƒIƒƒgƒŠƒVƒ“ƒN‚ª‹Lq‚·‚éƒWƒIƒƒgƒŠ‚É‚¨‚¢‚ÄA‚Ç‚Ì“_‚ª“à‘¤‚Å‚Ç‚Ì“_‚ªŠO‘¤‚Å‚ ‚é‚©‚ğ”»’è‚·‚é‚½‚ß‚Ì•û®‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1GeometrySink
 %prm
 this, fillMode
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fillMode : [int] 
+fillMode : [int] Œ^: D2D1_FILL_MODE —^‚¦‚ç‚ê‚½“_‚ªƒWƒIƒƒgƒŠ‚Ìˆê•”‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é•û®B
 %inst
+‚±‚ÌƒWƒIƒƒgƒŠƒVƒ“ƒN‚ª‹Lq‚·‚éƒWƒIƒƒgƒŠ‚É‚¨‚¢‚ÄA‚Ç‚Ì“_‚ª“à‘¤‚Å‚Ç‚Ì“_‚ªŠO‘¤‚Å‚ ‚é‚©‚ğ”»’è‚·‚é‚½‚ß‚Ì•û®‚ğw’è‚·‚éB
+
+[”õl]
+“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ÌŠù’è’l‚Í D2D1_FILL_MODE_ALTERNATE ‚Å‚ ‚éB“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ğİ’è‚·‚é‚É‚ÍAÅ‰‚Ì
+BeginFigure ŒÄ‚Ño‚µ‚Ì‘O‚É SetFillMode ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB‚»‚¤‚µ‚È‚¢ê‡AƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éB
 
 
 %index
 ID2D1GeometrySink_SetSegmentFlags
-ID2D1GeometrySink::SetSegmentFlags (vtable slot 4)
+ƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÉV‚½‚É’Ç‰Á‚³‚ê‚éƒZƒOƒƒ“ƒg‚É“K—p‚·‚éƒXƒgƒ[ƒN‚¨‚æ‚ÑƒWƒ‡ƒCƒ“ƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1GeometrySink
 %prm
 this, vertexFlags
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-vertexFlags : [int] 
+vertexFlags : [int] Œ^: D2D1_PATH_SEGMENT ƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÉV‚½‚É’Ç‰Á‚³‚ê‚éƒZƒOƒƒ“ƒg‚É“K—p‚·‚éƒXƒgƒ[ƒN‚¨‚æ‚ÑƒWƒ‡ƒCƒ“ƒIƒvƒVƒ‡ƒ“B
 %inst
+ƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÉV‚½‚É’Ç‰Á‚³‚ê‚éƒZƒOƒƒ“ƒg‚É“K—p‚·‚éƒXƒgƒ[ƒN‚¨‚æ‚ÑƒWƒ‡ƒCƒ“ƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éB
+
+[”õl]
+
+‚±‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚é‚ÆAˆÈ~ƒVƒ“ƒN‚É’Ç‰Á‚³‚ê‚é‚·‚×‚Ä‚ÌƒZƒOƒƒ“ƒg‚Éw’è‚ÌƒZƒOƒƒ“ƒgƒtƒ‰ƒO‚ª“K—p‚³‚ê‚éBƒZƒOƒƒ“ƒgƒtƒ‰ƒO‚ÍA‚±‚Ìƒƒ\ƒbƒh‚ªÄ‚ÑŒÄ‚Ño‚³‚ê‚ÄˆÙ‚È‚éƒZƒOƒƒ“ƒgƒtƒ‰ƒOW‡‚ªw’è‚³‚ê‚é‚Ü‚ÅA’Ç‰Á‚³‚ê‚éŠeƒZƒOƒƒ“ƒg‚É“K—p‚³‚ê‘±‚¯‚éB
 
 
 %index
 ID2D1GeometrySink_BeginFigure
-ID2D1GeometrySink::BeginFigure (vtable slot 5)
+w’è‚µ‚½“_‚©‚çV‚µ‚¢ƒtƒBƒMƒ…ƒA‚ğŠJn‚·‚éB
+%group
+COM misc / ID2D1GeometrySink
 %prm
 this, startPoint, figureBegin
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-startPoint : [int] 
-figureBegin : [int] 
+startPoint : [int] Œ^: D2D1_POINT_2F V‚µ‚¢ƒtƒBƒMƒ…ƒA‚ğŠJn‚·‚é“_B
+figureBegin : [int] Œ^: D2D1_FIGURE_BEGIN V‚µ‚¢ƒtƒBƒMƒ…ƒA‚ğ’†‹ó‚É‚·‚é‚©“h‚è‚Â‚Ô‚µ‚É‚·‚é‚©B
 %inst
+w’è‚µ‚½“_‚©‚çV‚µ‚¢ƒtƒBƒMƒ…ƒA‚ğŠJn‚·‚éB
+
+[”õl]
+ƒtƒBƒMƒ…ƒA‚Ìˆ—’†‚É‚±‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Î‚ê‚½ê‡AƒCƒ“ƒ^[ƒtƒF[ƒX‚Í–³Œø‰»‚³‚êAˆÈ~‚Ì‚·‚×‚Ä‚Ìƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Í¸”s‚·‚éB
 
 
 %index
 ID2D1GeometrySink_AddLines
-ID2D1GeometrySink::AddLines (vtable slot 6)
+w’è‚³‚ê‚½“_‚ğ—p‚¢‚Ä’¼ü‚ÌƒV[ƒPƒ“ƒX‚ğ¶¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
+%group
+COM misc / ID2D1GeometrySink
 %prm
 this, points, pointsCount
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-points : [var] 
-pointsCount : [int] 
+points : [var] Œ^: const D2D1_POINT_2F* •`‰æ‚·‚éü‚ğ‹Lq‚·‚é 1 ‚ÂˆÈã‚Ì“_‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÌŒ»İ‚Ì“_ (’¼‘O‚É•`‰æ‚µ‚½ƒZƒOƒƒ“ƒg‚ÌI“_A‚Ü‚½‚Í BeginFigure ‚Åw’è‚³‚ê‚½ˆÊ’u) ‚©‚ç”z—ñ“à‚ÌÅ‰‚Ì“_‚ÉŒü‚¯‚Äü‚ª•`‰æ‚³‚ê‚éB”z—ñ‚É‚³‚ç‚É“_‚ªŠÜ‚Ü‚ê‚éê‡AÅ‰‚Ì“_‚©‚ç 2 ”Ô–Ú‚Ì“_A2 ”Ô–Ú‚Ì“_‚©‚ç 3 ”Ô–Ú‚Ì“_‚ÖA‚Æ‚¢‚¤‚æ‚¤‚Éü‚ª•`‰æ‚³‚ê‚éB
+pointsCount : [int] Œ^: UINT points ”z—ñ‚ÉŠÜ‚Ü‚ê‚é“_‚Ì”B
 %inst
+w’è‚³‚ê‚½“_‚ğ—p‚¢‚Ä’¼ü‚ÌƒV[ƒPƒ“ƒX‚ğ¶¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
 
 
 %index
 ID2D1GeometrySink_AddBeziers
-ID2D1GeometrySink::AddBeziers (vtable slot 7)
+3 ŸƒxƒWƒG‹Èü‚ÌƒV[ƒPƒ“ƒX‚ğ¶¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
+%group
+COM misc / ID2D1GeometrySink
 %prm
 this, beziers, beziersCount
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-beziers : [var] 
-beziersCount : [int] 
+beziers : [var] Œ^: const D2D1_BEZIER_SEGMENT* ¶¬‚·‚éƒxƒWƒG‹Èü‚ğ‹Lq‚·‚éƒxƒWƒGƒZƒOƒƒ“ƒg”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÌŒ»İ‚Ì“_ (’¼‘O‚É•`‰æ‚µ‚½ƒZƒOƒƒ“ƒg‚ÌI“_A‚Ü‚½‚Í BeginFigure ‚Åw’è‚³‚ê‚½ˆÊ’u) ‚©‚ç”z—ñ“à‚ÌÅ‰‚ÌƒxƒWƒGƒZƒOƒƒ“ƒg‚ÌI“_‚ÉŒü‚¯‚Ä‹Èü‚ª•`‰æ‚³‚ê‚éB”z—ñ‚É‚³‚ç‚ÉƒxƒWƒGƒZƒOƒƒ“ƒg‚ªŠÜ‚Ü‚ê‚éê‡AŒã‘±‚ÌŠeƒxƒWƒGƒZƒOƒƒ“ƒg‚Í’¼‘O‚ÌƒxƒWƒGƒZƒOƒƒ“ƒg‚ÌI“_‚ğn“_‚Æ‚·‚éB
+beziersCount : [int] Œ^: UINT beziers ”z—ñ‚ÉŠÜ‚Ü‚ê‚éƒxƒWƒGƒZƒOƒƒ“ƒg‚Ì”B
 %inst
+3 ŸƒxƒWƒG‹Èü‚ÌƒV[ƒPƒ“ƒX‚ğ¶¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
 
 
 %index
 ID2D1GeometrySink_EndFigure
-ID2D1GeometrySink::EndFigure (vtable slot 8)
+Œ»İ‚ÌƒtƒBƒMƒ…ƒA‚ğI—¹‚·‚éB•K—v‚É‰‚¶‚Ä•Â‚¶‚éB
+%group
+COM misc / ID2D1GeometrySink
 %prm
 this, figureEnd
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-figureEnd : [int] 
+figureEnd : [int] Œ^: D2D1_FIGURE_END Œ»İ‚ÌƒtƒBƒMƒ…ƒA‚ğ•Â‚¶‚é‚©‚Ç‚¤‚©‚ğ¦‚·’lB•Â‚¶‚éê‡AŒ»İ‚Ì“_‚Æ BeginFigure ‚Åw’è‚µ‚½n“_‚ÌŠÔ‚Éü‚ª•`‰æ‚³‚ê‚éB
 %inst
+Œ»İ‚ÌƒtƒBƒMƒ…ƒA‚ğI—¹‚·‚éB•K—v‚É‰‚¶‚Ä•Â‚¶‚éB
+
+[”õl]
+‘Î‰‚·‚é BeginFigure
+‚ÌŒÄ‚Ño‚µ‚È‚µ‚É‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚ÆƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éBˆÈ~‚ÌŒÄ‚Ño‚µ‚Í–³‹‚³‚êAÅI“I‚È¸”s‚Í Close
+ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚É•Ô‚³‚ê‚éB
 
 
 %index
 ID2D1GeometrySink_Close
-ID2D1GeometrySink::Close (vtable slot 9)
+ƒWƒIƒƒgƒŠƒVƒ“ƒN‚ğ•Â‚¶AƒGƒ‰[ó‘Ô‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚µAƒVƒ“ƒN‚ÌƒGƒ‰[ó‘Ô‚ğƒŠƒZƒbƒg‚·‚éB
+%group
+COM misc / ID2D1GeometrySink
 %prm
 this
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒWƒIƒƒgƒŠƒVƒ“ƒN‚ğ•Â‚¶AƒGƒ‰[ó‘Ô‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚µAƒVƒ“ƒN‚ÌƒGƒ‰[ó‘Ô‚ğƒŠƒZƒbƒg‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í
+[**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+
+ƒtƒBƒMƒ…ƒA‚Ìˆ—’†‚ÉƒWƒIƒƒgƒŠƒVƒ“ƒN‚ğ•Â‚¶‚Ä‚Í‚È‚ç‚È‚¢B•Â‚¶‚é‚ÆƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éBƒNƒ[ƒYˆ—‚ğ¬Œ÷‚³‚¹‚é‚½‚ß‚É‚ÍABeginFigure
+ŒÄ‚Ño‚µ‚²‚Æ‚É‘Î‰‚·‚é EndFigure
+ŒÄ‚Ño‚µ‚ª•K—v‚Å‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½ŒãAƒWƒIƒƒgƒŠƒVƒ“ƒN‚Íg—p‚Å‚«‚È‚­‚È‚éê‡‚ª‚ ‚éBDirect2D
+‚Ì‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXÀ‘•‚Å‚ÍƒNƒ[ƒYŒã‚ÌƒWƒIƒƒgƒŠƒVƒ“ƒN‚Ö‚Ì•ÏX‚ğ‹–‰Â‚µ‚È‚¢‚ªA‘¼‚ÌÀ‘•‚Å‚Í‚±‚Ì§–ñ‚ª‚È‚¢ê‡‚à‚ ‚éB
 
 
 %index
 ID2D1GeometrySink_AddLine
 Œ»İ‚Ì“_‚Æw’è‚³‚ê‚½I“_‚Æ‚ÌŠÔ‚Éü•ª‚ğì¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
+%group
+COM misc / ID2D1GeometrySink
 %prm
 this, point
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3192,6 +4547,8 @@ point : [int] Œ^: D2D1_POINT_2F •`‰æ‚·‚éü•ª‚ÌI“_B
 %index
 ID2D1GeometrySink_AddBezier
 Œ»İ‚Ì“_‚Æw’è‚³‚ê‚½I“_‚Æ‚ÌŠÔ‚É 3 ŸƒxƒWƒF‹Èü‚ğì¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
+%group
+COM misc / ID2D1GeometrySink
 %prm
 this, bezier
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3203,6 +4560,8 @@ bezier : [var]
 %index
 ID2D1GeometrySink_AddQuadraticBezier
 Œ»İ‚Ì“_‚Æw’è‚³‚ê‚½I“_‚Æ‚ÌŠÔ‚É 2 ŸƒxƒWƒF‹Èü‚ğì¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
+%group
+COM misc / ID2D1GeometrySink
 %prm
 this, bezier
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3214,6 +4573,8 @@ bezier : [var]
 %index
 ID2D1GeometrySink_AddQuadraticBeziers
 ˆê˜A‚Ì 2 ŸƒxƒWƒFƒZƒOƒƒ“ƒg‚ğ 1 ‰ñ‚ÌŒÄ‚Ño‚µ‚Å”z—ñ‚Æ‚µ‚Ä‚Ü‚Æ‚ß‚Ä’Ç‰Á‚·‚éB
+%group
+COM misc / ID2D1GeometrySink
 %prm
 this, beziers, beziersCount
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3226,6 +4587,8 @@ beziersCount : [int] Œ^: UINT beziers “à‚Ì 2 ŸƒxƒWƒFƒZƒOƒƒ“ƒg‚Ì”‚ğ¦‚·’lB
 %index
 ID2D1GeometrySink_AddArc
 1 –{‚Ì‰~ŒÊ‚ğì¬‚µAƒpƒXƒWƒIƒƒgƒŠ‚É’Ç‰Á‚·‚éB
+%group
+COM misc / ID2D1GeometrySink
 %prm
 this, arc
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3236,17 +4599,22 @@ arc : [var]
 
 %index
 ID2D1GradientStopCollection_GetFactory
-ID2D1GradientStopCollection::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1GradientStopCollection
 %prm
 this, factory
 this : [comobj] ID2D1GradientStopCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1GradientStopCollection_GetGradientStopCount
 ƒRƒŒƒNƒVƒ‡ƒ““à‚ÌƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚Ì”‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1GradientStopCollection
 %prm
 this
 this : [comobj] ID2D1GradientStopCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3260,6 +4628,8 @@ this : [comobj] ID2D1GradientStopCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•
 %index
 ID2D1GradientStopCollection_GetGradientStops
 ƒRƒŒƒNƒVƒ‡ƒ“‚ÌƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚ğ D2D1_GRADIENT_STOP \‘¢‘Ì‚Ì”z—ñ‚ÖƒRƒs[‚·‚éB
+%group
+COM misc / ID2D1GradientStopCollection
 %prm
 this, gradientStops, gradientStopsCount
 this : [comobj] ID2D1GradientStopCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3275,6 +4645,8 @@ gradientStopsCount : [int] Œ^: UINT ƒRƒs[‚·‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚Ì”‚ğ¦‚·’l
 %index
 ID2D1GradientStopCollection_GetColorInterpolationGamma
 ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚ª•âŠÔ‚³‚ê‚éƒKƒ“ƒ}‹óŠÔ‚ğ¦‚·B
+%group
+COM misc / ID2D1GradientStopCollection
 %prm
 this
 this : [comobj] ID2D1GradientStopCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3288,6 +4660,8 @@ this : [comobj] ID2D1GradientStopCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•
 %index
 ID2D1GradientStopCollection_GetExtendMode
 ³‹K‰»ƒOƒ‰ƒf[ƒVƒ‡ƒ“”ÍˆÍ‚ÌŠO‘¤‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Ì“®ì‚ğ¦‚·B
+%group
+COM misc / ID2D1GradientStopCollection
 %prm
 this
 this : [comobj] ID2D1GradientStopCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3300,17 +4674,22 @@ this : [comobj] ID2D1GradientStopCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•
 
 %index
 ID2D1HwndRenderTarget_GetFactory
-ID2D1HwndRenderTarget::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, factory
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_CreateBitmap
-ID2D1HwndRenderTarget::CreateBitmap (vtable slot 4)
+Direct2D ƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, size, srcData, pitch, bitmapProperties, bitmap
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3320,11 +4699,14 @@ pitch : [int]
 bitmapProperties : [var] 
 bitmap : [comobj] 
 %inst
+Direct2D ƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_CreateBitmapFromWicBitmap
-ID2D1HwndRenderTarget::CreateBitmapFromWicBitmap (vtable slot 5)
+w’è‚µ‚½ Microsoft Windows Imaging Component (WIC) ƒrƒbƒgƒ}ƒbƒv‚ğƒRƒs[‚µ‚Ä ID2D1Bitmap ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, wicBitmapSource, bitmapProperties, bitmap
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3332,24 +4714,70 @@ wicBitmapSource : [comobj]
 bitmapProperties : [var] 
 bitmap : [comobj] 
 %inst
+w’è‚µ‚½ Microsoft Windows Imaging Component (WIC) ƒrƒbƒgƒ}ƒbƒv‚ğƒRƒs[‚µ‚Ä
+ID2D1Bitmap ‚ğì¬‚·‚éB
+
+[”õl]
+Direct2D ‚ª WIC
+‰æ‘œ‚ğ“Ç‚İ‚Ş‘O‚ÉA‘Î‰‚·‚éƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚Ö‚Ì•ÏŠ·‚ª•K—v‚Å‚ ‚éB‘Î‰‚·‚éƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚Ìˆê——‚É‚Â‚¢‚Ä‚Í
+[Supported Pixel Formats and Alpha
+Modes](supported-pixel-formats-and-alpha-modes.md) ‚ğQÆB
 
 
 %index
 ID2D1HwndRenderTarget_CreateSharedBitmap
-ID2D1HwndRenderTarget::CreateSharedBitmap (vtable slot 6)
+‘¼‚ÌƒŠƒ\[ƒX‚Æƒf[ƒ^‚ğ‹¤—L‚·‚é ID2D1Bitmap ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, riid, data, bitmapProperties, bitmap
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-riid : [var] 
-data : [intptr] 
-bitmapProperties : [var] 
-bitmap : [comobj] 
+riid : [var] Œ^: REFIID ƒ\[ƒXƒf[ƒ^‚ğ’ñ‹Ÿ‚·‚éƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX IDB
+data : [intptr] Œ^: void* V‚µ‚¢ ID2D1Bitmap ‚Æ‹¤—L‚·‚éƒf[ƒ^‚ğŠÜ‚Ş ID2D1BitmapAIDXGISurfaceA‚Ü‚½‚Í IWICBitmapLockBÚ×‚Í Remarks ‚ğQÆB
+bitmapProperties : [var] Œ^: D2D1_BITMAP_PROPERTIES* ì¬‚·‚éƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹Œ`®‚Æ DPIBƒsƒNƒZƒ‹Œ`®‚Ì DXGI_FORMAT •”•ª‚Í data ‚Ì DXGI_FORMAT ‚Æˆê’v‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éiƒAƒ‹ƒtƒ@ƒ‚[ƒh‚Íˆê’v‚µ‚Ä‚¢‚È‚­‚Ä‚à‚æ‚¢jB•sˆê’v‚ğ”ğ‚¯‚é‚É‚Í NULL ‚Ü‚½‚Í D2D1::PixelFormat ƒwƒ‹ƒp[ŠÖ”‚©‚ç“¾‚½’l‚ğ“n‚¹‚éBDPI İ’è‚Í data ‚Æˆê’v‚µ‚Ä‚¢‚é•K—v‚Í‚È‚¢BdpiX ‚Æ dpiY ‚ª‚¢‚¸‚ê‚à 0.0f ‚Ìê‡‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI ‚ªg—p‚³‚ê‚éB
+bitmap : [comobj] Œ^: ID2D1Bitmap** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAV‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+‘¼‚ÌƒŠƒ\[ƒX‚Æƒf[ƒ^‚ğ‹¤—L‚·‚é ID2D1Bitmap ‚ğì¬‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î
+[**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+CreateSharedBitmap ƒƒ\ƒbƒh‚Íƒrƒbƒgƒ}ƒbƒvƒf[ƒ^‚ğŒø—¦‚æ‚­Ä—˜—p‚·‚é‚Ì‚É•Ö—˜‚ÅADirect3D
+‚Æ‚Ì‘ŠŒİ‰^—p‚É‚àg‚¦‚éBID2D1Bitmap ‚Ì‹¤—L ƒŠƒ\[ƒXŒİŠ·«‚Ì‚ ‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Åì¬‚³‚ê‚½ ID2D1Bitmap
+‚ğ“n‚·‚±‚Æ‚ÅA‚»‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Æƒrƒbƒgƒ}ƒbƒv‚ğ‹¤—L‚Å‚«‚éBŒ³‚Ì ID2D1Bitmap ‚Æ‚±‚Ìƒƒ\ƒbƒh‚Åì¬‚³‚ê‚éV‚µ‚¢
+ID2D1Bitmap ‚Í‚Æ‚à‚É“¯‚¶ƒrƒbƒgƒ}ƒbƒvƒf[ƒ^‚ğw‚·BƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgƒŠƒ\[ƒX‚ğ‚¢‚Â‹¤—L‚Å‚«‚é‚©‚É‚Â‚¢‚Ä‚Í Resources
+Overview ‚Ì Sharing Render Target Resources ƒZƒNƒVƒ‡ƒ“‚ğQÆBŠù‘¶‚Ìƒrƒbƒgƒ}ƒbƒv‚Ìƒf[ƒ^‚ğV‚µ‚¢
+DPI ‚Ü‚½‚ÍƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ÅÄ‰ğß‚·‚é‚½‚ß‚É‚±‚Ìƒƒ\ƒbƒh‚ğg‚¤‚±‚Æ‚à‚Å‚«‚éB—á‚¦‚Îƒrƒbƒgƒ}ƒbƒvƒAƒgƒ‰ƒX‚Ìê‡AID2D1Bitmap
+‚É•¡”‚ÌƒTƒu‰æ‘œ‚ªŠÜ‚Ü‚êA‚»‚ê‚¼‚êˆÙ‚È‚é D2D1_ALPHA_MODE (D2D1_ALPHA_MODE_PREMULTIPLIED
+‚Ü‚½‚Í D2D1_ALPHA_MODE_IGNORE) ‚ÅƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚é‚×‚«‚Å‚ ‚é‚±‚Æ‚ª‚ ‚éBCreateSharedBitmap
+‚ğg‚¦‚Îƒrƒbƒgƒ}ƒbƒv‚ğ•Ê‚ÌƒRƒs[‚Æ‚µ‚Äƒƒ‚ƒŠ‚É“Ç‚İ‚İ’¼‚·‚±‚Æ‚È‚­A–]‚ŞƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ÅÄ‰ğß‚Å‚«‚éBIDXGISurface ‚Ì‹¤—L
+DXGI ƒT[ƒtƒFƒCƒXƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgiCreateDxgiSurfaceRenderTarget ƒƒ\ƒbƒh‚Åì¬‚³‚ê‚½
+ID2D1RenderTarget ƒIƒuƒWƒFƒNƒgj‚ğg—p‚µ‚Ä‚¢‚éê‡AIDXGISurface ƒT[ƒtƒFƒCƒX‚ğ
+CreateSharedBitmap ‚É“n‚·‚±‚Æ‚ÅƒrƒfƒIƒƒ‚ƒŠ‚ğ Direct3D ‚Æ‹¤—L‚µADirect3D ƒRƒ“ƒeƒ“ƒc‚ğ
+ID2D1Bitmap ‚Æ‚µ‚Ä‘€ì‚Å‚«‚éBResources Overview ‚Åà–¾‚³‚ê‚Ä‚¢‚é‚Æ‚¨‚èAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Æ
+IDXGISurface ‚Í“¯‚¶ Direct3D ƒfƒoƒCƒX‚ğg—p‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+“¯—l‚É IDXGISurface ‚Í Supported Pixel Formats and Alpha Modes
+‚É‹LÚ‚³‚ê‚Ä‚¢‚éƒTƒ|[ƒg‘ÎÛ‚ÌƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚Ì‚¢‚¸‚ê‚©‚ğg—p‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BDirect3D
+‚Æ‚Ì‘ŠŒİ‰^—p‚ÌÚ×‚É‚Â‚¢‚Ä‚Í Direct2D and Direct3D Interoperability Overview
+‚ğQÆBIWICBitmapLock ‚Ì‹¤—L IWICBitmapLock ‚Í WIC
+ƒrƒbƒgƒ}ƒbƒv‚Ì“à—e‚ğŠi”[‚µA“¯ƒAƒNƒZƒX‚©‚ç•ÛŒì‚·‚éBIWICBitmapLock ‚ğ CreateSharedBitmap
+‚É“n‚·‚±‚Æ‚ÅAIWICBitmapLock ‚ÉŠù‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒrƒbƒgƒ}ƒbƒvƒf[ƒ^‚ğw‚· ID2D1Bitmap
+‚ğì¬‚Å‚«‚éBCreateSharedBitmap ‚Å IWICBitmapLock
+‚ğg—p‚·‚é‚É‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Íƒ\ƒtƒgƒEƒFƒAƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğg—p‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Éƒ\ƒtƒgƒEƒFƒAƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğ‹­§‚·‚é‚É‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgì¬‚Ég‚¤
+D2D1_RENDER_TARGET_PROPERTIES \‘¢‘Ì‚Ì type ƒtƒB[ƒ‹ƒh‚ğ
+D2D1_RENDER_TARGET_TYPE_SOFTWARE
+‚Éİ’è‚·‚éBŠù‘¶‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªƒ\ƒtƒgƒEƒFƒAƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğg—p‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğŠm”F‚·‚é‚É‚Í IsSupported
+ƒƒ\ƒbƒh‚ğg—p‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_CreateBitmapBrush
-ID2D1HwndRenderTarget::CreateBitmapBrush (vtable slot 7)
+w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚©‚ç ID2D1BitmapBrush ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, bitmap, bitmapBrushProperties, brushProperties, bitmapBrush
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3358,11 +4786,14 @@ bitmapBrushProperties : [var]
 brushProperties : [var] 
 bitmapBrush : [comobj] 
 %inst
+w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚©‚ç ID2D1BitmapBrush ‚ğì¬‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_CreateSolidColorBrush
-ID2D1HwndRenderTarget::CreateSolidColorBrush (vtable slot 8)
+’PF‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ég—p‚Å‚«‚éV‚µ‚¢ ID2D1SolidColorBrush ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, color, brushProperties, solidColorBrush
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3370,11 +4801,14 @@ color : [var]
 brushProperties : [var] 
 solidColorBrush : [comobj] 
 %inst
+’PF‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ég—p‚Å‚«‚éV‚µ‚¢ ID2D1SolidColorBrush ‚ğì¬‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_CreateGradientStopCollection
-ID2D1HwndRenderTarget::CreateGradientStopCollection (vtable slot 9)
+w’è‚µ‚½ D2D1\_GRADIENT\_STOP \‘¢‘Ì‚Ì”z—ñ‚©‚ç ID2D1GradientStopCollection ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, gradientStops, gradientStopsCount, colorInterpolationGamma, extendMode, gradientStopCollection
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3384,11 +4818,14 @@ colorInterpolationGamma : [int]
 extendMode : [int] 
 gradientStopCollection : [comobj] 
 %inst
+w’è‚µ‚½ D2D1\_GRADIENT\_STOP \‘¢‘Ì‚Ì”z—ñ‚©‚ç ID2D1GradientStopCollection ‚ğì¬‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_CreateLinearGradientBrush
-ID2D1HwndRenderTarget::CreateLinearGradientBrush (vtable slot 10)
+üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ì ID2D1LinearGradientBrush ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, linearGradientBrushProperties, brushProperties, gradientStopCollection, linearGradientBrush
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3397,11 +4834,14 @@ brushProperties : [var]
 gradientStopCollection : [comobj] 
 linearGradientBrush : [comobj] 
 %inst
+üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ì ID2D1LinearGradientBrush ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_CreateRadialGradientBrush
-ID2D1HwndRenderTarget::CreateRadialGradientBrush (vtable slot 11)
+•úËóƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ég—p‚Å‚«‚é ID2D1RadialGradientBrush ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, radialGradientBrushProperties, brushProperties, gradientStopCollection, radialGradientBrush
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3410,11 +4850,14 @@ brushProperties : [var]
 gradientStopCollection : [comobj] 
 radialGradientBrush : [comobj] 
 %inst
+•úËóƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ég—p‚Å‚«‚é ID2D1RadialGradientBrush ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_CreateCompatibleRenderTarget
-ID2D1HwndRenderTarget::CreateCompatibleRenderTarget (vtable slot 12)
+Œ»İ‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÆŒİŠ·«‚Ì‚ ‚éAƒIƒtƒXƒNƒŠ[ƒ“’†ŠÔ•`‰æ—p‚ÌV‚µ‚¢ƒrƒbƒgƒ}ƒbƒvƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, desiredSize, desiredPixelSize, desiredFormat, options, bitmapRenderTarget
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3424,46 +4867,75 @@ desiredFormat : [var]
 options : [int] 
 bitmapRenderTarget : [comobj] 
 %inst
+Œ»İ‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÆŒİŠ·«‚Ì‚ ‚éAƒIƒtƒXƒNƒŠ[ƒ“’†ŠÔ•`‰æ—p‚ÌV‚µ‚¢ƒrƒbƒgƒ}ƒbƒvƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğì¬‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_CreateLayer
-ID2D1HwndRenderTarget::CreateLayer (vtable slot 13)
+‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚¨‚æ‚Ñ‚»‚ê‚ÆŒİŠ·«‚Ì‚ ‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Åg—p‚Å‚«‚éƒŒƒCƒ„[ƒŠƒ\[ƒX‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, size, layer
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 size : [var] 
 layer : [comobj] 
 %inst
+‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚¨‚æ‚Ñ‚»‚ê‚ÆŒİŠ·«‚Ì‚ ‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Åg—p‚Å‚«‚éƒŒƒCƒ„[ƒŠƒ\[ƒX‚ğì¬‚·‚éB
+
+[”õl]
+ƒŒƒCƒ„[‚Í•K—v‚É‰‚¶‚Ä©“®“I‚ÉƒTƒCƒY•ÏX‚³‚ê‚éB
 
 
 %index
 ID2D1HwndRenderTarget_CreateMesh
-ID2D1HwndRenderTarget::CreateMesh (vtable slot 14)
+OŠpŒ`‚ğg‚Á‚ÄŒ`ó‚ğ‹Lq‚·‚éƒƒbƒVƒ…‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, mesh
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-mesh : [comobj] 
+mesh : [comobj] Œ^: ID2D1Mesh** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAV‚µ‚¢ƒƒbƒVƒ…‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ªŠi”[‚³‚ê‚éB
 %inst
+OŠpŒ`‚ğg‚Á‚ÄŒ`ó‚ğ‹Lq‚·‚éƒƒbƒVƒ…‚ğì¬‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î
+[**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒƒbƒVƒ…‚ğ–„‚ß‚é‚É‚Í Open ƒƒ\ƒbƒh‚ğg‚Á‚Ä ID2D1TessellationSink
+‚ğæ“¾‚·‚éBƒƒbƒVƒ…‚ğ•`‰æ‚·‚é‚É‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì FillMesh ƒƒ\ƒbƒh‚ğg—p‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_DrawLine
-ID2D1HwndRenderTarget::DrawLine (vtable slot 15)
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ 2 “_ŠÔ‚Éü‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, point0, point1, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-point0 : [int] 
-point1 : [int] 
-brush : [comobj] 
-strokeWidth : [float] 
-strokeStyle : [comobj] 
+point0 : [int] Œ^: D2D1_POINT_2F ü‚Ìn“_iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
+point1 : [int] Œ^: D2D1_POINT_2F ü‚ÌI“_iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
+brush : [comobj] Œ^: ID2D1Brush* ü‚ÌƒXƒgƒ[ƒN‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
+strokeWidth : [float] Œ^: FLOAT ƒXƒgƒ[ƒN‚Ì•iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB’l‚Í 0.0f ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğw’è‚µ‚È‚¢ê‡‚ÌŠù’è’l‚Í 1.0fBƒXƒgƒ[ƒN‚Íü‚Ì’†S‚É”z’u‚³‚ê‚éB
+strokeStyle : [comobj] Œ^: ID2D1StrokeStyle* “K—p‚·‚éƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹Bƒxƒ^‚Ìü‚ğ•`‰æ‚·‚éê‡‚Í NULL ‚ğw’è‚·‚éB
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ 2 “_ŠÔ‚Éü‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BDrawLine
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_DrawRectangle
-ID2D1HwndRenderTarget::DrawRectangle (vtable slot 16)
+w’è‚µ‚½¡–@‚ÆƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğ‚Â‹éŒ`‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, rect, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3472,22 +4944,42 @@ brush : [comobj]
 strokeWidth : [float] 
 strokeStyle : [comobj] 
 %inst
+w’è‚µ‚½¡–@‚ÆƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğ‚Â‹éŒ`‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawRectangle**
+‚Ì‚æ‚¤‚È•`‰æƒƒ\ƒbƒh‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_FillRectangle
-ID2D1HwndRenderTarget::FillRectangle (vtable slot 17)
+w’è‚µ‚½‹éŒ`‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, rect, brush
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 rect : [var] 
 brush : [comobj] 
 %inst
+w’è‚µ‚½‹éŒ`‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**FillRectangle**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_DrawRoundedRectangle
-ID2D1HwndRenderTarget::DrawRoundedRectangle (vtable slot 18)
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ŠpŠÛ‹éŒ`‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, roundedRect, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3496,22 +4988,42 @@ brush : [comobj]
 strokeWidth : [float] 
 strokeStyle : [comobj] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ŠpŠÛ‹éŒ`‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawRoundedRectangle**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_FillRoundedRectangle
-ID2D1HwndRenderTarget::FillRoundedRectangle (vtable slot 19)
+w’è‚µ‚½ŠpŠÛ‹éŒ`‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, roundedRect, brush
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 roundedRect : [var] 
 brush : [comobj] 
 %inst
+w’è‚µ‚½ŠpŠÛ‹éŒ`‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**FillRoundedRectangle**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_DrawEllipse
-ID2D1HwndRenderTarget::DrawEllipse (vtable slot 20)
+w’è‚µ‚½¡–@‚ÆƒXƒgƒ[ƒN‚Å‘È‰~‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, ellipse, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3520,58 +5032,108 @@ brush : [comobj]
 strokeWidth : [float] 
 strokeStyle : [comobj] 
 %inst
+w’è‚µ‚½¡–@‚ÆƒXƒgƒ[ƒN‚Å‘È‰~‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+
+[”õl]
+**DrawEllipse** ƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawEllipse**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_FillEllipse
-ID2D1HwndRenderTarget::FillEllipse (vtable slot 21)
+w’è‚µ‚½‘È‰~‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, ellipse, brush
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 ellipse : [var] 
 brush : [comobj] 
 %inst
+w’è‚µ‚½‘È‰~‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**FillEllipse**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_DrawGeometry
-ID2D1HwndRenderTarget::DrawGeometry (vtable slot 22)
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ƒWƒIƒƒgƒŠ[‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, geometry, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-geometry : [comobj] 
-brush : [comobj] 
-strokeWidth : [float] 
-strokeStyle : [comobj] 
+geometry : [comobj] Œ^: ID2D1Geometry* •`‰æ‚·‚éƒWƒIƒƒgƒŠ[B
+brush : [comobj] Œ^: ID2D1Brush* ƒWƒIƒƒgƒŠ[‚ÌƒXƒgƒ[ƒN‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
+strokeWidth : [float] Œ^: FLOAT ƒXƒgƒ[ƒN‚Ì•iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB’l‚Í 0.0f ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğw’è‚µ‚È‚¢ê‡‚ÌŠù’è’l‚Í 1.0fBƒXƒgƒ[ƒN‚Íü‚Ì’†S‚É”z’u‚³‚ê‚éB
+strokeStyle : [comobj] Œ^: ID2D1StrokeStyle* ƒWƒIƒƒgƒŠ[‚Ì—ÖŠs‚É“K—p‚·‚éƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹Bƒxƒ^‚ÌƒXƒgƒ[ƒN‚ğ•`‰æ‚·‚éê‡‚Í NULL ‚ğw’è‚·‚éB
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ƒWƒIƒƒgƒŠ[‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BDrawGeometry
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_FillGeometry
-ID2D1HwndRenderTarget::FillGeometry (vtable slot 23)
+w’è‚µ‚½ƒWƒIƒƒgƒŠ[‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, geometry, brush, opacityBrush
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-geometry : [comobj] 
-brush : [comobj] 
-opacityBrush : [comobj] 
+geometry : [comobj] Œ^: ID2D1Geometry* “h‚è‚Â‚Ô‚·ƒWƒIƒƒgƒŠ[B
+brush : [comobj] Œ^: ID2D1Brush* ƒWƒIƒƒgƒŠ[‚Ì“à•”‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
+opacityBrush : [comobj] Œ^: ID2D1Brush* ƒWƒIƒƒgƒŠ[‚É“K—p‚·‚é•s“§–¾“xƒ}ƒXƒNB•s“§–¾“xƒ}ƒXƒN‚ğg—p‚µ‚È‚¢ê‡‚Í NULLB•s“§–¾“xƒ}ƒXƒNiopacityBrush ƒpƒ‰ƒ[ƒ^[j‚ğw’è‚·‚éê‡Abrush ‚Í x/y Šg’£ƒ‚[ƒh‚ª D2D1_EXTEND_MODE_CLAMP ‚Éİ’è‚³‚ê‚½ ID2D1BitmapBrush ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Remarks ‚ğQÆB
 %inst
+w’è‚µ‚½ƒWƒIƒƒgƒŠ[‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+opacityBrush ƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Å‚È‚¢ê‡Aƒ}ƒbƒv‚³‚ê‚½ opacityBrush
+‚ÌŠeƒsƒNƒZƒ‹‚ÌƒAƒ‹ƒtƒ@’l‚ğg‚Á‚ÄƒWƒIƒƒgƒŠ[‚Ì‘Î‰‚·‚éŠeƒsƒNƒZƒ‹‚ÌÅI“I‚È•s“§–¾“x‚ªŒˆ’è‚³‚ê‚éB‚±‚Ìˆ—‚É‚Íƒuƒ‰ƒV“à‚ÌŠeF‚ÌƒAƒ‹ƒtƒ@’l‚Ì‚İ‚ªg‚í‚êA‘¼‚ÌFî•ñ‚Í‚·‚×‚Ä–³‹‚³‚ê‚éBƒuƒ‰ƒV‚ªw’è‚·‚éƒAƒ‹ƒtƒ@’l‚ÍAƒWƒIƒƒgƒŠ[‚ª
+brush ‚Å“h‚ç‚ê‚½ŒãAƒWƒIƒƒgƒŠ[‚ÌƒAƒ‹ƒtƒ@’l‚ÉæZ‚³‚ê‚éB
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BFillGeometry
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_FillMesh
-ID2D1HwndRenderTarget::FillMesh (vtable slot 24)
+w’è‚µ‚½ƒƒbƒVƒ…‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, mesh, brush
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-mesh : [comobj] 
-brush : [comobj] 
+mesh : [comobj] Œ^: ID2D1Mesh* “h‚è‚Â‚Ô‚·ƒƒbƒVƒ…B
+brush : [comobj] Œ^: ID2D1Brush* ƒƒbƒVƒ…‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
 %inst
+w’è‚µ‚½ƒƒbƒVƒ…‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+FillMesh ‚ğŒÄ‚Ño‚·ÛAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚Í D2D1_ANTIALIAS_MODE_ALIASED
+‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğ•ÏX‚·‚é‚É‚Í SetAntialiasMode
+ƒƒ\ƒbƒh‚ğg—p‚·‚éBFillMesh ‚Í ID2D1Mesh
+“à‚ÌOŠpŒ`‚É“Á’è‚ÌƒƒCƒ“ƒfƒBƒ“ƒO‡‚ğŠú‘Ò‚µ‚È‚¢BŒv‰ñ‚èE”½Œv‰ñ‚è‚Ì‚Ç‚¿‚ç‚Å‚à“®ì‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BFillMesh
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_FillOpacityMask
-ID2D1HwndRenderTarget::FillOpacityMask (vtable slot 25)
+w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚ª‹Lq‚·‚é•s“§–¾“xƒ}ƒXƒN‚ğƒuƒ‰ƒV‚É“K—p‚µA‚»‚Ìƒuƒ‰ƒV‚ğg‚Á‚ÄƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, opacityMask, brush, content, destinationRectangle, sourceRectangle
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3581,11 +5143,25 @@ content : [int]
 destinationRectangle : [var] 
 sourceRectangle : [var] 
 %inst
+w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚ª‹Lq‚·‚é•s“§–¾“xƒ}ƒXƒN‚ğƒuƒ‰ƒV‚É“K—p‚µA‚»‚Ìƒuƒ‰ƒV‚ğg‚Á‚ÄƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚ª³‚µ‚­“®ì‚·‚é‚É‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ª
+[**D2D1\_ANTIALIAS\_MODE\_ALIASED**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_antialias_mode)
+ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğg—p‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éBƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚Í
+[**ID2D1RenderTarget::SetAntialiasMode**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-setantialiasmode)
+ƒƒ\ƒbƒh‚Åİ’è‚Å‚«‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**FillOpacityMask**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_DrawBitmap
-ID2D1HwndRenderTarget::DrawBitmap (vtable slot 26)
+w’è‚µ‚½ ID2D1Bitmap ‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, bitmap, destinationRectangle, opacity, interpolationMode, sourceRectangle
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3595,11 +5171,21 @@ opacity : [float]
 interpolationMode : [int] 
 sourceRectangle : [var] 
 %inst
+w’è‚µ‚½ ID2D1Bitmap ‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawBitmap**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_DrawText
-ID2D1HwndRenderTarget::DrawText (vtable slot 27)
+IDWriteTextFormat ƒIƒuƒWƒFƒNƒg‚ª’ñ‹Ÿ‚·‚é‘®î•ñ‚ğg‚Á‚Äw’è‚µ‚½ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, string, stringLength, textFormat, layoutRect, defaultFillBrush, options, measuringMode
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3611,306 +5197,582 @@ defaultFillBrush : [comobj]
 options : [int] 
 measuringMode : [int] 
 %inst
+IDWriteTextFormat ƒIƒuƒWƒFƒNƒg‚ª’ñ‹Ÿ‚·‚é‘®î•ñ‚ğg‚Á‚Äw’è‚µ‚½ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+
+[”õl]
+Direct2D ‚ÅƒeƒLƒXƒg‚ğ•`‰æ‚·‚é‚É‚ÍA’Pˆê‚Ì‘®‚ÌƒeƒLƒXƒg‚É‚Í
+[**ID2D1RenderTarget::DrawText**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-drawtext(constwchar_uint32_idwritetextformat_constd2d1_rect_f__id2d1brush_d2d1_draw_text_options_dwrite_measuring_mode))
+ƒƒ\ƒbƒh‚ğA•¡”‘®E‚“x‚È OpenType ‹@”\EƒqƒbƒgƒeƒXƒg‚ª•K—v‚Èê‡‚Í
+[**ID2D1RenderTarget::DrawTextLayout**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-drawtextlayout)
+ƒƒ\ƒbƒh‚ğg—p‚·‚éB‚±‚ê‚ç‚Ìƒƒ\ƒbƒh‚Í DirectWrite API
+‚ğ—˜—p‚µ‚Ä‚•i¿‚ÌƒeƒLƒXƒg•\¦‚ğ’ñ‹Ÿ‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**DrawText**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_DrawTextLayout
-ID2D1HwndRenderTarget::DrawTextLayout (vtable slot 28)
+w’è‚µ‚½ IDWriteTextLayout ƒIƒuƒWƒFƒNƒg‚ª‹Lq‚·‚é‘®•t‚«ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, origin, textLayout, defaultFillBrush, options
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-origin : [int] 
-textLayout : [comobj] 
-defaultFillBrush : [comobj] 
-options : [int] 
+origin : [int] Œ^: D2D1_POINT_2F textLayout ‚ª‹Lq‚·‚éƒeƒLƒXƒg‚Ì¶ã‹÷‚ª•`‰æ‚³‚ê‚é“_iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
+textLayout : [comobj] Œ^: IDWriteTextLayout* •`‰æ‚·‚é‘®•t‚«ƒeƒLƒXƒgBID2D1Resource ‚ğŒp³‚µ‚È‚¢•`‰æŒø‰Ê‚Í–³‹‚³‚ê‚éBID2D1Resource ‚ğŒp³‚·‚é‚ªƒuƒ‰ƒV‚Å‚Í‚È‚¢•`‰æŒø‰Ê‚ª‚ ‚éê‡A‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğƒGƒ‰[ó‘Ô‚É‚·‚éB
+defaultFillBrush : [comobj] Œ^: ID2D1Brush* textLayout “à‚ÅA•`‰æŒø‰Ê‚Æ‚µ‚ÄŠÖ˜A•t‚¯‚ç‚ê‚½ƒuƒ‰ƒViIDWriteTextLayout::SetDrawingEffect ƒƒ\ƒbƒh‚Åw’èj‚ğ‚½‚È‚¢ƒeƒLƒXƒg‚ğ“h‚é‚½‚ß‚Ég—p‚·‚éƒuƒ‰ƒVB
+options : [int] Œ^: D2D1_DRAW_TEXT_OPTIONS ƒeƒLƒXƒg‚ğƒsƒNƒZƒ‹‹«ŠE‚ÉƒXƒiƒbƒv‚·‚é‚©‚Ç‚¤‚©A‚¨‚æ‚ÑƒŒƒCƒAƒEƒg‹éŒ`‚ÅƒNƒŠƒbƒv‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’lBŠù’è’l‚Í D2D1_DRAW_TEXT_OPTIONS_NONE ‚ÅAƒeƒLƒXƒg‚ÍƒsƒNƒZƒ‹‹«ŠE‚ÉƒXƒiƒbƒv‚³‚êAƒŒƒCƒAƒEƒg‹éŒ`‚Å‚ÍƒNƒŠƒbƒv‚³‚ê‚È‚¢‚±‚Æ‚ğ¦‚·B
 %inst
+w’è‚µ‚½ IDWriteTextLayout ƒIƒuƒWƒFƒNƒg‚ª‹Lq‚·‚é‘®•t‚«ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+
+[”õl]
+“¯‚¶ƒeƒLƒXƒg‚ğŒJ‚è•Ô‚µ•`‰æ‚·‚éê‡AŒÄ‚Ño‚µ‚²‚Æ‚ÉƒeƒLƒXƒg‚Ì‘®İ’è‚ÆƒŒƒCƒAƒEƒgˆ—‚ğ•K—v‚Æ‚µ‚È‚¢‚½‚ßADrawText ƒƒ\ƒbƒh‚æ‚è‚à
+DrawTextLayout ƒƒ\ƒbƒh‚Ì•û‚ªŒø—¦“I‚Å‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BDrawTextLayout
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_DrawGlyphRun
-ID2D1HwndRenderTarget::DrawGlyphRun (vtable slot 29)
+w’è‚µ‚½ƒOƒŠƒt‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, baselineOrigin, glyphRun, foregroundBrush, measuringMode
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-baselineOrigin : [int] 
-glyphRun : [int] 
-foregroundBrush : [comobj] 
-measuringMode : [int] 
+baselineOrigin : [int] Œ^: D2D1_POINT_2F ƒOƒŠƒt‚Ìƒx[ƒXƒ‰ƒCƒ“‚ÌŒ´“_iƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
+glyphRun : [int] Œ^: const DWRITE_GLYPH_RUN* ƒŒƒ“ƒ_ƒŠƒ“ƒO‚·‚éƒOƒŠƒtB
+foregroundBrush : [comobj] Œ^: ID2D1Brush* w’è‚µ‚½ƒOƒŠƒt‚ğ“h‚é‚Ì‚Ég—p‚·‚éƒuƒ‰ƒVB
+measuringMode : [int] Œ^: DWRITE_MEASURING_MODE ƒeƒLƒXƒg‚Ì‘®İ’è‚ÉƒOƒŠƒtƒƒgƒŠƒbƒN‚ğ‚Ç‚Ì‚æ‚¤‚Ég—p‚µ‚ÄƒeƒLƒXƒg‚ğ‘ª’è‚·‚é‚©‚ğ¦‚·’lBŠù’è’l‚Í DWRITE_MEASURING_MODE_NATURALB
 %inst
+w’è‚µ‚½ƒOƒŠƒt‚ğ•`‰æ‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BDrawGlyphRun
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_SetTransform
-ID2D1HwndRenderTarget::SetTransform (vtable slot 30)
+w’è‚µ‚½•ÏŠ·‚ğƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É“K—p‚µAŠù‘¶‚Ì•ÏŠ·‚ğ’u‚«Š·‚¦‚éBŒã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚Í•ÏŠ·Œã‚Ì‹óŠÔ‚Ås‚í‚ê‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, transform
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 transform : [var] 
 %inst
+w’è‚µ‚½•ÏŠ·‚ğƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É“K—p‚µAŠù‘¶‚Ì•ÏŠ·‚ğ’u‚«Š·‚¦‚éBŒã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚Í•ÏŠ·Œã‚Ì‹óŠÔ‚Ås‚í‚ê‚éB
 
 
 %index
 ID2D1HwndRenderTarget_GetTransform
-ID2D1HwndRenderTarget::GetTransform (vtable slot 31)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚Ì•ÏŠ·‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, transform
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-transform : [var] 
+transform : [var] Œ^: D2D1_MATRIX_3X2_F* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚Ì•ÏŠ·‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚Ì•ÏŠ·‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_SetAntialiasMode
-ID2D1HwndRenderTarget::SetAntialiasMode (vtable slot 32)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğİ’è‚·‚éB‚±‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ÍAƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ğœ‚­Œã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚É“K—p‚³‚ê‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, antialiasMode
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-antialiasMode : [int] 
+antialiasMode : [int] Œ^: D2D1_ANTIALIAS_MODE ˆÈ~‚Ì•`‰æ‘€ì‚Åg—p‚·‚éƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhB
 %inst
+
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğİ’è‚·‚éB‚±‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ÍAƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ğœ‚­Œã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚É“K—p‚³‚ê‚éB
+
+[”õl]
+ƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt‘€ì‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğw’è‚·‚é‚É‚Í SetTextAntialiasMode ƒƒ\ƒbƒh‚ğg—p‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_GetAntialiasMode
-ID2D1HwndRenderTarget::GetAntialiasMode (vtable slot 33)
+”ñƒeƒLƒXƒg•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+”ñƒeƒLƒXƒg•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: D2D1_ANTIALIAS_MODE ”ñƒeƒLƒXƒg•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhB
 
 
 %index
 ID2D1HwndRenderTarget_SetTextAntialiasMode
-ID2D1HwndRenderTarget::SetTextAntialiasMode (vtable slot 34)
+ˆÈ~‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Åg—p‚·‚éƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, textAntialiasMode
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textAntialiasMode : [int] 
+textAntialiasMode : [int] Œ^: D2D1_TEXT_ANTIALIAS_MODE ˆÈ~‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Åg—p‚·‚éƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhB
 %inst
+ˆÈ~‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Åg—p‚·‚éƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğw’è‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_GetTextAntialiasMode
-ID2D1HwndRenderTarget::GetTextAntialiasMode (vtable slot 35)
+ƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: D2D1_TEXT_ANTIALIAS_MODE ƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhB
 
 
 %index
 ID2D1HwndRenderTarget_SetTextRenderingParams
-ID2D1HwndRenderTarget::SetTextRenderingParams (vtable slot 36)
+ˆÈ~‚Ì‚·‚×‚Ä‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚É“K—p‚·‚éƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, textRenderingParams
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textRenderingParams : [comobj] 
+textRenderingParams : [comobj] Œ^: IDWriteRenderingParams* ˆÈ~‚Ì‚·‚×‚Ä‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚É“K—p‚·‚éƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“BŒ»İ‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğƒNƒŠƒA‚·‚é‚É‚Í NULL ‚ğw’è‚·‚éB
 %inst
+ˆÈ~‚Ì‚·‚×‚Ä‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚É“K—p‚·‚éƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éB
+
+[”õl]
+textRenderingParams
+‚Åw’è‚³‚ê‚½İ’è‚ªƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒeƒLƒXƒgƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhiSetTextAntialiasMode
+‚Åw’èj‚ÆŒİŠ·«‚ª‚È‚¢ê‡AŒã‘±‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Í¸”s‚µAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éB
 
 
 %index
 ID2D1HwndRenderTarget_GetTextRenderingParams
-ID2D1HwndRenderTarget::GetTextRenderingParams (vtable slot 37)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, textRenderingParams
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textRenderingParams : [comobj] 
+textRenderingParams : [comobj] Œ^: IDWriteRenderingParams** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAtextRenderingParams ‚É‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚éB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+
+[”õl]
+textRenderingParams
+‚Åw’è‚³‚ê‚½İ’è‚ªƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒeƒLƒXƒgƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhiSetTextAntialiasMode
+‚Åw’èj‚ÆŒİŠ·«‚ª‚È‚¢ê‡AŒã‘±‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Í¸”s‚µAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éB
 
 
 %index
 ID2D1HwndRenderTarget_SetTags
-ID2D1HwndRenderTarget::SetTags (vtable slot 38)
+Œã‘±‚Ì•`‰æ‘€ì‚Ìƒ‰ƒxƒ‹‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-tag1 : [int64] 
-tag2 : [int64] 
+tag1 : [int64] Œ^: D2D1_TAG Œã‘±‚Ì•`‰æ‘€ì‚É“K—p‚·‚éƒ‰ƒxƒ‹B
+tag2 : [int64] Œ^: D2D1_TAG Œã‘±‚Ì•`‰æ‘€ì‚É“K—p‚·‚éƒ‰ƒxƒ‹B
 %inst
+Œã‘±‚Ì•`‰æ‘€ì‚Ìƒ‰ƒxƒ‹‚ğw’è‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Åw’è‚µ‚½ƒ‰ƒxƒ‹‚ÍƒfƒoƒbƒO‚ÌƒGƒ‰[ƒƒbƒZ[ƒW‚Åo—Í‚³‚ê‚éBƒ^ƒO‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AŠeƒ^ƒO‚ÌŠù’è’l‚Í 0B
 
 
 %index
 ID2D1HwndRenderTarget_GetTags
-ID2D1HwndRenderTarget::GetTags (vtable slot 39)
+Œã‘±‚Ì•`‰æ‘€ì‚Ìƒ‰ƒxƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-tag1 : [var] 
-tag2 : [var] 
+tag1 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAŒã‘±‚Ì•`‰æ‘€ì‚É•t‚¯‚éÅ‰‚Ìƒ‰ƒxƒ‹‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éBNULL ‚ğw’è‚µ‚½ê‡‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É’l‚Íæ“¾‚³‚ê‚È‚¢B
+tag2 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAŒã‘±‚Ì•`‰æ‘€ì‚É•t‚¯‚é 2 ‚Â–Ú‚Ìƒ‰ƒxƒ‹‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éBNULL ‚ğw’è‚µ‚½ê‡‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É’l‚Íæ“¾‚³‚ê‚È‚¢B
 %inst
+Œã‘±‚Ì•`‰æ‘€ì‚Ìƒ‰ƒxƒ‹‚ğæ“¾‚·‚éB
+
+[”õl]
+—¼•û‚Ìƒpƒ‰ƒ[ƒ^[‚É“¯‚¶ƒAƒhƒŒƒX‚ğ“n‚µ‚½ê‡A—¼•û‚Ìƒpƒ‰ƒ[ƒ^[‚ª 2 ‚Â–Ú‚Ìƒ^ƒO‚Ì’l‚ğó‚¯æ‚éB
 
 
 %index
 ID2D1HwndRenderTarget_PushLayer
-ID2D1HwndRenderTarget::PushLayer (vtable slot 40)
+PopLayer ‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚Å‚ÌŒã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚ğó‚¯æ‚é‚æ‚¤Aw’è‚µ‚½ƒŒƒCƒ„[‚ğƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É’Ç‰Á‚·‚éB(overload 1/2)
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, layerParameters, layer
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-layerParameters : [int] 
-layer : [comobj] 
+layerParameters : [int] Œ^: const D2D1_LAYER_PARAMETERS* ƒŒƒCƒ„[‚ÌƒRƒ“ƒeƒ“ƒc‹«ŠEAƒWƒIƒƒgƒŠƒbƒNƒ}ƒXƒNA•s“§–¾“xA•s“§–¾“xƒ}ƒXƒNA‚¨‚æ‚ÑƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒIƒvƒVƒ‡ƒ“B
+layer : [comobj] Œ^: ID2D1Layer* Œã‘±‚Ì•`‰æ‘€ì‚ğó‚¯æ‚éƒŒƒCƒ„[B’ˆÓ Windows 8 ˆÈ~A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ÍÈ—ª‰Â”\‚Å‚ ‚éBƒŒƒCƒ„[‚ğw’è‚µ‚È‚¢ê‡ADirect2D ‚ªƒŒƒCƒ„[ƒŠƒ\[ƒX‚ğ©“®“I‚ÉŠÇ—‚·‚éB
 %inst
+PopLayer
+‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚Å‚ÌŒã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚ğó‚¯æ‚é‚æ‚¤Aw’è‚µ‚½ƒŒƒCƒ„[‚ğƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É’Ç‰Á‚·‚éB(overload 1/2)
+
+[”õl]
+PushLayer
+ƒƒ\ƒbƒh‚ÍŒÄ‚Ño‚µ‘¤‚ªƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğƒŒƒCƒ„[‚ÖƒŠƒ_ƒCƒŒƒNƒg‚µn‚ß‚é‚±‚Æ‚ğ‰Â”\‚É‚·‚éBƒŒƒCƒ„[“à‚Å‚Í‚·‚×‚Ä‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‘€ì‚ª—LŒø‚Å‚ ‚éBƒŒƒCƒ„[‚ÌˆÊ’u‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Éİ’è‚³‚ê‚½ƒ[ƒ‹ƒh•ÏŠ·‚Ì‰e‹¿‚ğó‚¯‚éBPushLayer
+‚ÌŒÄ‚Ño‚µ‚É‚Í‘Î‰‚·‚é PopLayer ‚ÌŒÄ‚Ño‚µ‚ª•K—v‚Å‚ ‚éBPopLayer ‚ÌŒÄ‚Ño‚µ‚ª PushLayer
+‚ÌŒÄ‚Ño‚µ‚æ‚è‚à‘½‚¢ê‡AƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éB–¢‰ğŒˆ‚ÌƒŒƒCƒ„[‚ª‚·‚×‚Äƒ|ƒbƒv‚³‚ê‚é‘O‚É Flush
+‚ğŒÄ‚Ño‚·‚ÆƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒGƒ‰[ó‘Ô‚É‚È‚èAƒGƒ‰[‚ª•Ô‚³‚ê‚éB‚±‚ÌƒGƒ‰[ó‘Ô‚Í EndDraw ‚ÌŒÄ‚Ño‚µ‚ÅƒNƒŠƒA‚Å‚«‚éB“Á’è‚Ì
+ID2D1Layer ƒŠƒ\[ƒX‚Í“¯‚É 1 ‚Â‚µ‚©ƒAƒNƒeƒBƒu‚É‚Å‚«‚È‚¢B‚Â‚Ü‚è PushLayer
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½’¼Œã‚É“¯‚¶ƒŒƒCƒ„[ƒŠƒ\[ƒX‚Å PushLayer ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B2 ‚Â–Ú‚Ì PushLayer
+ƒƒ\ƒbƒh‚Í•Ê‚ÌƒŒƒCƒ„[ƒŠƒ\[ƒX‚ÅŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
+‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BPushLayer
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_PopLayer
-ID2D1HwndRenderTarget::PopLayer (vtable slot 41)
+’¼‘O‚Ì PushLayer ŒÄ‚Ño‚µ‚Åw’è‚µ‚½ƒŒƒCƒ„[‚Ö‚Ì•`‰æ‘€ì‚ÌƒŠƒ_ƒCƒŒƒNƒg‚ğ’â~‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+’¼‘O‚Ì PushLayer ŒÄ‚Ño‚µ‚Åw’è‚µ‚½ƒŒƒCƒ„[‚Ö‚Ì•`‰æ‘€ì‚ÌƒŠƒ_ƒCƒŒƒNƒg‚ğ’â~‚·‚éB
+
+[”õl]
+PopLayer ‚Í’¼‘O‚Ì PushLayer
+ŒÄ‚Ño‚µ‚Æ‘Î‰‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BPopLayer
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_Flush
-ID2D1HwndRenderTarget::Flush (vtable slot 42)
+•Û—¯’†‚Ì‚·‚×‚Ä‚Ì•`‰æƒRƒ}ƒ“ƒh‚ğÀs‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-tag1 : [var] 
-tag2 : [var] 
+tag1 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒGƒ‰[‚ğ”­¶‚³‚¹‚½•`‰æ‘€ì‚Ìƒ^ƒOA‚Ü‚½‚ÍƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡‚Í 0 ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
+tag2 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒGƒ‰[‚ğ”­¶‚³‚¹‚½•`‰æ‘€ì‚Ìƒ^ƒOA‚Ü‚½‚ÍƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡‚Í 0 ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+•Û—¯’†‚Ì‚·‚×‚Ä‚Ì•`‰æƒRƒ}ƒ“ƒh‚ğÀs‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚µAƒGƒ‰[”­¶‚ÉƒAƒNƒeƒBƒu‚¾‚Á‚½ƒ^ƒO‚ğ tag1 ‚¨‚æ‚Ñ tag2
+‚Éİ’è‚·‚éBƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍƒGƒ‰[ƒ^ƒOó‘Ô‚ğ (0,0) ‚Éİ’è‚·‚éB
+
+[”õl]
+‚±‚ÌƒRƒ}ƒ“ƒh‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ Direct3D
+ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğƒtƒ‰ƒbƒVƒ…‚µ‚È‚¢B‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚ÆƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒGƒ‰[ó‘Ô‚ªƒŠƒZƒbƒg‚³‚ê‚éB
 
 
 %index
 ID2D1HwndRenderTarget_SaveDrawingState
-ID2D1HwndRenderTarget::SaveDrawingState (vtable slot 43)
+Œ»İ‚Ì•`‰æó‘Ô‚ğAw’è‚µ‚½ ID2D1DrawingStateBlock ‚É•Û‘¶‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, drawingStateBlock
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-drawingStateBlock : [comobj] 
+drawingStateBlock : [comobj] Œ^: ID2D1DrawingStateBlock* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚Ì•`‰æó‘Ô‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Íƒƒ\ƒbƒh‚É“n‚·‘O‚É‰Šú‰»‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
 %inst
+Œ»İ‚Ì•`‰æó‘Ô‚ğAw’è‚µ‚½ ID2D1DrawingStateBlock ‚É•Û‘¶‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_RestoreDrawingState
-ID2D1HwndRenderTarget::RestoreDrawingState (vtable slot 44)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì•`‰æó‘Ô‚ğAw’è‚µ‚½ ID2D1DrawingStateBlock ‚Ìó‘Ô‚Éİ’è‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, drawingStateBlock
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-drawingStateBlock : [comobj] 
+drawingStateBlock : [comobj] Œ^: ID2D1DrawingStateBlock* ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌV‚µ‚¢•`‰æó‘ÔB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì•`‰æó‘Ô‚ğAw’è‚µ‚½ ID2D1DrawingStateBlock ‚Ìó‘Ô‚Éİ’è‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_PushAxisAlignedClip
-ID2D1HwndRenderTarget::PushAxisAlignedClip (vtable slot 45)
+ˆÈ~‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚ÌƒNƒŠƒbƒvæ‚Æ‚È‚é‹éŒ`‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, clipRect, antialiasMode
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 clipRect : [var] 
 antialiasMode : [int] 
 %inst
+ˆÈ~‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚ÌƒNƒŠƒbƒvæ‚Æ‚È‚é‹éŒ`‚ğw’è‚·‚éB
+
+[”õl]
+
+[**PushAxisAlignedClip**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-pushaxisalignedclip(constd2d1_rect_f__d2d1_antialias_mode))
+‚Æ
+[**PopAxisAlignedClip**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-popaxisalignedclip)
+‚ÌƒyƒA‚Í
+[**PushLayer**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-pushlayer(constd2d1_layer_parameters__id2d1layer))
+‚Æ
+[**PopLayer**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-poplayer)
+‚ÌƒyƒA‚ÌŠO‘¤‚Ü‚½‚Í“à‘¤‚ÉoŒ»‚Å‚«‚é‚ªAŒİ‚¢‚Éd‚È‚è‡‚Á‚Ä‚Í‚È‚ç‚È‚¢B—á‚¦‚Î
+**PushAxisAlignedClip**A[**PushLayer**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-pushlayer(constd2d1_layer_parameters__id2d1layer))A**PopLayer**A**PopAxisAlignedClip**
+‚ÌƒV[ƒPƒ“ƒX‚Í—LŒø‚¾‚ªA**PushAxisAlignedClip**A**PushLayer**A**PopAxisAlignedClip**A**PopLayer**
+‚ÌƒV[ƒPƒ“ƒX‚Í–³Œø‚Å‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢B**PushAxisAlignedClip**
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍA[**ID2D1RenderTarget::EndDraw**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-enddraw)
+‚Ü‚½‚Í
+[**ID2D1RenderTarget::Flush**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-flush)
+‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_PopAxisAlignedClip
-ID2D1HwndRenderTarget::PopAxisAlignedClip (vtable slot 46)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚©‚çÅŒã‚Ì²‘µ‚¦ƒNƒŠƒbƒv‚ğæ‚èœ‚­B‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½Œã‚ÍA‚»‚ÌƒNƒŠƒbƒv‚ÍŒã‘±‚Ì•`‰æ‘€ì‚É“K—p‚³‚ê‚È‚¢B
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚©‚çÅŒã‚Ì²‘µ‚¦ƒNƒŠƒbƒv‚ğæ‚èœ‚­B‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½Œã‚ÍA‚»‚ÌƒNƒŠƒbƒv‚ÍŒã‘±‚Ì•`‰æ‘€ì‚É“K—p‚³‚ê‚È‚¢B
+
+[”õl]
+PushAxisAlignedClip ‚Æ PopAxisAlignedClip ‚ÌƒyƒA‚Í PushLayer ‚Æ PopLayer
+‚ÌƒyƒA‚ÌŠO‘¤‚Ü‚½‚Í“à‘¤‚ÉoŒ»‚Å‚«‚é‚ªAŒİ‚¢‚Éd‚È‚è‡‚Á‚Ä‚Í‚È‚ç‚È‚¢B—á‚¦‚Î
+PushAxisAlignedClipAPushLayerAPopLayerAPopAxisAlignedClip
+‚ÌƒV[ƒPƒ“ƒX‚Í—LŒø‚¾‚ªAPushAxisAlignedClipAPushLayerAPopAxisAlignedClipAPopLayer
+‚ÌƒV[ƒPƒ“ƒX‚Í–³Œø‚Å‚ ‚éBPopAxisAlignedClip ‚Í PushAxisAlignedClip ‚ÌŒÄ‚Ño‚µ‚²‚Æ‚É 1
+‰ñŒÄ‚Ño‚·•K—v‚ª‚ ‚éB—á‚É‚Â‚¢‚Ä‚ÍuHow to Clip with an Axis-Aligned Clip
+Rectanglev‚ğQÆB‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚µ‚Ä‚àƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢BPopAxisAlignedClip
+‚Ì‚æ‚¤‚È•`‰æ‘€ì‚ª¸”s‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚ÍAID2D1RenderTarget::EndDraw ‚Ü‚½‚Í
+ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 
 
 %index
 ID2D1HwndRenderTarget_Clear
-ID2D1HwndRenderTarget::Clear (vtable slot 47)
+•`‰æ—Ìˆæ‚ğw’è‚µ‚½F‚ÅƒNƒŠƒA‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, clearColor
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 clearColor : [var] 
 %inst
+•`‰æ—Ìˆæ‚ğw’è‚µ‚½F‚ÅƒNƒŠƒA‚·‚éB
+
+[”õl]
+Direct2D ‚Í *clearColor*
+‚ğƒXƒgƒŒ[ƒgƒAƒ‹ƒtƒ@iƒvƒŠƒ}ƒ‹ƒ`ƒvƒ‰ƒCƒh‚Å‚Í‚È‚¢j‚Æ‚µ‚Ä‰ğß‚·‚éBƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ª
+[**D2D1\_ALPHA\_MODE\_IGNORE**](/windows/desktop/api/dcommon/ne-dcommon-d2d1_alpha_mode)
+‚Ìê‡A*clearColor* ‚ÌƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹‚Í–³‹‚³‚ê
+1.0fiŠ®‘S•s“§–¾j‚É’u‚«Š·‚¦‚ç‚ê‚éBƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÉƒAƒNƒeƒBƒu‚ÈƒNƒŠƒbƒvi[**PushAxisAlignedClip**](/windows/win32/api/d2d1/nf-d2d1-id2d1rendertarget-pushaxisalignedclip(constd2d1_rect_f__d2d1_antialias_mode))
+‚Åw’èj‚ª‚ ‚éê‡AƒNƒŠƒA‘€ì‚ÍƒNƒŠƒbƒv—Ìˆæ“à‚Ì‚İ‚É“K—p‚³‚ê‚éB
 
 
 %index
 ID2D1HwndRenderTarget_BeginDraw
-ID2D1HwndRenderTarget::BeginDraw (vtable slot 48)
+‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚Ì•`‰æ‚ğŠJn‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚Ì•`‰æ‚ğŠJn‚·‚éB
+
+[”õl]
+•`‰æ‘€ì‚Í BeginDraw ‚Æ EndDraw ‚ÌŒÄ‚Ño‚µ‚ÌŠÔ‚Å‚Ì‚İ”­s‚Å‚«‚éBBeginDraw ‚Æ EndDraw
+‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ª Direct2D ƒVƒXƒeƒ€‚É‚æ‚Á‚Äg—p’†‚Å‚ ‚é‚±‚Æ‚ğ¦‚·‚½‚ß‚Ég‚í‚ê‚éBBeginDraw ‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚Ì
+ID2D1RenderTarget ‚ÌŠeÀ‘•‚ÌU‚é•‘‚¢‚ÍˆÙ‚È‚éê‡‚ª‚ ‚éB—á‚¦‚Î ID2D1BitmapRenderTarget ‚Í
+BeginDraw/EndDraw ŒÄ‚Ño‚µ‚ÌŠÔƒƒbƒN‚³‚ê‚é‚±‚Æ‚ª‚ ‚èADXGI ƒT[ƒtƒFƒCƒXƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Í BeginDraw
+‚Éæ“¾‚³‚ê‚Ä EndDraw ‚É‰ğ•ú‚³‚ê‚é‚±‚Æ‚ª‚ ‚èAID2D1HwndRenderTarget ‚Í BeginDraw
+‚Éƒoƒbƒ`‚ğŠJn‚µ EndDraw ‚ÉƒvƒŒƒ[ƒ“ƒg‚·‚é‚±‚Æ‚ª‚ ‚éBƒŒƒ“ƒ_ƒŠƒ“ƒO‘€ì‚ğŒÄ‚Ño‚·‚É‚Í BeginDraw
+ƒƒ\ƒbƒh‚ğæ‚ÉŒÄ‚Ño‚·•K—v‚ª‚ ‚é‚ªAó‘Ô‚Ìİ’è‚Ææ“¾‚Í BeginDraw/EndDraw ‚ÌŠO‚Å‚às‚¦‚éBBeginDraw
+‚ªŒÄ‚Ño‚³‚ê‚é‚ÆA’ÊíƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ}ƒ“ƒh‚Ìƒoƒbƒ`‚ğ’~Ï‚·‚é‚ªA“à•”ƒoƒbƒtƒ@‚ª‚¢‚Á‚Ï‚¢‚É‚È‚é‚© Flush
+ƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚é‚© EndDraw ‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚ÅA‚±‚ê‚çƒRƒ}ƒ“ƒh‚Ìˆ—‚ğ’x‰„‚·‚éBEndDraw
+ƒƒ\ƒbƒh‚Íƒoƒbƒ`‰»‚³‚ê‚½•`‰æ‘€ì‚ğŠ®—¹‚³‚¹A‚»‚ÌŒã‘€ì‚Ì¬”Û‚ğ¦‚· HRESULT
+‚ÆAƒIƒvƒVƒ‡ƒ“‚ÅƒGƒ‰[”­¶‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ìƒ^ƒOó‘Ô‚ğ•Ô‚·BEndDraw ‚Íí‚É¬Œ÷‚·‚éB’¼‘O‚Ì EndDraw ‚ª¸”s‚µ‚½
+HRESULT ‚ğ•Ô‚µ‚½ê‡‚Å‚à“ñ“xŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢BBeginDraw ‚Æ‘Î‰‚µ‚È‚¢ EndDraw ‚ğŒÄ‚Ño‚·‚ÆAEndDraw
+‚Ì‘O‚É BeginDraw ‚ğŒÄ‚Ô•K—v‚ª‚ ‚é‚±‚Æ‚ğ¦‚·ƒGƒ‰[‚ğ•Ô‚·B“¯ˆê‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å BeginDraw
+‚ğ“ñ“xŒÄ‚Ô‚ÆƒGƒ‰[ó‘Ô‚É‚È‚èA‚»‚êˆÈ~‚Í‰½‚à•`‰æ‚³‚ê‚¸AEndDraw ‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚É“KØ‚È HRESULT ‚ÆƒGƒ‰[î•ñ‚ğ•Ô‚·B
 
 
 %index
 ID2D1HwndRenderTarget_EndDraw
-ID2D1HwndRenderTarget::EndDraw (vtable slot 49)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚Ì•`‰æ‘€ì‚ğI—¹‚µAŒ»İ‚ÌƒGƒ‰[ó‘Ô‚ÆŠÖ˜Aƒ^ƒO‚ğ¦‚·B
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-tag1 : [var] 
-tag2 : [var] 
+tag1 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒGƒ‰[‚ğ”­¶‚³‚¹‚½•`‰æ‘€ì‚Ìƒ^ƒOA‚Ü‚½‚ÍƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡‚Í 0 ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
+tag2 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒGƒ‰[‚ğ”­¶‚³‚¹‚½•`‰æ‘€ì‚Ìƒ^ƒOA‚Ü‚½‚ÍƒGƒ‰[‚ª‚È‚©‚Á‚½ê‡‚Í 0 ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚Ì•`‰æ‘€ì‚ğI—¹‚µAŒ»İ‚ÌƒGƒ‰[ó‘Ô‚ÆŠÖ˜Aƒ^ƒO‚ğ¦‚·B
+
+[–ß‚è’l]
+Œ^: HRESULT ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚µAƒGƒ‰[”­¶‚ÉƒAƒNƒeƒBƒu‚¾‚Á‚½ƒ^ƒO‚ğ tag1 ‚¨‚æ‚Ñ tag2 ‚Éİ’è‚·‚éB
+
+[”õl]
+•`‰æ‘€ì‚Í BeginDraw ‚Æ EndDraw ‚ÌŒÄ‚Ño‚µ‚ÌŠÔ‚Å‚Ì‚İ”­s‚Å‚«‚éB
+BeginDraw ‚Æ EndDraw ‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ª Direct2D
+ƒVƒXƒeƒ€‚É‚æ‚Á‚Äg—p’†‚Å‚ ‚é‚±‚Æ‚ğ¦‚·‚½‚ß‚Ég‚í‚ê‚éBBeginDraw ‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚Ì ID2D1RenderTarget
+‚ÌŠeÀ‘•‚ÌU‚é•‘‚¢‚ÍˆÙ‚È‚éê‡‚ª‚ ‚éB—á‚¦‚Î ID2D1BitmapRenderTarget ‚Í BeginDraw/EndDraw
+ŒÄ‚Ño‚µ‚ÌŠÔƒƒbƒN‚³‚ê‚é‚±‚Æ‚ª‚ ‚èADXGI ƒT[ƒtƒFƒCƒXƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Í BeginDraw ‚Éæ“¾‚³‚ê‚Ä EndDraw
+‚É‰ğ•ú‚³‚ê‚é‚±‚Æ‚ª‚ ‚èAID2D1HwndRenderTarget ‚Í BeginDraw ‚Éƒoƒbƒ`‚ğŠJn‚µ EndDraw
+‚ÉƒvƒŒƒ[ƒ“ƒg‚·‚é‚±‚Æ‚ª‚ ‚éBƒŒƒ“ƒ_ƒŠƒ“ƒO‘€ì‚ğŒÄ‚Ño‚·‚É‚Í BeginDraw ƒƒ\ƒbƒh‚ğæ‚ÉŒÄ‚Ño‚·•K—v‚ª‚ ‚é‚ªAó‘Ô‚Ìİ’è‚Ææ“¾‚Í
+BeginDraw/EndDraw ‚ÌŠO‚Å‚às‚¦‚éBBeginDraw
+‚ªŒÄ‚Ño‚³‚ê‚é‚ÆA’ÊíƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ}ƒ“ƒh‚Ìƒoƒbƒ`‚ğ’~Ï‚·‚é‚ªA“à•”ƒoƒbƒtƒ@‚ª‚¢‚Á‚Ï‚¢‚É‚È‚é‚© Flush
+ƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚é‚© EndDraw ‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚ÅA‚±‚ê‚çƒRƒ}ƒ“ƒh‚Ìˆ—‚ğ’x‰„‚·‚éBEndDraw
+ƒƒ\ƒbƒh‚Íƒoƒbƒ`‰»‚³‚ê‚½•`‰æ‘€ì‚ğŠ®—¹‚³‚¹A‚»‚ÌŒã‘€ì‚Ì¬”Û‚ğ¦‚· HRESULT
+‚ÆAƒIƒvƒVƒ‡ƒ“‚ÅƒGƒ‰[”­¶‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ìƒ^ƒOó‘Ô‚ğ•Ô‚·BEndDraw ‚Íí‚É¬Œ÷‚·‚éB’¼‘O‚Ì EndDraw ‚ª¸”s‚µ‚½
+HRESULT ‚ğ•Ô‚µ‚½ê‡‚Å‚à“ñ“xŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢BBeginDraw ‚Æ‘Î‰‚µ‚È‚¢ EndDraw ‚ğŒÄ‚Ño‚·‚ÆAEndDraw
+‚Ì‘O‚É BeginDraw ‚ğŒÄ‚Ô•K—v‚ª‚ ‚é‚±‚Æ‚ğ¦‚·ƒGƒ‰[‚ğ•Ô‚·B“¯ˆê‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å BeginDraw
+‚ğ“ñ“xŒÄ‚Ô‚ÆƒGƒ‰[ó‘Ô‚É‚È‚èA‚»‚êˆÈ~‚Í‰½‚à•`‰æ‚³‚ê‚¸AEndDraw ‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚É“KØ‚È HRESULT ‚ÆƒGƒ‰[î•ñ‚ğ•Ô‚·B
 
 
 %index
 ID2D1HwndRenderTarget_GetPixelFormat
-ID2D1HwndRenderTarget::GetPixelFormat (vtable slot 50)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: D2D1_PIXEL_FORMAT ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒhB
 
 
 %index
 ID2D1HwndRenderTarget_SetDpi
-ID2D1HwndRenderTarget::SetDpi (vtable slot 51)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI (dots per inch) ‚ğİ’è‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, dpiX, dpiY
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dpiX : [float] 
-dpiY : [float] 
+dpiX : [float] Œ^: FLOAT ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì…•½ DPI ‚ğw’è‚·‚é 0 ˆÈã‚Ì’lB
+dpiY : [float] Œ^: FLOAT ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì‚’¼ DPI ‚ğw’è‚·‚é 0 ˆÈã‚Ì’lB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI (dots per inch) ‚ğİ’è‚·‚éB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹‹óŠÔ‚©‚çƒfƒoƒCƒX”ñˆË‘¶‹óŠÔ‚Ö‚Ìƒ}ƒbƒsƒ“ƒO‚ğw’è‚·‚éBdpiX ‚Æ dpiY ‚ª‚¢‚¸‚ê‚à 0
+‚Ìê‡‚ÍAƒtƒ@ƒNƒgƒŠ[‚ª“Ç‚İæ‚Á‚½ƒVƒXƒeƒ€ DPI ‚ª‘I‚Î‚ê‚éBˆê•û‚ª 0 ‚Å‚à‚¤ˆê•û‚ª–¢w’è‚Ìê‡ADPI
+‚Í•ÏX‚³‚ê‚È‚¢BID2D1HwndRenderTarget ‚Ì DPI Šù’è’l‚Í’¼‹ß‚Éƒtƒ@ƒNƒgƒŠ[‚ª“Ç‚İæ‚Á‚½ƒVƒXƒeƒ€ DPI
+‚Å‚ ‚éB‚»‚Ì‘¼‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŠù’è’l‚Í 96 DPIB
 
 
 %index
 ID2D1HwndRenderTarget_GetDpi
-ID2D1HwndRenderTarget::GetDpi (vtable slot 52)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI (dots per inch) ‚ğ•Ô‚·B
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, dpiX, dpiY
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dpiX : [float] 
-dpiY : [float] 
+dpiX : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì…•½ DPI ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
+dpiY : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì‚’¼ DPI ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI (dots per inch) ‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹‹óŠÔ‚©‚çƒfƒoƒCƒX”ñˆË‘¶‹óŠÔ‚Ö‚Ìƒ}ƒbƒsƒ“ƒO‚ğ¦‚·BID2D1HwndRenderTarget ‚Ì
+DPI Šù’è’l‚Í’¼‹ß‚Éƒtƒ@ƒNƒgƒŠ[‚ª“Ç‚İæ‚Á‚½ƒVƒXƒeƒ€ DPI ‚Å‚ ‚éB‚»‚Ì‘¼‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŠù’è’l‚Í 96 DPIB
 
 
 %index
 ID2D1HwndRenderTarget_GetSize
-ID2D1HwndRenderTarget::GetSize (vtable slot 53)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
+
+[–ß‚è’l]
+Œ^: D2D1_SIZE_F ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒTƒCƒYiƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊjB
 
 
 %index
 ID2D1HwndRenderTarget_GetPixelSize
-ID2D1HwndRenderTarget::GetPixelSize (vtable slot 54)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğƒfƒoƒCƒXƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğƒfƒoƒCƒXƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
+
+[–ß‚è’l]
+Œ^: D2D1_SIZE_U ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒYiƒfƒoƒCƒXƒsƒNƒZƒ‹’PˆÊjB
 
 
 %index
 ID2D1HwndRenderTarget_GetMaximumBitmapSize
-ID2D1HwndRenderTarget::GetMaximumBitmapSize (vtable slot 55)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªƒTƒ|[ƒg‚·‚éƒrƒbƒgƒ}ƒbƒv‚Ì 1 ŸŒ³‚ ‚½‚è‚ÌÅ‘åƒTƒCƒY‚ğƒfƒoƒCƒXˆË‘¶’PˆÊiƒsƒNƒZƒ‹j‚Åæ“¾‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªƒTƒ|[ƒg‚·‚éƒrƒbƒgƒ}ƒbƒv‚Ì 1 ŸŒ³‚ ‚½‚è‚ÌÅ‘åƒTƒCƒY‚ğƒfƒoƒCƒXˆË‘¶’PˆÊiƒsƒNƒZƒ‹j‚Åæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: UINT32 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªƒTƒ|[ƒg‚·‚éƒrƒbƒgƒ}ƒbƒv‚Ì 1 ŸŒ³‚ ‚½‚è‚ÌÅ‘åƒTƒCƒYiƒsƒNƒZƒ‹’PˆÊjB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í Direct3D ƒfƒoƒCƒX‚ÌÅ‘åƒeƒNƒXƒ`ƒƒ[ƒTƒCƒY‚ğ•Ô‚·B’ˆÓ ƒ\ƒtƒgƒEƒFƒAƒŒƒ“ƒ_ƒ‰[‚Æ WARP ƒfƒoƒCƒX‚Í 16
+ƒƒKƒsƒNƒZƒ‹ (16*1024*1024) ‚Ì’l‚ğ•Ô‚·B‚±‚ÌƒTƒCƒY‚Ì Direct2D ƒeƒNƒXƒ`ƒƒ[‚Íì¬‚Å‚«‚é‚ªA“¯‚¶ƒTƒCƒY‚Ì
+Direct3D ƒeƒNƒXƒ`ƒƒ[‚Íì¬‚Å‚«‚È‚¢B
 
 
 %index
 ID2D1HwndRenderTarget_IsSupported
-ID2D1HwndRenderTarget::IsSupported (vtable slot 56)
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªw’è‚³‚ê‚½ƒvƒƒpƒeƒB‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·B(overload 1/2)
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, renderTargetProperties
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-renderTargetProperties : [var] 
+renderTargetProperties : [var] Œ^: const D2D1_RENDER_TARGET_PROPERTIES* ƒeƒXƒg‚·‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgƒvƒƒpƒeƒBB
 %inst
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªw’è‚³‚ê‚½ƒvƒƒpƒeƒB‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·B(overload 1/2)
+
+[–ß‚è’l]
+Œ^: BOOL w’è‚µ‚½ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgƒvƒƒpƒeƒB‚ª‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¯‚ê‚Î
+FALSEB
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í renderTargetProperties ƒpƒ‰ƒ[ƒ^[‚Åw’è‚³‚ê‚½ DPI İ’è‚ğ•]‰¿‚µ‚È‚¢B
 
 
 %index
 ID2D1HwndRenderTarget_CheckWindowState
 ‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ HWND ‚ªƒIƒNƒ‹[ƒh‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·B
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3931,6 +5793,8 @@ CheckWindowState ‚ğŒÄ‚Ño‚µ‚Ä–ß‚è’l‚ğ–³‹‚µ‚Ä‚¨‚­‚×‚«‚Å‚ ‚éB‚±‚¤‚·‚é‚±‚Æ‚ÅAŸ‚
 %index
 ID2D1HwndRenderTarget_Resize
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğw’è‚µ‚½ƒsƒNƒZƒ‹ƒTƒCƒY‚É•ÏX‚·‚éB
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this, pixelSize
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3947,6 +5811,8 @@ pixelSize : [var]
 %index
 ID2D1HwndRenderTarget_GetHwnd
 ‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ HWND ‚ğ•Ô‚·B
+%group
+COM misc / ID2D1HwndRenderTarget
 %prm
 this
 this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3959,27 +5825,35 @@ this : [comobj] ID2D1HwndRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 
 %index
 ID2D1Image_GetFactory
-ID2D1Image::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1Image
 %prm
 this, factory
 this : [comobj] ID2D1Image ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1Layer_GetFactory
-ID2D1Layer::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1Layer
 %prm
 this, factory
 this : [comobj] ID2D1Layer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1Layer_GetSize
 ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊ‚ÅƒŒƒCƒ„[‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1Layer
 %prm
 this
 this : [comobj] ID2D1Layer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -3992,56 +5866,98 @@ this : [comobj] ID2D1Layer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 
 %index
 ID2D1LinearGradientBrush_GetFactory
-ID2D1LinearGradientBrush::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1LinearGradientBrush
 %prm
 this, factory
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1LinearGradientBrush_SetOpacity
-ID2D1LinearGradientBrush::SetOpacity (vtable slot 4)
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğİ’è‚·‚éB
+%group
+COM misc / ID2D1LinearGradientBrush
 %prm
 this, opacity
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-opacity : [float] 
+opacity : [float] Œ^: FLOAT ƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğ¦‚· 0 ‚©‚ç 1 ‚Ü‚Å‚Ì’lB‚±‚Ì’l‚Íƒuƒ‰ƒV‚É‚æ‚Á‚Ä“h‚è‚Â‚Ô‚³‚ê‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹‚ÌƒAƒ‹ƒtƒ@’l‚É‘Î‚·‚éüŒ`ƒXƒP[ƒŠƒ“ƒOŒW”‚Æ‚µ‚Äì—p‚·‚é’è””{—¦‚Å‚ ‚éB•s“§–¾“x‚Ì’l‚ÍæZ‘O‚É 0?1 ‚Ì”ÍˆÍ‚ÉƒNƒ‰ƒ“ƒv‚³‚ê‚éB
 %inst
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğİ’è‚·‚éB
 
 
 %index
 ID2D1LinearGradientBrush_SetTransform
-ID2D1LinearGradientBrush::SetTransform (vtable slot 5)
+ƒuƒ‰ƒV‚É“K—p‚·‚é•ÏŠ·‚ğİ’è‚·‚éB
+%group
+COM misc / ID2D1LinearGradientBrush
 %prm
 this, transform
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 transform : [var] 
 %inst
+ƒuƒ‰ƒV‚É“K—p‚·‚é•ÏŠ·‚ğİ’è‚·‚éB
+
+[”õl]
+
+ƒuƒ‰ƒV‚Å•`‰æ‚·‚éÛ‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌÀ•W‹óŠÔ‚Å“h‚è‚Â‚Ô‚µ‚ªs‚í‚ê‚éBƒuƒ‰ƒV‚Í•`‰æ‘ÎÛ‚É®—ñ‚·‚é‚æ‚¤©“®“I‚ÉˆÊ’u‚ğ‡‚í‚¹‚é‚í‚¯‚Å‚Í‚È‚­AƒfƒtƒHƒ‹ƒg‚Å‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ´“_
+(0, 0)
+‚©‚ç•`‰æ‚ğŠJn‚·‚éB[**ID2D1LinearGradientBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1lineargradientbrush)
+‚Å’è‹`‚³‚ê‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÍAŠJn“_‚ÆI—¹“_‚ğİ’è‚·‚é‚±‚Æ‚Å‘ÎÛ—Ìˆæ‚ÖuˆÚ“®v‚Å‚«‚éB“¯—l‚É
+[**ID2D1RadialGradientBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1radialgradientbrush)
+‚Å’è‹`‚³‚ê‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Í’†S‚Æ”¼Œa‚ğ•ÏX‚·‚é‚±‚Æ‚ÅˆÚ“®‚Å‚«‚éB[**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
+‚Ì“à—e‚ğ“h‚è‚Â‚Ô‚µ‘ÎÛ—Ìˆæ‚É®—ñ‚³‚¹‚½‚¢ê‡‚Í **SetTransform**
+ƒƒ\ƒbƒh‚ğg‚Á‚Äƒrƒbƒgƒ}ƒbƒv‚ğ–Ú“I‚ÌˆÊ’u‚Ö•½sˆÚ“®‚Å‚«‚éB‚±‚Ì•ÏŠ·‚Íƒuƒ‰ƒV‚Ì‚İ‚Éì—p‚µAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É‚æ‚Á‚Ä•`‰æ‚³‚ê‚é‘¼‚ÌƒRƒ“ƒeƒ“ƒc‚É‚Í‰e‹¿‚µ‚È‚¢BŸ‚Ì}‚Í
+(100, 100) ‚ÉˆÊ’u‚·‚é‹éŒ`‚ğ
+[**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
+‚Å“h‚è‚Â‚Ô‚µ‚½‚Æ‚«‚ÌŒø‰Ê‚ğ¦‚·B¶‚Ì}‚Íƒuƒ‰ƒV‚ğ•ÏŠ·‚µ‚È‚¢‚Ü‚Ü‹éŒ`‚ğ“h‚è‚Â‚Ô‚µ‚½Œ‹‰Ê‚ÅAƒrƒbƒgƒ}ƒbƒv‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ´“_‚É•`‰æ‚³‚ê‚éB‚»‚ÌŒ‹‰ÊA‹éŒ`‚É‚Íƒrƒbƒgƒ}ƒbƒv‚Ìˆê•”‚µ‚©Œ»‚ê‚È‚¢B‰E‚Ì}‚Í
+[**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
+‚ğ•ÏŠ·‚µ‚Ä‚»‚Ì“à—e‚ğ‰E‚Ö 50 ƒsƒNƒZƒ‹A‰º‚Ö 50
+ƒsƒNƒZƒ‹‚¸‚ç‚µ‚½Œ‹‰Ê‚ÅAƒrƒbƒgƒ}ƒbƒv‚ª‹éŒ`‚ğ–„‚ß‚Ä‚¢‚éB![•ÏŠ·‚µ‚Ä‚¢‚È‚¢ƒuƒ‰ƒV‚Å“h‚ç‚ê‚½³•ûŒ`‚ÆA•ÏŠ·‚µ‚½ƒuƒ‰ƒV‚Å“h‚ç‚ê‚½³•ûŒ`‚ğ¦‚·}](images/brushes-ovw-transform.png)
 
 
 %index
 ID2D1LinearGradientBrush_GetOpacity
-ID2D1LinearGradientBrush::GetOpacity (vtable slot 6)
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1LinearGradientBrush
 %prm
 this
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: FLOAT ƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğ¦‚· 0 ‚©‚ç 1
+‚Ü‚Å‚Ì’lB‚±‚Ì’l‚Íƒuƒ‰ƒV‚É‚æ‚Á‚Ä“h‚è‚Â‚Ô‚³‚ê‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹‚ÌƒAƒ‹ƒtƒ@’l‚É‘Î‚·‚éüŒ`ƒXƒP[ƒŠƒ“ƒOŒW”‚Æ‚µ‚Äì—p‚·‚é’è””{—¦‚Å‚ ‚éB•s“§–¾“x‚Ì’l‚ÍæZ‘O‚É
+0?1 ‚Ì”ÍˆÍ‚ÉƒNƒ‰ƒ“ƒv‚³‚ê‚éB
 
 
 %index
 ID2D1LinearGradientBrush_GetTransform
-ID2D1LinearGradientBrush::GetTransform (vtable slot 7)
+‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1LinearGradientBrush
 %prm
 this, transform
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-transform : [var] 
+transform : [var] Œ^: D2D1_MATRIX_3X2_F* ‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·B
 %inst
+‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·‚ğæ“¾‚·‚éB
+
+[”õl]
+ƒuƒ‰ƒV‚Ì•ÏŠ·‚ª’PˆÊs—ñ‚Ìê‡Aƒuƒ‰ƒV‚Í•`‰æ‚³‚ê‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Æ“¯‚¶À•W‹óŠÔ‚ÉoŒ»‚·‚éB
 
 
 %index
 ID2D1LinearGradientBrush_SetStartPoint
 üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌŠJnÀ•W‚ğƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚Åİ’è‚·‚éB
+%group
+COM misc / ID2D1LinearGradientBrush
 %prm
 this, startPoint
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4057,6 +5973,8 @@ startPoint : [int] Œ^: D2D1_POINT_2F ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éüŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚
 %index
 ID2D1LinearGradientBrush_SetEndPoint
 üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌI—¹À•W‚ğƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚Åİ’è‚·‚éB
+%group
+COM misc / ID2D1LinearGradientBrush
 %prm
 this, endPoint
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4072,6 +5990,8 @@ endPoint : [int] Œ^: D2D1_POINT_2F ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éüŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Ì
 %index
 ID2D1LinearGradientBrush_GetStartPoint
 üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌŠJnÀ•W‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1LinearGradientBrush
 %prm
 this
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4089,6 +6009,8 @@ this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1LinearGradientBrush_GetEndPoint
 üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌI—¹À•W‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1LinearGradientBrush
 %prm
 this
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4106,6 +6028,8 @@ this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1LinearGradientBrush_GetGradientStopCollection
 ‚±‚ÌüŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒuƒ‰ƒV‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ ID2D1GradientStopCollection ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1LinearGradientBrush
 %prm
 this, gradientStopCollection
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4120,17 +6044,22 @@ ID2D1GradientStopCollection ‚Í D2D1_GRADIENT_STOP
 
 %index
 ID2D1Mesh_GetFactory
-ID2D1Mesh::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1Mesh
 %prm
 this, factory
 this : [comobj] ID2D1Mesh ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1Mesh_Open
 ƒƒbƒVƒ…‚ğŠJ‚¢‚Ä‘‚«‚İ‰Â”\‚Èó‘Ô‚É‚·‚éB
+%group
+COM misc / ID2D1Mesh
 %prm
 this, tessellationSink
 this : [comobj] ID2D1Mesh ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4146,28 +6075,36 @@ tessellationSink : [comobj] Œ^: ID2D1TessellationSink** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚É
 
 %index
 ID2D1PathGeometry_GetFactory
-ID2D1PathGeometry::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, factory
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1PathGeometry_GetBounds
-ID2D1PathGeometry::GetBounds (vtable slot 4)
+ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, worldTransform, bounds
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 worldTransform : [var] 
 bounds : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1PathGeometry_GetWidenedBounds
-ID2D1PathGeometry::GetWidenedBounds (vtable slot 5)
+w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, bounds
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4177,11 +6114,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 bounds : [var] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1PathGeometry_StrokeContainsPoint
-ID2D1PathGeometry::StrokeContainsPoint (vtable slot 6)
+ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, point, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, contains
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4192,11 +6132,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 contains : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 
 %index
 ID2D1PathGeometry_FillContainsPoint
-ID2D1PathGeometry::FillContainsPoint (vtable slot 7)
+ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, point, worldTransform, flatteningTolerance, contains
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4205,11 +6148,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 contains : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
 
 
 %index
 ID2D1PathGeometry_CompareWithGeometry
-ID2D1PathGeometry::CompareWithGeometry (vtable slot 8)
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, inputGeometry, inputGeometryTransform, flatteningTolerance, relation
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4218,11 +6164,23 @@ inputGeometryTransform : [var]
 flatteningTolerance : [float] 
 relation : [var] 
 %inst
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
+
+[”õl]
+•Ô‚³‚ê‚é *relation*
+‚Ì’l‚ğ‰ğß‚·‚éÛ‚ÍA[**D2D1\_GEOMETRY\_RELATION\_IS\_CONTAINED**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
+‚Æ‚¢‚¤ **D2D1\_GEOMETRY\_RELATION** —ñ‹“‘Ì‚Ìƒƒ“ƒo[‚ªu‚±‚ÌƒWƒIƒƒgƒŠ‚ª *inputGeometry*
+‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚év‚±‚Æ‚ğˆÓ–¡‚µAu‚±‚ÌƒWƒIƒƒgƒŠ‚ª *inputGeometry*
+‚ğŠÜ‚Şv‚Æ‚¢‚¤ˆÓ–¡‚Å‚Í‚È‚¢“_‚É’ˆÓ‚·‚é‚±‚Æ‚ªd—v‚Å‚ ‚éB‘¼‚Éæ‚è“¾‚é–ß‚è’l‚Ì‰ğß‚É‚Â‚¢‚Ä‚Í
+[**D2D1\_GEOMETRY\_RELATION**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
+‚ğQÆB
 
 
 %index
 ID2D1PathGeometry_Simplify
-ID2D1PathGeometry::Simplify (vtable slot 9)
+’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, simplificationOption, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4231,11 +6189,15 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ
+ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 
 %index
 ID2D1PathGeometry_Tessellate
-ID2D1PathGeometry::Tessellate (vtable slot 10)
+w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, worldTransform, flatteningTolerance, tessellationSink
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4243,11 +6205,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 tessellationSink : [comobj] 
 %inst
+w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
 
 
 %index
 ID2D1PathGeometry_CombineWithGeometry
-ID2D1PathGeometry::CombineWithGeometry (vtable slot 11)
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, inputGeometry, combineMode, inputGeometryTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4257,11 +6222,14 @@ inputGeometryTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
 
 
 %index
 ID2D1PathGeometry_Outline
-ID2D1PathGeometry::Outline (vtable slot 12)
+ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4269,11 +6237,28 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+
+[”õl]
+
+[**Outline**](/windows/win32/api/d2d1/nf-d2d1-id2d1geometry-outline(constd2d1_matrix_3x2_f__id2d1simplifiedgeometrysink))
+ƒƒ\ƒbƒh‚ğg‚¤‚ÆA“ü—ÍƒWƒIƒƒgƒŠ‚Æ“™‰¿‚È“h‚è‚Â‚Ô‚µ‚ğ‚¿A‚³‚ç‚ÉŸ‚Ì“Á«‚ğ”õ‚¦‚½ƒWƒIƒƒgƒŠ‚ğŒÄ‚Ño‚µ‘¤‚ª¶¬‚Å‚«‚éB-
+o—ÍƒWƒIƒƒgƒŠ‚É‚Í‰¡’f“I‚ÈŒğ·‚ªŠÜ‚Ü‚ê‚È‚¢B‚·‚È‚í‚¿ƒZƒOƒƒ“ƒg“¯m‚ÍÚ‚·‚é‚±‚Æ‚Í‚ ‚Á‚Ä‚àŒˆ‚µ‚ÄŒğ·‚µ‚È‚¢B-
+o—ÍƒWƒIƒƒgƒŠ‚ÌÅŠO}Œ`‚Í‚·‚×‚Ä”½Œv‰ñ‚è‚ÉŒü‚«•t‚¯‚³‚ê‚éB-
+o—ÍƒWƒIƒƒgƒŠ‚Í“h‚è‚Â‚Ô‚µƒ‚[ƒh•s•Ï‚Å‚ ‚éB‚·‚È‚í‚¿ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ‚Í“h‚è‚Â‚Ô‚µƒ‚[ƒh‚Ì‘I‘ğ‚ÉˆË‘¶‚µ‚È‚¢B“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+[**D2D1\_FILL\_MODE**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_fill_mode)
+‚ğQÆB‚³‚ç‚É
+[**Outline**](/windows/win32/api/d2d1/nf-d2d1-id2d1geometry-outline(constd2d1_matrix_3x2_f__id2d1simplifiedgeometrysink))
+ƒƒ\ƒbƒh‚ÍA•¡G‚ÈƒWƒIƒƒgƒŠ‚ğ’Pƒ‰»‚·‚é‚½‚ß‚É‘Oq‚ÌƒWƒIƒƒgƒŠ‚Ìç’·•”•ª‚ğæ‚èœ‚­‚Ì‚É‚à—L—p‚Å‚ ‚éB‚Ü‚½
+[**ID2D1GeometryGroup**](/windows/win32/api/d2d1/nn-d2d1-id2d1geometrygroup)
+‚Æ‘g‚İ‡‚í‚¹‚ÄA•¡”‚ÌƒWƒIƒƒgƒŠ‚Ì˜aW‡‚ğˆê“x‚Éì¬‚·‚é‚Ì‚É‚à–ğ—§‚ÂB
 
 
 %index
 ID2D1PathGeometry_ComputeArea
-ID2D1PathGeometry::ComputeArea (vtable slot 13)
+ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, worldTransform, flatteningTolerance, area
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4281,11 +6266,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 area : [float] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1PathGeometry_ComputeLength
-ID2D1PathGeometry::ComputeLength (vtable slot 14)
+ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, worldTransform, flatteningTolerance, length
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4293,11 +6281,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 length : [float] 
 %inst
+ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1PathGeometry_ComputePointAtLength
-ID2D1PathGeometry::ComputePointAtLength (vtable slot 15)
+ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, length, worldTransform, flatteningTolerance, point, unitTangentVector
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4307,11 +6298,14 @@ flatteningTolerance : [float]
 point : [var] 
 unitTangentVector : [var] 
 %inst
+ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1PathGeometry_Widen
-ID2D1PathGeometry::Widen (vtable slot 16)
+w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4321,11 +6315,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 
 %index
 ID2D1PathGeometry_Open
 ƒpƒXƒWƒIƒƒgƒŠ‚ğ figure ‚ÆƒZƒOƒƒ“ƒg‚Å–„‚ß‚é‚½‚ß‚Ég—p‚·‚éƒWƒIƒƒgƒŠƒVƒ“ƒN‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, geometrySink
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4348,6 +6345,8 @@ geometrySink : [comobj] Œ^: ID2D1GeometrySink** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Ageometry
 %index
 ID2D1PathGeometry_Stream
 ƒpƒXƒWƒIƒƒgƒŠ‚Ì“à—e‚ğw’è‚µ‚½ ID2D1GeometrySink ‚ÉƒRƒs[‚·‚éB
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, geometrySink
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4364,6 +6363,8 @@ geometrySink : [comobj] Œ^: ID2D1GeometrySink* ƒpƒXƒWƒIƒƒgƒŠ‚Ì“à—e‚ÌƒRƒs[æ‚Æ‚
 %index
 ID2D1PathGeometry_GetSegmentCount
 ƒpƒXƒWƒIƒƒgƒŠ“à‚ÌƒZƒOƒƒ“ƒg”‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, count
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4380,6 +6381,8 @@ count : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒpƒXƒWƒIƒƒgƒŠ“à‚ÌƒZƒOƒƒ“ƒg”
 %index
 ID2D1PathGeometry_GetFigureCount
 ƒpƒXƒWƒIƒƒgƒŠ“à‚Ì}Œ` (figure) ‚Ì”‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1PathGeometry
 %prm
 this, count
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4395,56 +6398,98 @@ count : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒpƒXƒWƒIƒƒgƒŠ“à‚Ì}Œ` (figure
 
 %index
 ID2D1RadialGradientBrush_GetFactory
-ID2D1RadialGradientBrush::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RadialGradientBrush
 %prm
 this, factory
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1RadialGradientBrush_SetOpacity
-ID2D1RadialGradientBrush::SetOpacity (vtable slot 4)
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğİ’è‚·‚éB
+%group
+COM misc / ID2D1RadialGradientBrush
 %prm
 this, opacity
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-opacity : [float] 
+opacity : [float] Œ^: FLOAT ƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğ¦‚· 0 ‚©‚ç 1 ‚Ü‚Å‚Ì’lB‚±‚Ì’l‚Íƒuƒ‰ƒV‚É‚æ‚Á‚Ä“h‚è‚Â‚Ô‚³‚ê‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹‚ÌƒAƒ‹ƒtƒ@’l‚É‘Î‚·‚éüŒ`ƒXƒP[ƒŠƒ“ƒOŒW”‚Æ‚µ‚Äì—p‚·‚é’è””{—¦‚Å‚ ‚éB•s“§–¾“x‚Ì’l‚ÍæZ‘O‚É 0?1 ‚Ì”ÍˆÍ‚ÉƒNƒ‰ƒ“ƒv‚³‚ê‚éB
 %inst
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğİ’è‚·‚éB
 
 
 %index
 ID2D1RadialGradientBrush_SetTransform
-ID2D1RadialGradientBrush::SetTransform (vtable slot 5)
+ƒuƒ‰ƒV‚É“K—p‚·‚é•ÏŠ·‚ğİ’è‚·‚éB
+%group
+COM misc / ID2D1RadialGradientBrush
 %prm
 this, transform
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 transform : [var] 
 %inst
+ƒuƒ‰ƒV‚É“K—p‚·‚é•ÏŠ·‚ğİ’è‚·‚éB
+
+[”õl]
+
+ƒuƒ‰ƒV‚Å•`‰æ‚·‚éÛ‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌÀ•W‹óŠÔ‚Å“h‚è‚Â‚Ô‚µ‚ªs‚í‚ê‚éBƒuƒ‰ƒV‚Í•`‰æ‘ÎÛ‚É®—ñ‚·‚é‚æ‚¤©“®“I‚ÉˆÊ’u‚ğ‡‚í‚¹‚é‚í‚¯‚Å‚Í‚È‚­AƒfƒtƒHƒ‹ƒg‚Å‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ´“_
+(0, 0)
+‚©‚ç•`‰æ‚ğŠJn‚·‚éB[**ID2D1LinearGradientBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1lineargradientbrush)
+‚Å’è‹`‚³‚ê‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÍAŠJn“_‚ÆI—¹“_‚ğİ’è‚·‚é‚±‚Æ‚Å‘ÎÛ—Ìˆæ‚ÖuˆÚ“®v‚Å‚«‚éB“¯—l‚É
+[**ID2D1RadialGradientBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1radialgradientbrush)
+‚Å’è‹`‚³‚ê‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Í’†S‚Æ”¼Œa‚ğ•ÏX‚·‚é‚±‚Æ‚ÅˆÚ“®‚Å‚«‚éB[**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
+‚Ì“à—e‚ğ“h‚è‚Â‚Ô‚µ‘ÎÛ—Ìˆæ‚É®—ñ‚³‚¹‚½‚¢ê‡‚Í **SetTransform**
+ƒƒ\ƒbƒh‚ğg‚Á‚Äƒrƒbƒgƒ}ƒbƒv‚ğ–Ú“I‚ÌˆÊ’u‚Ö•½sˆÚ“®‚Å‚«‚éB‚±‚Ì•ÏŠ·‚Íƒuƒ‰ƒV‚Ì‚İ‚Éì—p‚µAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É‚æ‚Á‚Ä•`‰æ‚³‚ê‚é‘¼‚ÌƒRƒ“ƒeƒ“ƒc‚É‚Í‰e‹¿‚µ‚È‚¢BŸ‚Ì}‚Í
+(100, 100) ‚ÉˆÊ’u‚·‚é‹éŒ`‚ğ
+[**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
+‚Å“h‚è‚Â‚Ô‚µ‚½‚Æ‚«‚ÌŒø‰Ê‚ğ¦‚·B¶‚Ì}‚Íƒuƒ‰ƒV‚ğ•ÏŠ·‚µ‚È‚¢‚Ü‚Ü‹éŒ`‚ğ“h‚è‚Â‚Ô‚µ‚½Œ‹‰Ê‚ÅAƒrƒbƒgƒ}ƒbƒv‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ´“_‚É•`‰æ‚³‚ê‚éB‚»‚ÌŒ‹‰ÊA‹éŒ`‚É‚Íƒrƒbƒgƒ}ƒbƒv‚Ìˆê•”‚µ‚©Œ»‚ê‚È‚¢B‰E‚Ì}‚Í
+[**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
+‚ğ•ÏŠ·‚µ‚Ä‚»‚Ì“à—e‚ğ‰E‚Ö 50 ƒsƒNƒZƒ‹A‰º‚Ö 50
+ƒsƒNƒZƒ‹‚¸‚ç‚µ‚½Œ‹‰Ê‚ÅAƒrƒbƒgƒ}ƒbƒv‚ª‹éŒ`‚ğ–„‚ß‚Ä‚¢‚éB![•ÏŠ·‚µ‚Ä‚¢‚È‚¢ƒuƒ‰ƒV‚Å“h‚ç‚ê‚½³•ûŒ`‚ÆA•ÏŠ·‚µ‚½ƒuƒ‰ƒV‚Å“h‚ç‚ê‚½³•ûŒ`‚ğ¦‚·}](images/brushes-ovw-transform.png)
 
 
 %index
 ID2D1RadialGradientBrush_GetOpacity
-ID2D1RadialGradientBrush::GetOpacity (vtable slot 6)
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RadialGradientBrush
 %prm
 this
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: FLOAT ƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğ¦‚· 0 ‚©‚ç 1
+‚Ü‚Å‚Ì’lB‚±‚Ì’l‚Íƒuƒ‰ƒV‚É‚æ‚Á‚Ä“h‚è‚Â‚Ô‚³‚ê‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹‚ÌƒAƒ‹ƒtƒ@’l‚É‘Î‚·‚éüŒ`ƒXƒP[ƒŠƒ“ƒOŒW”‚Æ‚µ‚Äì—p‚·‚é’è””{—¦‚Å‚ ‚éB•s“§–¾“x‚Ì’l‚ÍæZ‘O‚É
+0?1 ‚Ì”ÍˆÍ‚ÉƒNƒ‰ƒ“ƒv‚³‚ê‚éB
 
 
 %index
 ID2D1RadialGradientBrush_GetTransform
-ID2D1RadialGradientBrush::GetTransform (vtable slot 7)
+‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RadialGradientBrush
 %prm
 this, transform
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-transform : [var] 
+transform : [var] Œ^: D2D1_MATRIX_3X2_F* ‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·B
 %inst
+‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·‚ğæ“¾‚·‚éB
+
+[”õl]
+ƒuƒ‰ƒV‚Ì•ÏŠ·‚ª’PˆÊs—ñ‚Ìê‡Aƒuƒ‰ƒV‚Í•`‰æ‚³‚ê‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Æ“¯‚¶À•W‹óŠÔ‚ÉoŒ»‚·‚éB
 
 
 %index
 ID2D1RadialGradientBrush_SetCenter
 ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1RadialGradientBrush
 %prm
 this, center
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4456,6 +6501,8 @@ center : [int] Œ^: D2D1_POINT_2F ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†
 %index
 ID2D1RadialGradientBrush_SetGradientOriginOffset
 ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚ğŠî€‚Æ‚µ‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“Œ´“_‚ÌƒIƒtƒZƒbƒg‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1RadialGradientBrush
 %prm
 this, gradientOriginOffset
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4467,6 +6514,8 @@ gradientOriginOffset : [int] Œ^: D2D1_POINT_2F ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚©‚ç‚ÌƒOƒ
 %index
 ID2D1RadialGradientBrush_SetRadiusX
 ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì x ”¼Œa‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1RadialGradientBrush
 %prm
 this, radiusX
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4478,6 +6527,8 @@ radiusX : [float] Œ^: FLOAT ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì x ”¼ŒaB’l‚Íƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚Å
 %index
 ID2D1RadialGradientBrush_SetRadiusY
 ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì y ”¼Œa‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1RadialGradientBrush
 %prm
 this, radiusY
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4489,6 +6540,8 @@ radiusY : [float] Œ^: FLOAT ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì y ”¼ŒaB’l‚Íƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚Å
 %index
 ID2D1RadialGradientBrush_GetCenter
 ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RadialGradientBrush
 %prm
 this
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4502,6 +6555,8 @@ this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1RadialGradientBrush_GetGradientOriginOffset
 ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚ğŠî€‚Æ‚µ‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“Œ´“_‚ÌƒIƒtƒZƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RadialGradientBrush
 %prm
 this
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4515,6 +6570,8 @@ this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1RadialGradientBrush_GetRadiusX
 ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì x ”¼Œa‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RadialGradientBrush
 %prm
 this
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4528,6 +6585,8 @@ this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1RadialGradientBrush_GetRadiusY
 ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì y ”¼Œa‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RadialGradientBrush
 %prm
 this
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4541,6 +6600,8 @@ this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1RadialGradientBrush_GetGradientStopCollection
 ‚±‚Ì•úËóƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒuƒ‰ƒVƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ ID2D1GradientStopCollection ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RadialGradientBrush
 %prm
 this, gradientStopCollection
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4555,28 +6616,36 @@ ID2D1GradientStopCollection ‚Í D2D1_GRADIENT_STOP
 
 %index
 ID2D1RectangleGeometry_GetFactory
-ID2D1RectangleGeometry::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, factory
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1RectangleGeometry_GetBounds
-ID2D1RectangleGeometry::GetBounds (vtable slot 4)
+ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, worldTransform, bounds
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 worldTransform : [var] 
 bounds : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1RectangleGeometry_GetWidenedBounds
-ID2D1RectangleGeometry::GetWidenedBounds (vtable slot 5)
+w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, bounds
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4586,11 +6655,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 bounds : [var] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1RectangleGeometry_StrokeContainsPoint
-ID2D1RectangleGeometry::StrokeContainsPoint (vtable slot 6)
+ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, point, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, contains
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4601,11 +6673,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 contains : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 
 %index
 ID2D1RectangleGeometry_FillContainsPoint
-ID2D1RectangleGeometry::FillContainsPoint (vtable slot 7)
+ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, point, worldTransform, flatteningTolerance, contains
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4614,11 +6689,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 contains : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
 
 
 %index
 ID2D1RectangleGeometry_CompareWithGeometry
-ID2D1RectangleGeometry::CompareWithGeometry (vtable slot 8)
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, inputGeometry, inputGeometryTransform, flatteningTolerance, relation
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4627,11 +6705,23 @@ inputGeometryTransform : [var]
 flatteningTolerance : [float] 
 relation : [var] 
 %inst
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
+
+[”õl]
+•Ô‚³‚ê‚é *relation*
+‚Ì’l‚ğ‰ğß‚·‚éÛ‚ÍA[**D2D1\_GEOMETRY\_RELATION\_IS\_CONTAINED**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
+‚Æ‚¢‚¤ **D2D1\_GEOMETRY\_RELATION** —ñ‹“‘Ì‚Ìƒƒ“ƒo[‚ªu‚±‚ÌƒWƒIƒƒgƒŠ‚ª *inputGeometry*
+‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚év‚±‚Æ‚ğˆÓ–¡‚µAu‚±‚ÌƒWƒIƒƒgƒŠ‚ª *inputGeometry*
+‚ğŠÜ‚Şv‚Æ‚¢‚¤ˆÓ–¡‚Å‚Í‚È‚¢“_‚É’ˆÓ‚·‚é‚±‚Æ‚ªd—v‚Å‚ ‚éB‘¼‚Éæ‚è“¾‚é–ß‚è’l‚Ì‰ğß‚É‚Â‚¢‚Ä‚Í
+[**D2D1\_GEOMETRY\_RELATION**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
+‚ğQÆB
 
 
 %index
 ID2D1RectangleGeometry_Simplify
-ID2D1RectangleGeometry::Simplify (vtable slot 9)
+’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, simplificationOption, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4640,11 +6730,15 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ
+ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 
 %index
 ID2D1RectangleGeometry_Tessellate
-ID2D1RectangleGeometry::Tessellate (vtable slot 10)
+w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, worldTransform, flatteningTolerance, tessellationSink
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4652,11 +6746,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 tessellationSink : [comobj] 
 %inst
+w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
 
 
 %index
 ID2D1RectangleGeometry_CombineWithGeometry
-ID2D1RectangleGeometry::CombineWithGeometry (vtable slot 11)
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, inputGeometry, combineMode, inputGeometryTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4666,11 +6763,14 @@ inputGeometryTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
 
 
 %index
 ID2D1RectangleGeometry_Outline
-ID2D1RectangleGeometry::Outline (vtable slot 12)
+ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4678,11 +6778,28 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+
+[”õl]
+
+[**Outline**](/windows/win32/api/d2d1/nf-d2d1-id2d1geometry-outline(constd2d1_matrix_3x2_f__id2d1simplifiedgeometrysink))
+ƒƒ\ƒbƒh‚ğg‚¤‚ÆA“ü—ÍƒWƒIƒƒgƒŠ‚Æ“™‰¿‚È“h‚è‚Â‚Ô‚µ‚ğ‚¿A‚³‚ç‚ÉŸ‚Ì“Á«‚ğ”õ‚¦‚½ƒWƒIƒƒgƒŠ‚ğŒÄ‚Ño‚µ‘¤‚ª¶¬‚Å‚«‚éB-
+o—ÍƒWƒIƒƒgƒŠ‚É‚Í‰¡’f“I‚ÈŒğ·‚ªŠÜ‚Ü‚ê‚È‚¢B‚·‚È‚í‚¿ƒZƒOƒƒ“ƒg“¯m‚ÍÚ‚·‚é‚±‚Æ‚Í‚ ‚Á‚Ä‚àŒˆ‚µ‚ÄŒğ·‚µ‚È‚¢B-
+o—ÍƒWƒIƒƒgƒŠ‚ÌÅŠO}Œ`‚Í‚·‚×‚Ä”½Œv‰ñ‚è‚ÉŒü‚«•t‚¯‚³‚ê‚éB-
+o—ÍƒWƒIƒƒgƒŠ‚Í“h‚è‚Â‚Ô‚µƒ‚[ƒh•s•Ï‚Å‚ ‚éB‚·‚È‚í‚¿ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ‚Í“h‚è‚Â‚Ô‚µƒ‚[ƒh‚Ì‘I‘ğ‚ÉˆË‘¶‚µ‚È‚¢B“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+[**D2D1\_FILL\_MODE**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_fill_mode)
+‚ğQÆB‚³‚ç‚É
+[**Outline**](/windows/win32/api/d2d1/nf-d2d1-id2d1geometry-outline(constd2d1_matrix_3x2_f__id2d1simplifiedgeometrysink))
+ƒƒ\ƒbƒh‚ÍA•¡G‚ÈƒWƒIƒƒgƒŠ‚ğ’Pƒ‰»‚·‚é‚½‚ß‚É‘Oq‚ÌƒWƒIƒƒgƒŠ‚Ìç’·•”•ª‚ğæ‚èœ‚­‚Ì‚É‚à—L—p‚Å‚ ‚éB‚Ü‚½
+[**ID2D1GeometryGroup**](/windows/win32/api/d2d1/nn-d2d1-id2d1geometrygroup)
+‚Æ‘g‚İ‡‚í‚¹‚ÄA•¡”‚ÌƒWƒIƒƒgƒŠ‚Ì˜aW‡‚ğˆê“x‚Éì¬‚·‚é‚Ì‚É‚à–ğ—§‚ÂB
 
 
 %index
 ID2D1RectangleGeometry_ComputeArea
-ID2D1RectangleGeometry::ComputeArea (vtable slot 13)
+ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, worldTransform, flatteningTolerance, area
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4690,11 +6807,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 area : [float] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1RectangleGeometry_ComputeLength
-ID2D1RectangleGeometry::ComputeLength (vtable slot 14)
+ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, worldTransform, flatteningTolerance, length
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4702,11 +6822,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 length : [float] 
 %inst
+ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1RectangleGeometry_ComputePointAtLength
-ID2D1RectangleGeometry::ComputePointAtLength (vtable slot 15)
+ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, length, worldTransform, flatteningTolerance, point, unitTangentVector
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4716,11 +6839,14 @@ flatteningTolerance : [float]
 point : [var] 
 unitTangentVector : [var] 
 %inst
+ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1RectangleGeometry_Widen
-ID2D1RectangleGeometry::Widen (vtable slot 16)
+w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4730,11 +6856,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 
 %index
 ID2D1RectangleGeometry_GetRect
 ‹éŒ`ƒWƒIƒƒgƒŠ‚Ì¡–@‚ğ•\‚·‹éŒ`‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RectangleGeometry
 %prm
 this, rect
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4745,17 +6874,22 @@ rect : [var] Œ^: D2D1_RECT_F* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‹éŒ`ƒWƒIƒƒgƒŠ‚Ì¡–@‚ğ•\
 
 %index
 ID2D1RenderTarget_GetFactory
-ID2D1RenderTarget::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, factory
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1RenderTarget_CreateBitmap
 Direct2D ƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, size, srcData, pitch, bitmapProperties, bitmap
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4771,6 +6905,8 @@ Direct2D ƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
 %index
 ID2D1RenderTarget_CreateBitmapFromWicBitmap
 w’è‚µ‚½ Microsoft Windows Imaging Component (WIC) ƒrƒbƒgƒ}ƒbƒv‚ğƒRƒs[‚µ‚Ä ID2D1Bitmap ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, wicBitmapSource, bitmapProperties, bitmap
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4791,6 +6927,8 @@ Modes](supported-pixel-formats-and-alpha-modes.md) ‚ğQÆB
 %index
 ID2D1RenderTarget_CreateSharedBitmap
 ‘¼‚ÌƒŠƒ\[ƒX‚Æƒf[ƒ^‚ğ‹¤—L‚·‚é ID2D1Bitmap ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, riid, data, bitmapProperties, bitmap
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4838,6 +6976,8 @@ D2D1_RENDER_TARGET_TYPE_SOFTWARE
 %index
 ID2D1RenderTarget_CreateBitmapBrush
 w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚©‚ç ID2D1BitmapBrush ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, bitmap, bitmapBrushProperties, brushProperties, bitmapBrush
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4852,6 +6992,8 @@ bitmapBrush : [comobj]
 %index
 ID2D1RenderTarget_CreateSolidColorBrush
 ’PF‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ég—p‚Å‚«‚éV‚µ‚¢ ID2D1SolidColorBrush ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, color, brushProperties, solidColorBrush
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4865,6 +7007,8 @@ solidColorBrush : [comobj]
 %index
 ID2D1RenderTarget_CreateGradientStopCollection
 w’è‚µ‚½ D2D1\_GRADIENT\_STOP \‘¢‘Ì‚Ì”z—ñ‚©‚ç ID2D1GradientStopCollection ‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, gradientStops, gradientStopsCount, colorInterpolationGamma, extendMode, gradientStopCollection
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4880,6 +7024,8 @@ gradientStopCollection : [comobj]
 %index
 ID2D1RenderTarget_CreateLinearGradientBrush
 üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ì ID2D1LinearGradientBrush ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, linearGradientBrushProperties, brushProperties, gradientStopCollection, linearGradientBrush
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4894,6 +7040,8 @@ linearGradientBrush : [comobj]
 %index
 ID2D1RenderTarget_CreateRadialGradientBrush
 •úËóƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Å—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·‚½‚ß‚Ég—p‚Å‚«‚é ID2D1RadialGradientBrush ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, radialGradientBrushProperties, brushProperties, gradientStopCollection, radialGradientBrush
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4908,6 +7056,8 @@ radialGradientBrush : [comobj]
 %index
 ID2D1RenderTarget_CreateCompatibleRenderTarget
 Œ»İ‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÆŒİŠ·«‚Ì‚ ‚éAƒIƒtƒXƒNƒŠ[ƒ“’†ŠÔ•`‰æ—p‚ÌV‚µ‚¢ƒrƒbƒgƒ}ƒbƒvƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, desiredSize, desiredPixelSize, desiredFormat, options, bitmapRenderTarget
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4923,6 +7073,8 @@ bitmapRenderTarget : [comobj]
 %index
 ID2D1RenderTarget_CreateLayer
 ‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚¨‚æ‚Ñ‚»‚ê‚ÆŒİŠ·«‚Ì‚ ‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Åg—p‚Å‚«‚éƒŒƒCƒ„[ƒŠƒ\[ƒX‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, size, layer
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4938,6 +7090,8 @@ layer : [comobj]
 %index
 ID2D1RenderTarget_CreateMesh
 OŠpŒ`‚ğg‚Á‚ÄŒ`ó‚ğ‹Lq‚·‚éƒƒbƒVƒ…‚ğì¬‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, mesh
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4958,6 +7112,8 @@ mesh : [comobj] Œ^: ID2D1Mesh** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAV‚µ‚¢ƒƒbƒVƒ…‚Ö‚Ìƒ|ƒCƒ“ƒ^
 %index
 ID2D1RenderTarget_DrawLine
 w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ 2 “_ŠÔ‚Éü‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, point0, point1, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4978,6 +7134,8 @@ ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 %index
 ID2D1RenderTarget_DrawRectangle
 w’è‚µ‚½¡–@‚ÆƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğ‚Â‹éŒ`‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, rect, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -4999,6 +7157,8 @@ strokeStyle : [comobj]
 %index
 ID2D1RenderTarget_FillRectangle
 w’è‚µ‚½‹éŒ`‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, rect, brush
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5018,6 +7178,8 @@ brush : [comobj]
 %index
 ID2D1RenderTarget_DrawRoundedRectangle
 w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ŠpŠÛ‹éŒ`‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, roundedRect, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5039,6 +7201,8 @@ strokeStyle : [comobj]
 %index
 ID2D1RenderTarget_FillRoundedRectangle
 w’è‚µ‚½ŠpŠÛ‹éŒ`‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, roundedRect, brush
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5058,6 +7222,8 @@ brush : [comobj]
 %index
 ID2D1RenderTarget_DrawEllipse
 w’è‚µ‚½¡–@‚ÆƒXƒgƒ[ƒN‚Å‘È‰~‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, ellipse, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5079,6 +7245,8 @@ strokeStyle : [comobj]
 %index
 ID2D1RenderTarget_FillEllipse
 w’è‚µ‚½‘È‰~‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, ellipse, brush
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5098,6 +7266,8 @@ brush : [comobj]
 %index
 ID2D1RenderTarget_DrawGeometry
 w’è‚µ‚½ƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚ğg‚Á‚Äw’è‚µ‚½ƒWƒIƒƒgƒŠ[‚Ì—ÖŠs‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, geometry, brush, strokeWidth, strokeStyle
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5117,6 +7287,8 @@ ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 %index
 ID2D1RenderTarget_FillGeometry
 w’è‚µ‚½ƒWƒIƒƒgƒŠ[‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, geometry, brush, opacityBrush
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5138,6 +7310,8 @@ ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 %index
 ID2D1RenderTarget_FillMesh
 w’è‚µ‚½ƒƒbƒVƒ…‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, mesh, brush
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5158,6 +7332,8 @@ ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 %index
 ID2D1RenderTarget_FillOpacityMask
 w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚ª‹Lq‚·‚é•s“§–¾“xƒ}ƒXƒN‚ğƒuƒ‰ƒV‚É“K—p‚µA‚»‚Ìƒuƒ‰ƒV‚ğg‚Á‚ÄƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·B
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, opacityMask, brush, content, destinationRectangle, sourceRectangle
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5184,6 +7360,8 @@ sourceRectangle : [var]
 %index
 ID2D1RenderTarget_DrawBitmap
 w’è‚µ‚½ ID2D1Bitmap ‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, bitmap, destinationRectangle, opacity, interpolationMode, sourceRectangle
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5206,6 +7384,8 @@ sourceRectangle : [var]
 %index
 ID2D1RenderTarget_DrawText
 IDWriteTextFormat ƒIƒuƒWƒFƒNƒg‚ª’ñ‹Ÿ‚·‚é‘®î•ñ‚ğg‚Á‚Äw’è‚µ‚½ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, string, stringLength, textFormat, layoutRect, defaultFillBrush, options, measuringMode
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5235,6 +7415,8 @@ Direct2D ‚ÅƒeƒLƒXƒg‚ğ•`‰æ‚·‚é‚É‚ÍA’Pˆê‚Ì‘®‚ÌƒeƒLƒXƒg‚É‚Í
 %index
 ID2D1RenderTarget_DrawTextLayout
 w’è‚µ‚½ IDWriteTextLayout ƒIƒuƒWƒFƒNƒg‚ª‹Lq‚·‚é‘®•t‚«ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, origin, textLayout, defaultFillBrush, options
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5255,6 +7437,8 @@ ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 %index
 ID2D1RenderTarget_DrawGlyphRun
 w’è‚µ‚½ƒOƒŠƒt‚ğ•`‰æ‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, baselineOrigin, glyphRun, foregroundBrush, measuringMode
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5274,6 +7458,8 @@ ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 %index
 ID2D1RenderTarget_SetTransform
 w’è‚µ‚½•ÏŠ·‚ğƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É“K—p‚µAŠù‘¶‚Ì•ÏŠ·‚ğ’u‚«Š·‚¦‚éBŒã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚Í•ÏŠ·Œã‚Ì‹óŠÔ‚Ås‚í‚ê‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, transform
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5285,6 +7471,8 @@ transform : [var]
 %index
 ID2D1RenderTarget_GetTransform
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚Ì•ÏŠ·‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, transform
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5296,6 +7484,8 @@ transform : [var] Œ^: D2D1_MATRIX_3X2_F* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒ
 %index
 ID2D1RenderTarget_SetAntialiasMode
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğİ’è‚·‚éB‚±‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ÍAƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ğœ‚­Œã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚É“K—p‚³‚ê‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, antialiasMode
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5311,6 +7501,8 @@ antialiasMode : [int] Œ^: D2D1_ANTIALIAS_MODE ˆÈ~‚Ì•`‰æ‘€ì‚Åg—p‚·‚éƒAƒ“ƒ`ƒGƒC
 %index
 ID2D1RenderTarget_GetAntialiasMode
 ”ñƒeƒLƒXƒg•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5324,6 +7516,8 @@ this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1RenderTarget_SetTextAntialiasMode
 ˆÈ~‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚Åg—p‚·‚éƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, textAntialiasMode
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5335,6 +7529,8 @@ textAntialiasMode : [int] Œ^: D2D1_TEXT_ANTIALIAS_MODE ˆÈ~‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒ
 %index
 ID2D1RenderTarget_GetTextAntialiasMode
 ƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚ÌŒ»İ‚ÌƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒh‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5348,6 +7544,8 @@ this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1RenderTarget_SetTextRenderingParams
 ˆÈ~‚Ì‚·‚×‚Ä‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑƒOƒŠƒt•`‰æ‘€ì‚É“K—p‚·‚éƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, textRenderingParams
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5364,6 +7562,8 @@ textRenderingParams
 %index
 ID2D1RenderTarget_GetTextRenderingParams
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ»İ‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, textRenderingParams
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5380,6 +7580,8 @@ textRenderingParams
 %index
 ID2D1RenderTarget_SetTags
 Œã‘±‚Ì•`‰æ‘€ì‚Ìƒ‰ƒxƒ‹‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5395,6 +7597,8 @@ tag2 : [int64] Œ^: D2D1_TAG Œã‘±‚Ì•`‰æ‘€ì‚É“K—p‚·‚éƒ‰ƒxƒ‹B
 %index
 ID2D1RenderTarget_GetTags
 Œã‘±‚Ì•`‰æ‘€ì‚Ìƒ‰ƒxƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5410,6 +7614,8 @@ tag2 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAŒã‘±‚Ì•`‰æ‘€ì‚É•t‚¯‚é 2 ‚Â–Ú‚Ì
 %index
 ID2D1RenderTarget_PushLayer
 PopLayer ‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚Å‚ÌŒã‘±‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚ğó‚¯æ‚é‚æ‚¤Aw’è‚µ‚½ƒŒƒCƒ„[‚ğƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É’Ç‰Á‚·‚éB(overload 1/2)
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, layerParameters, layer
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5436,6 +7642,8 @@ ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 %index
 ID2D1RenderTarget_PopLayer
 ’¼‘O‚Ì PushLayer ŒÄ‚Ño‚µ‚Åw’è‚µ‚½ƒŒƒCƒ„[‚Ö‚Ì•`‰æ‘€ì‚ÌƒŠƒ_ƒCƒŒƒNƒg‚ğ’â~‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5452,6 +7660,8 @@ ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 %index
 ID2D1RenderTarget_Flush
 •Û—¯’†‚Ì‚·‚×‚Ä‚Ì•`‰æƒRƒ}ƒ“ƒh‚ğÀs‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5473,6 +7683,8 @@ tag2 : [var] Œ^: D2D1_TAG* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒGƒ‰[‚ğ”­¶‚³‚¹‚½•`‰æ‘€ì‚Ìƒ^ƒ
 %index
 ID2D1RenderTarget_SaveDrawingState
 Œ»İ‚Ì•`‰æó‘Ô‚ğAw’è‚µ‚½ ID2D1DrawingStateBlock ‚É•Û‘¶‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, drawingStateBlock
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5484,6 +7696,8 @@ drawingStateBlock : [comobj] Œ^: ID2D1DrawingStateBlock* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒ
 %index
 ID2D1RenderTarget_RestoreDrawingState
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì•`‰æó‘Ô‚ğAw’è‚µ‚½ ID2D1DrawingStateBlock ‚Ìó‘Ô‚Éİ’è‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, drawingStateBlock
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5495,6 +7709,8 @@ drawingStateBlock : [comobj] Œ^: ID2D1DrawingStateBlock* ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌV‚
 %index
 ID2D1RenderTarget_PushAxisAlignedClip
 ˆÈ~‚Ì‚·‚×‚Ä‚Ì•`‰æ‘€ì‚ÌƒNƒŠƒbƒvæ‚Æ‚È‚é‹éŒ`‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, clipRect, antialiasMode
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5525,6 +7741,8 @@ antialiasMode : [int]
 %index
 ID2D1RenderTarget_PopAxisAlignedClip
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚©‚çÅŒã‚Ì²‘µ‚¦ƒNƒŠƒbƒv‚ğæ‚èœ‚­B‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½Œã‚ÍA‚»‚ÌƒNƒŠƒbƒv‚ÍŒã‘±‚Ì•`‰æ‘€ì‚É“K—p‚³‚ê‚È‚¢B
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5546,6 +7764,8 @@ ID2D1RenderTarget::Flush ‚Ì–ß‚è’l‚ğŠm”F‚·‚éB
 %index
 ID2D1RenderTarget_Clear
 •`‰æ—Ìˆæ‚ğw’è‚µ‚½F‚ÅƒNƒŠƒA‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, clearColor
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5565,6 +7785,8 @@ Direct2D ‚Í *clearColor*
 %index
 ID2D1RenderTarget_BeginDraw
 ‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚Ì•`‰æ‚ğŠJn‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5591,6 +7813,8 @@ HRESULT ‚ğ•Ô‚µ‚½ê‡‚Å‚à“ñ“xŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢BBeginDraw ‚Æ‘Î‰‚µ‚È‚¢ EndDraw
 %index
 ID2D1RenderTarget_EndDraw
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Å‚Ì•`‰æ‘€ì‚ğI—¹‚µAŒ»İ‚ÌƒGƒ‰[ó‘Ô‚ÆŠÖ˜Aƒ^ƒO‚ğ¦‚·B
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, tag1, tag2
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5624,6 +7848,8 @@ HRESULT ‚ğ•Ô‚µ‚½ê‡‚Å‚à“ñ“xŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢BBeginDraw ‚Æ‘Î‰‚µ‚È‚¢ EndDraw
 %index
 ID2D1RenderTarget_GetPixelFormat
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒsƒNƒZƒ‹Œ`®‚ÆƒAƒ‹ƒtƒ@ƒ‚[ƒh‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5637,6 +7863,8 @@ this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1RenderTarget_SetDpi
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI (dots per inch) ‚ğİ’è‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, dpiX, dpiY
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5655,6 +7883,8 @@ dpiY : [float] Œ^: FLOAT ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì‚’¼ DPI ‚ğw’è‚·‚é 0 ˆÈã‚Ì’lB
 %index
 ID2D1RenderTarget_GetDpi
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì DPI (dots per inch) ‚ğ•Ô‚·B
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, dpiX, dpiY
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5671,6 +7901,8 @@ DPI Šù’è’l‚Í’¼‹ß‚Éƒtƒ@ƒNƒgƒŠ[‚ª“Ç‚İæ‚Á‚½ƒVƒXƒeƒ€ DPI ‚Å‚ ‚éB‚»‚Ì‘¼‚ÌƒŒƒ“ƒ_[ƒ
 %index
 ID2D1RenderTarget_GetSize
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5684,6 +7916,8 @@ this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1RenderTarget_GetPixelSize
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒTƒCƒY‚ğƒfƒoƒCƒXƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5697,6 +7931,8 @@ this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1RenderTarget_GetMaximumBitmapSize
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªƒTƒ|[ƒg‚·‚éƒrƒbƒgƒ}ƒbƒv‚Ì 1 ŸŒ³‚ ‚½‚è‚ÌÅ‘åƒTƒCƒY‚ğƒfƒoƒCƒXˆË‘¶’PˆÊiƒsƒNƒZƒ‹j‚Åæ“¾‚·‚éB
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5715,6 +7951,8 @@ Direct3D ƒeƒNƒXƒ`ƒƒ[‚Íì¬‚Å‚«‚È‚¢B
 %index
 ID2D1RenderTarget_IsSupported
 ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªw’è‚³‚ê‚½ƒvƒƒpƒeƒB‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·B(overload 1/2)
+%group
+COM misc / ID2D1RenderTarget
 %prm
 this, renderTargetProperties
 this : [comobj] ID2D1RenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5733,6 +7971,8 @@ FALSEB
 %index
 ID2D1Resource_GetFactory
 ‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1Resource
 %prm
 this, factory
 this : [comobj] ID2D1Resource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5743,28 +7983,36 @@ factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì
 
 %index
 ID2D1RoundedRectangleGeometry_GetFactory
-ID2D1RoundedRectangleGeometry::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, factory
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1RoundedRectangleGeometry_GetBounds
-ID2D1RoundedRectangleGeometry::GetBounds (vtable slot 4)
+ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, worldTransform, bounds
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 worldTransform : [var] 
 bounds : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1RoundedRectangleGeometry_GetWidenedBounds
-ID2D1RoundedRectangleGeometry::GetWidenedBounds (vtable slot 5)
+w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, bounds
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5774,11 +8022,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 bounds : [var] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1RoundedRectangleGeometry_StrokeContainsPoint
-ID2D1RoundedRectangleGeometry::StrokeContainsPoint (vtable slot 6)
+ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, point, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, contains
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5789,11 +8040,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 contains : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 
 %index
 ID2D1RoundedRectangleGeometry_FillContainsPoint
-ID2D1RoundedRectangleGeometry::FillContainsPoint (vtable slot 7)
+ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, point, worldTransform, flatteningTolerance, contains
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5802,11 +8056,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 contains : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
 
 
 %index
 ID2D1RoundedRectangleGeometry_CompareWithGeometry
-ID2D1RoundedRectangleGeometry::CompareWithGeometry (vtable slot 8)
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, inputGeometry, inputGeometryTransform, flatteningTolerance, relation
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5815,11 +8072,23 @@ inputGeometryTransform : [var]
 flatteningTolerance : [float] 
 relation : [var] 
 %inst
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
+
+[”õl]
+•Ô‚³‚ê‚é *relation*
+‚Ì’l‚ğ‰ğß‚·‚éÛ‚ÍA[**D2D1\_GEOMETRY\_RELATION\_IS\_CONTAINED**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
+‚Æ‚¢‚¤ **D2D1\_GEOMETRY\_RELATION** —ñ‹“‘Ì‚Ìƒƒ“ƒo[‚ªu‚±‚ÌƒWƒIƒƒgƒŠ‚ª *inputGeometry*
+‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚év‚±‚Æ‚ğˆÓ–¡‚µAu‚±‚ÌƒWƒIƒƒgƒŠ‚ª *inputGeometry*
+‚ğŠÜ‚Şv‚Æ‚¢‚¤ˆÓ–¡‚Å‚Í‚È‚¢“_‚É’ˆÓ‚·‚é‚±‚Æ‚ªd—v‚Å‚ ‚éB‘¼‚Éæ‚è“¾‚é–ß‚è’l‚Ì‰ğß‚É‚Â‚¢‚Ä‚Í
+[**D2D1\_GEOMETRY\_RELATION**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
+‚ğQÆB
 
 
 %index
 ID2D1RoundedRectangleGeometry_Simplify
-ID2D1RoundedRectangleGeometry::Simplify (vtable slot 9)
+’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, simplificationOption, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5828,11 +8097,15 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ
+ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 
 %index
 ID2D1RoundedRectangleGeometry_Tessellate
-ID2D1RoundedRectangleGeometry::Tessellate (vtable slot 10)
+w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, worldTransform, flatteningTolerance, tessellationSink
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5840,11 +8113,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 tessellationSink : [comobj] 
 %inst
+w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
 
 
 %index
 ID2D1RoundedRectangleGeometry_CombineWithGeometry
-ID2D1RoundedRectangleGeometry::CombineWithGeometry (vtable slot 11)
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, inputGeometry, combineMode, inputGeometryTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5854,11 +8130,14 @@ inputGeometryTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
 
 
 %index
 ID2D1RoundedRectangleGeometry_Outline
-ID2D1RoundedRectangleGeometry::Outline (vtable slot 12)
+ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5866,11 +8145,28 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+
+[”õl]
+
+[**Outline**](/windows/win32/api/d2d1/nf-d2d1-id2d1geometry-outline(constd2d1_matrix_3x2_f__id2d1simplifiedgeometrysink))
+ƒƒ\ƒbƒh‚ğg‚¤‚ÆA“ü—ÍƒWƒIƒƒgƒŠ‚Æ“™‰¿‚È“h‚è‚Â‚Ô‚µ‚ğ‚¿A‚³‚ç‚ÉŸ‚Ì“Á«‚ğ”õ‚¦‚½ƒWƒIƒƒgƒŠ‚ğŒÄ‚Ño‚µ‘¤‚ª¶¬‚Å‚«‚éB-
+o—ÍƒWƒIƒƒgƒŠ‚É‚Í‰¡’f“I‚ÈŒğ·‚ªŠÜ‚Ü‚ê‚È‚¢B‚·‚È‚í‚¿ƒZƒOƒƒ“ƒg“¯m‚ÍÚ‚·‚é‚±‚Æ‚Í‚ ‚Á‚Ä‚àŒˆ‚µ‚ÄŒğ·‚µ‚È‚¢B-
+o—ÍƒWƒIƒƒgƒŠ‚ÌÅŠO}Œ`‚Í‚·‚×‚Ä”½Œv‰ñ‚è‚ÉŒü‚«•t‚¯‚³‚ê‚éB-
+o—ÍƒWƒIƒƒgƒŠ‚Í“h‚è‚Â‚Ô‚µƒ‚[ƒh•s•Ï‚Å‚ ‚éB‚·‚È‚í‚¿ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ‚Í“h‚è‚Â‚Ô‚µƒ‚[ƒh‚Ì‘I‘ğ‚ÉˆË‘¶‚µ‚È‚¢B“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+[**D2D1\_FILL\_MODE**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_fill_mode)
+‚ğQÆB‚³‚ç‚É
+[**Outline**](/windows/win32/api/d2d1/nf-d2d1-id2d1geometry-outline(constd2d1_matrix_3x2_f__id2d1simplifiedgeometrysink))
+ƒƒ\ƒbƒh‚ÍA•¡G‚ÈƒWƒIƒƒgƒŠ‚ğ’Pƒ‰»‚·‚é‚½‚ß‚É‘Oq‚ÌƒWƒIƒƒgƒŠ‚Ìç’·•”•ª‚ğæ‚èœ‚­‚Ì‚É‚à—L—p‚Å‚ ‚éB‚Ü‚½
+[**ID2D1GeometryGroup**](/windows/win32/api/d2d1/nn-d2d1-id2d1geometrygroup)
+‚Æ‘g‚İ‡‚í‚¹‚ÄA•¡”‚ÌƒWƒIƒƒgƒŠ‚Ì˜aW‡‚ğˆê“x‚Éì¬‚·‚é‚Ì‚É‚à–ğ—§‚ÂB
 
 
 %index
 ID2D1RoundedRectangleGeometry_ComputeArea
-ID2D1RoundedRectangleGeometry::ComputeArea (vtable slot 13)
+ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, worldTransform, flatteningTolerance, area
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5878,11 +8174,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 area : [float] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1RoundedRectangleGeometry_ComputeLength
-ID2D1RoundedRectangleGeometry::ComputeLength (vtable slot 14)
+ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, worldTransform, flatteningTolerance, length
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5890,11 +8189,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 length : [float] 
 %inst
+ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1RoundedRectangleGeometry_ComputePointAtLength
-ID2D1RoundedRectangleGeometry::ComputePointAtLength (vtable slot 15)
+ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, length, worldTransform, flatteningTolerance, point, unitTangentVector
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5904,11 +8206,14 @@ flatteningTolerance : [float]
 point : [var] 
 unitTangentVector : [var] 
 %inst
+ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1RoundedRectangleGeometry_Widen
-ID2D1RoundedRectangleGeometry::Widen (vtable slot 16)
+w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5918,11 +8223,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 
 %index
 ID2D1RoundedRectangleGeometry_GetRoundedRect
 ‚±‚ÌŠpŠÛ‹éŒ`ƒWƒIƒƒgƒŠ‚ğ•\‚·ŠpŠÛ‹éŒ`‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, roundedRect
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5934,6 +8242,8 @@ roundedRect : [var] Œ^: D2D1_ROUNDED_RECT* ‚±‚ÌŠpŠÛ‹éŒ`ƒWƒIƒƒgƒŠ‚ğ•\‚·ŠpŠÛ‹éŒ`‚
 %index
 ID2D1SimplifiedGeometrySink_SetFillMode
 ‚±‚ÌƒWƒIƒƒgƒŠƒVƒ“ƒN‚ª‹Lq‚·‚éƒWƒIƒƒgƒŠ‚É‚¨‚¢‚ÄA‚Ç‚Ì“_‚ª“à‘¤‚Å‚Ç‚Ì“_‚ªŠO‘¤‚Å‚ ‚é‚©‚ğ”»’è‚·‚é‚½‚ß‚Ì•û®‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1SimplifiedGeometrySink
 %prm
 this, fillMode
 this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5949,6 +8259,8 @@ BeginFigure ŒÄ‚Ño‚µ‚Ì‘O‚É SetFillMode ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB‚»‚¤‚µ‚È‚¢ê‡AƒWƒ
 %index
 ID2D1SimplifiedGeometrySink_SetSegmentFlags
 ƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÉV‚½‚É’Ç‰Á‚³‚ê‚éƒZƒOƒƒ“ƒg‚É“K—p‚·‚éƒXƒgƒ[ƒN‚¨‚æ‚ÑƒWƒ‡ƒCƒ“ƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1SimplifiedGeometrySink
 %prm
 this, vertexFlags
 this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5964,6 +8276,8 @@ vertexFlags : [int] Œ^: D2D1_PATH_SEGMENT ƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÉV‚½‚É’Ç‰Á‚³‚ê‚éƒZƒO
 %index
 ID2D1SimplifiedGeometrySink_BeginFigure
 w’è‚µ‚½“_‚©‚çV‚µ‚¢ƒtƒBƒMƒ…ƒA‚ğŠJn‚·‚éB
+%group
+COM misc / ID2D1SimplifiedGeometrySink
 %prm
 this, startPoint, figureBegin
 this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5979,6 +8293,8 @@ figureBegin : [int] Œ^: D2D1_FIGURE_BEGIN V‚µ‚¢ƒtƒBƒMƒ…ƒA‚ğ’†‹ó‚É‚·‚é‚©“h‚è‚Â‚Ô
 %index
 ID2D1SimplifiedGeometrySink_AddLines
 w’è‚³‚ê‚½“_‚ğ—p‚¢‚Ä’¼ü‚ÌƒV[ƒPƒ“ƒX‚ğ¶¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
+%group
+COM misc / ID2D1SimplifiedGeometrySink
 %prm
 this, points, pointsCount
 this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -5991,6 +8307,8 @@ pointsCount : [int] Œ^: UINT points ”z—ñ‚ÉŠÜ‚Ü‚ê‚é“_‚Ì”B
 %index
 ID2D1SimplifiedGeometrySink_AddBeziers
 3 ŸƒxƒWƒG‹Èü‚ÌƒV[ƒPƒ“ƒX‚ğ¶¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
+%group
+COM misc / ID2D1SimplifiedGeometrySink
 %prm
 this, beziers, beziersCount
 this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6003,6 +8321,8 @@ beziersCount : [int] Œ^: UINT beziers ”z—ñ‚ÉŠÜ‚Ü‚ê‚éƒxƒWƒGƒZƒOƒƒ“ƒg‚Ì”B
 %index
 ID2D1SimplifiedGeometrySink_EndFigure
 Œ»İ‚ÌƒtƒBƒMƒ…ƒA‚ğI—¹‚·‚éB•K—v‚É‰‚¶‚Ä•Â‚¶‚éB
+%group
+COM misc / ID2D1SimplifiedGeometrySink
 %prm
 this, figureEnd
 this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6019,6 +8339,8 @@ figureEnd : [int] Œ^: D2D1_FIGURE_END Œ»İ‚ÌƒtƒBƒMƒ…ƒA‚ğ•Â‚¶‚é‚©‚Ç‚¤‚©‚ğ¦‚·’lB
 %index
 ID2D1SimplifiedGeometrySink_Close
 ƒWƒIƒƒgƒŠƒVƒ“ƒN‚ğ•Â‚¶AƒGƒ‰[ó‘Ô‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚µAƒVƒ“ƒN‚ÌƒGƒ‰[ó‘Ô‚ğƒŠƒZƒbƒg‚·‚éB
+%group
+COM misc / ID2D1SimplifiedGeometrySink
 %prm
 this
 this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6040,56 +8362,98 @@ this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•
 
 %index
 ID2D1SolidColorBrush_GetFactory
-ID2D1SolidColorBrush::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1SolidColorBrush
 %prm
 this, factory
 this : [comobj] ID2D1SolidColorBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1SolidColorBrush_SetOpacity
-ID2D1SolidColorBrush::SetOpacity (vtable slot 4)
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğİ’è‚·‚éB
+%group
+COM misc / ID2D1SolidColorBrush
 %prm
 this, opacity
 this : [comobj] ID2D1SolidColorBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-opacity : [float] 
+opacity : [float] Œ^: FLOAT ƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğ¦‚· 0 ‚©‚ç 1 ‚Ü‚Å‚Ì’lB‚±‚Ì’l‚Íƒuƒ‰ƒV‚É‚æ‚Á‚Ä“h‚è‚Â‚Ô‚³‚ê‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹‚ÌƒAƒ‹ƒtƒ@’l‚É‘Î‚·‚éüŒ`ƒXƒP[ƒŠƒ“ƒOŒW”‚Æ‚µ‚Äì—p‚·‚é’è””{—¦‚Å‚ ‚éB•s“§–¾“x‚Ì’l‚ÍæZ‘O‚É 0?1 ‚Ì”ÍˆÍ‚ÉƒNƒ‰ƒ“ƒv‚³‚ê‚éB
 %inst
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğİ’è‚·‚éB
 
 
 %index
 ID2D1SolidColorBrush_SetTransform
-ID2D1SolidColorBrush::SetTransform (vtable slot 5)
+ƒuƒ‰ƒV‚É“K—p‚·‚é•ÏŠ·‚ğİ’è‚·‚éB
+%group
+COM misc / ID2D1SolidColorBrush
 %prm
 this, transform
 this : [comobj] ID2D1SolidColorBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 transform : [var] 
 %inst
+ƒuƒ‰ƒV‚É“K—p‚·‚é•ÏŠ·‚ğİ’è‚·‚éB
+
+[”õl]
+
+ƒuƒ‰ƒV‚Å•`‰æ‚·‚éÛ‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌÀ•W‹óŠÔ‚Å“h‚è‚Â‚Ô‚µ‚ªs‚í‚ê‚éBƒuƒ‰ƒV‚Í•`‰æ‘ÎÛ‚É®—ñ‚·‚é‚æ‚¤©“®“I‚ÉˆÊ’u‚ğ‡‚í‚¹‚é‚í‚¯‚Å‚Í‚È‚­AƒfƒtƒHƒ‹ƒg‚Å‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ´“_
+(0, 0)
+‚©‚ç•`‰æ‚ğŠJn‚·‚éB[**ID2D1LinearGradientBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1lineargradientbrush)
+‚Å’è‹`‚³‚ê‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÍAŠJn“_‚ÆI—¹“_‚ğİ’è‚·‚é‚±‚Æ‚Å‘ÎÛ—Ìˆæ‚ÖuˆÚ“®v‚Å‚«‚éB“¯—l‚É
+[**ID2D1RadialGradientBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1radialgradientbrush)
+‚Å’è‹`‚³‚ê‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Í’†S‚Æ”¼Œa‚ğ•ÏX‚·‚é‚±‚Æ‚ÅˆÚ“®‚Å‚«‚éB[**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
+‚Ì“à—e‚ğ“h‚è‚Â‚Ô‚µ‘ÎÛ—Ìˆæ‚É®—ñ‚³‚¹‚½‚¢ê‡‚Í **SetTransform**
+ƒƒ\ƒbƒh‚ğg‚Á‚Äƒrƒbƒgƒ}ƒbƒv‚ğ–Ú“I‚ÌˆÊ’u‚Ö•½sˆÚ“®‚Å‚«‚éB‚±‚Ì•ÏŠ·‚Íƒuƒ‰ƒV‚Ì‚İ‚Éì—p‚µAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É‚æ‚Á‚Ä•`‰æ‚³‚ê‚é‘¼‚ÌƒRƒ“ƒeƒ“ƒc‚É‚Í‰e‹¿‚µ‚È‚¢BŸ‚Ì}‚Í
+(100, 100) ‚ÉˆÊ’u‚·‚é‹éŒ`‚ğ
+[**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
+‚Å“h‚è‚Â‚Ô‚µ‚½‚Æ‚«‚ÌŒø‰Ê‚ğ¦‚·B¶‚Ì}‚Íƒuƒ‰ƒV‚ğ•ÏŠ·‚µ‚È‚¢‚Ü‚Ü‹éŒ`‚ğ“h‚è‚Â‚Ô‚µ‚½Œ‹‰Ê‚ÅAƒrƒbƒgƒ}ƒbƒv‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ´“_‚É•`‰æ‚³‚ê‚éB‚»‚ÌŒ‹‰ÊA‹éŒ`‚É‚Íƒrƒbƒgƒ}ƒbƒv‚Ìˆê•”‚µ‚©Œ»‚ê‚È‚¢B‰E‚Ì}‚Í
+[**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
+‚ğ•ÏŠ·‚µ‚Ä‚»‚Ì“à—e‚ğ‰E‚Ö 50 ƒsƒNƒZƒ‹A‰º‚Ö 50
+ƒsƒNƒZƒ‹‚¸‚ç‚µ‚½Œ‹‰Ê‚ÅAƒrƒbƒgƒ}ƒbƒv‚ª‹éŒ`‚ğ–„‚ß‚Ä‚¢‚éB![•ÏŠ·‚µ‚Ä‚¢‚È‚¢ƒuƒ‰ƒV‚Å“h‚ç‚ê‚½³•ûŒ`‚ÆA•ÏŠ·‚µ‚½ƒuƒ‰ƒV‚Å“h‚ç‚ê‚½³•ûŒ`‚ğ¦‚·}](images/brushes-ovw-transform.png)
 
 
 %index
 ID2D1SolidColorBrush_GetOpacity
-ID2D1SolidColorBrush::GetOpacity (vtable slot 6)
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1SolidColorBrush
 %prm
 this
 this : [comobj] ID2D1SolidColorBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: FLOAT ƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğ¦‚· 0 ‚©‚ç 1
+‚Ü‚Å‚Ì’lB‚±‚Ì’l‚Íƒuƒ‰ƒV‚É‚æ‚Á‚Ä“h‚è‚Â‚Ô‚³‚ê‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹‚ÌƒAƒ‹ƒtƒ@’l‚É‘Î‚·‚éüŒ`ƒXƒP[ƒŠƒ“ƒOŒW”‚Æ‚µ‚Äì—p‚·‚é’è””{—¦‚Å‚ ‚éB•s“§–¾“x‚Ì’l‚ÍæZ‘O‚É
+0?1 ‚Ì”ÍˆÍ‚ÉƒNƒ‰ƒ“ƒv‚³‚ê‚éB
 
 
 %index
 ID2D1SolidColorBrush_GetTransform
-ID2D1SolidColorBrush::GetTransform (vtable slot 7)
+‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1SolidColorBrush
 %prm
 this, transform
 this : [comobj] ID2D1SolidColorBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-transform : [var] 
+transform : [var] Œ^: D2D1_MATRIX_3X2_F* ‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·B
 %inst
+‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·‚ğæ“¾‚·‚éB
+
+[”õl]
+ƒuƒ‰ƒV‚Ì•ÏŠ·‚ª’PˆÊs—ñ‚Ìê‡Aƒuƒ‰ƒV‚Í•`‰æ‚³‚ê‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Æ“¯‚¶À•W‹óŠÔ‚ÉoŒ»‚·‚éB
 
 
 %index
 ID2D1SolidColorBrush_SetColor
 ‚±‚Ìƒ\ƒŠƒbƒhƒJƒ‰[ƒuƒ‰ƒV‚ÌF‚ğw’è‚·‚éB
+%group
+COM misc / ID2D1SolidColorBrush
 %prm
 this, color
 this : [comobj] ID2D1SolidColorBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6106,6 +8470,8 @@ color : [var]
 %index
 ID2D1SolidColorBrush_GetColor
 ƒ\ƒŠƒbƒhƒJƒ‰[ƒuƒ‰ƒV‚ÌF‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1SolidColorBrush
 %prm
 this
 this : [comobj] ID2D1SolidColorBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6118,17 +8484,22 @@ this : [comobj] ID2D1SolidColorBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 
 %index
 ID2D1StrokeStyle_GetFactory
-ID2D1StrokeStyle::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1StrokeStyle
 %prm
 this, factory
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1StrokeStyle_GetStartCap
 ƒXƒgƒ[ƒN‚Ìn’[‚Ég—p‚³‚ê‚éŒ`ó‚Ìí—Ş‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6142,6 +8513,8 @@ this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1StrokeStyle_GetEndCap
 ƒXƒgƒ[ƒN‚ÌI’[‚Ég—p‚³‚ê‚éŒ`ó‚Ìí—Ş‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6155,6 +8528,8 @@ this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1StrokeStyle_GetDashCap
 Šeƒ_ƒbƒVƒ…‚Ì’[‚ğ‚Ç‚Ì‚æ‚¤‚É•`‰æ‚·‚é‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6168,6 +8543,8 @@ this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1StrokeStyle_GetMiterLimit
 ƒ}ƒCƒ^’·‚ÆƒXƒgƒ[ƒNŒú‚Ì”¼•ª‚Æ‚Ì”ä‚É‘Î‚·‚éãŒÀ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6181,6 +8558,8 @@ this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1StrokeStyle_GetLineJoin
 }Œ`‚Ì—ÖŠs‚Ì’¸“_‚Åg—p‚³‚ê‚éÚ‡‚Ìí—Ş‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6194,6 +8573,8 @@ this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1StrokeStyle_GetDashOffset
 ƒ_ƒbƒVƒ…ƒV[ƒPƒ“ƒXã‚Ì‚Ç‚ÌˆÊ’u‚©‚çƒXƒgƒ[ƒN‚ğŠJn‚·‚é‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6207,6 +8588,8 @@ this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 ID2D1StrokeStyle_GetDashStyle
 ƒXƒgƒ[ƒN‚Ìƒ_ƒbƒVƒ…ƒpƒ^[ƒ“‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6225,6 +8608,8 @@ D2D1_DASH_STYLE_CUSTOMB
 %index
 ID2D1StrokeStyle_GetDashesCount
 dashes ”z—ñ‚Ì—v‘f”‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6238,6 +8623,8 @@ dashes ”z—ñ‚Ì—v‘f”‚ğæ“¾‚·‚éB
 %index
 ID2D1StrokeStyle_GetDashes
 ƒ_ƒbƒVƒ…ƒpƒ^[ƒ“‚ğw’è‚³‚ê‚½”z—ñ‚ÉƒRƒs[‚·‚éB
+%group
+COM misc / ID2D1StrokeStyle
 %prm
 this, dashes, dashesCount
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6254,6 +8641,8 @@ dashesCount : [int] Œ^: UINT ƒRƒs[‚·‚éƒ_ƒbƒVƒ…‚Ì”B‚±‚Ì’l‚ªƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚
 %index
 ID2D1TessellationSink_AddTriangles
 w’è‚³‚ê‚½OŠpŒ`‚ğƒVƒ“ƒN‚ÉƒRƒs[‚·‚éB
+%group
+COM misc / ID2D1TessellationSink
 %prm
 this, triangles, trianglesCount
 this : [comobj] ID2D1TessellationSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6266,6 +8655,8 @@ trianglesCount : [int] Œ^: UINT triangles ”z—ñ‚©‚çƒRƒs[‚·‚éOŠpŒ`‚Ì”B
 %index
 ID2D1TessellationSink_Close
 ƒVƒ“ƒN‚ğ•Â‚¶A‚»‚ÌƒGƒ‰[ó‘Ô‚ğ•Ô‚·B
+%group
+COM misc / ID2D1TessellationSink
 %prm
 this
 this : [comobj] ID2D1TessellationSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6280,28 +8671,36 @@ this : [comobj] ID2D1TessellationSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 
 %index
 ID2D1TransformedGeometry_GetFactory
-ID2D1TransformedGeometry::GetFactory (vtable slot 3)
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, factory
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] 
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1TransformedGeometry_GetBounds
-ID2D1TransformedGeometry::GetBounds (vtable slot 4)
+ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, worldTransform, bounds
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 worldTransform : [var] 
 bounds : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1TransformedGeometry_GetWidenedBounds
-ID2D1TransformedGeometry::GetWidenedBounds (vtable slot 5)
+w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, bounds
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6311,11 +8710,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 bounds : [var] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1TransformedGeometry_StrokeContainsPoint
-ID2D1TransformedGeometry::StrokeContainsPoint (vtable slot 6)
+ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, point, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, contains
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6326,11 +8728,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 contains : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 
 %index
 ID2D1TransformedGeometry_FillContainsPoint
-ID2D1TransformedGeometry::FillContainsPoint (vtable slot 7)
+ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, point, worldTransform, flatteningTolerance, contains
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6339,11 +8744,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 contains : [var] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
 
 
 %index
 ID2D1TransformedGeometry_CompareWithGeometry
-ID2D1TransformedGeometry::CompareWithGeometry (vtable slot 8)
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, inputGeometry, inputGeometryTransform, flatteningTolerance, relation
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6352,11 +8760,23 @@ inputGeometryTransform : [var]
 flatteningTolerance : [float] 
 relation : [var] 
 %inst
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
+
+[”õl]
+•Ô‚³‚ê‚é *relation*
+‚Ì’l‚ğ‰ğß‚·‚éÛ‚ÍA[**D2D1\_GEOMETRY\_RELATION\_IS\_CONTAINED**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
+‚Æ‚¢‚¤ **D2D1\_GEOMETRY\_RELATION** —ñ‹“‘Ì‚Ìƒƒ“ƒo[‚ªu‚±‚ÌƒWƒIƒƒgƒŠ‚ª *inputGeometry*
+‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚év‚±‚Æ‚ğˆÓ–¡‚µAu‚±‚ÌƒWƒIƒƒgƒŠ‚ª *inputGeometry*
+‚ğŠÜ‚Şv‚Æ‚¢‚¤ˆÓ–¡‚Å‚Í‚È‚¢“_‚É’ˆÓ‚·‚é‚±‚Æ‚ªd—v‚Å‚ ‚éB‘¼‚Éæ‚è“¾‚é–ß‚è’l‚Ì‰ğß‚É‚Â‚¢‚Ä‚Í
+[**D2D1\_GEOMETRY\_RELATION**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
+‚ğQÆB
 
 
 %index
 ID2D1TransformedGeometry_Simplify
-ID2D1TransformedGeometry::Simplify (vtable slot 9)
+’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, simplificationOption, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6365,11 +8785,15 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ
+ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 
 %index
 ID2D1TransformedGeometry_Tessellate
-ID2D1TransformedGeometry::Tessellate (vtable slot 10)
+w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, worldTransform, flatteningTolerance, tessellationSink
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6377,11 +8801,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 tessellationSink : [comobj] 
 %inst
+w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
 
 
 %index
 ID2D1TransformedGeometry_CombineWithGeometry
-ID2D1TransformedGeometry::CombineWithGeometry (vtable slot 11)
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, inputGeometry, combineMode, inputGeometryTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6391,11 +8818,14 @@ inputGeometryTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
 
 
 %index
 ID2D1TransformedGeometry_Outline
-ID2D1TransformedGeometry::Outline (vtable slot 12)
+ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6403,11 +8833,28 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+
+[”õl]
+
+[**Outline**](/windows/win32/api/d2d1/nf-d2d1-id2d1geometry-outline(constd2d1_matrix_3x2_f__id2d1simplifiedgeometrysink))
+ƒƒ\ƒbƒh‚ğg‚¤‚ÆA“ü—ÍƒWƒIƒƒgƒŠ‚Æ“™‰¿‚È“h‚è‚Â‚Ô‚µ‚ğ‚¿A‚³‚ç‚ÉŸ‚Ì“Á«‚ğ”õ‚¦‚½ƒWƒIƒƒgƒŠ‚ğŒÄ‚Ño‚µ‘¤‚ª¶¬‚Å‚«‚éB-
+o—ÍƒWƒIƒƒgƒŠ‚É‚Í‰¡’f“I‚ÈŒğ·‚ªŠÜ‚Ü‚ê‚È‚¢B‚·‚È‚í‚¿ƒZƒOƒƒ“ƒg“¯m‚ÍÚ‚·‚é‚±‚Æ‚Í‚ ‚Á‚Ä‚àŒˆ‚µ‚ÄŒğ·‚µ‚È‚¢B-
+o—ÍƒWƒIƒƒgƒŠ‚ÌÅŠO}Œ`‚Í‚·‚×‚Ä”½Œv‰ñ‚è‚ÉŒü‚«•t‚¯‚³‚ê‚éB-
+o—ÍƒWƒIƒƒgƒŠ‚Í“h‚è‚Â‚Ô‚µƒ‚[ƒh•s•Ï‚Å‚ ‚éB‚·‚È‚í‚¿ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ‚Í“h‚è‚Â‚Ô‚µƒ‚[ƒh‚Ì‘I‘ğ‚ÉˆË‘¶‚µ‚È‚¢B“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+[**D2D1\_FILL\_MODE**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_fill_mode)
+‚ğQÆB‚³‚ç‚É
+[**Outline**](/windows/win32/api/d2d1/nf-d2d1-id2d1geometry-outline(constd2d1_matrix_3x2_f__id2d1simplifiedgeometrysink))
+ƒƒ\ƒbƒh‚ÍA•¡G‚ÈƒWƒIƒƒgƒŠ‚ğ’Pƒ‰»‚·‚é‚½‚ß‚É‘Oq‚ÌƒWƒIƒƒgƒŠ‚Ìç’·•”•ª‚ğæ‚èœ‚­‚Ì‚É‚à—L—p‚Å‚ ‚éB‚Ü‚½
+[**ID2D1GeometryGroup**](/windows/win32/api/d2d1/nn-d2d1-id2d1geometrygroup)
+‚Æ‘g‚İ‡‚í‚¹‚ÄA•¡”‚ÌƒWƒIƒƒgƒŠ‚Ì˜aW‡‚ğˆê“x‚Éì¬‚·‚é‚Ì‚É‚à–ğ—§‚ÂB
 
 
 %index
 ID2D1TransformedGeometry_ComputeArea
-ID2D1TransformedGeometry::ComputeArea (vtable slot 13)
+ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, worldTransform, flatteningTolerance, area
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6415,11 +8862,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 area : [float] 
 %inst
+ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1TransformedGeometry_ComputeLength
-ID2D1TransformedGeometry::ComputeLength (vtable slot 14)
+ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, worldTransform, flatteningTolerance, length
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6427,11 +8877,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 length : [float] 
 %inst
+ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1TransformedGeometry_ComputePointAtLength
-ID2D1TransformedGeometry::ComputePointAtLength (vtable slot 15)
+ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, length, worldTransform, flatteningTolerance, point, unitTangentVector
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6441,11 +8894,14 @@ flatteningTolerance : [float]
 point : [var] 
 unitTangentVector : [var] 
 %inst
+ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1TransformedGeometry_Widen
-ID2D1TransformedGeometry::Widen (vtable slot 16)
+w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, strokeWidth, strokeStyle, worldTransform, flatteningTolerance, geometrySink
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6455,11 +8911,14 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
+w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 
 %index
 ID2D1TransformedGeometry_GetSourceGeometry
 ‚±‚Ì•ÏŠ·Ï‚İƒWƒIƒƒgƒŠƒIƒuƒWƒFƒNƒg‚Ìƒ\[ƒXƒWƒIƒƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, sourceGeometry
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6471,6 +8930,8 @@ sourceGeometry : [comobj] Œ^: ID2D1Geometry** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A‚±‚Ì•ÏŠ·Ï
 %index
 ID2D1TransformedGeometry_GetTransform
 ID2D1TransformedGeometry ƒIƒuƒWƒFƒNƒg‚Ìƒ\[ƒXƒWƒIƒƒgƒŠ‚ğ•ÏŠ·‚·‚é‚½‚ß‚Ég—p‚³‚ê‚és—ñ‚ğæ“¾‚·‚éB
+%group
+COM misc / ID2D1TransformedGeometry
 %prm
 this, transform
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6482,6 +8943,8 @@ ID2D1TransformedGeometry ƒIƒuƒWƒFƒNƒg‚Ìƒ\[ƒXƒWƒIƒƒgƒŠ‚ğ•ÏŠ·‚·‚é‚½‚ß‚Ég—p‚³‚ê‚
 %index
 IDataObject_GetData
 ƒf[ƒ^ƒRƒ“ƒVƒ…[ƒ}[‚ªƒ\[ƒXƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚©‚çƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚·B
+%group
+COM misc / IDataObject
 %prm
 this, pformatetcIn, pmedium
 this : [comobj] IDataObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6512,6 +8975,8 @@ FORMATETC ‚Åw’è‚³‚ê‚½î•ñ‚É]‚¦‚È‚¢ê‡ADV_E_FORMATETC
 %index
 IDataObject_GetDataHere
 ƒf[ƒ^ƒRƒ“ƒVƒ…[ƒ}[‚ªƒ\[ƒXƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚©‚çƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚·B‚±‚Ìƒƒ\ƒbƒh‚ÍAŒÄ‚Ño‚µ‘¤‚ªw’è‚µ‚½‹L‰¯ƒƒfƒBƒEƒ€‚ÌŠm•Û‚Æ‰ğ•ú‚ğs‚í‚È‚¯‚ê‚Î‚È‚ç‚È‚¢“_‚Å GetData ƒƒ\ƒbƒh‚ÆˆÙ‚È‚éB
+%group
+COM misc / IDataObject
 %prm
 this, pformatetc, pmedium
 this : [comobj] IDataObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6544,6 +9009,8 @@ TYMED_ISTORAGEATYMED_ISTREAMATYMED_FILE ‚Ì‚İ‚Å‚ ‚éB“]‘—ƒƒfƒBƒEƒ€‚ªƒXƒgƒŠ[ƒ€
 %index
 IDataObject_QueryGetData
 ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ªw’è‚Ç‚¨‚è‚Éƒf[ƒ^‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO‚Å‚«‚é‚©‚ğ”»’è‚·‚éB“\‚è•t‚¯‚âƒhƒƒbƒv‘€ì‚ğs‚¤ƒIƒuƒWƒFƒNƒg‚ÍAIDataObject::GetData ‚ğŒÄ‚Ño‚·‘O‚É‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä‘€ì‚ª¬Œ÷‚·‚éŒ©‚İ‚ª‚ ‚é‚©‚ğŠm”F‚Å‚«‚éB
+%group
+COM misc / IDataObject
 %prm
 this, pformatetc
 this : [comobj] IDataObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6566,6 +9033,8 @@ IDataObject::GetData
 %index
 IDataObject_GetCanonicalFormatEtc
 ˜_—“I‚É“™‰¿‚ÅAê‡‚É‚æ‚Á‚Ä‚ÍˆÙ‚È‚é FORMATETC \‘¢‘Ì‚ğ’ñ‹Ÿ‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚Í 2 ‚Â‚ÌˆÙ‚È‚é FORMATETC \‘¢‘Ì‚ª“¯‚¶ƒf[ƒ^‚ğ•Ô‚·‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚Ì‚Ég—p‚µAd•¡‚µ‚½ƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğ•s—v‚É‚·‚éB
+%group
+COM misc / IDataObject
 %prm
 this, pformatectIn, pformatetcOut
 this : [comobj] IDataObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6598,6 +9067,8 @@ DATA_S_SAMEFORMATETC ‚ğ•Ô‚·‚±‚Æ‚Å‚ ‚éB
 %index
 IDataObject_SetData
 ƒf[ƒ^ƒ\[ƒX‚ğŠÜ‚ŞƒIƒuƒWƒFƒNƒg‚©‚çŒÄ‚Ño‚³‚êA‚±‚Ìƒƒ\ƒbƒh‚ğÀ‘•‚·‚éƒIƒuƒWƒFƒNƒg‚Éƒf[ƒ^‚ğ“]‘—‚·‚éB
+%group
+COM misc / IDataObject
 %prm
 this, pformatetc, pmedium, fRelease
 this : [comobj] IDataObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6625,6 +9096,8 @@ E_NOTIMPL ‚ğ•Ô‚·‚æ‚¤‚ÉÀ‘•‚·‚×‚«‚Å‚ ‚éBŒÄ‚Ño‚µ‘¤‚Í pmedium
 %index
 IDataObject_EnumFormatEtc
 ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ªƒTƒ|[ƒg‚·‚éŒ`®‚ğ—ñ‹“‚·‚éƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / IDataObject
 %prm
 this, dwDirection, ppenumFormatEtc
 this : [comobj] IDataObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6650,6 +9123,8 @@ Release ‚ğŒÄ‚Ño‚·Ó”C‚ª‚ ‚éBEnumFormatEtc ‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Ì“®ì‚ª”­¶‚µ‚½‚Æ‚«
 %index
 IDataObject_DAdvise
 ƒAƒhƒoƒCƒXƒVƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒIƒuƒWƒFƒNƒg‚©‚çŒÄ‚Ño‚³‚êAƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ÆƒAƒhƒoƒCƒXƒVƒ“ƒN‚Æ‚ÌŠÔ‚ÉÚ‘±‚ğì¬‚·‚éB‚±‚ê‚É‚æ‚èƒAƒhƒoƒCƒXƒVƒ“ƒN‚ªƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ì•ÏX‚ğ’Ê’m‚Å‚«‚é‚æ‚¤‚É‚È‚éB
+%group
+COM misc / IDataObject
 %prm
 this, pformatetc, advf, pAdvSink, pdwConnection
 this : [comobj] IDataObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6687,6 +9162,8 @@ IDataObject::DUnadvise ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BIOleLink ƒCƒ“ƒ^[ƒtƒF[ƒXŒo—R
 %index
 IDataObject_DUnadvise
 ˆÈ‘O‚ÉŠm—§‚³‚ê‚½’Ê’mÚ‘±‚ğ”jŠü‚·‚éB
+%group
+COM misc / IDataObject
 %prm
 this, dwConnection
 this : [comobj] IDataObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6707,6 +9184,8 @@ IDataAdviseHolder::Unadvise ‚É‚±‚ÌŒÄ‚Ño‚µ‚ğˆÏ÷‚·‚é•K—v‚ª‚ ‚éB
 %index
 IDataObject_EnumDAdvise
 Œ»İ‚ÌƒAƒhƒoƒCƒUƒŠÚ‘±‚ğ—ñ‹“‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / IDataObject
 %prm
 this, ppenumAdvise
 this : [comobj] IDataObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6732,6 +9211,8 @@ IDataAdviseHolder::EnumAdvise ‚ÉˆÏ÷‚·‚é‚¾‚¯‚Å‚æ‚¢B‚±‚ê‚É‚æ‚è—ñ‹“q‚ªì¬‚³‚êA
 %index
 IDropSource_QueryContinueDrag
 ƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì‚ğŒp‘±‚·‚é‚©AƒLƒƒƒ“ƒZƒ‹‚·‚é‚©AŠ®—¹‚·‚é‚©‚ğ”»’è‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚ğ’¼ÚŒÄ‚Ño‚·‚±‚Æ‚Í‚È‚¢Bƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì’†‚É OLE DoDragDrop ŠÖ”‚ªŒÄ‚Ño‚·B
+%group
+COM misc / IDropSource
 %prm
 this, fEscapePressed, grfKeyState
 this : [comobj] IDropSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6755,6 +9236,8 @@ fEscapePressed ‚Ì“à—e‚ÉŠî‚Ã‚¢‚ÄAƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì‚ğŒp‘±‚·‚é‚©AƒLƒƒƒ“ƒZƒ‹‚·
 %index
 IDropSource_GiveFeedback
 ‹ŠoŒø‰Ê‚ğw’è‚·‚é—ñ‹“’l‚ğ DoDragDrop ŠÖ”‚É’ñ‹Ÿ‚·‚é‚±‚Æ‚ÅAƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì’†‚Éƒ\[ƒXƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒGƒ“ƒhƒ†[ƒU[‚É‹Šo“I‚ÈƒtƒB[ƒhƒoƒbƒN‚ğ—^‚¦‚ç‚ê‚é‚æ‚¤‚É‚·‚éB
+%group
+COM misc / IDropSource
 %prm
 this, dwEffect
 this : [comobj] IDropSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6789,6 +9272,8 @@ DRAGDROP_S_USEDEFAULTCURSORS ‚ğ•Ô‚¹‚éB‚»‚¤‚·‚é‚Æ OLE ‚ªŠù’è‚ğg‚Á‚ÄƒJ[ƒ\ƒ‹‚ğX
 %index
 IDropTarget_DragEnter
 ƒhƒƒbƒv‚ªó‚¯“ü‚ê‰Â”\‚©‚Ç‚¤‚©Aó‚¯“ü‚ê‰Â”\‚Èê‡‚Íƒhƒƒbƒv‚ÌŒø‰Ê‚ğ¦‚·B
+%group
+COM misc / IDropTarget
 %prm
 this, pDataObj, grfKeyState, pt, pdwEffect
 this : [comobj] IDropTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6813,6 +9298,8 @@ DragEnter ‚ğ’¼ÚŒÄ‚Ño‚·‚±‚Æ‚Í‚È‚¢B‘ã‚í‚è‚É DoDragDrop
 %index
 IDropTarget_DragOver
 ƒ†[ƒU[‚Éƒ^[ƒQƒbƒgƒtƒB[ƒhƒoƒbƒN‚ğ’ñ‹Ÿ‚µAƒhƒƒbƒv‚ÌŒø‰Ê‚ğ DoDragDrop ŠÖ”‚É“`‚¦‚é‚±‚Æ‚ÅAƒhƒƒbƒv‚ÌŒø‰Ê‚ğƒ\[ƒX‚É“`’B‚³‚¹‚éB
+%group
+COM misc / IDropTarget
 %prm
 this, grfKeyState, pt, pdwEffect
 this : [comobj] IDropTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6840,6 +9327,8 @@ IDropTarget::DragEnter
 %index
 IDropTarget_DragLeave
 ƒ^[ƒQƒbƒgƒtƒB[ƒhƒoƒbƒN‚ğæ‚èœ‚«Aƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚éB
+%group
+COM misc / IDropTarget
 %prm
 this
 this : [comobj] IDropTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6858,6 +9347,8 @@ this : [comobj] IDropTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDropTarget_Drop
 ƒ\[ƒXƒf[ƒ^‚ğƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚Éæ‚è‚İAƒ^[ƒQƒbƒgƒtƒB[ƒhƒoƒbƒN‚ğæ‚èœ‚«Aƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚éB
+%group
+COM misc / IDropTarget
 %prm
 this, pDataObj, grfKeyState, pt, pdwEffect
 this : [comobj] IDropTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6884,6 +9375,8 @@ pdwEffect : [var] “ü—Í‚Í DoDragDrop ŠÖ”‚Ì pdwEffect ƒpƒ‰ƒ[ƒ^[‚Ì’l‚Ö‚Ìƒ|ƒCƒ
 %index
 IDWriteBitmapRenderTarget_DrawGlyphRun
 w’è‚µ‚½ˆÊ’u‚Åƒrƒbƒgƒ}ƒbƒvƒ^[ƒQƒbƒg‚ÉƒOƒŠƒtƒ‰ƒ“‚ğ•`‰æ‚·‚éB
+%group
+COM misc / IDWriteBitmapRenderTarget
 %prm
 this, baselineOriginX, baselineOriginY, measuringMode, glyphRun, renderingParams, textColor, blackBoxRect
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6911,6 +9404,8 @@ IDWriteTextRenderer::DrawGlyphRun
 %index
 IDWriteBitmapRenderTarget_GetMemoryDC
 ƒƒ‚ƒŠƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteBitmapRenderTarget
 %prm
 this
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6931,6 +9426,8 @@ this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï
 %index
 IDWriteBitmapRenderTarget_GetPixelsPerDip
 DIP ‚ ‚½‚è‚Ìƒrƒbƒgƒ}ƒbƒvƒsƒNƒZƒ‹”‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteBitmapRenderTarget
 %prm
 this
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6948,6 +9445,8 @@ DIP (ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹) ‚Í 1/96 ƒCƒ“ƒ`‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä‚±‚Ì’l‚Í 1 ƒCƒ“ƒ`‚ 
 %index
 IDWriteBitmapRenderTarget_SetPixelsPerDip
 DIP (ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹) ‚ ‚½‚è‚Ìƒrƒbƒgƒ}ƒbƒvƒsƒNƒZƒ‹”‚ğİ’è‚·‚éBDIP ‚Í 1/96 ƒCƒ“ƒ`‚È‚Ì‚ÅA‚±‚Ì’l‚Í 1 ƒCƒ“ƒ`‚ ‚½‚è‚ÌƒsƒNƒZƒ‹”‚ğ 96 ‚ÅŠ„‚Á‚½’l‚Æ‚È‚éB
+%group
+COM misc / IDWriteBitmapRenderTarget
 %prm
 this, pixelsPerDip
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6963,6 +9462,8 @@ DIP (ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹) ‚ ‚½‚è‚Ìƒrƒbƒgƒ}ƒbƒvƒsƒNƒZƒ‹”‚ğİ’è‚·‚éBDIP ‚Í 1/
 %index
 IDWriteBitmapRenderTarget_GetCurrentTransform
 ’ŠÛÀ•W‚ğ DIP ‚Éƒ}ƒbƒv‚·‚éƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğæ“¾‚·‚éBŠù’è‚Å‚ÍP“™•ÏŠ·‚Å‚ ‚éB‚±‚ê‚Í“à•”ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ[ƒ‹ƒhƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Æ‚Í–³ŠÖŒW‚Å‚ ‚éB
+%group
+COM misc / IDWriteBitmapRenderTarget
 %prm
 this, transform
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6978,6 +9479,8 @@ transform : [var] Œ^: DWRITE_MATRIX* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aƒgƒ‰ƒ“ƒXƒtƒH[ƒ€s—
 %index
 IDWriteBitmapRenderTarget_SetCurrentTransform
 ’ŠÛÀ•W‚ğ DIP (ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹) ‚Éƒ}ƒbƒv‚·‚éƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğİ’è‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚Í“à•”ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ[ƒ‹ƒhƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚É‚Í‰e‹¿‚µ‚È‚¢B
+%group
+COM misc / IDWriteBitmapRenderTarget
 %prm
 this, transform
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -6993,6 +9496,8 @@ transform : [var] Œ^: const DWRITE_MATRIX* V‚µ‚¢ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğw’è‚·‚éB‚±‚
 %index
 IDWriteBitmapRenderTarget_GetSize
 ƒ^[ƒQƒbƒgƒrƒbƒgƒ}ƒbƒv‚Ì¡–@‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteBitmapRenderTarget
 %prm
 this, size
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7007,6 +9512,8 @@ size : [var] Œ^: SIZE* ƒrƒbƒgƒ}ƒbƒv‚Ì•‚Æ‚‚³‚ğƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
 %index
 IDWriteBitmapRenderTarget_Resize
 ƒrƒbƒgƒ}ƒbƒv‚ğƒŠƒTƒCƒY‚·‚éB
+%group
+COM misc / IDWriteBitmapRenderTarget
 %prm
 this, width, height
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7022,6 +9529,8 @@ height : [int] Œ^: UINT32 V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ì‚‚³ (ƒsƒNƒZƒ‹’PˆÊ)B
 %index
 IDWriteFactory_GetSystemFontCollection
 ƒCƒ“ƒXƒg[ƒ‹Ï‚İƒtƒHƒ“ƒg‚ÌW‡‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, fontCollection, checkForUpdates
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7037,6 +9546,8 @@ checkForUpdates : [int] Œ^: BOOL 0 ˆÈŠO‚Ìê‡AƒCƒ“ƒXƒg[ƒ‹Ï‚İƒtƒHƒ“ƒg‚Ì•ÏX‚ğ’
 %index
 IDWriteFactory_CreateCustomFontCollection
 ƒJƒXƒ^ƒ€ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒ[ƒ_[‚ğ—p‚¢‚ÄƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğì¬‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, collectionLoader, collectionKey, collectionKeySize, fontCollection
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7054,6 +9565,8 @@ fontCollection : [comobj] Œ^: IDWriteFontCollection** ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚ÍƒV
 %index
 IDWriteFactory_RegisterFontCollectionLoader
 ƒJƒXƒ^ƒ€ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒ[ƒ_[‚ğƒtƒ@ƒNƒgƒŠƒIƒuƒWƒFƒNƒg‚É“o˜^‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, fontCollectionLoader
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7075,6 +9588,8 @@ DirectWrite ‚Ö‚Ì“o˜^/“o˜^‰ğœ‚ÍAƒ[ƒ_[À‘•‚ÌŠO‘¤‚Ås‚¤‚×‚«‚Å‚ ‚éB
 %index
 IDWriteFactory_UnregisterFontCollectionLoader
 ˆÈ‘O‚É RegisterFontCollectionLoader ‚Å“o˜^‚µ‚½ƒJƒXƒ^ƒ€ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒ[ƒ_[‚ğ“o˜^‰ğœ‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, fontCollectionLoader
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7089,6 +9604,8 @@ fontCollectionLoader : [comobj] Œ^: IDWriteFontCollectionLoader* “o˜^‰ğœ‘ÎÛ‚Æ‚
 %index
 IDWriteFactory_CreateFontFileReference
 ƒ[ƒJƒ‹‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚©‚çƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹QÆƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, filePath, lastWriteTime, fontFile
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7105,6 +9622,8 @@ fontFile : [comobj] Œ^: IDWriteFontFile** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì¬‚³‚ê‚½ƒtƒHƒ“
 %index
 IDWriteFactory_CreateCustomFontFileReference
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ŒÅ—L‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒŠƒ\[ƒX‚Ö‚ÌQÆ‚ğì¬‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, fontFileReferenceKey, fontFileReferenceKeySize, fontFileLoader, fontFile
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7127,6 +9646,8 @@ fontFile : [comobj] Œ^: IDWriteFontFile** ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚ÍV‹Kì¬‚³‚ê‚½
 %index
 IDWriteFactory_CreateFontFace
 ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, fontFaceType, numberOfFiles, fontFiles, faceIndex, fontFaceSimulationFlags, fontFace
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7146,6 +9667,8 @@ fontFace : [comobj] Œ^: IDWriteFontFace** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì¬‚³‚ê‚½ƒtƒHƒ“
 %index
 IDWriteFactory_CreateRenderingParams
 ƒvƒ‰ƒCƒ}ƒŠƒ‚ƒjƒ^[Œü‚¯‚ÌŠù’èİ’è‚ğ‚ÂƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBƒ‚ƒjƒ^[‚²‚Æ‚ÉˆÙ‚È‚éƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^‚ğ‚Âê‡‚ª‚ ‚é‚½‚ßAÚ×‚Íƒ}ƒ‹ƒ`ƒ‚ƒjƒ^[ƒTƒ|[ƒg‚Ì’Ç‰Á•û–@‚ğQÆ‚Ì‚±‚ÆB
+%group
+COM misc / IDWriteFactory
 %prm
 this, renderingParams
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7161,6 +9684,8 @@ renderingParams : [comobj] Œ^: IDWriteRenderingParams** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì
 %index
 IDWriteFactory_CreateMonitorRenderingParams
 w’è‚µ‚½ƒ‚ƒjƒ^[Œü‚¯‚ÌŠù’èİ’è‚ğ‚ÂƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‘½‚­‚Ìê‡A‚±‚ê‚ªƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é„§‚Ì•û–@‚Å‚ ‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, monitor, renderingParams
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7177,6 +9702,8 @@ renderingParams : [comobj] Œ^: IDWriteRenderingParams** ƒƒ\ƒbƒh‚ª–ß‚éÛA‚±‚Ìƒ
 %index
 IDWriteFactory_CreateCustomRenderingParams
 w’è‚µ‚½ƒvƒƒpƒeƒB‚ğ‚ÂƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB(IDWriteFactory.CreateCustomRenderingParams)
+%group
+COM misc / IDWriteFactory
 %prm
 this, gamma, enhancedContrast, clearTypeLevel, pixelGeometry, renderingMode, renderingParams
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7197,6 +9724,8 @@ renderingParams : [comobj] Œ^: IDWriteRenderingParams** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì
 %index
 IDWriteFactory_RegisterFontFileLoader
 ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚ğ DirectWrite ‚É“o˜^‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, fontFileLoader
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7218,6 +9747,8 @@ DirectWrite ‚Ö‚Ì“o˜^/“o˜^‰ğœ‚ÍAƒ[ƒ_[À‘•‚ÌŠO‘¤‚Ås‚¤‚×‚«‚Å‚ ‚éB
 %index
 IDWriteFactory_UnregisterFontFileLoader
 ˆÈ‘O‚É RegisterFontFileLoader ‚Å DirectWrite ‚ÌƒtƒHƒ“ƒgƒVƒXƒeƒ€‚É“o˜^‚µ‚½ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚ğ“o˜^‰ğœ‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, fontFileLoader
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7240,6 +9771,8 @@ DirectWrite ‚Ö‚Ì“o˜^/“o˜^‰ğœ‚ÍAƒ[ƒ_[À‘•‚ÌŠO‘¤‚Ås‚¤‚×‚«‚Å‚ ‚éB
 %index
 IDWriteFactory_CreateTextFormat
 ƒeƒLƒXƒgƒŒƒCƒAƒEƒg‚Ég—p‚·‚éƒeƒLƒXƒgƒtƒH[ƒ}ƒbƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB(IDWriteFactory.CreateTextFormat)
+%group
+COM misc / IDWriteFactory
 %prm
 this, fontFamilyName, fontCollection, fontWeight, fontStyle, fontStretch, fontSize, localeName, textFormat
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7261,6 +9794,8 @@ textFormat : [comobj] Œ^: IDWriteTextFormat** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì¬‚³‚ê‚½ƒe
 %index
 IDWriteFactory_CreateTypography
 ƒeƒLƒXƒgƒŒƒCƒAƒEƒg‚Åg—p‚·‚éƒ^ƒCƒ|ƒOƒ‰ƒtƒBƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, typography
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7275,6 +9810,8 @@ typography : [comobj] Œ^: IDWriteTypography** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì¬‚³‚ê‚½ƒ^
 %index
 IDWriteFactory_GetGdiInterop
 GDI ‚Æ‚Ì‘ŠŒİ‰^—p‚Ég—p‚·‚éƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, gdiInterop
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7289,6 +9826,8 @@ GDI ‚Æ‚Ì‘ŠŒİ‰^—p‚Ég—p‚·‚éƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %index
 IDWriteFactory_CreateTextLayout
 •¶š—ñAƒeƒLƒXƒgƒtƒH[ƒ}ƒbƒgA‚¨‚æ‚Ñ•t‚·‚é§–ñ‚ğó‚¯æ‚èAŠ®‘S‚É‰ğÍE®Œ`‚³‚ê‚½Œ‹‰Ê‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, string, stringLength, textFormat, maxWidth, maxHeight, textLayout
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7308,6 +9847,8 @@ textLayout : [comobj] Œ^: IDWriteTextLayout** ƒƒ\ƒbƒh‚ª–ß‚éÛA¶¬‚³‚ê‚½ƒeƒLƒX
 %index
 IDWriteFactory_CreateGdiCompatibleTextLayout
 •¶š—ñAƒtƒH[ƒ}ƒbƒgA‚¨‚æ‚Ñ•t‚·‚é§–ñ‚ğó‚¯æ‚èA“Á’è‚Ì•\¦‰ğ‘œ“x‚ÆŒv‘ªƒ‚[ƒhŒü‚¯‚É®Œ`‚µ‚½Œ‹‰Ê‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, string, stringLength, textFormat, layoutWidth, layoutHeight, pixelsPerDip, transform, useGdiNatural, textLayout
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7334,6 +9875,8 @@ CreateTextLayout ‚ğg—p‚·‚×‚«‚Å‚ ‚éB
 %index
 IDWriteFactory_CreateEllipsisTrimmingSign
 È—ª‹L†‚ğƒgƒŠƒ~ƒ“ƒO‹L†‚Æ‚µ‚Ä—p‚¢‚éAƒgƒŠƒ~ƒ“ƒO—p‚ÌƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, textFormat, trimmingSign
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7353,6 +9896,8 @@ trimmingSign : [comobj] Œ^: IDWriteInlineObject** ƒƒ\ƒbƒh‚ª–ß‚éÛA‚±‚Ìƒƒ\ƒbƒh
 %index
 IDWriteFactory_CreateTextAnalyzer
 ƒeƒLƒXƒg‰ğÍ‚ğs‚¤‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ•Ô‚·B
+%group
+COM misc / IDWriteFactory
 %prm
 this, textAnalyzer
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7367,6 +9912,8 @@ textAnalyzer : [comobj] Œ^: IDWriteTextAnalyzer** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì¬‚³‚ê
 %index
 IDWriteFactory_CreateNumberSubstitution
 ƒƒP[ƒ‹–¼A’uŠ·•û®A‚¨‚æ‚Ñƒ†[ƒU[‚É‚æ‚éã‘‚«‚ğ–³‹‚·‚é‚© (–³‹‚·‚éê‡‚Íw’èƒJƒ‹ƒ`ƒƒ‚Ì NLS Šù’è’l‚ğg‚¤) ‚ğ¦‚·ƒtƒ‰ƒO‚ğw’è‚µ‚ÄA”š’uŠ·ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / IDWriteFactory
 %prm
 this, substitutionMethod, localeName, ignoreUserOverride, numberSubstitution
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7385,6 +9932,8 @@ numberSubstitution : [comobj] Œ^: IDWriteNumberSubstitution** ƒƒ\ƒbƒh‚ª–ß‚éÛA
 %index
 IDWriteFactory_CreateGlyphRunAnalysis
 ƒOƒŠƒtƒ‰ƒ“‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‚Ég—p‚·‚éî•ñ‚ğƒJƒvƒZƒ‹‰»‚µ‚½ƒOƒŠƒtƒ‰ƒ“‰ğÍƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB(IDWriteFactory.CreateGlyphRunAnalysis)
+%group
+COM misc / IDWriteFactory
 %prm
 this, glyphRun, pixelsPerDip, transform, renderingMode, measuringMode, baselineOriginX, baselineOriginY, glyphRunAnalysis
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7411,6 +9960,8 @@ glyphRunAnalysis : [comobj] Œ^: IDWriteGlyphRunAnalysis** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹K
 %index
 IDWriteFont_GetFontFamily
 w’è‚µ‚½ƒtƒHƒ“ƒg‚ª‘®‚·‚éƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFont
 %prm
 this, fontFamily
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7425,6 +9976,8 @@ fontFamily : [comobj] Œ^: IDWriteFontFamily** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aw’èƒtƒHƒ“
 %index
 IDWriteFont_GetWeight
 w’èƒtƒHƒ“ƒg‚ÌƒEƒFƒCƒg (ƒXƒgƒ[ƒN‚Ì‘¾‚³) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFont
 %prm
 this
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7438,6 +9991,8 @@ this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteFont_GetStretch
 w’èƒtƒHƒ“ƒg‚ÌƒXƒgƒŒƒbƒ` (•) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFont
 %prm
 this
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7451,6 +10006,8 @@ this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteFont_GetStyle
 w’èƒtƒHƒ“ƒg‚ÌƒXƒ^ƒCƒ‹ (ŒXÎ) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFont
 %prm
 this
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7464,6 +10021,8 @@ this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteFont_IsSymbolFont
 ƒtƒHƒ“ƒg‚ªƒVƒ“ƒ{ƒ‹ƒtƒHƒ“ƒg‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB(IDWriteFont.IsSymbolFont)
+%group
+COM misc / IDWriteFont
 %prm
 this
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7477,6 +10036,8 @@ this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteFont_GetFaceNames
 ƒtƒHƒ“ƒg‚ÌƒtƒFƒCƒX–¼ (Regular ‚â Bold ‚È‚Ç) ‚ğAƒƒP[ƒ‹–¼‚ÅƒCƒ“ƒfƒbƒNƒX‰»‚µ‚½ƒ[ƒJƒ‰ƒCƒY•¶š—ñƒRƒŒƒNƒVƒ‡ƒ“‚Æ‚µ‚Äæ“¾‚·‚éB
+%group
+COM misc / IDWriteFont
 %prm
 this, names
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7492,6 +10053,8 @@ names : [comobj] Œ^: IDWriteLocalizedStrings** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­¶
 %index
 IDWriteFont_GetInformationalStrings
 w’è‚µ‚½î•ñ•¶š—ñ‚ğAƒƒP[ƒ‹–¼‚ÅƒCƒ“ƒfƒbƒNƒX‰»‚µ‚½ƒ[ƒJƒ‰ƒCƒY•¶š—ñƒRƒŒƒNƒVƒ‡ƒ“‚Æ‚µ‚Äæ“¾‚·‚éB
+%group
+COM misc / IDWriteFont
 %prm
 this, informationalStringID, informationalStrings, exists
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7512,6 +10075,8 @@ exists : [var] Œ^: BOOL* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒtƒHƒ“ƒg‚ªw’è‚µ‚½•¶š—ñ ID ‚ğŠ
 %index
 IDWriteFont_GetSimulations
 w’èƒtƒHƒ“ƒg‚É“K—p‚³‚ê‚Ä‚¢‚éƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFont
 %prm
 this
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7526,6 +10091,8 @@ this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteFont_GetMetrics
 ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒfƒUƒCƒ“’PˆÊ‚Æ‹¤’ÊƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB‚±‚ê‚ç‚ÌƒƒgƒŠƒNƒX‚ÍƒtƒHƒ“ƒgƒtƒFƒCƒX“à‚Ì‚·‚×‚Ä‚ÌƒOƒŠƒt‚É“K—p‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒŒƒCƒAƒEƒgŒvZ‚Ég—p‚³‚ê‚éB(IDWriteFont.GetMetrics)
+%group
+COM misc / IDWriteFont
 %prm
 this, fontMetrics
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7538,6 +10105,8 @@ fontMetrics : [var] Œ^: DWRITE_FONT_METRICS* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AŒ»İ‚ÌƒtƒHƒ
 %index
 IDWriteFont_HasCharacter
 ƒtƒHƒ“ƒg‚ªw’è‚µ‚½•¶š‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+%group
+COM misc / IDWriteFont
 %prm
 this, unicodeValue, exists
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7553,6 +10122,8 @@ exists : [var] Œ^: BOOL* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒtƒHƒ“ƒg‚ªw’è•¶š‚ğƒTƒ|[ƒg‚µ‚
 %index
 IDWriteFont_CreateFontFace
 ƒtƒHƒ“ƒg—p‚ÌƒtƒHƒ“ƒgƒtƒFƒCƒXƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB(IDWriteFont.CreateFontFace)
+%group
+COM misc / IDWriteFont
 %prm
 this, fontFace
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7567,6 +10138,8 @@ fontFace : [comobj] Œ^: IDWriteFontFace** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­¶¬‚³‚ê
 %index
 IDWriteFontCollection_GetFontFamilyCount
 ƒRƒŒƒNƒVƒ‡ƒ““à‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[‚Ì”‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontCollection
 %prm
 this
 this : [comobj] IDWriteFontCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7580,6 +10153,8 @@ this : [comobj] IDWriteFontCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteFontCollection_GetFontFamily
 0 ‹N“_‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[ƒCƒ“ƒfƒbƒNƒX‚©‚çƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / IDWriteFontCollection
 %prm
 this, index, fontFamily
 this : [comobj] IDWriteFontCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7595,6 +10170,8 @@ fontFamily : [comobj] Œ^: IDWriteFontFamily** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­ì¬
 %index
 IDWriteFontCollection_FindFamilyName
 w’è‚µ‚½ƒtƒ@ƒ~ƒŠ[–¼‚ğ‚ÂƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[‚ğŒŸõ‚·‚éB
+%group
+COM misc / IDWriteFontCollection
 %prm
 this, familyName, index, exists
 this : [comobj] IDWriteFontCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7611,6 +10188,8 @@ exists : [var] Œ^: BOOL* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aƒtƒ@ƒ~ƒŠ[–¼‚ª‘¶İ‚·‚éê‡‚Í TR
 %index
 IDWriteFontCollection_GetFontFromFontFace
 w’è‚µ‚½ƒtƒHƒ“ƒgƒtƒFƒCƒXƒIƒuƒWƒFƒNƒg‚Æ“¯‚¶•¨—ƒtƒHƒ“ƒg‚É‘Î‰‚·‚éƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éBw’è‚³‚ê‚½•¨—ƒtƒHƒ“ƒg‚Í‚±‚ÌƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚É‘®‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+%group
+COM misc / IDWriteFontCollection
 %prm
 this, fontFace, font
 this : [comobj] IDWriteFontCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7627,6 +10206,8 @@ font : [comobj] Œ^: IDWriteFont** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A¬Œ÷‚µ‚½ê‡‚ÍV‚µ‚­ì
 %index
 IDWriteFontCollectionLoader_CreateEnumeratorFromKey
 ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚ğƒJƒvƒZƒ‹‰»‚·‚éƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹—ñ‹“qƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBƒtƒHƒ“ƒgƒVƒXƒeƒ€‚Í‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğƒR[ƒ‹ƒoƒbƒN‚µ‚ÄƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğì¬‚·‚éB
+%group
+COM misc / IDWriteFontCollectionLoader
 %prm
 this, factory, collectionKey, collectionKeySize, fontFileEnumerator
 this : [comobj] IDWriteFontCollectionLoader ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7645,6 +10226,8 @@ fontFileEnumerator : [comobj] Œ^: IDWriteFontFileEnumerator** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é
 %index
 IDWriteFontFace_GetType
 ƒtƒHƒ“ƒgƒtƒFƒCƒX‚Ìƒtƒ@ƒCƒ‹ƒtƒH[ƒ}ƒbƒg‚Ìí—Ş‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontFace
 %prm
 this
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7659,6 +10242,8 @@ this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteFontFace_GetFiles
 ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ğ•\‚·ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontFace
 %prm
 this, numberOfFiles, fontFiles
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7681,6 +10266,8 @@ fontFiles ‚ğ NULL ‚Å“n‚·Bƒƒ\ƒbƒh‚ª•Ô‚é‚ÆAnumberOfFiles
 %index
 IDWriteFontFace_GetIndex
 ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌƒRƒ“ƒeƒLƒXƒg‚É‚¨‚¯‚éƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontFace
 %prm
 this
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7695,6 +10282,8 @@ this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteFontFace_GetSimulations
 ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒAƒ‹ƒSƒŠƒYƒ€“I‚ÈƒXƒ^ƒCƒ‹ƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“ƒtƒ‰ƒO‚ğæ“¾‚·‚éB(IDWriteFontFace.GetSimulations)
+%group
+COM misc / IDWriteFontFace
 %prm
 this
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7710,6 +10299,8 @@ this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteFontFace_IsSymbolFont
 ƒtƒHƒ“ƒg‚ªƒVƒ“ƒ{ƒ‹ƒtƒHƒ“ƒg‚©‚Ç‚¤‚©‚ğ”»’f‚·‚éB(IDWriteFontFace.IsSymbolFont)
+%group
+COM misc / IDWriteFontFace
 %prm
 this
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7723,6 +10314,8 @@ this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteFontFace_GetMetrics
 ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒfƒUƒCƒ“’PˆÊ‚Æ‹¤’Ê‚ÌƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB‚±‚ê‚ç‚ÌƒƒgƒŠƒNƒX‚ÍƒtƒHƒ“ƒgƒtƒFƒCƒX“à‚Ì‚·‚×‚Ä‚ÌƒOƒŠƒt‚É“K—p‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒŒƒCƒAƒEƒgŒvZ‚Ég—p‚·‚éB(IDWriteFontFace.GetMetrics)
+%group
+COM misc / IDWriteFontFace
 %prm
 this, fontFaceMetrics
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7735,6 +10328,8 @@ fontFaceMetrics : [var] Œ^: DWRITE_FONT_METRICS* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAŒ»İ‚
 %index
 IDWriteFontFace_GetGlyphCount
 ƒtƒHƒ“ƒgƒtƒFƒCƒX“à‚ÌƒOƒŠƒt”‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontFace
 %prm
 this
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7748,6 +10343,8 @@ this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteFontFace_GetDesignGlyphMetrics
 ƒtƒHƒ“ƒgƒfƒUƒCƒ“’PˆÊ‚Å‚Ì—‘z“I‚È (‰ğ‘œ“x‚ÉˆË‘¶‚µ‚È‚¢) ƒOƒŠƒtƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontFace
 %prm
 this, glyphIndices, glyphCount, glyphMetrics, isSideways
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7768,6 +10365,8 @@ isSideways : [int] Œ^: BOOL ƒtƒHƒ“ƒg‚ª‰¡Œü‚« (sideways) ƒ‰ƒ“‚Åg—p‚³‚ê‚Ä‚¢‚é‚©‚Ç
 %index
 IDWriteFontFace_GetGlyphIndices
 ƒtƒHƒ“ƒg‚Ì 'CMAP' ƒe[ƒuƒ‹‚Å’è‹`‚³‚ê‚½ UCS4 Unicode ƒR[ƒhƒ|ƒCƒ“ƒg‚©‚çƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚Ö‚Ì–¼–Úã‚Ìƒ}ƒbƒsƒ“ƒO‚ğ•Ô‚·B
+%group
+COM misc / IDWriteFontFace
 %prm
 this, codePoints, codePointCount, glyphIndices
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7794,6 +10393,8 @@ glyphIndices : [int] Œ^: UINT16* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌŠÖ”‚ª–„‚ß‚é–¼–Ú
 %index
 IDWriteFontFace_TryGetFontTable
 w’è‚³‚ê‚½ OpenType ƒtƒHƒ“ƒgƒe[ƒuƒ‹‚ª‘¶İ‚·‚éê‡A‚»‚ê‚ğŒŸõ‚µ‚Äƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B‚±‚ÌŠÖ”‚ÍAƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚ªÀ‘•‚·‚é IDWriteFontFileStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ’Ê‚¶‚ÄŠî‘b‚Æ‚È‚éƒtƒHƒ“ƒgƒf[ƒ^‚ÉƒAƒNƒZƒX‚·‚éB
+%group
+COM misc / IDWriteFontFace
 %prm
 this, openTypeTableTag, tableData, tableSize, tableContext, exists
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7816,6 +10417,8 @@ IDWriteFontFileStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ’Ê‚¶‚ÄŠî‘b‚Æ‚È‚éƒtƒHƒ“ƒgƒf[ƒ^‚ÉƒAƒNƒZƒX
 %index
 IDWriteFontFace_ReleaseFontTable
 TryGetFontTable ‚Åæ‚Éæ“¾‚µ‚½ƒe[ƒuƒ‹‚ğ‰ğ•ú‚·‚éB
+%group
+COM misc / IDWriteFontFace
 %prm
 this, tableContext
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7827,6 +10430,8 @@ TryGetFontTable ‚Åæ‚Éæ“¾‚µ‚½ƒe[ƒuƒ‹‚ğ‰ğ•ú‚·‚éB
 %index
 IDWriteFontFace_GetGlyphRunOutline
 ƒAƒEƒgƒ‰ƒCƒ“ƒVƒ“ƒNƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚ÌƒR[ƒ‹ƒoƒbƒN‚É‚æ‚Á‚ÄƒOƒŠƒt‚Ìƒ‰ƒ“‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚·‚éB
+%group
+COM misc / IDWriteFontFace
 %prm
 this, emSize, glyphIndices, glyphAdvances, glyphOffsets, glyphCount, isSideways, isRightToLeft, geometrySink
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7848,6 +10453,8 @@ geometrySink : [comobj] Œ^: IDWriteGeometrySink* ƒAƒEƒgƒ‰ƒCƒ“•`‰æ‘€ì‚ğÀs‚·‚é‚
 %index
 IDWriteFontFace_GetRecommendedRenderingMode
 w’è‚³‚ê‚½ƒTƒCƒY‚ÆƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^‚ğg—p‚µ‚ÄAƒtƒHƒ“ƒg‚Ì„§ƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğŒˆ’è‚·‚éB(IDWriteFontFace.GetRecommendedRenderingMode)
+%group
+COM misc / IDWriteFontFace
 %prm
 this, emSize, pixelsPerDip, measuringMode, renderingParams, renderingMode
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7867,6 +10474,8 @@ renderingMode : [var] Œ^: DWRITE_RENDERING_MODE* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAg—p‚
 %index
 IDWriteFontFace_GetGdiCompatibleMetrics
 ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒfƒUƒCƒ“’PˆÊ‚Æ‹¤’Ê‚ÌƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB‚±‚ê‚ç‚ÌƒƒgƒŠƒNƒX‚ÍƒtƒHƒ“ƒgƒtƒFƒCƒX“à‚Ì‚·‚×‚Ä‚ÌƒOƒŠƒt‚É“K—p‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒŒƒCƒAƒEƒgŒvZ‚Ég—p‚·‚éB
+%group
+COM misc / IDWriteFontFace
 %prm
 this, emSize, pixelsPerDip, transform, fontFaceMetrics
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7885,6 +10494,8 @@ fontFaceMetrics : [var] Œ^: **[**DWRITE\_FONT\_METRICS**](/windows/win32/api/dwr
 %index
 IDWriteFontFace_GetGdiCompatibleGlyphMetrics
 GDI ‚ª¶¬‚·‚é‚à‚Ì‚ÆŒİŠ·«‚Ì‚ ‚é–ß‚è’l‚ÅAƒtƒHƒ“ƒgƒfƒUƒCƒ“’PˆÊ‚ÌƒOƒŠƒtƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontFace
 %prm
 this, emSize, pixelsPerDip, transform, useGdiNatural, glyphIndices, glyphCount, glyphMetrics, isSideways
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7907,37 +10518,57 @@ GDI ‚ª¶¬‚·‚é‚à‚Ì‚ÆŒİŠ·«‚Ì‚ ‚é–ß‚è’l‚ÅAƒtƒHƒ“ƒgƒfƒUƒCƒ“’PˆÊ‚ÌƒOƒŠƒtƒƒgƒŠƒNƒX
 
 %index
 IDWriteFontFamily_GetFontCollection
-IDWriteFontFamily::GetFontCollection (vtable slot 3)
+ƒtƒHƒ“ƒgƒŠƒXƒg‚ÉŠÜ‚Ü‚ê‚éƒtƒHƒ“ƒg‚ğ•Û‚·‚éƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontFamily
 %prm
 this, fontCollection
 this : [comobj] IDWriteFontFamily ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontCollection : [comobj] 
+fontCollection : [comobj] Œ^: IDWriteFontCollection** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AŒ»İ‚Ì IDWriteFontCollection ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
+ƒtƒHƒ“ƒgƒŠƒXƒg‚ÉŠÜ‚Ü‚ê‚éƒtƒHƒ“ƒg‚ğ•Û‚·‚éƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontFamily_GetFontCount
-IDWriteFontFamily::GetFontCount (vtable slot 4)
+ƒtƒHƒ“ƒgƒŠƒXƒg“à‚ÌƒtƒHƒ“ƒg‚Ì”‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontFamily
 %prm
 this
 this : [comobj] IDWriteFontFamily ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒtƒHƒ“ƒgƒŠƒXƒg“à‚ÌƒtƒHƒ“ƒg‚Ì”‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: UINT32 ƒtƒHƒ“ƒgƒŠƒXƒg“à‚ÌƒtƒHƒ“ƒg‚Ì”B
 
 
 %index
 IDWriteFontFamily_GetFont
-IDWriteFontFamily::GetFont (vtable slot 5)
+0 ‹N“_‚ÌƒCƒ“ƒfƒbƒNƒX‚©‚çƒtƒHƒ“ƒg‚ğæ“¾‚·‚éB(IDWriteFontList.GetFont)
+%group
+COM misc / IDWriteFontFamily
 %prm
 this, index, font
 this : [comobj] IDWriteFontFamily ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-index : [int] 
-font : [comobj] 
+index : [int] Œ^: UINT32 ƒtƒHƒ“ƒgƒŠƒXƒg“à‚ÌƒtƒHƒ“ƒg‚Ì 0 ‹N“_‚ÌƒCƒ“ƒfƒbƒNƒXB
+font : [comobj] Œ^: IDWriteFont** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­ì¬‚³‚ê‚½ IDWriteFont ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
+0 ‹N“_‚ÌƒCƒ“ƒfƒbƒNƒX‚©‚çƒtƒHƒ“ƒg‚ğæ“¾‚·‚éB(IDWriteFontList.GetFont)
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontFamily_GetFamilyNames
 ƒƒP[ƒ‹–¼‚ÅƒCƒ“ƒfƒbƒNƒX•t‚¯‚³‚ê‚½AƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[‚Ìƒtƒ@ƒ~ƒŠ[–¼‚ğŠÜ‚Şƒ[ƒJƒ‰ƒCƒYƒh•¶š—ñƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB(IDWriteFontFamily.GetFamilyNames)
+%group
+COM misc / IDWriteFontFamily
 %prm
 this, names
 this : [comobj] IDWriteFontFamily ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7957,6 +10588,8 @@ names : [comobj] Œ^: IDWriteLocalizedStrings** V‚µ‚­ì¬‚³‚ê‚½ IDWriteLocalized
 %index
 IDWriteFontFamily_GetFirstMatchingFont
 w’è‚µ‚½ƒvƒƒpƒeƒB‚ÉÅ‚àˆê’v‚·‚éƒtƒHƒ“ƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontFamily
 %prm
 this, weight, stretch, style, matchingFont
 this : [comobj] IDWriteFontFamily ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7974,6 +10607,8 @@ matchingFont : [comobj] Œ^: IDWriteFont** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­ì¬‚³‚ê
 %index
 IDWriteFontFamily_GetMatchingFonts
 w’è‚µ‚½ƒvƒƒpƒeƒB‚Æ‚Ìˆê’v“x‚Ì‚‚¢‡‚É•À‚×‚½ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[“à‚ÌƒtƒHƒ“ƒgˆê——‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontFamily
 %prm
 this, weight, stretch, style, matchingFonts
 this : [comobj] IDWriteFontFamily ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -7991,6 +10626,8 @@ matchingFonts : [comobj] Œ^: IDWriteFontList** V‚µ‚­ì¬‚³‚ê‚½ IDWriteFontList 
 %index
 IDWriteFontFile_GetReferenceKey
 ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌQÆƒL[‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB•Ô‚³‚ê‚½ƒ|ƒCƒ“ƒ^‚ÍƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚ª‰ğ•ú‚³‚ê‚é‚Ü‚Å—LŒø‚Å‚ ‚éB
+%group
+COM misc / IDWriteFontFile
 %prm
 this, fontFileReferenceKey, fontFileReferenceKeySize
 this : [comobj] IDWriteFontFile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8006,6 +10643,8 @@ fontFileReferenceKeySize : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒtƒHƒ“ƒgƒtƒ
 %index
 IDWriteFontFile_GetLoader
 ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹ƒ[ƒ_‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontFile
 %prm
 this, fontFileLoader
 this : [comobj] IDWriteFontFile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8020,6 +10659,8 @@ fontFileLoader : [comobj] Œ^: IDWriteFontFileLoader** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aƒt
 %index
 IDWriteFontFile_Analyze
 ƒtƒ@ƒCƒ‹‚ğ‰ğÍ‚µA‚»‚ê‚ªƒtƒHƒ“ƒg‚ğ•\‚µ‚Ä‚¢‚é‚©A‚Ü‚½‚»‚ÌƒtƒHƒ“ƒgí•Ê‚ªƒtƒHƒ“ƒgƒVƒXƒeƒ€‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚ğ•Ô‚·B
+%group
+COM misc / IDWriteFontFile
 %prm
 this, isSupportedFontType, fontFileType, fontFaceType, numberOfFaces
 this : [comobj] IDWriteFontFile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8042,6 +10683,8 @@ numberOfFaces : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÉŠÜ‚Ü
 %index
 IDWriteFontFileEnumerator_MoveNext
 ƒRƒŒƒNƒVƒ‡ƒ““à‚ÌŸ‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚Öi‚ŞBì¬’¼Œã‚Ì—ñ‹“q‚ÍƒRƒŒƒNƒVƒ‡ƒ“‚ÌÅ‰‚Ì—v‘f‚æ‚è‘O‚ÉˆÊ’u‚µ‚Ä‚¨‚èAÅ‰‚Ì MoveNext ‚ÌŒÄ‚Ño‚µ‚Åæ“ª‚Ìƒtƒ@ƒCƒ‹‚Öi‚ŞB
+%group
+COM misc / IDWriteFontFileEnumerator
 %prm
 this, hasCurrentFile
 this : [comobj] IDWriteFontFileEnumerator ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8057,6 +10700,8 @@ hasCurrentFile : [var] Œ^: BOOL* ƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A—ñ‹“q‚ªƒtƒ@ƒCƒ‹‚Öi‚ñ‚¾ê
 %index
 IDWriteFontFileEnumerator_GetCurrentFontFile
 Œ»İ‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚Ö‚ÌQÆ‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontFileEnumerator
 %prm
 this, fontFile
 this : [comobj] IDWriteFontFileEnumerator ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8071,6 +10716,8 @@ fontFile : [comobj] Œ^: IDWriteFontFile** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­ì¬‚³‚ê
 %index
 IDWriteFontFileLoader_CreateStreamFromKey
 ƒI[ƒvƒ“‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒŠƒ\[ƒX‚ğƒJƒvƒZƒ‹‰»‚·‚éƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / IDWriteFontFileLoader
 %prm
 this, fontFileReferenceKey, fontFileReferenceKeySize, fontFileStream
 this : [comobj] IDWriteFontFileLoader ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8090,6 +10737,8 @@ fontFileStream : [comobj] Œ^: IDWriteFontFileStream** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV
 %index
 IDWriteFontFileStream_ReadFileFragment
 ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚©‚çƒtƒ‰ƒOƒƒ“ƒg‚ğ“Ç‚İ‚ŞB
+%group
+COM misc / IDWriteFontFileStream
 %prm
 this, fragmentStart, fileOffset, fragmentSize, fragmentContext
 this : [comobj] IDWriteFontFileStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8117,6 +10766,8 @@ Read ‘€ì‚ğ•ÊX‚És‚¤À‘•‚ÍASeek ‚Æ Read
 %index
 IDWriteFontFileStream_ReleaseFileFragment
 ƒtƒ@ƒCƒ‹‚©‚çƒtƒ‰ƒOƒƒ“ƒg‚ğ‰ğ•ú‚·‚éB
+%group
+COM misc / IDWriteFontFileStream
 %prm
 this, fragmentContext
 this : [comobj] IDWriteFontFileStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8128,6 +10779,8 @@ fragmentContext : [intptr] Œ^: void* ReadFileFragment ‚©‚ç•Ô‚³‚ê‚½ƒtƒHƒ“ƒgƒtƒ‰ƒO
 %index
 IDWriteFontFileStream_GetFileSize
 ƒtƒ@ƒCƒ‹‚Ì‘ƒTƒCƒY‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontFileStream
 %prm
 this, fileSize
 this : [comobj] IDWriteFontFileStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8148,6 +10801,8 @@ fileSize : [int64] Œ^: UINT64* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aƒtƒ@ƒCƒ‹‚Ì‘ƒTƒCƒY‚ğŠi”[‚
 %index
 IDWriteFontFileStream_GetLastWriteTime
 ƒtƒ@ƒCƒ‹‚ÌÅIXV‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontFileStream
 %prm
 this, lastWriteTime
 this : [comobj] IDWriteFontFileStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8166,6 +10821,8 @@ lastWriteTime : [int64] Œ^: UINT64* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aƒtƒ@ƒCƒ‹‚ÌÅIXV
 %index
 IDWriteFontList_GetFontCollection
 ƒtƒHƒ“ƒgƒŠƒXƒg‚ÉŠÜ‚Ü‚ê‚éƒtƒHƒ“ƒg‚ğ•Û‚·‚éƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontList
 %prm
 this, fontCollection
 this : [comobj] IDWriteFontList ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8180,6 +10837,8 @@ fontCollection : [comobj] Œ^: IDWriteFontCollection** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AŒ»
 %index
 IDWriteFontList_GetFontCount
 ƒtƒHƒ“ƒgƒŠƒXƒg“à‚ÌƒtƒHƒ“ƒg‚Ì”‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteFontList
 %prm
 this
 this : [comobj] IDWriteFontList ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8193,6 +10852,8 @@ this : [comobj] IDWriteFontList ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteFontList_GetFont
 0 ‹N“_‚ÌƒCƒ“ƒfƒbƒNƒX‚©‚çƒtƒHƒ“ƒg‚ğæ“¾‚·‚éB(IDWriteFontList.GetFont)
+%group
+COM misc / IDWriteFontList
 %prm
 this, index, font
 this : [comobj] IDWriteFontList ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8208,6 +10869,8 @@ font : [comobj] Œ^: IDWriteFont** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­ì¬‚³‚ê‚½ IDWri
 %index
 IDWriteGdiInterop_CreateFontFromLOGFONT
 LOGFONT \‘¢‘Ì‚Åw’è‚³‚ê‚½ƒvƒƒpƒeƒB‚Éˆê’v‚·‚éƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB(IDWriteGdiInterop.CreateFontFromLOGFONT)
+%group
+COM misc / IDWriteGdiInterop
 %prm
 this, logFont, font
 this : [comobj] IDWriteGdiInterop ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8224,6 +10887,8 @@ LOGFONT
 %index
 IDWriteGdiInterop_ConvertFontToLOGFONT
 w’èƒtƒHƒ“ƒg‚Ì GDI ŒİŠ·ƒvƒƒpƒeƒB‚ÉŠî‚Ã‚¢‚Ä LOGFONT \‘¢‘Ì‚ğ‰Šú‰»‚·‚éB(IDWriteGdiInterop.ConvertFontToLOGFONT)
+%group
+COM misc / IDWriteGdiInterop
 %prm
 this, font, logFont, isSystemFont
 this : [comobj] IDWriteGdiInterop ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8246,6 +10911,8 @@ ConvertFontToLOGFONT ‚É‚æ‚é LOGFONT
 %index
 IDWriteGdiInterop_ConvertFontFaceToLOGFONT
 w’èƒtƒHƒ“ƒg‚Ì GDI ŒİŠ·ƒvƒƒpƒeƒB‚ÉŠî‚Ã‚¢‚Ä LOGFONT \‘¢‘Ì‚ğ‰Šú‰»‚·‚éB(IDWriteGdiInterop.ConvertFontFaceToLOGFONT)
+%group
+COM misc / IDWriteGdiInterop
 %prm
 this, font, logFont
 this : [comobj] IDWriteGdiInterop ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8267,6 +10934,8 @@ ConvertFontFaceToLOGFONT ‚É‚æ‚é LOGFONT
 %index
 IDWriteGdiInterop_CreateFontFaceFromHdc
 w’è‚µ‚½ HDC ‚ÉŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é HFONT ‚É‘Î‰‚·‚é IDWriteFontFace ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
+%group
+COM misc / IDWriteGdiInterop
 %prm
 this, hdc, fontFace
 this : [comobj] IDWriteGdiInterop ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8287,6 +10956,8 @@ DirectWrite
 %index
 IDWriteGdiInterop_CreateBitmapRenderTarget
 ƒOƒŠƒt•`‰æ‚Ég—p‚Å‚«‚éƒrƒbƒgƒ}ƒbƒv‚Æƒƒ‚ƒŠ DC (ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg) ‚ğƒJƒvƒZƒ‹‰»‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
+%group
+COM misc / IDWriteGdiInterop
 %prm
 this, hdc, width, height, renderTarget
 this : [comobj] IDWriteGdiInterop ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8304,6 +10975,8 @@ renderTarget : [comobj] Œ^: IDWriteBitmapRenderTarget** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A
 %index
 IDWriteGlyphRunAnalysis_GetAlphaTextureBounds
 ƒOƒŠƒtƒ‰ƒ“‚Ì‰e‹¿‚ğó‚¯‚é•¨—ƒsƒNƒZƒ‹‚Ì‹«ŠE‹éŒ`‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteGlyphRunAnalysis
 %prm
 this, textureType, textureBounds
 this : [comobj] IDWriteGlyphRunAnalysis ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8319,6 +10992,8 @@ textureBounds : [var] Œ^: RECT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒOƒŠƒtƒ‰ƒ“‚Ì‰e‹¿‚ğó‚¯‚é
 %index
 IDWriteGlyphRunAnalysis_CreateAlphaTexture
 w’è‚³‚ê‚½‹«ŠE‹éŒ`“à‚ÌƒOƒŠƒt‚É‘Î‚µ‚ÄAw’è‚³‚ê‚½í—Ş‚ÌƒAƒ‹ƒtƒ@ƒeƒNƒXƒ`ƒƒ‚ğì¬‚·‚éB
+%group
+COM misc / IDWriteGlyphRunAnalysis
 %prm
 this, textureType, textureBounds, alphaValues, bufferSize
 this : [comobj] IDWriteGlyphRunAnalysis ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8336,6 +11011,8 @@ bufferSize : [int] Œ^: UINT32 alphaValues ”z—ñ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)BÅ¬ƒTƒCƒY‚
 %index
 IDWriteGlyphRunAnalysis_GetAlphaBlendParams
 ClearType ƒuƒŒƒ“ƒh‚É•K—v‚ÈƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh‚ÌƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteGlyphRunAnalysis
 %prm
 this, renderingParams, blendGamma, blendEnhancedContrast, blendClearTypeLevel
 this : [comobj] IDWriteGlyphRunAnalysis ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8353,6 +11030,8 @@ ClearType ƒuƒŒƒ“ƒh‚É•K—v‚ÈƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh‚ÌƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
 %index
 IDWriteInlineObject_Draw
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªÀ‘•‚·‚é•`‰æƒR[ƒ‹ƒoƒbƒN (IDWriteTextRenderer::DrawInlineObject) ‚ÍAƒIƒuƒWƒFƒNƒgŒ^‚ğƒLƒƒƒXƒg‚Ü‚½‚ÍƒNƒGƒŠ‚¹‚¸‚ÉƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğ•`‰æ‚·‚é‚½‚ß‚É‚±‚Ìƒƒ\ƒbƒh‚ğ—˜—p‚Å‚«‚éBƒeƒLƒXƒgƒŒƒCƒAƒEƒg‚Í‚±‚Ìƒƒ\ƒbƒh‚ğ’¼ÚŒÄ‚Ño‚³‚È‚¢B
+%group
+COM misc / IDWriteInlineObject
 %prm
 this, clientDrawingContext, renderer, originX, originY, isSideways, isRightToLeft, clientDrawingEffect
 this : [comobj] IDWriteInlineObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8374,6 +11053,8 @@ clientDrawingEffect : [int] Œ^: IUnknown* IDWriteTextLayout::SetDrawingEffect ‚Å
 %index
 IDWriteInlineObject_GetMetrics
 IDWriteTextLayout ‚ÍƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ÌŒv‘ª’l‚ğæ“¾‚·‚é‚½‚ß‚É‚±‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·B
+%group
+COM misc / IDWriteInlineObject
 %prm
 this, metrics
 this : [comobj] IDWriteInlineObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8388,6 +11069,8 @@ IDWriteTextLayout ‚ÍƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ÌŒv‘ª’l‚ğæ“¾‚·‚é‚½‚ß‚É‚±‚ÌƒR[ƒ‹ƒoƒb
 %index
 IDWriteInlineObject_GetOverhangMetrics
 IDWriteTextLayout ‚ÍƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚Ì‰Â‹”ÍˆÍ (DIP ’PˆÊ) ‚ğæ“¾‚·‚é‚½‚ß‚É‚±‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·BƒpƒfƒBƒ“ƒO‚â‚Í‚İo‚µ‚Ì‚È‚¢’Pƒ‚Èƒrƒbƒgƒ}ƒbƒv‚Ìê‡A‚·‚×‚Ä‚Ì‚Í‚İo‚µ‚Í’Pƒ‚Éƒ[ƒ‚Æ‚È‚éB
+%group
+COM misc / IDWriteInlineObject
 %prm
 this, overhangs
 this : [comobj] IDWriteInlineObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8404,6 +11087,8 @@ IDWriteTextLayout ‚ÍƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚Ì‰Â‹”ÍˆÍ (DIP ’PˆÊ)
 %index
 IDWriteInlineObject_GetBreakConditions
 ƒŒƒCƒAƒEƒg‚Í‚±‚Ìƒƒ\ƒbƒh‚ğg—p‚µ‚ÄAƒeƒLƒXƒg’†‚ÌƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚Ì‰üs‹““®‚ğŒˆ’è‚·‚éB
+%group
+COM misc / IDWriteInlineObject
 %prm
 this, breakConditionBefore, breakConditionAfter
 this : [comobj] IDWriteInlineObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8419,6 +11104,8 @@ breakConditionAfter : [var] Œ^: DWRITE_BREAK_CONDITION* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A
 %index
 IDWriteLocalizedStrings_GetCount
 Œ¾Œê‚Æ•¶š—ñ‚ÌƒyƒA‚Ì”‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteLocalizedStrings
 %prm
 this
 this : [comobj] IDWriteLocalizedStrings ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8432,6 +11119,8 @@ this : [comobj] IDWriteLocalizedStrings ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteLocalizedStrings_FindLocaleName
 w’è‚µ‚½ƒƒP[ƒ‹–¼‚ğ‚ÂƒƒP[ƒ‹–¼‚Æ•¶š—ñ‚ÌƒyƒA‚Ì 0 Šî€ƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteLocalizedStrings
 %prm
 this, localeName, index, exists
 this : [comobj] IDWriteLocalizedStrings ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8455,6 +11144,8 @@ FALSE ‚Æ‚È‚éB
 %index
 IDWriteLocalizedStrings_GetLocaleNameLength
 w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚ÌƒƒP[ƒ‹–¼‚Ì•¶š” (ƒkƒ‹I’[‚ğŠÜ‚Ü‚È‚¢) ‚ğæ“¾‚·‚éB(IDWriteLocalizedStrings.GetLocaleNameLength)
+%group
+COM misc / IDWriteLocalizedStrings
 %prm
 this, index, length
 this : [comobj] IDWriteLocalizedStrings ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8471,6 +11162,8 @@ length : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒƒP[ƒ‹–¼‚Ì•¶š” (ƒkƒ‹I’[‚
 %index
 IDWriteLocalizedStrings_GetLocaleName
 w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚ÌƒƒP[ƒ‹–¼‚ğw’è‚µ‚½”z—ñ‚ÉƒRƒs[‚·‚éB(IDWriteLocalizedStrings.GetLocaleName)
+%group
+COM misc / IDWriteLocalizedStrings
 %prm
 this, index, localeName, size
 this : [comobj] IDWriteLocalizedStrings ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8487,6 +11180,8 @@ size : [int] Œ^: UINT32 ”z—ñ‚ÌƒTƒCƒY (•¶š”)BƒTƒCƒY‚É‚ÍI’[‚Ìƒkƒ‹•¶š‚Ì•ª‚àŠÜ‚
 %index
 IDWriteLocalizedStrings_GetStringLength
 w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚Ì•¶š—ñ‚Ì•¶š” (ƒkƒ‹I’[‚ğŠÜ‚Ü‚È‚¢) ‚ğæ“¾‚·‚éB(IDWriteLocalizedStrings.GetStringLength)
+%group
+COM misc / IDWriteLocalizedStrings
 %prm
 this, index, length
 this : [comobj] IDWriteLocalizedStrings ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8508,6 +11203,8 @@ GetStringLength ‚ğg—p‚·‚éB
 %index
 IDWriteLocalizedStrings_GetString
 w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚Ì•¶š—ñ‚ğw’è‚µ‚½”z—ñ‚ÉƒRƒs[‚·‚éB(IDWriteLocalizedStrings.GetString)
+%group
+COM misc / IDWriteLocalizedStrings
 %prm
 this, index, stringBuffer, size
 this : [comobj] IDWriteLocalizedStrings ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8529,6 +11226,8 @@ size : [int] Œ^: UINT32 ”z—ñ‚ÌƒTƒCƒY (•¶š”)BƒTƒCƒY‚É‚ÍI’[‚Ìƒkƒ‹•¶š‚Ì•ª‚àŠÜ‚
 %index
 IDWritePixelSnapping_IsPixelSnappingDisabled
 IDWritePixelSnapping::IsPixelSnappingDisabled (vtable slot 3)
+%group
+COM misc / IDWritePixelSnapping
 %prm
 this, clientDrawingContext, isDisabled
 this : [comobj] IDWritePixelSnapping ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8540,6 +11239,8 @@ isDisabled : [var]
 %index
 IDWritePixelSnapping_GetCurrentTransform
 ’ŠÛÀ•W‚ğ DIP ‚Éƒ}ƒbƒsƒ“ƒO‚·‚é•ÏŠ·‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWritePixelSnapping
 %prm
 this, clientDrawingContext, transform
 this : [comobj] IDWritePixelSnapping ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8555,6 +11256,8 @@ transform : [var] Œ^: DWRITE_MATRIX* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒsƒNƒZƒ‹ƒXƒiƒbƒsƒ“ƒ
 %index
 IDWritePixelSnapping_GetPixelsPerDip
 DIP ‚ ‚½‚è‚Ì•¨—ƒsƒNƒZƒ‹”‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWritePixelSnapping
 %prm
 this, clientDrawingContext, pixelsPerDip
 this : [comobj] IDWritePixelSnapping ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8574,6 +11277,8 @@ DIP (ƒfƒoƒCƒX“Æ—§ƒsƒNƒZƒ‹) ‚Í 1/96 ƒCƒ“ƒ`‚Å‚ ‚é‚½‚ßApixelsPerDip ‚Ì’l‚Í 1 ƒCƒ“ƒ
 %index
 IDWriteRenderingParams_GetGamma
 ƒKƒ“ƒ}•â³‚Ég—p‚³‚ê‚éƒKƒ“ƒ}’l‚ğæ“¾‚·‚éB—LŒø‚È’l‚Í 0 ‚æ‚è‘å‚«‚­A256 ‚ğ’´‚¦‚Ä‚Í‚È‚ç‚È‚¢B
+%group
+COM misc / IDWriteRenderingParams
 %prm
 this
 this : [comobj] IDWriteRenderingParams ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8590,6 +11295,8 @@ this : [comobj] IDWriteRenderingParams ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteRenderingParams_GetEnhancedContrast
 ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚Ì‹­’²ƒRƒ“ƒgƒ‰ƒXƒgƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB—LŒø‚È’l‚Í 0 ˆÈã‚Å‚ ‚éB
+%group
+COM misc / IDWriteRenderingParams
 %prm
 this
 this : [comobj] IDWriteRenderingParams ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8606,6 +11313,8 @@ this : [comobj] IDWriteRenderingParams ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteRenderingParams_GetClearTypeLevel
 ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚Ì ClearType ƒŒƒxƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteRenderingParams
 %prm
 this
 this : [comobj] IDWriteRenderingParams ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8624,6 +11333,8 @@ ClearType ƒŒƒxƒ‹‚Í ClearType
 %index
 IDWriteRenderingParams_GetPixelGeometry
 ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ÌƒsƒNƒZƒ‹ƒWƒIƒƒgƒŠ‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteRenderingParams
 %prm
 this
 this : [comobj] IDWriteRenderingParams ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8637,6 +11348,8 @@ this : [comobj] IDWriteRenderingParams ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteRenderingParams_GetRenderingMode
 ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteRenderingParams
 %prm
 this
 this : [comobj] IDWriteRenderingParams ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8655,6 +11368,8 @@ IDWriteFontFace::GetRecommendedRenderingMode ƒƒ\ƒbƒh‚ğg—p‚·‚éB
 %index
 IDWriteTextAnalysisSink_SetScriptAnalysis
 w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ‚É‘Î‚·‚éƒXƒNƒŠƒvƒg•ªÍ‚ğ•ñ‚·‚éB
+%group
+COM misc / IDWriteTextAnalysisSink
 %prm
 this, textPosition, textLength, scriptAnalysis
 this : [comobj] IDWriteTextAnalysisSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8671,6 +11386,8 @@ scriptAnalysis : [var] Œ^: const DWRITE_SCRIPT_ANALYSIS* ‘‹LŒnƒXƒNƒŠƒvƒg‚Ì 0 Šî
 %index
 IDWriteTextAnalysisSink_SetLineBreakpoints
 w’èˆÊ’u‚©‚çŠe•¶š‚É‘Î‚·‚é‰üs‹@‰ï‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextAnalysisSink
 %prm
 this, textPosition, textLength, lineBreakpoints
 this : [comobj] IDWriteTextAnalysisSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8687,6 +11404,8 @@ lineBreakpoints : [var] Œ^: DWRITE_LINE_BREAKPOINT* ŠJnˆÊ’u‚©‚çw’è”ÍˆÍ‚Ì––”ö‚Ü
 %index
 IDWriteTextAnalysisSink_SetBidiLevel
 ”ÍˆÍ‚É‘Î‚µ‚Ä‘o•ûŒüƒŒƒxƒ‹‚ğİ’è‚·‚éBƒ‰ƒ“•Ï‰» (–¾¦“I‚Ü‚½‚Í‰ğŒˆ‚³‚ê‚½ˆÃ–Ù“I) ‚²‚Æ‚É 1 “x‚¾‚¯ŒÄ‚Î‚ê‚éB
+%group
+COM misc / IDWriteTextAnalysisSink
 %prm
 this, textPosition, textLength, explicitLevel, resolvedLevel
 this : [comobj] IDWriteTextAnalysisSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8704,6 +11423,8 @@ resolvedLevel : [int] Œ^: UINT8 –¾¦ƒŒƒxƒ‹‚Æ•¶š‚Ì©‘R‚È•ûŒü«‚ğl—¶‚µA‚·‚×‚Ä‚Ì
 %index
 IDWriteTextAnalysisSink_SetNumberSubstitution
 ƒeƒLƒXƒg•ªÍ‚Ì‰e‹¿‚ğó‚¯‚éƒeƒLƒXƒg”ÍˆÍ‚É‘Î‚µ‚Ä”š’uŠ·‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextAnalysisSink
 %prm
 this, textPosition, textLength, numberSubstitution
 this : [comobj] IDWriteTextAnalysisSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8720,6 +11441,8 @@ numberSubstitution : [comobj] Œ^: IDWriteNumberSubstitution* w’èƒƒP[ƒ‹‚É‘Î‚·‚
 %index
 IDWriteTextAnalysisSource_GetTextAtPosition
 w’è‚µ‚½ƒeƒLƒXƒgˆÊ’u‚©‚çn‚Ü‚éƒeƒLƒXƒgƒuƒƒbƒN‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextAnalysisSource
 %prm
 this, textPosition, textString, textLength
 this : [comobj] IDWriteTextAnalysisSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8740,6 +11463,8 @@ NULL ‚ğ•Ô‚·‚ÆƒeƒLƒXƒg‚ÌI’[ (ÅI•¶š‚ÌŸ‚ÌˆÊ’u)
 %index
 IDWriteTextAnalysisSource_GetTextBeforePosition
 w’è‚µ‚½ˆÊ’u‚Ì’¼‘O‚É‚ ‚éƒeƒLƒXƒgƒuƒƒbƒN‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextAnalysisSource
 %prm
 this, textPosition, textString, textLength
 this : [comobj] IDWriteTextAnalysisSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8760,6 +11485,8 @@ NULL ‚ÍAtextPosition ‚ª 0 ‚Å‚ ‚é‚©AtextPosition
 %index
 IDWriteTextAnalysisSource_GetParagraphReadingDirection
 ’i—‚Ì“Ç‚İæ‚è•ûŒü‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextAnalysisSource
 %prm
 this
 this : [comobj] IDWriteTextAnalysisSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8773,6 +11500,8 @@ this : [comobj] IDWriteTextAnalysisSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï
 %index
 IDWriteTextAnalysisSource_GetLocaleName
 ƒeƒLƒXƒg•ªÍ‚Ì‰e‹¿‚ğó‚¯‚é”ÍˆÍ‚É‚¨‚¯‚éƒƒP[ƒ‹–¼‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextAnalysisSource
 %prm
 this, textPosition, textLength, localeName
 this : [comobj] IDWriteTextAnalysisSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8792,6 +11521,8 @@ localeName ƒ|ƒCƒ“ƒ^‚ÍŸ‚ÌŒÄ‚Ño‚µ‚Ü‚ÅA‚Ü‚½‚Í•ªÍ‚ª•Ô‚é‚Ü‚Å—LŒø‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚
 %index
 IDWriteTextAnalysisSource_GetNumberSubstitution
 ƒeƒLƒXƒg•ªÍ‚Ì‰e‹¿‚ğó‚¯‚éƒeƒLƒXƒg”ÍˆÍ‚©‚ç”š’uŠ·‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextAnalysisSource
 %prm
 this, textPosition, textLength, numberSubstitution
 this : [comobj] IDWriteTextAnalysisSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8812,6 +11543,8 @@ numberSubstitution : [comobj] Œ^: IDWriteNumberSubstitution** IDWriteFactory::Cr
 %index
 IDWriteTextAnalyzer_AnalyzeScript
 ƒeƒLƒXƒg”ÍˆÍ‚ğƒXƒNƒŠƒvƒg‹«ŠE‚É‚Â‚¢‚Ä‰ğÍ‚µAƒ\[ƒX‚©‚çƒeƒLƒXƒg‘®«‚ğ“Ç‚İæ‚Á‚ÄƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒN SetScript ‚É Unicode ƒXƒNƒŠƒvƒg ID ‚ğ•ñ‚·‚éB
+%group
+COM misc / IDWriteTextAnalyzer
 %prm
 this, analysisSource, textPosition, textLength, analysisSink
 this : [comobj] IDWriteTextAnalyzer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8830,6 +11563,8 @@ analysisSink : [comobj] Œ^: IDWriteTextAnalysisSink* ƒeƒLƒXƒg‰ğÍŒ‹‰Ê‚ğó‚¯æ‚éƒ
 %index
 IDWriteTextAnalyzer_AnalyzeBidi
 ƒeƒLƒXƒg”ÍˆÍ‚ğƒXƒNƒŠƒvƒg‚Ì•ûŒü«‚É‚Â‚¢‚Ä‰ğÍ‚µAƒ\[ƒX‚©‚ç‘®«‚ğ“Ç‚İæ‚Á‚ÄƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒN SetBidiLevel ‚ÉƒŒƒxƒ‹‚ğ•ñ‚·‚éB
+%group
+COM misc / IDWriteTextAnalyzer
 %prm
 this, analysisSource, textPosition, textLength, analysisSink
 this : [comobj] IDWriteTextAnalyzer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8852,6 +11587,8 @@ analysisSink : [comobj] Œ^: IDWriteTextAnalysisSink* ƒeƒLƒXƒg‰ğÍŒ‹‰Ê‚ğó‚¯æ‚éƒ
 %index
 IDWriteTextAnalyzer_AnalyzeNumberSubstitution
 ƒeƒLƒXƒg”ÍˆÍ‚ğ”š’uŠ·‚ª“K—p‰Â”\‚È‹æŠÔ‚É‚Â‚¢‚Ä‰ğÍ‚µAƒ\[ƒX‚©‚ç‘®«‚ğ“Ç‚İæ‚Á‚ÄƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒN SetNumberSubstitution ‚É’uŠ·‰Â”\‚È”ÍˆÍ‚ğ•ñ‚·‚éB
+%group
+COM misc / IDWriteTextAnalyzer
 %prm
 this, analysisSource, textPosition, textLength, analysisSink
 this : [comobj] IDWriteTextAnalyzer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8874,6 +11611,8 @@ SetNumberSubstitution ‚É’uŠ·‰Â”\‚È”ÍˆÍ‚ğ•ñ‚·‚éB
 %index
 IDWriteTextAnalyzer_AnalyzeLineBreakpoints
 ƒeƒLƒXƒg”ÍˆÍ‚ğ‰üs‰Â”\‰ÓŠ‚É‚Â‚¢‚Ä‰ğÍ‚µAƒ\[ƒX‚©‚ç‘®«‚ğ“Ç‚İæ‚Á‚ÄƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒN SetLineBreakpoints ‚É‰üs‰Â”\‰ÓŠ‚ğ•ñ‚·‚éB
+%group
+COM misc / IDWriteTextAnalyzer
 %prm
 this, analysisSource, textPosition, textLength, analysisSink
 this : [comobj] IDWriteTextAnalyzer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8896,6 +11635,8 @@ analysisSink : [comobj] Œ^: IDWriteTextAnalysisSink* ƒeƒLƒXƒg‰ğÍŒ‹‰Ê‚ğó‚¯æ‚éƒ
 %index
 IDWriteTextAnalyzer_GetGlyphs
 “ü—ÍƒeƒLƒXƒg•¶š—ñ‚ğ‰ğÍ‚µAƒtƒHƒ“ƒg‚Æ‘‹LŒn‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‹K‘¥‚É]‚Á‚ÄƒOƒŠƒt‚¨‚æ‚ÑŠÖ˜A‚·‚éƒOƒŠƒtƒf[ƒ^‚ÌW‡‚Éƒ}ƒbƒsƒ“ƒO‚·‚éB
+%group
+COM misc / IDWriteTextAnalyzer
 %prm
 this, textString, textLength, fontFace, isSideways, isRightToLeft, scriptAnalysis, localeName, numberSubstitution, features, featureRangeLengths, featureRanges, maxGlyphCount, clusterMap, textProps, glyphIndices, glyphProps, actualGlyphCount
 this : [comobj] IDWriteTextAnalyzer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8933,6 +11674,8 @@ actualGlyphCount : [int] Œ^: UINT32* ƒƒ\ƒbƒh‚ª–ß‚éÛAŒÄ‚Ño‚µ‚ª¬Œ÷‚µ‚½ê‡‚É•
 %index
 IDWriteTextAnalyzer_GetGlyphPlacements
 GetGlyphs ƒƒ\ƒbƒh‚©‚ço—Í‚³‚ê‚½ƒOƒŠƒt‚ğAƒtƒHƒ“ƒg‚Æ‘‹LŒn‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‹K‘¥‚É]‚Á‚Ä”z’u‚·‚éB
+%group
+COM misc / IDWriteTextAnalyzer
 %prm
 this, textString, clusterMap, textProps, textLength, glyphIndices, glyphProps, glyphCount, fontFace, fontEmSize, isSideways, isRightToLeft, scriptAnalysis, localeName, features, featureRangeLengths, featureRanges, glyphAdvances, glyphOffsets
 this : [comobj] IDWriteTextAnalyzer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8964,6 +11707,8 @@ GetGlyphs ƒƒ\ƒbƒh‚©‚ço—Í‚³‚ê‚½ƒOƒŠƒt‚ğAƒtƒHƒ“ƒg‚Æ‘‹LŒn‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‹K‘¥‚É]
 %index
 IDWriteTextAnalyzer_GetGdiCompatibleGlyphPlacements
 GetGlyphs ƒƒ\ƒbƒh‚©‚ço—Í‚³‚ê‚½ƒOƒŠƒt‚ğAƒtƒHƒ“ƒg‚Æ‘‹LŒn‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‹K‘¥‚É]‚Á‚Ä”z’u‚·‚éB
+%group
+COM misc / IDWriteTextAnalyzer
 %prm
 this, textString, clusterMap, textProps, textLength, glyphIndices, glyphProps, glyphCount, fontFace, fontEmSize, pixelsPerDip, transform, useGdiNatural, isSideways, isRightToLeft, scriptAnalysis, localeName, features, featureRangeLengths, featureRanges, glyphAdvances, glyphOffsets
 this : [comobj] IDWriteTextAnalyzer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -8999,6 +11744,8 @@ GetGlyphs ƒƒ\ƒbƒh‚©‚ço—Í‚³‚ê‚½ƒOƒŠƒt‚ğAƒtƒHƒ“ƒg‚Æ‘‹LŒn‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‹K‘¥‚É]
 %index
 IDWriteTextFormat_SetTextAlignment
 IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìæ“ª‘¤‚Æ––”ö‘¤‚Ì’[‚É‘Î‚·‚éA’i—“à‚ÌƒeƒLƒXƒg‚Ì”z’u‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this, textAlignment
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9020,6 +11767,8 @@ DWRITE_TEXT_ALIGNMENT_LEADINGADWRITE_TEXT_ALIGNMENT_CENTERADWRITE_TEXT_ALIGNME
 %index
 IDWriteTextFormat_SetParagraphAlignment
 ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìã‰º’[‚É‘Î‚·‚é’i—‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this, paragraphAlignment
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9034,6 +11783,8 @@ paragraphAlignment : [int] Œ^: DWRITE_PARAGRAPH_ALIGNMENT ’i—‚Éİ’è‚·‚é’i—”z’u
 %index
 IDWriteTextFormat_SetWordWrapping
 ƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this, wordWrapping
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9048,6 +11799,8 @@ wordWrapping : [int] Œ^: DWRITE_WORD_WRAPPING ’i—‚Éİ’è‚·‚éƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡
 %index
 IDWriteTextFormat_SetReadingDirection
 ’i—‚Ì“Ç‚İæ‚è•ûŒü‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this, readingDirection
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9070,6 +11823,8 @@ DWRITE_READING_DIRECTION_TOP_TO_BOTTOM) ‚ğİ’è‚·‚éê‡ASetFlowDirection
 %index
 IDWriteTextFormat_SetFlowDirection
 ’i—‚Ìƒtƒ[•ûŒü‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this, flowDirection
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9084,6 +11839,8 @@ flowDirection : [int] Œ^: DWRITE_FLOW_DIRECTION ’i—‚Ìƒtƒ[•ûŒüBÚ×‚Í DWRITE_
 %index
 IDWriteTextFormat_SetIncrementalTabStop
 —×Ú‚·‚é 2 ‚Â‚Ìƒ^ƒuƒXƒgƒbƒvŠÔ‚ÉŒÅ’è‹——£‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this, incrementalTabStop
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9098,6 +11855,8 @@ incrementalTabStop : [float] Œ^: FLOAT —×Ú‚·‚é 2 ‚Â‚Ìƒ^ƒuƒXƒgƒbƒvŠÔ‚ÌŒÅ’è‹——£B
 %index
 IDWriteTextFormat_SetTrimming
 ƒŒƒCƒAƒEƒg•‚ğƒI[ƒo[ƒtƒ[‚·‚éƒeƒLƒXƒg‚ÌƒgƒŠƒ~ƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this, trimmingOptions, trimmingSign
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9113,6 +11872,8 @@ trimmingSign : [comobj] Œ^: IDWriteInlineObject* ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌÈ—ª‹L†
 %index
 IDWriteTextFormat_SetLineSpacing
 sŠÔ‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this, lineSpacingMethod, lineSpacing, baseline
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9132,6 +11893,8 @@ baseline : [float] Œ^: FLOAT s“ª‚©‚çƒx[ƒXƒ‰ƒCƒ“‚Ü‚Å‚Ì‹——£BlineSpacing ‚É‘Î‚·‚
 %index
 IDWriteTextFormat_GetTextAlignment
 ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìæ“ª‘¤‚Æ––”ö‘¤‚Ì’[‚É‘Î‚·‚éƒeƒLƒXƒg‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9145,6 +11908,8 @@ this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextFormat_GetParagraphAlignment
 ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìã‰º’[‚É‘Î‚·‚é’i—‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9158,6 +11923,8 @@ this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextFormat_GetWordWrapping
 ƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9171,6 +11938,8 @@ this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextFormat_GetReadingDirection
 ’i—“à‚ÌƒeƒLƒXƒg‚ÌŒ»İ‚Ì“Ç‚İæ‚è•ûŒü‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9184,6 +11953,8 @@ this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextFormat_GetFlowDirection
 ƒeƒLƒXƒgs‚ª—¬‚ê‚é•ûŒü‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9199,6 +11970,8 @@ this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextFormat_GetIncrementalTabStop
 ƒCƒ“ƒNƒŠƒƒ“ƒ^ƒ‹ƒ^ƒuƒXƒgƒbƒvˆÊ’u‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9212,6 +11985,8 @@ this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextFormat_GetTrimming
 ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚©‚çƒI[ƒo[ƒtƒ[‚·‚éƒeƒLƒXƒg‚ÌƒgƒŠƒ~ƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this, trimmingOptions, trimmingSign
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9227,6 +12002,8 @@ trimmingSign : [comobj] Œ^: IDWriteInlineObject** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒgƒŠ
 %index
 IDWriteTextFormat_GetLineSpacing
 •¡”s‚ÌƒeƒLƒXƒg’i—‚Éİ’è‚³‚ê‚½sŠÔ’²®‚ğæ“¾‚·‚éB(IDWriteTextFormat.GetLineSpacing)
+%group
+COM misc / IDWriteTextFormat
 %prm
 this, lineSpacingMethod, lineSpacing, baseline
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9243,6 +12020,8 @@ baseline : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAs“ª‚©‚çƒx[ƒXƒ‰ƒCƒ“‚Ü‚Å
 %index
 IDWriteTextFormat_GetFontCollection
 Œ»İ‚ÌƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this, fontCollection
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9257,6 +12036,8 @@ fontCollection : [comobj] Œ^: IDWriteFontCollection** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA
 %index
 IDWriteTextFormat_GetFontFamilyNameLength
 ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9270,6 +12051,8 @@ this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextFormat_GetFontFamilyName
 ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ÌƒRƒs[‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this, fontFamilyName, nameSize
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9285,6 +12068,8 @@ nameSize : [int] Œ^: UINT32 fontFamilyName •¶š”z—ñ‚ÌƒTƒCƒY (I’[‚Ì NULL •¶š‚ğŠ
 %index
 IDWriteTextFormat_GetFontWeight
 ƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒEƒFƒCƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9298,6 +12083,8 @@ this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextFormat_GetFontStyle
 ƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9311,6 +12098,8 @@ this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextFormat_GetFontStretch
 ƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9324,6 +12113,8 @@ this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextFormat_GetFontSize
 ƒtƒHƒ“ƒgƒTƒCƒY‚ğ DIP ’PˆÊ‚Åæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9337,6 +12128,8 @@ this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextFormat_GetLocaleNameLength
 ƒƒP[ƒ‹–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9350,6 +12143,8 @@ this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextFormat_GetLocaleName
 ƒƒP[ƒ‹–¼‚ÌƒRƒs[‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextFormat
 %prm
 this, localeName, nameSize
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9364,167 +12159,285 @@ nameSize : [int] Œ^: UINT32 •¶š”z—ñ‚ÌƒTƒCƒY (I’[‚Ì NULL •¶š‚ğŠÜ‚Ş•¶š”)Bƒƒ
 
 %index
 IDWriteTextLayout_SetTextAlignment
-IDWriteTextLayout::SetTextAlignment (vtable slot 3)
+IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìæ“ª‘¤‚Æ––”ö‘¤‚Ì’[‚É‘Î‚·‚éA’i—“à‚ÌƒeƒLƒXƒg‚Ì”z’u‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, textAlignment
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textAlignment : [int] 
+textAlignment : [int] Œ^: DWRITE_TEXT_ALIGNMENT ’i—‚Éİ’è‚·‚é DWRITE_TEXT_ALIGNMENT Œ^‚ÌƒeƒLƒXƒg”z’uƒIƒvƒVƒ‡ƒ“BÚ×‚Í”õl‚ğQÆB
 %inst
+IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìæ“ª‘¤‚Æ––”ö‘¤‚Ì’[‚É‘Î‚·‚éA’i—“à‚ÌƒeƒLƒXƒg‚Ì”z’u‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
+
+[”õl]
+ƒeƒLƒXƒg‚ÍƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìæ“ª‘¤‚Ü‚½‚Í––”ö‘¤‚Ì’[‚É‘µ‚¦‚é‚©A’†‰›‘µ‚¦‚É‚Å‚«‚éBŸ‚Ì}‚ÍA”z’u‚ğ‚»‚ê‚¼‚ê
+DWRITE_TEXT_ALIGNMENT_LEADINGADWRITE_TEXT_ALIGNMENT_CENTERADWRITE_TEXT_ALIGNMENT_TRAILING
+‚Éİ’è‚µ‚½ƒeƒLƒXƒg‚ğ¦‚µ‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDWriteTextLayout_SetParagraphAlignment
-IDWriteTextLayout::SetParagraphAlignment (vtable slot 4)
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìã‰º’[‚É‘Î‚·‚é’i—‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, paragraphAlignment
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-paragraphAlignment : [int] 
+paragraphAlignment : [int] Œ^: DWRITE_PARAGRAPH_ALIGNMENT ’i—‚Éİ’è‚·‚é’i—”z’uƒIƒvƒVƒ‡ƒ“BÚ×‚Í DWRITE_PARAGRAPH_ALIGNMENT ‚ğQÆB
 %inst
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìã‰º’[‚É‘Î‚·‚é’i—‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetWordWrapping
-IDWriteTextLayout::SetWordWrapping (vtable slot 5)
+ƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, wordWrapping
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-wordWrapping : [int] 
+wordWrapping : [int] Œ^: DWRITE_WORD_WRAPPING ’i—‚Éİ’è‚·‚éƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡ƒ“BÚ×‚Í DWRITE_WORD_WRAPPING ‚ğQÆB
 %inst
+ƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetReadingDirection
-IDWriteTextLayout::SetReadingDirection (vtable slot 6)
+’i—‚Ì“Ç‚İæ‚è•ûŒü‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, readingDirection
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-readingDirection : [int] 
+readingDirection : [int] Œ^: DWRITE_READING_DIRECTION ’i—‚ÌƒeƒLƒXƒg“Ç‚İæ‚è•ûŒü (‚½‚Æ‚¦‚ÎAƒAƒ‰ƒrƒAŒê‚Ì‚æ‚¤‚È‰E‚©‚ç¶‚É“Ç‚ŞŒ¾ŒêŒü‚¯‚É‚Í DWRITE_READING_DIRECTION_RIGHT_TO_LEFT)B
 %inst
+’i—‚Ì“Ç‚İæ‚è•ûŒü‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+“Ç‚İæ‚è•ûŒü‚Æƒtƒ[•ûŒü‚Íí‚ÉŒİ‚¢‚É 90 “x’¼Œğ‚·‚é‚æ‚¤‚Éİ’è‚·‚é•K—v‚ª‚ ‚éB‚³‚à‚È‚¢‚ÆADraw ‚â GetMetrics
+‚È‚Ç‚ÌƒŒƒCƒAƒEƒgŠÖ”‚ğg—p‚µ‚½Û‚É DWRITE_E_FLOWDIRECTIONCONFLICTS
+ƒGƒ‰[‚ª”­¶‚·‚éB‚µ‚½‚ª‚Á‚ÄA‚’¼‚Ì“Ç‚İæ‚è•ûŒü (‚½‚Æ‚¦‚Î
+DWRITE_READING_DIRECTION_TOP_TO_BOTTOM) ‚ğİ’è‚·‚éê‡ASetFlowDirection
+‚ğg—p‚µ‚Äƒtƒ[•ûŒü‚à“KØ‚É (‚½‚Æ‚¦‚Î DWRITE_FLOW_DIRECTION_RIGHT_TO_LEFT ‚É)
+İ’è‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 IDWriteTextLayout_SetFlowDirection
-IDWriteTextLayout::SetFlowDirection (vtable slot 7)
+’i—‚Ìƒtƒ[•ûŒü‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, flowDirection
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-flowDirection : [int] 
+flowDirection : [int] Œ^: DWRITE_FLOW_DIRECTION ’i—‚Ìƒtƒ[•ûŒüBÚ×‚Í DWRITE_FLOW_DIRECTION ‚ğQÆB
 %inst
+’i—‚Ìƒtƒ[•ûŒü‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetIncrementalTabStop
-IDWriteTextLayout::SetIncrementalTabStop (vtable slot 8)
+—×Ú‚·‚é 2 ‚Â‚Ìƒ^ƒuƒXƒgƒbƒvŠÔ‚ÉŒÅ’è‹——£‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, incrementalTabStop
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-incrementalTabStop : [float] 
+incrementalTabStop : [float] Œ^: FLOAT —×Ú‚·‚é 2 ‚Â‚Ìƒ^ƒuƒXƒgƒbƒvŠÔ‚ÌŒÅ’è‹——£B
 %inst
+—×Ú‚·‚é 2 ‚Â‚Ìƒ^ƒuƒXƒgƒbƒvŠÔ‚ÉŒÅ’è‹——£‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetTrimming
-IDWriteTextLayout::SetTrimming (vtable slot 9)
+ƒŒƒCƒAƒEƒg•‚ğƒI[ƒo[ƒtƒ[‚·‚éƒeƒLƒXƒg‚ÌƒgƒŠƒ~ƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, trimmingOptions, trimmingSign
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-trimmingOptions : [var] 
-trimmingSign : [comobj] 
+trimmingOptions : [var] Œ^: const DWRITE_TRIMMING* ƒeƒLƒXƒgƒgƒŠƒ~ƒ“ƒOƒIƒvƒVƒ‡ƒ“B
+trimmingSign : [comobj] Œ^: IDWriteInlineObject* ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌÈ—ª‹L†B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚¢BÚ×‚Í IDWriteInlineObject ‚ğQÆB
 %inst
+ƒŒƒCƒAƒEƒg•‚ğƒI[ƒo[ƒtƒ[‚·‚éƒeƒLƒXƒg‚ÌƒgƒŠƒ~ƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetLineSpacing
-IDWriteTextLayout::SetLineSpacing (vtable slot 10)
+sŠÔ‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, lineSpacingMethod, lineSpacing, baseline
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-lineSpacingMethod : [int] 
-lineSpacing : [float] 
-baseline : [float] 
+lineSpacingMethod : [int] Œ^: DWRITE_LINE_SPACING_METHOD s‚Ì‚‚³‚ÌŒˆ’è•û–@‚ğw’è‚·‚éBÚ×‚Í DWRITE_LINE_SPACING_METHOD ‚ğQÆB
+lineSpacing : [float] Œ^: FLOAT s‚Ì‚‚³A‚Â‚Ü‚è‚ ‚éƒx[ƒXƒ‰ƒCƒ“‚©‚ç•Ê‚Ìƒx[ƒXƒ‰ƒCƒ“‚Ü‚Å‚Ì‹——£B
+baseline : [float] Œ^: FLOAT s“ª‚©‚çƒx[ƒXƒ‰ƒCƒ“‚Ü‚Å‚Ì‹——£BlineSpacing ‚É‘Î‚·‚é‘Ã“–‚È”ä—¦‚Í 80 ƒp[ƒZƒ“ƒg‚Å‚ ‚éB
 %inst
+sŠÔ‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒfƒtƒHƒ‹ƒg‚Ì•û–@‚Å‚ÍAŠÔŠu‚Í“à—e‚Ì‚İ‚ÉˆË‘¶‚·‚éBˆê—l‚ÈŠÔŠu‚Ìê‡Aw’è‚³‚ê‚½s‚Ì‚‚³‚ª“à—e‚ğã‘‚«‚·‚éB
 
 
 %index
 IDWriteTextLayout_GetTextAlignment
-IDWriteTextLayout::GetTextAlignment (vtable slot 11)
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìæ“ª‘¤‚Æ––”ö‘¤‚Ì’[‚É‘Î‚·‚éƒeƒLƒXƒg‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìæ“ª‘¤‚Æ––”ö‘¤‚Ì’[‚É‘Î‚·‚éƒeƒLƒXƒg‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: DWRITE_TEXT_ALIGNMENT Œ»İ‚Ì’i—‚ÌƒeƒLƒXƒg”z’uƒIƒvƒVƒ‡ƒ“‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetParagraphAlignment
-IDWriteTextLayout::GetParagraphAlignment (vtable slot 12)
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìã‰º’[‚É‘Î‚·‚é’i—‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìã‰º’[‚É‘Î‚·‚é’i—‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: DWRITE_PARAGRAPH_ALIGNMENT Œ»İ‚Ì’i—”z’uƒIƒvƒVƒ‡ƒ“‚ğ¦‚·’lB
 
 
 %index
 IDWriteTextLayout_GetWordWrapping
-IDWriteTextLayout::GetWordWrapping (vtable slot 13)
+ƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: DWRITE_WORD_WRAPPING ƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡ƒ“‚ğ•Ô‚·BÚ×‚Í DWRITE_WORD_WRAPPING ‚ğQÆB
 
 
 %index
 IDWriteTextLayout_GetReadingDirection
-IDWriteTextLayout::GetReadingDirection (vtable slot 14)
+’i—“à‚ÌƒeƒLƒXƒg‚ÌŒ»İ‚Ì“Ç‚İæ‚è•ûŒü‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+’i—“à‚ÌƒeƒLƒXƒg‚ÌŒ»İ‚Ì“Ç‚İæ‚è•ûŒü‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: DWRITE_READING_DIRECTION ’i—“à‚ÌƒeƒLƒXƒg‚ÌŒ»İ‚Ì“Ç‚İæ‚è•ûŒü‚ğ¦‚·’lB
 
 
 %index
 IDWriteTextLayout_GetFlowDirection
-IDWriteTextLayout::GetFlowDirection (vtable slot 15)
+ƒeƒLƒXƒgs‚ª—¬‚ê‚é•ûŒü‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒeƒLƒXƒgs‚ª—¬‚ê‚é•ûŒü‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: DWRITE_FLOW_DIRECTION
+eƒRƒ“ƒeƒi“à‚ÅƒeƒLƒXƒgs‚ª—¬‚ê‚é•ûŒüB‚½‚Æ‚¦‚ÎADWRITE_FLOW_DIRECTION_TOP_TO_BOTTOM
+‚ÍƒeƒLƒXƒgs‚ªã‚©‚ç‰º‚Ö”z’u‚³‚ê‚é‚±‚Æ‚ğ¦‚·B
 
 
 %index
 IDWriteTextLayout_GetIncrementalTabStop
-IDWriteTextLayout::GetIncrementalTabStop (vtable slot 16)
+ƒCƒ“ƒNƒŠƒƒ“ƒ^ƒ‹ƒ^ƒuƒXƒgƒbƒvˆÊ’u‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒCƒ“ƒNƒŠƒƒ“ƒ^ƒ‹ƒ^ƒuƒXƒgƒbƒvˆÊ’u‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: FLOAT ƒCƒ“ƒNƒŠƒƒ“ƒ^ƒ‹ƒ^ƒuƒXƒgƒbƒv‚Ì’lB
 
 
 %index
 IDWriteTextLayout_GetTrimming
-IDWriteTextLayout::GetTrimming (vtable slot 17)
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚©‚çƒI[ƒo[ƒtƒ[‚·‚éƒeƒLƒXƒg‚ÌƒgƒŠƒ~ƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, trimmingOptions, trimmingSign
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-trimmingOptions : [var] 
-trimmingSign : [comobj] 
+trimmingOptions : [var] Œ^: DWRITE_TRIMMING* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒI[ƒo[ƒtƒ[ƒeƒLƒXƒg‚ÌƒgƒŠƒ~ƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğ•Û‚·‚é DWRITE_TRIMMING \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
+trimmingSign : [comobj] Œ^: IDWriteInlineObject** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒgƒŠƒ~ƒ“ƒOÈ—ª‹L†‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚¢B
 %inst
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚©‚çƒI[ƒo[ƒtƒ[‚·‚éƒeƒLƒXƒg‚ÌƒgƒŠƒ~ƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetLineSpacing
-IDWriteTextLayout::GetLineSpacing (vtable slot 18)
+•¡”s‚ÌƒeƒLƒXƒg’i—‚Éİ’è‚³‚ê‚½sŠÔ’²®‚ğæ“¾‚·‚éB(IDWriteTextFormat.GetLineSpacing)
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, lineSpacingMethod, lineSpacing, baseline
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-lineSpacingMethod : [var] 
-lineSpacing : [float] 
-baseline : [float] 
+lineSpacingMethod : [var] Œ^: DWRITE_LINE_SPACING_METHOD* s‚Ì‚‚³‚ÌŒˆ’è•û–@‚ğ¦‚·’lB
+lineSpacing : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAs‚Ì‚‚³A‚Â‚Ü‚è‚ ‚éƒx[ƒXƒ‰ƒCƒ“‚©‚ç•Ê‚Ìƒx[ƒXƒ‰ƒCƒ“‚Ü‚Å‚Ì‹——£‚ğŠi”[‚·‚éB
+baseline : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAs“ª‚©‚çƒx[ƒXƒ‰ƒCƒ“‚Ü‚Å‚Ì‹——£‚ğŠi”[‚·‚éBlineSpacing ‚É‘Î‚·‚é‘Ã“–‚È”ä—¦‚Í 80 ƒp[ƒZƒ“ƒg‚Å‚ ‚éB
 %inst
+•¡”s‚ÌƒeƒLƒXƒg’i—‚Éİ’è‚³‚ê‚½sŠÔ’²®‚ğæ“¾‚·‚éB(IDWriteTextFormat.GetLineSpacing)
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetFontCollection
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, fontCollection
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9539,6 +12452,8 @@ fontCollection : [comobj] Œ^: IDWriteFontCollection** Œ»İ‚ÌƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“
 %index
 IDWriteTextLayout_GetFontFamilyNameLength
 Œ»İ‚ÌˆÊ’u‚É‚ ‚éƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9552,6 +12467,8 @@ this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextLayout_GetFontFamilyName
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğƒRƒs[‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, fontFamilyName, nameSize
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9567,6 +12484,8 @@ nameSize : [int] Œ^: UINT32 I’[ NULL •¶š‚ğŠÜ‚ŞA•¶š”’PˆÊ‚Å‚Ì•¶š”z—ñ‚ÌƒTƒCƒY
 %index
 IDWriteTextLayout_GetFontWeight
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒEƒFƒCƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9580,6 +12499,8 @@ this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextLayout_GetFontStyle
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹ (ŒXÎ‚Æ‚àŒÄ‚Î‚ê‚é) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9593,6 +12514,8 @@ this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextLayout_GetFontStretch
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9606,6 +12529,8 @@ this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextLayout_GetFontSize
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒg em ‚‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9619,6 +12544,8 @@ this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextLayout_GetLocaleNameLength
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒƒP[ƒ‹–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9632,6 +12559,8 @@ this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextLayout_GetLocaleName
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒƒP[ƒ‹–¼‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, localeName, nameSize
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9647,6 +12576,8 @@ nameSize : [int] Œ^: UINT32 I’[ NULL •¶š‚ğŠÜ‚ŞA•¶š”’PˆÊ‚Å‚Ì•¶š”z—ñ‚ÌƒTƒCƒY
 %index
 IDWriteTextLayout_SetMaxWidth
 ƒŒƒCƒAƒEƒg‚ÌÅ‘å•‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, maxWidth
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9661,6 +12592,8 @@ maxWidth : [float] Œ^: FLOAT ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚ÌÅ‘å•‚ğ¦‚·’lB
 %index
 IDWriteTextLayout_SetMaxHeight
 ƒŒƒCƒAƒEƒg‚ÌÅ‘å‚‚³‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, maxHeight
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9675,6 +12608,8 @@ maxHeight : [float] Œ^: FLOAT ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚ÌÅ‘å‚‚³‚ğ¦‚·’lB
 %index
 IDWriteTextLayout_SetFontCollection
 ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, fontCollection, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9690,6 +12625,8 @@ textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %index
 IDWriteTextLayout_SetFontFamilyName
 w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚Äƒkƒ‹I’[‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, fontFamilyName, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9705,6 +12642,8 @@ textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %index
 IDWriteTextLayout_SetFontWeight
 DWRITE_TEXT_RANGE \‘¢‘Ì‚Åw’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒtƒHƒ“ƒgƒEƒFƒCƒg‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, fontWeight, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9726,6 +12665,8 @@ Linotype ‘‘Ì‚Ì Normal ‚Æ UltraBold ƒEƒFƒCƒg‚Ì—á‚ğ¦‚µ‚Ä‚¢‚éB
 %index
 IDWriteTextLayout_SetFontStyle
 DWRITE_TEXT_RANGE \‘¢‘Ì‚Åw’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, fontStyle, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9746,6 +12687,8 @@ DWRITE_TEXT_RANGE \‘¢‘Ì‚Åw’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒtƒHƒ“ƒgƒXƒ^ƒC
 %index
 IDWriteTextLayout_SetFontStretch
 w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, fontStretch, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9761,6 +12704,8 @@ textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %index
 IDWriteTextLayout_SetFontSize
 w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚Ä DIP ’PˆÊ‚ÌƒtƒHƒ“ƒgƒTƒCƒY‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, fontSize, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9776,6 +12721,8 @@ textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %index
 IDWriteTextLayout_SetUnderline
 w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚Ä‰ºü‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, hasUnderline, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9791,6 +12738,8 @@ textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %index
 IDWriteTextLayout_SetStrikethrough
 w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚Äæ‚èÁ‚µü‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, hasStrikethrough, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9806,6 +12755,8 @@ textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %index
 IDWriteTextLayout_SetDrawingEffect
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æƒGƒtƒFƒNƒg‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, drawingEffect, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9826,6 +12777,8 @@ ID2D1Brush
 %index
 IDWriteTextLayout_SetInlineObject
 ƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, inlineObject, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9846,6 +12799,8 @@ DrawInlineObject ƒR[ƒ‹ƒoƒbƒN‚ğ’Ê‚¶‚ÄƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É“n‚³‚ê‚éB‚»‚Ì”ÍˆÍ“à‚Ì”Cˆ
 %index
 IDWriteTextLayout_SetTypography
 w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒtƒHƒ“ƒgƒ^ƒCƒ|ƒOƒ‰ƒtƒB‹@”\‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, typography, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9861,6 +12816,8 @@ textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %index
 IDWriteTextLayout_SetLocaleName
 w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒƒP[ƒ‹–¼‚ğİ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, localeName, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9876,6 +12833,8 @@ textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %index
 IDWriteTextLayout_GetMaxWidth
 ƒŒƒCƒAƒEƒg‚ÌÅ‘å•‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9889,6 +12848,8 @@ this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTextLayout_GetMaxHeight
 ƒŒƒCƒAƒEƒg‚ÌÅ‘å‚‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9900,8 +12861,10 @@ this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 
 
 %index
-IDWriteTextLayout_GetFontCollection
+IDWriteTextLayout_GetFontCollection_at
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, fontCollection, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9916,8 +12879,10 @@ textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒ
 
 
 %index
-IDWriteTextLayout_GetFontFamilyNameLength
+IDWriteTextLayout_GetFontFamilyNameLength_at
 Œ»İ‚ÌˆÊ’u‚É‚ ‚éƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, nameLength, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9932,8 +12897,10 @@ textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒ
 
 
 %index
-IDWriteTextLayout_GetFontFamilyName
+IDWriteTextLayout_GetFontFamilyName_at
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğƒRƒs[‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, fontFamilyName, nameSize, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9949,8 +12916,10 @@ textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒ
 
 
 %index
-IDWriteTextLayout_GetFontWeight
+IDWriteTextLayout_GetFontWeight_at
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒEƒFƒCƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, fontWeight, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9965,8 +12934,10 @@ textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒ
 
 
 %index
-IDWriteTextLayout_GetFontStyle
+IDWriteTextLayout_GetFontStyle_at
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹ (ŒXÎ‚Æ‚àŒÄ‚Î‚ê‚é) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, fontStyle, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9981,8 +12952,10 @@ textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒ
 
 
 %index
-IDWriteTextLayout_GetFontStretch
+IDWriteTextLayout_GetFontStretch_at
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, fontStretch, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -9997,8 +12970,10 @@ textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒ
 
 
 %index
-IDWriteTextLayout_GetFontSize
+IDWriteTextLayout_GetFontSize_at
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒg em ‚‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, fontSize, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10015,6 +12990,8 @@ textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒ
 %index
 IDWriteTextLayout_GetUnderline
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚É‰ºü‚ª‘¶İ‚·‚é‚©‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, hasUnderline, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10031,6 +13008,8 @@ textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒ
 %index
 IDWriteTextLayout_GetStrikethrough
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Éæ‚èÁ‚µü‚ª‘¶İ‚·‚é‚©‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, hasStrikethrough, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10047,6 +13026,8 @@ textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒ
 %index
 IDWriteTextLayout_GetDrawingEffect
 w’è‚µ‚½ƒeƒLƒXƒgˆÊ’u‚É‚ ‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æƒGƒtƒFƒNƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, drawingEffect, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10063,6 +13044,8 @@ textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒ
 %index
 IDWriteTextLayout_GetInlineObject
 w’è‚µ‚½ˆÊ’u‚ÌƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, inlineObject, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10079,6 +13062,8 @@ textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒ
 %index
 IDWriteTextLayout_GetTypography
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Ìƒ^ƒCƒ|ƒOƒ‰ƒtƒBİ’è‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, typography, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10093,8 +13078,10 @@ textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒ
 
 
 %index
-IDWriteTextLayout_GetLocaleNameLength
+IDWriteTextLayout_GetLocaleNameLength_at
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒƒP[ƒ‹–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, nameLength, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10109,8 +13096,10 @@ textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒ
 
 
 %index
-IDWriteTextLayout_GetLocaleName
+IDWriteTextLayout_GetLocaleName_at
 w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒƒP[ƒ‹–¼‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, localeName, nameSize, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10128,6 +13117,8 @@ textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒ
 %index
 IDWriteTextLayout_Draw
 w’è‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg•`‰æƒRƒ“ƒeƒLƒXƒg‚ğg—p‚µ‚ÄƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, clientDrawingContext, renderer, originX, originY
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10157,6 +13148,8 @@ DWRITE_READING_DIRECTION_TOP_TO_BOTTOM (‚Ü‚½‚Í‰º‚©‚çã)
 %index
 IDWriteTextLayout_GetLineMetrics
 ƒeƒLƒXƒg•¶š—ñ‚ÌŒÂX‚ÌƒeƒLƒXƒgs‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, lineMetrics, maxLineCount, actualLineCount
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10178,6 +13171,8 @@ E_NOT_SUFFICIENT_BUFFER ‚ª•Ô‚³‚êA*actualLineCount ‚É•K—v‚Ès”‚ªİ’è‚³‚ê‚éB
 %index
 IDWriteTextLayout_GetMetrics
 ‘®İ’è‚³‚ê‚½•¶š—ñ‚Ì‘S‘Ì“I‚ÈƒƒgƒŠƒbƒN‚ğæ“¾‚·‚éB(IDWriteTextLayout.GetMetrics)
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, textMetrics
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10192,6 +13187,8 @@ textMetrics : [var] Œ^: DWRITE_TEXT_METRICS* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A‘®İ’èŒã‚
 %index
 IDWriteTextLayout_GetOverhangMetrics
 ƒŒƒCƒAƒEƒg‚¨‚æ‚Ñ‚»‚±‚ÉŠÜ‚Ü‚ê‚éƒeƒLƒXƒgƒOƒŠƒt‚âƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğŠÜ‚Ş‚·‚×‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚Í‚İo‚µ—Ê (DIP ’PˆÊ) ‚ğ•Ô‚·B
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, overhangs
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10210,6 +13207,8 @@ overhangs : [var] Œ^: **[**DWRITE\_OVERHANG\_METRICS**](/windows/win32/api/dwrit
 %index
 IDWriteTextLayout_GetClusterMetrics
 ŠeƒOƒŠƒtƒNƒ‰ƒXƒ^‚Ì˜_—ƒvƒƒpƒeƒB‚ÆŒv‘ª’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, clusterMetrics, maxClusterCount, actualClusterCount
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10231,6 +13230,8 @@ E_NOT_SUFFICIENT_BUFFER ‚ª•Ô‚³‚êAactualClusterCount ‚É•K—v‚ÈƒNƒ‰ƒXƒ^”‚ªİ’è‚³‚
 %index
 IDWriteTextLayout_DetermineMinWidth
 ’PŒê‘S‘Ì‚Ì•¶šŠÔ‚Å‹Ù‹}‰üs‚ª”­¶‚·‚é‚±‚Æ‚È‚­AƒŒƒCƒAƒEƒg‚Éİ’è‰Â”\‚ÈÅ¬•‚ğŒˆ’è‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, minWidth
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10246,6 +13247,8 @@ minWidth : [float] Œ^: **FLOAT\*** Å¬•B
 %index
 IDWriteTextLayout_HitTestPoint
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì¶ãˆÊ’u‚ğŠî€‚Æ‚µ‚½“Á’è‚ÌƒsƒNƒZƒ‹ˆÊ’u‚ğ“n‚µ‚Ä‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µAƒqƒbƒgƒeƒXƒg‚ª”­¶‚µ‚½ƒeƒLƒXƒg•¶š—ñ‚É‘Î‰‚·‚éƒqƒbƒgƒeƒXƒgƒƒgƒŠƒbƒN‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, pointX, pointY, isTrailingHit, isInside, hitTestMetrics
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10265,6 +13268,8 @@ hitTestMetrics : [var] Œ^: DWRITE_HIT_TEST_METRICS* ƒqƒbƒgƒeƒXƒgˆÊ’u‚ğŠ®‘S‚ÉˆÍ‚Ş
 %index
 IDWriteTextLayout_HitTestTextPosition
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒeƒLƒXƒgˆÊ’u‚ÆˆÊ’u‚Ì˜_—‘¤‚ğ—^‚¦‚ÄA‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì¶ã‚ğŠî€‚Æ‚µ‚½ƒsƒNƒZƒ‹ˆÊ’u‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, textPosition, isTrailingHit, pointX, pointY, hitTestMetrics
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10283,6 +13288,8 @@ hitTestMetrics : [var] Œ^: DWRITE_HIT_TEST_METRICS* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aw’è
 %index
 IDWriteTextLayout_HitTestTextRange
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚ÄAƒeƒLƒXƒgˆÊ’u‚Ì”ÍˆÍ‚É‘Î‰‚·‚éƒqƒbƒgƒeƒXƒgƒƒgƒŠƒbƒN‚ÌƒZƒbƒg‚ğæ“¾‚·‚éBå‚È—p“r‚Ìˆê‚Â‚ÍƒeƒLƒXƒg•¶š—ñ‚ÌƒnƒCƒ‰ƒCƒg‘I‘ğ‚ÌÀ‘•‚Å‚ ‚éB
+%group
+COM misc / IDWriteTextLayout
 %prm
 this, textPosition, textLength, originX, originY, hitTestMetrics, maxHitTestMetricsCount, actualHitTestMetricsCount
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10304,6 +13311,8 @@ actualHitTestMetricsCount : [int] Œ^: UINT32* hitTestMetrics ‚Ìƒoƒbƒtƒ@ƒƒ‚ƒŠ‚É•
 %index
 IDWriteTextRenderer_IsPixelSnappingDisabled
 IDWriteTextRenderer::IsPixelSnappingDisabled (vtable slot 3)
+%group
+COM misc / IDWriteTextRenderer
 %prm
 this, clientDrawingContext, isDisabled
 this : [comobj] IDWriteTextRenderer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10314,29 +13323,47 @@ isDisabled : [var]
 
 %index
 IDWriteTextRenderer_GetCurrentTransform
-IDWriteTextRenderer::GetCurrentTransform (vtable slot 4)
+’ŠÛÀ•W‚ğ DIP ‚Éƒ}ƒbƒsƒ“ƒO‚·‚é•ÏŠ·‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextRenderer
 %prm
 this, clientDrawingContext, transform
 this : [comobj] IDWriteTextRenderer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-clientDrawingContext : [intptr] 
-transform : [var] 
+clientDrawingContext : [intptr] Œ^: void* IDWriteTextLayout::Draw ‚É“n‚³‚ê‚½•`‰æƒRƒ“ƒeƒLƒXƒgB
+transform : [var] Œ^: DWRITE_MATRIX* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒsƒNƒZƒ‹ƒXƒiƒbƒsƒ“ƒO‚Ì‚½‚ß‚Ì•ÏŠ·î•ñ‚ğ‚Â\‘¢‘Ì‚ğŠi”[‚·‚éB
 %inst
+’ŠÛÀ•W‚ğ DIP ‚Éƒ}ƒbƒsƒ“ƒO‚·‚é•ÏŠ·‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextRenderer_GetPixelsPerDip
-IDWriteTextRenderer::GetPixelsPerDip (vtable slot 5)
+DIP ‚ ‚½‚è‚Ì•¨—ƒsƒNƒZƒ‹”‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTextRenderer
 %prm
 this, clientDrawingContext, pixelsPerDip
 this : [comobj] IDWriteTextRenderer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-clientDrawingContext : [intptr] 
-pixelsPerDip : [float] 
+clientDrawingContext : [intptr] Œ^: void* IDWriteTextLayout::Draw ‚É“n‚³‚ê‚½•`‰æƒRƒ“ƒeƒLƒXƒgB
+pixelsPerDip : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«ADIP ‚ ‚½‚è‚Ì•¨—ƒsƒNƒZƒ‹”‚ğŠi”[‚·‚éB
 %inst
+DIP ‚ ‚½‚è‚Ì•¨—ƒsƒNƒZƒ‹”‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+DIP (ƒfƒoƒCƒX“Æ—§ƒsƒNƒZƒ‹) ‚Í 1/96 ƒCƒ“ƒ`‚Å‚ ‚é‚½‚ßApixelsPerDip ‚Ì’l‚Í 1 ƒCƒ“ƒ`‚ ‚½‚è‚Ì˜_—ƒsƒNƒZƒ‹”‚ğ
+96 ‚ÅŠ„‚Á‚½‚à‚Ì‚É‚È‚éB
 
 
 %index
 IDWriteTextRenderer_DrawGlyphRun
 IDWriteTextLayout::Draw ‚ÍAƒOƒŠƒtƒ‰ƒ“‚ğ•`‰æ‚·‚é‚æ‚¤ƒNƒ‰ƒCƒAƒ“ƒg‚Éw¦‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·B(IDWriteTextRenderer.DrawGlyphRun)
+%group
+COM misc / IDWriteTextRenderer
 %prm
 this, clientDrawingContext, baselineOriginX, baselineOriginY, measuringMode, glyphRun, glyphRunDescription, clientDrawingEffect
 this : [comobj] IDWriteTextRenderer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10365,6 +13392,8 @@ Direct2D ‚È‚Ç‚Ì‰ºˆÊƒvƒ‰ƒbƒgƒtƒH[ƒ€‚ÌƒOƒ‰ƒtƒBƒbƒNƒX API ‚ÉˆÏ÷‚µ‚Ä•`‰æƒRƒ“ƒeƒLƒX
 %index
 IDWriteTextRenderer_DrawUnderline
 IDWriteTextLayout::Draw ‚ÍA‰ºü‚ğ•`‰æ‚·‚é‚æ‚¤ƒNƒ‰ƒCƒAƒ“ƒg‚Éw¦‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·B(IDWriteTextRenderer.DrawUnderline)
+%group
+COM misc / IDWriteTextRenderer
 %prm
 this, clientDrawingContext, baselineOriginX, baselineOriginY, underline, clientDrawingEffect
 this : [comobj] IDWriteTextRenderer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10390,6 +13419,8 @@ underline::offset ‚ğ‰ÁZ‚·‚éB‚»‚¤‚µ‚È‚¢‚ÆƒeƒLƒXƒg‚Æ‚ÌŠÔ‚ÉŒ„ŠÔ‚ª¶‚¶‚È‚¢Bx
 %index
 IDWriteTextRenderer_DrawStrikethrough
 IDWriteTextLayout::Draw ‚ÍAæ‚èÁ‚µü‚ğ•`‰æ‚·‚é‚æ‚¤ƒNƒ‰ƒCƒAƒ“ƒg‚Éw¦‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·B(IDWriteTextRenderer.DrawStrikethrough)
+%group
+COM misc / IDWriteTextRenderer
 %prm
 this, clientDrawingContext, baselineOriginX, baselineOriginY, strikethrough, clientDrawingEffect
 this : [comobj] IDWriteTextRenderer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10414,6 +13445,8 @@ strikethrough::offset ‚ğ‰ÁZ‚·‚éB‰ºü‚Æ“¯—l‚ÉAƒeƒLƒXƒg‚Ì•ûŒü«‚É‚©‚©‚í‚ç‚¸ x 
 %index
 IDWriteTextRenderer_DrawInlineObject
 IDWriteTextLayout::Draw ‚ÍƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğ•`‰æ‚·‚é•K—v‚ª‚ ‚é‚Æ‚«‚É‚±‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒR[ƒ‹ƒoƒbƒN‚ğŒÄ‚Ño‚·B(IDWriteTextRenderer.DrawInlineObject)
+%group
+COM misc / IDWriteTextRenderer
 %prm
 this, clientDrawingContext, originX, originY, inlineObject, isSideways, isRightToLeft, clientDrawingEffect
 this : [comobj] IDWriteTextRenderer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10435,6 +13468,8 @@ IDWriteTextLayout::Draw
 %index
 IDWriteTypography_AddFontFeature
 OpenType ƒtƒHƒ“ƒg‹@”\‚ğ’Ç‰Á‚·‚éB
+%group
+COM misc / IDWriteTypography
 %prm
 this, fontFeature
 this : [comobj] IDWriteTypography ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10449,6 +13484,8 @@ OpenType ƒtƒHƒ“ƒg‹@”\‚ğ’Ç‰Á‚·‚éB
 %index
 IDWriteTypography_GetFontFeatureCount
 Œ»İ‚ÌƒtƒHƒ“ƒg‚Ì OpenType ƒtƒHƒ“ƒg‹@”\‚Ì”‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTypography
 %prm
 this
 this : [comobj] IDWriteTypography ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10466,6 +13503,8 @@ this : [comobj] IDWriteTypography ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDWriteTypography_GetFontFeature
 w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚É‚ ‚éƒtƒHƒ“ƒg‹@”\‚ğæ“¾‚·‚éB
+%group
+COM misc / IDWriteTypography
 %prm
 this, fontFeatureIndex, fontFeature
 this : [comobj] IDWriteTypography ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10484,53 +13523,106 @@ fontFeature : [var] Œ^: DWRITE_FONT_FEATURE* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aw’è‚µ‚½ƒCƒ
 
 %index
 IDXGIAdapter_SetPrivateData
-IDXGIAdapter::SetPrivateData (vtable slot 3)
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+%group
+COM misc / IDXGIAdapter
 %prm
 this, Name, DataSize, pData
 this : [comobj] IDXGIAdapter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-DataSize : [int] 
-pData : [intptr] 
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB‚±‚Ì GUID ‚ğ GetPrivateData ‚ÌŒÄ‚Ño‚µ‚Åg—p‚µ‚Äƒf[ƒ^‚ğæ“¾‚·‚éB
+DataSize : [int] Œ^: UINT ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: const void* ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+SetPrivateData ‚Íw’è‚³‚ê‚½ƒf[ƒ^‚ÌƒRƒs[‚ğì¬‚µAƒIƒuƒWƒFƒNƒg‚Æ‚Æ‚à‚ÉŠi”[‚·‚éBSetPrivateData
+‚ªƒIƒuƒWƒFƒNƒg‚ÉŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÍAŠÖ˜A•t‚¯‚ç‚ê‚½ Direct3D ƒIƒuƒWƒFƒNƒg‚ªŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ (—á‚¦‚Î
+Microsoft Direct3D 11 ƒfƒoƒCƒX‚ª ID3D11Device::SetPrivateData ‚ÅA‚Ü‚½‚Í
+Direct3D 11 qƒfƒoƒCƒX‚ª ID3D11DeviceChild::SetPrivateData ‚ÅŠi”[‚·‚é‚à‚Ì)
+‚Æ“¯‚¶‹L‰¯—Ìˆæ‚ğè—L‚·‚éBƒfƒoƒbƒOƒŒƒCƒ„[‚ÍƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^ˆê——‚ğƒtƒŒƒ“ƒhƒŠ–¼•t‚«‚Åo—Í‚µ‚Äƒƒ‚ƒŠƒŠ[ƒN‚ğ•ñ‚·‚éBŠù’è‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚Í
+"<unnamed>"
+‚Å‚ ‚éB‚Ç‚ÌƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ªƒŠ[ƒN‚ÌŒ´ˆö‚É‚È‚Á‚½‚©‚ğ“Á’è‚Å‚«‚é‚æ‚¤‚ÉƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚Å‚«‚éBƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚·‚é‚É‚ÍASetPrivateData
+ƒƒ\ƒbƒh‚Æ D3Dcommon.h ‚É‚ ‚éŠù’m‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ GUID (WKPDID_D3DDebugObjectName)
+‚ğg—p‚·‚éB‚½‚Æ‚¦‚Î pContext ‚ÉƒtƒŒƒ“ƒhƒŠ–¼ My name ‚ğ•t—^‚·‚é‚É‚ÍŸ‚ÌƒR[ƒh‚ğg—p‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIAdapter_SetPrivateDataInterface
-IDXGIAdapter::SetPrivateDataInterface (vtable slot 4)
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+%group
+COM misc / IDXGIAdapter
 %prm
 this, Name, pUnknown
 this : [comobj] IDXGIAdapter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-pUnknown : [int] 
+Name : [var] Œ^: REFGUID ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ¯•Ê‚·‚é GUIDB
+pUnknown : [int] Œ^: const IUnknown* İ’è‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒXB
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚ÌAPI‚ÍƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚éBƒCƒ“ƒ^[ƒtƒF[ƒX‚ªİ’è‚³‚ê‚é‚Æ‚»‚ÌQÆƒJƒEƒ“ƒg‚ªƒCƒ“ƒNƒŠƒƒ“ƒg‚³‚ê‚éBƒf[ƒ^‚ª
+(“¯‚¶ GUID ‚Å SPD ‚Ü‚½‚Í SPDI ‚ğÄ“xŒÄ‚Ño‚µ‚Ä) ã‘‚«‚³‚ê‚é‚©AƒIƒuƒWƒFƒNƒg‚ª”jŠü‚³‚ê‚½‚Æ‚«‚ÉA::Release()
+‚ªŒÄ‚Î‚êƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌQÆƒJƒEƒ“ƒg‚ªƒfƒNƒŠƒƒ“ƒg‚³‚ê‚éB
 
 
 %index
 IDXGIAdapter_GetPrivateData
-IDXGIAdapter::GetPrivateData (vtable slot 5)
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIAdapter
 %prm
 this, Name, pDataSize, pData
 this : [comobj] IDXGIAdapter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-pDataSize : [int] 
-pData : [intptr] 
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB
+pDataSize : [int] Œ^: UINT* ƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: void* ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+•Ô‚³‚ê‚½ƒf[ƒ^‚ª IUnknown ‚Ü‚½‚Í‚»‚Ì”h¶ƒNƒ‰ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚èAˆÈ‘O‚É
+IDXGIObject::SetPrivateDataInterface ‚Åİ’è‚³‚ê‚½‚à‚Ì‚Å‚ ‚éê‡Aƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚·‚é‘O‚É
+::Release() ‚ğŒÄ‚Ño‚µ‚ÄQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BGetPrivateData ‚Ì Name ƒpƒ‰ƒ[ƒ^‚É
+GUID_DeviceType ‚ğ“n‚·‚±‚Æ‚ÅAƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^ƒIƒuƒWƒFƒNƒg
+(IDXGIAdapterAIDXGIAdapter1AIDXGIAdapter2)
+‚©‚çƒfƒoƒCƒXí•Ê‚ğæ“¾‚Å‚«‚éBƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^‚ª¶¬‚³‚ê‚½ƒfƒoƒCƒX‚Ìí•Ê‚ğæ“¾‚·‚é‚É‚ÍA
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIAdapter_GetParent
-IDXGIAdapter::GetParent (vtable slot 6)
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIAdapter
 %prm
 this, riid, ppParent
 this : [comobj] IDXGIAdapter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-riid : [var] 
-ppParent : [int] 
+riid : [var] Œ^: REFIID —v‹‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì IDB
+ppParent : [int] Œ^: void** eƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 
 %index
 IDXGIAdapter_EnumOutputs
 ƒAƒ_ƒvƒ^ (ƒrƒfƒIƒJ[ƒh) ‚Ìo—Í‚ğ—ñ‹“‚·‚éB
+%group
+COM misc / IDXGIAdapter
 %prm
 this, Output, ppOutput
 this : [comobj] IDXGIAdapter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10557,6 +13649,8 @@ Release ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚ÄQÆƒJƒEƒ“ƒg‚ğƒfƒNƒŠƒƒ“ƒg‚·‚é‚±‚ÆBEnumOutputs
 %index
 IDXGIAdapter_GetDesc
 ƒAƒ_ƒvƒ^ (‚Ü‚½‚ÍƒrƒfƒIƒJ[ƒh) ‚Ì DXGI 1.0 —p‚Ìà–¾‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIAdapter
 %prm
 this
 this : [comobj] IDXGIAdapter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10575,6 +13669,8 @@ this : [comobj] IDXGIAdapter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDXGIAdapter_CheckInterfaceSupport
 ƒVƒXƒeƒ€‚ª‚ ‚éƒOƒ‰ƒtƒBƒbƒNƒXƒRƒ“ƒ|[ƒlƒ“ƒg—p‚ÌƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒF[ƒX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğŠm”F‚·‚éB
+%group
+COM misc / IDXGIAdapter
 %prm
 this, InterfaceName, pUMDVersion
 this : [comobj] IDXGIAdapter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10600,53 +13696,106 @@ ID3D11BlendState ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B
 
 %index
 IDXGIDevice_SetPrivateData
-IDXGIDevice::SetPrivateData (vtable slot 3)
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+%group
+COM misc / IDXGIDevice
 %prm
 this, Name, DataSize, pData
 this : [comobj] IDXGIDevice ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-DataSize : [int] 
-pData : [intptr] 
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB‚±‚Ì GUID ‚ğ GetPrivateData ‚ÌŒÄ‚Ño‚µ‚Åg—p‚µ‚Äƒf[ƒ^‚ğæ“¾‚·‚éB
+DataSize : [int] Œ^: UINT ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: const void* ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+SetPrivateData ‚Íw’è‚³‚ê‚½ƒf[ƒ^‚ÌƒRƒs[‚ğì¬‚µAƒIƒuƒWƒFƒNƒg‚Æ‚Æ‚à‚ÉŠi”[‚·‚éBSetPrivateData
+‚ªƒIƒuƒWƒFƒNƒg‚ÉŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÍAŠÖ˜A•t‚¯‚ç‚ê‚½ Direct3D ƒIƒuƒWƒFƒNƒg‚ªŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ (—á‚¦‚Î
+Microsoft Direct3D 11 ƒfƒoƒCƒX‚ª ID3D11Device::SetPrivateData ‚ÅA‚Ü‚½‚Í
+Direct3D 11 qƒfƒoƒCƒX‚ª ID3D11DeviceChild::SetPrivateData ‚ÅŠi”[‚·‚é‚à‚Ì)
+‚Æ“¯‚¶‹L‰¯—Ìˆæ‚ğè—L‚·‚éBƒfƒoƒbƒOƒŒƒCƒ„[‚ÍƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^ˆê——‚ğƒtƒŒƒ“ƒhƒŠ–¼•t‚«‚Åo—Í‚µ‚Äƒƒ‚ƒŠƒŠ[ƒN‚ğ•ñ‚·‚éBŠù’è‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚Í
+"<unnamed>"
+‚Å‚ ‚éB‚Ç‚ÌƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ªƒŠ[ƒN‚ÌŒ´ˆö‚É‚È‚Á‚½‚©‚ğ“Á’è‚Å‚«‚é‚æ‚¤‚ÉƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚Å‚«‚éBƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚·‚é‚É‚ÍASetPrivateData
+ƒƒ\ƒbƒh‚Æ D3Dcommon.h ‚É‚ ‚éŠù’m‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ GUID (WKPDID_D3DDebugObjectName)
+‚ğg—p‚·‚éB‚½‚Æ‚¦‚Î pContext ‚ÉƒtƒŒƒ“ƒhƒŠ–¼ My name ‚ğ•t—^‚·‚é‚É‚ÍŸ‚ÌƒR[ƒh‚ğg—p‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIDevice_SetPrivateDataInterface
-IDXGIDevice::SetPrivateDataInterface (vtable slot 4)
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+%group
+COM misc / IDXGIDevice
 %prm
 this, Name, pUnknown
 this : [comobj] IDXGIDevice ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-pUnknown : [int] 
+Name : [var] Œ^: REFGUID ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ¯•Ê‚·‚é GUIDB
+pUnknown : [int] Œ^: const IUnknown* İ’è‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒXB
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚ÌAPI‚ÍƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚éBƒCƒ“ƒ^[ƒtƒF[ƒX‚ªİ’è‚³‚ê‚é‚Æ‚»‚ÌQÆƒJƒEƒ“ƒg‚ªƒCƒ“ƒNƒŠƒƒ“ƒg‚³‚ê‚éBƒf[ƒ^‚ª
+(“¯‚¶ GUID ‚Å SPD ‚Ü‚½‚Í SPDI ‚ğÄ“xŒÄ‚Ño‚µ‚Ä) ã‘‚«‚³‚ê‚é‚©AƒIƒuƒWƒFƒNƒg‚ª”jŠü‚³‚ê‚½‚Æ‚«‚ÉA::Release()
+‚ªŒÄ‚Î‚êƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌQÆƒJƒEƒ“ƒg‚ªƒfƒNƒŠƒƒ“ƒg‚³‚ê‚éB
 
 
 %index
 IDXGIDevice_GetPrivateData
-IDXGIDevice::GetPrivateData (vtable slot 5)
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIDevice
 %prm
 this, Name, pDataSize, pData
 this : [comobj] IDXGIDevice ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-pDataSize : [int] 
-pData : [intptr] 
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB
+pDataSize : [int] Œ^: UINT* ƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: void* ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+•Ô‚³‚ê‚½ƒf[ƒ^‚ª IUnknown ‚Ü‚½‚Í‚»‚Ì”h¶ƒNƒ‰ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚èAˆÈ‘O‚É
+IDXGIObject::SetPrivateDataInterface ‚Åİ’è‚³‚ê‚½‚à‚Ì‚Å‚ ‚éê‡Aƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚·‚é‘O‚É
+::Release() ‚ğŒÄ‚Ño‚µ‚ÄQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BGetPrivateData ‚Ì Name ƒpƒ‰ƒ[ƒ^‚É
+GUID_DeviceType ‚ğ“n‚·‚±‚Æ‚ÅAƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^ƒIƒuƒWƒFƒNƒg
+(IDXGIAdapterAIDXGIAdapter1AIDXGIAdapter2)
+‚©‚çƒfƒoƒCƒXí•Ê‚ğæ“¾‚Å‚«‚éBƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^‚ª¶¬‚³‚ê‚½ƒfƒoƒCƒX‚Ìí•Ê‚ğæ“¾‚·‚é‚É‚ÍA
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIDevice_GetParent
-IDXGIDevice::GetParent (vtable slot 6)
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIDevice
 %prm
 this, riid, ppParent
 this : [comobj] IDXGIDevice ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-riid : [var] 
-ppParent : [int] 
+riid : [var] Œ^: REFIID —v‹‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì IDB
+ppParent : [int] Œ^: void** eƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 
 %index
 IDXGIDevice_GetAdapter
 w’èƒfƒoƒCƒX‚ÌƒAƒ_ƒvƒ^‚ğ•Ô‚·B
+%group
+COM misc / IDXGIDevice
 %prm
 this, pAdapter
 this : [comobj] IDXGIDevice ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10666,6 +13815,8 @@ GetAdapter
 %index
 IDXGIDevice_CreateSurface
 ƒT[ƒtƒFƒX‚ğ•Ô‚·B‚±‚Ìƒƒ\ƒbƒh‚Í“à•”‚Åg—p‚³‚ê‚é‚à‚Ì‚Å‚ ‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç’¼ÚŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B
+%group
+COM misc / IDXGIDevice
 %prm
 this, pDesc, NumSurfaces, Usage, pSharedResource, ppSurface
 this : [comobj] IDXGIDevice ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10697,6 +13848,8 @@ ID3D10Texture2D::QueryInterface ‚ğŒÄ‚Ño‚·B‚±‚ÌŒÄ‚Ño‚µ‚É‚Í IDXGISurface
 %index
 IDXGIDevice_QueryResourceResidency
 ƒŠƒ\[ƒX”z—ñ‚Ìí’“ó‘Ô‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIDevice
 %prm
 this, ppResources, pResidencyStatus, NumResources
 this : [comobj] IDXGIDevice ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10723,6 +13876,8 @@ DXGI_RESIDENCY_RESIDENT_IN_SHARED_MEMORY ƒtƒ‰ƒO‚ğ•Ô‚·B’:
 %index
 IDXGIDevice_SetGPUThreadPriority
 GPU ƒXƒŒƒbƒh—Dæ“x‚ğİ’è‚·‚éB
+%group
+COM misc / IDXGIDevice
 %prm
 this, Priority
 this : [comobj] IDXGIDevice ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10742,6 +13897,8 @@ Priority ƒpƒ‰ƒ[ƒ^‚Ì’l‚ÍŸ‚Ì‚æ‚¤‚É‹@”\‚·‚éB
 %index
 IDXGIDevice_GetGPUThreadPriority
 GPU ƒXƒŒƒbƒh—Dæ“x‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIDevice
 %prm
 this, pPriority
 this : [comobj] IDXGIDevice ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10756,53 +13913,106 @@ GPU ƒXƒŒƒbƒh—Dæ“x‚ğæ“¾‚·‚éB
 
 %index
 IDXGIDeviceSubObject_SetPrivateData
-IDXGIDeviceSubObject::SetPrivateData (vtable slot 3)
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+%group
+COM misc / IDXGIDeviceSubObject
 %prm
 this, Name, DataSize, pData
 this : [comobj] IDXGIDeviceSubObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-DataSize : [int] 
-pData : [intptr] 
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB‚±‚Ì GUID ‚ğ GetPrivateData ‚ÌŒÄ‚Ño‚µ‚Åg—p‚µ‚Äƒf[ƒ^‚ğæ“¾‚·‚éB
+DataSize : [int] Œ^: UINT ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: const void* ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+SetPrivateData ‚Íw’è‚³‚ê‚½ƒf[ƒ^‚ÌƒRƒs[‚ğì¬‚µAƒIƒuƒWƒFƒNƒg‚Æ‚Æ‚à‚ÉŠi”[‚·‚éBSetPrivateData
+‚ªƒIƒuƒWƒFƒNƒg‚ÉŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÍAŠÖ˜A•t‚¯‚ç‚ê‚½ Direct3D ƒIƒuƒWƒFƒNƒg‚ªŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ (—á‚¦‚Î
+Microsoft Direct3D 11 ƒfƒoƒCƒX‚ª ID3D11Device::SetPrivateData ‚ÅA‚Ü‚½‚Í
+Direct3D 11 qƒfƒoƒCƒX‚ª ID3D11DeviceChild::SetPrivateData ‚ÅŠi”[‚·‚é‚à‚Ì)
+‚Æ“¯‚¶‹L‰¯—Ìˆæ‚ğè—L‚·‚éBƒfƒoƒbƒOƒŒƒCƒ„[‚ÍƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^ˆê——‚ğƒtƒŒƒ“ƒhƒŠ–¼•t‚«‚Åo—Í‚µ‚Äƒƒ‚ƒŠƒŠ[ƒN‚ğ•ñ‚·‚éBŠù’è‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚Í
+"<unnamed>"
+‚Å‚ ‚éB‚Ç‚ÌƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ªƒŠ[ƒN‚ÌŒ´ˆö‚É‚È‚Á‚½‚©‚ğ“Á’è‚Å‚«‚é‚æ‚¤‚ÉƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚Å‚«‚éBƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚·‚é‚É‚ÍASetPrivateData
+ƒƒ\ƒbƒh‚Æ D3Dcommon.h ‚É‚ ‚éŠù’m‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ GUID (WKPDID_D3DDebugObjectName)
+‚ğg—p‚·‚éB‚½‚Æ‚¦‚Î pContext ‚ÉƒtƒŒƒ“ƒhƒŠ–¼ My name ‚ğ•t—^‚·‚é‚É‚ÍŸ‚ÌƒR[ƒh‚ğg—p‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIDeviceSubObject_SetPrivateDataInterface
-IDXGIDeviceSubObject::SetPrivateDataInterface (vtable slot 4)
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+%group
+COM misc / IDXGIDeviceSubObject
 %prm
 this, Name, pUnknown
 this : [comobj] IDXGIDeviceSubObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-pUnknown : [int] 
+Name : [var] Œ^: REFGUID ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ¯•Ê‚·‚é GUIDB
+pUnknown : [int] Œ^: const IUnknown* İ’è‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒXB
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚ÌAPI‚ÍƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚éBƒCƒ“ƒ^[ƒtƒF[ƒX‚ªİ’è‚³‚ê‚é‚Æ‚»‚ÌQÆƒJƒEƒ“ƒg‚ªƒCƒ“ƒNƒŠƒƒ“ƒg‚³‚ê‚éBƒf[ƒ^‚ª
+(“¯‚¶ GUID ‚Å SPD ‚Ü‚½‚Í SPDI ‚ğÄ“xŒÄ‚Ño‚µ‚Ä) ã‘‚«‚³‚ê‚é‚©AƒIƒuƒWƒFƒNƒg‚ª”jŠü‚³‚ê‚½‚Æ‚«‚ÉA::Release()
+‚ªŒÄ‚Î‚êƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌQÆƒJƒEƒ“ƒg‚ªƒfƒNƒŠƒƒ“ƒg‚³‚ê‚éB
 
 
 %index
 IDXGIDeviceSubObject_GetPrivateData
-IDXGIDeviceSubObject::GetPrivateData (vtable slot 5)
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIDeviceSubObject
 %prm
 this, Name, pDataSize, pData
 this : [comobj] IDXGIDeviceSubObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-pDataSize : [int] 
-pData : [intptr] 
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB
+pDataSize : [int] Œ^: UINT* ƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: void* ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+•Ô‚³‚ê‚½ƒf[ƒ^‚ª IUnknown ‚Ü‚½‚Í‚»‚Ì”h¶ƒNƒ‰ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚èAˆÈ‘O‚É
+IDXGIObject::SetPrivateDataInterface ‚Åİ’è‚³‚ê‚½‚à‚Ì‚Å‚ ‚éê‡Aƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚·‚é‘O‚É
+::Release() ‚ğŒÄ‚Ño‚µ‚ÄQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BGetPrivateData ‚Ì Name ƒpƒ‰ƒ[ƒ^‚É
+GUID_DeviceType ‚ğ“n‚·‚±‚Æ‚ÅAƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^ƒIƒuƒWƒFƒNƒg
+(IDXGIAdapterAIDXGIAdapter1AIDXGIAdapter2)
+‚©‚çƒfƒoƒCƒXí•Ê‚ğæ“¾‚Å‚«‚éBƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^‚ª¶¬‚³‚ê‚½ƒfƒoƒCƒX‚Ìí•Ê‚ğæ“¾‚·‚é‚É‚ÍA
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIDeviceSubObject_GetParent
-IDXGIDeviceSubObject::GetParent (vtable slot 6)
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIDeviceSubObject
 %prm
 this, riid, ppParent
 this : [comobj] IDXGIDeviceSubObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-riid : [var] 
-ppParent : [int] 
+riid : [var] Œ^: REFIID —v‹‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì IDB
+ppParent : [int] Œ^: void** eƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 
 %index
 IDXGIDeviceSubObject_GetDevice
 ƒfƒoƒCƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIDeviceSubObject
 %prm
 this, riid, ppDevice
 this : [comobj] IDXGIDeviceSubObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10821,53 +14031,106 @@ IDXGIDevice* ‚Å‚ ‚Á‚Ä‚à‚æ‚­A‚»‚Ìê‡ REFIID ‚Í __uuidof(pDevice) ‚ğŒÄ‚Ño‚·‚±‚Æ
 
 %index
 IDXGIFactory_SetPrivateData
-IDXGIFactory::SetPrivateData (vtable slot 3)
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+%group
+COM misc / IDXGIFactory
 %prm
 this, Name, DataSize, pData
 this : [comobj] IDXGIFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-DataSize : [int] 
-pData : [intptr] 
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB‚±‚Ì GUID ‚ğ GetPrivateData ‚ÌŒÄ‚Ño‚µ‚Åg—p‚µ‚Äƒf[ƒ^‚ğæ“¾‚·‚éB
+DataSize : [int] Œ^: UINT ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: const void* ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+SetPrivateData ‚Íw’è‚³‚ê‚½ƒf[ƒ^‚ÌƒRƒs[‚ğì¬‚µAƒIƒuƒWƒFƒNƒg‚Æ‚Æ‚à‚ÉŠi”[‚·‚éBSetPrivateData
+‚ªƒIƒuƒWƒFƒNƒg‚ÉŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÍAŠÖ˜A•t‚¯‚ç‚ê‚½ Direct3D ƒIƒuƒWƒFƒNƒg‚ªŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ (—á‚¦‚Î
+Microsoft Direct3D 11 ƒfƒoƒCƒX‚ª ID3D11Device::SetPrivateData ‚ÅA‚Ü‚½‚Í
+Direct3D 11 qƒfƒoƒCƒX‚ª ID3D11DeviceChild::SetPrivateData ‚ÅŠi”[‚·‚é‚à‚Ì)
+‚Æ“¯‚¶‹L‰¯—Ìˆæ‚ğè—L‚·‚éBƒfƒoƒbƒOƒŒƒCƒ„[‚ÍƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^ˆê——‚ğƒtƒŒƒ“ƒhƒŠ–¼•t‚«‚Åo—Í‚µ‚Äƒƒ‚ƒŠƒŠ[ƒN‚ğ•ñ‚·‚éBŠù’è‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚Í
+"<unnamed>"
+‚Å‚ ‚éB‚Ç‚ÌƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ªƒŠ[ƒN‚ÌŒ´ˆö‚É‚È‚Á‚½‚©‚ğ“Á’è‚Å‚«‚é‚æ‚¤‚ÉƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚Å‚«‚éBƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚·‚é‚É‚ÍASetPrivateData
+ƒƒ\ƒbƒh‚Æ D3Dcommon.h ‚É‚ ‚éŠù’m‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ GUID (WKPDID_D3DDebugObjectName)
+‚ğg—p‚·‚éB‚½‚Æ‚¦‚Î pContext ‚ÉƒtƒŒƒ“ƒhƒŠ–¼ My name ‚ğ•t—^‚·‚é‚É‚ÍŸ‚ÌƒR[ƒh‚ğg—p‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIFactory_SetPrivateDataInterface
-IDXGIFactory::SetPrivateDataInterface (vtable slot 4)
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+%group
+COM misc / IDXGIFactory
 %prm
 this, Name, pUnknown
 this : [comobj] IDXGIFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-pUnknown : [int] 
+Name : [var] Œ^: REFGUID ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ¯•Ê‚·‚é GUIDB
+pUnknown : [int] Œ^: const IUnknown* İ’è‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒXB
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚ÌAPI‚ÍƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚éBƒCƒ“ƒ^[ƒtƒF[ƒX‚ªİ’è‚³‚ê‚é‚Æ‚»‚ÌQÆƒJƒEƒ“ƒg‚ªƒCƒ“ƒNƒŠƒƒ“ƒg‚³‚ê‚éBƒf[ƒ^‚ª
+(“¯‚¶ GUID ‚Å SPD ‚Ü‚½‚Í SPDI ‚ğÄ“xŒÄ‚Ño‚µ‚Ä) ã‘‚«‚³‚ê‚é‚©AƒIƒuƒWƒFƒNƒg‚ª”jŠü‚³‚ê‚½‚Æ‚«‚ÉA::Release()
+‚ªŒÄ‚Î‚êƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌQÆƒJƒEƒ“ƒg‚ªƒfƒNƒŠƒƒ“ƒg‚³‚ê‚éB
 
 
 %index
 IDXGIFactory_GetPrivateData
-IDXGIFactory::GetPrivateData (vtable slot 5)
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIFactory
 %prm
 this, Name, pDataSize, pData
 this : [comobj] IDXGIFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-pDataSize : [int] 
-pData : [intptr] 
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB
+pDataSize : [int] Œ^: UINT* ƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: void* ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+•Ô‚³‚ê‚½ƒf[ƒ^‚ª IUnknown ‚Ü‚½‚Í‚»‚Ì”h¶ƒNƒ‰ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚èAˆÈ‘O‚É
+IDXGIObject::SetPrivateDataInterface ‚Åİ’è‚³‚ê‚½‚à‚Ì‚Å‚ ‚éê‡Aƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚·‚é‘O‚É
+::Release() ‚ğŒÄ‚Ño‚µ‚ÄQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BGetPrivateData ‚Ì Name ƒpƒ‰ƒ[ƒ^‚É
+GUID_DeviceType ‚ğ“n‚·‚±‚Æ‚ÅAƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^ƒIƒuƒWƒFƒNƒg
+(IDXGIAdapterAIDXGIAdapter1AIDXGIAdapter2)
+‚©‚çƒfƒoƒCƒXí•Ê‚ğæ“¾‚Å‚«‚éBƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^‚ª¶¬‚³‚ê‚½ƒfƒoƒCƒX‚Ìí•Ê‚ğæ“¾‚·‚é‚É‚ÍA
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIFactory_GetParent
-IDXGIFactory::GetParent (vtable slot 6)
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIFactory
 %prm
 this, riid, ppParent
 this : [comobj] IDXGIFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-riid : [var] 
-ppParent : [int] 
+riid : [var] Œ^: REFIID —v‹‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì IDB
+ppParent : [int] Œ^: void** eƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 
 %index
 IDXGIFactory_EnumAdapters
 ƒAƒ_ƒvƒ^ (ƒrƒfƒIƒJ[ƒh) ‚ğ—ñ‹“‚·‚éB
+%group
+COM misc / IDXGIFactory
 %prm
 this, Adapter, ppAdapter
 this : [comobj] IDXGIFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10895,6 +14158,8 @@ Release ƒƒ\ƒbƒh‚ğŒÄ‚ñ‚ÅQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚·‚±‚ÆBEnumAdapters
 %index
 IDXGIFactory_MakeWindowAssociation
 DXGI ‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒƒbƒZ[ƒWƒLƒ…[‚ğŠÄ‹‚µ‚Ä Alt+Enter ƒL[ƒV[ƒPƒ“ƒX (ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒEƒBƒ“ƒhƒE•\¦‚Æƒtƒ‹ƒXƒNƒŠ[ƒ“‚ÌŠÔ‚ÅØ‚è‘Ö‚¦‚é) ‚ğŒŸo‚·‚é‚±‚Æ‚ğ‹–‰Â‚·‚éB
+%group
+COM misc / IDXGIFactory
 %prm
 this, WindowHandle, Flags
 this : [comobj] IDXGIFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10943,6 +14208,8 @@ DXGI_MWA_NO_WINDOW_CHANGES ƒtƒ‰ƒO‚ğ•t‚¯‚Ä MakeWindowAssociation ‚ğŒÄ‚Ô‚±‚Æ‚ÅADX
 %index
 IDXGIFactory_GetWindowAssociation
 ƒ†[ƒU[‚ªƒtƒ‹ƒXƒNƒŠ[ƒ“‚Ö‚ÌØ‚è‘Ö‚¦‚ğ§Œä‚·‚é‚½‚ß‚ÌƒEƒBƒ“ƒhƒE‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIFactory
 %prm
 this, pWindowHandle
 this : [comobj] IDXGIFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10961,6 +14228,8 @@ DXGI_ERROR_INVALID_CALL ‚ğ¦‚·B
 %index
 IDXGIFactory_CreateSwapChain
 ƒXƒƒbƒvƒ`ƒF[ƒ“‚ğ¶¬‚·‚éB
+%group
+COM misc / IDXGIFactory
 %prm
 this, pDevice, pDesc, ppSwapChain
 this : [comobj] IDXGIFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -10989,6 +14258,8 @@ DXGI_STATUS_OCCLUDED ‚ª•Ô‚³‚ê‚éBƒoƒbƒtƒ@‚Ì•‚Ü‚½‚Í‚‚³‚ª 0
 %index
 IDXGIFactory_CreateSoftwareAdapter
 ƒ\ƒtƒgƒEƒFƒAƒAƒ_ƒvƒ^‚ğ•\‚·ƒAƒ_ƒvƒ^ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ¶¬‚·‚éB
+%group
+COM misc / IDXGIFactory
 %prm
 this, Module, ppAdapter
 this : [comobj] IDXGIFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11014,6 +14285,8 @@ Driver Development Kit
 %index
 IDXGIObject_SetPrivateData
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+%group
+COM misc / IDXGIObject
 %prm
 this, Name, DataSize, pData
 this : [comobj] IDXGIObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11042,6 +14315,8 @@ Direct3D 11 qƒfƒoƒCƒX‚ª ID3D11DeviceChild::SetPrivateData ‚ÅŠi”[‚·‚é‚à‚Ì)
 %index
 IDXGIObject_SetPrivateDataInterface
 ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+%group
+COM misc / IDXGIObject
 %prm
 this, Name, pUnknown
 this : [comobj] IDXGIObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11063,6 +14338,8 @@ pUnknown : [int] Œ^: const IUnknown* İ’è‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒXB
 %index
 IDXGIObject_GetPrivateData
 ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIObject
 %prm
 this, Name, pDataSize, pData
 this : [comobj] IDXGIObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11088,6 +14365,8 @@ GUID_DeviceType ‚ğ“n‚·‚±‚Æ‚ÅAƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^ƒIƒuƒWƒFƒNƒg
 %index
 IDXGIObject_GetParent
 ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIObject
 %prm
 this, riid, ppParent
 this : [comobj] IDXGIObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11102,53 +14381,106 @@ ppParent : [int] Œ^: void** eƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 
 %index
 IDXGIOutput_SetPrivateData
-IDXGIOutput::SetPrivateData (vtable slot 3)
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+%group
+COM misc / IDXGIOutput
 %prm
 this, Name, DataSize, pData
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-DataSize : [int] 
-pData : [intptr] 
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB‚±‚Ì GUID ‚ğ GetPrivateData ‚ÌŒÄ‚Ño‚µ‚Åg—p‚µ‚Äƒf[ƒ^‚ğæ“¾‚·‚éB
+DataSize : [int] Œ^: UINT ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: const void* ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+SetPrivateData ‚Íw’è‚³‚ê‚½ƒf[ƒ^‚ÌƒRƒs[‚ğì¬‚µAƒIƒuƒWƒFƒNƒg‚Æ‚Æ‚à‚ÉŠi”[‚·‚éBSetPrivateData
+‚ªƒIƒuƒWƒFƒNƒg‚ÉŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÍAŠÖ˜A•t‚¯‚ç‚ê‚½ Direct3D ƒIƒuƒWƒFƒNƒg‚ªŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ (—á‚¦‚Î
+Microsoft Direct3D 11 ƒfƒoƒCƒX‚ª ID3D11Device::SetPrivateData ‚ÅA‚Ü‚½‚Í
+Direct3D 11 qƒfƒoƒCƒX‚ª ID3D11DeviceChild::SetPrivateData ‚ÅŠi”[‚·‚é‚à‚Ì)
+‚Æ“¯‚¶‹L‰¯—Ìˆæ‚ğè—L‚·‚éBƒfƒoƒbƒOƒŒƒCƒ„[‚ÍƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^ˆê——‚ğƒtƒŒƒ“ƒhƒŠ–¼•t‚«‚Åo—Í‚µ‚Äƒƒ‚ƒŠƒŠ[ƒN‚ğ•ñ‚·‚éBŠù’è‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚Í
+"<unnamed>"
+‚Å‚ ‚éB‚Ç‚ÌƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ªƒŠ[ƒN‚ÌŒ´ˆö‚É‚È‚Á‚½‚©‚ğ“Á’è‚Å‚«‚é‚æ‚¤‚ÉƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚Å‚«‚éBƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚·‚é‚É‚ÍASetPrivateData
+ƒƒ\ƒbƒh‚Æ D3Dcommon.h ‚É‚ ‚éŠù’m‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ GUID (WKPDID_D3DDebugObjectName)
+‚ğg—p‚·‚éB‚½‚Æ‚¦‚Î pContext ‚ÉƒtƒŒƒ“ƒhƒŠ–¼ My name ‚ğ•t—^‚·‚é‚É‚ÍŸ‚ÌƒR[ƒh‚ğg—p‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIOutput_SetPrivateDataInterface
-IDXGIOutput::SetPrivateDataInterface (vtable slot 4)
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+%group
+COM misc / IDXGIOutput
 %prm
 this, Name, pUnknown
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-pUnknown : [int] 
+Name : [var] Œ^: REFGUID ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ¯•Ê‚·‚é GUIDB
+pUnknown : [int] Œ^: const IUnknown* İ’è‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒXB
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚ÌAPI‚ÍƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚éBƒCƒ“ƒ^[ƒtƒF[ƒX‚ªİ’è‚³‚ê‚é‚Æ‚»‚ÌQÆƒJƒEƒ“ƒg‚ªƒCƒ“ƒNƒŠƒƒ“ƒg‚³‚ê‚éBƒf[ƒ^‚ª
+(“¯‚¶ GUID ‚Å SPD ‚Ü‚½‚Í SPDI ‚ğÄ“xŒÄ‚Ño‚µ‚Ä) ã‘‚«‚³‚ê‚é‚©AƒIƒuƒWƒFƒNƒg‚ª”jŠü‚³‚ê‚½‚Æ‚«‚ÉA::Release()
+‚ªŒÄ‚Î‚êƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌQÆƒJƒEƒ“ƒg‚ªƒfƒNƒŠƒƒ“ƒg‚³‚ê‚éB
 
 
 %index
 IDXGIOutput_GetPrivateData
-IDXGIOutput::GetPrivateData (vtable slot 5)
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIOutput
 %prm
 this, Name, pDataSize, pData
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-pDataSize : [int] 
-pData : [intptr] 
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB
+pDataSize : [int] Œ^: UINT* ƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: void* ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+•Ô‚³‚ê‚½ƒf[ƒ^‚ª IUnknown ‚Ü‚½‚Í‚»‚Ì”h¶ƒNƒ‰ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚èAˆÈ‘O‚É
+IDXGIObject::SetPrivateDataInterface ‚Åİ’è‚³‚ê‚½‚à‚Ì‚Å‚ ‚éê‡Aƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚·‚é‘O‚É
+::Release() ‚ğŒÄ‚Ño‚µ‚ÄQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BGetPrivateData ‚Ì Name ƒpƒ‰ƒ[ƒ^‚É
+GUID_DeviceType ‚ğ“n‚·‚±‚Æ‚ÅAƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^ƒIƒuƒWƒFƒNƒg
+(IDXGIAdapterAIDXGIAdapter1AIDXGIAdapter2)
+‚©‚çƒfƒoƒCƒXí•Ê‚ğæ“¾‚Å‚«‚éBƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^‚ª¶¬‚³‚ê‚½ƒfƒoƒCƒX‚Ìí•Ê‚ğæ“¾‚·‚é‚É‚ÍA
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIOutput_GetParent
-IDXGIOutput::GetParent (vtable slot 6)
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIOutput
 %prm
 this, riid, ppParent
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-riid : [var] 
-ppParent : [int] 
+riid : [var] Œ^: REFIID —v‹‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì IDB
+ppParent : [int] Œ^: void** eƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 
 %index
 IDXGIOutput_GetDesc
 o—Í‚Ìà–¾‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIOutput
 %prm
 this
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11167,6 +14499,8 @@ DXGI_ERROR_INVALID_CALLB
 %index
 IDXGIOutput_GetDisplayModeList
 —v‹‚³‚ê‚½ƒtƒH[ƒ}ƒbƒg‚Æ‚»‚Ì‘¼‚Ì“ü—ÍƒIƒvƒVƒ‡ƒ“‚Éˆê’v‚·‚éƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğæ“¾‚·‚éB(IDXGIOutput.GetDisplayModeList)
+%group
+COM misc / IDXGIOutput
 %prm
 this, EnumFormat, Flags, pNumModes, pDesc
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11199,6 +14533,8 @@ DXGI_ERROR_MORE_DATA ‚ª•Ô‚³‚ê‚é
 %index
 IDXGIOutput_FindClosestMatchingMode
 —v‹‚³‚ê‚½ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ÉÅ‚à‹ß‚¢ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğŒŸõ‚·‚éB(IDXGIOutput.FindClosestMatchingMode)
+%group
+COM misc / IDXGIOutput
 %prm
 this, pModeToMatch, pClosestMatch, pConcernedDevice
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11226,6 +14562,8 @@ IDXGIOutput1::FindClosestMatchingMode1
 %index
 IDXGIOutput_WaitForVBlank
 Ÿ‚Ì‚’¼ƒuƒ‰ƒ“ƒN‚ª”­¶‚·‚é‚Ü‚ÅƒXƒŒƒbƒh‚ğ’â~‚·‚éB
+%group
+COM misc / IDXGIOutput
 %prm
 this
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11242,6 +14580,8 @@ this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDXGIOutput_TakeOwnership
 o—Í‚ÌŠ—LŒ ‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIOutput
 %prm
 this, pDevice, Exclusive
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11264,6 +14604,8 @@ Exclusive : [int] Œ^: BOOL ‘¼‚ÌƒXƒŒƒbƒh‚âƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒfƒoƒCƒX‚ÌŠ—LŒ ‚ğæ“
 %index
 IDXGIOutput_ReleaseOwnership
 o—Í‚ÌŠ—LŒ ‚ğ‰ğ•ú‚·‚éB
+%group
+COM misc / IDXGIOutput
 %prm
 this
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11279,6 +14621,8 @@ IDXGIOutput::ReleaseOwnership
 %index
 IDXGIOutput_GetGammaControlCapabilities
 ƒKƒ“ƒ}ƒRƒ“ƒgƒ[ƒ‹”\—Í‚Ìà–¾‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIOutput
 %prm
 this, pGammaCaps
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11297,6 +14641,8 @@ pGammaCaps : [var] Œ^: DXGI_GAMMA_CONTROL_CAPABILITIES* ƒKƒ“ƒ}ƒRƒ“ƒgƒ[ƒ‹”\—Í‚Ì
 %index
 IDXGIOutput_SetGammaControl
 ƒKƒ“ƒ}ƒRƒ“ƒgƒ[ƒ‹‚ğİ’è‚·‚éB
+%group
+COM misc / IDXGIOutput
 %prm
 this, pArray
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11315,6 +14661,8 @@ pArray : [var] Œ^: const DXGI_GAMMA_CONTROL* İ’è‚·‚éƒKƒ“ƒ}ƒJ[ƒu‚ğ‹Lq‚·‚é DXGI
 %index
 IDXGIOutput_GetGammaControl
 ƒKƒ“ƒ}ƒRƒ“ƒgƒ[ƒ‹İ’è‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIOutput
 %prm
 this, pArray
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11333,6 +14681,8 @@ pArray : [var] Œ^: DXGI_GAMMA_CONTROL* ƒKƒ“ƒ}ƒRƒ“ƒgƒ[ƒ‹İ’è‚Ì”z—ñ (DXGI_GAMMA_
 %index
 IDXGIOutput_SetDisplaySurface
 ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğ•ÏX‚·‚éB
+%group
+COM misc / IDXGIOutput
 %prm
 this, pScanoutSurface
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11355,6 +14705,8 @@ SetDisplaySurface ‚ğg—p‚·‚é‚ÆADXGI_ERROR_NOT_CURRENTLY_AVAILABLE ‚Å¸”s‚·‚éB
 %index
 IDXGIOutput_GetDisplaySurfaceData
 Œ»İ‚ÌƒfƒBƒXƒvƒŒƒCƒT[ƒtƒFƒX‚ÌƒRƒs[‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIOutput
 %prm
 this, pDestination
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11379,6 +14731,8 @@ IDXGIOutput::GetDesc ‚ğg—p‚·‚éB‚±‚ê‚Íƒ^[ƒQƒbƒgƒ‚ƒjƒ^‚Ì‰ñ“]‚ÉŠÖŒW‚È‚­^‚Å‚ ‚é
 %index
 IDXGIOutput_GetFrameStatistics
 Å‹ßƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚½ƒtƒŒ[ƒ€‚ÉŠÖ‚·‚é“Œvî•ñ‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGIOutput
 %prm
 this, pStats
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11397,64 +14751,127 @@ pStats : [var] Œ^: DXGI_FRAME_STATISTICS* ƒtƒŒ[ƒ€“Œvî•ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^ (DXGI_FRA
 
 %index
 IDXGISurface_SetPrivateData
-IDXGISurface::SetPrivateData (vtable slot 3)
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+%group
+COM misc / IDXGISurface
 %prm
 this, Name, DataSize, pData
 this : [comobj] IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-DataSize : [int] 
-pData : [intptr] 
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB‚±‚Ì GUID ‚ğ GetPrivateData ‚ÌŒÄ‚Ño‚µ‚Åg—p‚µ‚Äƒf[ƒ^‚ğæ“¾‚·‚éB
+DataSize : [int] Œ^: UINT ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: const void* ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+SetPrivateData ‚Íw’è‚³‚ê‚½ƒf[ƒ^‚ÌƒRƒs[‚ğì¬‚µAƒIƒuƒWƒFƒNƒg‚Æ‚Æ‚à‚ÉŠi”[‚·‚éBSetPrivateData
+‚ªƒIƒuƒWƒFƒNƒg‚ÉŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÍAŠÖ˜A•t‚¯‚ç‚ê‚½ Direct3D ƒIƒuƒWƒFƒNƒg‚ªŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ (—á‚¦‚Î
+Microsoft Direct3D 11 ƒfƒoƒCƒX‚ª ID3D11Device::SetPrivateData ‚ÅA‚Ü‚½‚Í
+Direct3D 11 qƒfƒoƒCƒX‚ª ID3D11DeviceChild::SetPrivateData ‚ÅŠi”[‚·‚é‚à‚Ì)
+‚Æ“¯‚¶‹L‰¯—Ìˆæ‚ğè—L‚·‚éBƒfƒoƒbƒOƒŒƒCƒ„[‚ÍƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^ˆê——‚ğƒtƒŒƒ“ƒhƒŠ–¼•t‚«‚Åo—Í‚µ‚Äƒƒ‚ƒŠƒŠ[ƒN‚ğ•ñ‚·‚éBŠù’è‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚Í
+"<unnamed>"
+‚Å‚ ‚éB‚Ç‚ÌƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ªƒŠ[ƒN‚ÌŒ´ˆö‚É‚È‚Á‚½‚©‚ğ“Á’è‚Å‚«‚é‚æ‚¤‚ÉƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚Å‚«‚éBƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚·‚é‚É‚ÍASetPrivateData
+ƒƒ\ƒbƒh‚Æ D3Dcommon.h ‚É‚ ‚éŠù’m‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ GUID (WKPDID_D3DDebugObjectName)
+‚ğg—p‚·‚éB‚½‚Æ‚¦‚Î pContext ‚ÉƒtƒŒƒ“ƒhƒŠ–¼ My name ‚ğ•t—^‚·‚é‚É‚ÍŸ‚ÌƒR[ƒh‚ğg—p‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGISurface_SetPrivateDataInterface
-IDXGISurface::SetPrivateDataInterface (vtable slot 4)
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+%group
+COM misc / IDXGISurface
 %prm
 this, Name, pUnknown
 this : [comobj] IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-pUnknown : [int] 
+Name : [var] Œ^: REFGUID ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ¯•Ê‚·‚é GUIDB
+pUnknown : [int] Œ^: const IUnknown* İ’è‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒXB
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚ÌAPI‚ÍƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚éBƒCƒ“ƒ^[ƒtƒF[ƒX‚ªİ’è‚³‚ê‚é‚Æ‚»‚ÌQÆƒJƒEƒ“ƒg‚ªƒCƒ“ƒNƒŠƒƒ“ƒg‚³‚ê‚éBƒf[ƒ^‚ª
+(“¯‚¶ GUID ‚Å SPD ‚Ü‚½‚Í SPDI ‚ğÄ“xŒÄ‚Ño‚µ‚Ä) ã‘‚«‚³‚ê‚é‚©AƒIƒuƒWƒFƒNƒg‚ª”jŠü‚³‚ê‚½‚Æ‚«‚ÉA::Release()
+‚ªŒÄ‚Î‚êƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌQÆƒJƒEƒ“ƒg‚ªƒfƒNƒŠƒƒ“ƒg‚³‚ê‚éB
 
 
 %index
 IDXGISurface_GetPrivateData
-IDXGISurface::GetPrivateData (vtable slot 5)
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGISurface
 %prm
 this, Name, pDataSize, pData
 this : [comobj] IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-pDataSize : [int] 
-pData : [intptr] 
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB
+pDataSize : [int] Œ^: UINT* ƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: void* ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+•Ô‚³‚ê‚½ƒf[ƒ^‚ª IUnknown ‚Ü‚½‚Í‚»‚Ì”h¶ƒNƒ‰ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚èAˆÈ‘O‚É
+IDXGIObject::SetPrivateDataInterface ‚Åİ’è‚³‚ê‚½‚à‚Ì‚Å‚ ‚éê‡Aƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚·‚é‘O‚É
+::Release() ‚ğŒÄ‚Ño‚µ‚ÄQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BGetPrivateData ‚Ì Name ƒpƒ‰ƒ[ƒ^‚É
+GUID_DeviceType ‚ğ“n‚·‚±‚Æ‚ÅAƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^ƒIƒuƒWƒFƒNƒg
+(IDXGIAdapterAIDXGIAdapter1AIDXGIAdapter2)
+‚©‚çƒfƒoƒCƒXí•Ê‚ğæ“¾‚Å‚«‚éBƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^‚ª¶¬‚³‚ê‚½ƒfƒoƒCƒX‚Ìí•Ê‚ğæ“¾‚·‚é‚É‚ÍA
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGISurface_GetParent
-IDXGISurface::GetParent (vtable slot 6)
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGISurface
 %prm
 this, riid, ppParent
 this : [comobj] IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-riid : [var] 
-ppParent : [int] 
+riid : [var] Œ^: REFIID —v‹‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì IDB
+ppParent : [int] Œ^: void** eƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 
 %index
 IDXGISurface_GetDevice
-IDXGISurface::GetDevice (vtable slot 7)
+ƒfƒoƒCƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGISurface
 %prm
 this, riid, ppDevice
 this : [comobj] IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-riid : [var] 
-ppDevice : [int] 
+riid : [var] Œ^: REFIID ƒfƒoƒCƒX‚ÌQÆ IDB
+ppDevice : [int] Œ^: void** ƒfƒoƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
+ƒfƒoƒCƒX‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ¬Œ÷‚Ü‚½‚Í¸”s‚ğ¦‚·ƒR[ƒh (DXGI_ERROR ‚ğQÆ)B
+
+[”õl]
+•Ô‚³‚ê‚éƒCƒ“ƒ^[ƒtƒF[ƒXŒ^‚ÍAƒfƒoƒCƒX‚ªŒöŠJ‚µ‚Ä‚¢‚é”CˆÓ‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚ ‚è“¾‚éB‚½‚Æ‚¦‚Î pDevice ‚Æ‚¢‚¤
+IDXGIDevice* ‚Å‚ ‚Á‚Ä‚à‚æ‚­A‚»‚Ìê‡ REFIID ‚Í __uuidof(pDevice) ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“¾‚ç‚ê‚éB
 
 
 %index
 IDXGISurface_GetDesc
 ƒT[ƒtƒFƒX‚Ìà–¾‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGISurface
 %prm
 this
 this : [comobj] IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11469,6 +14886,8 @@ this : [comobj] IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDXGISurface_Map
 ƒT[ƒtƒFƒX‚ÉŠÜ‚Ü‚ê‚éƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚µAƒT[ƒtƒFƒX‚Ö‚Ì GPU ƒAƒNƒZƒX‚ğ‹‘”Û‚·‚éB
+%group
+COM misc / IDXGISurface
 %prm
 this, pLockedRect, MapFlags
 this : [comobj] IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11489,6 +14908,8 @@ CPU ‚©‚çƒT[ƒtƒFƒX‚ÉƒAƒNƒZƒX‚·‚é‚É‚Í IDXGISurface::Map ‚ğg—p‚·‚éBƒ}ƒbƒv‚µ‚½ƒT
 %index
 IDXGISurface_Unmap
 IDXGISurface::Map ‚Åæ“¾‚µ‚½ƒT[ƒtƒFƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ–³Œø‰»‚µAƒŠƒ\[ƒX‚Ö‚Ì GPU ƒAƒNƒZƒX‚ğÄ‚Ñ—LŒø‚É‚·‚éB
+%group
+COM misc / IDXGISurface
 %prm
 this
 this : [comobj] IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11502,64 +14923,127 @@ IDXGISurface::Map ‚Åæ“¾‚µ‚½ƒT[ƒtƒFƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ–³Œø‰»‚µAƒŠƒ\[ƒX‚Ö‚Ì GPU ƒ
 
 %index
 IDXGISwapChain_SetPrivateData
-IDXGISwapChain::SetPrivateData (vtable slot 3)
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this, Name, DataSize, pData
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-DataSize : [int] 
-pData : [intptr] 
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB‚±‚Ì GUID ‚ğ GetPrivateData ‚ÌŒÄ‚Ño‚µ‚Åg—p‚µ‚Äƒf[ƒ^‚ğæ“¾‚·‚éB
+DataSize : [int] Œ^: UINT ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: const void* ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+SetPrivateData ‚Íw’è‚³‚ê‚½ƒf[ƒ^‚ÌƒRƒs[‚ğì¬‚µAƒIƒuƒWƒFƒNƒg‚Æ‚Æ‚à‚ÉŠi”[‚·‚éBSetPrivateData
+‚ªƒIƒuƒWƒFƒNƒg‚ÉŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÍAŠÖ˜A•t‚¯‚ç‚ê‚½ Direct3D ƒIƒuƒWƒFƒNƒg‚ªŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ (—á‚¦‚Î
+Microsoft Direct3D 11 ƒfƒoƒCƒX‚ª ID3D11Device::SetPrivateData ‚ÅA‚Ü‚½‚Í
+Direct3D 11 qƒfƒoƒCƒX‚ª ID3D11DeviceChild::SetPrivateData ‚ÅŠi”[‚·‚é‚à‚Ì)
+‚Æ“¯‚¶‹L‰¯—Ìˆæ‚ğè—L‚·‚éBƒfƒoƒbƒOƒŒƒCƒ„[‚ÍƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^ˆê——‚ğƒtƒŒƒ“ƒhƒŠ–¼•t‚«‚Åo—Í‚µ‚Äƒƒ‚ƒŠƒŠ[ƒN‚ğ•ñ‚·‚éBŠù’è‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚Í
+"<unnamed>"
+‚Å‚ ‚éB‚Ç‚ÌƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ªƒŠ[ƒN‚ÌŒ´ˆö‚É‚È‚Á‚½‚©‚ğ“Á’è‚Å‚«‚é‚æ‚¤‚ÉƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚Å‚«‚éBƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚·‚é‚É‚ÍASetPrivateData
+ƒƒ\ƒbƒh‚Æ D3Dcommon.h ‚É‚ ‚éŠù’m‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ GUID (WKPDID_D3DDebugObjectName)
+‚ğg—p‚·‚éB‚½‚Æ‚¦‚Î pContext ‚ÉƒtƒŒƒ“ƒhƒŠ–¼ My name ‚ğ•t—^‚·‚é‚É‚ÍŸ‚ÌƒR[ƒh‚ğg—p‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGISwapChain_SetPrivateDataInterface
-IDXGISwapChain::SetPrivateDataInterface (vtable slot 4)
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this, Name, pUnknown
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-pUnknown : [int] 
+Name : [var] Œ^: REFGUID ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ¯•Ê‚·‚é GUIDB
+pUnknown : [int] Œ^: const IUnknown* İ’è‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒXB
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚ÌAPI‚ÍƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚éBƒCƒ“ƒ^[ƒtƒF[ƒX‚ªİ’è‚³‚ê‚é‚Æ‚»‚ÌQÆƒJƒEƒ“ƒg‚ªƒCƒ“ƒNƒŠƒƒ“ƒg‚³‚ê‚éBƒf[ƒ^‚ª
+(“¯‚¶ GUID ‚Å SPD ‚Ü‚½‚Í SPDI ‚ğÄ“xŒÄ‚Ño‚µ‚Ä) ã‘‚«‚³‚ê‚é‚©AƒIƒuƒWƒFƒNƒg‚ª”jŠü‚³‚ê‚½‚Æ‚«‚ÉA::Release()
+‚ªŒÄ‚Î‚êƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌQÆƒJƒEƒ“ƒg‚ªƒfƒNƒŠƒƒ“ƒg‚³‚ê‚éB
 
 
 %index
 IDXGISwapChain_GetPrivateData
-IDXGISwapChain::GetPrivateData (vtable slot 5)
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this, Name, pDataSize, pData
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] 
-pDataSize : [int] 
-pData : [intptr] 
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB
+pDataSize : [int] Œ^: UINT* ƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: void* ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
+
+[”õl]
+•Ô‚³‚ê‚½ƒf[ƒ^‚ª IUnknown ‚Ü‚½‚Í‚»‚Ì”h¶ƒNƒ‰ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚èAˆÈ‘O‚É
+IDXGIObject::SetPrivateDataInterface ‚Åİ’è‚³‚ê‚½‚à‚Ì‚Å‚ ‚éê‡Aƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚·‚é‘O‚É
+::Release() ‚ğŒÄ‚Ño‚µ‚ÄQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BGetPrivateData ‚Ì Name ƒpƒ‰ƒ[ƒ^‚É
+GUID_DeviceType ‚ğ“n‚·‚±‚Æ‚ÅAƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^ƒIƒuƒWƒFƒNƒg
+(IDXGIAdapterAIDXGIAdapter1AIDXGIAdapter2)
+‚©‚çƒfƒoƒCƒXí•Ê‚ğæ“¾‚Å‚«‚éBƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^‚ª¶¬‚³‚ê‚½ƒfƒoƒCƒX‚Ìí•Ê‚ğæ“¾‚·‚é‚É‚ÍA
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGISwapChain_GetParent
-IDXGISwapChain::GetParent (vtable slot 6)
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this, riid, ppParent
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-riid : [var] 
-ppParent : [int] 
+riid : [var] Œ^: REFIID —v‹‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì IDB
+ppParent : [int] Œ^: void** eƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 
 %index
 IDXGISwapChain_GetDevice
-IDXGISwapChain::GetDevice (vtable slot 7)
+ƒfƒoƒCƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this, riid, ppDevice
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-riid : [var] 
-ppDevice : [int] 
+riid : [var] Œ^: REFIID ƒfƒoƒCƒX‚ÌQÆ IDB
+ppDevice : [int] Œ^: void** ƒfƒoƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
+ƒfƒoƒCƒX‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ¬Œ÷‚Ü‚½‚Í¸”s‚ğ¦‚·ƒR[ƒh (DXGI_ERROR ‚ğQÆ)B
+
+[”õl]
+•Ô‚³‚ê‚éƒCƒ“ƒ^[ƒtƒF[ƒXŒ^‚ÍAƒfƒoƒCƒX‚ªŒöŠJ‚µ‚Ä‚¢‚é”CˆÓ‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚ ‚è“¾‚éB‚½‚Æ‚¦‚Î pDevice ‚Æ‚¢‚¤
+IDXGIDevice* ‚Å‚ ‚Á‚Ä‚à‚æ‚­A‚»‚Ìê‡ REFIID ‚Í __uuidof(pDevice) ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“¾‚ç‚ê‚éB
 
 
 %index
 IDXGISwapChain_Present
 ƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚½‰æ‘œ‚ğƒ†[ƒU[‚É•\¦‚·‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this, SyncInterval, Flags
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11589,6 +15073,8 @@ Multithreading Considerations ‚ğQÆB
 %index
 IDXGISwapChain_GetBuffer
 ƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒoƒbƒNƒoƒbƒtƒ@‚Ì 1 ‚Â‚ÉƒAƒNƒZƒX‚·‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this, Buffer, riid, ppSurface
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11605,6 +15091,8 @@ ppSurface : [int] Œ^: void** ƒoƒbƒNƒoƒbƒtƒ@ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 IDXGISwapChain_SetFullscreenState
 ƒfƒBƒXƒvƒŒƒCó‘Ô‚ğƒEƒBƒ“ƒhƒE‚Ü‚½‚Íƒtƒ‹ƒXƒNƒŠ[ƒ“‚Éİ’è‚·‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this, Fullscreen, pTarget
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11642,6 +15130,8 @@ SetFullscreenState
 %index
 IDXGISwapChain_GetFullscreenState
 ƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚ÉŠÖ˜A‚·‚éó‘Ô‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this, pFullscreen, ppTarget
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11660,6 +15150,8 @@ ppTarget : [comobj] Œ^: IDXGIOutput** ƒ‚[ƒh‚ªƒtƒ‹ƒXƒNƒŠ[ƒ“‚Ìê‡‚Ío—Íƒ^[ƒQƒb
 %index
 IDXGISwapChain_GetDesc
 ƒXƒƒbƒvƒ`ƒF[ƒ“‚Ìà–¾‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11673,6 +15165,8 @@ this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IDXGISwapChain_ResizeBuffers
 ƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒoƒbƒNƒoƒbƒtƒ@ƒTƒCƒYAƒtƒH[ƒ}ƒbƒgAƒoƒbƒtƒ@”‚ğ•ÏX‚·‚éB‚±‚ê‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ªƒŠƒTƒCƒY‚³‚ê‚½‚Æ‚«‚ÉŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this, BufferCount, Width, Height, NewFormat, SwapChainFlags
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11721,6 +15215,8 @@ IDXGISwapChain::Present ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ‚ª¸”s‚·‚éB
 %index
 IDXGISwapChain_ResizeTarget
 o—Íƒ^[ƒQƒbƒg‚ğƒŠƒTƒCƒY‚·‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this, pNewTargetParameters
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11751,6 +15247,8 @@ ResizeTarget ‚ÌŒÄ‚Ño‚µŒã‚à IDXGISwapChain::ResizeBuffers
 %index
 IDXGISwapChain_GetContainingOutput
 ƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ì‘å”¼‚ğŠÜ‚Şo—Í (ƒfƒBƒXƒvƒŒƒCƒ‚ƒjƒ^) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this, ppOutput
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11776,6 +15274,8 @@ DXGI_OUTPUT_DESC::DesktopCoordinates
 %index
 IDXGISwapChain_GetFrameStatistics
 ÅŒã‚ÌƒŒƒ“ƒ_[ƒtƒŒ[ƒ€‚ÉŠÖ‚·‚éƒpƒtƒH[ƒ}ƒ“ƒX“Œvî•ñ‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this, pStats
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11797,6 +15297,8 @@ GetFrameStatistics ‚ğg—p‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BGetFrameStatistics
 %index
 IDXGISwapChain_GetLastPresentCount
 IDXGISwapChain::Present ‚Ü‚½‚Í IDXGISwapChain1::Present1 ‚ªŒÄ‚Ño‚³‚ê‚½‰ñ”‚ğæ“¾‚·‚éB
+%group
+COM misc / IDXGISwapChain
 %prm
 this, pLastPresentCount
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11814,6 +15316,8 @@ IDXGISwapChain::Present ‚Ü‚½‚Í IDXGISwapChain1::Present1 ‚ªŒÄ‚Ño‚³‚ê‚½‰ñ”‚ğæ“
 %index
 IEnumFORMATETC_Next
 —ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚µ‚½”‚ÌƒAƒCƒeƒ€‚ğæ“¾‚·‚éB(IEnumFORMATETC.Next)
+%group
+COM misc / IEnumFORMATETC
 %prm
 this, celt, rgelt, pceltFetched
 this : [comobj] IEnumFORMATETC ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11830,6 +15334,8 @@ pceltFetched : [var] æ“¾‚³‚ê‚½ƒAƒCƒeƒ€”B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Íí‚É—v‹‚³‚ê‚½ƒAƒCƒ
 %index
 IEnumFORMATETC_Skip
 —ñ‹“ƒV[ƒPƒ“ƒX“à‚Åw’è‚µ‚½”‚ÌƒAƒCƒeƒ€‚ğƒXƒLƒbƒv‚·‚éB(IEnumFORMATETC.Skip)
+%group
+COM misc / IEnumFORMATETC
 %prm
 this, celt
 this : [comobj] IEnumFORMATETC ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11844,6 +15350,8 @@ celt : [int] ƒXƒLƒbƒv‚·‚éƒAƒCƒeƒ€”B
 %index
 IEnumFORMATETC_Reset
 —ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚éB(IEnumFORMATETC.Reset)
+%group
+COM misc / IEnumFORMATETC
 %prm
 this
 this : [comobj] IEnumFORMATETC ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11861,6 +15369,8 @@ this : [comobj] IEnumFORMATETC ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IEnumFORMATETC_Clone
 Œ»İ‚Ì—ñ‹“q‚Æ“¯‚¶—ñ‹“ó‘Ô‚ğ‚ÂV‚µ‚¢—ñ‹“q‚ğì¬‚·‚éB(IEnumFORMATETC.Clone)
+%group
+COM misc / IEnumFORMATETC
 %prm
 this, ppenum
 this : [comobj] IEnumFORMATETC ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11876,6 +15386,8 @@ ppenum : [comobj] —ñ‹“ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^[‚ğó‚¯æ‚é IEnum
 %index
 IEnumMoniker_Next
 —ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚³‚ê‚½”‚Ì€–Ú‚ğæ“¾‚·‚éB(IEnumMoniker.Next)
+%group
+COM misc / IEnumMoniker
 %prm
 this, celt, rgelt, pceltFetched
 this : [comobj] IEnumMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11892,6 +15404,8 @@ pceltFetched : [var] æ“¾‚³‚ê‚½€–Ú”B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íí‚É—v‹‚³‚ê‚½€–Ú”ˆÈ‰º‚
 %index
 IEnumMoniker_Skip
 —ñ‹“ƒV[ƒPƒ“ƒX“à‚Ìw’è‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚·‚éB(IEnumMoniker.Skip)
+%group
+COM misc / IEnumMoniker
 %prm
 this, celt
 this : [comobj] IEnumMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11906,6 +15420,8 @@ celt : [int] ƒXƒLƒbƒv‚·‚é€–Ú”B
 %index
 IEnumMoniker_Reset
 —ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚éB(IEnumMoniker.Reset)
+%group
+COM misc / IEnumMoniker
 %prm
 this
 this : [comobj] IEnumMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11923,6 +15439,8 @@ this : [comobj] IEnumMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IEnumMoniker_Clone
 Œ»İ‚Ì—ñ‹“ó‘Ô‚Æ“¯‚¶ó‘Ô‚ğ‚ÂV‚µ‚¢—ñ‹“q‚ğì¬‚·‚éB(IEnumMoniker.Clone)
+%group
+COM misc / IEnumMoniker
 %prm
 this, ppenum
 this : [comobj] IEnumMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11938,6 +15456,8 @@ ppenum : [comobj] —ñ‹“ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IEnumMo
 %index
 IEnumShellItems_Next
 —ñ‹“‚©‚ç 1 ‚ÂˆÈã‚Ì IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì”z—ñ‚ğæ“¾‚·‚éB
+%group
+COM misc / IEnumShellItems
 %prm
 this, celt, rgelt, pceltFetched
 this : [comobj] IEnumShellItems ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11955,6 +15475,8 @@ pceltFetched : [var] Œ^: ULONG* ³í‚Éæ“¾‚³‚ê‚½ IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì”
 %index
 IEnumShellItems_Skip
 —ñ‹““à‚Ìw’è‚³‚ê‚½”‚Ì IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğƒXƒLƒbƒv‚·‚éBƒCƒ“ƒ^[ƒtƒF[ƒX‚ğæ“¾‚·‚éÛ‚Ég—p‚·‚éB
+%group
+COM misc / IEnumShellItems
 %prm
 this, celt
 this : [comobj] IEnumShellItems ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11969,6 +15491,8 @@ celt : [int] Œ^: ULONG ƒXƒLƒbƒv‚·‚é IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì”B
 %index
 IEnumShellItems_Reset
 —ñ‹““à‚Ìæ“¾Ï‚İ IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì“à•”ƒJƒEƒ“ƒg‚ğƒŠƒZƒbƒg‚·‚éB
+%group
+COM misc / IEnumShellItems
 %prm
 this
 this : [comobj] IEnumShellItems ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11982,6 +15506,8 @@ this : [comobj] IEnumShellItems ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IEnumShellItems_Clone
 Œ»İ‚Ì—ñ‹“‚ÌƒRƒs[‚ğæ“¾‚·‚éB
+%group
+COM misc / IEnumShellItems
 %prm
 this, ppenum
 this : [comobj] IEnumShellItems ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -11996,6 +15522,8 @@ ppenum : [comobj] Œ^: IEnumShellItems** ‚±‚Ì—ñ‹“‚ÌƒRƒs[‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^‚ÌƒAƒh
 %index
 IEnumSTATDATA_Next
 —ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚³‚ê‚½”‚Ì€–Ú‚ğæ“¾‚·‚éB(IEnumSTATDATA.Next)
+%group
+COM misc / IEnumSTATDATA
 %prm
 this, celt, rgelt, pceltFetched
 this : [comobj] IEnumSTATDATA ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12012,6 +15540,8 @@ pceltFetched : [var] æ“¾‚³‚ê‚½€–Ú”B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íí‚É—v‹‚³‚ê‚½€–Ú”ˆÈ‰º‚
 %index
 IEnumSTATDATA_Skip
 —ñ‹“ƒV[ƒPƒ“ƒX“à‚Ìw’è‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚·‚éB(IEnumSTATDATA.Skip)
+%group
+COM misc / IEnumSTATDATA
 %prm
 this, celt
 this : [comobj] IEnumSTATDATA ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12026,6 +15556,8 @@ celt : [int] ƒXƒLƒbƒv‚·‚é€–Ú”B
 %index
 IEnumSTATDATA_Reset
 —ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚éB(IEnumSTATDATA.Reset)
+%group
+COM misc / IEnumSTATDATA
 %prm
 this
 this : [comobj] IEnumSTATDATA ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12043,6 +15575,8 @@ this : [comobj] IEnumSTATDATA ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IEnumSTATDATA_Clone
 Œ»İ‚Ì—ñ‹“ó‘Ô‚Æ“¯‚¶ó‘Ô‚ğ‚ÂV‚µ‚¢—ñ‹“q‚ğì¬‚·‚éB(IEnumSTATDATA.Clone)
+%group
+COM misc / IEnumSTATDATA
 %prm
 this, ppenum
 this : [comobj] IEnumSTATDATA ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12058,6 +15592,8 @@ ppenum : [comobj] —ñ‹“ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IEnumST
 %index
 IEnumString_Next
 IEnumString::Next (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚³‚ê‚½”‚Ì€–Ú‚ğæ“¾‚·‚éB
+%group
+COM misc / IEnumString
 %prm
 this, celt, rgelt, pceltFetched
 this : [comobj] IEnumString ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12074,6 +15610,8 @@ IEnumString::Next (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚³‚ê‚½”‚Ì€–
 %index
 IEnumString_Skip
 IEnumString::Skip (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX“à‚Ìw’è‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚·‚éB
+%group
+COM misc / IEnumString
 %prm
 this, celt
 this : [comobj] IEnumString ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12088,6 +15626,8 @@ IEnumString::Skip (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX“à‚Ìw’è‚³‚ê‚½”‚Ì€–
 %index
 IEnumString_Reset
 IEnumString::Reset (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚éB
+%group
+COM misc / IEnumString
 %prm
 this
 this : [comobj] IEnumString ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12105,6 +15645,8 @@ IEnumString::Reset (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚é
 %index
 IEnumString_Clone
 IEnumString::Clone (objidlbase.h) ƒƒ\ƒbƒh‚ÍAŒ»İ‚Ì—ñ‹“ó‘Ô‚Æ“¯‚¶ó‘Ô‚ğ‚ÂV‚µ‚¢—ñ‹“q‚ğì¬‚·‚éB
+%group
+COM misc / IEnumString
 %prm
 this, ppenum
 this : [comobj] IEnumString ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12119,6 +15661,8 @@ IEnumString::Clone (objidlbase.h) ƒƒ\ƒbƒh‚ÍAŒ»İ‚Ì—ñ‹“ó‘Ô‚Æ“¯‚¶ó‘Ô‚ğ‚ÂV‚µ
 %index
 IEnumUnknown_Next
 IEnumUnknown::Next (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚³‚ê‚½”‚Ì€–Ú‚ğæ“¾‚·‚éB
+%group
+COM misc / IEnumUnknown
 %prm
 this, celt, rgelt, pceltFetched
 this : [comobj] IEnumUnknown ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12135,6 +15679,8 @@ IEnumUnknown::Next (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚³‚ê‚½”‚Ì€
 %index
 IEnumUnknown_Skip
 IEnumUnknown::Skip (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX“à‚Ìw’è‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚·‚éB
+%group
+COM misc / IEnumUnknown
 %prm
 this, celt
 this : [comobj] IEnumUnknown ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12149,6 +15695,8 @@ IEnumUnknown::Skip (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX“à‚Ìw’è‚³‚ê‚½”‚Ì€
 %index
 IEnumUnknown_Reset
 IEnumUnknown::Reset (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚éB
+%group
+COM misc / IEnumUnknown
 %prm
 this
 this : [comobj] IEnumUnknown ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12166,6 +15714,8 @@ IEnumUnknown::Reset (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚
 %index
 IEnumUnknown_Clone
 IEnumUnknown::Clone (objidlbase.h) ƒƒ\ƒbƒh‚ÍAŒ»İ‚Ì—ñ‹“ó‘Ô‚Æ“¯‚¶ó‘Ô‚ğ‚ÂV‚µ‚¢—ñ‹“q‚ğì¬‚·‚éB
+%group
+COM misc / IEnumUnknown
 %prm
 this, ppenum
 this : [comobj] IEnumUnknown ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12180,6 +15730,8 @@ IEnumUnknown::Clone (objidlbase.h) ƒƒ\ƒbƒh‚ÍAŒ»İ‚Ì—ñ‹“ó‘Ô‚Æ“¯‚¶ó‘Ô‚ğ‚ÂV‚
 %index
 IErrorLog_AddError
 w’è‚µ‚½ƒvƒƒpƒeƒB‚É‘Î‚·‚éƒGƒ‰[‚ğƒGƒ‰[ƒƒO‚É’Ç‰Á‚·‚éB
+%group
+COM misc / IErrorLog
 %prm
 this, pszPropName, pExcepInfo
 this : [comobj] IErrorLog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12191,17 +15743,26 @@ pExcepInfo : [int] [EXCEPINFO](ns-oaidl-excepinfo.md) \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 
 %index
 IFileDialog_Show
-IFileDialog::Show (vtable slot 3)
+ƒ‚[ƒ_ƒ‹ƒEƒBƒ“ƒhƒE‚ğ‹N“®‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, hwndOwner
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hwndOwner : [intptr] 
+hwndOwner : [intptr] Œ^: HWND ƒI[ƒi[ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
 %inst
+ƒ‚[ƒ_ƒ‹ƒEƒBƒ“ƒhƒE‚ğ‹N“®‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚ÎˆÈ‰º‚ğŠÜ‚Ş HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IFileDialog_SetFileTypes
 ƒ_ƒCƒAƒƒO‚ªŠJ‚­A‚Ü‚½‚Í•Û‘¶‚Å‚«‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğİ’è‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, cFileTypes, rgFilterSpec
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12223,6 +15784,8 @@ rgFilterSpec : [var] Œ^: const COMDLG_FILTERSPEC* Še—v‘f‚ªƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğ•\‚· C
 %index
 IFileDialog_SetFileTypeIndex
 ƒ_ƒCƒAƒƒO‚Å‘I‘ğó‘Ô‚Æ‚µ‚Ä•\¦‚³‚ê‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğİ’è‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, iFileType
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12240,6 +15803,8 @@ iFileType : [int] Œ^: UINT IFileDialog::SetFileTypes ‚Ì cFileTypes ƒpƒ‰ƒ[ƒ^[‚
 %index
 IFileDialog_GetFileTypeIndex
 Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, piFileType
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12257,6 +15822,8 @@ IFileDialog::GetFileTypeIndex ‚Íƒ_ƒCƒAƒƒO‚ªŠJ‚¢‚Ä‚¢‚éŠÔ‚Å‚àA•Â‚¶‚ç‚ê‚½Œã‚Å‚àŒÄ
 %index
 IFileDialog_Advise
 ƒ_ƒCƒAƒƒO‚©‚ç‘—‚ç‚ê‚éƒCƒxƒ“ƒg‚ğ‘Ò‚¿ó‚¯‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğŠ„‚è“–‚Ä‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, pfde, pdwCookie
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12272,6 +15839,8 @@ pdwCookie : [int] Œ^: DWORD* ‚±‚ÌƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğ¯•Ê‚·‚é’l‚ğó‚¯æ‚é DWORD 
 %index
 IFileDialog_Unadvise
 IFileDialog::Advise ƒƒ\ƒbƒh‚Åæ‚è•t‚¯‚½ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğæ‚èœ‚­B
+%group
+COM misc / IFileDialog
 %prm
 this, dwCookie
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12286,6 +15855,8 @@ IFileDialog::Advise ƒƒ\ƒbƒh‚Åæ‚è•t‚¯‚½ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğæ‚èœ‚­B
 %index
 IFileDialog_SetOptions
 ƒ_ƒCƒAƒƒO‚Ì“®ì‚ğ§Œä‚·‚éƒtƒ‰ƒO‚ğİ’è‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, fos
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12304,6 +15875,8 @@ fos : [int] Œ^: FILEOPENDIALOGOPTIONS 1 ‚Â‚Ü‚½‚Í•¡”‚Ì FILEOPENDIALOGOPTIONS ’l
 %index
 IFileDialog_GetOptions
 ƒ_ƒCƒAƒƒO‚Ì“®ì‚ğ§Œä‚·‚é‚½‚ß‚Éİ’è‚³‚ê‚Ä‚¢‚éŒ»İ‚Ìƒtƒ‰ƒO‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, pfos
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12318,6 +15891,8 @@ pfos : [var] Œ^: FILEOPENDIALOGOPTIONS* ‚±‚Ìƒƒ\ƒbƒh‚ª³í‚É–ß‚Á‚½‚Æ‚«AFILEOPEN
 %index
 IFileDialog_SetDefaultFolder
 Å‹ßg—p‚µ‚½ƒtƒHƒ‹ƒ_[‚Ì’l‚ª—˜—p‚Å‚«‚È‚¢ê‡‚ÉŠù’è‚Æ‚µ‚Äg—p‚·‚éƒtƒHƒ‹ƒ_[‚ğİ’è‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, psi
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12332,6 +15907,8 @@ psi : [comobj] Œ^: IShellItem* ƒtƒHƒ‹ƒ_[‚ğ•\‚·ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 IFileDialog_SetFolder
 ƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚éÛ‚ÉA’¼‘O‚Ìƒ†[ƒU[‘€ì‚ÉŠÖ‚í‚ç‚¸í‚É‘I‘ğ‚³‚ê‚éƒtƒHƒ‹ƒ_[‚ğİ’è‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, psi
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12359,6 +15936,8 @@ OneDrive
 %index
 IFileDialog_GetFolder
 ƒ_ƒCƒAƒƒO‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ‹ƒ_[A‚Ü‚½‚Íƒ_ƒCƒAƒƒO‚ªŒ»İ•\¦‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Íƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚½Û‚É‘I‘ğ‚³‚ê‚éƒtƒHƒ‹ƒ_[‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, ppsi
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12377,6 +15956,8 @@ ppsi : [comobj] Œ^: IShellItem** ƒtƒHƒ‹ƒ_[‚ğ•\‚·ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚
 %index
 IFileDialog_GetCurrentSelection
 ƒ_ƒCƒAƒƒO‚É‚¨‚¯‚éƒ†[ƒU[‚ÌŒ»İ‚Ì‘I‘ğ‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, ppsi
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12394,6 +15975,8 @@ ppsi : [comobj] Œ^: IShellItem** ƒ_ƒCƒAƒƒO‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒAƒCƒeƒ€‚ğ•\‚·ƒCƒ
 %index
 IFileDialog_SetFileName
 ƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚½‚Æ‚«‚Éƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚É•\¦‚³‚ê‚éƒtƒ@ƒCƒ‹–¼‚ğİ’è‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, pszName
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12408,6 +15991,8 @@ pszName : [wstr] Œ^: LPCWSTR ƒtƒ@ƒCƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 IFileDialog_GetFileName
 ƒ_ƒCƒAƒƒO‚Ìƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚ÉŒ»İ“ü—Í‚³‚ê‚Ä‚¢‚éƒeƒLƒXƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, pszName
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12427,6 +16012,8 @@ IFileDialog::GetResult ‚ğg—p‚·‚éBŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íæ“¾‚µ‚½ƒoƒbƒtƒ@‚
 %index
 IFileDialog_SetTitle
 ƒ_ƒCƒAƒƒO‚Ìƒ^ƒCƒgƒ‹‚ğİ’è‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, pszTitle
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12441,6 +16028,8 @@ pszTitle : [wstr] Œ^: LPCWSTR ƒ^ƒCƒgƒ‹ƒeƒLƒXƒg‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 IFileDialog_SetOkButtonLabel
 [ŠJ‚­] ‚Ü‚½‚Í [•Û‘¶] ƒ{ƒ^ƒ“‚ÌƒeƒLƒXƒg‚ğİ’è‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, pszText
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12455,6 +16044,8 @@ pszText : [wstr] Œ^: LPCWSTR ƒ{ƒ^ƒ“ƒeƒLƒXƒg‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 IFileDialog_SetFileNameLabel
 ƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚Ì—×‚Ìƒ‰ƒxƒ‹‚ÌƒeƒLƒXƒg‚ğİ’è‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, pszLabel
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12469,6 +16060,8 @@ pszLabel : [wstr] Œ^: LPCWSTR ƒ‰ƒxƒ‹ƒeƒLƒXƒg‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 IFileDialog_GetResult
 ƒ_ƒCƒAƒƒO‚Åƒ†[ƒU[‚ªs‚Á‚½‘I‘ğ‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, ppsi
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12489,6 +16082,8 @@ IFileDialog::GetResult ‚ÅŒ‹‰Ê‚ğæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚é‚É‚ÍAShow ‚Í¬Œ÷ƒR[ƒh‚ğ•Ô‚µ
 %index
 IFileDialog_AddPlace
 ƒ†[ƒU[‚ªƒAƒCƒeƒ€‚ğŠJ‚­A‚Ü‚½‚Í•Û‘¶‚·‚é‚Ì‚É—˜—p‰Â”\‚ÈêŠ‚ÌƒŠƒXƒg‚ÉƒtƒHƒ‹ƒ_[‚ğ’Ç‰Á‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, psi, fdap
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12508,6 +16103,8 @@ PKEY_ItemNameDisplay ƒvƒƒpƒeƒB‚ğİ’è‚Å‚«‚éB‚±‚ÌƒvƒƒpƒeƒB‚Ì’l‚ÍƒAƒCƒeƒ€‚Ì UI –
 %index
 IFileDialog_SetDefaultExtension
 ƒtƒ@ƒCƒ‹–¼‚É’Ç‰Á‚·‚éŠù’è‚ÌŠg’£q‚ğİ’è‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, pszDefaultExtension
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12526,6 +16123,8 @@ pszDefaultExtension : [wstr] Œ^: LPCWSTR Šg’£qƒeƒLƒXƒg‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ
 %index
 IFileDialog_Close
 ƒ_ƒCƒAƒƒO‚ğ•Â‚¶‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, hr
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12545,6 +16144,8 @@ GetResults ƒƒ\ƒbƒh‚Å—˜—p‰Â”\‚ÈŒ‹‰Ê‚Í‘¶İ‚¹‚¸AŒÄ‚Ño‚·‚Æ¸”s‚·‚éB
 %index
 IFileDialog_SetClientGuid
 ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒ_ƒCƒAƒƒO‚Ì‰i‘±‰»ó‘Ô‚É GUID ‚ğŠÖ˜A•t‚¯‚ç‚ê‚é‚æ‚¤‚É‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this, guid
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12565,6 +16166,8 @@ IFileDialog::SetClientGuid ‚Íƒ_ƒCƒAƒƒOƒIƒuƒWƒFƒNƒgì¬’¼Œã‚ÉŒÄ‚Ño‚·‚×‚«‚Å‚ ‚é
 %index
 IFileDialog_ClearClientData
 ƒ_ƒCƒAƒƒO‚É‰i‘±‰»‚³‚ê‚½‚·‚×‚Ä‚Ìó‘Ôî•ñ‚ğƒNƒŠƒA‚·‚é‚æ‚¤w¦‚·‚éB
+%group
+COM misc / IFileDialog
 %prm
 this
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12582,6 +16185,8 @@ this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IFileDialog_SetFilter
 SetFilter ‚Í Windows 7 ˆÈ~‚Å‚Íg—p‚Å‚«‚È‚­‚È‚Á‚½B
+%group
+COM misc / IFileDialog
 %prm
 this, pFilter
 this : [comobj] IFileDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12604,6 +16209,8 @@ IncludeItem ‚ªŒÄ‚Ño‚³‚ê‚éBGetEnumFlagsForItem
 %index
 IFileDialogEvents_OnFileOk
 ƒ_ƒCƒAƒƒO‚ªŒ‹‰Ê‚Æ‚Æ‚à‚É•Ô‚ë‚¤‚Æ‚·‚é’¼‘O‚ÉŒÄ‚Ño‚³‚ê‚éB
+%group
+COM misc / IFileDialogEvents
 %prm
 this, pfd
 this : [comobj] IFileDialogEvents ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12626,6 +16233,8 @@ IOleWindow ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğæ“¾‚µAIOleWindow::GetWindow
 %index
 IFileDialogEvents_OnFolderChanging
 IFileDialogEvents::OnFolderChange ‚Ì‘O‚ÉŒÄ‚Ño‚³‚ê‚éBÀ‘•Ò‚ª“Á’è‚ÌêŠ‚Ö‚ÌƒiƒrƒQ[ƒVƒ‡ƒ“‚ğ‘j~‚Å‚«‚é‚æ‚¤‚É‚·‚éB
+%group
+COM misc / IFileDialogEvents
 %prm
 this, pfd, psiFolder
 this : [comobj] IFileDialogEvents ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12651,6 +16260,8 @@ IFileDialogEvents::OnFolderChanging
 %index
 IFileDialogEvents_OnFolderChange
 ƒ†[ƒU[‚ªV‚µ‚¢ƒtƒHƒ‹ƒ_[‚ÖƒiƒrƒQ[ƒg‚µ‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚éB
+%group
+COM misc / IFileDialogEvents
 %prm
 this, pfd
 this : [comobj] IFileDialogEvents ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12668,6 +16279,8 @@ IFileDialogEvents::OnFolderChange ‚Íƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚éB
 %index
 IFileDialogEvents_OnSelectionChange
 ƒ†[ƒU[‚ªƒ_ƒCƒAƒƒO‚Ìƒrƒ…[‚Å‘I‘ğ‚ğ•ÏX‚µ‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚éB
+%group
+COM misc / IFileDialogEvents
 %prm
 this, pfd
 this : [comobj] IFileDialogEvents ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12682,6 +16295,8 @@ pfd : [comobj] Œ^: IFileDialog* ƒ_ƒCƒAƒƒO‚ğ•\‚·ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 IFileDialogEvents_OnShareViolation
 ƒI[ƒvƒ“‚Ü‚½‚ÍƒZ[ƒu‘€ì‚©‚ç”­¶‚·‚é‹¤—Lˆá”½‚É‘Î‰‚Å‚«‚é‚æ‚¤‚É‚·‚éB
+%group
+COM misc / IFileDialogEvents
 %prm
 this, pfd, psi, pResponse
 this : [comobj] IFileDialogEvents ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12703,6 +16318,8 @@ pResponse : [var] Œ^: FDE_SHAREVIOLATION_RESPONSE* ‹¤—Lˆá”½‚Ö‚Ì‰“š‚ğ¦‚· FDE_SH
 %index
 IFileDialogEvents_OnTypeChange
 ƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚½‚Æ‚«‚É‰Šú‚Ì‘I‘ğƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É’Ê’m‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚³‚ê‚éB
+%group
+COM misc / IFileDialogEvents
 %prm
 this, pfd
 this : [comobj] IFileDialogEvents ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12722,6 +16339,8 @@ IFileDialogEvents
 %index
 IFileDialogEvents_OnOverwrite
 ƒZ[ƒuƒ_ƒCƒAƒƒO‚©‚çƒ†[ƒU[‚ªƒtƒ@ƒCƒ‹‚ğã‘‚«‚·‚é‚±‚Æ‚ğ‘I‘ğ‚µ‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚éB
+%group
+COM misc / IFileDialogEvents
 %prm
 this, pfd, psi, pResponse
 this : [comobj] IFileDialogEvents ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -12742,249 +16361,474 @@ pResponse : [var] Œ^: FDE_OVERWRITE_RESPONSE* öİ“I‚Èã‘‚«“®ì‚Ö‚Ì‰“š‚ğ¦‚· F
 
 %index
 IFileOpenDialog_Show
-IFileOpenDialog::Show (vtable slot 3)
+ƒ‚[ƒ_ƒ‹ƒEƒBƒ“ƒhƒE‚ğ‹N“®‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, hwndOwner
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hwndOwner : [intptr] 
+hwndOwner : [intptr] Œ^: HWND ƒI[ƒi[ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
 %inst
+ƒ‚[ƒ_ƒ‹ƒEƒBƒ“ƒhƒE‚ğ‹N“®‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚ÎˆÈ‰º‚ğŠÜ‚Ş HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IFileOpenDialog_SetFileTypes
-IFileOpenDialog::SetFileTypes (vtable slot 4)
+ƒ_ƒCƒAƒƒO‚ªŠJ‚­A‚Ü‚½‚Í•Û‘¶‚Å‚«‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğİ’è‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, cFileTypes, rgFilterSpec
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cFileTypes : [int] 
-rgFilterSpec : [var] 
+cFileTypes : [int] Œ^: UINT rgFilterSpec ‚Åw’è‚³‚ê‚½”z—ñ‚Ì—v‘f”B
+rgFilterSpec : [var] Œ^: const COMDLG_FILTERSPEC* Še—v‘f‚ªƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğ•\‚· COMDLG_FILTERSPEC \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+ƒ_ƒCƒAƒƒO‚ªŠJ‚­A‚Ü‚½‚Í•Û‘¶‚Å‚«‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚ÎˆÈ‰º‚ğŠÜ‚Ş HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
+
+[”õl]
+
+ƒI[ƒvƒ“ƒ_ƒCƒAƒƒO‚ğg—p‚·‚éê‡A‚±‚±‚ÅéŒ¾‚µ‚½ƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚Íƒrƒ…[‚ÌƒtƒBƒ‹ƒ^[‚Ég‚í‚ê‚éBƒZ[ƒuƒ_ƒCƒAƒƒO‚ğg—p‚·‚éê‡A‚±‚ê‚ç‚Ì’l‚Íƒtƒ@ƒCƒ‹–¼‚É’Ç‰Á‚³‚ê‚éƒtƒ@ƒCƒ‹–¼Šg’£q‚ğŒˆ’è‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚Íƒ_ƒCƒAƒƒO‚ğ•\¦‚·‚é‘O‚ÉŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚¸Aƒ_ƒCƒAƒƒOƒCƒ“ƒXƒ^ƒ“ƒX‚²‚Æ‚É
+1 ‰ñ‚µ‚©ŒÄ‚Ño‚¹‚È‚¢BƒRƒ‚ƒ“ƒAƒCƒeƒ€ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ª•\¦‚³‚ê‚½Œã‚Íƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğ•ÏX‚Å‚«‚È‚¢B
 
 
 %index
 IFileOpenDialog_SetFileTypeIndex
-IFileOpenDialog::SetFileTypeIndex (vtable slot 5)
+ƒ_ƒCƒAƒƒO‚Å‘I‘ğó‘Ô‚Æ‚µ‚Ä•\¦‚³‚ê‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğİ’è‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, iFileType
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-iFileType : [int] 
+iFileType : [int] Œ^: UINT IFileDialog::SetFileTypes ‚Ì cFileTypes ƒpƒ‰ƒ[ƒ^[‚É“n‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒ^ƒCƒv”z—ñ‚É‚¨‚¯‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ÌƒCƒ“ƒfƒbƒNƒXB’ˆÓ ‚±‚ê‚Í 0 ƒx[ƒX‚Å‚Í‚È‚­ 1 ƒx[ƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚Å‚ ‚éB
 %inst
+ƒ_ƒCƒAƒƒO‚Å‘I‘ğó‘Ô‚Æ‚µ‚Ä•\¦‚³‚ê‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Íƒ_ƒCƒAƒƒO‚ª•\¦‚³‚ê‚é‘O‚ÉŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 IFileOpenDialog_GetFileTypeIndex
-IFileOpenDialog::GetFileTypeIndex (vtable slot 6)
+Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, piFileType
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-piFileType : [int] 
+piFileType : [int] Œ^: UINT* IFileDialog::SetFileTypes ‚Ì cFileTypes ƒpƒ‰ƒ[ƒ^[‚É“n‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒ^ƒCƒv”z—ñ‚É‚¨‚¯‚éA‘I‘ğ’†‚Ìƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ÌƒCƒ“ƒfƒbƒNƒX‚ğó‚¯æ‚é UINT ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^[B’ˆÓ ‚±‚ê‚Í 0 ƒx[ƒX‚Å‚Í‚È‚­ 1 ƒx[ƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚Å‚ ‚éB
 %inst
+Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+IFileDialog::GetFileTypeIndex ‚Íƒ_ƒCƒAƒƒO‚ªŠJ‚¢‚Ä‚¢‚éŠÔ‚Å‚àA•Â‚¶‚ç‚ê‚½Œã‚Å‚àŒÄ‚Ño‚¹‚éB
 
 
 %index
 IFileOpenDialog_Advise
-IFileOpenDialog::Advise (vtable slot 7)
+ƒ_ƒCƒAƒƒO‚©‚ç‘—‚ç‚ê‚éƒCƒxƒ“ƒg‚ğ‘Ò‚¿ó‚¯‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğŠ„‚è“–‚Ä‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, pfde, pdwCookie
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfde : [comobj] 
-pdwCookie : [int] 
+pfde : [comobj] Œ^: IFileDialogEvents* ƒ_ƒCƒAƒƒO‚©‚ç‚ÌƒCƒxƒ“ƒg‚ğó‚¯æ‚é IFileDialogEvents À‘•‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pdwCookie : [int] Œ^: DWORD* ‚±‚ÌƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğ¯•Ê‚·‚é’l‚ğó‚¯æ‚é DWORD ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BƒNƒ‰ƒCƒAƒ“ƒg‚Íƒ_ƒCƒAƒƒO‚Ìg—p‚ğI‚¦‚½‚çA‚±‚Ì’l‚ğw’è‚µ‚Ä IFileDialog::Unadvise ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
+ƒ_ƒCƒAƒƒO‚©‚ç‘—‚ç‚ê‚éƒCƒxƒ“ƒg‚ğ‘Ò‚¿ó‚¯‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğŠ„‚è“–‚Ä‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileOpenDialog_Unadvise
-IFileOpenDialog::Unadvise (vtable slot 8)
+IFileDialog::Advise ƒƒ\ƒbƒh‚Åæ‚è•t‚¯‚½ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğæ‚èœ‚­B
+%group
+COM misc / IFileOpenDialog
 %prm
 this, dwCookie
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwCookie : [int] 
+dwCookie : [int] Œ^: DWORD ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğ•\‚· DWORD ’lB‚±‚Ì’l‚Í IFileDialog::Advise ƒƒ\ƒbƒh‚Ì pdwCookie ƒpƒ‰ƒ[ƒ^[‚©‚çæ“¾‚·‚éB
 %inst
+IFileDialog::Advise ƒƒ\ƒbƒh‚Åæ‚è•t‚¯‚½ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğæ‚èœ‚­B
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileOpenDialog_SetOptions
-IFileOpenDialog::SetOptions (vtable slot 9)
+ƒ_ƒCƒAƒƒO‚Ì“®ì‚ğ§Œä‚·‚éƒtƒ‰ƒO‚ğİ’è‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, fos
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fos : [int] 
+fos : [int] Œ^: FILEOPENDIALOGOPTIONS 1 ‚Â‚Ü‚½‚Í•¡”‚Ì FILEOPENDIALOGOPTIONS ’lB
 %inst
+ƒ_ƒCƒAƒƒO‚Ì“®ì‚ğ§Œä‚·‚éƒtƒ‰ƒO‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ˆê”Ê‚É‚±‚Ìƒƒ\ƒbƒh‚Í IFileDialog::GetOptions
+‚Åæ“¾‚µ‚½’l‚ğó‚¯æ‚èA“KØ‚Èƒtƒ‰ƒO‚ğİ’è‚µ‚ÄƒIƒvƒVƒ‡ƒ“‚ğ’Ç‰Á‚Ü‚½‚Ííœ‚·‚é‚æ‚¤‚É•ÏX‚·‚é‚½‚ß‚Ég—p‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 IFileOpenDialog_GetOptions
-IFileOpenDialog::GetOptions (vtable slot 10)
+ƒ_ƒCƒAƒƒO‚Ì“®ì‚ğ§Œä‚·‚é‚½‚ß‚Éİ’è‚³‚ê‚Ä‚¢‚éŒ»İ‚Ìƒtƒ‰ƒO‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, pfos
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfos : [var] 
+pfos : [var] Œ^: FILEOPENDIALOGOPTIONS* ‚±‚Ìƒƒ\ƒbƒh‚ª³í‚É–ß‚Á‚½‚Æ‚«AFILEOPENDIALOGOPTIONS ‚Ì 1 ‚Â‚Ü‚½‚Í•¡”‚Ì’l‚Ì‘g‚İ‡‚í‚¹‚ğw‚·B
 %inst
+ƒ_ƒCƒAƒƒO‚Ì“®ì‚ğ§Œä‚·‚é‚½‚ß‚Éİ’è‚³‚ê‚Ä‚¢‚éŒ»İ‚Ìƒtƒ‰ƒO‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileOpenDialog_SetDefaultFolder
-IFileOpenDialog::SetDefaultFolder (vtable slot 11)
+Å‹ßg—p‚µ‚½ƒtƒHƒ‹ƒ_[‚Ì’l‚ª—˜—p‚Å‚«‚È‚¢ê‡‚ÉŠù’è‚Æ‚µ‚Äg—p‚·‚éƒtƒHƒ‹ƒ_[‚ğİ’è‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, psi
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-psi : [comobj] 
+psi : [comobj] Œ^: IShellItem* ƒtƒHƒ‹ƒ_[‚ğ•\‚·ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+Å‹ßg—p‚µ‚½ƒtƒHƒ‹ƒ_[‚Ì’l‚ª—˜—p‚Å‚«‚È‚¢ê‡‚ÉŠù’è‚Æ‚µ‚Äg—p‚·‚éƒtƒHƒ‹ƒ_[‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileOpenDialog_SetFolder
-IFileOpenDialog::SetFolder (vtable slot 12)
+ƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚éÛ‚ÉA’¼‘O‚Ìƒ†[ƒU[‘€ì‚ÉŠÖ‚í‚ç‚¸í‚É‘I‘ğ‚³‚ê‚éƒtƒHƒ‹ƒ_[‚ğİ’è‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, psi
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-psi : [comobj] 
+psi : [comobj] Œ^: IShellItem* ƒtƒHƒ‹ƒ_[‚ğ•\‚·ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+ƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚éÛ‚ÉA’¼‘O‚Ìƒ†[ƒU[‘€ì‚ÉŠÖ‚í‚ç‚¸í‚É‘I‘ğ‚³‚ê‚éƒtƒHƒ‹ƒ_[‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚ÌƒtƒHƒ‹ƒ_[‚ÍuÅ‹ßg—p‚µ‚½vƒtƒHƒ‹ƒ_[‚ğã‘‚«‚·‚éBƒ_ƒCƒAƒƒO•\¦’†‚É‚±‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚é‚ÆAƒ_ƒCƒAƒƒO‚Íw’è‚µ‚½ƒtƒHƒ‹ƒ_[‚ÖƒiƒrƒQ[ƒg‚·‚éBˆê”Ê‚É‚±‚Ìƒƒ\ƒbƒh‚Ìg—p‚Í„§‚³‚ê‚È‚¢Bƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚é‘O‚É
+SetFolder
+‚ğŒÄ‚Ño‚·‚ÆAƒ†[ƒU[‚ª’¼‹ß‚É•Û‘¶‚µ‚½‚èŠJ‚¢‚½‚è‚µ‚½êŠ‚ª•\¦‚³‚ê‚È‚¢B‚±‚Ì“®ì‚ğ•K—v‚Æ‚·‚é”ñí‚É‹ï‘Ì“I‚È——R‚ª‚È‚¢ŒÀ‚èA‚±‚ê‚Í–]‚Ü‚µ‚¢ƒ†[ƒU[‘ÌŒ±‚Æ‚ÍŒ¾‚¦‚¸A”ğ‚¯‚é‚×‚«‚Å‚ ‚éB‚Ù‚Æ‚ñ‚Ç‚Ìê‡
+IFileDialog::SetDefaultFolder ‚Ì•û‚ª“K‚µ‚Ä‚¢‚éBWindows 7 ˆÈ~Apsi
+‚ğ‰î‚µ‚Äw’è‚µ‚½ƒtƒHƒ‹ƒ_[‚ÌƒpƒX‚ªŠù’mƒtƒHƒ‹ƒ_[‚ÌŠù’èƒpƒX‚Å‚ ‚éê‡Aƒ_ƒCƒAƒƒO‚Å‚Í‚»‚ÌŠù’mƒtƒHƒ‹ƒ_[‚ÌŒ»İ‚ÌƒpƒX‚ªg—p‚³‚ê‚éB‚»‚ÌƒpƒX‚Í
+psi
+‚Åw’è‚³‚ê‚½‚à‚Ì‚Æ‚ÍˆÙ‚È‚éê‡‚ª‚ ‚éB—á‚¦‚ÎŠù’mƒtƒHƒ‹ƒ_[‚ªƒŠƒ_ƒCƒŒƒNƒg‚³‚ê‚Ä‚¢‚é‚È‚Ç‚Å‚ ‚éBŠù’mƒtƒHƒ‹ƒ_[‚ªƒ‰ƒCƒuƒ‰ƒŠi‰¼‘zƒtƒHƒ‹ƒ_[‚ÌƒhƒLƒ…ƒƒ“ƒgEƒ~ƒ…[ƒWƒbƒNEƒsƒNƒ`ƒƒ[EƒrƒfƒIj‚Å‚ ‚éê‡Aƒ_ƒCƒAƒƒO‚Å‚Íƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒpƒX‚ªg—p‚³‚ê‚éBw’è‚µ‚½ƒ‰ƒCƒuƒ‰ƒŠ‚ª”ñ•\¦iWindows
+8.1 ˆÈ~‚ÌŠù’è‚Å‚Í‚»‚¤‚È‚Á‚Ä‚¢‚éj‚Ìê‡Aƒ_ƒCƒAƒƒO‚Å‚Íƒ‰ƒCƒuƒ‰ƒŠ‚ÌŠù’è‚Ì•Û‘¶êŠiƒhƒLƒ…ƒƒ“ƒgƒ‰ƒCƒuƒ‰ƒŠ‚É‘Î‚·‚é Microsoft
+OneDrive
+ƒhƒLƒ…ƒƒ“ƒgƒtƒHƒ‹ƒ_[‚È‚Çj‚ªg—p‚³‚ê‚éB‚±‚ê‚ç‚Ìƒ}ƒbƒsƒ“ƒO‚Ì‚½‚ßAƒ_ƒCƒAƒƒO‚Åg—p‚³‚ê‚éƒtƒHƒ‹ƒ_[ˆÊ’u‚ÍA‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½‚Æ‚«‚Éw’è‚µ‚½‚à‚Ì‚Æ‚ÍŠ®‘S‚É‚Íˆê’v‚µ‚È‚¢ê‡‚ª‚ ‚éB
 
 
 %index
 IFileOpenDialog_GetFolder
-IFileOpenDialog::GetFolder (vtable slot 13)
+ƒ_ƒCƒAƒƒO‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ‹ƒ_[A‚Ü‚½‚Íƒ_ƒCƒAƒƒO‚ªŒ»İ•\¦‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Íƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚½Û‚É‘I‘ğ‚³‚ê‚éƒtƒHƒ‹ƒ_[‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, ppsi
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppsi : [comobj] 
+ppsi : [comobj] Œ^: IShellItem** ƒtƒHƒ‹ƒ_[‚ğ•\‚·ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒXB
 %inst
+
+ƒ_ƒCƒAƒƒO‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ‹ƒ_[A‚Ü‚½‚Íƒ_ƒCƒAƒƒO‚ªŒ»İ•\¦‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Íƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚½Û‚É‘I‘ğ‚³‚ê‚éƒtƒHƒ‹ƒ_[‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íæ“¾‚µ‚½ IShellItem ‚ª•s—v‚É‚È‚Á‚½‚ç‰ğ•ú‚·‚éÓ”C‚ğ•‰‚¤B
 
 
 %index
 IFileOpenDialog_GetCurrentSelection
-IFileOpenDialog::GetCurrentSelection (vtable slot 14)
+ƒ_ƒCƒAƒƒO‚É‚¨‚¯‚éƒ†[ƒU[‚ÌŒ»İ‚Ì‘I‘ğ‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, ppsi
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppsi : [comobj] 
+ppsi : [comobj] Œ^: IShellItem** ƒ_ƒCƒAƒƒO‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒAƒCƒeƒ€‚ğ•\‚·ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒXB‚±‚ÌƒAƒCƒeƒ€‚Íƒrƒ…[ƒEƒBƒ“ƒhƒE‚Å‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹‚âƒtƒHƒ‹ƒ_[A‚Ü‚½‚Íƒ†[ƒU[‚ªƒ_ƒCƒAƒƒO‚Ì•ÒWƒ{ƒbƒNƒX‚É“ü—Í‚µ‚½“à—e‚Å‚ ‚éê‡‚ª‚ ‚éBŒãÒ‚Ìê‡‚ÍŒ»İ‚ÌƒXƒŒƒbƒh‚ğƒuƒƒbƒN‚·‚é‰Â”\«‚Ì‚ ‚é‰ğÍ‘€ìiƒ†[ƒU[‚É‚æ‚éƒLƒƒƒ“ƒZƒ‹‰Âj‚ª•K—v‚É‚È‚é‚±‚Æ‚ª‚ ‚éB
 %inst
+ƒ_ƒCƒAƒƒO‚É‚¨‚¯‚éƒ†[ƒU[‚ÌŒ»İ‚Ì‘I‘ğ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íæ“¾‚µ‚½ IShellItem ‚ª•s—v‚É‚È‚Á‚½‚ç‰ğ•ú‚·‚éÓ”C‚ğ•‰‚¤B
 
 
 %index
 IFileOpenDialog_SetFileName
-IFileOpenDialog::SetFileName (vtable slot 15)
+ƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚½‚Æ‚«‚Éƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚É•\¦‚³‚ê‚éƒtƒ@ƒCƒ‹–¼‚ğİ’è‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, pszName
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pszName : [wstr] 
+pszName : [wstr] Œ^: LPCWSTR ƒtƒ@ƒCƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+ƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚½‚Æ‚«‚Éƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚É•\¦‚³‚ê‚éƒtƒ@ƒCƒ‹–¼‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileOpenDialog_GetFileName
-IFileOpenDialog::GetFileName (vtable slot 16)
+ƒ_ƒCƒAƒƒO‚Ìƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚ÉŒ»İ“ü—Í‚³‚ê‚Ä‚¢‚éƒeƒLƒXƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, pszName
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pszName : [var] 
+pszName : [var] Œ^: WCHAR** ‚±‚Ìƒƒ\ƒbƒh‚ª³í‚É–ß‚Á‚½‚Æ‚«‚ÉƒeƒLƒXƒg‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒXB
 %inst
+ƒ_ƒCƒAƒƒO‚Ìƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚ÉŒ»İ“ü—Í‚³‚ê‚Ä‚¢‚éƒeƒLƒXƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚ÌƒeƒLƒXƒg‚ÍAƒ†[ƒU[‚ª‘I‘ğ‚µ‚½ƒAƒCƒeƒ€‚ğ•K‚¸‚µ‚à”½‰f‚µ‚È‚¢Bƒ†[ƒU[‚ª‘I‘ğ‚µ‚½ƒAƒCƒeƒ€‚ğæ“¾‚·‚é‚É‚Í
+IFileDialog::GetResult ‚ğg—p‚·‚éBŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íæ“¾‚µ‚½ƒoƒbƒtƒ@‚ğ CoTaskMemFree
+ŠÖ”‚Å‰ğ•ú‚·‚éÓ”C‚ğ•‰‚¤B
 
 
 %index
 IFileOpenDialog_SetTitle
-IFileOpenDialog::SetTitle (vtable slot 17)
+ƒ_ƒCƒAƒƒO‚Ìƒ^ƒCƒgƒ‹‚ğİ’è‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, pszTitle
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pszTitle : [wstr] 
+pszTitle : [wstr] Œ^: LPCWSTR ƒ^ƒCƒgƒ‹ƒeƒLƒXƒg‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+ƒ_ƒCƒAƒƒO‚Ìƒ^ƒCƒgƒ‹‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileOpenDialog_SetOkButtonLabel
-IFileOpenDialog::SetOkButtonLabel (vtable slot 18)
+[ŠJ‚­] ‚Ü‚½‚Í [•Û‘¶] ƒ{ƒ^ƒ“‚ÌƒeƒLƒXƒg‚ğİ’è‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, pszText
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pszText : [wstr] 
+pszText : [wstr] Œ^: LPCWSTR ƒ{ƒ^ƒ“ƒeƒLƒXƒg‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+[ŠJ‚­] ‚Ü‚½‚Í [•Û‘¶] ƒ{ƒ^ƒ“‚ÌƒeƒLƒXƒg‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileOpenDialog_SetFileNameLabel
-IFileOpenDialog::SetFileNameLabel (vtable slot 19)
+ƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚Ì—×‚Ìƒ‰ƒxƒ‹‚ÌƒeƒLƒXƒg‚ğİ’è‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, pszLabel
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pszLabel : [wstr] 
+pszLabel : [wstr] Œ^: LPCWSTR ƒ‰ƒxƒ‹ƒeƒLƒXƒg‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+ƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚Ì—×‚Ìƒ‰ƒxƒ‹‚ÌƒeƒLƒXƒg‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileOpenDialog_GetResult
-IFileOpenDialog::GetResult (vtable slot 20)
+ƒ_ƒCƒAƒƒO‚Åƒ†[ƒU[‚ªs‚Á‚½‘I‘ğ‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, ppsi
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppsi : [comobj] 
+ppsi : [comobj] Œ^: IShellItem** ƒ†[ƒU[‚Ì‘I‘ğ‚ğ•\‚· IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒXB
 %inst
+ƒ_ƒCƒAƒƒO‚Åƒ†[ƒU[‚ªs‚Á‚½‘I‘ğ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+IFileDialog::GetResult ‚Íƒ_ƒCƒAƒƒO‚ª•Â‚¶‚ç‚ê‚½ŒãA‚Ü‚½‚Í OnFileOk
+ƒCƒxƒ“ƒgˆ—’†‚ÉŒÄ‚Ño‚¹‚éB‚»‚êˆÈŠO‚Ìƒ^ƒCƒ~ƒ“ƒO‚ÅŒÄ‚Ño‚·‚Æ¸”s‚·‚éB•¡”‚ÌƒAƒCƒeƒ€‚ª‘I‘ğ‚³‚ê‚½ê‡A‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚·‚éB•¡”ƒAƒCƒeƒ€‚Ìê‡‚Í
+GetResults ‚ğŒÄ‚Ño‚·B
+IFileDialog::GetResult ‚ÅŒ‹‰Ê‚ğæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚é‚É‚ÍAShow ‚Í¬Œ÷ƒR[ƒh‚ğ•Ô‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 IFileOpenDialog_AddPlace
-IFileOpenDialog::AddPlace (vtable slot 21)
+ƒ†[ƒU[‚ªƒAƒCƒeƒ€‚ğŠJ‚­A‚Ü‚½‚Í•Û‘¶‚·‚é‚Ì‚É—˜—p‰Â”\‚ÈêŠ‚ÌƒŠƒXƒg‚ÉƒtƒHƒ‹ƒ_[‚ğ’Ç‰Á‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, psi, fdap
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-psi : [comobj] 
-fdap : [int] 
+psi : [comobj] Œ^: IShellItem* ƒ†[ƒU[‚É—˜—p‰Â”\‚É‚·‚éƒtƒHƒ‹ƒ_[‚ğ•\‚· IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BƒtƒHƒ‹ƒ_[ˆÈŠO‚Íw’è‚Å‚«‚È‚¢B
+fdap : [int] Œ^: FDAP ƒŠƒXƒg“à‚ÅƒtƒHƒ‹ƒ_[‚ğ”z’u‚·‚éˆÊ’u‚ğw’è‚·‚éBFDAP ‚ğQÆB
 %inst
+ƒ†[ƒU[‚ªƒAƒCƒeƒ€‚ğŠJ‚­A‚Ü‚½‚Í•Û‘¶‚·‚é‚Ì‚É—˜—p‰Â”\‚ÈêŠ‚ÌƒŠƒXƒg‚ÉƒtƒHƒ‹ƒ_[‚ğ’Ç‰Á‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+SHSetTemporaryPropertyForItem ‚ğg‚Á‚Ä psi ƒpƒ‰ƒ[ƒ^[‚ª•\‚·ƒAƒCƒeƒ€‚Éˆê“I‚È
+PKEY_ItemNameDisplay ƒvƒƒpƒeƒB‚ğİ’è‚Å‚«‚éB‚±‚ÌƒvƒƒpƒeƒB‚Ì’l‚ÍƒAƒCƒeƒ€‚Ì UI –¼‚Ì‘ã‚í‚è‚Ég‚í‚ê‚éB
 
 
 %index
 IFileOpenDialog_SetDefaultExtension
-IFileOpenDialog::SetDefaultExtension (vtable slot 22)
+ƒtƒ@ƒCƒ‹–¼‚É’Ç‰Á‚·‚éŠù’è‚ÌŠg’£q‚ğİ’è‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, pszDefaultExtension
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pszDefaultExtension : [wstr] 
+pszDefaultExtension : [wstr] Œ^: LPCWSTR Šg’£qƒeƒLƒXƒg‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ì•¶š—ñ‚É‚Íæ“ª‚ÌƒsƒŠƒIƒh‚ğŠÜ‚ß‚È‚¢B—á‚¦‚Îujpgv‚Í³‚µ‚­Au.jpgv‚Í³‚µ‚­‚È‚¢B
 %inst
+ƒtƒ@ƒCƒ‹–¼‚É’Ç‰Á‚·‚éŠù’è‚ÌŠg’£q‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒ_ƒCƒAƒƒO‚ğ•\¦‚·‚é‘O‚É‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½ê‡Aƒ†[ƒU[‚ªV‚µ‚¢ƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğ‘I‘ğ‚·‚é‚ÆiSetFileTypes
+‚ğQÆjAƒ_ƒCƒAƒƒO‚ÍŠù’è‚ÌŠg’£q‚ğ©“®“I‚ÉXV‚·‚éB
 
 
 %index
 IFileOpenDialog_Close
-IFileOpenDialog::Close (vtable slot 23)
+ƒ_ƒCƒAƒƒO‚ğ•Â‚¶‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, hr
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hr : [intptr] 
+hr : [intptr] Œ^: HRESULT ‘I‘ğ‚ªs‚í‚ê‚é‘O‚Éƒ_ƒCƒAƒƒO‚ª•Â‚¶‚ç‚ê‚½‚±‚Æ‚ğ¦‚·‚½‚ß‚É Show ‚ª•Ô‚·ƒR[ƒhB
 %inst
+ƒ_ƒCƒAƒƒO‚ğ•Â‚¶‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íƒ_ƒCƒAƒƒO‚ªŠJ‚¢‚Ä‚¢‚éŠÔ‚ÉƒR[ƒ‹ƒoƒbƒNƒƒ\ƒbƒh‚âŠÖ”‚©‚ç‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚¹‚éBƒ_ƒCƒAƒƒO‚Í•Â‚¶‚ç‚êAShow
+ƒƒ\ƒbƒh‚Í hr ‚Åw’è‚³‚ê‚½ HRESULT ‚ğ•Ô‚·B‚±‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚½ê‡AIFileDialog::GetResult ‚â
+GetResults ƒƒ\ƒbƒh‚Å—˜—p‰Â”\‚ÈŒ‹‰Ê‚Í‘¶İ‚¹‚¸AŒÄ‚Ño‚·‚Æ¸”s‚·‚éB
 
 
 %index
 IFileOpenDialog_SetClientGuid
-IFileOpenDialog::SetClientGuid (vtable slot 24)
+ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒ_ƒCƒAƒƒO‚Ì‰i‘±‰»ó‘Ô‚É GUID ‚ğŠÖ˜A•t‚¯‚ç‚ê‚é‚æ‚¤‚É‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, guid
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-guid : [var] 
+guid : [var] Œ^: REFGUID ‚±‚Ìƒ_ƒCƒAƒƒOó‘Ô‚ÉŠÖ˜A•t‚¯‚é GUIDB
 %inst
+ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒ_ƒCƒAƒƒO‚Ì‰i‘±‰»ó‘Ô‚É GUID ‚ğŠÖ˜A•t‚¯‚ç‚ê‚é‚æ‚¤‚É‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+
+ƒ_ƒCƒAƒƒO‚Ìó‘Ô‚É‚Í’¼‹ß‚É–K‚ê‚½ƒtƒHƒ‹ƒ_[‚âƒ_ƒCƒAƒƒO‚ÌˆÊ’u‚ÆƒTƒCƒY‚È‚Ç‚ªŠÜ‚Ü‚ê‚éB’Êí‚±‚Ìó‘Ô‚ÍÀs‰Â”\ƒtƒ@ƒCƒ‹–¼‚ğ‚à‚Æ‚É‰i‘±‰»‚³‚ê‚éBGUID
+‚ğw’è‚·‚é‚±‚Æ‚ÅAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í“¯‚¶ƒAƒvƒŠƒP[ƒVƒ‡ƒ““à‚Åƒ_ƒCƒAƒƒO‚Ìƒo[ƒWƒ‡ƒ“‚²‚Æ‚ÉˆÙ‚È‚é‰i‘±‰»ó‘Ô‚ğ‚Ä‚éiƒCƒ“ƒ|[ƒgƒ_ƒCƒAƒƒO‚ÆƒI[ƒvƒ“ƒ_ƒCƒAƒƒO‚È‚ÇjB
+IFileDialog::SetClientGuid ‚Íƒ_ƒCƒAƒƒOƒIƒuƒWƒFƒNƒgì¬’¼Œã‚ÉŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 IFileOpenDialog_ClearClientData
-IFileOpenDialog::ClearClientData (vtable slot 25)
+ƒ_ƒCƒAƒƒO‚É‰i‘±‰»‚³‚ê‚½‚·‚×‚Ä‚Ìó‘Ôî•ñ‚ğƒNƒŠƒA‚·‚é‚æ‚¤w¦‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒ_ƒCƒAƒƒO‚É‰i‘±‰»‚³‚ê‚½‚·‚×‚Ä‚Ìó‘Ôî•ñ‚ğƒNƒŠƒA‚·‚é‚æ‚¤w¦‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‰i‘±‰»‚³‚ê‚½î•ñ‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ü‚½‚Í GUID ‚ÉŠÖ˜A•t‚¯‚é‚±‚Æ‚ª‚Å‚«‚éBIFileDialog::SetClientGuid
+‚ğg‚Á‚Ä GUID ‚ªİ’è‚³‚ê‚Ä‚¢‚½ê‡A‚»‚Ì GUID ‚ª‰i‘±‰»‚³‚ê‚½î•ñ‚ÌƒNƒŠƒA‚Ég‚í‚ê‚éB
 
 
 %index
 IFileOpenDialog_SetFilter
-IFileOpenDialog::SetFilter (vtable slot 26)
+SetFilter ‚Í Windows 7 ˆÈ~‚Å‚Íg—p‚Å‚«‚È‚­‚È‚Á‚½B
+%group
+COM misc / IFileOpenDialog
 %prm
 this, pFilter
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pFilter : [comobj] 
+pFilter : [comobj] Œ^: IShellItemFilter* İ’è‚·‚é IShellItemFilter ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+SetFilter ‚Í Windows 7 ˆÈ~‚Å‚Íg—p‚Å‚«‚È‚­‚È‚Á‚½B
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ìƒrƒ…[‚©‚ç“Á’è‚ÌƒAƒCƒeƒ€‚ğæ‚èœ‚­“Á•Ê‚ÈƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğs‚¤•K—v‚ª‚ ‚éê‡‚É‚±‚Ìƒƒ\ƒbƒh‚ğg—p‚Å‚«‚éB’Êíƒrƒ…[‚ÉŠÜ‚Ü‚ê‚éŠeƒAƒCƒeƒ€‚É‘Î‚µ‚Ä
+IncludeItem ‚ªŒÄ‚Ño‚³‚ê‚éBGetEnumFlagsForItem
+‚Íg—p‚³‚ê‚È‚¢Bƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ÅƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚·‚éê‡‚ÍAIShellItemFilter
+‚ğ“K—p‚·‚é‚æ‚è‚àƒAƒCƒeƒ€”‚Ì‘½‚¢ƒtƒHƒ‹ƒ_[‚Å«”\‚ª—Ç‚¢‰Â”\«‚ª‚ ‚é‚½‚ßAIFileDialog::SetFileTypes
+‚ğg—p‚·‚é‚×‚«‚Å‚ ‚éB
 
 
 %index
 IFileOpenDialog_GetResults
 •¡”‘I‘ğ‚ğ‹–‰Â‚·‚éƒ_ƒCƒAƒƒO‚Åƒ†[ƒU[‚ªs‚Á‚½‘I‘ğ‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, ppenum
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13006,6 +16850,8 @@ IFileOpenDialog::GetResults ‚ÅŒ‹‰Ê‚ğæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚é‚É‚ÍAShow
 %index
 IFileOpenDialog_GetSelectedItems
 ƒ_ƒCƒAƒƒO‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒAƒCƒeƒ€‚ğæ“¾‚·‚éB‚±‚ê‚ç‚ÌƒAƒCƒeƒ€‚Íƒrƒ…[“à‚Å‘I‘ğ‚³‚ê‚Ä‚¢‚é‚à‚Ì‚âAƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚Å‘I‘ğ‚³‚ê‚Ä‚¢‚éƒeƒLƒXƒg‚Å‚ ‚éê‡‚ª‚ ‚éB
+%group
+COM misc / IFileOpenDialog
 %prm
 this, ppsai
 this : [comobj] IFileOpenDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13027,6 +16873,8 @@ UI ‚ğƒuƒƒbƒN‚µ‚È‚¢Bƒ†[ƒU[‚Í‘€ì‚ğ’â~‚Å‚«A‚»‚ÌŒ‹‰Ê IFileOpenDialog::GetSele
 %index
 IFileOperationProgressSink_StartOperations
 “Á’è‚Ìƒtƒ@ƒCƒ‹‘€ì‚ªÀs‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13045,6 +16893,8 @@ IFileOperationProgressSink
 %index
 IFileOperationProgressSink_FinishOperations
 IFileOperation ŒÄ‚Ño‚µ‚É‚æ‚éÅŒã‚Ì‘€ì‚ÌŠ®—¹Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this, hrResult
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13059,6 +16909,8 @@ IFileOperation ŒÄ‚Ño‚µ‚É‚æ‚éÅŒã‚Ì‘€ì‚ÌŠ®—¹Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ
 %index
 IFileOperationProgressSink_PreRenameItem
 Še€–Ú‚Ì–¼‘O•ÏXˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem, pszNewName
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13076,6 +16928,8 @@ IFileOperation ‚ÌŒÄ‚Ño‚µ‚©‚ç•Û—¯’†‚ÌŒã‘±‚Ì‘€ì‚Í‚·‚×‚ÄƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB
 %index
 IFileOperationProgressSink_PostRenameItem
 Še€–Ú‚Ì–¼‘O•ÏXˆ—‚ªŠ®—¹‚µ‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem, pszNewName, hrRename, psiNewlyCreated
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13095,6 +16949,8 @@ psiNewlyCreated : [comobj] Œ^: IShellItem* V‚µ‚¢–¼‘O‚ğ‚Â€–Ú‚ğ•\‚· IShellItem
 %index
 IFileOperationProgressSink_PreMoveItem
 Še€–Ú‚ÌˆÚ“®ˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem, psiDestinationFolder, pszNewName
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13113,6 +16969,8 @@ pszNewName : [wstr] Œ^: LPCWSTR V‚µ‚¢êŠ‚Å‚Ì€–Ú‚ÌV‚µ‚¢–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê
 %index
 IFileOperationProgressSink_PostMoveItem
 Še€–Ú‚ÌˆÚ“®ˆ—‚ªŠ®—¹‚µ‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem, psiDestinationFolder, pszNewName, hrMove, psiNewlyCreated
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13133,6 +16991,8 @@ psiNewlyCreated : [comobj] Œ^: IShellItem* V‚µ‚¢êŠ‚ÉˆÚ“®‚³‚ê‚½€–Ú‚ğ•\‚· IShe
 %index
 IFileOperationProgressSink_PreCopyItem
 Še€–Ú‚ÌƒRƒs[ˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem, psiDestinationFolder, pszNewName
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13151,6 +17011,8 @@ IFileOperation ‚ÌŒÄ‚Ño‚µ‚©‚ç•Û—¯’†‚ÌŒã‘±‚Ì‘€ì‚Í‚·‚×‚ÄƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB
 %index
 IFileOperationProgressSink_PostCopyItem
 Še€–Ú‚ÌƒRƒs[ˆ—‚ªŠ®—¹‚µ‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem, psiDestinationFolder, pszNewName, hrCopy, psiNewlyCreated
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13171,6 +17033,8 @@ psiNewlyCreated : [comobj] Œ^: IShellItem* €–Ú‚ÌV‚µ‚¢ƒRƒs[‚ğ•\‚· IShellItem ‚
 %index
 IFileOperationProgressSink_PreDeleteItem
 Še€–Ú‚Ìíœˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13187,6 +17051,8 @@ psiItem : [comobj] Œ^: IShellItem* íœ‘ÎÛ‚Ì€–Ú‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ
 %index
 IFileOperationProgressSink_PostDeleteItem
 Še€–Ú‚Ìíœˆ—‚ªŠ®—¹‚µ‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem, hrDelete, psiNewlyCreated
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13205,6 +17071,8 @@ psiNewlyCreated : [comobj] Œ^: IShellItem* ‚²‚İ” ‚É“ü‚Á‚½íœÏ‚İ€–Ú‚ğw’è‚·‚é 
 %index
 IFileOperationProgressSink_PreNewItem
 V‚µ‚¢€–Ú‚ğì¬‚·‚éˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiDestinationFolder, pszNewName
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13222,6 +17090,8 @@ pszNewName : [wstr] Œ^: LPCWSTR V‚µ‚¢€–Ú‚Ìƒtƒ@ƒCƒ‹–¼ (—á: Newfile.txt) ‚Ö‚Ìƒ|ƒ
 %index
 IFileOperationProgressSink_PostNewItem
 V‚µ‚¢€–Ú‚ªì¬‚³‚ê‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiDestinationFolder, pszNewName, pszTemplateName, dwFileAttributes, hrNew, psiNewItem
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13243,6 +17113,8 @@ psiNewItem : [comobj] Œ^: IShellItem* V‚µ‚¢€–Ú‚ğ•\‚· IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 IFileOperationProgressSink_UpdateProgress
 ‘Sì‹Æ—Ê‚É‘Î‚µ‚ÄAŒ»İ‚Ü‚Å‚ÉŠ®—¹‚µ‚½ì‹Æ—Ê‚ÌŒ©Ï‚à‚è‚ğ’ñ‹Ÿ‚·‚éB
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this, iWorkTotal, iWorkSoFar
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13266,6 +17138,8 @@ iWorkTotal ‚¨‚æ‚Ñ iWorkSoFar
 %index
 IFileOperationProgressSink_ResetTimer
 ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B(IFileOperationProgressSink.ResetTimer)
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13282,6 +17156,8 @@ this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï
 %index
 IFileOperationProgressSink_PauseTimer
 ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B(IFileOperationProgressSink.PauseTimer)
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13298,6 +17174,8 @@ this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï
 %index
 IFileOperationProgressSink_ResumeTimer
 ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B(IFileOperationProgressSink.ResumeTimer)
+%group
+COM misc / IFileOperationProgressSink
 %prm
 this
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13313,249 +17191,474 @@ this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï
 
 %index
 IFileSaveDialog_Show
-IFileSaveDialog::Show (vtable slot 3)
+ƒ‚[ƒ_ƒ‹ƒEƒBƒ“ƒhƒE‚ğ‹N“®‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, hwndOwner
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hwndOwner : [intptr] 
+hwndOwner : [intptr] Œ^: HWND ƒI[ƒi[ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
 %inst
+ƒ‚[ƒ_ƒ‹ƒEƒBƒ“ƒhƒE‚ğ‹N“®‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚ÎˆÈ‰º‚ğŠÜ‚Ş HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IFileSaveDialog_SetFileTypes
-IFileSaveDialog::SetFileTypes (vtable slot 4)
+ƒ_ƒCƒAƒƒO‚ªŠJ‚­A‚Ü‚½‚Í•Û‘¶‚Å‚«‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğİ’è‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, cFileTypes, rgFilterSpec
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cFileTypes : [int] 
-rgFilterSpec : [var] 
+cFileTypes : [int] Œ^: UINT rgFilterSpec ‚Åw’è‚³‚ê‚½”z—ñ‚Ì—v‘f”B
+rgFilterSpec : [var] Œ^: const COMDLG_FILTERSPEC* Še—v‘f‚ªƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğ•\‚· COMDLG_FILTERSPEC \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+ƒ_ƒCƒAƒƒO‚ªŠJ‚­A‚Ü‚½‚Í•Û‘¶‚Å‚«‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚ÎˆÈ‰º‚ğŠÜ‚Ş HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
+
+[”õl]
+
+ƒI[ƒvƒ“ƒ_ƒCƒAƒƒO‚ğg—p‚·‚éê‡A‚±‚±‚ÅéŒ¾‚µ‚½ƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚Íƒrƒ…[‚ÌƒtƒBƒ‹ƒ^[‚Ég‚í‚ê‚éBƒZ[ƒuƒ_ƒCƒAƒƒO‚ğg—p‚·‚éê‡A‚±‚ê‚ç‚Ì’l‚Íƒtƒ@ƒCƒ‹–¼‚É’Ç‰Á‚³‚ê‚éƒtƒ@ƒCƒ‹–¼Šg’£q‚ğŒˆ’è‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚Íƒ_ƒCƒAƒƒO‚ğ•\¦‚·‚é‘O‚ÉŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚¸Aƒ_ƒCƒAƒƒOƒCƒ“ƒXƒ^ƒ“ƒX‚²‚Æ‚É
+1 ‰ñ‚µ‚©ŒÄ‚Ño‚¹‚È‚¢BƒRƒ‚ƒ“ƒAƒCƒeƒ€ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ª•\¦‚³‚ê‚½Œã‚Íƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğ•ÏX‚Å‚«‚È‚¢B
 
 
 %index
 IFileSaveDialog_SetFileTypeIndex
-IFileSaveDialog::SetFileTypeIndex (vtable slot 5)
+ƒ_ƒCƒAƒƒO‚Å‘I‘ğó‘Ô‚Æ‚µ‚Ä•\¦‚³‚ê‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğİ’è‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, iFileType
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-iFileType : [int] 
+iFileType : [int] Œ^: UINT IFileDialog::SetFileTypes ‚Ì cFileTypes ƒpƒ‰ƒ[ƒ^[‚É“n‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒ^ƒCƒv”z—ñ‚É‚¨‚¯‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ÌƒCƒ“ƒfƒbƒNƒXB’ˆÓ ‚±‚ê‚Í 0 ƒx[ƒX‚Å‚Í‚È‚­ 1 ƒx[ƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚Å‚ ‚éB
 %inst
+ƒ_ƒCƒAƒƒO‚Å‘I‘ğó‘Ô‚Æ‚µ‚Ä•\¦‚³‚ê‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Íƒ_ƒCƒAƒƒO‚ª•\¦‚³‚ê‚é‘O‚ÉŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 IFileSaveDialog_GetFileTypeIndex
-IFileSaveDialog::GetFileTypeIndex (vtable slot 6)
+Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, piFileType
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-piFileType : [int] 
+piFileType : [int] Œ^: UINT* IFileDialog::SetFileTypes ‚Ì cFileTypes ƒpƒ‰ƒ[ƒ^[‚É“n‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒ^ƒCƒv”z—ñ‚É‚¨‚¯‚éA‘I‘ğ’†‚Ìƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ÌƒCƒ“ƒfƒbƒNƒX‚ğó‚¯æ‚é UINT ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^[B’ˆÓ ‚±‚ê‚Í 0 ƒx[ƒX‚Å‚Í‚È‚­ 1 ƒx[ƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚Å‚ ‚éB
 %inst
+Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+IFileDialog::GetFileTypeIndex ‚Íƒ_ƒCƒAƒƒO‚ªŠJ‚¢‚Ä‚¢‚éŠÔ‚Å‚àA•Â‚¶‚ç‚ê‚½Œã‚Å‚àŒÄ‚Ño‚¹‚éB
 
 
 %index
 IFileSaveDialog_Advise
-IFileSaveDialog::Advise (vtable slot 7)
+ƒ_ƒCƒAƒƒO‚©‚ç‘—‚ç‚ê‚éƒCƒxƒ“ƒg‚ğ‘Ò‚¿ó‚¯‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğŠ„‚è“–‚Ä‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, pfde, pdwCookie
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfde : [comobj] 
-pdwCookie : [int] 
+pfde : [comobj] Œ^: IFileDialogEvents* ƒ_ƒCƒAƒƒO‚©‚ç‚ÌƒCƒxƒ“ƒg‚ğó‚¯æ‚é IFileDialogEvents À‘•‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pdwCookie : [int] Œ^: DWORD* ‚±‚ÌƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğ¯•Ê‚·‚é’l‚ğó‚¯æ‚é DWORD ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BƒNƒ‰ƒCƒAƒ“ƒg‚Íƒ_ƒCƒAƒƒO‚Ìg—p‚ğI‚¦‚½‚çA‚±‚Ì’l‚ğw’è‚µ‚Ä IFileDialog::Unadvise ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
+ƒ_ƒCƒAƒƒO‚©‚ç‘—‚ç‚ê‚éƒCƒxƒ“ƒg‚ğ‘Ò‚¿ó‚¯‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğŠ„‚è“–‚Ä‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileSaveDialog_Unadvise
-IFileSaveDialog::Unadvise (vtable slot 8)
+IFileDialog::Advise ƒƒ\ƒbƒh‚Åæ‚è•t‚¯‚½ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğæ‚èœ‚­B
+%group
+COM misc / IFileSaveDialog
 %prm
 this, dwCookie
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwCookie : [int] 
+dwCookie : [int] Œ^: DWORD ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğ•\‚· DWORD ’lB‚±‚Ì’l‚Í IFileDialog::Advise ƒƒ\ƒbƒh‚Ì pdwCookie ƒpƒ‰ƒ[ƒ^[‚©‚çæ“¾‚·‚éB
 %inst
+IFileDialog::Advise ƒƒ\ƒbƒh‚Åæ‚è•t‚¯‚½ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰[‚ğæ‚èœ‚­B
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileSaveDialog_SetOptions
-IFileSaveDialog::SetOptions (vtable slot 9)
+ƒ_ƒCƒAƒƒO‚Ì“®ì‚ğ§Œä‚·‚éƒtƒ‰ƒO‚ğİ’è‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, fos
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fos : [int] 
+fos : [int] Œ^: FILEOPENDIALOGOPTIONS 1 ‚Â‚Ü‚½‚Í•¡”‚Ì FILEOPENDIALOGOPTIONS ’lB
 %inst
+ƒ_ƒCƒAƒƒO‚Ì“®ì‚ğ§Œä‚·‚éƒtƒ‰ƒO‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ˆê”Ê‚É‚±‚Ìƒƒ\ƒbƒh‚Í IFileDialog::GetOptions
+‚Åæ“¾‚µ‚½’l‚ğó‚¯æ‚èA“KØ‚Èƒtƒ‰ƒO‚ğİ’è‚µ‚ÄƒIƒvƒVƒ‡ƒ“‚ğ’Ç‰Á‚Ü‚½‚Ííœ‚·‚é‚æ‚¤‚É•ÏX‚·‚é‚½‚ß‚Ég—p‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 IFileSaveDialog_GetOptions
-IFileSaveDialog::GetOptions (vtable slot 10)
+ƒ_ƒCƒAƒƒO‚Ì“®ì‚ğ§Œä‚·‚é‚½‚ß‚Éİ’è‚³‚ê‚Ä‚¢‚éŒ»İ‚Ìƒtƒ‰ƒO‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, pfos
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfos : [var] 
+pfos : [var] Œ^: FILEOPENDIALOGOPTIONS* ‚±‚Ìƒƒ\ƒbƒh‚ª³í‚É–ß‚Á‚½‚Æ‚«AFILEOPENDIALOGOPTIONS ‚Ì 1 ‚Â‚Ü‚½‚Í•¡”‚Ì’l‚Ì‘g‚İ‡‚í‚¹‚ğw‚·B
 %inst
+ƒ_ƒCƒAƒƒO‚Ì“®ì‚ğ§Œä‚·‚é‚½‚ß‚Éİ’è‚³‚ê‚Ä‚¢‚éŒ»İ‚Ìƒtƒ‰ƒO‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileSaveDialog_SetDefaultFolder
-IFileSaveDialog::SetDefaultFolder (vtable slot 11)
+Å‹ßg—p‚µ‚½ƒtƒHƒ‹ƒ_[‚Ì’l‚ª—˜—p‚Å‚«‚È‚¢ê‡‚ÉŠù’è‚Æ‚µ‚Äg—p‚·‚éƒtƒHƒ‹ƒ_[‚ğİ’è‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, psi
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-psi : [comobj] 
+psi : [comobj] Œ^: IShellItem* ƒtƒHƒ‹ƒ_[‚ğ•\‚·ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+Å‹ßg—p‚µ‚½ƒtƒHƒ‹ƒ_[‚Ì’l‚ª—˜—p‚Å‚«‚È‚¢ê‡‚ÉŠù’è‚Æ‚µ‚Äg—p‚·‚éƒtƒHƒ‹ƒ_[‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileSaveDialog_SetFolder
-IFileSaveDialog::SetFolder (vtable slot 12)
+ƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚éÛ‚ÉA’¼‘O‚Ìƒ†[ƒU[‘€ì‚ÉŠÖ‚í‚ç‚¸í‚É‘I‘ğ‚³‚ê‚éƒtƒHƒ‹ƒ_[‚ğİ’è‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, psi
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-psi : [comobj] 
+psi : [comobj] Œ^: IShellItem* ƒtƒHƒ‹ƒ_[‚ğ•\‚·ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+ƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚éÛ‚ÉA’¼‘O‚Ìƒ†[ƒU[‘€ì‚ÉŠÖ‚í‚ç‚¸í‚É‘I‘ğ‚³‚ê‚éƒtƒHƒ‹ƒ_[‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚ÌƒtƒHƒ‹ƒ_[‚ÍuÅ‹ßg—p‚µ‚½vƒtƒHƒ‹ƒ_[‚ğã‘‚«‚·‚éBƒ_ƒCƒAƒƒO•\¦’†‚É‚±‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚é‚ÆAƒ_ƒCƒAƒƒO‚Íw’è‚µ‚½ƒtƒHƒ‹ƒ_[‚ÖƒiƒrƒQ[ƒg‚·‚éBˆê”Ê‚É‚±‚Ìƒƒ\ƒbƒh‚Ìg—p‚Í„§‚³‚ê‚È‚¢Bƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚é‘O‚É
+SetFolder
+‚ğŒÄ‚Ño‚·‚ÆAƒ†[ƒU[‚ª’¼‹ß‚É•Û‘¶‚µ‚½‚èŠJ‚¢‚½‚è‚µ‚½êŠ‚ª•\¦‚³‚ê‚È‚¢B‚±‚Ì“®ì‚ğ•K—v‚Æ‚·‚é”ñí‚É‹ï‘Ì“I‚È——R‚ª‚È‚¢ŒÀ‚èA‚±‚ê‚Í–]‚Ü‚µ‚¢ƒ†[ƒU[‘ÌŒ±‚Æ‚ÍŒ¾‚¦‚¸A”ğ‚¯‚é‚×‚«‚Å‚ ‚éB‚Ù‚Æ‚ñ‚Ç‚Ìê‡
+IFileDialog::SetDefaultFolder ‚Ì•û‚ª“K‚µ‚Ä‚¢‚éBWindows 7 ˆÈ~Apsi
+‚ğ‰î‚µ‚Äw’è‚µ‚½ƒtƒHƒ‹ƒ_[‚ÌƒpƒX‚ªŠù’mƒtƒHƒ‹ƒ_[‚ÌŠù’èƒpƒX‚Å‚ ‚éê‡Aƒ_ƒCƒAƒƒO‚Å‚Í‚»‚ÌŠù’mƒtƒHƒ‹ƒ_[‚ÌŒ»İ‚ÌƒpƒX‚ªg—p‚³‚ê‚éB‚»‚ÌƒpƒX‚Í
+psi
+‚Åw’è‚³‚ê‚½‚à‚Ì‚Æ‚ÍˆÙ‚È‚éê‡‚ª‚ ‚éB—á‚¦‚ÎŠù’mƒtƒHƒ‹ƒ_[‚ªƒŠƒ_ƒCƒŒƒNƒg‚³‚ê‚Ä‚¢‚é‚È‚Ç‚Å‚ ‚éBŠù’mƒtƒHƒ‹ƒ_[‚ªƒ‰ƒCƒuƒ‰ƒŠi‰¼‘zƒtƒHƒ‹ƒ_[‚ÌƒhƒLƒ…ƒƒ“ƒgEƒ~ƒ…[ƒWƒbƒNEƒsƒNƒ`ƒƒ[EƒrƒfƒIj‚Å‚ ‚éê‡Aƒ_ƒCƒAƒƒO‚Å‚Íƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒpƒX‚ªg—p‚³‚ê‚éBw’è‚µ‚½ƒ‰ƒCƒuƒ‰ƒŠ‚ª”ñ•\¦iWindows
+8.1 ˆÈ~‚ÌŠù’è‚Å‚Í‚»‚¤‚È‚Á‚Ä‚¢‚éj‚Ìê‡Aƒ_ƒCƒAƒƒO‚Å‚Íƒ‰ƒCƒuƒ‰ƒŠ‚ÌŠù’è‚Ì•Û‘¶êŠiƒhƒLƒ…ƒƒ“ƒgƒ‰ƒCƒuƒ‰ƒŠ‚É‘Î‚·‚é Microsoft
+OneDrive
+ƒhƒLƒ…ƒƒ“ƒgƒtƒHƒ‹ƒ_[‚È‚Çj‚ªg—p‚³‚ê‚éB‚±‚ê‚ç‚Ìƒ}ƒbƒsƒ“ƒO‚Ì‚½‚ßAƒ_ƒCƒAƒƒO‚Åg—p‚³‚ê‚éƒtƒHƒ‹ƒ_[ˆÊ’u‚ÍA‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½‚Æ‚«‚Éw’è‚µ‚½‚à‚Ì‚Æ‚ÍŠ®‘S‚É‚Íˆê’v‚µ‚È‚¢ê‡‚ª‚ ‚éB
 
 
 %index
 IFileSaveDialog_GetFolder
-IFileSaveDialog::GetFolder (vtable slot 13)
+ƒ_ƒCƒAƒƒO‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ‹ƒ_[A‚Ü‚½‚Íƒ_ƒCƒAƒƒO‚ªŒ»İ•\¦‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Íƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚½Û‚É‘I‘ğ‚³‚ê‚éƒtƒHƒ‹ƒ_[‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, ppsi
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppsi : [comobj] 
+ppsi : [comobj] Œ^: IShellItem** ƒtƒHƒ‹ƒ_[‚ğ•\‚·ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒXB
 %inst
+
+ƒ_ƒCƒAƒƒO‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ‹ƒ_[A‚Ü‚½‚Íƒ_ƒCƒAƒƒO‚ªŒ»İ•\¦‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Íƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚½Û‚É‘I‘ğ‚³‚ê‚éƒtƒHƒ‹ƒ_[‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íæ“¾‚µ‚½ IShellItem ‚ª•s—v‚É‚È‚Á‚½‚ç‰ğ•ú‚·‚éÓ”C‚ğ•‰‚¤B
 
 
 %index
 IFileSaveDialog_GetCurrentSelection
-IFileSaveDialog::GetCurrentSelection (vtable slot 14)
+ƒ_ƒCƒAƒƒO‚É‚¨‚¯‚éƒ†[ƒU[‚ÌŒ»İ‚Ì‘I‘ğ‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, ppsi
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppsi : [comobj] 
+ppsi : [comobj] Œ^: IShellItem** ƒ_ƒCƒAƒƒO‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒAƒCƒeƒ€‚ğ•\‚·ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒXB‚±‚ÌƒAƒCƒeƒ€‚Íƒrƒ…[ƒEƒBƒ“ƒhƒE‚Å‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹‚âƒtƒHƒ‹ƒ_[A‚Ü‚½‚Íƒ†[ƒU[‚ªƒ_ƒCƒAƒƒO‚Ì•ÒWƒ{ƒbƒNƒX‚É“ü—Í‚µ‚½“à—e‚Å‚ ‚éê‡‚ª‚ ‚éBŒãÒ‚Ìê‡‚ÍŒ»İ‚ÌƒXƒŒƒbƒh‚ğƒuƒƒbƒN‚·‚é‰Â”\«‚Ì‚ ‚é‰ğÍ‘€ìiƒ†[ƒU[‚É‚æ‚éƒLƒƒƒ“ƒZƒ‹‰Âj‚ª•K—v‚É‚È‚é‚±‚Æ‚ª‚ ‚éB
 %inst
+ƒ_ƒCƒAƒƒO‚É‚¨‚¯‚éƒ†[ƒU[‚ÌŒ»İ‚Ì‘I‘ğ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íæ“¾‚µ‚½ IShellItem ‚ª•s—v‚É‚È‚Á‚½‚ç‰ğ•ú‚·‚éÓ”C‚ğ•‰‚¤B
 
 
 %index
 IFileSaveDialog_SetFileName
-IFileSaveDialog::SetFileName (vtable slot 15)
+ƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚½‚Æ‚«‚Éƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚É•\¦‚³‚ê‚éƒtƒ@ƒCƒ‹–¼‚ğİ’è‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, pszName
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pszName : [wstr] 
+pszName : [wstr] Œ^: LPCWSTR ƒtƒ@ƒCƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+ƒ_ƒCƒAƒƒO‚ªŠJ‚©‚ê‚½‚Æ‚«‚Éƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚É•\¦‚³‚ê‚éƒtƒ@ƒCƒ‹–¼‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileSaveDialog_GetFileName
-IFileSaveDialog::GetFileName (vtable slot 16)
+ƒ_ƒCƒAƒƒO‚Ìƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚ÉŒ»İ“ü—Í‚³‚ê‚Ä‚¢‚éƒeƒLƒXƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, pszName
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pszName : [var] 
+pszName : [var] Œ^: WCHAR** ‚±‚Ìƒƒ\ƒbƒh‚ª³í‚É–ß‚Á‚½‚Æ‚«‚ÉƒeƒLƒXƒg‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒXB
 %inst
+ƒ_ƒCƒAƒƒO‚Ìƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚ÉŒ»İ“ü—Í‚³‚ê‚Ä‚¢‚éƒeƒLƒXƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚ÌƒeƒLƒXƒg‚ÍAƒ†[ƒU[‚ª‘I‘ğ‚µ‚½ƒAƒCƒeƒ€‚ğ•K‚¸‚µ‚à”½‰f‚µ‚È‚¢Bƒ†[ƒU[‚ª‘I‘ğ‚µ‚½ƒAƒCƒeƒ€‚ğæ“¾‚·‚é‚É‚Í
+IFileDialog::GetResult ‚ğg—p‚·‚éBŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íæ“¾‚µ‚½ƒoƒbƒtƒ@‚ğ CoTaskMemFree
+ŠÖ”‚Å‰ğ•ú‚·‚éÓ”C‚ğ•‰‚¤B
 
 
 %index
 IFileSaveDialog_SetTitle
-IFileSaveDialog::SetTitle (vtable slot 17)
+ƒ_ƒCƒAƒƒO‚Ìƒ^ƒCƒgƒ‹‚ğİ’è‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, pszTitle
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pszTitle : [wstr] 
+pszTitle : [wstr] Œ^: LPCWSTR ƒ^ƒCƒgƒ‹ƒeƒLƒXƒg‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+ƒ_ƒCƒAƒƒO‚Ìƒ^ƒCƒgƒ‹‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileSaveDialog_SetOkButtonLabel
-IFileSaveDialog::SetOkButtonLabel (vtable slot 18)
+[ŠJ‚­] ‚Ü‚½‚Í [•Û‘¶] ƒ{ƒ^ƒ“‚ÌƒeƒLƒXƒg‚ğİ’è‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, pszText
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pszText : [wstr] 
+pszText : [wstr] Œ^: LPCWSTR ƒ{ƒ^ƒ“ƒeƒLƒXƒg‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+[ŠJ‚­] ‚Ü‚½‚Í [•Û‘¶] ƒ{ƒ^ƒ“‚ÌƒeƒLƒXƒg‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileSaveDialog_SetFileNameLabel
-IFileSaveDialog::SetFileNameLabel (vtable slot 19)
+ƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚Ì—×‚Ìƒ‰ƒxƒ‹‚ÌƒeƒLƒXƒg‚ğİ’è‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, pszLabel
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pszLabel : [wstr] 
+pszLabel : [wstr] Œ^: LPCWSTR ƒ‰ƒxƒ‹ƒeƒLƒXƒg‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+ƒtƒ@ƒCƒ‹–¼•ÒWƒ{ƒbƒNƒX‚Ì—×‚Ìƒ‰ƒxƒ‹‚ÌƒeƒLƒXƒg‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IFileSaveDialog_GetResult
-IFileSaveDialog::GetResult (vtable slot 20)
+ƒ_ƒCƒAƒƒO‚Åƒ†[ƒU[‚ªs‚Á‚½‘I‘ğ‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, ppsi
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppsi : [comobj] 
+ppsi : [comobj] Œ^: IShellItem** ƒ†[ƒU[‚Ì‘I‘ğ‚ğ•\‚· IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒXB
 %inst
+ƒ_ƒCƒAƒƒO‚Åƒ†[ƒU[‚ªs‚Á‚½‘I‘ğ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+IFileDialog::GetResult ‚Íƒ_ƒCƒAƒƒO‚ª•Â‚¶‚ç‚ê‚½ŒãA‚Ü‚½‚Í OnFileOk
+ƒCƒxƒ“ƒgˆ—’†‚ÉŒÄ‚Ño‚¹‚éB‚»‚êˆÈŠO‚Ìƒ^ƒCƒ~ƒ“ƒO‚ÅŒÄ‚Ño‚·‚Æ¸”s‚·‚éB•¡”‚ÌƒAƒCƒeƒ€‚ª‘I‘ğ‚³‚ê‚½ê‡A‚±‚Ìƒƒ\ƒbƒh‚Í¸”s‚·‚éB•¡”ƒAƒCƒeƒ€‚Ìê‡‚Í
+GetResults ‚ğŒÄ‚Ño‚·B
+IFileDialog::GetResult ‚ÅŒ‹‰Ê‚ğæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚é‚É‚ÍAShow ‚Í¬Œ÷ƒR[ƒh‚ğ•Ô‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 IFileSaveDialog_AddPlace
-IFileSaveDialog::AddPlace (vtable slot 21)
+ƒ†[ƒU[‚ªƒAƒCƒeƒ€‚ğŠJ‚­A‚Ü‚½‚Í•Û‘¶‚·‚é‚Ì‚É—˜—p‰Â”\‚ÈêŠ‚ÌƒŠƒXƒg‚ÉƒtƒHƒ‹ƒ_[‚ğ’Ç‰Á‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, psi, fdap
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-psi : [comobj] 
-fdap : [int] 
+psi : [comobj] Œ^: IShellItem* ƒ†[ƒU[‚É—˜—p‰Â”\‚É‚·‚éƒtƒHƒ‹ƒ_[‚ğ•\‚· IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BƒtƒHƒ‹ƒ_[ˆÈŠO‚Íw’è‚Å‚«‚È‚¢B
+fdap : [int] Œ^: FDAP ƒŠƒXƒg“à‚ÅƒtƒHƒ‹ƒ_[‚ğ”z’u‚·‚éˆÊ’u‚ğw’è‚·‚éBFDAP ‚ğQÆB
 %inst
+ƒ†[ƒU[‚ªƒAƒCƒeƒ€‚ğŠJ‚­A‚Ü‚½‚Í•Û‘¶‚·‚é‚Ì‚É—˜—p‰Â”\‚ÈêŠ‚ÌƒŠƒXƒg‚ÉƒtƒHƒ‹ƒ_[‚ğ’Ç‰Á‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+SHSetTemporaryPropertyForItem ‚ğg‚Á‚Ä psi ƒpƒ‰ƒ[ƒ^[‚ª•\‚·ƒAƒCƒeƒ€‚Éˆê“I‚È
+PKEY_ItemNameDisplay ƒvƒƒpƒeƒB‚ğİ’è‚Å‚«‚éB‚±‚ÌƒvƒƒpƒeƒB‚Ì’l‚ÍƒAƒCƒeƒ€‚Ì UI –¼‚Ì‘ã‚í‚è‚Ég‚í‚ê‚éB
 
 
 %index
 IFileSaveDialog_SetDefaultExtension
-IFileSaveDialog::SetDefaultExtension (vtable slot 22)
+ƒtƒ@ƒCƒ‹–¼‚É’Ç‰Á‚·‚éŠù’è‚ÌŠg’£q‚ğİ’è‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, pszDefaultExtension
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pszDefaultExtension : [wstr] 
+pszDefaultExtension : [wstr] Œ^: LPCWSTR Šg’£qƒeƒLƒXƒg‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ì•¶š—ñ‚É‚Íæ“ª‚ÌƒsƒŠƒIƒh‚ğŠÜ‚ß‚È‚¢B—á‚¦‚Îujpgv‚Í³‚µ‚­Au.jpgv‚Í³‚µ‚­‚È‚¢B
 %inst
+ƒtƒ@ƒCƒ‹–¼‚É’Ç‰Á‚·‚éŠù’è‚ÌŠg’£q‚ğİ’è‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒ_ƒCƒAƒƒO‚ğ•\¦‚·‚é‘O‚É‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½ê‡Aƒ†[ƒU[‚ªV‚µ‚¢ƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ğ‘I‘ğ‚·‚é‚ÆiSetFileTypes
+‚ğQÆjAƒ_ƒCƒAƒƒO‚ÍŠù’è‚ÌŠg’£q‚ğ©“®“I‚ÉXV‚·‚éB
 
 
 %index
 IFileSaveDialog_Close
-IFileSaveDialog::Close (vtable slot 23)
+ƒ_ƒCƒAƒƒO‚ğ•Â‚¶‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, hr
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hr : [intptr] 
+hr : [intptr] Œ^: HRESULT ‘I‘ğ‚ªs‚í‚ê‚é‘O‚Éƒ_ƒCƒAƒƒO‚ª•Â‚¶‚ç‚ê‚½‚±‚Æ‚ğ¦‚·‚½‚ß‚É Show ‚ª•Ô‚·ƒR[ƒhB
 %inst
+ƒ_ƒCƒAƒƒO‚ğ•Â‚¶‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íƒ_ƒCƒAƒƒO‚ªŠJ‚¢‚Ä‚¢‚éŠÔ‚ÉƒR[ƒ‹ƒoƒbƒNƒƒ\ƒbƒh‚âŠÖ”‚©‚ç‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚¹‚éBƒ_ƒCƒAƒƒO‚Í•Â‚¶‚ç‚êAShow
+ƒƒ\ƒbƒh‚Í hr ‚Åw’è‚³‚ê‚½ HRESULT ‚ğ•Ô‚·B‚±‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚½ê‡AIFileDialog::GetResult ‚â
+GetResults ƒƒ\ƒbƒh‚Å—˜—p‰Â”\‚ÈŒ‹‰Ê‚Í‘¶İ‚¹‚¸AŒÄ‚Ño‚·‚Æ¸”s‚·‚éB
 
 
 %index
 IFileSaveDialog_SetClientGuid
-IFileSaveDialog::SetClientGuid (vtable slot 24)
+ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒ_ƒCƒAƒƒO‚Ì‰i‘±‰»ó‘Ô‚É GUID ‚ğŠÖ˜A•t‚¯‚ç‚ê‚é‚æ‚¤‚É‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, guid
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-guid : [var] 
+guid : [var] Œ^: REFGUID ‚±‚Ìƒ_ƒCƒAƒƒOó‘Ô‚ÉŠÖ˜A•t‚¯‚é GUIDB
 %inst
+ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒ_ƒCƒAƒƒO‚Ì‰i‘±‰»ó‘Ô‚É GUID ‚ğŠÖ˜A•t‚¯‚ç‚ê‚é‚æ‚¤‚É‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+
+ƒ_ƒCƒAƒƒO‚Ìó‘Ô‚É‚Í’¼‹ß‚É–K‚ê‚½ƒtƒHƒ‹ƒ_[‚âƒ_ƒCƒAƒƒO‚ÌˆÊ’u‚ÆƒTƒCƒY‚È‚Ç‚ªŠÜ‚Ü‚ê‚éB’Êí‚±‚Ìó‘Ô‚ÍÀs‰Â”\ƒtƒ@ƒCƒ‹–¼‚ğ‚à‚Æ‚É‰i‘±‰»‚³‚ê‚éBGUID
+‚ğw’è‚·‚é‚±‚Æ‚ÅAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í“¯‚¶ƒAƒvƒŠƒP[ƒVƒ‡ƒ““à‚Åƒ_ƒCƒAƒƒO‚Ìƒo[ƒWƒ‡ƒ“‚²‚Æ‚ÉˆÙ‚È‚é‰i‘±‰»ó‘Ô‚ğ‚Ä‚éiƒCƒ“ƒ|[ƒgƒ_ƒCƒAƒƒO‚ÆƒI[ƒvƒ“ƒ_ƒCƒAƒƒO‚È‚ÇjB
+IFileDialog::SetClientGuid ‚Íƒ_ƒCƒAƒƒOƒIƒuƒWƒFƒNƒgì¬’¼Œã‚ÉŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 IFileSaveDialog_ClearClientData
-IFileSaveDialog::ClearClientData (vtable slot 25)
+ƒ_ƒCƒAƒƒO‚É‰i‘±‰»‚³‚ê‚½‚·‚×‚Ä‚Ìó‘Ôî•ñ‚ğƒNƒŠƒA‚·‚é‚æ‚¤w¦‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒ_ƒCƒAƒƒO‚É‰i‘±‰»‚³‚ê‚½‚·‚×‚Ä‚Ìó‘Ôî•ñ‚ğƒNƒŠƒA‚·‚é‚æ‚¤w¦‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‰i‘±‰»‚³‚ê‚½î•ñ‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ü‚½‚Í GUID ‚ÉŠÖ˜A•t‚¯‚é‚±‚Æ‚ª‚Å‚«‚éBIFileDialog::SetClientGuid
+‚ğg‚Á‚Ä GUID ‚ªİ’è‚³‚ê‚Ä‚¢‚½ê‡A‚»‚Ì GUID ‚ª‰i‘±‰»‚³‚ê‚½î•ñ‚ÌƒNƒŠƒA‚Ég‚í‚ê‚éB
 
 
 %index
 IFileSaveDialog_SetFilter
-IFileSaveDialog::SetFilter (vtable slot 26)
+SetFilter ‚Í Windows 7 ˆÈ~‚Å‚Íg—p‚Å‚«‚È‚­‚È‚Á‚½B
+%group
+COM misc / IFileSaveDialog
 %prm
 this, pFilter
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pFilter : [comobj] 
+pFilter : [comobj] Œ^: IShellItemFilter* İ’è‚·‚é IShellItemFilter ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
+SetFilter ‚Í Windows 7 ˆÈ~‚Å‚Íg—p‚Å‚«‚È‚­‚È‚Á‚½B
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¯‚ê‚Î HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ìƒrƒ…[‚©‚ç“Á’è‚ÌƒAƒCƒeƒ€‚ğæ‚èœ‚­“Á•Ê‚ÈƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğs‚¤•K—v‚ª‚ ‚éê‡‚É‚±‚Ìƒƒ\ƒbƒh‚ğg—p‚Å‚«‚éB’Êíƒrƒ…[‚ÉŠÜ‚Ü‚ê‚éŠeƒAƒCƒeƒ€‚É‘Î‚µ‚Ä
+IncludeItem ‚ªŒÄ‚Ño‚³‚ê‚éBGetEnumFlagsForItem
+‚Íg—p‚³‚ê‚È‚¢Bƒtƒ@ƒCƒ‹ƒ^ƒCƒv‚ÅƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚·‚éê‡‚ÍAIShellItemFilter
+‚ğ“K—p‚·‚é‚æ‚è‚àƒAƒCƒeƒ€”‚Ì‘½‚¢ƒtƒHƒ‹ƒ_[‚Å«”\‚ª—Ç‚¢‰Â”\«‚ª‚ ‚é‚½‚ßAIFileDialog::SetFileTypes
+‚ğg—p‚·‚é‚×‚«‚Å‚ ‚éB
 
 
 %index
 IFileSaveDialog_SetSaveAsItem
 –¼‘O‚ğ•t‚¯‚Ä•Û‘¶ƒ_ƒCƒAƒƒO‚ÅÅ‰‚ÌƒGƒ“ƒgƒŠ[‚Æ‚µ‚Äg—p‚³‚ê‚éƒAƒCƒeƒ€‚ğİ’è‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, psi
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13575,6 +17678,8 @@ IFileDialog::SetFileName ‚ğg—p‚·‚éB
 %index
 IFileSaveDialog_SetProperties
 •Û‘¶‚³‚ê‚éƒAƒCƒeƒ€‚Ég—p‚³‚ê‚éŠù’è’l‚ğ’è‹`‚·‚éƒvƒƒpƒeƒBƒXƒgƒA‚ğ’ñ‹Ÿ‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, pStore
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13597,6 +17702,8 @@ IFileSaveDialog::SetCollectedProperties ‚ğg—p‚·‚éB
 %index
 IFileSaveDialog_SetCollectedProperties
 ƒZ[ƒuƒ_ƒCƒAƒƒO‚ÅûW‚³‚ê‚éƒvƒƒpƒeƒB‚ğw’è‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, pList, fAppendDefault
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13621,6 +17728,8 @@ fAppendDefault : [int] Œ^: BOOL pList ‚Åw’è‚³‚ê‚½ƒvƒƒpƒeƒB‚É‰Á‚¦‚ÄAŒ»İ‘I‘ğ’†
 %index
 IFileSaveDialog_GetProperties
 •Û‘¶Ï‚İƒAƒCƒeƒ€‚Ü‚½‚Í•Û‘¶ˆ—’†‚ÌƒAƒCƒeƒ€‚ÌƒvƒƒpƒeƒB’l‚ÌƒZƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, ppStore
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13640,6 +17749,8 @@ ppStore : [comobj] Œ^: IPropertyStore** ƒvƒƒpƒeƒB’l‚ğó‚¯æ‚é IPropertyStore ‚Ö
 %index
 IFileSaveDialog_ApplyProperties
 ƒVƒFƒ‹‚ÌƒRƒs[ƒGƒ“ƒWƒ“‚ğg‚Á‚Äˆê˜A‚ÌƒvƒƒpƒeƒB‚ğƒAƒCƒeƒ€‚É“K—p‚·‚éB
+%group
+COM misc / IFileSaveDialog
 %prm
 this, psi, pStore, hwnd, pSink
 this : [comobj] IFileSaveDialog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13663,6 +17774,8 @@ psi ‚Åw’è‚µ‚½ƒAƒCƒeƒ€‚ª•\‚·ƒtƒ@ƒCƒ‹‚ÍAIFileSaveDialog::ApplyProperties
 %index
 IModalWindow_Show
 ƒ‚[ƒ_ƒ‹ƒEƒBƒ“ƒhƒE‚ğ‹N“®‚·‚éB
+%group
+COM misc / IModalWindow
 %prm
 this, hwndOwner
 this : [comobj] IModalWindow ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13677,57 +17790,145 @@ hwndOwner : [intptr] Œ^: HWND ƒI[ƒi[ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ
 
 %index
 IMoniker_GetClassID
-IMoniker::GetClassID (vtable slot 3)
+ƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IMoniker
 %prm
 this, pClassID
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pClassID : [var] 
+pClassID : [var] –ß‚è‚É CLSID ‚ğó‚¯æ‚éêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BCLSID ‚ÍƒOƒ[ƒoƒ‹ˆêˆÓ¯•Êq (GUID) ‚Å‚ ‚èAƒIƒuƒWƒFƒNƒgƒf[ƒ^‚ğ‘€ì‚·‚éƒR[ƒh‚ğ’è‹`‚·‚éƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚ğˆêˆÓ‚É•\‚·B
 %inst
+ƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í S_OKB‚»‚¤‚Å‚È‚¯‚ê‚Î E_FAILB
+
+[”õl]
+GetClassID ƒƒ\ƒbƒh‚ÍƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID)
+‚ğæ“¾‚·‚éB‚±‚ê‚ÍŒã‚Ì‘€ì‚ÅƒIƒuƒWƒFƒNƒgŒÅ—L‚ÌƒR[ƒh‚ğŒÄ‚Ño‚µ‘¤‚ÌƒRƒ“ƒeƒLƒXƒg‚Éƒ[ƒh‚·‚é‚½‚ß‚Ég‚í‚ê‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ìƒƒ‚
+ƒRƒ“ƒeƒi[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA‚ ‚éƒNƒ‰ƒX‚ğ•Ê‚ÌƒNƒ‰ƒX‚Æ‚µ‚Äˆµ‚Á‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚ÌŒ³‚Ì CLSID
+‚ğæ“¾‚·‚é‚½‚ß‚É‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚ ‚éB‚±‚Ì‚æ‚¤‚ÈŒÄ‚Ño‚µ‚ÍAƒ†[ƒU[‚ªƒIƒuƒWƒFƒNƒg‚Ì•Û‘¶‚ğ•K—v‚Æ‚·‚é•ÒW‘€ì‚ğs‚Á‚½‚Æ‚«‚É•K—v‚É‚È‚éBƒRƒ“ƒeƒi[‚ª
+treat-as CLSID
+‚Å•Û‘¶‚µ‚½ê‡AŒ³‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒIƒuƒWƒFƒNƒg‚ğ•ÒW‚Å‚«‚È‚­‚È‚éB’Êí‚±‚Ì‚æ‚¤‚Èê‡AƒRƒ“ƒeƒi[‚Í•K—v‚ÈƒXƒeƒbƒv‚ğ‚·‚×‚ÄÀs‚·‚é
+OleSave
+ƒwƒ‹ƒp[ŠÖ”‚ğŒÄ‚Ño‚·B‚»‚Ì‚½‚ßA‚±‚Ìƒƒ\ƒbƒh‚ğ’¼ÚŒÄ‚Ño‚·•K—v‚Ì‚ ‚éƒRƒ“ƒeƒi[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚Ù‚Æ‚ñ‚Ç‚È‚¢B—áŠO‚Í“Á’è‚ÌƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰[‚ğ’ñ‹Ÿ‚·‚éƒRƒ“ƒeƒi[‚Å‚ ‚éB“Á‚ÉAƒRƒ“ƒeƒi[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒIƒuƒWƒFƒNƒg‚Ì
+CLSID ‚ğæ“¾‚µ‚Ä‚»‚ê‚ğg‚Á‚ÄƒŒƒWƒXƒgƒŠ‚©‚çƒNƒ‰ƒXŒÅ—L‚Ìî•ñ‚ğæ“¾‚·‚é‚×‚«‚Å‚Í‚È‚¢B‘ã‚í‚è‚É IOleObject ‚¨‚æ‚Ñ
+IDataObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğg—p‚µ‚ÄAƒIƒuƒWƒFƒNƒg‚©‚ç’¼ÚƒNƒ‰ƒXŒÅ—L‚Ìî•ñ‚ğæ“¾‚·‚×‚«‚Å‚ ‚éBÀ‘•Ò‚Ö‚Ìƒƒ‚
+’Êí‚±‚Ìƒƒ\ƒbƒh‚ÌÀ‘•‚ÍƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚é’è” CLSID ‚ğ’P‚É’ñ‹Ÿ‚·‚éB‚½‚¾‚µƒIƒuƒWƒFƒNƒg‚Ì TreatAs
+ƒŒƒWƒXƒgƒŠƒL[‚ªƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ğƒTƒ|[ƒg‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚æ‚Á‚Äİ’è‚³‚ê‚Ä‚¢‚éi‚Â‚Ü‚èƒIƒuƒWƒFƒNƒg‚ğ•ÊƒNƒ‰ƒX‚Ì‚à‚Ì‚Æ‚µ‚Äˆµ‚Á‚Ä‚¢‚éjê‡AGetClassID
+‚ÌŒÄ‚Ño‚µ‚Í TreatAs ƒL[‚Åw’è‚³‚ê‚½ CLSID ‚ğ’ñ‹Ÿ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+CoTreatAsClass ‚ğQÆBƒIƒuƒWƒFƒNƒg‚ªÀsó‘Ô‚É‚ ‚é‚Æ‚«AŠù’èƒnƒ“ƒhƒ‰[‚Í GetClassID
+‚ÌÀ‘•‚ğŒÄ‚Ño‚µA‚»‚ê‚ğƒIƒuƒWƒFƒNƒg“à‚ÌÀ‘•‚ÉˆÏ÷‚·‚éBƒIƒuƒWƒFƒNƒg‚ªÀs’†‚Å‚È‚¢‚Æ‚«AŠù’èƒnƒ“ƒhƒ‰[‚Í‘ã‚í‚è‚É ReadClassStg
+ŠÖ”‚ğŒÄ‚Ño‚µ‚ÄƒIƒuƒWƒFƒNƒg‚ÌƒXƒgƒŒ[ƒW‚É•Û‘¶‚³‚ê‚½ CLSID
+‚ğ“Ç‚İæ‚éBƒIƒuƒWƒFƒNƒg—p‚ÌƒJƒXƒ^ƒ€ƒnƒ“ƒhƒ‰[‚ğ‘‚­ê‡A‚±‚Ìƒƒ\ƒbƒh‚ğŠù’èƒnƒ“ƒhƒ‰[‚ÌÀ‘•‚É’Pƒ‚ÉˆÏ÷‚µ‚½‚¢‚±‚Æ‚à‚ ‚é‚¾‚ë‚¤iOleCreateDefaultHandler
+‚ğQÆjB
+URL ƒ‚ƒjƒJ‚ÉŠÖ‚·‚é’ˆÓ ‚±‚Ìƒƒ\ƒbƒh‚Í CLSID_StdURLMoniker ‚ğ•Ô‚·B
 
 
 %index
 IMoniker_IsDirty
-IMoniker::IsDirty (vtable slot 4)
+ƒIƒuƒWƒFƒNƒg‚ªÅŒã‚ÉƒXƒgƒŠ[ƒ€‚Ö•Û‘¶‚³‚ê‚Ä‚©‚ç•ÏX‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB(IPersistStream.IsDirty)
+%group
+COM misc / IMoniker
 %prm
 this
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+ƒIƒuƒWƒFƒNƒg‚ªÅŒã‚ÉƒXƒgƒŠ[ƒ€‚Ö•Û‘¶‚³‚ê‚Ä‚©‚ç•ÏX‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB(IPersistStream.IsDirty)
+
+[–ß‚è’l]
+ƒIƒuƒWƒFƒNƒg‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğ¦‚·‚½‚ß‚ÉA‚±‚Ìƒƒ\ƒbƒh‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í S_FALSE ‚ğ•Ô‚·B
+
+[”õl]
+ƒIƒuƒWƒFƒNƒg‚ğ•Â‚¶‚é‘O‚É•Û‘¶‚·‚×‚«‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚½‚ß‚É‚±‚Ìƒƒ\ƒbƒh‚ğg—p‚·‚éBƒIƒuƒWƒFƒNƒg‚Ìƒ_[ƒeƒBƒtƒ‰ƒO‚Í
+IPersistStream::Save ƒƒ\ƒbƒh“à‚ÅğŒ•t‚«‚ÅƒNƒŠƒA‚³‚ê‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ
+ƒGƒ‰[‚Ì–ß‚è’l‚ÍƒIƒuƒWƒFƒNƒg‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğ¦‚·‚à‚Ì‚Æ‚µ‚Äˆµ‚¤‚×‚«‚Å‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚ª–¾¦“I‚É S_FALSE
+‚ğ•Ô‚³‚È‚¢ŒÀ‚èAƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‚Æ‰¼’è‚·‚é‚±‚ÆBOLE ‚ª’ñ‹Ÿ‚·‚éƒ‚ƒjƒJƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì
+IPersistStream::IsDirty ƒƒ\ƒbƒh‚Ì OLE ’ñ‹ŸÀ‘•‚ÍA“à•”ó‘Ô‚ªŒˆ‚µ‚Ä•Ï‰»‚µ‚È‚¢‚½‚ßí‚É S_FALSE
+‚ğ•Ô‚·‚±‚Æ‚É’ˆÓB
 
 
 %index
 IMoniker_Load
-IMoniker::Load (vtable slot 5)
+ˆÈ‘O‚É•Û‘¶‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚©‚çƒIƒuƒWƒFƒNƒg‚ğ‰Šú‰»‚·‚éB(IPersistStream.Load)
+%group
+COM misc / IMoniker
 %prm
 this, pStm
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pStm : [comobj] 
+pStm : [comobj] ƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚éƒXƒgƒŠ[ƒ€‚Ö‚Ì IStream ƒ|ƒCƒ“ƒ^B
 %inst
+ˆÈ‘O‚É•Û‘¶‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚©‚çƒIƒuƒWƒFƒNƒg‚ğ‰Šú‰»‚·‚éB(IPersistStream.Load)
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB
+iˆÈ‰ºÈ—ªj
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚ÍŠÖ˜A•t‚¯‚ç‚ê‚½ƒXƒgƒŠ[ƒ€‚©‚çƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚éBƒV[ƒNƒ|ƒCƒ“ƒ^‚Í’¼‹ß‚Ì IPersistStream::Save
+ƒƒ\ƒbƒh‚Æ“¯‚¶ˆÊ’u‚Éİ’è‚³‚ê‚éB‚±‚Ìƒƒ\ƒbƒh‚ÍƒXƒgƒŠ[ƒ€‚É‘Î‚µ‚ÄƒV[ƒN‚Æ“Ç‚İæ‚è‚ª‚Å‚«‚é‚ªA‘‚«‚İ‚Í‚Å‚«‚È‚¢BŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ
+IPersistStream::Load ‚ğ’¼ÚŒÄ‚Ño‚·‘ã‚í‚è‚ÉA’Êí‚Í OleLoadFromStream
+ŠÖ”‚ğŒÄ‚Ño‚·B‚±‚ê‚ÍŸ‚Ìˆ—‚ğs‚¤B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_Save
-IMoniker::Save (vtable slot 6)
+ƒIƒuƒWƒFƒNƒg‚ğw’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB(IPersistStream.Save)
+%group
+COM misc / IMoniker
 %prm
 this, pStm, fClearDirty
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pStm : [comobj] 
-fClearDirty : [int] 
+pStm : [comobj] ƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚éƒXƒgƒŠ[ƒ€‚Ö‚Ì IStream ƒ|ƒCƒ“ƒ^B
+fClearDirty : [int] •Û‘¶Š®—¹Œã‚Éƒ_[ƒeƒBƒtƒ‰ƒO‚ğƒNƒŠƒA‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·BTRUE ‚È‚çƒtƒ‰ƒO‚ğƒNƒŠƒA‚µAFALSE ‚È‚ç‚»‚Ì‚Ü‚Üc‚·B
 %inst
+ƒIƒuƒWƒFƒNƒg‚ğw’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB(IPersistStream.Save)
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB
+iˆÈ‰ºÈ—ªj
+
+[”õl]
+IPersistStream::Save
+‚ÍƒIƒuƒWƒFƒNƒg‚ğw’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚Ö•Û‘¶‚µAƒIƒuƒWƒFƒNƒg‚ªƒ_[ƒeƒBƒtƒ‰ƒO‚ğƒŠƒZƒbƒg‚·‚×‚«‚©‚Ç‚¤‚©‚ğ¦‚·BƒV[ƒNƒ|ƒCƒ“ƒ^‚ÍƒIƒuƒWƒFƒNƒg‚ªƒf[ƒ^‚Ì‘‚«‚İ‚ğŠJn‚·‚×‚«ƒXƒgƒŠ[ƒ€“à‚ÌˆÊ’u‚É’u‚©‚ê‚éBƒIƒuƒWƒFƒNƒg‚Íƒf[ƒ^‚ğ‘‚«‚Ş‚½‚ß‚É
+ISequentialStream::Write
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·BI—¹‚É‚ÍƒV[ƒNƒ|ƒCƒ“ƒ^‚ÍƒIƒuƒWƒFƒNƒgƒf[ƒ^‚Ì’¼Œã‚ÉˆÊ’u‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒGƒ‰[‚ª•Ô‚Á‚½ê‡‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ÌˆÊ’u‚Í–¢’è‹`‚Å‚ ‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ
+IPersistStream::Save ‚ğ’¼ÚŒÄ‚Ño‚·‘ã‚í‚è‚ÉA’Êí‚Í OleSaveToStream
+ƒwƒ‹ƒp[ŠÖ”‚ğŒÄ‚Ño‚·B‚±‚ê‚ÍŸ‚Ìˆ—‚ğs‚¤B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_GetSizeMax
-IMoniker::GetSizeMax (vtable slot 7)
+ƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚é‚½‚ß‚É•K—v‚ÈƒXƒgƒŠ[ƒ€‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB(IPersistStream.GetSizeMax)
+%group
+COM misc / IMoniker
 %prm
 this, pcbSize
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pcbSize : [int64] 
+pcbSize : [int64] ‚±‚ÌƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚é‚½‚ß‚É•K—v‚ÈƒXƒgƒŠ[ƒ€‚ÌƒoƒCƒg’PˆÊ‚ÌƒTƒCƒYB
 %inst
+ƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚é‚½‚ß‚É•K—v‚ÈƒXƒgƒŠ[ƒ€‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB(IPersistStream.GetSizeMax)
+
+[–ß‚è’l]
+ƒTƒCƒY‚ª³í‚Éæ“¾‚Å‚«‚½‚±‚Æ‚ğ¦‚·‚½‚ß‚ÉA‚±‚Ìƒƒ\ƒbƒh‚Í S_OK ‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚ÍƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚é‚½‚ß‚É•K—v‚ÈƒTƒCƒY‚ğ•Ô‚·BIPersistStream::Save
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‘O‚É‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚ÄƒTƒCƒY‚ğŠm”F‚µA•K—v‚Èƒoƒbƒtƒ@‚ğ€”õ‚Å‚«‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ GetSizeMax
+‚ÌÀ‘•‚Í•K—v‚ÈƒTƒCƒY‚ğ•Ûç“I‚ÉŒ©Ï‚à‚é‚×‚«‚Å‚ ‚éB‚È‚º‚È‚çŒÄ‚Ño‚µ‘¤‚ªŠg’£•s‰Â”\‚ÈƒXƒgƒŠ[ƒ€‚ğg‚Á‚Ä
+IPersistStream::Save ‚ğŒÄ‚Ño‚·‰Â”\«‚ª‚ ‚é‚©‚ç‚Å‚ ‚éBURL Moniker ‚ÉŠÖ‚·‚é’ˆÓ ‚±‚Ìƒƒ\ƒbƒh‚ÍAŒã‘±‚Ì
+IPersistStream::Save ŒÄ‚Ño‚µ‚Å•K—v‚Æ‚È‚éƒXƒgƒŠ[ƒ€‚ÌÅ‘åƒoƒCƒg”‚ğæ“¾‚·‚éB‚±‚Ì’l‚Í
+sizeof(ULONG)==4 ‚É sizeof(WCHAR)*n ‚ğ‰Á‚¦‚½‚à‚Ì‚ÅAn ‚Í NULL
+ƒ^[ƒ~ƒl[ƒ^‚ğŠÜ‚ŞŠ®‘S‚Ü‚½‚Í•”•ª“I‚È URL •¶š—ñ‚Ì’·‚³‚Å‚ ‚éB
 
 
 %index
 IMoniker_BindToObject
 w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÉƒoƒCƒ“ƒh‚·‚éBƒoƒCƒ“ƒhˆ—‚Å‚ÍAƒIƒuƒWƒFƒNƒg‚ğŒŸõ‚µA•K—v‚Å‚ ‚ê‚ÎÀsó‘Ô‚É‘JˆÚ‚³‚¹A¯•Ê‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚Ìw’èƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŒÄ‚Ño‚µ‘¤‚É’ñ‹Ÿ‚·‚éB
+%group
+COM misc / IMoniker
 %prm
 this, pbc, pmkToLeft, riidResult, ppvResult
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13754,6 +17955,8 @@ BindToObject
 %index
 IMoniker_BindToStorage
 w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒXƒgƒŒ[ƒW‚ÉƒoƒCƒ“ƒh‚·‚éBIMoniker::BindToObject ƒƒ\ƒbƒh‚Æ‚ÍˆÙ‚È‚èA‚±‚Ìƒƒ\ƒbƒh‚Íƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ğƒAƒNƒeƒBƒu‰»‚µ‚È‚¢B
+%group
+COM misc / IMoniker
 %prm
 this, pbc, pmkToLeft, riid, ppvObj
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13789,6 +17992,8 @@ BindToObject ‚Æ BindToStorage
 %index
 IMoniker_Reduce
 ƒ‚ƒjƒJ[‚ğÅ‚à’Pƒ‚ÈŒ`®‚ÉŠÈ–ñ‚·‚éB
+%group
+COM misc / IMoniker
 %prm
 this, pbc, dwReduceHowFar, ppmkToLeft, ppmkReduced
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13811,6 +18016,8 @@ ppmkReduced : [comobj] ‚±‚Ìƒ‚ƒjƒJ[‚ÌŠÈ–ñŒ`‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚
 %index
 IMoniker_ComposeWith
 Œ»İ‚Ìƒ‚ƒjƒJ[‚Æw’è‚µ‚½ƒ‚ƒjƒJ[‚ğŒ‹‡‚µ‚ÄAV‚µ‚¢•¡‡ƒ‚ƒjƒJ[‚ğì¬‚·‚éB
+%group
+COM misc / IMoniker
 %prm
 this, pmkRight, fOnlyIfNotGeneric, ppmkComposite
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13843,6 +18050,8 @@ ComposeWith
 %index
 IMoniker_Enum
 •¡‡ƒ‚ƒjƒJ[‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg—p‚Ì—ñ‹“q‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IMoniker
 %prm
 this, fForward, ppenumMoniker
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13868,6 +18077,8 @@ IMoniker::Enum ƒƒ\ƒbƒh‚ÍAƒpƒX“à‚ÌŠeƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ•\‚·ƒ‚ƒjƒJ[‚ğ•Ô‚·—ñ‹“q‚ğ
 %index
 IMoniker_IsEqual
 ‚±‚Ìƒ‚ƒjƒJ[‚ªw’è‚µ‚½ƒ‚ƒjƒJ[‚Æ“¯ˆê‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+%group
+COM misc / IMoniker
 %prm
 this, pmkOtherMoniker
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13893,6 +18104,8 @@ S_FALSE ‚ğ•Ô‚µAŠÈ–ñŒã‚É‚Í S_OK ‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ:
 %index
 IMoniker_Hash
 ƒ‚ƒjƒJ[‚Ì“à•”ó‘Ô‚ğ—p‚¢‚ÄƒnƒbƒVƒ…’l‚ğì¬‚·‚éB
+%group
+COM misc / IMoniker
 %prm
 this, pdwHash
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13916,6 +18129,8 @@ IMoniker::IsEqual ‚Å”äŠr‚·‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ:
 %index
 IMoniker_IsRunning
 ‚±‚Ìƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ªŒ»İƒ[ƒh‚³‚êÀs’†‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+%group
+COM misc / IMoniker
 %prm
 this, pbc, pmkToLeft, pmkNewlyRunning
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13945,6 +18160,8 @@ pmkNewlyRunning : [comobj] Às’†ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚ÉÅŒã‚É’Ç‰Á‚³‚ê‚½ƒ‚
 %index
 IMoniker_GetTimeOfLastChange
 ‚±‚Ìƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ªÅŒã‚É•ÏX‚³‚ê‚½‚ğæ“¾‚·‚éB
+%group
+COM misc / IMoniker
 %prm
 this, pbc, pmkToLeft, pFileTime
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -13977,6 +18194,8 @@ MK_E_EXCEEDEDDEADLINE ‚ğ•Ô‚·‚×‚«‚Å‚ ‚éBˆÈ‰º‚ÍÀ‘•‚Åg—p‚Å‚«‚éí—ª‚Ì—á‚Å‚ ‚éB
 %index
 IMoniker_Inverse
 ‚±‚Ìƒ‚ƒjƒJ[‚Ì‹t‚Æ‚È‚éƒ‚ƒjƒJ[‚ğì¬‚·‚éB‚±‚Ìƒ‚ƒjƒJ[‚Ü‚½‚Í—Ş—\‘¢‚Ìƒ‚ƒjƒJ[‚Ì‰E‘¤‚É‡¬‚·‚é‚ÆAƒ‚ƒjƒJ[‚Í‰½‚à‚È‚¢ó‘Ô‚É‡¬‚³‚ê‚éB
+%group
+COM misc / IMoniker
 %prm
 this, ppmk
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14008,6 +18227,8 @@ Inverse ƒƒ\ƒbƒh‚ÍA‘Š‘Îƒ‚ƒjƒJ[‚Ì\’z‚ğ•‚¯‚é‚½‚ßAIMoniker::RelativePathTo
 %index
 IMoniker_CommonPrefixWith
 ‚±‚Ìƒ‚ƒjƒJ[‚ªw’è‚µ‚½ƒ‚ƒjƒJ[‚Æ‹¤—L‚·‚éÚ“ª•”‚ÉŠî‚Ã‚¢‚ÄAV‚µ‚¢ƒ‚ƒjƒJ[‚ğì¬‚·‚éB
+%group
+COM misc / IMoniker
 %prm
 this, pmkOther, ppmkPrefix
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14040,6 +18261,8 @@ MonikerCommonPrefixWith ŠÖ”‚É“n‚·‚×‚«‚Å‚ ‚èA‚±‚ê‚Í”Ä—pƒP[ƒX‚ğ³‚µ‚­ˆ—‚·‚éB
 %index
 IMoniker_RelativePathTo
 ‚±‚Ìƒ‚ƒjƒJ[‚Æw’è‚µ‚½ƒ‚ƒjƒJ[‚ÌŠÔ‚Ì‘Š‘Îƒ‚ƒjƒJ[‚ğì¬‚·‚éB
+%group
+COM misc / IMoniker
 %prm
 this, pmkOther, ppmkRelPath
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14080,6 +18303,8 @@ otherTail ‚Ì‡¬‚Å‚ ‚éB‚·‚È‚í‚¿AComp() ‚ğ‡¬‘€ìAInv() ‚ğ‹t‘€ì‚Æ‚·‚é‚ÆACom
 %index
 IMoniker_GetDisplayName
 ƒ‚ƒjƒJ[‚Ì•\¦–¼‚ğæ“¾‚·‚éB
+%group
+COM misc / IMoniker
 %prm
 this, pbc, pmkToLeft, ppszDisplayName
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14111,6 +18336,8 @@ MK_E_EXCEEDEDDEADLINE ‚ğ•Ô‚·‚×‚«‚Å‚ ‚éB”Ä—p•¡‡ƒ‚ƒjƒJ[‚Ìˆê•”‚Æ‚È‚é‚±‚Æ‚ğˆÓ}‚µ
 %index
 IMoniker_ParseDisplayName
 •\¦–¼‚ğƒ‚ƒjƒJ[‚É•ÏŠ·‚·‚éB
+%group
+COM misc / IMoniker
 %prm
 this, pbc, pmkToLeft, pszDisplayName, pchEaten, ppmkOut
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14142,6 +18369,8 @@ ParseDisplayName
 %index
 IMoniker_IsSystemMoniker
 ‚±‚Ìƒ‚ƒjƒJ[‚ªƒVƒXƒeƒ€’ñ‹Ÿ‚Ìƒ‚ƒjƒJ[ƒNƒ‰ƒX‚Ì‚¢‚¸‚ê‚©‚ÉŠY“–‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+%group
+COM misc / IMoniker
 %prm
 this, pdwMksys
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14164,6 +18393,8 @@ MKSYS_NONE ‚ğ•Ô‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B©g‚Ìƒ‚ƒjƒJ[‚ğ¯•Ê‚·‚é‚½‚ß‚É (—á‚¦‚ÎAIMoni
 %index
 IPersist_GetClassID
 ƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IPersist
 %prm
 this, pClassID
 this : [comobj] IPersist ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14198,17 +18429,46 @@ URL ƒ‚ƒjƒJ‚ÉŠÖ‚·‚é’ˆÓ ‚±‚Ìƒƒ\ƒbƒh‚Í CLSID_StdURLMoniker ‚ğ•Ô‚·B
 
 %index
 IPersistFile_GetClassID
-IPersistFile::GetClassID (vtable slot 3)
+ƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IPersistFile
 %prm
 this, pClassID
 this : [comobj] IPersistFile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pClassID : [var] 
+pClassID : [var] –ß‚è‚É CLSID ‚ğó‚¯æ‚éêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BCLSID ‚ÍƒOƒ[ƒoƒ‹ˆêˆÓ¯•Êq (GUID) ‚Å‚ ‚èAƒIƒuƒWƒFƒNƒgƒf[ƒ^‚ğ‘€ì‚·‚éƒR[ƒh‚ğ’è‹`‚·‚éƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚ğˆêˆÓ‚É•\‚·B
 %inst
+ƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í S_OKB‚»‚¤‚Å‚È‚¯‚ê‚Î E_FAILB
+
+[”õl]
+GetClassID ƒƒ\ƒbƒh‚ÍƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID)
+‚ğæ“¾‚·‚éB‚±‚ê‚ÍŒã‚Ì‘€ì‚ÅƒIƒuƒWƒFƒNƒgŒÅ—L‚ÌƒR[ƒh‚ğŒÄ‚Ño‚µ‘¤‚ÌƒRƒ“ƒeƒLƒXƒg‚Éƒ[ƒh‚·‚é‚½‚ß‚Ég‚í‚ê‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ìƒƒ‚
+ƒRƒ“ƒeƒi[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA‚ ‚éƒNƒ‰ƒX‚ğ•Ê‚ÌƒNƒ‰ƒX‚Æ‚µ‚Äˆµ‚Á‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚ÌŒ³‚Ì CLSID
+‚ğæ“¾‚·‚é‚½‚ß‚É‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚ ‚éB‚±‚Ì‚æ‚¤‚ÈŒÄ‚Ño‚µ‚ÍAƒ†[ƒU[‚ªƒIƒuƒWƒFƒNƒg‚Ì•Û‘¶‚ğ•K—v‚Æ‚·‚é•ÒW‘€ì‚ğs‚Á‚½‚Æ‚«‚É•K—v‚É‚È‚éBƒRƒ“ƒeƒi[‚ª
+treat-as CLSID
+‚Å•Û‘¶‚µ‚½ê‡AŒ³‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒIƒuƒWƒFƒNƒg‚ğ•ÒW‚Å‚«‚È‚­‚È‚éB’Êí‚±‚Ì‚æ‚¤‚Èê‡AƒRƒ“ƒeƒi[‚Í•K—v‚ÈƒXƒeƒbƒv‚ğ‚·‚×‚ÄÀs‚·‚é
+OleSave
+ƒwƒ‹ƒp[ŠÖ”‚ğŒÄ‚Ño‚·B‚»‚Ì‚½‚ßA‚±‚Ìƒƒ\ƒbƒh‚ğ’¼ÚŒÄ‚Ño‚·•K—v‚Ì‚ ‚éƒRƒ“ƒeƒi[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚Ù‚Æ‚ñ‚Ç‚È‚¢B—áŠO‚Í“Á’è‚ÌƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰[‚ğ’ñ‹Ÿ‚·‚éƒRƒ“ƒeƒi[‚Å‚ ‚éB“Á‚ÉAƒRƒ“ƒeƒi[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒIƒuƒWƒFƒNƒg‚Ì
+CLSID ‚ğæ“¾‚µ‚Ä‚»‚ê‚ğg‚Á‚ÄƒŒƒWƒXƒgƒŠ‚©‚çƒNƒ‰ƒXŒÅ—L‚Ìî•ñ‚ğæ“¾‚·‚é‚×‚«‚Å‚Í‚È‚¢B‘ã‚í‚è‚É IOleObject ‚¨‚æ‚Ñ
+IDataObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğg—p‚µ‚ÄAƒIƒuƒWƒFƒNƒg‚©‚ç’¼ÚƒNƒ‰ƒXŒÅ—L‚Ìî•ñ‚ğæ“¾‚·‚×‚«‚Å‚ ‚éBÀ‘•Ò‚Ö‚Ìƒƒ‚
+’Êí‚±‚Ìƒƒ\ƒbƒh‚ÌÀ‘•‚ÍƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚é’è” CLSID ‚ğ’P‚É’ñ‹Ÿ‚·‚éB‚½‚¾‚µƒIƒuƒWƒFƒNƒg‚Ì TreatAs
+ƒŒƒWƒXƒgƒŠƒL[‚ªƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ğƒTƒ|[ƒg‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚æ‚Á‚Äİ’è‚³‚ê‚Ä‚¢‚éi‚Â‚Ü‚èƒIƒuƒWƒFƒNƒg‚ğ•ÊƒNƒ‰ƒX‚Ì‚à‚Ì‚Æ‚µ‚Äˆµ‚Á‚Ä‚¢‚éjê‡AGetClassID
+‚ÌŒÄ‚Ño‚µ‚Í TreatAs ƒL[‚Åw’è‚³‚ê‚½ CLSID ‚ğ’ñ‹Ÿ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+CoTreatAsClass ‚ğQÆBƒIƒuƒWƒFƒNƒg‚ªÀsó‘Ô‚É‚ ‚é‚Æ‚«AŠù’èƒnƒ“ƒhƒ‰[‚Í GetClassID
+‚ÌÀ‘•‚ğŒÄ‚Ño‚µA‚»‚ê‚ğƒIƒuƒWƒFƒNƒg“à‚ÌÀ‘•‚ÉˆÏ÷‚·‚éBƒIƒuƒWƒFƒNƒg‚ªÀs’†‚Å‚È‚¢‚Æ‚«AŠù’èƒnƒ“ƒhƒ‰[‚Í‘ã‚í‚è‚É ReadClassStg
+ŠÖ”‚ğŒÄ‚Ño‚µ‚ÄƒIƒuƒWƒFƒNƒg‚ÌƒXƒgƒŒ[ƒW‚É•Û‘¶‚³‚ê‚½ CLSID
+‚ğ“Ç‚İæ‚éBƒIƒuƒWƒFƒNƒg—p‚ÌƒJƒXƒ^ƒ€ƒnƒ“ƒhƒ‰[‚ğ‘‚­ê‡A‚±‚Ìƒƒ\ƒbƒh‚ğŠù’èƒnƒ“ƒhƒ‰[‚ÌÀ‘•‚É’Pƒ‚ÉˆÏ÷‚µ‚½‚¢‚±‚Æ‚à‚ ‚é‚¾‚ë‚¤iOleCreateDefaultHandler
+‚ğQÆjB
+URL ƒ‚ƒjƒJ‚ÉŠÖ‚·‚é’ˆÓ ‚±‚Ìƒƒ\ƒbƒh‚Í CLSID_StdURLMoniker ‚ğ•Ô‚·B
 
 
 %index
 IPersistFile_IsDirty
 ƒIƒuƒWƒFƒNƒg‚ªÅŒã‚ÉŒ»İ‚Ìƒtƒ@ƒCƒ‹‚É•Û‘¶‚³‚ê‚ÄˆÈ—ˆ•ÏX‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+%group
+COM misc / IPersistFile
 %prm
 this
 this : [comobj] IPersistFile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14236,6 +18496,8 @@ IAdviseSink::OnDataChange
 %index
 IPersistFile_Load
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ğŠJ‚«A‚»‚Ì“à—e‚©‚çƒIƒuƒWƒFƒNƒg‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IPersistFile
 %prm
 this, pszFileName, dwMode
 this : [comobj] IPersistFile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14265,6 +18527,8 @@ OLE •¡‡ƒtƒ@ƒCƒ‹‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìê‡AIPersistFile::Load ‚ÌÀ‘•‚Í’P‚
 %index
 IPersistFile_Save
 ƒIƒuƒWƒFƒNƒg‚ÌƒRƒs[‚ğw’è‚µ‚½ƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚éB
+%group
+COM misc / IPersistFile
 %prm
 this, pszFileName, fRemember
 this : [comobj] IPersistFile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14295,6 +18559,8 @@ NoScribble ƒ‚[ƒh‚É‚È‚éBNoScribble ƒ‚[ƒh‚Å‚ÍƒIƒuƒWƒFƒNƒg‚Íƒtƒ@ƒCƒ‹‚É‘‚«‚ñ‚Å
 %index
 IPersistFile_SaveCompleted
 ƒIƒuƒWƒFƒNƒg‚É©g‚Ìƒtƒ@ƒCƒ‹‚Ö‘‚«‚İ‰Â”\‚Å‚ ‚é‚±‚Æ‚ğ’Ê’m‚·‚éB
+%group
+COM misc / IPersistFile
 %prm
 this, pszFileName
 this : [comobj] IPersistFile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14318,6 +18584,8 @@ SaveCompleted
 %index
 IPersistFile_GetCurFile
 ƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹‚ÌŒ»İ‚Ì–¼‘O‚ğæ“¾‚·‚éBŒ»İ‚Ìì‹Æƒtƒ@ƒCƒ‹‚ª‚È‚¢ê‡‚ÍAƒIƒuƒWƒFƒNƒg‚ÌŠù’è‚Ì•Û‘¶ƒvƒƒ“ƒvƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IPersistFile
 %prm
 this, ppszFileName
 this : [comobj] IPersistFile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14350,17 +18618,46 @@ IPersistFile::Save ‚ğŒÄ‚Ño‚µ‚Ä–¼‘O‚ğ•t‚¯‚Ä•Û‘¶‘€ì‚ğs‚¦‚éB
 
 %index
 IPersistStream_GetClassID
-IPersistStream::GetClassID (vtable slot 3)
+ƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IPersistStream
 %prm
 this, pClassID
 this : [comobj] IPersistStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pClassID : [var] 
+pClassID : [var] –ß‚è‚É CLSID ‚ğó‚¯æ‚éêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BCLSID ‚ÍƒOƒ[ƒoƒ‹ˆêˆÓ¯•Êq (GUID) ‚Å‚ ‚èAƒIƒuƒWƒFƒNƒgƒf[ƒ^‚ğ‘€ì‚·‚éƒR[ƒh‚ğ’è‹`‚·‚éƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚ğˆêˆÓ‚É•\‚·B
 %inst
+ƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í S_OKB‚»‚¤‚Å‚È‚¯‚ê‚Î E_FAILB
+
+[”õl]
+GetClassID ƒƒ\ƒbƒh‚ÍƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID)
+‚ğæ“¾‚·‚éB‚±‚ê‚ÍŒã‚Ì‘€ì‚ÅƒIƒuƒWƒFƒNƒgŒÅ—L‚ÌƒR[ƒh‚ğŒÄ‚Ño‚µ‘¤‚ÌƒRƒ“ƒeƒLƒXƒg‚Éƒ[ƒh‚·‚é‚½‚ß‚Ég‚í‚ê‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ìƒƒ‚
+ƒRƒ“ƒeƒi[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA‚ ‚éƒNƒ‰ƒX‚ğ•Ê‚ÌƒNƒ‰ƒX‚Æ‚µ‚Äˆµ‚Á‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚ÌŒ³‚Ì CLSID
+‚ğæ“¾‚·‚é‚½‚ß‚É‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚ ‚éB‚±‚Ì‚æ‚¤‚ÈŒÄ‚Ño‚µ‚ÍAƒ†[ƒU[‚ªƒIƒuƒWƒFƒNƒg‚Ì•Û‘¶‚ğ•K—v‚Æ‚·‚é•ÒW‘€ì‚ğs‚Á‚½‚Æ‚«‚É•K—v‚É‚È‚éBƒRƒ“ƒeƒi[‚ª
+treat-as CLSID
+‚Å•Û‘¶‚µ‚½ê‡AŒ³‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒIƒuƒWƒFƒNƒg‚ğ•ÒW‚Å‚«‚È‚­‚È‚éB’Êí‚±‚Ì‚æ‚¤‚Èê‡AƒRƒ“ƒeƒi[‚Í•K—v‚ÈƒXƒeƒbƒv‚ğ‚·‚×‚ÄÀs‚·‚é
+OleSave
+ƒwƒ‹ƒp[ŠÖ”‚ğŒÄ‚Ño‚·B‚»‚Ì‚½‚ßA‚±‚Ìƒƒ\ƒbƒh‚ğ’¼ÚŒÄ‚Ño‚·•K—v‚Ì‚ ‚éƒRƒ“ƒeƒi[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚Ù‚Æ‚ñ‚Ç‚È‚¢B—áŠO‚Í“Á’è‚ÌƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰[‚ğ’ñ‹Ÿ‚·‚éƒRƒ“ƒeƒi[‚Å‚ ‚éB“Á‚ÉAƒRƒ“ƒeƒi[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒIƒuƒWƒFƒNƒg‚Ì
+CLSID ‚ğæ“¾‚µ‚Ä‚»‚ê‚ğg‚Á‚ÄƒŒƒWƒXƒgƒŠ‚©‚çƒNƒ‰ƒXŒÅ—L‚Ìî•ñ‚ğæ“¾‚·‚é‚×‚«‚Å‚Í‚È‚¢B‘ã‚í‚è‚É IOleObject ‚¨‚æ‚Ñ
+IDataObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğg—p‚µ‚ÄAƒIƒuƒWƒFƒNƒg‚©‚ç’¼ÚƒNƒ‰ƒXŒÅ—L‚Ìî•ñ‚ğæ“¾‚·‚×‚«‚Å‚ ‚éBÀ‘•Ò‚Ö‚Ìƒƒ‚
+’Êí‚±‚Ìƒƒ\ƒbƒh‚ÌÀ‘•‚ÍƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚é’è” CLSID ‚ğ’P‚É’ñ‹Ÿ‚·‚éB‚½‚¾‚µƒIƒuƒWƒFƒNƒg‚Ì TreatAs
+ƒŒƒWƒXƒgƒŠƒL[‚ªƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ğƒTƒ|[ƒg‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚æ‚Á‚Äİ’è‚³‚ê‚Ä‚¢‚éi‚Â‚Ü‚èƒIƒuƒWƒFƒNƒg‚ğ•ÊƒNƒ‰ƒX‚Ì‚à‚Ì‚Æ‚µ‚Äˆµ‚Á‚Ä‚¢‚éjê‡AGetClassID
+‚ÌŒÄ‚Ño‚µ‚Í TreatAs ƒL[‚Åw’è‚³‚ê‚½ CLSID ‚ğ’ñ‹Ÿ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+CoTreatAsClass ‚ğQÆBƒIƒuƒWƒFƒNƒg‚ªÀsó‘Ô‚É‚ ‚é‚Æ‚«AŠù’èƒnƒ“ƒhƒ‰[‚Í GetClassID
+‚ÌÀ‘•‚ğŒÄ‚Ño‚µA‚»‚ê‚ğƒIƒuƒWƒFƒNƒg“à‚ÌÀ‘•‚ÉˆÏ÷‚·‚éBƒIƒuƒWƒFƒNƒg‚ªÀs’†‚Å‚È‚¢‚Æ‚«AŠù’èƒnƒ“ƒhƒ‰[‚Í‘ã‚í‚è‚É ReadClassStg
+ŠÖ”‚ğŒÄ‚Ño‚µ‚ÄƒIƒuƒWƒFƒNƒg‚ÌƒXƒgƒŒ[ƒW‚É•Û‘¶‚³‚ê‚½ CLSID
+‚ğ“Ç‚İæ‚éBƒIƒuƒWƒFƒNƒg—p‚ÌƒJƒXƒ^ƒ€ƒnƒ“ƒhƒ‰[‚ğ‘‚­ê‡A‚±‚Ìƒƒ\ƒbƒh‚ğŠù’èƒnƒ“ƒhƒ‰[‚ÌÀ‘•‚É’Pƒ‚ÉˆÏ÷‚µ‚½‚¢‚±‚Æ‚à‚ ‚é‚¾‚ë‚¤iOleCreateDefaultHandler
+‚ğQÆjB
+URL ƒ‚ƒjƒJ‚ÉŠÖ‚·‚é’ˆÓ ‚±‚Ìƒƒ\ƒbƒh‚Í CLSID_StdURLMoniker ‚ğ•Ô‚·B
 
 
 %index
 IPersistStream_IsDirty
 ƒIƒuƒWƒFƒNƒg‚ªÅŒã‚ÉƒXƒgƒŠ[ƒ€‚Ö•Û‘¶‚³‚ê‚Ä‚©‚ç•ÏX‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB(IPersistStream.IsDirty)
+%group
+COM misc / IPersistStream
 %prm
 this
 this : [comobj] IPersistStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14382,6 +18679,8 @@ IPersistStream::IsDirty ƒƒ\ƒbƒh‚Ì OLE ’ñ‹ŸÀ‘•‚ÍA“à•”ó‘Ô‚ªŒˆ‚µ‚Ä•Ï‰»‚µ‚È‚¢‚½‚
 %index
 IPersistStream_Load
 ˆÈ‘O‚É•Û‘¶‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚©‚çƒIƒuƒWƒFƒNƒg‚ğ‰Šú‰»‚·‚éB(IPersistStream.Load)
+%group
+COM misc / IPersistStream
 %prm
 this, pStm
 this : [comobj] IPersistStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14404,6 +18703,8 @@ IPersistStream::Load ‚ğ’¼ÚŒÄ‚Ño‚·‘ã‚í‚è‚ÉA’Êí‚Í OleLoadFromStream
 %index
 IPersistStream_Save
 ƒIƒuƒWƒFƒNƒg‚ğw’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB(IPersistStream.Save)
+%group
+COM misc / IPersistStream
 %prm
 this, pStm, fClearDirty
 this : [comobj] IPersistStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14429,6 +18730,8 @@ IPersistStream::Save ‚ğ’¼ÚŒÄ‚Ño‚·‘ã‚í‚è‚ÉA’Êí‚Í OleSaveToStream
 %index
 IPersistStream_GetSizeMax
 ƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚é‚½‚ß‚É•K—v‚ÈƒXƒgƒŠ[ƒ€‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB(IPersistStream.GetSizeMax)
+%group
+COM misc / IPersistStream
 %prm
 this, pcbSize
 this : [comobj] IPersistStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14452,6 +18755,8 @@ sizeof(ULONG)==4 ‚É sizeof(WCHAR)*n ‚ğ‰Á‚¦‚½‚à‚Ì‚ÅAn ‚Í NULL
 %index
 IPropertyBag2_Read
 IPropertyBag2::Read (vtable slot 3)
+%group
+COM misc / IPropertyBag2
 %prm
 this, cProperties, pPropBag, pErrLog, pvarValue, phrError
 this : [comobj] IPropertyBag2 ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14466,6 +18771,8 @@ phrError : [var]
 %index
 IPropertyBag2_Write
 IPropertyBag2::Write (vtable slot 4)
+%group
+COM misc / IPropertyBag2
 %prm
 this, cProperties, pPropBag, pvarValue
 this : [comobj] IPropertyBag2 ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14478,6 +18785,8 @@ pvarValue : [int]
 %index
 IPropertyBag2_CountProperties
 IPropertyBag2::CountProperties (vtable slot 5)
+%group
+COM misc / IPropertyBag2
 %prm
 this, pcProperties
 this : [comobj] IPropertyBag2 ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14488,6 +18797,8 @@ pcProperties : [int]
 %index
 IPropertyBag2_GetPropertyInfo
 IPropertyBag2::GetPropertyInfo (vtable slot 6)
+%group
+COM misc / IPropertyBag2
 %prm
 this, iProperty, cProperties, pPropBag, pcProperties
 this : [comobj] IPropertyBag2 ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14501,6 +18812,8 @@ pcProperties : [int]
 %index
 IPropertyBag2_LoadObject
 IPropertyBag2::LoadObject (vtable slot 7)
+%group
+COM misc / IPropertyBag2
 %prm
 this, pstrName, dwHint, pUnkObject, pErrLog
 this : [comobj] IPropertyBag2 ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14514,6 +18827,8 @@ pErrLog : [comobj]
 %index
 IPropertyDescriptionList_GetCount
 ƒvƒƒpƒeƒBƒŠƒXƒg‚ÉŠÜ‚Ü‚ê‚éƒvƒƒpƒeƒB‚Ì”‚ğæ“¾‚·‚éB
+%group
+COM misc / IPropertyDescriptionList
 %prm
 this, pcElem
 this : [comobj] IPropertyDescriptionList ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14528,6 +18843,8 @@ pcElem : [int] Œ^: UINT* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAƒvƒƒpƒeƒB”‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ªŠi”[‚
 %index
 IPropertyDescriptionList_GetAt
 ƒvƒƒpƒeƒB‹LqƒŠƒXƒg“à‚Ìw’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚ÌƒvƒƒpƒeƒB‹Lq‚ğæ“¾‚·‚éB
+%group
+COM misc / IPropertyDescriptionList
 %prm
 this, iElem, riid, ppv
 this : [comobj] IPropertyDescriptionList ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14549,6 +18866,8 @@ riid ‚Æ ppv ‚Ìƒpƒ‰ƒ[ƒ^[‚ğ‚Ü‚Æ‚ß‚é‚É‚Í objbase.h ‚Å’è‹`‚³‚ê‚½ IID_PPV_ARGS
 %index
 IPropertyStore_GetCount
 ƒtƒ@ƒCƒ‹‚É•t—^‚³‚ê‚Ä‚¢‚éƒvƒƒpƒeƒB‚Ì”‚ğ•Ô‚·B
+%group
+COM misc / IPropertyStore
 %prm
 this, cProps
 this : [comobj] IPropertyStore ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14572,6 +18891,8 @@ IPropertyStore::GetAt ‚ÌŒÄ‚Ño‚µ‚ª¬Œ÷‚·‚é‚±‚Æ‚ğŠú‘Ò‚Å‚«‚éBE_OUTOFMEMORY
 %index
 IPropertyStore_GetAt
 ƒAƒCƒeƒ€‚ÌƒvƒƒpƒeƒB”z—ñ‚©‚çƒvƒƒpƒeƒBƒL[‚ğæ“¾‚·‚éB
+%group
+COM misc / IPropertyStore
 %prm
 this, iProp, pkey
 this : [comobj] IPropertyStore ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14590,6 +18911,8 @@ IPropertyStore::GetAt ƒƒ\ƒbƒh‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚ÌƒR[ƒh‚ÍƒGƒ‰[ƒR[
 %index
 IPropertyStore_GetValue
 “Á’è‚ÌƒvƒƒpƒeƒB‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IPropertyStore
 %prm
 this, key, pv
 this : [comobj] IPropertyStore ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14613,6 +18936,8 @@ vt ƒƒ“ƒo[‚Í VT_EMPTY ‚Éİ’è‚³‚ê‚éB
 %index
 IPropertyStore_SetValue
 ƒvƒƒpƒeƒB’l‚ğİ’è‚·‚é‚©AŠù‘¶‚Ì’l‚ğ’u‚«Š·‚¦‚é‚©A‚Ü‚½‚Ííœ‚·‚éB
+%group
+COM misc / IPropertyStore
 %prm
 this, key, propvar
 this : [comobj] IPropertyStore ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14644,6 +18969,8 @@ IPropertyStore::GetAt ‚É‚æ‚é—ñ‹“‚Í‚»‚Ì•ÏX‚ğ”½‰f‚µAˆÈ~‚Ì IPropertyStore::SetVa
 %index
 IPropertyStore_Commit
 •ÏX‚ªs‚í‚ê‚½Œã‚ÉA‚»‚Ì•ÏX‚ğ•Û‘¶‚·‚éB
+%group
+COM misc / IPropertyStore
 %prm
 this
 this : [comobj] IPropertyStore ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14664,6 +18991,8 @@ Commit
 %index
 IRunningObjectTable_Register
 ƒ‰ƒ“ƒjƒ“ƒOƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚ÉƒIƒuƒWƒFƒNƒg‚Æ‚»‚ê‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ[‚ğ“o˜^‚·‚éB
+%group
+COM misc / IRunningObjectTable
 %prm
 this, grfFlags, punkObject, pmkObjectName, pdwRegister
 this : [comobj] IRunningObjectTable ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14725,6 +19054,8 @@ pmkObjectName ƒpƒ‰ƒ[ƒ^‚É‘Î‚µ‚Ä IMoniker::Reduce ‚ğŒÄ‚Ño‚·B1
 %index
 IRunningObjectTable_Revoke
 IRunningObjectTable::Register ŒÄ‚Ño‚µ‚ÅˆÈ‘O‚É“o˜^‚³‚ê‚½ƒGƒ“ƒgƒŠ‚ğƒ‰ƒ“ƒjƒ“ƒOƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚©‚çíœ‚·‚éB
+%group
+COM misc / IRunningObjectTable
 %prm
 this, dwRegister
 this : [comobj] IRunningObjectTable ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14754,6 +19085,8 @@ IRunningObjectTable::Register ‚ğŒÄ‚ÑA‚»‚Ìƒƒ\ƒbƒh‚ª•Ô‚µ‚½¯•Êq‚ğ•Û‘¶‚µ‚Ä‚¨‚«A
 %index
 IRunningObjectTable_IsRunning
 w’è‚µ‚½ƒ‚ƒjƒJ[‚Å¯•Ê‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ªŒ»İÀs’†‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+%group
+COM misc / IRunningObjectTable
 %prm
 this, pmkObjectName
 this : [comobj] IRunningObjectTable ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14776,6 +19109,8 @@ pmkToLeft ƒpƒ‰ƒ[ƒ^‚É‘Î‚µ‚Ä IMoniker::IsRunning ‚ğŒÄ‚Ô‚×‚«‚Å‚ ‚éB
 %index
 IRunningObjectTable_GetObject
 w’è‚µ‚½ƒ‚ƒjƒJ[‚Å¯•Ê‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ªÀs’†‚©‚Ç‚¤‚©‚ğ”»’è‚µAÀs’†‚Å‚ ‚ê‚Î‚»‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IRunningObjectTable
 %prm
 this, pmkObjectName, ppunkObject
 this : [comobj] IRunningObjectTable ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14804,6 +19139,8 @@ pmkToLeft ƒpƒ‰ƒ[ƒ^‚Å¦‚³‚ê‚é) ‚ª‚ ‚é‚Æ‘z’è‚³‚ê‚éê‡AROT ‚ğŠm”F‚·‚×‚«‚Å‚Í‚È‚¢
 %index
 IRunningObjectTable_NoteChangeTime
 Às’†‚ÌƒIƒuƒWƒFƒNƒg‚ªÅŒã‚É•ÏX‚³‚ê‚½‚ğ‹L˜^‚·‚éBƒIƒuƒWƒFƒNƒg‚Í–‘O‚Éƒ‰ƒ“ƒjƒ“ƒOƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚É“o˜^‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒƒ\ƒbƒh‚ÍÅI•ÏX‚ğ ROT ‚É•Û‘¶‚·‚éB
+%group
+COM misc / IRunningObjectTable
 %prm
 this, dwRegister, pfiletime
 this : [comobj] IRunningObjectTable ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14832,6 +19169,8 @@ IMoniker::GetTimeOfLastChange ‚ğŒÄ‚ñ‚Å“¾‚½’l‚ğÅI•ÏX‚Æ‚µ‚Ä‹L˜^‚·‚éB
 %index
 IRunningObjectTable_GetTimeOfLastChange
 ƒIƒuƒWƒFƒNƒg‚ªÅŒã‚É•ÏX‚³‚ê‚½‚ğæ“¾‚·‚éB
+%group
+COM misc / IRunningObjectTable
 %prm
 this, pmkObjectName, pfiletime
 this : [comobj] IRunningObjectTable ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14860,6 +19199,8 @@ IMoniker::GetTimeOfLastChange ‚ğŒÄ‚Ô‚×‚«‚Å‚ ‚éB
 %index
 IRunningObjectTable_EnumRunning
 ƒ‰ƒ“ƒjƒ“ƒOƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚ÉŒ»İ“o˜^‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚Ìƒ‚ƒjƒJ[‚ğ—ñ‹“‚Å‚«‚é—ñ‹“q‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ¶¬‚µ‚Ä•Ô‚·B
+%group
+COM misc / IRunningObjectTable
 %prm
 this, ppenumMoniker
 this : [comobj] IRunningObjectTable ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14882,6 +19223,8 @@ ROT ‚Ö“o˜^‚³‚ê‚½ƒ‚ƒjƒJ[‚Ì—ñ‹“‚É‚Íg—p‚Å‚«‚È‚¢BEnumRunning
 %index
 ISequentialStream_Read
 Œ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½”‚ÌƒoƒCƒg‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚çƒƒ‚ƒŠ‚Ö“Ç‚İæ‚éB
+%group
+COM misc / ISequentialStream
 %prm
 this, pv, cb, pcbRead
 this : [comobj] ISequentialStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14916,6 +19259,8 @@ S_OK –ß‚è’l‚Ì—¼•û‚ğˆµ‚¤‚×‚«‚Å‚ ‚éB
 %index
 ISequentialStream_Write
 Œ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½”‚ÌƒoƒCƒg‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‘‚«‚ŞB
+%group
+COM misc / ISequentialStream
 %prm
 this, pv, cb, pcbWritten
 this : [comobj] ISequentialStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14954,6 +19299,8 @@ IStream::SetSize ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒGƒ‰[‚ª”­¶‚µ‚Ä‚à pcbWritt
 %index
 IShellItem_BindToHandler
 ƒnƒ“ƒhƒ‰[ ID (BHID) ‚Åw’è‚µ‚½ƒAƒCƒeƒ€—p‚Ìƒnƒ“ƒhƒ‰[‚ÉƒoƒCƒ“ƒh‚·‚éB
+%group
+COM misc / IShellItem
 %prm
 this, pbc, bhid, riid, ppv
 this : [comobj] IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14971,6 +19318,8 @@ ppv : [int] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆArbhid ‚Åw’è‚³‚ê‚½ƒnƒ“ƒhƒ‰[‚ª•Ô‚· 
 %index
 IShellItem_GetParent
 IShellItem ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
+%group
+COM misc / IShellItem
 %prm
 this, ppsi
 this : [comobj] IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -14985,6 +19334,8 @@ IShellItem ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
 %index
 IShellItem_GetDisplayName
 IShellItem ƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼‚ğæ“¾‚·‚éB
+%group
+COM misc / IShellItem
 %prm
 this, sigdnName, ppszName
 this : [comobj] IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15004,6 +19355,8 @@ CoTaskMemFree ‚ğŒÄ‚Ño‚·B
 %index
 IShellItem_GetAttributes
 IShellItem ƒIƒuƒWƒFƒNƒg‚ÌA—v‹‚³‚ê‚½‘®«‚ÌƒZƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IShellItem
 %prm
 this, sfgaoMask, psfgaoAttribs
 this : [comobj] IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15020,6 +19373,8 @@ S_FALSEA‚»‚¤‚Å‚È‚¯‚ê‚Î•W€ COM ƒGƒ‰[’l‚ğ•Ô‚·B
 %index
 IShellItem_Compare
 2 ‚Â‚Ì IShellItem ƒIƒuƒWƒFƒNƒg‚ğ”äŠr‚·‚éB
+%group
+COM misc / IShellItem
 %prm
 this, psi, hint, piOrder
 this : [comobj] IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15040,6 +19395,8 @@ piOrder : [int] Œ^: int* ”äŠrŒ‹‰Ê‚ğó‚¯æ‚éƒpƒ‰ƒ[ƒ^[B2 ‚Â‚ÌƒAƒCƒeƒ€‚ª“¯‚¶ê
 %index
 IShellItemArray_BindToHandler
 w’è‚µ‚½ƒnƒ“ƒhƒ‰[‚ğ‰î‚µ‚ÄƒIƒuƒWƒFƒNƒg‚ÉƒoƒCƒ“ƒh‚·‚éB
+%group
+COM misc / IShellItemArray
 %prm
 this, pbc, bhid, riid, ppvOut
 this : [comobj] IShellItemArray ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15057,6 +19414,8 @@ ppvOut : [int] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆArbhid ‚Åw’è‚³‚ê‚½ƒnƒ“ƒhƒ‰[‚ª•Ô
 %index
 IShellItemArray_GetPropertyStore
 ƒvƒƒpƒeƒBƒXƒgƒA‚ğæ“¾‚·‚éB
+%group
+COM misc / IShellItemArray
 %prm
 this, flags, riid, ppv
 this : [comobj] IShellItemArray ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15080,6 +19439,8 @@ ppv : [int] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒF[ƒXƒ|
 %index
 IShellItemArray_GetPropertyDescriptionList
 ƒVƒFƒ‹ƒAƒCƒeƒ€”z—ñ“à‚ÌƒAƒCƒeƒ€‚ÌƒvƒƒpƒeƒB‹LqƒŠƒXƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IShellItemArray
 %prm
 this, keyType, riid, ppv
 this : [comobj] IShellItemArray ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15101,6 +19462,8 @@ ppv : [int] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ
 %index
 IShellItemArray_GetAttributes
 IShellItemArray ‚ÉŠÜ‚Ü‚ê‚éƒAƒCƒeƒ€‚ÌƒZƒbƒg‚Ì‘®«‚ğæ“¾‚·‚éB
+%group
+COM misc / IShellItemArray
 %prm
 this, AttribFlags, sfgaoMask, psfgaoAttribs
 this : [comobj] IShellItemArray ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15127,6 +19490,8 @@ SIATTRIBFLAGS_ALLITEMS
 %index
 IShellItemArray_GetCount
 w’è‚µ‚½ IShellItem ”z—ñ“à‚ÌƒAƒCƒeƒ€”‚ğæ“¾‚·‚éB
+%group
+COM misc / IShellItemArray
 %prm
 this, pdwNumItems
 this : [comobj] IShellItemArray ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15141,6 +19506,8 @@ pdwNumItems : [int] Œ^: DWORD* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆAIShellItemArray “à‚ÌƒAƒCƒeƒ
 %index
 IShellItemArray_GetItemAt
 IShellItemArray “à‚Ìw’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚ÌƒAƒCƒeƒ€‚ğæ“¾‚·‚éB
+%group
+COM misc / IShellItemArray
 %prm
 this, dwIndex, ppsi
 this : [comobj] IShellItemArray ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15159,6 +19526,8 @@ IShellItemArray “à‚Ìw’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚ÌƒAƒCƒeƒ€‚ğæ“¾‚·‚éB
 %index
 IShellItemArray_EnumItems
 ”z—ñ“à‚ÌƒAƒCƒeƒ€‚Ì—ñ‹“q‚ğæ“¾‚·‚éB
+%group
+COM misc / IShellItemArray
 %prm
 this, ppenumShellItems
 this : [comobj] IShellItemArray ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15173,6 +19542,8 @@ ppenumShellItems : [comobj] Œ^: IEnumShellItems** ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚ÆA”z—ñ“à‚Ì
 %index
 IShellItemFilter_IncludeItem
 w’è‚µ‚½ƒVƒFƒ‹ƒAƒCƒeƒ€‚ğƒrƒ…[‚Ö‚ÌŠÜ—L‘ÎÛ‚Æ‚µ‚Äİ’è‚·‚éB
+%group
+COM misc / IShellItemFilter
 %prm
 this, psi
 this : [comobj] IShellItemFilter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15191,6 +19562,8 @@ psi : [comobj] Œ^: IShellItem* ƒrƒ…[‚ÉŠÜ‚ß‚éƒVƒFƒ‹ƒAƒCƒeƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 IShellItemFilter_GetEnumFlagsForItem
 ƒNƒ‰ƒCƒAƒ“ƒg‚ªƒVƒFƒ‹ƒAƒCƒeƒ€“à‚Ì‚Ç‚ÌƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚ğƒrƒ…[‚ÉŠÜ‚ß‚é‚½‚ß‚É—ñ‹“‚·‚é‚©‚ğw’è‚Å‚«‚é‚æ‚¤‚É‚·‚éB
+%group
+COM misc / IShellItemFilter
 %prm
 this, psi, pgrfFlags
 this : [comobj] IShellItemFilter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15206,6 +19579,8 @@ pgrfFlags : [int] Œ^: SHCONTF* w’è‚µ‚½ƒVƒFƒ‹ƒAƒCƒeƒ€‚É‚Â‚¢‚ÄAƒrƒ…[‚ÖŠÜ‚ß‚é‚½‚
 %index
 IShellLinkW_GetPath
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Ìƒ^[ƒQƒbƒg‚ÌƒpƒX‚Æƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, pszFile, cch, pfd, fFlags
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15224,6 +19599,8 @@ S_FALSE ‚ğ•Ô‚µApszFile ‚Í‹ó‚Æ‚È‚éB‚»‚¤‚Å‚È‚¯‚ê‚Î•W€ HRESULT ƒGƒ‰[’l‚Ì‚¢‚¸‚ê‚
 %index
 IShellLinkW_GetIDList
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Ìƒ^[ƒQƒbƒg‚ÌƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚ğæ“¾‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, ppidl
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15239,6 +19616,8 @@ ppidl : [comobj] Œ^: PIDLIST_ABSOLUTE* ‚±‚Ìƒƒ\ƒbƒh‚ª–ß‚é‚Æ PIDL ‚ÌƒAƒhƒŒƒX‚ğŠÜ‚
 %index
 IShellLinkW_SetIDList
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÌƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğİ’è‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, pidl
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15257,6 +19636,8 @@ pidl : [comobj] Œ^: PCIDLIST_ABSOLUTE ƒIƒuƒWƒFƒNƒg‚ÌŠ®‘SCü PIDLB
 %index
 IShellLinkW_GetDescription
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Ìà–¾•¶š—ñ‚ğæ“¾‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, pszName, cch
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15276,6 +19657,8 @@ Windows 2000 ˆÈ~‚Å‚Í pszName ‚É•Ô‚³‚ê‚é•¶š—ñ‚ÌÅ‘å’·‚Í INFOTIPSIZE ‚Å‚ ‚éBWin
 %index
 IShellLinkW_SetDescription
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Ìà–¾‚ğİ’è‚·‚éBà–¾‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª’è‹`‚·‚é”CˆÓ‚Ì•¶š—ñ‚Å‚æ‚¢B(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, pszName
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15294,6 +19677,8 @@ Windows 2000 ˆÈ~‚Å‚Í pszName ‚Åw’è‚·‚é•¶š—ñ‚Í INFOTIPSIZE ˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚ç‚
 %index
 IShellLinkW_GetWorkingDirectory
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Ìì‹ÆƒfƒBƒŒƒNƒgƒŠ–¼‚ğæ“¾‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, pszDir, cch
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15309,6 +19694,8 @@ cch : [int] Œ^: int pszDir ƒpƒ‰ƒ[ƒ^[‚ªw‚·ƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éÅ‘å•¶š”B‚±‚
 %index
 IShellLinkW_SetWorkingDirectory
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Ìì‹ÆƒfƒBƒŒƒNƒgƒŠ–¼‚ğİ’è‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, pszDir
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15329,6 +19716,8 @@ Microsoft Word
 %index
 IShellLinkW_GetArguments
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚ğæ“¾‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, pszArgs, cch
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15350,6 +19739,8 @@ IPropertyStore Œo—R‚ÅiPKEY_Link_Arguments
 %index
 IShellLinkW_SetArguments
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚ğİ’è‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, pszArgs
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15367,6 +19758,8 @@ pszArgs : [wstr] Œ^: LPCTSTR V‚µ‚¢ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^
 %index
 IShellLinkW_GetHotkey
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÌƒL[ƒ{[ƒhƒVƒ‡[ƒgƒJƒbƒgiƒzƒbƒgƒL[j‚ğæ“¾‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, pwHotkey
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15381,6 +19774,8 @@ pwHotkey : [int] Œ^: WORD*
 %index
 IShellLinkW_SetHotkey
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÌƒL[ƒ{[ƒhƒVƒ‡[ƒgƒJƒbƒgiƒzƒbƒgƒL[j‚ğİ’è‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, wHotkey
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15398,6 +19793,8 @@ wHotkey : [int] Œ^: WORD V‚µ‚¢ƒL[ƒ{[ƒhƒVƒ‡[ƒgƒJƒbƒgB‰ºˆÊƒoƒCƒg‚É‰¼‘zƒL[ƒR
 %index
 IShellLinkW_GetShowCmd
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Ì•\¦ƒRƒ}ƒ“ƒh‚ğæ“¾‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, piShowCmd
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15416,6 +19813,8 @@ piShowCmd : [var] Œ^: int* ƒRƒ}ƒ“ƒh‚Ö‚Ìƒ|ƒCƒ“ƒ^[BˆÈ‰º‚ÌƒRƒ}ƒ“ƒh‚ªƒTƒ|[ƒg‚³‚ê‚
 %index
 IShellLinkW_SetShowCmd
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Ì•\¦ƒRƒ}ƒ“ƒh‚ğİ’è‚·‚éB•\¦ƒRƒ}ƒ“ƒh‚ÍƒEƒBƒ“ƒhƒE‚Ì‰Šú•\¦ó‘Ô‚ğİ’è‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, iShowCmd
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15430,6 +19829,8 @@ iShowCmd : [int] Œ^: int ƒRƒ}ƒ“ƒhBSetShowCmd ‚ÍˆÈ‰º‚Ì ShowWindow ƒRƒ}ƒ“ƒh‚Ì‚¢‚¸
 %index
 IShellLinkW_GetIconLocation
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÌƒAƒCƒRƒ“‚ÌˆÊ’uiƒpƒX‚ÆƒCƒ“ƒfƒbƒNƒXj‚ğæ“¾‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, pszIconPath, cch, piIcon
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15446,6 +19847,8 @@ piIcon : [int] Œ^: int* ƒAƒCƒRƒ“‚ÌƒCƒ“ƒfƒbƒNƒX‚ğó‚¯æ‚é’l‚ÌƒAƒhƒŒƒXB
 %index
 IShellLinkW_SetIconLocation
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÌƒAƒCƒRƒ“‚ÌˆÊ’uiƒpƒX‚ÆƒCƒ“ƒfƒbƒNƒXj‚ğİ’è‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, pszIconPath, iIcon
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15461,6 +19864,8 @@ iIcon : [int] Œ^: int ƒAƒCƒRƒ“‚ÌƒCƒ“ƒfƒbƒNƒXB
 %index
 IShellLinkW_SetRelativePath
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Ö‚Ì‘Š‘ÎƒpƒX‚ğİ’è‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, pszPathRel, dwReserved
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15481,6 +19886,8 @@ dwReserved : [int] Œ^: DWORD —\–ñÏ‚İB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É‚Í 0 ‚ğİ’è‚·‚éB
 %index
 IShellLinkW_Resolve
 ƒVƒFƒ‹ƒŠƒ“ƒN‚Ìƒ^[ƒQƒbƒg‚ªˆÚ“®‚Ü‚½‚Í–¼‘O•ÏX‚³‚ê‚Ä‚¢‚Ä‚àA‚»‚ê‚ğŒ©‚Â‚¯‚æ‚¤‚Æ‚İ‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, hwnd, fFlags
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15502,6 +19909,8 @@ fFlags : [int] Œ^: DWORD
 %index
 IShellLinkW_SetPath
 ƒVƒFƒ‹ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Ìƒ^[ƒQƒbƒg‚ÌƒpƒX‚Æƒtƒ@ƒCƒ‹–¼‚ğİ’è‚·‚éB(Unicode)
+%group
+COM misc / IShellLinkW
 %prm
 this, pszFile
 this : [comobj] IShellLinkW ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15515,31 +19924,85 @@ pszFile : [wstr] Œ^: LPCTSTR V‚µ‚¢ƒpƒX‚ğŠÜ‚Şƒoƒbƒtƒ@‚ÌƒAƒhƒŒƒXB
 
 %index
 IStream_Read
-IStream::Read (vtable slot 3)
+Œ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½”‚ÌƒoƒCƒg‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚çƒƒ‚ƒŠ‚Ö“Ç‚İæ‚éB
+%group
+COM misc / IStream
 %prm
 this, pv, cb, pcbRead
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pv : [intptr] 
-cb : [int] 
-pcbRead : [var] 
+pv : [intptr] ƒXƒgƒŠ[ƒ€ƒf[ƒ^‚Ì“Ç‚İ‚İæ‚Æ‚È‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cb : [int] ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚ç“Ç‚İæ‚éƒf[ƒ^‚ÌƒoƒCƒg”B
+pcbRead : [var] ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚çÀÛ‚É“Ç‚İæ‚ç‚ê‚½ƒoƒCƒg”‚ğó‚¯æ‚é ULONG •Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B’ˆÓ “Ç‚İæ‚ç‚ê‚½ƒoƒCƒg”‚Í 0 ‚É‚È‚é‚±‚Æ‚à‚ ‚éB
 %inst
+Œ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½”‚ÌƒoƒCƒg‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚çƒƒ‚ƒŠ‚Ö“Ç‚İæ‚éB
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB | –ß‚èƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK |
+—v‹‚³‚ê‚½ƒf[ƒ^‚ª‚·‚×‚ÄƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚ç³í‚É“Ç‚İæ‚ç‚ê‚½B*cb* ‚Å—v‹‚µ‚½ƒoƒCƒg”‚Æ *pcbRead*
+‚Å•Ô‚³‚ê‚½ƒoƒCƒg”‚ª“¯‚¶‚Å‚ ‚éB| |S_FALSE | *pcbRead* ‚Å•Ô‚³‚ê‚½’l‚ª *cb*
+‚Å—v‹‚µ‚½ƒoƒCƒg”‚æ‚è­‚È‚¢B‚±‚ê‚ÍƒXƒgƒŠ[ƒ€‚Ì––”ö‚É’B‚µ‚½‚±‚Æ‚ğ¦‚·B“Ç‚İæ‚ç‚ê‚½ƒoƒCƒg”‚Í *pv*
+ƒoƒbƒtƒ@‚Ì‚¤‚¿‚Ç‚ê‚¾‚¯‚ª–„‚ß‚ç‚ê‚½‚©‚ğ¦‚·B| |E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ:
+“Ç‚İæ‚é‚×‚«ƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p•s‰Â‚Å‚ ‚éB| |STG_E_ACCESSDENIED |
+ŒÄ‚Ño‚µ‘¤‚ª‚±‚ÌƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğ“Ç‚İæ‚é‚Ì‚É•K—v‚ÈŒ ŒÀ‚ğ‚Á‚Ä‚¢‚È‚¢B| |STG_E_INVALIDPOINTER |
+ƒ|ƒCƒ“ƒ^’l‚Ì 1 ‚Â‚ª–³Œø‚Å‚ ‚éB| |STG_E_REVERTED | ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[“à‚Å‚»‚ÌãˆÊ‚Ì revert
+‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í‚±‚ÌƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚çƒƒ‚ƒŠ‚ÖƒoƒCƒg‚ğ“Ç‚İæ‚éBƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Í STGM_READ
+ƒ‚[ƒh‚ÅŠJ‚©‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒƒ\ƒbƒh‚ÍÀÛ‚É“Ç‚İæ‚Á‚½ƒoƒCƒg”‚¾‚¯ƒV[ƒNƒ|ƒCƒ“ƒ^‚ği‚ß‚éBÀÛ‚É“Ç‚İæ‚ç‚ê‚½ƒoƒCƒg”‚Í
+pcbRead ƒpƒ‰ƒ[ƒ^‚Å‚à•Ô‚³‚ê‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ
+ƒGƒ‰[‚ª”­¶‚µ‚½‚è“Ç‚İæ‚è‘€ì’†‚ÉƒXƒgƒŠ[ƒ€‚Ì––”ö‚É’B‚µ‚½‚è‚µ‚½ê‡AÀÛ‚É“Ç‚İæ‚ç‚ê‚éƒoƒCƒg”‚Í—v‹‚µ‚½ƒoƒCƒg”‚æ‚è­‚È‚­‚È‚é‚±‚Æ‚ª‚ ‚éB•Ô‚³‚ê‚éƒoƒCƒg”‚Íí‚É—v‹‚µ‚½ƒoƒCƒg”‚Æ”äŠr‚·‚×‚«‚Å‚ ‚éB•Ô‚³‚ê‚éƒoƒCƒg”‚ª—v‹‚æ‚è­‚È‚¢ê‡A’Êí‚Í
+Read
+ƒƒ\ƒbƒh‚ªƒXƒgƒŠ[ƒ€‚Ì––”ö‚ğ’´‚¦‚Ä“Ç‚İæ‚ë‚¤‚Æ‚µ‚½‚±‚Æ‚ğˆÓ–¡‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒXƒgƒŠ[ƒ€I’[‚Å‚Ì“Ç‚İæ‚è‚É‘Î‚·‚éƒGƒ‰[–ß‚è’l‚Æ
+S_OK –ß‚è’l‚Ì—¼•û‚ğˆµ‚¤‚×‚«‚Å‚ ‚éB
 
 
 %index
 IStream_Write
-IStream::Write (vtable slot 4)
+Œ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½”‚ÌƒoƒCƒg‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‘‚«‚ŞB
+%group
+COM misc / IStream
 %prm
 this, pv, cb, pcbWritten
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pv : [intptr] 
-cb : [int] 
-pcbWritten : [var] 
+pv : [intptr] ƒXƒgƒŠ[ƒ€‚É‘‚«‚Şƒf[ƒ^‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bcb ‚ª 0 ‚Å‚ ‚Á‚Ä‚à‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í—LŒø‚Èƒ|ƒCƒ“ƒ^‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+cb : [int] ƒXƒgƒŠ[ƒ€‚É‘‚«‚à‚¤‚Æ‚·‚éƒf[ƒ^‚ÌƒoƒCƒg”B‚±‚Ì’l‚Í 0 ‚Å‚à‚æ‚¢B
+pcbWritten : [var] ‚±‚Ìƒƒ\ƒbƒh‚ªAƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÖÀÛ‚É‘‚«‚ñ‚¾ƒoƒCƒg”‚ğ‘‚«‚Ş ULONG •Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µ‘¤‚Í‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ NULL ‚Éİ’è‚Å‚«A‚»‚Ìê‡‚±‚Ìƒƒ\ƒbƒh‚ÍÀÛ‚É‘‚«‚Ü‚ê‚½ƒoƒCƒg”‚ğ’ñ‹Ÿ‚µ‚È‚¢B
 %inst
+Œ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½”‚ÌƒoƒCƒg‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‘‚«‚ŞB
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB | –ß‚èƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK |
+ƒf[ƒ^‚ªƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö³í‚É‘‚«‚Ü‚ê‚½B| |E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ:
+‘‚«‚Ş‚×‚«ƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p•s‰Â‚Å‚ ‚éB| |STG_E_MEDIUMFULL |
+ƒXƒgƒŒ[ƒWƒfƒoƒCƒX‚Éc‚è—e—Ê‚ª‚È‚¢‚½‚ß‘‚«‚İ‘€ì‚É¸”s‚µ‚½B| |STG_E_ACCESSDENIED |
+ŒÄ‚Ño‚µ‘¤‚ª‚±‚ÌƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‘‚«‚Ş‚Ì‚É•K—v‚ÈŒ ŒÀ‚ğ‚Á‚Ä‚¢‚È‚¢B| |STG_E_CANTSAVE |
+•s“KØ‚ÈƒAƒNƒZƒX‚â‹ó‚«—e—Ê•s‘«ˆÈŠO‚Ì——R‚Åƒf[ƒ^‚ğ‘‚«‚ß‚È‚¢B| |STG_E_INVALIDPOINTER | ƒ|ƒCƒ“ƒ^’l‚Ì 1
+‚Â‚ª–³Œø‚Å‚ ‚éBcb ‚ª 0 ‚Å‚à *pv* ƒpƒ‰ƒ[ƒ^‚É‚Í—LŒø‚Èƒ|ƒCƒ“ƒ^‚ğŠÜ‚ß‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B| |STG_E_REVERTED |
+ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[“à‚Å‚»‚ÌãˆÊ‚Ì revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B| |STG_E_WRITEFAULT |
+ƒfƒBƒXƒNƒGƒ‰[‚É‚æ‚è‘‚«‚İ‘€ì‚É¸”s‚µ‚½BƒVƒ“ƒvƒ‹ƒ‚[ƒh (STGM_SIMPLE ƒtƒ‰ƒO‚ğg—p)
+‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€‚Ö‘‚«‚à‚¤‚Æ‚µ‚½ê‡‚É‚à‚±‚Ì’l‚ª•Ô‚³‚ê‚éB|
+
+[”õl]
+ISequentialStream::Write
+‚Íw’è‚³‚ê‚½ƒf[ƒ^‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‘‚«‚ŞBƒV[ƒNƒ|ƒCƒ“ƒ^‚ÍÀÛ‚É‘‚«‚Ü‚ê‚½ƒoƒCƒg”‚¾‚¯i‚ß‚ç‚ê‚éBÀÛ‚É‘‚«‚Ü‚ê‚½ƒoƒCƒg”‚Í
+pcbWritten ƒpƒ‰ƒ[ƒ^‚Å•Ô‚³‚ê‚éBƒoƒCƒg”‚ª 0
+‚Ìê‡A‘‚«‚İ‘€ì‚Í‰½‚ÌŒø‰Ê‚à‚½‚È‚¢BƒV[ƒNƒ|ƒCƒ“ƒ^‚ªŒ»İƒXƒgƒŠ[ƒ€‚Ì––”ö‚ğ’´‚¦‚Ä‚¨‚èAƒoƒCƒg”‚ª 0
+‚Å‚È‚¢ê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍƒXƒgƒŠ[ƒ€‚ÌƒTƒCƒY‚ğƒV[ƒNƒ|ƒCƒ“ƒ^‚Ü‚ÅŠg‘å‚µAƒV[ƒNƒ|ƒCƒ“ƒ^‚ÌˆÊ’u‚©‚çw’è‚³‚ê‚½ƒoƒCƒg‚ğ‘‚«‚ŞBƒXƒgƒŠ[ƒ€‚É‘‚«‚Ü‚ê‚½–„‚ß‘ƒoƒCƒg‚Í“Á’è‚Ì’l‚Å‰Šú‰»‚³‚ê‚È‚¢B‚±‚ê‚Í
+MS-DOS FAT ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Å‚Ìƒtƒ@ƒCƒ‹––”ö‚Ì“®ì‚Æ“¯‚¶‚Å‚ ‚éBƒoƒCƒg”‚ª 0
+‚Å‚©‚ÂƒV[ƒNƒ|ƒCƒ“ƒ^‚ªƒXƒgƒŠ[ƒ€––”ö‚ğ’´‚¦‚Ä‚¢‚éê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍƒXƒgƒŠ[ƒ€‚ğƒV[ƒNƒ|ƒCƒ“ƒ^‚Ü‚ÅŠg‘å‚·‚é‚½‚ß‚Ì–„‚ß‘ƒoƒCƒg‚ğì¬‚µ‚È‚¢B‚±‚Ìê‡AƒXƒgƒŠ[ƒ€‚ÌƒTƒCƒY‚ğŠg‘å‚µ‚Ä–„‚ß‘ƒoƒCƒg‚ğ‘‚«‚Ş‚É‚Í
+IStream::SetSize ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒGƒ‰[‚ª”­¶‚µ‚Ä‚à pcbWritten
+ƒpƒ‰ƒ[ƒ^‚ª’l‚ğ‚Â‚±‚Æ‚ª‚ ‚éBCOM
+’ñ‹Ÿ‚ÌÀ‘•‚Å‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÍƒXƒp[ƒX‚Å‚Í‚È‚­A‚·‚×‚Ä‚Ì–„‚ß‘ƒoƒCƒg‚ÍÅI“I‚ÉƒfƒBƒXƒNã‚ÉŠ„‚è“–‚Ä‚ç‚êƒXƒgƒŠ[ƒ€‚É•R•t‚¯‚ç‚ê‚éB
 
 
 %index
 IStream_Seek
 ƒV[ƒNƒ|ƒCƒ“ƒ^‚ğV‚µ‚¢ˆÊ’u‚É•ÏX‚·‚éBV‚µ‚¢ˆÊ’u‚ÍAƒXƒgƒŠ[ƒ€‚Ìæ“ªAƒXƒgƒŠ[ƒ€‚Ì––”öA‚Ü‚½‚ÍŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚ç‚Ì‘Š‘ÎˆÊ’u‚Å‚ ‚éB
+%group
+COM misc / IStream
 %prm
 this, dlibMove, dwOrigin, plibNewPosition
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15570,6 +20033,8 @@ plibNewPosition ƒpƒ‰ƒ[ƒ^‚Å•Ô‚³‚ê‚éB
 %index
 IStream_SetSize
 ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒY‚ğ•ÏX‚·‚éB
+%group
+COM misc / IStream
 %prm
 this, libNewSize
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15602,6 +20067,8 @@ ISequentialStream::Write ƒƒ\ƒbƒh‚É—‚Ä‚¢‚éBlibNewSize
 %index
 IStream_CopyTo
 ƒXƒgƒŠ[ƒ€‚ÌŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚ç•Ê‚ÌƒXƒgƒŠ[ƒ€‚ÌŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ÖAw’è‚³‚ê‚½ƒoƒCƒg”‚ğƒRƒs[‚·‚éB
+%group
+COM misc / IStream
 %prm
 this, pstm, cb, pcbRead, pcbWritten
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15636,6 +20103,8 @@ large integer ’l‚ğw’è‚·‚éBƒV[ƒNƒ|ƒCƒ“ƒ^‚ªƒXƒgƒŠ[ƒ€‚Ìæ“ª‚É‚ ‚éê‡A‚±‚Ì‘€ì
 %index
 IStream_Commit
 Commit ƒƒ\ƒbƒh‚ÍAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚é•ÏX‚ªeƒXƒgƒŒ[ƒW‚É”½‰f‚³‚ê‚é‚±‚Æ‚ğ•ÛØ‚·‚éB
+%group
+COM misc / IStream
 %prm
 this, grfCommitFlags
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15666,6 +20135,8 @@ IStream - Compound File Implementation
 %index
 IStream_Revert
 Revert ƒƒ\ƒbƒh‚ÍAÅŒã‚Ì IStream::Commit ŒÄ‚Ño‚µˆÈ~‚Éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“•t‚«ƒXƒgƒŠ[ƒ€‚É‘Î‚µ‚Äs‚í‚ê‚½‚·‚×‚Ä‚Ì•ÏX‚ğ”jŠü‚·‚éB’¼Úƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€‚ÆAIStream::Revert ‚Ì COM •¡‡ƒtƒ@ƒCƒ‹À‘•‚ğg—p‚·‚éƒXƒgƒŠ[ƒ€‚Å‚ÍA‚±‚Ìƒƒ\ƒbƒh‚É‚ÍŒø‰Ê‚ª‚È‚¢B
+%group
+COM misc / IStream
 %prm
 this
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15686,6 +20157,8 @@ Revert ƒƒ\ƒbƒh‚ÍAÅŒã‚ÌƒRƒ~ƒbƒg‘€ìˆÈ~‚Éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“•t‚«ƒXƒgƒŠ[ƒ€‚É‘Î‚µ‚
 %index
 IStream_LockRegion
 LockRegion ƒƒ\ƒbƒh‚ÍƒXƒgƒŠ[ƒ€“à‚Ìw’è‚³‚ê‚½ƒoƒCƒg”ÍˆÍ‚Ö‚ÌƒAƒNƒZƒX‚ğ§ŒÀ‚·‚éB
+%group
+COM misc / IStream
 %prm
 this, libOffset, cb, dwLockType
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15724,6 +20197,8 @@ LockRegion ƒƒ\ƒbƒh‚ÍƒXƒgƒŠ[ƒ€“à‚Ìw’è‚³‚ê‚½ƒoƒCƒg”ÍˆÍ‚Ö‚ÌƒAƒNƒZƒX‚ğ§ŒÀ‚·‚éB
 %index
 IStream_UnlockRegion
 UnlockRegion ƒƒ\ƒbƒh‚ÍAIStream::LockRegion ‚ÅˆÈ‘O‚É§ŒÀ‚³‚ê‚½ƒoƒCƒg”ÍˆÍ‚ÌƒAƒNƒZƒX§ŒÀ‚ğíœ‚·‚éB
+%group
+COM misc / IStream
 %prm
 this, libOffset, cb, dwLockType
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15752,6 +20227,8 @@ IStream::UnlockRegion ‚ÍAIStream::LockRegion
 %index
 IStream_Stat
 Stat ƒƒ\ƒbƒh‚ÍA‚±‚ÌƒXƒgƒŠ[ƒ€‚Ì STATSTG \‘¢‘Ì‚ğæ“¾‚·‚éB
+%group
+COM misc / IStream
 %prm
 this, pstatstg, grfStatFlag
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15781,6 +20258,8 @@ IStream::Stat ‚ÍA‚±‚ÌŠJ‚¢‚Ä‚¢‚éƒXƒgƒŠ[ƒ€‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş STATSTG
 %index
 IStream_Clone
 Clone ƒƒ\ƒbƒh‚ÍAŒ³‚ÌƒXƒgƒŠ[ƒ€‚Æ“¯‚¶ƒoƒCƒg‚ğQÆ‚·‚é“Æ©‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ğ‚ÂV‚µ‚¢ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / IStream
 %prm
 this, ppstm
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15803,62 +20282,125 @@ Clone
 
 %index
 IWICBitmap_GetSize
-IWICBitmap::GetSize (vtable slot 3)
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmap
 %prm
 this, puiWidth, puiHeight
 this : [comobj] IWICBitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-puiWidth : [int] 
-puiHeight : [int] 
+puiWidth : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+puiHeight : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹‚‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmap_GetPixelFormat
-IWICBitmap::GetPixelFormat (vtable slot 4)
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmap
 %prm
 this, pPixelFormat
 this : [comobj] IWICBitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pPixelFormat : [var] 
+pPixelFormat : [var] Œ^: WICPixelFormatGUID* ƒrƒbƒgƒ}ƒbƒv‚ª•Û‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚éB—˜—p‰Â”\‚ÈƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgˆê——‚Í Native Pixel Formats ‚ğQÆB
 %inst
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚·ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÍA•K‚¸‚µ‚à‰æ‘œ‚ªÀÛ‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Æ“¯‚¶‚Å‚Í‚È‚¢BƒR[ƒfƒbƒN‚ªƒXƒgƒŒ[ƒW‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚©‚ço—Í‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ö•ÏŠ·‚ğs‚¤ê‡‚ª‚ ‚éB
 
 
 %index
 IWICBitmap_GetResolution
-IWICBitmap::GetResolution (vtable slot 5)
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmap
 %prm
 this, pDpiX, pDpiY
 this : [comobj] IWICBitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pDpiX : [double] 
-pDpiY : [double] 
+pDpiX : [double] Œ^: double* x ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pDpiY : [double] Œ^: double* y ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+GIF ‚â ICO ‚Ì‚æ‚¤‚Èˆê•”‚ÌƒtƒH[ƒ}ƒbƒg‚Í DPI ‚ğŠ®‘S‚É‚ÍƒTƒ|[ƒg‚µ‚È‚¢BGIF ‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚Í (96.0,
+96.0) ‚ğƒx[ƒX DPI ‚Æ‚µ‚ÄƒAƒXƒyƒNƒg”ä‚©‚ç DPI ’l‚ğŒvZ‚·‚éBICO ƒtƒH[ƒ}ƒbƒg‚Í DPI
+‚ğ‚Ü‚Á‚½‚­ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚ÅAICO ‰æ‘œ‚É‘Î‚µ‚Ä‚Íí‚É (96.0, 96.0) ‚ğ•Ô‚·B
+‚³‚ç‚ÉAWIC ©g‚Í‰æ‘œ“à‚Ì DPI
+’l‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚µ‚È‚¢B•Ô‚³‚ê‚½‰ğ‘œ“x‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚·‚é‚©‚Ç‚¤‚©‚ÍŒÄ‚Ño‚µ‘¤Ÿ‘æ‚Å‚ ‚éB
 
 
 %index
 IWICBitmap_CopyPalette
-IWICBitmap::CopyPalette (vtable slot 6)
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmap
 %prm
 this, pIPalette
 this : [comobj] IWICBitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIPalette : [comobj] 
+pIPalette : [comobj] Œ^: IWICPalette* IWICPaletteBCreatePalette ƒƒ\ƒbƒh‚ÅƒpƒŒƒbƒg‚ğ¶¬‚Å‚«‚éB
 %inst
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
+
+[”õl]
+IWICBitmapSource ‚ª IWICBitmapFrameDecode
+‚Ìê‡AƒtƒŒ[ƒ€ƒŒƒxƒ‹‚ÌƒpƒŒƒbƒg‚ª—˜—p‚Å‚«‚È‚¢‚Æ‚«‚Í‚±‚ÌŠÖ”‚ª‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éBƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚Í
+CopyPalette ƒƒ\ƒbƒh‚Å‚àæ“¾‚Å‚«‚éB
 
 
 %index
 IWICBitmap_CopyPixels
-IWICBitmap::CopyPixels (vtable slot 7)
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+%group
+COM misc / IWICBitmap
 %prm
 this, prc, cbStride, cbBufferSize, pbBuffer
 this : [comobj] IWICBitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-prc : [var] 
-cbStride : [int] 
-cbBufferSize : [int] 
-pbBuffer : [int] 
+prc : [var] Œ^: const WICRect* ƒRƒs[‚·‚é‹éŒ`BNULL ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ğw’è‚µ‚½‚±‚Æ‚É‚È‚éB
+cbStride : [int] Œ^: UINT ƒrƒbƒgƒ}ƒbƒv‚ÌƒXƒgƒ‰ƒCƒhB
+cbBufferSize : [int] Œ^: UINT ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+pbBuffer : [int] Œ^: BYTE* ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+CopyPixels ‚ÍÀÛ‚Ìˆ—‚ğ‹N“®‚·‚é 2 ‚Â‚Ìå—v‚È‰æ‘œˆ—ƒ‹[ƒ`ƒ“‚Ì 1 ‚Â‚Å‚ ‚è (‚à‚¤ 1 ‚Â‚Í
+Lock)AƒIƒuƒWƒFƒNƒg‚É©g‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚É]‚Á‚ÄƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éBˆ—“à—e‚ÍAƒfƒBƒXƒNã‚Ì JPEG
+‚Ìˆê•”‚ğƒfƒR[ƒh‚µ‚½‚èAƒƒ‚ƒŠƒuƒƒbƒN‚ğƒRƒs[‚µ‚½‚èA•¡G‚ÈƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ğ‰ğÍ“I‚ÉŒvZ‚µ‚½‚è‚Æ‚³‚Ü‚´‚Ü‚Å‚ ‚éBƒAƒ‹ƒSƒŠƒYƒ€‚ÍA‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğÀ‘•‚·‚éƒIƒuƒWƒFƒNƒg‚ÉŠ®‘S‚ÉˆË‘¶‚·‚éB
+ŒÄ‚Ño‚µ‘¤‚Í prc ƒpƒ‰ƒ[ƒ^‚Åˆ—‘ÎÛ‚ÌŠÖS‹éŒ` (ROI) ‚ğ§ŒÀ‚Å‚«‚éBROI
+‚Ì•”•ª‹éŒ`‚Íƒrƒbƒgƒ}ƒbƒv‚Ì‹«ŠE“à‚ÉŠ®‘S‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BNULL ‚Ì ROI ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ª•Ô‚³‚ê‚éB
+ŒÄ‚Ño‚µ‘¤‚Íƒƒ‚ƒŠŠÇ—‚ğ’S“–‚µAƒRƒs[Œ‹‰Ê‚ğó‚¯æ‚éo—Íƒoƒbƒtƒ@ (pbBuffer) ‚Æ‚»‚ÌƒTƒCƒY (cbBufferSize)
+‚ğ—pˆÓ‚·‚é•K—v‚ª‚ ‚éBcbStride ƒpƒ‰ƒ[ƒ^‚Ío—Íƒoƒbƒtƒ@“à‚Å‚’¼•ûŒü‚É—×Ú‚·‚é 2
+‚Â‚ÌƒsƒNƒZƒ‹ŠÔ‚ÌƒoƒCƒg”‚ğ’è‹`‚·‚éBŒÄ‚Ño‚µ‘¤‚ÍAƒrƒbƒgƒ}ƒbƒv‚Ì•E‚‚³EƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚¨‚æ‚ÑƒRƒs[ƒƒ\ƒbƒh‚É—^‚¦‚½•”•ª‹éŒ`‚ÉŠî‚Ã‚«AŒÄ‚Ño‚µ‚ğŠ®—¹‚·‚é‚Ì‚É\•ª‚Èƒoƒbƒtƒ@‚ª‚ ‚é‚±‚Æ‚ğ•ÛØ‚·‚é•K—v‚ª‚ ‚éB
+ŒÄ‚Ño‚µ‘¤‚ª JPEG ‚Ì‚æ‚¤‚É‚‰¿‚È IWICBitmapSource ‚©‚ç‚Ì‘½”‚ÌƒRƒs[‚ğs‚¤•K—v‚ª‚ ‚éê‡‚ÍAæ‚Éƒƒ‚ƒŠã‚Ì
+IWICBitmap ‚ğ¶¬‚µ‚Ä‚¨‚­‚±‚Æ‚ğ„§‚·‚éB
+ƒR[ƒfƒbƒNŠJ”­ÒŒü‚¯‚Ì’ˆÓ ŒÄ‚Ño‚³‚ê‚é‘¤‚Ío—Íƒoƒbƒtƒ@‚ÌŠes‚Ìæ“ª (prc->Width*bitsperpixel+7)/8
+ƒoƒCƒg‚Ì‚İ‚É‘‚«‚Ş‚×‚«‚Å‚ ‚é (‚±‚Ìê‡usv‚Í˜A‘±‚·‚é cbStride ƒoƒCƒg‚ğw‚·)B
 
 
 %index
 IWICBitmap_Lock
 ƒrƒbƒgƒ}ƒbƒv‚Ì‹éŒ`—Ìˆæ‚Ö‚ÌƒAƒNƒZƒX‚ğ’ñ‹Ÿ‚·‚éB
+%group
+COM misc / IWICBitmap
 %prm
 this, prcLock, flags, ppILock
 this : [comobj] IWICBitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15879,6 +20421,8 @@ CopyPixels ‚ğŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢BƒƒbƒN‚Í”r‘¼“I‚È‚Ì‚ÅA‚»‚ê‚ğs‚¤‚ÆƒGƒ‰[‚ª•
 %index
 IWICBitmap_SetPalette
 ƒpƒŒƒbƒg‚ğ•ÏX‚·‚é‚½‚ß‚ÌƒAƒNƒZƒX‚ğ’ñ‹Ÿ‚·‚éB
+%group
+COM misc / IWICBitmap
 %prm
 this, pIPalette
 this : [comobj] IWICBitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15893,6 +20437,8 @@ pIPalette : [comobj] Œ^: IWICPalette* •ÏŠ·‚Ég—p‚·‚éƒpƒŒƒbƒgB
 %index
 IWICBitmap_SetResolution
 ‰æ‘œ‚Ì•¨—‰ğ‘œ“x‚ğ•ÏX‚·‚éB
+%group
+COM misc / IWICBitmap
 %prm
 this, dpiX, dpiY
 this : [comobj] IWICBitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15914,62 +20460,125 @@ dpiY : [double] Œ^: double ‚’¼•ûŒü‚Ì‰ğ‘œ“xB
 
 %index
 IWICBitmapClipper_GetSize
-IWICBitmapClipper::GetSize (vtable slot 3)
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapClipper
 %prm
 this, puiWidth, puiHeight
 this : [comobj] IWICBitmapClipper ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-puiWidth : [int] 
-puiHeight : [int] 
+puiWidth : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+puiHeight : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹‚‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapClipper_GetPixelFormat
-IWICBitmapClipper::GetPixelFormat (vtable slot 4)
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapClipper
 %prm
 this, pPixelFormat
 this : [comobj] IWICBitmapClipper ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pPixelFormat : [var] 
+pPixelFormat : [var] Œ^: WICPixelFormatGUID* ƒrƒbƒgƒ}ƒbƒv‚ª•Û‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚éB—˜—p‰Â”\‚ÈƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgˆê——‚Í Native Pixel Formats ‚ğQÆB
 %inst
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚·ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÍA•K‚¸‚µ‚à‰æ‘œ‚ªÀÛ‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Æ“¯‚¶‚Å‚Í‚È‚¢BƒR[ƒfƒbƒN‚ªƒXƒgƒŒ[ƒW‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚©‚ço—Í‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ö•ÏŠ·‚ğs‚¤ê‡‚ª‚ ‚éB
 
 
 %index
 IWICBitmapClipper_GetResolution
-IWICBitmapClipper::GetResolution (vtable slot 5)
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapClipper
 %prm
 this, pDpiX, pDpiY
 this : [comobj] IWICBitmapClipper ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pDpiX : [double] 
-pDpiY : [double] 
+pDpiX : [double] Œ^: double* x ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pDpiY : [double] Œ^: double* y ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+GIF ‚â ICO ‚Ì‚æ‚¤‚Èˆê•”‚ÌƒtƒH[ƒ}ƒbƒg‚Í DPI ‚ğŠ®‘S‚É‚ÍƒTƒ|[ƒg‚µ‚È‚¢BGIF ‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚Í (96.0,
+96.0) ‚ğƒx[ƒX DPI ‚Æ‚µ‚ÄƒAƒXƒyƒNƒg”ä‚©‚ç DPI ’l‚ğŒvZ‚·‚éBICO ƒtƒH[ƒ}ƒbƒg‚Í DPI
+‚ğ‚Ü‚Á‚½‚­ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚ÅAICO ‰æ‘œ‚É‘Î‚µ‚Ä‚Íí‚É (96.0, 96.0) ‚ğ•Ô‚·B
+‚³‚ç‚ÉAWIC ©g‚Í‰æ‘œ“à‚Ì DPI
+’l‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚µ‚È‚¢B•Ô‚³‚ê‚½‰ğ‘œ“x‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚·‚é‚©‚Ç‚¤‚©‚ÍŒÄ‚Ño‚µ‘¤Ÿ‘æ‚Å‚ ‚éB
 
 
 %index
 IWICBitmapClipper_CopyPalette
-IWICBitmapClipper::CopyPalette (vtable slot 6)
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapClipper
 %prm
 this, pIPalette
 this : [comobj] IWICBitmapClipper ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIPalette : [comobj] 
+pIPalette : [comobj] Œ^: IWICPalette* IWICPaletteBCreatePalette ƒƒ\ƒbƒh‚ÅƒpƒŒƒbƒg‚ğ¶¬‚Å‚«‚éB
 %inst
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
+
+[”õl]
+IWICBitmapSource ‚ª IWICBitmapFrameDecode
+‚Ìê‡AƒtƒŒ[ƒ€ƒŒƒxƒ‹‚ÌƒpƒŒƒbƒg‚ª—˜—p‚Å‚«‚È‚¢‚Æ‚«‚Í‚±‚ÌŠÖ”‚ª‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éBƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚Í
+CopyPalette ƒƒ\ƒbƒh‚Å‚àæ“¾‚Å‚«‚éB
 
 
 %index
 IWICBitmapClipper_CopyPixels
-IWICBitmapClipper::CopyPixels (vtable slot 7)
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+%group
+COM misc / IWICBitmapClipper
 %prm
 this, prc, cbStride, cbBufferSize, pbBuffer
 this : [comobj] IWICBitmapClipper ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-prc : [var] 
-cbStride : [int] 
-cbBufferSize : [int] 
-pbBuffer : [int] 
+prc : [var] Œ^: const WICRect* ƒRƒs[‚·‚é‹éŒ`BNULL ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ğw’è‚µ‚½‚±‚Æ‚É‚È‚éB
+cbStride : [int] Œ^: UINT ƒrƒbƒgƒ}ƒbƒv‚ÌƒXƒgƒ‰ƒCƒhB
+cbBufferSize : [int] Œ^: UINT ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+pbBuffer : [int] Œ^: BYTE* ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+CopyPixels ‚ÍÀÛ‚Ìˆ—‚ğ‹N“®‚·‚é 2 ‚Â‚Ìå—v‚È‰æ‘œˆ—ƒ‹[ƒ`ƒ“‚Ì 1 ‚Â‚Å‚ ‚è (‚à‚¤ 1 ‚Â‚Í
+Lock)AƒIƒuƒWƒFƒNƒg‚É©g‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚É]‚Á‚ÄƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éBˆ—“à—e‚ÍAƒfƒBƒXƒNã‚Ì JPEG
+‚Ìˆê•”‚ğƒfƒR[ƒh‚µ‚½‚èAƒƒ‚ƒŠƒuƒƒbƒN‚ğƒRƒs[‚µ‚½‚èA•¡G‚ÈƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ğ‰ğÍ“I‚ÉŒvZ‚µ‚½‚è‚Æ‚³‚Ü‚´‚Ü‚Å‚ ‚éBƒAƒ‹ƒSƒŠƒYƒ€‚ÍA‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğÀ‘•‚·‚éƒIƒuƒWƒFƒNƒg‚ÉŠ®‘S‚ÉˆË‘¶‚·‚éB
+ŒÄ‚Ño‚µ‘¤‚Í prc ƒpƒ‰ƒ[ƒ^‚Åˆ—‘ÎÛ‚ÌŠÖS‹éŒ` (ROI) ‚ğ§ŒÀ‚Å‚«‚éBROI
+‚Ì•”•ª‹éŒ`‚Íƒrƒbƒgƒ}ƒbƒv‚Ì‹«ŠE“à‚ÉŠ®‘S‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BNULL ‚Ì ROI ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ª•Ô‚³‚ê‚éB
+ŒÄ‚Ño‚µ‘¤‚Íƒƒ‚ƒŠŠÇ—‚ğ’S“–‚µAƒRƒs[Œ‹‰Ê‚ğó‚¯æ‚éo—Íƒoƒbƒtƒ@ (pbBuffer) ‚Æ‚»‚ÌƒTƒCƒY (cbBufferSize)
+‚ğ—pˆÓ‚·‚é•K—v‚ª‚ ‚éBcbStride ƒpƒ‰ƒ[ƒ^‚Ío—Íƒoƒbƒtƒ@“à‚Å‚’¼•ûŒü‚É—×Ú‚·‚é 2
+‚Â‚ÌƒsƒNƒZƒ‹ŠÔ‚ÌƒoƒCƒg”‚ğ’è‹`‚·‚éBŒÄ‚Ño‚µ‘¤‚ÍAƒrƒbƒgƒ}ƒbƒv‚Ì•E‚‚³EƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚¨‚æ‚ÑƒRƒs[ƒƒ\ƒbƒh‚É—^‚¦‚½•”•ª‹éŒ`‚ÉŠî‚Ã‚«AŒÄ‚Ño‚µ‚ğŠ®—¹‚·‚é‚Ì‚É\•ª‚Èƒoƒbƒtƒ@‚ª‚ ‚é‚±‚Æ‚ğ•ÛØ‚·‚é•K—v‚ª‚ ‚éB
+ŒÄ‚Ño‚µ‘¤‚ª JPEG ‚Ì‚æ‚¤‚É‚‰¿‚È IWICBitmapSource ‚©‚ç‚Ì‘½”‚ÌƒRƒs[‚ğs‚¤•K—v‚ª‚ ‚éê‡‚ÍAæ‚Éƒƒ‚ƒŠã‚Ì
+IWICBitmap ‚ğ¶¬‚µ‚Ä‚¨‚­‚±‚Æ‚ğ„§‚·‚éB
+ƒR[ƒfƒbƒNŠJ”­ÒŒü‚¯‚Ì’ˆÓ ŒÄ‚Ño‚³‚ê‚é‘¤‚Ío—Íƒoƒbƒtƒ@‚ÌŠes‚Ìæ“ª (prc->Width*bitsperpixel+7)/8
+ƒoƒCƒg‚Ì‚İ‚É‘‚«‚Ş‚×‚«‚Å‚ ‚é (‚±‚Ìê‡usv‚Í˜A‘±‚·‚é cbStride ƒoƒCƒg‚ğw‚·)B
 
 
 %index
 IWICBitmapClipper_Initialize
 w’è‚µ‚½ƒpƒ‰ƒ[ƒ^‚Åƒrƒbƒgƒ}ƒbƒvƒNƒŠƒbƒp[‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICBitmapClipper
 %prm
 this, pISource, prc
 this : [comobj] IWICBitmapClipper ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -15984,95 +20593,165 @@ prc : [var] Œ^: const WICRect* Ø‚è”²‚­‘ÎÛ‚Æ‚È‚éƒrƒbƒgƒ}ƒbƒvƒ\[ƒXã‚Ì‹éŒ`B
 
 %index
 IWICBitmapCodecInfo_GetComponentType
-IWICBitmapCodecInfo::GetComponentType (vtable slot 3)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì WICComponentType ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, pType
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pType : [var] 
+pType : [var] Œ^: WICComponentType* WICComponentType ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì WICComponentType ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapCodecInfo_GetCLSID
-IWICBitmapCodecInfo::GetCLSID (vtable slot 4)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, pclsid
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pclsid : [var] 
+pclsid : [var] Œ^: CLSID* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì CLSID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapCodecInfo_GetSigningStatus
-IWICBitmapCodecInfo::GetSigningStatus (vtable slot 5)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì–¼ƒXƒe[ƒ^ƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, pStatus
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pStatus : [int] 
+pStatus : [int] Œ^: DWORD* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì WICComponentSigning ƒXƒe[ƒ^ƒX‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì–¼ƒXƒe[ƒ^ƒX‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+–¼‚Í WIC ‚Å‚Íg—p‚³‚ê‚È‚¢B‚µ‚½‚ª‚Á‚ÄA‚·‚×‚Ä‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Í WICComponentSigned
+‚Æ‚È‚éB‚±‚ÌŠÖ”‚ÍAƒRƒ“ƒ|[ƒlƒ“ƒg‚ÉƒoƒCƒiƒŠƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‚È‚¢‚©AƒŒƒWƒXƒgƒŠ‚Ì–³Œø‰»‚³‚ê‚½ƒRƒ“ƒ|[ƒlƒ“ƒgƒŠƒXƒg‚É’Ç‰Á‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’f‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB
 
 
 %index
 IWICBitmapCodecInfo_GetAuthor
-IWICBitmapCodecInfo::GetAuthor (vtable slot 6)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, cchAuthor, wzAuthor, pcchActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchAuthor : [int] 
-wzAuthor : [wstr] 
-pcchActual : [int] 
+cchAuthor : [int] Œ^: UINT wzAuthor ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzAuthor : [wstr] Œ^: WCHAR* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B•¶š—ñ‚ÌƒƒP[ƒ‹‚ÍAƒR[ƒfƒbƒN‚ªƒCƒ“ƒXƒg[ƒ‹‚ÉƒŒƒWƒXƒgƒŠ‚É‘‚«‚ñ‚¾’l‚ÉˆË‘¶‚·‚éB‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìê‡A‚±‚ê‚ç‚Ì•¶š—ñ‚Íí‚É‰pŒê‚Å‚ ‚éB
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^BìÒ–¼‚ÍƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚ÄìÒ–¼‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A•Ô‚³‚ê‚é’·‚³‚Í 0 ‚Å‚ ‚éB
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+cchAuthor ‚ª 0 ‚Å wzAuthor ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª pccchActual ‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICBitmapCodecInfo_GetVendorGUID
-IWICBitmapCodecInfo::GetVendorGUID (vtable slot 7)
+ƒxƒ“ƒ_ GUID ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, pguidVendor
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pguidVendor : [var] 
+pguidVendor : [var] Œ^: GUID* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒxƒ“ƒ_ GUID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒxƒ“ƒ_ GUID ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapCodecInfo_GetVersion
-IWICBitmapCodecInfo::GetVersion (vtable slot 8)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, cchVersion, wzVersion, pcchActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchVersion : [int] 
-wzVersion : [wstr] 
-pcchActual : [int] 
+cchVersion : [int] Œ^: UINT wzVersion ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzVersion : [wstr] Œ^: WCHAR* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ÌƒJƒ‹ƒ`ƒƒ”ñˆË‘¶•¶š—ñ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^Bƒo[ƒWƒ‡ƒ“‚ÍƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚Ä’l‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A•Ô‚³‚ê‚é’·‚³‚Í 0 ‚Å‚ ‚éB
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg (ƒo[ƒWƒ‡ƒ“‚ğ‚½‚È‚¢) ‚ğœ‚«A‚·‚×‚Ä‚Ì‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Í "1.0.0.0" ‚ğ•Ô‚·BcchAuthor
+‚ª 0 ‚Å wzAuthor ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª pccchActual ‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICBitmapCodecInfo_GetSpecVersion
-IWICBitmapCodecInfo::GetSpecVersion (vtable slot 9)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, cchSpecVersion, wzSpecVersion, pcchActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchSpecVersion : [int] 
-wzSpecVersion : [wstr] 
-pcchActual : [int] 
+cchSpecVersion : [int] Œ^: UINT wzSpecVersion ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzSpecVersion : [wstr] Œ^: WCHAR* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ÌƒJƒ‹ƒ`ƒƒ”ñˆË‘¶•¶š—ñ‚ğŠÜ‚ŞBƒo[ƒWƒ‡ƒ“Œ`®‚Í NN.NN.NN.NN ‚Å‚ ‚éB
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^Bd—lƒo[ƒWƒ‡ƒ“‚ÍƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚Ä’l‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A•Ô‚³‚ê‚é’·‚³‚Í 0 ‚Å‚ ‚éB
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg (d—lƒo[ƒWƒ‡ƒ“‚ğ‚½‚È‚¢) ‚ğœ‚«A‚·‚×‚Ä‚Ì‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Í "1.0.0.0"
+‚ğ•Ô‚·BcchAuthor ‚ª 0 ‚Å wzAuthor ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª pccchActual
+‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICBitmapCodecInfo_GetFriendlyName
-IWICBitmapCodecInfo::GetFriendlyName (vtable slot 10)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼ (lŠÔ‚ª“Ç‚ß‚é•\¦–¼) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, cchFriendlyName, wzFriendlyName, pcchActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchFriendlyName : [int] 
-wzFriendlyName : [wstr] 
-pcchActual : [int] 
+cchFriendlyName : [int] Œ^: UINT wzFriendlyName ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzFriendlyName : [wstr] Œ^: WCHAR* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B•¶š—ñ‚ÌƒƒP[ƒ‹‚ÍAƒR[ƒfƒbƒN‚ªƒCƒ“ƒXƒg[ƒ‹‚ÉƒŒƒWƒXƒgƒŠ‚É‘‚«‚ñ‚¾’l‚ÉˆË‘¶‚·‚éB‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìê‡A‚±‚ê‚ç‚Ì•¶š—ñ‚Íí‚É‰pŒê‚Å‚ ‚éB
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼ (lŠÔ‚ª“Ç‚ß‚é•\¦–¼) ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+cchFriendlyName ‚ª 0 ‚Å wzFriendlyName ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª
+pccchActual ‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICBitmapCodecInfo_GetContainerFormat
 ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ“ƒeƒi GUID ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, pguidContainerFormat
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16087,6 +20766,8 @@ pguidContainerFormat : [var] Œ^: GUID* ƒRƒ“ƒeƒi GUID ‚ğó‚¯æ‚éB
 %index
 IWICBitmapCodecInfo_GetPixelFormats
 ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, cFormats, pguidPixelFormats, pcActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16110,6 +20791,8 @@ pcActual ‚É•K—v‚È”z—ñƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚È”z—ñƒTƒCƒY‚ª”»–¾‚µ‚½‚çApguidPixelF
 %index
 IWICBitmapCodecInfo_GetColorManagementVersion
 ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, cchColorManagementVersion, wzColorManagementVersion, pcchActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16135,6 +20818,8 @@ GetColorManagementVersion ‚ğ 2 ‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚
 %index
 IWICBitmapCodecInfo_GetDeviceManufacturer
 ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒfƒoƒCƒX»‘¢Œ³–¼‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, cchDeviceManufacturer, wzDeviceManufacturer, pcchActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16158,6 +20843,8 @@ GetDeviceManufacturer ‚ğ 2 ‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 %index
 IWICBitmapCodecInfo_GetDeviceModels
 ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJƒ“ƒ}‹æØ‚è‚ÌƒfƒoƒCƒXƒ‚ƒfƒ‹‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, cchDeviceModels, wzDeviceModels, pcchActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16181,6 +20868,8 @@ pcchActual ‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAc
 %index
 IWICBitmapCodecInfo_GetMimeTypes
 ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MIME ƒ^ƒCƒv‚ÌƒJƒ“ƒ}‹æØ‚èƒV[ƒPƒ“ƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, cchMimeTypes, wzMimeTypes, pcchActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16203,6 +20892,8 @@ pcchActual : [int] Œ^: UINT* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚Ì MIME ƒ^ƒCƒv‚ğæ“
 %index
 IWICBitmapCodecInfo_GetFileExtensions
 ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹–¼Šg’£q‚ÌƒJƒ“ƒ}‹æØ‚èƒŠƒXƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, cchFileExtensions, wzFileExtensions, pcchActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16227,6 +20918,8 @@ NULL ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅA•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í pc
 %index
 IWICBitmapCodecInfo_DoesSupportAnimation
 ƒR[ƒfƒbƒN‚ªƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, pfSupportAnimation
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16241,6 +20934,8 @@ pfSupportAnimation : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒ^ƒCƒ~ƒ“ƒOî•ñ•t‚«‚Ì‰æ‘œ‚ğƒTƒ|
 %index
 IWICBitmapCodecInfo_DoesSupportChromakey
 ƒR[ƒfƒbƒN‚ªƒNƒƒ}ƒL[‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, pfSupportChromakey
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16255,6 +20950,8 @@ pfSupportChromakey : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒNƒƒ}ƒL[‚ğƒTƒ|[ƒg‚·‚éê‡‚Í 
 %index
 IWICBitmapCodecInfo_DoesSupportLossless
 ƒR[ƒfƒbƒN‚ªƒƒXƒŒƒXƒtƒH[ƒ}ƒbƒg‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, pfSupportLossless
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16269,6 +20966,8 @@ pfSupportLossless : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒƒXƒŒƒXƒtƒH[ƒ}ƒbƒg‚ğƒTƒ|[ƒg‚·
 %index
 IWICBitmapCodecInfo_DoesSupportMultiframe
 ƒR[ƒfƒbƒN‚ªƒ}ƒ‹ƒ`ƒtƒŒ[ƒ€‰æ‘œ‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, pfSupportMultiframe
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16283,6 +20982,8 @@ pfSupportMultiframe : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒ}ƒ‹ƒ`ƒtƒŒ[ƒ€‰æ‘œ‚ğƒTƒ|[ƒg‚·
 %index
 IWICBitmapCodecInfo_MatchesMimeType
 w’è‚³‚ê‚½ MIME ƒ^ƒCƒv‚ªƒR[ƒfƒbƒN‚Ì MIME ƒ^ƒCƒv‚Æˆê’v‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapCodecInfo
 %prm
 this, wzMimeType, pfMatches
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16302,6 +21003,8 @@ pfMatches : [var] Œ^: BOOL* MIME ƒ^ƒCƒv‚ªˆê’v‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í F
 %index
 IWICBitmapDecoder_QueryCapability
 w’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚ÉŠî‚Ã‚¢‚ÄƒfƒR[ƒ_‚Ì”\—Í‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoder
 %prm
 this, pIStream, pdwCapability
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16321,6 +21024,8 @@ pdwCapability : [int] Œ^: DWORD* ƒfƒR[ƒ_‚Ì WICBitmapDecoderCapabilitiesB
 %index
 IWICBitmapDecoder_Initialize
 ’ñ‹Ÿ‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚ÅƒfƒR[ƒ_‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICBitmapDecoder
 %prm
 this, pIStream, cacheOptions
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16336,6 +21041,8 @@ cacheOptions : [int] Œ^: WICDecodeOptions ‰Šú‰»‚Ég—p‚·‚é WICDecodeOptionsB
 %index
 IWICBitmapDecoder_GetContainerFormat
 ‰æ‘œ‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoder
 %prm
 this, pguidContainerFormat
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16350,6 +21057,8 @@ pguidContainerFormat : [var] Œ^: GUID* ‰æ‘œ‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚
 %index
 IWICBitmapDecoder_GetDecoderInfo
 ‰æ‘œ‚Ì IWICBitmapDecoderInfo ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoder
 %prm
 this, ppIDecoderInfo
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16364,6 +21073,8 @@ ppIDecoderInfo : [comobj] Œ^: IWICBitmapDecoderInfo** IWICBitmapDecoderInfo ‚Ö‚Ì
 %index
 IWICBitmapDecoder_CopyPalette
 ƒfƒR[ƒ_‚Ì IWICPalette ‚ğƒRƒs[‚·‚éB
+%group
+COM misc / IWICBitmapDecoder
 %prm
 this, pIPalette
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16384,6 +21095,8 @@ CopyPalette ‚ÍƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg (‰æ‘œ“à‚Ì‚·‚×‚Ä‚ÌƒtƒŒ[ƒ€‚É“K—p‚³‚ê‚éƒpƒŒƒbƒg)
 %index
 IWICBitmapDecoder_GetMetadataQueryReader
 ƒfƒR[ƒ_‚©‚çƒƒ^ƒf[ƒ^ƒNƒGƒŠƒŠ[ƒ_‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoder
 %prm
 this, ppIMetadataQueryReader
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16404,6 +21117,8 @@ IWICBitmapFrameDecode::GetMetadataQueryReader ‚ğg—p‚·‚é‚±‚ÆB
 %index
 IWICBitmapDecoder_GetPreview
 ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éê‡AƒvƒŒƒrƒ…[‰æ‘œ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoder
 %prm
 this, ppIBitmapSource
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16422,6 +21137,8 @@ Digital Photo (WDP) ƒR[ƒfƒbƒN‚Ì‚İ‚Å‚ ‚éB
 %index
 IWICBitmapDecoder_GetColorContexts
 ‰æ‘œ‚Ì IWICColorContext ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoder
 %prm
 this, cCount, ppIColorContexts, pcActualCount
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16438,6 +21155,8 @@ pcActualCount : [int] Œ^: UINT* ‰æ‘œ‚ÉŠÜ‚Ü‚ê‚éƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚Ì”‚ğó‚¯æ‚éƒ|
 %index
 IWICBitmapDecoder_GetThumbnail
 ‘¶İ‚·‚éê‡A‰æ‘œ‚Ìƒrƒbƒgƒ}ƒbƒvƒTƒ€ƒlƒCƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoder
 %prm
 this, ppIThumbnail
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16457,6 +21176,8 @@ WINCODEC_ERR_CODECNOTHUMBNAIL ‚ğ•Ô‚·B
 %index
 IWICBitmapDecoder_GetFrameCount
 ‰æ‘œ“à‚ÌƒtƒŒ[ƒ€‚Ì‘”‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoder
 %prm
 this, pCount
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16471,6 +21192,8 @@ pCount : [int] Œ^: UINT* ‰æ‘œ“à‚ÌƒtƒŒ[ƒ€‚Ì‘”‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %index
 IWICBitmapDecoder_GetFrame
 ‰æ‘œ‚Ìw’è‚³‚ê‚½ƒtƒŒ[ƒ€‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoder
 %prm
 this, index, ppIBitmapFrame
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16485,228 +21208,418 @@ ppIBitmapFrame : [comobj] Œ^: IWICBitmapFrameDecode** IWICBitmapFrameDecode ‚Ö‚Ì
 
 %index
 IWICBitmapDecoderInfo_GetComponentType
-IWICBitmapDecoderInfo::GetComponentType (vtable slot 3)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì WICComponentType ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, pType
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pType : [var] 
+pType : [var] Œ^: WICComponentType* WICComponentType ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì WICComponentType ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoderInfo_GetCLSID
-IWICBitmapDecoderInfo::GetCLSID (vtable slot 4)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, pclsid
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pclsid : [var] 
+pclsid : [var] Œ^: CLSID* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì CLSID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoderInfo_GetSigningStatus
-IWICBitmapDecoderInfo::GetSigningStatus (vtable slot 5)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì–¼ƒXƒe[ƒ^ƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, pStatus
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pStatus : [int] 
+pStatus : [int] Œ^: DWORD* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì WICComponentSigning ƒXƒe[ƒ^ƒX‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì–¼ƒXƒe[ƒ^ƒX‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+–¼‚Í WIC ‚Å‚Íg—p‚³‚ê‚È‚¢B‚µ‚½‚ª‚Á‚ÄA‚·‚×‚Ä‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Í WICComponentSigned
+‚Æ‚È‚éB‚±‚ÌŠÖ”‚ÍAƒRƒ“ƒ|[ƒlƒ“ƒg‚ÉƒoƒCƒiƒŠƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‚È‚¢‚©AƒŒƒWƒXƒgƒŠ‚Ì–³Œø‰»‚³‚ê‚½ƒRƒ“ƒ|[ƒlƒ“ƒgƒŠƒXƒg‚É’Ç‰Á‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’f‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB
 
 
 %index
 IWICBitmapDecoderInfo_GetAuthor
-IWICBitmapDecoderInfo::GetAuthor (vtable slot 6)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, cchAuthor, wzAuthor, pcchActual
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchAuthor : [int] 
-wzAuthor : [wstr] 
-pcchActual : [int] 
+cchAuthor : [int] Œ^: UINT wzAuthor ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzAuthor : [wstr] Œ^: WCHAR* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B•¶š—ñ‚ÌƒƒP[ƒ‹‚ÍAƒR[ƒfƒbƒN‚ªƒCƒ“ƒXƒg[ƒ‹‚ÉƒŒƒWƒXƒgƒŠ‚É‘‚«‚ñ‚¾’l‚ÉˆË‘¶‚·‚éB‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìê‡A‚±‚ê‚ç‚Ì•¶š—ñ‚Íí‚É‰pŒê‚Å‚ ‚éB
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^BìÒ–¼‚ÍƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚ÄìÒ–¼‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A•Ô‚³‚ê‚é’·‚³‚Í 0 ‚Å‚ ‚éB
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+cchAuthor ‚ª 0 ‚Å wzAuthor ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª pccchActual ‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICBitmapDecoderInfo_GetVendorGUID
-IWICBitmapDecoderInfo::GetVendorGUID (vtable slot 7)
+ƒxƒ“ƒ_ GUID ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, pguidVendor
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pguidVendor : [var] 
+pguidVendor : [var] Œ^: GUID* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒxƒ“ƒ_ GUID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒxƒ“ƒ_ GUID ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoderInfo_GetVersion
-IWICBitmapDecoderInfo::GetVersion (vtable slot 8)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, cchVersion, wzVersion, pcchActual
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchVersion : [int] 
-wzVersion : [wstr] 
-pcchActual : [int] 
+cchVersion : [int] Œ^: UINT wzVersion ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzVersion : [wstr] Œ^: WCHAR* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ÌƒJƒ‹ƒ`ƒƒ”ñˆË‘¶•¶š—ñ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^Bƒo[ƒWƒ‡ƒ“‚ÍƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚Ä’l‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A•Ô‚³‚ê‚é’·‚³‚Í 0 ‚Å‚ ‚éB
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg (ƒo[ƒWƒ‡ƒ“‚ğ‚½‚È‚¢) ‚ğœ‚«A‚·‚×‚Ä‚Ì‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Í "1.0.0.0" ‚ğ•Ô‚·BcchAuthor
+‚ª 0 ‚Å wzAuthor ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª pccchActual ‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICBitmapDecoderInfo_GetSpecVersion
-IWICBitmapDecoderInfo::GetSpecVersion (vtable slot 9)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, cchSpecVersion, wzSpecVersion, pcchActual
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchSpecVersion : [int] 
-wzSpecVersion : [wstr] 
-pcchActual : [int] 
+cchSpecVersion : [int] Œ^: UINT wzSpecVersion ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzSpecVersion : [wstr] Œ^: WCHAR* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ÌƒJƒ‹ƒ`ƒƒ”ñˆË‘¶•¶š—ñ‚ğŠÜ‚ŞBƒo[ƒWƒ‡ƒ“Œ`®‚Í NN.NN.NN.NN ‚Å‚ ‚éB
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^Bd—lƒo[ƒWƒ‡ƒ“‚ÍƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚Ä’l‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A•Ô‚³‚ê‚é’·‚³‚Í 0 ‚Å‚ ‚éB
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg (d—lƒo[ƒWƒ‡ƒ“‚ğ‚½‚È‚¢) ‚ğœ‚«A‚·‚×‚Ä‚Ì‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Í "1.0.0.0"
+‚ğ•Ô‚·BcchAuthor ‚ª 0 ‚Å wzAuthor ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª pccchActual
+‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICBitmapDecoderInfo_GetFriendlyName
-IWICBitmapDecoderInfo::GetFriendlyName (vtable slot 10)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼ (lŠÔ‚ª“Ç‚ß‚é•\¦–¼) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, cchFriendlyName, wzFriendlyName, pcchActual
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchFriendlyName : [int] 
-wzFriendlyName : [wstr] 
-pcchActual : [int] 
+cchFriendlyName : [int] Œ^: UINT wzFriendlyName ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzFriendlyName : [wstr] Œ^: WCHAR* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B•¶š—ñ‚ÌƒƒP[ƒ‹‚ÍAƒR[ƒfƒbƒN‚ªƒCƒ“ƒXƒg[ƒ‹‚ÉƒŒƒWƒXƒgƒŠ‚É‘‚«‚ñ‚¾’l‚ÉˆË‘¶‚·‚éB‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìê‡A‚±‚ê‚ç‚Ì•¶š—ñ‚Íí‚É‰pŒê‚Å‚ ‚éB
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼ (lŠÔ‚ª“Ç‚ß‚é•\¦–¼) ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+cchFriendlyName ‚ª 0 ‚Å wzFriendlyName ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª
+pccchActual ‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICBitmapDecoderInfo_GetContainerFormat
-IWICBitmapDecoderInfo::GetContainerFormat (vtable slot 11)
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ“ƒeƒi GUID ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, pguidContainerFormat
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pguidContainerFormat : [var] 
+pguidContainerFormat : [var] Œ^: GUID* ƒRƒ“ƒeƒi GUID ‚ğó‚¯æ‚éB
 %inst
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ“ƒeƒi GUID ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoderInfo_GetPixelFormats
-IWICBitmapDecoderInfo::GetPixelFormats (vtable slot 12)
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, cFormats, pguidPixelFormats, pcActual
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cFormats : [int] 
-pguidPixelFormats : [var] 
-pcActual : [int] 
+cFormats : [int] Œ^: UINT pguidPixelFormats ”z—ñ‚ÌƒTƒCƒYB•K—v‚È”z—ñƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+pguidPixelFormats : [var] Œ^: GUID* ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğó‚¯æ‚éB•K—v‚È”z—ñƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcActual : [int] Œ^: UINT* ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚È”z—ñƒTƒCƒYB
 %inst
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcFormats ‚ğ 0
+‚ÉApguidPixelFormats ‚ğ NULL
+‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅAƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚È”z—ñƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í
+pcActual ‚É•K—v‚È”z—ñƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚È”z—ñƒTƒCƒY‚ª”»–¾‚µ‚½‚çApguidPixelFormats
+‚ğ“KØ‚ÈƒTƒCƒY‚Ì”z—ñ‚Éİ’è‚µ‚Ä GetPixelFormats ‚ğ 2 ‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapDecoderInfo_GetColorManagementVersion
-IWICBitmapDecoderInfo::GetColorManagementVersion (vtable slot 13)
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, cchColorManagementVersion, wzColorManagementVersion, pcchActual
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchColorManagementVersion : [int] 
-wzColorManagementVersion : [wstr] 
-pcchActual : [int] 
+cchColorManagementVersion : [int] Œ^: UINT ƒo[ƒWƒ‡ƒ“ƒoƒbƒtƒ@‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzColorManagementVersion : [wstr] Œ^: WCHAR* ƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* Š®‘S‚ÈƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchColorManagementVersion ‚ğ
+0 ‚ÉAwzColorManagementVersion ‚ğ NULL
+‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅAŠ®‘S‚ÈƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í
+pcchActual
+‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchColorManagementVersion
+‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzColorManagementVersion ‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä
+GetColorManagementVersion ‚ğ 2 ‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapDecoderInfo_GetDeviceManufacturer
-IWICBitmapDecoderInfo::GetDeviceManufacturer (vtable slot 14)
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒfƒoƒCƒX»‘¢Œ³–¼‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, cchDeviceManufacturer, wzDeviceManufacturer, pcchActual
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchDeviceManufacturer : [int] 
-wzDeviceManufacturer : [wstr] 
-pcchActual : [int] 
+cchDeviceManufacturer : [int] Œ^: UINT ƒfƒoƒCƒX»‘¢Œ³–¼‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzDeviceManufacturer : [wstr] Œ^: WCHAR* ƒfƒoƒCƒX»‘¢Œ³–¼‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* ƒfƒoƒCƒX»‘¢Œ³–¼‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒfƒoƒCƒX»‘¢Œ³–¼‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchDeviceManufacturer ‚ğ 0
+‚ÉAwzDeviceManufacturer ‚ğ NULL ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅA•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í
+pcchActual ‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchDeviceManufacturer
+‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzDeviceManufacturer ‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä
+GetDeviceManufacturer ‚ğ 2 ‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapDecoderInfo_GetDeviceModels
-IWICBitmapDecoderInfo::GetDeviceModels (vtable slot 15)
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJƒ“ƒ}‹æØ‚è‚ÌƒfƒoƒCƒXƒ‚ƒfƒ‹‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, cchDeviceModels, wzDeviceModels, pcchActual
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchDeviceModels : [int] 
-wzDeviceModels : [wstr] 
-pcchActual : [int] 
+cchDeviceModels : [int] Œ^: UINT ƒfƒoƒCƒXƒ‚ƒfƒ‹ƒoƒbƒtƒ@‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzDeviceModels : [wstr] Œ^: WCHAR* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJƒ“ƒ}‹æØ‚è‚ÌƒfƒoƒCƒXƒ‚ƒfƒ‹–¼‚ÌƒŠƒXƒg‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* ‚·‚×‚Ä‚ÌƒfƒoƒCƒXƒ‚ƒfƒ‹–¼‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJƒ“ƒ}‹æØ‚è‚ÌƒfƒoƒCƒXƒ‚ƒfƒ‹‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchDeviceModels ‚ğ 0
+‚ÉAwzDeviceModels ‚ğ NULL ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅA•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í
+pcchActual ‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchDeviceModels
+‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzDeviceModels ‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä GetDeviceModels ‚ğ 2
+‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapDecoderInfo_GetMimeTypes
-IWICBitmapDecoderInfo::GetMimeTypes (vtable slot 16)
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MIME ƒ^ƒCƒv‚ÌƒJƒ“ƒ}‹æØ‚èƒV[ƒPƒ“ƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, cchMimeTypes, wzMimeTypes, pcchActual
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchMimeTypes : [int] 
-wzMimeTypes : [wstr] 
-pcchActual : [int] 
+cchMimeTypes : [int] Œ^: UINT MIME ƒ^ƒCƒvƒoƒbƒtƒ@‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzMimeTypes : [wstr] Œ^: WCHAR* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MIME ƒ^ƒCƒv‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚Ì MIME ƒ^ƒCƒv‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MIME ƒ^ƒCƒv‚ÌƒJƒ“ƒ}‹æØ‚èƒV[ƒPƒ“ƒX‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchMimeTypes ‚ğ 0
+‚ÉAwzMimeTypes ‚ğ NULL ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅA•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í pcchActual
+‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchMimeTypes ‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzMimeTypes
+‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä GetMimeTypes ‚ğ 2 ‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapDecoderInfo_GetFileExtensions
-IWICBitmapDecoderInfo::GetFileExtensions (vtable slot 17)
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹–¼Šg’£q‚ÌƒJƒ“ƒ}‹æØ‚èƒŠƒXƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, cchFileExtensions, wzFileExtensions, pcchActual
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchFileExtensions : [int] 
-wzFileExtensions : [wstr] 
-pcchActual : [int] 
+cchFileExtensions : [int] Œ^: UINT ƒtƒ@ƒCƒ‹–¼Šg’£qƒoƒbƒtƒ@‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzFileExtensions : [wstr] Œ^: WCHAR* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJƒ“ƒ}‹æØ‚è‚Ìƒtƒ@ƒCƒ‹–¼Šg’£q‚ÌƒŠƒXƒg‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹–¼Šg’£q‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹–¼Šg’£q‚ÌƒJƒ“ƒ}‹æØ‚èƒŠƒXƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‰æ‘œƒGƒ“ƒR[ƒ_‚ÌƒfƒtƒHƒ‹ƒg‚ÌŠg’£q‚ÍA•Ô‚³‚ê‚éŠg’£q‚ÌƒŠƒXƒg‚ÌÅ‰‚Ì€–Ú‚Å‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2
+‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchFileExtensions ‚ğ 0 ‚ÉAwzFileExtensions ‚ğ
+NULL ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅA•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í pcchActual
+‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchFileExtensions
+‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzFileExtensions ‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä GetFileExtensions ‚ğ 2
+‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapDecoderInfo_DoesSupportAnimation
-IWICBitmapDecoderInfo::DoesSupportAnimation (vtable slot 18)
+ƒR[ƒfƒbƒN‚ªƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, pfSupportAnimation
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfSupportAnimation : [var] 
+pfSupportAnimation : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒ^ƒCƒ~ƒ“ƒOî•ñ•t‚«‚Ì‰æ‘œ‚ğƒTƒ|[ƒg‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
+ƒR[ƒfƒbƒN‚ªƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoderInfo_DoesSupportChromakey
-IWICBitmapDecoderInfo::DoesSupportChromakey (vtable slot 19)
+ƒR[ƒfƒbƒN‚ªƒNƒƒ}ƒL[‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, pfSupportChromakey
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfSupportChromakey : [var] 
+pfSupportChromakey : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒNƒƒ}ƒL[‚ğƒTƒ|[ƒg‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
+ƒR[ƒfƒbƒN‚ªƒNƒƒ}ƒL[‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoderInfo_DoesSupportLossless
-IWICBitmapDecoderInfo::DoesSupportLossless (vtable slot 20)
+ƒR[ƒfƒbƒN‚ªƒƒXƒŒƒXƒtƒH[ƒ}ƒbƒg‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, pfSupportLossless
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfSupportLossless : [var] 
+pfSupportLossless : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒƒXƒŒƒXƒtƒH[ƒ}ƒbƒg‚ğƒTƒ|[ƒg‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
+ƒR[ƒfƒbƒN‚ªƒƒXƒŒƒXƒtƒH[ƒ}ƒbƒg‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoderInfo_DoesSupportMultiframe
-IWICBitmapDecoderInfo::DoesSupportMultiframe (vtable slot 21)
+ƒR[ƒfƒbƒN‚ªƒ}ƒ‹ƒ`ƒtƒŒ[ƒ€‰æ‘œ‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, pfSupportMultiframe
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfSupportMultiframe : [var] 
+pfSupportMultiframe : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒ}ƒ‹ƒ`ƒtƒŒ[ƒ€‰æ‘œ‚ğƒTƒ|[ƒg‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
+ƒR[ƒfƒbƒN‚ªƒ}ƒ‹ƒ`ƒtƒŒ[ƒ€‰æ‘œ‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoderInfo_MatchesMimeType
-IWICBitmapDecoderInfo::MatchesMimeType (vtable slot 22)
+w’è‚³‚ê‚½ MIME ƒ^ƒCƒv‚ªƒR[ƒfƒbƒN‚Ì MIME ƒ^ƒCƒv‚Æˆê’v‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, wzMimeType, pfMatches
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-wzMimeType : [wstr] 
-pfMatches : [var] 
+wzMimeType : [wstr] Œ^: LPCWSTR ”äŠr‚·‚é MIME ƒ^ƒCƒvB
+pfMatches : [var] Œ^: BOOL* MIME ƒ^ƒCƒv‚ªˆê’v‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
+w’è‚³‚ê‚½ MIME ƒ^ƒCƒv‚ªƒR[ƒfƒbƒN‚Ì MIME ƒ^ƒCƒv‚Æˆê’v‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
+
+[”õl]
+’ Windows ’ñ‹Ÿ‚ÌƒR[ƒfƒbƒN‚Í‚±‚Ìƒƒ\ƒbƒh‚ğÀ‘•‚µ‚Ä‚¨‚ç‚¸AE_NOTIMPL ‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoderInfo_GetPatterns
 ƒfƒR[ƒ_‚ªƒTƒ|[ƒg‚·‚éƒtƒ@ƒCƒ‹ƒpƒ^[ƒ“ƒVƒOƒlƒ`ƒƒ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, cbSizePatterns, pPatterns, pcPatterns, pcbPatternsActual
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16729,6 +21642,8 @@ pcbPatternsActual : [int] Œ^: UINT* ƒfƒR[ƒ_‚ªƒTƒ|[ƒg‚·‚é‚·‚×‚Ä‚Ìƒpƒ^[ƒ“ƒVƒOƒl
 %index
 IWICBitmapDecoderInfo_MatchesPattern
 ƒR[ƒfƒbƒN‚ªw’è‚µ‚½ƒXƒgƒŠ[ƒ€“à‚Ìƒpƒ^[ƒ“‚ğ”F¯‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, pIStream, pfMatches
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16744,6 +21659,8 @@ pfMatches : [var] Œ^: BOOL* ƒpƒ^[ƒ“‚ªˆê’v‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALS
 %index
 IWICBitmapDecoderInfo_CreateInstance
 IWICBitmapDecoder ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICBitmapDecoderInfo
 %prm
 this, ppIBitmapDecoder
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16758,6 +21675,8 @@ IWICBitmapDecoder ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %index
 IWICBitmapEncoder_Initialize
 ƒrƒbƒg‚ğ‚Ç‚±‚ÖƒGƒ“ƒR[ƒh‚·‚é‚©‚ğƒGƒ“ƒR[ƒ_‚É“`‚¦‚é IStream ‚ÅƒGƒ“ƒR[ƒ_‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICBitmapEncoder
 %prm
 this, pIStream, cacheOption
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16773,6 +21692,8 @@ cacheOption : [int] Œ^: WICBitmapEncoderCacheOption ‰Šú‰»‚Ég—p‚·‚é WICBitmap
 %index
 IWICBitmapEncoder_GetContainerFormat
 ƒGƒ“ƒR[ƒ_‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoder
 %prm
 this, pguidContainerFormat
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16787,6 +21708,8 @@ pguidContainerFormat : [var] Œ^: GUID* ƒGƒ“ƒR[ƒ_‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg GUID ‚ğ
 %index
 IWICBitmapEncoder_GetEncoderInfo
 ƒGƒ“ƒR[ƒ_‚Ì IWICBitmapEncoderInfo ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoder
 %prm
 this, ppIEncoderInfo
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16801,6 +21724,8 @@ ppIEncoderInfo : [comobj] Œ^: IWICBitmapEncoderInfo** IWICBitmapEncoderInfo ‚Ö‚Ì
 %index
 IWICBitmapEncoder_SetColorContexts
 ƒGƒ“ƒR[ƒ_‚É IWICColorContext ƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚éB
+%group
+COM misc / IWICBitmapEncoder
 %prm
 this, cCount, ppIColorContext
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16816,6 +21741,8 @@ ppIColorContext : [comobj] Œ^: IWICColorContext** ƒGƒ“ƒR[ƒ_‚Éİ’è‚·‚éƒJƒ‰[ƒRƒ“
 %index
 IWICBitmapEncoder_SetPalette
 ‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğİ’è‚·‚éB
+%group
+COM misc / IWICBitmapEncoder
 %prm
 this, pIPalette
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16835,6 +21762,8 @@ pIPalette : [comobj] Œ^: IWICPalette* ƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚Æ‚µ‚Äg—p‚·‚é IWICPalet
 %index
 IWICBitmapEncoder_SetThumbnail
 ‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒTƒ€ƒlƒCƒ‹‚ğİ’è‚·‚éB
+%group
+COM misc / IWICBitmapEncoder
 %prm
 this, pIThumbnail
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16850,6 +21779,8 @@ pIThumbnail : [comobj] Œ^: IWICBitmapSource* ƒOƒ[ƒoƒ‹ƒTƒ€ƒlƒCƒ‹‚Æ‚µ‚Äİ’è‚·‚é 
 %index
 IWICBitmapEncoder_SetPreview
 ‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒvƒŒƒrƒ…[‚ğİ’è‚·‚éB
+%group
+COM misc / IWICBitmapEncoder
 %prm
 this, pIPreview
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16865,6 +21796,8 @@ pIPreview : [comobj] Œ^: IWICBitmapSource* ƒOƒ[ƒoƒ‹ƒvƒŒƒrƒ…[‚Æ‚µ‚Äg—p‚·‚é IW
 %index
 IWICBitmapEncoder_CreateNewFrame
 V‚µ‚¢ IWICBitmapFrameEncode ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+%group
+COM misc / IWICBitmapEncoder
 %prm
 this, ppIFrameEncode, ppIEncoderOptions
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16893,6 +21826,8 @@ IPropertyBag2 ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚µ‚Ä‚Í‚È‚ç‚È‚¢Bƒ|ƒCƒ“ƒ^‚Íã‘‚«‚³‚êAŒ³‚Ì IProper
 %index
 IWICBitmapEncoder_Commit
 ‰æ‘œ‚É‘Î‚·‚é‚·‚×‚Ä‚Ì•ÏX‚ğƒRƒ~ƒbƒg‚µ‚ÄƒXƒgƒŠ[ƒ€‚ğ•Â‚¶‚éB
+%group
+COM misc / IWICBitmapEncoder
 %prm
 this
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16918,6 +21853,8 @@ IWICBitmapFrameEncode::WriteSource
 %index
 IWICBitmapEncoder_GetMetadataQueryWriter
 ƒGƒ“ƒR[ƒ_—p‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒ‰ƒCƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoder
 %prm
 this, ppIMetadataQueryWriter
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -16931,228 +21868,418 @@ ppIMetadataQueryWriter : [comobj] Œ^: IWICMetadataQueryWriter** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô
 
 %index
 IWICBitmapEncoderInfo_GetComponentType
-IWICBitmapEncoderInfo::GetComponentType (vtable slot 3)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì WICComponentType ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, pType
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pType : [var] 
+pType : [var] Œ^: WICComponentType* WICComponentType ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì WICComponentType ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoderInfo_GetCLSID
-IWICBitmapEncoderInfo::GetCLSID (vtable slot 4)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, pclsid
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pclsid : [var] 
+pclsid : [var] Œ^: CLSID* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì CLSID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoderInfo_GetSigningStatus
-IWICBitmapEncoderInfo::GetSigningStatus (vtable slot 5)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì–¼ƒXƒe[ƒ^ƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, pStatus
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pStatus : [int] 
+pStatus : [int] Œ^: DWORD* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì WICComponentSigning ƒXƒe[ƒ^ƒX‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì–¼ƒXƒe[ƒ^ƒX‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+–¼‚Í WIC ‚Å‚Íg—p‚³‚ê‚È‚¢B‚µ‚½‚ª‚Á‚ÄA‚·‚×‚Ä‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Í WICComponentSigned
+‚Æ‚È‚éB‚±‚ÌŠÖ”‚ÍAƒRƒ“ƒ|[ƒlƒ“ƒg‚ÉƒoƒCƒiƒŠƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‚È‚¢‚©AƒŒƒWƒXƒgƒŠ‚Ì–³Œø‰»‚³‚ê‚½ƒRƒ“ƒ|[ƒlƒ“ƒgƒŠƒXƒg‚É’Ç‰Á‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’f‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB
 
 
 %index
 IWICBitmapEncoderInfo_GetAuthor
-IWICBitmapEncoderInfo::GetAuthor (vtable slot 6)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, cchAuthor, wzAuthor, pcchActual
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchAuthor : [int] 
-wzAuthor : [wstr] 
-pcchActual : [int] 
+cchAuthor : [int] Œ^: UINT wzAuthor ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzAuthor : [wstr] Œ^: WCHAR* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B•¶š—ñ‚ÌƒƒP[ƒ‹‚ÍAƒR[ƒfƒbƒN‚ªƒCƒ“ƒXƒg[ƒ‹‚ÉƒŒƒWƒXƒgƒŠ‚É‘‚«‚ñ‚¾’l‚ÉˆË‘¶‚·‚éB‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìê‡A‚±‚ê‚ç‚Ì•¶š—ñ‚Íí‚É‰pŒê‚Å‚ ‚éB
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^BìÒ–¼‚ÍƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚ÄìÒ–¼‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A•Ô‚³‚ê‚é’·‚³‚Í 0 ‚Å‚ ‚éB
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+cchAuthor ‚ª 0 ‚Å wzAuthor ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª pccchActual ‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICBitmapEncoderInfo_GetVendorGUID
-IWICBitmapEncoderInfo::GetVendorGUID (vtable slot 7)
+ƒxƒ“ƒ_ GUID ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, pguidVendor
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pguidVendor : [var] 
+pguidVendor : [var] Œ^: GUID* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒxƒ“ƒ_ GUID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒxƒ“ƒ_ GUID ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoderInfo_GetVersion
-IWICBitmapEncoderInfo::GetVersion (vtable slot 8)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, cchVersion, wzVersion, pcchActual
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchVersion : [int] 
-wzVersion : [wstr] 
-pcchActual : [int] 
+cchVersion : [int] Œ^: UINT wzVersion ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzVersion : [wstr] Œ^: WCHAR* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ÌƒJƒ‹ƒ`ƒƒ”ñˆË‘¶•¶š—ñ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^Bƒo[ƒWƒ‡ƒ“‚ÍƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚Ä’l‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A•Ô‚³‚ê‚é’·‚³‚Í 0 ‚Å‚ ‚éB
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg (ƒo[ƒWƒ‡ƒ“‚ğ‚½‚È‚¢) ‚ğœ‚«A‚·‚×‚Ä‚Ì‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Í "1.0.0.0" ‚ğ•Ô‚·BcchAuthor
+‚ª 0 ‚Å wzAuthor ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª pccchActual ‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICBitmapEncoderInfo_GetSpecVersion
-IWICBitmapEncoderInfo::GetSpecVersion (vtable slot 9)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, cchSpecVersion, wzSpecVersion, pcchActual
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchSpecVersion : [int] 
-wzSpecVersion : [wstr] 
-pcchActual : [int] 
+cchSpecVersion : [int] Œ^: UINT wzSpecVersion ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzSpecVersion : [wstr] Œ^: WCHAR* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ÌƒJƒ‹ƒ`ƒƒ”ñˆË‘¶•¶š—ñ‚ğŠÜ‚ŞBƒo[ƒWƒ‡ƒ“Œ`®‚Í NN.NN.NN.NN ‚Å‚ ‚éB
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^Bd—lƒo[ƒWƒ‡ƒ“‚ÍƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚Ä’l‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A•Ô‚³‚ê‚é’·‚³‚Í 0 ‚Å‚ ‚éB
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg (d—lƒo[ƒWƒ‡ƒ“‚ğ‚½‚È‚¢) ‚ğœ‚«A‚·‚×‚Ä‚Ì‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Í "1.0.0.0"
+‚ğ•Ô‚·BcchAuthor ‚ª 0 ‚Å wzAuthor ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª pccchActual
+‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICBitmapEncoderInfo_GetFriendlyName
-IWICBitmapEncoderInfo::GetFriendlyName (vtable slot 10)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼ (lŠÔ‚ª“Ç‚ß‚é•\¦–¼) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, cchFriendlyName, wzFriendlyName, pcchActual
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchFriendlyName : [int] 
-wzFriendlyName : [wstr] 
-pcchActual : [int] 
+cchFriendlyName : [int] Œ^: UINT wzFriendlyName ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzFriendlyName : [wstr] Œ^: WCHAR* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B•¶š—ñ‚ÌƒƒP[ƒ‹‚ÍAƒR[ƒfƒbƒN‚ªƒCƒ“ƒXƒg[ƒ‹‚ÉƒŒƒWƒXƒgƒŠ‚É‘‚«‚ñ‚¾’l‚ÉˆË‘¶‚·‚éB‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìê‡A‚±‚ê‚ç‚Ì•¶š—ñ‚Íí‚É‰pŒê‚Å‚ ‚éB
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼ (lŠÔ‚ª“Ç‚ß‚é•\¦–¼) ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+cchFriendlyName ‚ª 0 ‚Å wzFriendlyName ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª
+pccchActual ‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICBitmapEncoderInfo_GetContainerFormat
-IWICBitmapEncoderInfo::GetContainerFormat (vtable slot 11)
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ“ƒeƒi GUID ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, pguidContainerFormat
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pguidContainerFormat : [var] 
+pguidContainerFormat : [var] Œ^: GUID* ƒRƒ“ƒeƒi GUID ‚ğó‚¯æ‚éB
 %inst
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ“ƒeƒi GUID ‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoderInfo_GetPixelFormats
-IWICBitmapEncoderInfo::GetPixelFormats (vtable slot 12)
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, cFormats, pguidPixelFormats, pcActual
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cFormats : [int] 
-pguidPixelFormats : [var] 
-pcActual : [int] 
+cFormats : [int] Œ^: UINT pguidPixelFormats ”z—ñ‚ÌƒTƒCƒYB•K—v‚È”z—ñƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+pguidPixelFormats : [var] Œ^: GUID* ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğó‚¯æ‚éB•K—v‚È”z—ñƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcActual : [int] Œ^: UINT* ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚È”z—ñƒTƒCƒYB
 %inst
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcFormats ‚ğ 0
+‚ÉApguidPixelFormats ‚ğ NULL
+‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅAƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚È”z—ñƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í
+pcActual ‚É•K—v‚È”z—ñƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚È”z—ñƒTƒCƒY‚ª”»–¾‚µ‚½‚çApguidPixelFormats
+‚ğ“KØ‚ÈƒTƒCƒY‚Ì”z—ñ‚Éİ’è‚µ‚Ä GetPixelFormats ‚ğ 2 ‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapEncoderInfo_GetColorManagementVersion
-IWICBitmapEncoderInfo::GetColorManagementVersion (vtable slot 13)
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, cchColorManagementVersion, wzColorManagementVersion, pcchActual
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchColorManagementVersion : [int] 
-wzColorManagementVersion : [wstr] 
-pcchActual : [int] 
+cchColorManagementVersion : [int] Œ^: UINT ƒo[ƒWƒ‡ƒ“ƒoƒbƒtƒ@‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzColorManagementVersion : [wstr] Œ^: WCHAR* ƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* Š®‘S‚ÈƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchColorManagementVersion ‚ğ
+0 ‚ÉAwzColorManagementVersion ‚ğ NULL
+‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅAŠ®‘S‚ÈƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í
+pcchActual
+‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchColorManagementVersion
+‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzColorManagementVersion ‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä
+GetColorManagementVersion ‚ğ 2 ‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapEncoderInfo_GetDeviceManufacturer
-IWICBitmapEncoderInfo::GetDeviceManufacturer (vtable slot 14)
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒfƒoƒCƒX»‘¢Œ³–¼‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, cchDeviceManufacturer, wzDeviceManufacturer, pcchActual
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchDeviceManufacturer : [int] 
-wzDeviceManufacturer : [wstr] 
-pcchActual : [int] 
+cchDeviceManufacturer : [int] Œ^: UINT ƒfƒoƒCƒX»‘¢Œ³–¼‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzDeviceManufacturer : [wstr] Œ^: WCHAR* ƒfƒoƒCƒX»‘¢Œ³–¼‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* ƒfƒoƒCƒX»‘¢Œ³–¼‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒfƒoƒCƒX»‘¢Œ³–¼‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchDeviceManufacturer ‚ğ 0
+‚ÉAwzDeviceManufacturer ‚ğ NULL ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅA•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í
+pcchActual ‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchDeviceManufacturer
+‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzDeviceManufacturer ‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä
+GetDeviceManufacturer ‚ğ 2 ‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapEncoderInfo_GetDeviceModels
-IWICBitmapEncoderInfo::GetDeviceModels (vtable slot 15)
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJƒ“ƒ}‹æØ‚è‚ÌƒfƒoƒCƒXƒ‚ƒfƒ‹‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, cchDeviceModels, wzDeviceModels, pcchActual
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchDeviceModels : [int] 
-wzDeviceModels : [wstr] 
-pcchActual : [int] 
+cchDeviceModels : [int] Œ^: UINT ƒfƒoƒCƒXƒ‚ƒfƒ‹ƒoƒbƒtƒ@‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzDeviceModels : [wstr] Œ^: WCHAR* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJƒ“ƒ}‹æØ‚è‚ÌƒfƒoƒCƒXƒ‚ƒfƒ‹–¼‚ÌƒŠƒXƒg‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* ‚·‚×‚Ä‚ÌƒfƒoƒCƒXƒ‚ƒfƒ‹–¼‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJƒ“ƒ}‹æØ‚è‚ÌƒfƒoƒCƒXƒ‚ƒfƒ‹‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchDeviceModels ‚ğ 0
+‚ÉAwzDeviceModels ‚ğ NULL ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅA•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í
+pcchActual ‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchDeviceModels
+‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzDeviceModels ‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä GetDeviceModels ‚ğ 2
+‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapEncoderInfo_GetMimeTypes
-IWICBitmapEncoderInfo::GetMimeTypes (vtable slot 16)
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MIME ƒ^ƒCƒv‚ÌƒJƒ“ƒ}‹æØ‚èƒV[ƒPƒ“ƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, cchMimeTypes, wzMimeTypes, pcchActual
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchMimeTypes : [int] 
-wzMimeTypes : [wstr] 
-pcchActual : [int] 
+cchMimeTypes : [int] Œ^: UINT MIME ƒ^ƒCƒvƒoƒbƒtƒ@‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzMimeTypes : [wstr] Œ^: WCHAR* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MIME ƒ^ƒCƒv‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚Ì MIME ƒ^ƒCƒv‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MIME ƒ^ƒCƒv‚ÌƒJƒ“ƒ}‹æØ‚èƒV[ƒPƒ“ƒX‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchMimeTypes ‚ğ 0
+‚ÉAwzMimeTypes ‚ğ NULL ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅA•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í pcchActual
+‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchMimeTypes ‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzMimeTypes
+‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä GetMimeTypes ‚ğ 2 ‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapEncoderInfo_GetFileExtensions
-IWICBitmapEncoderInfo::GetFileExtensions (vtable slot 17)
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹–¼Šg’£q‚ÌƒJƒ“ƒ}‹æØ‚èƒŠƒXƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, cchFileExtensions, wzFileExtensions, pcchActual
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchFileExtensions : [int] 
-wzFileExtensions : [wstr] 
-pcchActual : [int] 
+cchFileExtensions : [int] Œ^: UINT ƒtƒ@ƒCƒ‹–¼Šg’£qƒoƒbƒtƒ@‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzFileExtensions : [wstr] Œ^: WCHAR* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJƒ“ƒ}‹æØ‚è‚Ìƒtƒ@ƒCƒ‹–¼Šg’£q‚ÌƒŠƒXƒg‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹–¼Šg’£q‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹–¼Šg’£q‚ÌƒJƒ“ƒ}‹æØ‚èƒŠƒXƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+‰æ‘œƒGƒ“ƒR[ƒ_‚ÌƒfƒtƒHƒ‹ƒg‚ÌŠg’£q‚ÍA•Ô‚³‚ê‚éŠg’£q‚ÌƒŠƒXƒg‚ÌÅ‰‚Ì€–Ú‚Å‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2
+‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchFileExtensions ‚ğ 0 ‚ÉAwzFileExtensions ‚ğ
+NULL ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅA•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í pcchActual
+‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchFileExtensions
+‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzFileExtensions ‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä GetFileExtensions ‚ğ 2
+‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapEncoderInfo_DoesSupportAnimation
-IWICBitmapEncoderInfo::DoesSupportAnimation (vtable slot 18)
+ƒR[ƒfƒbƒN‚ªƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, pfSupportAnimation
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfSupportAnimation : [var] 
+pfSupportAnimation : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒ^ƒCƒ~ƒ“ƒOî•ñ•t‚«‚Ì‰æ‘œ‚ğƒTƒ|[ƒg‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
+ƒR[ƒfƒbƒN‚ªƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoderInfo_DoesSupportChromakey
-IWICBitmapEncoderInfo::DoesSupportChromakey (vtable slot 19)
+ƒR[ƒfƒbƒN‚ªƒNƒƒ}ƒL[‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, pfSupportChromakey
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfSupportChromakey : [var] 
+pfSupportChromakey : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒNƒƒ}ƒL[‚ğƒTƒ|[ƒg‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
+ƒR[ƒfƒbƒN‚ªƒNƒƒ}ƒL[‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoderInfo_DoesSupportLossless
-IWICBitmapEncoderInfo::DoesSupportLossless (vtable slot 20)
+ƒR[ƒfƒbƒN‚ªƒƒXƒŒƒXƒtƒH[ƒ}ƒbƒg‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, pfSupportLossless
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfSupportLossless : [var] 
+pfSupportLossless : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒƒXƒŒƒXƒtƒH[ƒ}ƒbƒg‚ğƒTƒ|[ƒg‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
+ƒR[ƒfƒbƒN‚ªƒƒXƒŒƒXƒtƒH[ƒ}ƒbƒg‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoderInfo_DoesSupportMultiframe
-IWICBitmapEncoderInfo::DoesSupportMultiframe (vtable slot 21)
+ƒR[ƒfƒbƒN‚ªƒ}ƒ‹ƒ`ƒtƒŒ[ƒ€‰æ‘œ‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, pfSupportMultiframe
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfSupportMultiframe : [var] 
+pfSupportMultiframe : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒ}ƒ‹ƒ`ƒtƒŒ[ƒ€‰æ‘œ‚ğƒTƒ|[ƒg‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
+ƒR[ƒfƒbƒN‚ªƒ}ƒ‹ƒ`ƒtƒŒ[ƒ€‰æ‘œ‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoderInfo_MatchesMimeType
-IWICBitmapEncoderInfo::MatchesMimeType (vtable slot 22)
+w’è‚³‚ê‚½ MIME ƒ^ƒCƒv‚ªƒR[ƒfƒbƒN‚Ì MIME ƒ^ƒCƒv‚Æˆê’v‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, wzMimeType, pfMatches
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-wzMimeType : [wstr] 
-pfMatches : [var] 
+wzMimeType : [wstr] Œ^: LPCWSTR ”äŠr‚·‚é MIME ƒ^ƒCƒvB
+pfMatches : [var] Œ^: BOOL* MIME ƒ^ƒCƒv‚ªˆê’v‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
+w’è‚³‚ê‚½ MIME ƒ^ƒCƒv‚ªƒR[ƒfƒbƒN‚Ì MIME ƒ^ƒCƒv‚Æˆê’v‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
+
+[”õl]
+’ Windows ’ñ‹Ÿ‚ÌƒR[ƒfƒbƒN‚Í‚±‚Ìƒƒ\ƒbƒh‚ğÀ‘•‚µ‚Ä‚¨‚ç‚¸AE_NOTIMPL ‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoderInfo_CreateInstance
 V‚µ‚¢ IWICBitmapEncoder ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICBitmapEncoderInfo
 %prm
 this, ppIBitmapEncoder
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17166,62 +22293,125 @@ ppIBitmapEncoder : [comobj] Œ^: IWICBitmapEncoder** V‚µ‚¢ IWICBitmapEncoder ƒCƒ
 
 %index
 IWICBitmapFlipRotator_GetSize
-IWICBitmapFlipRotator::GetSize (vtable slot 3)
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapFlipRotator
 %prm
 this, puiWidth, puiHeight
 this : [comobj] IWICBitmapFlipRotator ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-puiWidth : [int] 
-puiHeight : [int] 
+puiWidth : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+puiHeight : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹‚‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapFlipRotator_GetPixelFormat
-IWICBitmapFlipRotator::GetPixelFormat (vtable slot 4)
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapFlipRotator
 %prm
 this, pPixelFormat
 this : [comobj] IWICBitmapFlipRotator ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pPixelFormat : [var] 
+pPixelFormat : [var] Œ^: WICPixelFormatGUID* ƒrƒbƒgƒ}ƒbƒv‚ª•Û‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚éB—˜—p‰Â”\‚ÈƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgˆê——‚Í Native Pixel Formats ‚ğQÆB
 %inst
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚·ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÍA•K‚¸‚µ‚à‰æ‘œ‚ªÀÛ‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Æ“¯‚¶‚Å‚Í‚È‚¢BƒR[ƒfƒbƒN‚ªƒXƒgƒŒ[ƒW‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚©‚ço—Í‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ö•ÏŠ·‚ğs‚¤ê‡‚ª‚ ‚éB
 
 
 %index
 IWICBitmapFlipRotator_GetResolution
-IWICBitmapFlipRotator::GetResolution (vtable slot 5)
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapFlipRotator
 %prm
 this, pDpiX, pDpiY
 this : [comobj] IWICBitmapFlipRotator ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pDpiX : [double] 
-pDpiY : [double] 
+pDpiX : [double] Œ^: double* x ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pDpiY : [double] Œ^: double* y ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+GIF ‚â ICO ‚Ì‚æ‚¤‚Èˆê•”‚ÌƒtƒH[ƒ}ƒbƒg‚Í DPI ‚ğŠ®‘S‚É‚ÍƒTƒ|[ƒg‚µ‚È‚¢BGIF ‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚Í (96.0,
+96.0) ‚ğƒx[ƒX DPI ‚Æ‚µ‚ÄƒAƒXƒyƒNƒg”ä‚©‚ç DPI ’l‚ğŒvZ‚·‚éBICO ƒtƒH[ƒ}ƒbƒg‚Í DPI
+‚ğ‚Ü‚Á‚½‚­ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚ÅAICO ‰æ‘œ‚É‘Î‚µ‚Ä‚Íí‚É (96.0, 96.0) ‚ğ•Ô‚·B
+‚³‚ç‚ÉAWIC ©g‚Í‰æ‘œ“à‚Ì DPI
+’l‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚µ‚È‚¢B•Ô‚³‚ê‚½‰ğ‘œ“x‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚·‚é‚©‚Ç‚¤‚©‚ÍŒÄ‚Ño‚µ‘¤Ÿ‘æ‚Å‚ ‚éB
 
 
 %index
 IWICBitmapFlipRotator_CopyPalette
-IWICBitmapFlipRotator::CopyPalette (vtable slot 6)
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapFlipRotator
 %prm
 this, pIPalette
 this : [comobj] IWICBitmapFlipRotator ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIPalette : [comobj] 
+pIPalette : [comobj] Œ^: IWICPalette* IWICPaletteBCreatePalette ƒƒ\ƒbƒh‚ÅƒpƒŒƒbƒg‚ğ¶¬‚Å‚«‚éB
 %inst
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
+
+[”õl]
+IWICBitmapSource ‚ª IWICBitmapFrameDecode
+‚Ìê‡AƒtƒŒ[ƒ€ƒŒƒxƒ‹‚ÌƒpƒŒƒbƒg‚ª—˜—p‚Å‚«‚È‚¢‚Æ‚«‚Í‚±‚ÌŠÖ”‚ª‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éBƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚Í
+CopyPalette ƒƒ\ƒbƒh‚Å‚àæ“¾‚Å‚«‚éB
 
 
 %index
 IWICBitmapFlipRotator_CopyPixels
-IWICBitmapFlipRotator::CopyPixels (vtable slot 7)
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+%group
+COM misc / IWICBitmapFlipRotator
 %prm
 this, prc, cbStride, cbBufferSize, pbBuffer
 this : [comobj] IWICBitmapFlipRotator ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-prc : [var] 
-cbStride : [int] 
-cbBufferSize : [int] 
-pbBuffer : [int] 
+prc : [var] Œ^: const WICRect* ƒRƒs[‚·‚é‹éŒ`BNULL ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ğw’è‚µ‚½‚±‚Æ‚É‚È‚éB
+cbStride : [int] Œ^: UINT ƒrƒbƒgƒ}ƒbƒv‚ÌƒXƒgƒ‰ƒCƒhB
+cbBufferSize : [int] Œ^: UINT ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+pbBuffer : [int] Œ^: BYTE* ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+CopyPixels ‚ÍÀÛ‚Ìˆ—‚ğ‹N“®‚·‚é 2 ‚Â‚Ìå—v‚È‰æ‘œˆ—ƒ‹[ƒ`ƒ“‚Ì 1 ‚Â‚Å‚ ‚è (‚à‚¤ 1 ‚Â‚Í
+Lock)AƒIƒuƒWƒFƒNƒg‚É©g‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚É]‚Á‚ÄƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éBˆ—“à—e‚ÍAƒfƒBƒXƒNã‚Ì JPEG
+‚Ìˆê•”‚ğƒfƒR[ƒh‚µ‚½‚èAƒƒ‚ƒŠƒuƒƒbƒN‚ğƒRƒs[‚µ‚½‚èA•¡G‚ÈƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ğ‰ğÍ“I‚ÉŒvZ‚µ‚½‚è‚Æ‚³‚Ü‚´‚Ü‚Å‚ ‚éBƒAƒ‹ƒSƒŠƒYƒ€‚ÍA‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğÀ‘•‚·‚éƒIƒuƒWƒFƒNƒg‚ÉŠ®‘S‚ÉˆË‘¶‚·‚éB
+ŒÄ‚Ño‚µ‘¤‚Í prc ƒpƒ‰ƒ[ƒ^‚Åˆ—‘ÎÛ‚ÌŠÖS‹éŒ` (ROI) ‚ğ§ŒÀ‚Å‚«‚éBROI
+‚Ì•”•ª‹éŒ`‚Íƒrƒbƒgƒ}ƒbƒv‚Ì‹«ŠE“à‚ÉŠ®‘S‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BNULL ‚Ì ROI ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ª•Ô‚³‚ê‚éB
+ŒÄ‚Ño‚µ‘¤‚Íƒƒ‚ƒŠŠÇ—‚ğ’S“–‚µAƒRƒs[Œ‹‰Ê‚ğó‚¯æ‚éo—Íƒoƒbƒtƒ@ (pbBuffer) ‚Æ‚»‚ÌƒTƒCƒY (cbBufferSize)
+‚ğ—pˆÓ‚·‚é•K—v‚ª‚ ‚éBcbStride ƒpƒ‰ƒ[ƒ^‚Ío—Íƒoƒbƒtƒ@“à‚Å‚’¼•ûŒü‚É—×Ú‚·‚é 2
+‚Â‚ÌƒsƒNƒZƒ‹ŠÔ‚ÌƒoƒCƒg”‚ğ’è‹`‚·‚éBŒÄ‚Ño‚µ‘¤‚ÍAƒrƒbƒgƒ}ƒbƒv‚Ì•E‚‚³EƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚¨‚æ‚ÑƒRƒs[ƒƒ\ƒbƒh‚É—^‚¦‚½•”•ª‹éŒ`‚ÉŠî‚Ã‚«AŒÄ‚Ño‚µ‚ğŠ®—¹‚·‚é‚Ì‚É\•ª‚Èƒoƒbƒtƒ@‚ª‚ ‚é‚±‚Æ‚ğ•ÛØ‚·‚é•K—v‚ª‚ ‚éB
+ŒÄ‚Ño‚µ‘¤‚ª JPEG ‚Ì‚æ‚¤‚É‚‰¿‚È IWICBitmapSource ‚©‚ç‚Ì‘½”‚ÌƒRƒs[‚ğs‚¤•K—v‚ª‚ ‚éê‡‚ÍAæ‚Éƒƒ‚ƒŠã‚Ì
+IWICBitmap ‚ğ¶¬‚µ‚Ä‚¨‚­‚±‚Æ‚ğ„§‚·‚éB
+ƒR[ƒfƒbƒNŠJ”­ÒŒü‚¯‚Ì’ˆÓ ŒÄ‚Ño‚³‚ê‚é‘¤‚Ío—Íƒoƒbƒtƒ@‚ÌŠes‚Ìæ“ª (prc->Width*bitsperpixel+7)/8
+ƒoƒCƒg‚Ì‚İ‚É‘‚«‚Ş‚×‚«‚Å‚ ‚é (‚±‚Ìê‡usv‚Í˜A‘±‚·‚é cbStride ƒoƒCƒg‚ğw‚·)B
 
 
 %index
 IWICBitmapFlipRotator_Initialize
 w’è‚µ‚½ƒpƒ‰ƒ[ƒ^‚Åƒrƒbƒgƒ}ƒbƒv”½“]‰ñ“]ˆ—‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICBitmapFlipRotator
 %prm
 this, pISource, options
 this : [comobj] IWICBitmapFlipRotator ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17236,62 +22426,125 @@ options : [int] Œ^: WICBitmapTransformOptions ‰æ‘œ‚ğ”½“]‚Ü‚½‚Í‰ñ“]‚³‚¹‚é‚½‚ß‚Ì W
 
 %index
 IWICBitmapFrameDecode_GetSize
-IWICBitmapFrameDecode::GetSize (vtable slot 3)
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapFrameDecode
 %prm
 this, puiWidth, puiHeight
 this : [comobj] IWICBitmapFrameDecode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-puiWidth : [int] 
-puiHeight : [int] 
+puiWidth : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+puiHeight : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹‚‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapFrameDecode_GetPixelFormat
-IWICBitmapFrameDecode::GetPixelFormat (vtable slot 4)
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapFrameDecode
 %prm
 this, pPixelFormat
 this : [comobj] IWICBitmapFrameDecode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pPixelFormat : [var] 
+pPixelFormat : [var] Œ^: WICPixelFormatGUID* ƒrƒbƒgƒ}ƒbƒv‚ª•Û‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚éB—˜—p‰Â”\‚ÈƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgˆê——‚Í Native Pixel Formats ‚ğQÆB
 %inst
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚·ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÍA•K‚¸‚µ‚à‰æ‘œ‚ªÀÛ‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Æ“¯‚¶‚Å‚Í‚È‚¢BƒR[ƒfƒbƒN‚ªƒXƒgƒŒ[ƒW‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚©‚ço—Í‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ö•ÏŠ·‚ğs‚¤ê‡‚ª‚ ‚éB
 
 
 %index
 IWICBitmapFrameDecode_GetResolution
-IWICBitmapFrameDecode::GetResolution (vtable slot 5)
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapFrameDecode
 %prm
 this, pDpiX, pDpiY
 this : [comobj] IWICBitmapFrameDecode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pDpiX : [double] 
-pDpiY : [double] 
+pDpiX : [double] Œ^: double* x ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pDpiY : [double] Œ^: double* y ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+GIF ‚â ICO ‚Ì‚æ‚¤‚Èˆê•”‚ÌƒtƒH[ƒ}ƒbƒg‚Í DPI ‚ğŠ®‘S‚É‚ÍƒTƒ|[ƒg‚µ‚È‚¢BGIF ‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚Í (96.0,
+96.0) ‚ğƒx[ƒX DPI ‚Æ‚µ‚ÄƒAƒXƒyƒNƒg”ä‚©‚ç DPI ’l‚ğŒvZ‚·‚éBICO ƒtƒH[ƒ}ƒbƒg‚Í DPI
+‚ğ‚Ü‚Á‚½‚­ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚ÅAICO ‰æ‘œ‚É‘Î‚µ‚Ä‚Íí‚É (96.0, 96.0) ‚ğ•Ô‚·B
+‚³‚ç‚ÉAWIC ©g‚Í‰æ‘œ“à‚Ì DPI
+’l‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚µ‚È‚¢B•Ô‚³‚ê‚½‰ğ‘œ“x‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚·‚é‚©‚Ç‚¤‚©‚ÍŒÄ‚Ño‚µ‘¤Ÿ‘æ‚Å‚ ‚éB
 
 
 %index
 IWICBitmapFrameDecode_CopyPalette
-IWICBitmapFrameDecode::CopyPalette (vtable slot 6)
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapFrameDecode
 %prm
 this, pIPalette
 this : [comobj] IWICBitmapFrameDecode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIPalette : [comobj] 
+pIPalette : [comobj] Œ^: IWICPalette* IWICPaletteBCreatePalette ƒƒ\ƒbƒh‚ÅƒpƒŒƒbƒg‚ğ¶¬‚Å‚«‚éB
 %inst
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
+
+[”õl]
+IWICBitmapSource ‚ª IWICBitmapFrameDecode
+‚Ìê‡AƒtƒŒ[ƒ€ƒŒƒxƒ‹‚ÌƒpƒŒƒbƒg‚ª—˜—p‚Å‚«‚È‚¢‚Æ‚«‚Í‚±‚ÌŠÖ”‚ª‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éBƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚Í
+CopyPalette ƒƒ\ƒbƒh‚Å‚àæ“¾‚Å‚«‚éB
 
 
 %index
 IWICBitmapFrameDecode_CopyPixels
-IWICBitmapFrameDecode::CopyPixels (vtable slot 7)
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+%group
+COM misc / IWICBitmapFrameDecode
 %prm
 this, prc, cbStride, cbBufferSize, pbBuffer
 this : [comobj] IWICBitmapFrameDecode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-prc : [var] 
-cbStride : [int] 
-cbBufferSize : [int] 
-pbBuffer : [int] 
+prc : [var] Œ^: const WICRect* ƒRƒs[‚·‚é‹éŒ`BNULL ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ğw’è‚µ‚½‚±‚Æ‚É‚È‚éB
+cbStride : [int] Œ^: UINT ƒrƒbƒgƒ}ƒbƒv‚ÌƒXƒgƒ‰ƒCƒhB
+cbBufferSize : [int] Œ^: UINT ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+pbBuffer : [int] Œ^: BYTE* ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+CopyPixels ‚ÍÀÛ‚Ìˆ—‚ğ‹N“®‚·‚é 2 ‚Â‚Ìå—v‚È‰æ‘œˆ—ƒ‹[ƒ`ƒ“‚Ì 1 ‚Â‚Å‚ ‚è (‚à‚¤ 1 ‚Â‚Í
+Lock)AƒIƒuƒWƒFƒNƒg‚É©g‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚É]‚Á‚ÄƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éBˆ—“à—e‚ÍAƒfƒBƒXƒNã‚Ì JPEG
+‚Ìˆê•”‚ğƒfƒR[ƒh‚µ‚½‚èAƒƒ‚ƒŠƒuƒƒbƒN‚ğƒRƒs[‚µ‚½‚èA•¡G‚ÈƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ğ‰ğÍ“I‚ÉŒvZ‚µ‚½‚è‚Æ‚³‚Ü‚´‚Ü‚Å‚ ‚éBƒAƒ‹ƒSƒŠƒYƒ€‚ÍA‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğÀ‘•‚·‚éƒIƒuƒWƒFƒNƒg‚ÉŠ®‘S‚ÉˆË‘¶‚·‚éB
+ŒÄ‚Ño‚µ‘¤‚Í prc ƒpƒ‰ƒ[ƒ^‚Åˆ—‘ÎÛ‚ÌŠÖS‹éŒ` (ROI) ‚ğ§ŒÀ‚Å‚«‚éBROI
+‚Ì•”•ª‹éŒ`‚Íƒrƒbƒgƒ}ƒbƒv‚Ì‹«ŠE“à‚ÉŠ®‘S‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BNULL ‚Ì ROI ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ª•Ô‚³‚ê‚éB
+ŒÄ‚Ño‚µ‘¤‚Íƒƒ‚ƒŠŠÇ—‚ğ’S“–‚µAƒRƒs[Œ‹‰Ê‚ğó‚¯æ‚éo—Íƒoƒbƒtƒ@ (pbBuffer) ‚Æ‚»‚ÌƒTƒCƒY (cbBufferSize)
+‚ğ—pˆÓ‚·‚é•K—v‚ª‚ ‚éBcbStride ƒpƒ‰ƒ[ƒ^‚Ío—Íƒoƒbƒtƒ@“à‚Å‚’¼•ûŒü‚É—×Ú‚·‚é 2
+‚Â‚ÌƒsƒNƒZƒ‹ŠÔ‚ÌƒoƒCƒg”‚ğ’è‹`‚·‚éBŒÄ‚Ño‚µ‘¤‚ÍAƒrƒbƒgƒ}ƒbƒv‚Ì•E‚‚³EƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚¨‚æ‚ÑƒRƒs[ƒƒ\ƒbƒh‚É—^‚¦‚½•”•ª‹éŒ`‚ÉŠî‚Ã‚«AŒÄ‚Ño‚µ‚ğŠ®—¹‚·‚é‚Ì‚É\•ª‚Èƒoƒbƒtƒ@‚ª‚ ‚é‚±‚Æ‚ğ•ÛØ‚·‚é•K—v‚ª‚ ‚éB
+ŒÄ‚Ño‚µ‘¤‚ª JPEG ‚Ì‚æ‚¤‚É‚‰¿‚È IWICBitmapSource ‚©‚ç‚Ì‘½”‚ÌƒRƒs[‚ğs‚¤•K—v‚ª‚ ‚éê‡‚ÍAæ‚Éƒƒ‚ƒŠã‚Ì
+IWICBitmap ‚ğ¶¬‚µ‚Ä‚¨‚­‚±‚Æ‚ğ„§‚·‚éB
+ƒR[ƒfƒbƒNŠJ”­ÒŒü‚¯‚Ì’ˆÓ ŒÄ‚Ño‚³‚ê‚é‘¤‚Ío—Íƒoƒbƒtƒ@‚ÌŠes‚Ìæ“ª (prc->Width*bitsperpixel+7)/8
+ƒoƒCƒg‚Ì‚İ‚É‘‚«‚Ş‚×‚«‚Å‚ ‚é (‚±‚Ìê‡usv‚Í˜A‘±‚·‚é cbStride ƒoƒCƒg‚ğw‚·)B
 
 
 %index
 IWICBitmapFrameDecode_GetMetadataQueryReader
 ƒtƒŒ[ƒ€‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒŠ[ƒ_[‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapFrameDecode
 %prm
 this, ppIMetadataQueryReader
 this : [comobj] IWICBitmapFrameDecode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17313,6 +22566,8 @@ WINCODEC_ERR_UNSUPPORTEDOPERATION ‚ğ•Ô‚·B
 %index
 IWICBitmapFrameDecode_GetColorContexts
 ‰æ‘œƒtƒŒ[ƒ€‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ IWICColorContext ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapFrameDecode
 %prm
 this, cCount, ppIColorContexts, pcActualCount
 this : [comobj] IWICBitmapFrameDecode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17335,6 +22590,8 @@ IWICImagingFactory::CreateColorContext ‚Åì¬‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 IWICBitmapFrameDecode_GetThumbnail
 ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚µ‚Ä‚¢‚éê‡AƒtƒŒ[ƒ€‚Ì¬‚³‚ÈƒvƒŒƒrƒ…[‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapFrameDecode
 %prm
 this, ppIThumbnail
 this : [comobj] IWICBitmapFrameDecode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17355,6 +22612,8 @@ Photo (WDP) ‚ÍƒTƒ€ƒlƒCƒ‹‚ğƒTƒ|[ƒg‚·‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ ƒR[ƒfƒbƒN‚ªƒTƒ€ƒlƒCƒ‹‚ğƒ
 %index
 IWICBitmapFrameEncode_Initialize
 w’è‚³‚ê‚½ƒvƒƒpƒeƒB‚ğg—p‚µ‚ÄƒtƒŒ[ƒ€ƒGƒ“ƒR[ƒ_‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICBitmapFrameEncode
 %prm
 this, pIEncoderOptions
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17376,6 +22635,8 @@ Windows ’ñ‹Ÿ‚ÌƒR[ƒfƒbƒN‚ÅƒTƒ|[ƒg‚³‚ê‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ÌŠ®‘S‚ÈƒŠƒXƒg
 %index
 IWICBitmapFrameEncode_SetSize
 ƒtƒŒ[ƒ€‚Ìo—Í‰æ‘œ‚Ì¡–@‚ğİ’è‚·‚éB
+%group
+COM misc / IWICBitmapFrameEncode
 %prm
 this, uiWidth, uiHeight
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17391,6 +22652,8 @@ uiHeight : [int] Œ^: UINT o—Í‰æ‘œ‚Ì‚‚³B
 %index
 IWICBitmapFrameEncode_SetResolution
 o—Í‰æ‘œ‚Ì•¨—‰ğ‘œ“x‚ğİ’è‚·‚éB
+%group
+COM misc / IWICBitmapFrameEncode
 %prm
 this, dpiX, dpiY
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17411,6 +22674,8 @@ Windows Imaging Component (WIC) ‚Í DPI
 %index
 IWICBitmapFrameEncode_SetPixelFormat
 ƒGƒ“ƒR[ƒ_‚Éw’è‚³‚ê‚½ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ìg—p‚ğ—v‹‚·‚éB
+%group
+COM misc / IWICBitmapFrameEncode
 %prm
 this, pPixelFormat
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17432,6 +22697,8 @@ pPixelFormat
 %index
 IWICBitmapFrameEncode_SetColorContexts
 w’è‚³‚ê‚½”‚Ì IWICColorContext ƒvƒƒtƒ@ƒCƒ‹‚ğƒtƒŒ[ƒ€‚Éİ’è‚·‚éB
+%group
+COM misc / IWICBitmapFrameEncode
 %prm
 this, cCount, ppIColorContext
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17450,6 +22717,8 @@ ppIColorContext : [comobj] Œ^: IWICColorContext** ƒtƒŒ[ƒ€‚Éİ’è‚·‚éƒJƒ‰[ƒRƒ“ƒe
 %index
 IWICBitmapFrameEncode_SetPalette
 ƒCƒ“ƒfƒbƒNƒX•t‚«ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg—p‚Ì IWICPalette ‚ğİ’è‚·‚éB
+%group
+COM misc / IWICBitmapFrameEncode
 %prm
 this, pIPalette
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17473,6 +22742,8 @@ WritePixels/WriteSource ‚ÌÅ‰‚ÌŒÄ‚Ño‚µ‘O‚Éw’è‚·‚é•K—v‚ª‚ ‚éB‚»‚¤‚·‚é‚±‚Æ‚ÅA
 %index
 IWICBitmapFrameEncode_SetThumbnail
 ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éê‡AƒtƒŒ[ƒ€‚ÌƒTƒ€ƒlƒCƒ‹‚ğİ’è‚·‚éB
+%group
+COM misc / IWICBitmapFrameEncode
 %prm
 this, pIThumbnail
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17494,6 +22765,8 @@ WritePixels ‚Ü‚½‚Í WriteSource ‚ğŒÄ‚Ño‚·‘O‚É SetThumbnail
 %index
 IWICBitmapFrameEncode_WritePixels
 ŒÄ‚Ño‚µ‘¤‚ª’ñ‹Ÿ‚µ‚½ƒoƒbƒtƒ@‚©‚ç IWICBitmapFrameEncode ƒIƒuƒWƒFƒNƒg‚ÉƒXƒLƒƒƒ“ƒ‰ƒCƒ“ƒf[ƒ^‚ğƒRƒs[‚·‚éB
+%group
+COM misc / IWICBitmapFrameEncode
 %prm
 this, lineCount, cbStride, cbBufferSize, pbPixels
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17515,6 +22788,8 @@ pbPixels : [int] Œ^: BYTE* ƒsƒNƒZƒ‹ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 IWICBitmapFrameEncode_WriteSource
 ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ğƒGƒ“ƒR[ƒh‚·‚éB
+%group
+COM misc / IWICBitmapFrameEncode
 %prm
 this, pIBitmapSource, prc
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17548,6 +22823,8 @@ Vista ˆÈ~A—İÏ‚³‚ê‚½ƒ\[ƒX‹éŒ`‚Ì‚‚³‚Ì‡Œv‚ª SetSize ‚Åİ’è‚³‚ê‚½’l‚Æ“¯‚¶‚Å‚ ‚
 %index
 IWICBitmapFrameEncode_Commit
 ƒtƒŒ[ƒ€‚ğ‰æ‘œ‚ÉƒRƒ~ƒbƒg‚·‚éB
+%group
+COM misc / IWICBitmapFrameEncode
 %prm
 this
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17567,6 +22844,8 @@ this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %index
 IWICBitmapFrameEncode_GetMetadataQueryWriter
 ƒGƒ“ƒR[ƒ_ƒtƒŒ[ƒ€‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒ‰ƒCƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapFrameEncode
 %prm
 this, ppIMetadataQueryWriter
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17585,6 +22864,8 @@ IWICBitmapFrameEncode::WriteSource ‚ğg—p‚µ‚ÄƒtƒŒ[ƒ€‚É‰æ‘œƒsƒNƒZƒ‹‚ğ‘‚«‚Ş‘O‚
 %index
 IWICBitmapLock_GetSize
 ƒƒbƒN‚³‚ê‚½‹éŒ`‚Ì•‚Æ‚‚³‚ğƒsƒNƒZƒ‹’PˆÊ‚Åæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapLock
 %prm
 this, puiWidth, puiHeight
 this : [comobj] IWICBitmapLock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17600,6 +22881,8 @@ puiHeight : [int] Œ^: UINT* ƒƒbƒN‚³‚ê‚½‹éŒ`‚Ì‚‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %index
 IWICBitmapLock_GetStride
 ƒƒ‚ƒŠ‚ÌƒXƒgƒ‰ƒCƒh’l‚Ö‚ÌƒAƒNƒZƒX‚ğ’ñ‹Ÿ‚·‚éB
+%group
+COM misc / IWICBitmapLock
 %prm
 this, pcbStride
 this : [comobj] IWICBitmapLock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17618,6 +22901,8 @@ pcbStride : [int] Œ^: UINT*
 %index
 IWICBitmapLock_GetDataPointer
 ƒƒbƒN‚³‚ê‚½‹éŒ`‚Ì¶ãƒsƒNƒZƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapLock
 %prm
 this, pcbBufferSize, ppbData
 this : [comobj] IWICBitmapLock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17637,6 +22922,8 @@ ppbData : [var] Œ^: BYTE** ƒƒbƒN‚³‚ê‚½‹éŒ`‚Ì¶ãƒsƒNƒZƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ
 %index
 IWICBitmapLock_GetPixelFormat
 ƒƒbƒN‚³‚ê‚½ƒsƒNƒZƒ‹—Ìˆæ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB‚±‚ê‚ğg‚Á‚ÄƒƒbƒN—Ìˆæ‚ÌƒsƒNƒZƒ‹‚ ‚½‚èƒoƒCƒg”‚ğŒvZ‚Å‚«‚éB
+%group
+COM misc / IWICBitmapLock
 %prm
 this, pPixelFormat
 this : [comobj] IWICBitmapLock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17650,62 +22937,125 @@ pPixelFormat : [var] Œ^: WICPixelFormatGUID* ƒƒbƒN‚³‚ê‚½—Ìˆæ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒ
 
 %index
 IWICBitmapScaler_GetSize
-IWICBitmapScaler::GetSize (vtable slot 3)
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapScaler
 %prm
 this, puiWidth, puiHeight
 this : [comobj] IWICBitmapScaler ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-puiWidth : [int] 
-puiHeight : [int] 
+puiWidth : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+puiHeight : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹‚‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapScaler_GetPixelFormat
-IWICBitmapScaler::GetPixelFormat (vtable slot 4)
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapScaler
 %prm
 this, pPixelFormat
 this : [comobj] IWICBitmapScaler ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pPixelFormat : [var] 
+pPixelFormat : [var] Œ^: WICPixelFormatGUID* ƒrƒbƒgƒ}ƒbƒv‚ª•Û‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚éB—˜—p‰Â”\‚ÈƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgˆê——‚Í Native Pixel Formats ‚ğQÆB
 %inst
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚·ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÍA•K‚¸‚µ‚à‰æ‘œ‚ªÀÛ‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Æ“¯‚¶‚Å‚Í‚È‚¢BƒR[ƒfƒbƒN‚ªƒXƒgƒŒ[ƒW‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚©‚ço—Í‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ö•ÏŠ·‚ğs‚¤ê‡‚ª‚ ‚éB
 
 
 %index
 IWICBitmapScaler_GetResolution
-IWICBitmapScaler::GetResolution (vtable slot 5)
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapScaler
 %prm
 this, pDpiX, pDpiY
 this : [comobj] IWICBitmapScaler ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pDpiX : [double] 
-pDpiY : [double] 
+pDpiX : [double] Œ^: double* x ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pDpiY : [double] Œ^: double* y ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+GIF ‚â ICO ‚Ì‚æ‚¤‚Èˆê•”‚ÌƒtƒH[ƒ}ƒbƒg‚Í DPI ‚ğŠ®‘S‚É‚ÍƒTƒ|[ƒg‚µ‚È‚¢BGIF ‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚Í (96.0,
+96.0) ‚ğƒx[ƒX DPI ‚Æ‚µ‚ÄƒAƒXƒyƒNƒg”ä‚©‚ç DPI ’l‚ğŒvZ‚·‚éBICO ƒtƒH[ƒ}ƒbƒg‚Í DPI
+‚ğ‚Ü‚Á‚½‚­ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚ÅAICO ‰æ‘œ‚É‘Î‚µ‚Ä‚Íí‚É (96.0, 96.0) ‚ğ•Ô‚·B
+‚³‚ç‚ÉAWIC ©g‚Í‰æ‘œ“à‚Ì DPI
+’l‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚µ‚È‚¢B•Ô‚³‚ê‚½‰ğ‘œ“x‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚·‚é‚©‚Ç‚¤‚©‚ÍŒÄ‚Ño‚µ‘¤Ÿ‘æ‚Å‚ ‚éB
 
 
 %index
 IWICBitmapScaler_CopyPalette
-IWICBitmapScaler::CopyPalette (vtable slot 6)
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapScaler
 %prm
 this, pIPalette
 this : [comobj] IWICBitmapScaler ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIPalette : [comobj] 
+pIPalette : [comobj] Œ^: IWICPalette* IWICPaletteBCreatePalette ƒƒ\ƒbƒh‚ÅƒpƒŒƒbƒg‚ğ¶¬‚Å‚«‚éB
 %inst
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
+
+[”õl]
+IWICBitmapSource ‚ª IWICBitmapFrameDecode
+‚Ìê‡AƒtƒŒ[ƒ€ƒŒƒxƒ‹‚ÌƒpƒŒƒbƒg‚ª—˜—p‚Å‚«‚È‚¢‚Æ‚«‚Í‚±‚ÌŠÖ”‚ª‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éBƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚Í
+CopyPalette ƒƒ\ƒbƒh‚Å‚àæ“¾‚Å‚«‚éB
 
 
 %index
 IWICBitmapScaler_CopyPixels
-IWICBitmapScaler::CopyPixels (vtable slot 7)
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+%group
+COM misc / IWICBitmapScaler
 %prm
 this, prc, cbStride, cbBufferSize, pbBuffer
 this : [comobj] IWICBitmapScaler ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-prc : [var] 
-cbStride : [int] 
-cbBufferSize : [int] 
-pbBuffer : [int] 
+prc : [var] Œ^: const WICRect* ƒRƒs[‚·‚é‹éŒ`BNULL ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ğw’è‚µ‚½‚±‚Æ‚É‚È‚éB
+cbStride : [int] Œ^: UINT ƒrƒbƒgƒ}ƒbƒv‚ÌƒXƒgƒ‰ƒCƒhB
+cbBufferSize : [int] Œ^: UINT ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+pbBuffer : [int] Œ^: BYTE* ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+CopyPixels ‚ÍÀÛ‚Ìˆ—‚ğ‹N“®‚·‚é 2 ‚Â‚Ìå—v‚È‰æ‘œˆ—ƒ‹[ƒ`ƒ“‚Ì 1 ‚Â‚Å‚ ‚è (‚à‚¤ 1 ‚Â‚Í
+Lock)AƒIƒuƒWƒFƒNƒg‚É©g‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚É]‚Á‚ÄƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éBˆ—“à—e‚ÍAƒfƒBƒXƒNã‚Ì JPEG
+‚Ìˆê•”‚ğƒfƒR[ƒh‚µ‚½‚èAƒƒ‚ƒŠƒuƒƒbƒN‚ğƒRƒs[‚µ‚½‚èA•¡G‚ÈƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ğ‰ğÍ“I‚ÉŒvZ‚µ‚½‚è‚Æ‚³‚Ü‚´‚Ü‚Å‚ ‚éBƒAƒ‹ƒSƒŠƒYƒ€‚ÍA‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğÀ‘•‚·‚éƒIƒuƒWƒFƒNƒg‚ÉŠ®‘S‚ÉˆË‘¶‚·‚éB
+ŒÄ‚Ño‚µ‘¤‚Í prc ƒpƒ‰ƒ[ƒ^‚Åˆ—‘ÎÛ‚ÌŠÖS‹éŒ` (ROI) ‚ğ§ŒÀ‚Å‚«‚éBROI
+‚Ì•”•ª‹éŒ`‚Íƒrƒbƒgƒ}ƒbƒv‚Ì‹«ŠE“à‚ÉŠ®‘S‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BNULL ‚Ì ROI ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ª•Ô‚³‚ê‚éB
+ŒÄ‚Ño‚µ‘¤‚Íƒƒ‚ƒŠŠÇ—‚ğ’S“–‚µAƒRƒs[Œ‹‰Ê‚ğó‚¯æ‚éo—Íƒoƒbƒtƒ@ (pbBuffer) ‚Æ‚»‚ÌƒTƒCƒY (cbBufferSize)
+‚ğ—pˆÓ‚·‚é•K—v‚ª‚ ‚éBcbStride ƒpƒ‰ƒ[ƒ^‚Ío—Íƒoƒbƒtƒ@“à‚Å‚’¼•ûŒü‚É—×Ú‚·‚é 2
+‚Â‚ÌƒsƒNƒZƒ‹ŠÔ‚ÌƒoƒCƒg”‚ğ’è‹`‚·‚éBŒÄ‚Ño‚µ‘¤‚ÍAƒrƒbƒgƒ}ƒbƒv‚Ì•E‚‚³EƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚¨‚æ‚ÑƒRƒs[ƒƒ\ƒbƒh‚É—^‚¦‚½•”•ª‹éŒ`‚ÉŠî‚Ã‚«AŒÄ‚Ño‚µ‚ğŠ®—¹‚·‚é‚Ì‚É\•ª‚Èƒoƒbƒtƒ@‚ª‚ ‚é‚±‚Æ‚ğ•ÛØ‚·‚é•K—v‚ª‚ ‚éB
+ŒÄ‚Ño‚µ‘¤‚ª JPEG ‚Ì‚æ‚¤‚É‚‰¿‚È IWICBitmapSource ‚©‚ç‚Ì‘½”‚ÌƒRƒs[‚ğs‚¤•K—v‚ª‚ ‚éê‡‚ÍAæ‚Éƒƒ‚ƒŠã‚Ì
+IWICBitmap ‚ğ¶¬‚µ‚Ä‚¨‚­‚±‚Æ‚ğ„§‚·‚éB
+ƒR[ƒfƒbƒNŠJ”­ÒŒü‚¯‚Ì’ˆÓ ŒÄ‚Ño‚³‚ê‚é‘¤‚Ío—Íƒoƒbƒtƒ@‚ÌŠes‚Ìæ“ª (prc->Width*bitsperpixel+7)/8
+ƒoƒCƒg‚Ì‚İ‚É‘‚«‚Ş‚×‚«‚Å‚ ‚é (‚±‚Ìê‡usv‚Í˜A‘±‚·‚é cbStride ƒoƒCƒg‚ğw‚·)B
 
 
 %index
 IWICBitmapScaler_Initialize
 w’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Åƒrƒbƒgƒ}ƒbƒvƒXƒP[ƒ‰‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICBitmapScaler
 %prm
 this, pISource, uiWidth, uiHeight, mode
 this : [comobj] IWICBitmapScaler ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17728,6 +23078,8 @@ IWICBitmapScaler ‚ğì¬‚µ‚Ä‰Šú‰»‚·‚é•K—v‚ª‚ ‚éB
 %index
 IWICBitmapSource_GetSize
 ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapSource
 %prm
 this, puiWidth, puiHeight
 this : [comobj] IWICBitmapSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17743,6 +23095,8 @@ puiHeight : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹‚‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %index
 IWICBitmapSource_GetPixelFormat
 ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapSource
 %prm
 this, pPixelFormat
 this : [comobj] IWICBitmapSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17761,6 +23115,8 @@ pPixelFormat : [var] Œ^: WICPixelFormatGUID* ƒrƒbƒgƒ}ƒbƒv‚ª•Û‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ
 %index
 IWICBitmapSource_GetResolution
 ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapSource
 %prm
 this, pDpiX, pDpiY
 this : [comobj] IWICBitmapSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17783,6 +23139,8 @@ GIF ‚â ICO ‚Ì‚æ‚¤‚Èˆê•”‚ÌƒtƒH[ƒ}ƒbƒg‚Í DPI ‚ğŠ®‘S‚É‚ÍƒTƒ|[ƒg‚µ‚È‚¢BGIF ‚Ìê‡
 %index
 IWICBitmapSource_CopyPalette
 ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICBitmapSource
 %prm
 this, pIPalette
 this : [comobj] IWICBitmapSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17803,6 +23161,8 @@ CopyPalette ƒƒ\ƒbƒh‚Å‚àæ“¾‚Å‚«‚éB
 %index
 IWICBitmapSource_CopyPixels
 ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+%group
+COM misc / IWICBitmapSource
 %prm
 this, prc, cbStride, cbBufferSize, pbBuffer
 this : [comobj] IWICBitmapSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17834,6 +23194,8 @@ IWICBitmap ‚ğ¶¬‚µ‚Ä‚¨‚­‚±‚Æ‚ğ„§‚·‚éB
 %index
 IWICColorContext_InitializeFromFilename
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚©‚çƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICColorContext
 %prm
 this, wzFilename
 this : [comobj] IWICColorContext ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17851,6 +23213,8 @@ wzFilename : [wstr] Œ^: LPCWSTR ƒtƒ@ƒCƒ‹‚Ì–¼‘OB
 %index
 IWICColorContext_InitializeFromMemory
 ƒƒ‚ƒŠƒuƒƒbƒN‚©‚çƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICColorContext
 %prm
 this, pbBuffer, cbBufferSize
 this : [comobj] IWICColorContext ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17869,6 +23233,8 @@ cbBufferSize : [int] Œ^: UINT pbBuffer ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
 %index
 IWICColorContext_InitializeFromExifColorSpace
 Exchangeable Image File (EXIF) ƒJƒ‰[ƒXƒy[ƒX‚ğ—p‚¢‚ÄƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICColorContext
 %prm
 this, value
 this : [comobj] IWICColorContext ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17886,6 +23252,8 @@ Exchangeable Image File (EXIF) ƒJƒ‰[ƒXƒy[ƒX‚ğ—p‚¢‚ÄƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğ‰Šú‰»‚
 %index
 IWICColorContext_GetType
 ƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚Ìí•Ê‚ğæ“¾‚·‚éB(IWICColorContext.GetType)
+%group
+COM misc / IWICColorContext
 %prm
 this, pType
 this : [comobj] IWICColorContext ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17900,6 +23268,8 @@ pType : [var] Œ^: WICColorContextType* ƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚Ì WICColorContextType 
 %index
 IWICColorContext_GetProfileBytes
 ƒJƒ‰[ƒRƒ“ƒeƒLƒXƒgƒvƒƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICColorContext
 %prm
 this, cbBuffer, pbBuffer, pcbActual
 this : [comobj] IWICColorContext ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17920,6 +23290,8 @@ pbBuffer ‚ğ NULL ‚É‚µ‚Ä‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚ÆApcbActual ‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒ
 %index
 IWICColorContext_GetExifColorSpace
 Exchangeable Image File (EXIF) ƒJƒ‰[ƒXƒy[ƒX‚ÌƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICColorContext
 %prm
 this, pValue
 this : [comobj] IWICColorContext ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -17937,62 +23309,125 @@ Exchangeable Image File (EXIF) ƒJƒ‰[ƒXƒy[ƒX‚ÌƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğæ“¾‚·‚éB
 
 %index
 IWICColorTransform_GetSize
-IWICColorTransform::GetSize (vtable slot 3)
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICColorTransform
 %prm
 this, puiWidth, puiHeight
 this : [comobj] IWICColorTransform ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-puiWidth : [int] 
-puiHeight : [int] 
+puiWidth : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+puiHeight : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹‚‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICColorTransform_GetPixelFormat
-IWICColorTransform::GetPixelFormat (vtable slot 4)
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICColorTransform
 %prm
 this, pPixelFormat
 this : [comobj] IWICColorTransform ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pPixelFormat : [var] 
+pPixelFormat : [var] Œ^: WICPixelFormatGUID* ƒrƒbƒgƒ}ƒbƒv‚ª•Û‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚éB—˜—p‰Â”\‚ÈƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgˆê——‚Í Native Pixel Formats ‚ğQÆB
 %inst
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚·ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÍA•K‚¸‚µ‚à‰æ‘œ‚ªÀÛ‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Æ“¯‚¶‚Å‚Í‚È‚¢BƒR[ƒfƒbƒN‚ªƒXƒgƒŒ[ƒW‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚©‚ço—Í‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ö•ÏŠ·‚ğs‚¤ê‡‚ª‚ ‚éB
 
 
 %index
 IWICColorTransform_GetResolution
-IWICColorTransform::GetResolution (vtable slot 5)
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICColorTransform
 %prm
 this, pDpiX, pDpiY
 this : [comobj] IWICColorTransform ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pDpiX : [double] 
-pDpiY : [double] 
+pDpiX : [double] Œ^: double* x ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pDpiY : [double] Œ^: double* y ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+GIF ‚â ICO ‚Ì‚æ‚¤‚Èˆê•”‚ÌƒtƒH[ƒ}ƒbƒg‚Í DPI ‚ğŠ®‘S‚É‚ÍƒTƒ|[ƒg‚µ‚È‚¢BGIF ‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚Í (96.0,
+96.0) ‚ğƒx[ƒX DPI ‚Æ‚µ‚ÄƒAƒXƒyƒNƒg”ä‚©‚ç DPI ’l‚ğŒvZ‚·‚éBICO ƒtƒH[ƒ}ƒbƒg‚Í DPI
+‚ğ‚Ü‚Á‚½‚­ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚ÅAICO ‰æ‘œ‚É‘Î‚µ‚Ä‚Íí‚É (96.0, 96.0) ‚ğ•Ô‚·B
+‚³‚ç‚ÉAWIC ©g‚Í‰æ‘œ“à‚Ì DPI
+’l‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚µ‚È‚¢B•Ô‚³‚ê‚½‰ğ‘œ“x‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚·‚é‚©‚Ç‚¤‚©‚ÍŒÄ‚Ño‚µ‘¤Ÿ‘æ‚Å‚ ‚éB
 
 
 %index
 IWICColorTransform_CopyPalette
-IWICColorTransform::CopyPalette (vtable slot 6)
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICColorTransform
 %prm
 this, pIPalette
 this : [comobj] IWICColorTransform ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIPalette : [comobj] 
+pIPalette : [comobj] Œ^: IWICPalette* IWICPaletteBCreatePalette ƒƒ\ƒbƒh‚ÅƒpƒŒƒbƒg‚ğ¶¬‚Å‚«‚éB
 %inst
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
+
+[”õl]
+IWICBitmapSource ‚ª IWICBitmapFrameDecode
+‚Ìê‡AƒtƒŒ[ƒ€ƒŒƒxƒ‹‚ÌƒpƒŒƒbƒg‚ª—˜—p‚Å‚«‚È‚¢‚Æ‚«‚Í‚±‚ÌŠÖ”‚ª‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éBƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚Í
+CopyPalette ƒƒ\ƒbƒh‚Å‚àæ“¾‚Å‚«‚éB
 
 
 %index
 IWICColorTransform_CopyPixels
-IWICColorTransform::CopyPixels (vtable slot 7)
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+%group
+COM misc / IWICColorTransform
 %prm
 this, prc, cbStride, cbBufferSize, pbBuffer
 this : [comobj] IWICColorTransform ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-prc : [var] 
-cbStride : [int] 
-cbBufferSize : [int] 
-pbBuffer : [int] 
+prc : [var] Œ^: const WICRect* ƒRƒs[‚·‚é‹éŒ`BNULL ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ğw’è‚µ‚½‚±‚Æ‚É‚È‚éB
+cbStride : [int] Œ^: UINT ƒrƒbƒgƒ}ƒbƒv‚ÌƒXƒgƒ‰ƒCƒhB
+cbBufferSize : [int] Œ^: UINT ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+pbBuffer : [int] Œ^: BYTE* ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+CopyPixels ‚ÍÀÛ‚Ìˆ—‚ğ‹N“®‚·‚é 2 ‚Â‚Ìå—v‚È‰æ‘œˆ—ƒ‹[ƒ`ƒ“‚Ì 1 ‚Â‚Å‚ ‚è (‚à‚¤ 1 ‚Â‚Í
+Lock)AƒIƒuƒWƒFƒNƒg‚É©g‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚É]‚Á‚ÄƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éBˆ—“à—e‚ÍAƒfƒBƒXƒNã‚Ì JPEG
+‚Ìˆê•”‚ğƒfƒR[ƒh‚µ‚½‚èAƒƒ‚ƒŠƒuƒƒbƒN‚ğƒRƒs[‚µ‚½‚èA•¡G‚ÈƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ğ‰ğÍ“I‚ÉŒvZ‚µ‚½‚è‚Æ‚³‚Ü‚´‚Ü‚Å‚ ‚éBƒAƒ‹ƒSƒŠƒYƒ€‚ÍA‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğÀ‘•‚·‚éƒIƒuƒWƒFƒNƒg‚ÉŠ®‘S‚ÉˆË‘¶‚·‚éB
+ŒÄ‚Ño‚µ‘¤‚Í prc ƒpƒ‰ƒ[ƒ^‚Åˆ—‘ÎÛ‚ÌŠÖS‹éŒ` (ROI) ‚ğ§ŒÀ‚Å‚«‚éBROI
+‚Ì•”•ª‹éŒ`‚Íƒrƒbƒgƒ}ƒbƒv‚Ì‹«ŠE“à‚ÉŠ®‘S‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BNULL ‚Ì ROI ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ª•Ô‚³‚ê‚éB
+ŒÄ‚Ño‚µ‘¤‚Íƒƒ‚ƒŠŠÇ—‚ğ’S“–‚µAƒRƒs[Œ‹‰Ê‚ğó‚¯æ‚éo—Íƒoƒbƒtƒ@ (pbBuffer) ‚Æ‚»‚ÌƒTƒCƒY (cbBufferSize)
+‚ğ—pˆÓ‚·‚é•K—v‚ª‚ ‚éBcbStride ƒpƒ‰ƒ[ƒ^‚Ío—Íƒoƒbƒtƒ@“à‚Å‚’¼•ûŒü‚É—×Ú‚·‚é 2
+‚Â‚ÌƒsƒNƒZƒ‹ŠÔ‚ÌƒoƒCƒg”‚ğ’è‹`‚·‚éBŒÄ‚Ño‚µ‘¤‚ÍAƒrƒbƒgƒ}ƒbƒv‚Ì•E‚‚³EƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚¨‚æ‚ÑƒRƒs[ƒƒ\ƒbƒh‚É—^‚¦‚½•”•ª‹éŒ`‚ÉŠî‚Ã‚«AŒÄ‚Ño‚µ‚ğŠ®—¹‚·‚é‚Ì‚É\•ª‚Èƒoƒbƒtƒ@‚ª‚ ‚é‚±‚Æ‚ğ•ÛØ‚·‚é•K—v‚ª‚ ‚éB
+ŒÄ‚Ño‚µ‘¤‚ª JPEG ‚Ì‚æ‚¤‚É‚‰¿‚È IWICBitmapSource ‚©‚ç‚Ì‘½”‚ÌƒRƒs[‚ğs‚¤•K—v‚ª‚ ‚éê‡‚ÍAæ‚Éƒƒ‚ƒŠã‚Ì
+IWICBitmap ‚ğ¶¬‚µ‚Ä‚¨‚­‚±‚Æ‚ğ„§‚·‚éB
+ƒR[ƒfƒbƒNŠJ”­ÒŒü‚¯‚Ì’ˆÓ ŒÄ‚Ño‚³‚ê‚é‘¤‚Ío—Íƒoƒbƒtƒ@‚ÌŠes‚Ìæ“ª (prc->Width*bitsperpixel+7)/8
+ƒoƒCƒg‚Ì‚İ‚É‘‚«‚Ş‚×‚«‚Å‚ ‚é (‚±‚Ìê‡usv‚Í˜A‘±‚·‚é cbStride ƒoƒCƒg‚ğw‚·)B
 
 
 %index
 IWICColorTransform_Initialize
 IWICColorTransform ‚ğ IWICBitmapSource ‚Å‰Šú‰»‚µA‚ ‚é IWICColorContext ‚©‚ç•Ê‚Ì IWICColorContext ‚Ö•ÏŠ·‚·‚éB
+%group
+COM misc / IWICColorTransform
 %prm
 this, pIBitmapSource, pIContextSource, pIContextDest, pixelFmtDest
 this : [comobj] IWICColorTransform ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18015,6 +23450,8 @@ pIContextSource ‚¨‚æ‚Ñ pixelFmtDest ƒpƒ‰ƒ[ƒ^‚ÅŒ»İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éƒtƒH[ƒ}ƒb
 %index
 IWICComponentInfo_GetComponentType
 ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì WICComponentType ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICComponentInfo
 %prm
 this, pType
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18029,6 +23466,8 @@ pType : [var] Œ^: WICComponentType* WICComponentType ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %index
 IWICComponentInfo_GetCLSID
 ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICComponentInfo
 %prm
 this, pclsid
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18043,6 +23482,8 @@ pclsid : [var] Œ^: CLSID* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì CLSID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %index
 IWICComponentInfo_GetSigningStatus
 ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì–¼ƒXƒe[ƒ^ƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICComponentInfo
 %prm
 this, pStatus
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18061,6 +23502,8 @@ pStatus : [int] Œ^: DWORD* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì WICComponentSigning ƒXƒe[ƒ^ƒX‚ğó‚¯
 %index
 IWICComponentInfo_GetAuthor
 ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICComponentInfo
 %prm
 this, cchAuthor, wzAuthor, pcchActual
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18080,6 +23523,8 @@ cchAuthor ‚ª 0 ‚Å wzAuthor ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª pccchActual ‚É
 %index
 IWICComponentInfo_GetVendorGUID
 ƒxƒ“ƒ_ GUID ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICComponentInfo
 %prm
 this, pguidVendor
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18094,6 +23539,8 @@ pguidVendor : [var] Œ^: GUID* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒxƒ“ƒ_ GUID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %index
 IWICComponentInfo_GetVersion
 ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICComponentInfo
 %prm
 this, cchVersion, wzVersion, pcchActual
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18114,6 +23561,8 @@ pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒ
 %index
 IWICComponentInfo_GetSpecVersion
 ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICComponentInfo
 %prm
 this, cchSpecVersion, wzSpecVersion, pcchActual
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18135,6 +23584,8 @@ pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚
 %index
 IWICComponentInfo_GetFriendlyName
 ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼ (lŠÔ‚ª“Ç‚ß‚é•\¦–¼) ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICComponentInfo
 %prm
 this, cchFriendlyName, wzFriendlyName, pcchActual
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18155,6 +23606,8 @@ pccchActual ‚É•Ô‚³‚ê‚éB
 %index
 IWICFastMetadataEncoder_Commit
 ‰æ‘œƒXƒgƒŠ[ƒ€‚É‘Î‚·‚éƒƒ^ƒf[ƒ^‚Ì•ÏX‚ğŠm’è‚·‚éB
+%group
+COM misc / IWICFastMetadataEncoder
 %prm
 this
 this : [comobj] IWICFastMetadataEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18174,6 +23627,8 @@ WICDecodeMetadataCacheOnLoad
 %index
 IWICFastMetadataEncoder_GetMetadataQueryWriter
 ‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒfƒBƒ“ƒO—p‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒ‰ƒCƒ^‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICFastMetadataEncoder
 %prm
 this, ppIMetadataQueryWriter
 this : [comobj] IWICFastMetadataEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18187,62 +23642,125 @@ ppIMetadataQueryWriter : [comobj] Œ^: IWICMetadataQueryWriter** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô
 
 %index
 IWICFormatConverter_GetSize
-IWICFormatConverter::GetSize (vtable slot 3)
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICFormatConverter
 %prm
 this, puiWidth, puiHeight
 this : [comobj] IWICFormatConverter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-puiWidth : [int] 
-puiHeight : [int] 
+puiWidth : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+puiHeight : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹‚‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICFormatConverter_GetPixelFormat
-IWICFormatConverter::GetPixelFormat (vtable slot 4)
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICFormatConverter
 %prm
 this, pPixelFormat
 this : [comobj] IWICFormatConverter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pPixelFormat : [var] 
+pPixelFormat : [var] Œ^: WICPixelFormatGUID* ƒrƒbƒgƒ}ƒbƒv‚ª•Û‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚éB—˜—p‰Â”\‚ÈƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgˆê——‚Í Native Pixel Formats ‚ğQÆB
 %inst
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+
+‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚·ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÍA•K‚¸‚µ‚à‰æ‘œ‚ªÀÛ‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Æ“¯‚¶‚Å‚Í‚È‚¢BƒR[ƒfƒbƒN‚ªƒXƒgƒŒ[ƒW‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚©‚ço—Í‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ö•ÏŠ·‚ğs‚¤ê‡‚ª‚ ‚éB
 
 
 %index
 IWICFormatConverter_GetResolution
-IWICFormatConverter::GetResolution (vtable slot 5)
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICFormatConverter
 %prm
 this, pDpiX, pDpiY
 this : [comobj] IWICFormatConverter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pDpiX : [double] 
-pDpiY : [double] 
+pDpiX : [double] Œ^: double* x ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pDpiY : [double] Œ^: double* y ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+GIF ‚â ICO ‚Ì‚æ‚¤‚Èˆê•”‚ÌƒtƒH[ƒ}ƒbƒg‚Í DPI ‚ğŠ®‘S‚É‚ÍƒTƒ|[ƒg‚µ‚È‚¢BGIF ‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚Í (96.0,
+96.0) ‚ğƒx[ƒX DPI ‚Æ‚µ‚ÄƒAƒXƒyƒNƒg”ä‚©‚ç DPI ’l‚ğŒvZ‚·‚éBICO ƒtƒH[ƒ}ƒbƒg‚Í DPI
+‚ğ‚Ü‚Á‚½‚­ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚ÅAICO ‰æ‘œ‚É‘Î‚µ‚Ä‚Íí‚É (96.0, 96.0) ‚ğ•Ô‚·B
+‚³‚ç‚ÉAWIC ©g‚Í‰æ‘œ“à‚Ì DPI
+’l‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚µ‚È‚¢B•Ô‚³‚ê‚½‰ğ‘œ“x‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚·‚é‚©‚Ç‚¤‚©‚ÍŒÄ‚Ño‚µ‘¤Ÿ‘æ‚Å‚ ‚éB
 
 
 %index
 IWICFormatConverter_CopyPalette
-IWICFormatConverter::CopyPalette (vtable slot 6)
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICFormatConverter
 %prm
 this, pIPalette
 this : [comobj] IWICFormatConverter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIPalette : [comobj] 
+pIPalette : [comobj] Œ^: IWICPalette* IWICPaletteBCreatePalette ƒƒ\ƒbƒh‚ÅƒpƒŒƒbƒg‚ğ¶¬‚Å‚«‚éB
 %inst
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
+
+[”õl]
+IWICBitmapSource ‚ª IWICBitmapFrameDecode
+‚Ìê‡AƒtƒŒ[ƒ€ƒŒƒxƒ‹‚ÌƒpƒŒƒbƒg‚ª—˜—p‚Å‚«‚È‚¢‚Æ‚«‚Í‚±‚ÌŠÖ”‚ª‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éBƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚Í
+CopyPalette ƒƒ\ƒbƒh‚Å‚àæ“¾‚Å‚«‚éB
 
 
 %index
 IWICFormatConverter_CopyPixels
-IWICFormatConverter::CopyPixels (vtable slot 7)
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+%group
+COM misc / IWICFormatConverter
 %prm
 this, prc, cbStride, cbBufferSize, pbBuffer
 this : [comobj] IWICFormatConverter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-prc : [var] 
-cbStride : [int] 
-cbBufferSize : [int] 
-pbBuffer : [int] 
+prc : [var] Œ^: const WICRect* ƒRƒs[‚·‚é‹éŒ`BNULL ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ğw’è‚µ‚½‚±‚Æ‚É‚È‚éB
+cbStride : [int] Œ^: UINT ƒrƒbƒgƒ}ƒbƒv‚ÌƒXƒgƒ‰ƒCƒhB
+cbBufferSize : [int] Œ^: UINT ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+pbBuffer : [int] Œ^: BYTE* ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+CopyPixels ‚ÍÀÛ‚Ìˆ—‚ğ‹N“®‚·‚é 2 ‚Â‚Ìå—v‚È‰æ‘œˆ—ƒ‹[ƒ`ƒ“‚Ì 1 ‚Â‚Å‚ ‚è (‚à‚¤ 1 ‚Â‚Í
+Lock)AƒIƒuƒWƒFƒNƒg‚É©g‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚É]‚Á‚ÄƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éBˆ—“à—e‚ÍAƒfƒBƒXƒNã‚Ì JPEG
+‚Ìˆê•”‚ğƒfƒR[ƒh‚µ‚½‚èAƒƒ‚ƒŠƒuƒƒbƒN‚ğƒRƒs[‚µ‚½‚èA•¡G‚ÈƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ğ‰ğÍ“I‚ÉŒvZ‚µ‚½‚è‚Æ‚³‚Ü‚´‚Ü‚Å‚ ‚éBƒAƒ‹ƒSƒŠƒYƒ€‚ÍA‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğÀ‘•‚·‚éƒIƒuƒWƒFƒNƒg‚ÉŠ®‘S‚ÉˆË‘¶‚·‚éB
+ŒÄ‚Ño‚µ‘¤‚Í prc ƒpƒ‰ƒ[ƒ^‚Åˆ—‘ÎÛ‚ÌŠÖS‹éŒ` (ROI) ‚ğ§ŒÀ‚Å‚«‚éBROI
+‚Ì•”•ª‹éŒ`‚Íƒrƒbƒgƒ}ƒbƒv‚Ì‹«ŠE“à‚ÉŠ®‘S‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BNULL ‚Ì ROI ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ª•Ô‚³‚ê‚éB
+ŒÄ‚Ño‚µ‘¤‚Íƒƒ‚ƒŠŠÇ—‚ğ’S“–‚µAƒRƒs[Œ‹‰Ê‚ğó‚¯æ‚éo—Íƒoƒbƒtƒ@ (pbBuffer) ‚Æ‚»‚ÌƒTƒCƒY (cbBufferSize)
+‚ğ—pˆÓ‚·‚é•K—v‚ª‚ ‚éBcbStride ƒpƒ‰ƒ[ƒ^‚Ío—Íƒoƒbƒtƒ@“à‚Å‚’¼•ûŒü‚É—×Ú‚·‚é 2
+‚Â‚ÌƒsƒNƒZƒ‹ŠÔ‚ÌƒoƒCƒg”‚ğ’è‹`‚·‚éBŒÄ‚Ño‚µ‘¤‚ÍAƒrƒbƒgƒ}ƒbƒv‚Ì•E‚‚³EƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚¨‚æ‚ÑƒRƒs[ƒƒ\ƒbƒh‚É—^‚¦‚½•”•ª‹éŒ`‚ÉŠî‚Ã‚«AŒÄ‚Ño‚µ‚ğŠ®—¹‚·‚é‚Ì‚É\•ª‚Èƒoƒbƒtƒ@‚ª‚ ‚é‚±‚Æ‚ğ•ÛØ‚·‚é•K—v‚ª‚ ‚éB
+ŒÄ‚Ño‚µ‘¤‚ª JPEG ‚Ì‚æ‚¤‚É‚‰¿‚È IWICBitmapSource ‚©‚ç‚Ì‘½”‚ÌƒRƒs[‚ğs‚¤•K—v‚ª‚ ‚éê‡‚ÍAæ‚Éƒƒ‚ƒŠã‚Ì
+IWICBitmap ‚ğ¶¬‚µ‚Ä‚¨‚­‚±‚Æ‚ğ„§‚·‚éB
+ƒR[ƒfƒbƒNŠJ”­ÒŒü‚¯‚Ì’ˆÓ ŒÄ‚Ño‚³‚ê‚é‘¤‚Ío—Íƒoƒbƒtƒ@‚ÌŠes‚Ìæ“ª (prc->Width*bitsperpixel+7)/8
+ƒoƒCƒg‚Ì‚İ‚É‘‚«‚Ş‚×‚«‚Å‚ ‚é (‚±‚Ìê‡usv‚Í˜A‘±‚·‚é cbStride ƒoƒCƒg‚ğw‚·)B
 
 
 %index
 IWICFormatConverter_Initialize
 ƒtƒH[ƒ}ƒbƒgƒRƒ“ƒo[ƒ^‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICFormatConverter
 %prm
 this, pISource, dstFormat, dither, pIPalette, alphaThresholdPercent, paletteTranslate
 this : [comobj] IWICFormatConverter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18295,6 +23813,8 @@ Interchange Format (GIF)
 %index
 IWICFormatConverter_CanConvert
 •ÏŠ·Œ³‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğ•ÏŠ·æ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚É•ÏŠ·‰Â”\‚©‚ğ”»’è‚·‚éB
+%group
+COM misc / IWICFormatConverter
 %prm
 this, srcPixelFormat, dstPixelFormat, pfCanConvert
 this : [comobj] IWICFormatConverter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18311,6 +23831,8 @@ pfCanConvert : [var] Œ^: BOOL* •ÏŠ·Œ³‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğ•ÏŠ·æ‚ÌƒsƒNƒZƒ‹ƒtƒ
 %index
 IWICImagingFactory_CreateDecoderFromFilename
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ÉŠî‚Ã‚¢‚Ä IWICBitmapDecoder ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, wzFilename, pguidVendor, dwDesiredAccess, metadataOptions
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18328,6 +23850,8 @@ metadataOptions : [int] Œ^: WICDecodeOptions ƒfƒR[ƒ_ì¬‚Ég—p‚·‚é WICDecodeO
 %index
 IWICImagingFactory_CreateDecoderFromStream
 w’è‚µ‚½ IStream ‚ÉŠî‚Ã‚¢‚Ä IWICBitmapDecoder ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, pIStream, pguidVendor, metadataOptions
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18344,6 +23868,8 @@ metadataOptions : [int] Œ^: WICDecodeOptions ƒfƒR[ƒ_ì¬‚Ég—p‚·‚é WICDecodeO
 %index
 IWICImagingFactory_CreateDecoderFromFileHandle
 w’è‚µ‚½ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ÉŠî‚Ã‚¢‚Ä IWICBitmapDecoder ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, hFile, pguidVendor, metadataOptions
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18363,6 +23889,8 @@ metadataOptions : [int] Œ^: WICDecodeOptions ƒfƒR[ƒ_ì¬‚Ég—p‚·‚é WICDecodeO
 %index
 IWICImagingFactory_CreateComponentInfo
 w’è‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒgƒNƒ‰ƒX¯•Êq (CLSID) ‚É‘Î‚·‚é IWICComponentInfo ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, clsidComponent, ppIInfo
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18378,6 +23906,8 @@ ppIInfo : [comobj] Œ^: IWICComponentInfo** V‚µ‚¢ IWICComponentInfo ‚Ö‚Ìƒ|ƒCƒ“ƒ^
 %index
 IWICImagingFactory_CreateDecoder
 IWICBitmapDecoder ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, guidContainerFormat, pguidVendor
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18397,6 +23927,8 @@ IWICBitmapDecoder ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %index
 IWICImagingFactory_CreateEncoder
 IWICBitmapEncoder ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, guidContainerFormat, pguidVendor
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18416,6 +23948,8 @@ IWICBitmapEncoder ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %index
 IWICImagingFactory_CreatePalette
 IWICPalette ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, ppIPalette
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18430,6 +23964,8 @@ IWICPalette ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %index
 IWICImagingFactory_CreateFormatConverter
 IWICFormatConverter ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, ppIFormatConverter
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18444,6 +23980,8 @@ IWICFormatConverter ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %index
 IWICImagingFactory_CreateBitmapScaler
 IWICBitmapScaler ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, ppIBitmapScaler
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18458,6 +23996,8 @@ IWICBitmapScaler ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %index
 IWICImagingFactory_CreateBitmapClipper
 IWICBitmapClipper ƒIƒuƒWƒFƒNƒg‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, ppIBitmapClipper
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18472,6 +24012,8 @@ IWICBitmapClipper ƒIƒuƒWƒFƒNƒg‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %index
 IWICImagingFactory_CreateBitmapFlipRotator
 IWICBitmapFlipRotator ƒIƒuƒWƒFƒNƒg‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, ppIBitmapFlipRotator
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18486,6 +24028,8 @@ IWICBitmapFlipRotator ƒIƒuƒWƒFƒNƒg‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %index
 IWICImagingFactory_CreateStream
 IWICStream ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, ppIWICStream
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18500,6 +24044,8 @@ IWICStream ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %index
 IWICImagingFactory_CreateColorContext
 IWICColorContext ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, ppIWICColorContext
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18514,6 +24060,8 @@ IWICColorContext ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %index
 IWICImagingFactory_CreateColorTransformer
 IWICColorTransform ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, ppIWICColorTransform
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18528,6 +24076,8 @@ IWICColorTransform ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %index
 IWICImagingFactory_CreateBitmap
 IWICBitmap ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, uiWidth, uiHeight, pixelFormat, option, ppIBitmap
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18546,6 +24096,8 @@ IWICBitmap ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %index
 IWICImagingFactory_CreateBitmapFromSource
 IWICBitmapSource ‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, pIBitmapSource, option, ppIBitmap
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18562,6 +24114,8 @@ IWICBitmapSource ‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
 %index
 IWICImagingFactory_CreateBitmapFromSourceRect
 IWICBitmapSource ‚Ìw’è‚µ‚½‹éŒ`‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, pIBitmapSource, x, y, width, height, ppIBitmap
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18585,6 +24139,8 @@ IWICBitmapSource ‚Ìw’è‚µ‚½‹éŒ`‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
 %index
 IWICImagingFactory_CreateBitmapFromMemory
 ƒƒ‚ƒŠƒuƒƒbƒN‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, uiWidth, uiHeight, pixelFormat, cbStride, cbBufferSize, pbBuffer, ppIBitmap
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18610,6 +24166,8 @@ ppIBitmap : [comobj] Œ^: IWICBitmap** V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|
 %index
 IWICImagingFactory_CreateBitmapFromHBITMAP
 ƒrƒbƒgƒ}ƒbƒvƒnƒ“ƒhƒ‹‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, hBitmap, hPalette, options, ppIBitmap
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18630,6 +24188,8 @@ ppIBitmap : [comobj] Œ^: IWICBitmap** V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|
 %index
 IWICImagingFactory_CreateBitmapFromHICON
 ƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, hIcon, ppIBitmap
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18645,6 +24205,8 @@ ppIBitmap : [comobj] Œ^: IWICBitmap** V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|
 %index
 IWICImagingFactory_CreateComponentEnumerator
 w’è‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒgí—Ş‚Ì IEnumUnknown ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, componentTypes, options, ppIEnumUnknown
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18664,6 +24226,8 @@ ppIEnumUnknown : [comobj] Œ^: IEnumUnknown** V‚µ‚¢ƒRƒ“ƒ|[ƒlƒ“ƒg—ñ‹“q‚Ö‚Ìƒ|ƒCƒ
 %index
 IWICImagingFactory_CreateFastMetadataEncoderFromDecoder
 w’è‚µ‚½ IWICBitmapDecoder ‚ÉŠî‚Ã‚¢‚Ä‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒ_‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, pIDecoder, ppIFastEncoder
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18684,6 +24248,8 @@ CreateFastMetadataEncoderFromFrameDecode ‚ğQÆ‚Ì‚±‚ÆB
 %index
 IWICImagingFactory_CreateFastMetadataEncoderFromFrameDecode
 w’è‚µ‚½‰æ‘œƒtƒŒ[ƒ€‚ÉŠî‚Ã‚¢‚Ä‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒ_‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, pIFrameDecoder, ppIFastEncoder
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18702,6 +24268,8 @@ ppIFastEncoder : [comobj] Œ^: IWICFastMetadataEncoder** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‚µ‚¢
 %index
 IWICImagingFactory_CreateQueryWriter
 ƒNƒGƒŠƒ‰ƒCƒ^[‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, guidMetadataFormat, pguidVendor, ppIQueryWriter
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18718,6 +24286,8 @@ ppIQueryWriter : [comobj] Œ^: IWICMetadataQueryWriter** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‚µ‚¢
 %index
 IWICImagingFactory_CreateQueryWriterFromReader
 w’è‚µ‚½ƒNƒGƒŠƒŠ[ƒ_[‚ÉŠî‚Ã‚¢‚ÄƒNƒGƒŠƒ‰ƒCƒ^[‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éBƒNƒGƒŠƒ‰ƒCƒ^[‚É‚ÍƒNƒGƒŠƒŠ[ƒ_[—R—ˆ‚Ìƒƒ^ƒf[ƒ^‚ª–‘O‚É“Š“ü‚³‚ê‚éB
+%group
+COM misc / IWICImagingFactory
 %prm
 this, pIQueryReader, pguidVendor, ppIQueryWriter
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18735,6 +24305,8 @@ ppIQueryWriter : [comobj] Œ^: IWICMetadataQueryWriter** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‚µ‚¢
 %index
 IWICMetadataQueryReader_GetContainerFormat
 ƒƒ^ƒf[ƒ^ƒNƒGƒŠƒŠ[ƒ_[‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICMetadataQueryReader
 %prm
 this, pguidContainerFormat
 this : [comobj] IWICMetadataQueryReader ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18749,6 +24321,8 @@ pguidContainerFormat : [var] Œ^: GUID* ƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚éƒ|ƒCƒ
 %index
 IWICMetadataQueryReader_GetLocation
 ƒ‹[ƒgƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚©‚ç‚ÌŒ»İ‚ÌƒpƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICMetadataQueryReader
 %prm
 this, cchMaxLength, wzNamespace, pcchActualLength
 this : [comobj] IWICMetadataQueryReader ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18771,6 +24345,8 @@ wzNamespace ‚É NULL ‚ğ“n‚·‚ÆAGetLocation ‚Í cchMaxLength
 %index
 IWICMetadataQueryReader_GetMetadataByName
 ƒƒ^ƒf[ƒ^ƒNƒGƒŠ®‚Å¯•Ê‚³‚ê‚éƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚Ü‚½‚Í€–Ú‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICMetadataQueryReader
 %prm
 this, wzName, pvarValue
 this : [comobj] IWICMetadataQueryReader ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18792,6 +24368,8 @@ Language Overview
 %index
 IWICMetadataQueryReader_GetEnumerator
 ƒƒ^ƒf[ƒ^ŠK‘w“à‚ÌŒ»İ‚Ì‘Š‘ÎˆÊ’u‚É‚ ‚é‚·‚×‚Ä‚Ìƒƒ^ƒf[ƒ^€–Ú‚Ì—ñ‹“q‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICMetadataQueryReader
 %prm
 this, ppIEnumString
 this : [comobj] IWICMetadataQueryReader ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18808,50 +24386,91 @@ ppIEnumString : [comobj] Œ^: IEnumString** Œ»İ‚Ì IWICMetadataQueryReader ‚Åg—p
 
 %index
 IWICMetadataQueryWriter_GetContainerFormat
-IWICMetadataQueryWriter::GetContainerFormat (vtable slot 3)
+ƒƒ^ƒf[ƒ^ƒNƒGƒŠƒŠ[ƒ_[‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICMetadataQueryWriter
 %prm
 this, pguidContainerFormat
 this : [comobj] IWICMetadataQueryWriter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pguidContainerFormat : [var] 
+pguidContainerFormat : [var] Œ^: GUID* ƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
+ƒƒ^ƒf[ƒ^ƒNƒGƒŠƒŠ[ƒ_[‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICMetadataQueryWriter_GetLocation
-IWICMetadataQueryWriter::GetLocation (vtable slot 4)
+ƒ‹[ƒgƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚©‚ç‚ÌŒ»İ‚ÌƒpƒX‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICMetadataQueryWriter
 %prm
 this, cchMaxLength, wzNamespace, pcchActualLength
 this : [comobj] IWICMetadataQueryWriter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchMaxLength : [int] 
-wzNamespace : [wstr] 
-pcchActualLength : [int] 
+cchMaxLength : [int] Œ^: UINT wzNamespace ƒoƒbƒtƒ@‚Ì’·‚³B
+wzNamespace : [wstr] Œ^: WCHAR* Œ»İ‚Ì–¼‘O‹óŠÔ‚ÌêŠ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pcchActualLength : [int] Œ^: UINT* Œ»İ‚Ì–¼‘O‹óŠÔ‚ÌêŠ‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@’·B
 %inst
+ƒ‹[ƒgƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚©‚ç‚ÌŒ»İ‚ÌƒpƒX‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+wzNamespace ‚É NULL ‚ğ“n‚·‚ÆAGetLocation ‚Í cchMaxLength
+‚ğ–³‹‚µAƒpƒX‚ğŠi”[‚·‚é‚½‚ß‚É•K—v‚Èƒoƒbƒtƒ@’·‚ğ pcchActualLength ‚ªw‚·•Ï”‚É•Ô‚·B
+
+ƒNƒGƒŠƒŠ[ƒ_[‚ªƒƒ^ƒf[ƒ^ŠK‘w‚ÌÅãˆÊ‚É‘Î‚µ‚Ä‘Š‘Î“I‚Å‚ ‚éê‡‚Í’Pˆê•¶š‚Ì•¶š—ñ‚ğ•Ô‚·BƒNƒGƒŠƒŠ[ƒ_[‚ªƒlƒXƒg‚³‚ê‚½ƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚É‘Î‚µ‚Ä‘Š‘Î“I‚Å‚ ‚éê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍŒ»İ‚ÌƒNƒGƒŠƒŠ[ƒ_[‚Ö‚ÌƒpƒX‚ğ•Ô‚·B
 
 
 %index
 IWICMetadataQueryWriter_GetMetadataByName
-IWICMetadataQueryWriter::GetMetadataByName (vtable slot 5)
+ƒƒ^ƒf[ƒ^ƒNƒGƒŠ®‚Å¯•Ê‚³‚ê‚éƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚Ü‚½‚Í€–Ú‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICMetadataQueryWriter
 %prm
 this, wzName, pvarValue
 this : [comobj] IWICMetadataQueryWriter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-wzName : [wstr] 
-pvarValue : [int] 
+wzName : [wstr] Œ^: LPCWSTR —v‹‚·‚éƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚Ü‚½‚Í€–Ú‚Ö‚ÌƒNƒGƒŠ®B
+pvarValue : [int] Œ^: PROPVARIANT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A—v‹‚³‚ê‚½ƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚Ü‚½‚Í€–Ú‚ğŠi”[‚·‚éB
 %inst
+ƒƒ^ƒf[ƒ^ƒNƒGƒŠ®‚Å¯•Ê‚³‚ê‚éƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚Ü‚½‚Í€–Ú‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+GetMetadataByName
+‚Í–„‚ß‚İƒƒ^ƒf[ƒ^‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚Éƒƒ^ƒf[ƒ^ƒNƒGƒŠ®‚ğg—p‚·‚éBƒƒ^ƒf[ƒ^ƒNƒGƒŠŒ¾Œê‚ÌÚ×‚É‚Â‚¢‚Ä‚Í Metadata Query
+Language Overview
+‚ğQÆB“¯‚¶ƒNƒGƒŠ®‚Å•\‚³‚ê‚é•¡”‚ÌƒuƒƒbƒN‚â€–Ú‚ª‘¶İ‚·‚éê‡AÅ‰‚ÉŒ©‚Â‚©‚Á‚½ƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚Ü‚½‚Í€–Ú‚ª•Ô‚³‚ê‚éB
 
 
 %index
 IWICMetadataQueryWriter_GetEnumerator
-IWICMetadataQueryWriter::GetEnumerator (vtable slot 6)
+ƒƒ^ƒf[ƒ^ŠK‘w“à‚ÌŒ»İ‚Ì‘Š‘ÎˆÊ’u‚É‚ ‚é‚·‚×‚Ä‚Ìƒƒ^ƒf[ƒ^€–Ú‚Ì—ñ‹“q‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICMetadataQueryWriter
 %prm
 this, ppIEnumString
 this : [comobj] IWICMetadataQueryWriter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIEnumString : [comobj] 
+ppIEnumString : [comobj] Œ^: IEnumString** Œ»İ‚Ì IWICMetadataQueryReader ‚Åg—p‚Å‚«‚éƒNƒGƒŠ•¶š—ñ‚ğŠÜ‚Ş—ñ‹“q‚Ì IEnumString ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
+ƒƒ^ƒf[ƒ^ŠK‘w“à‚ÌŒ»İ‚Ì‘Š‘ÎˆÊ’u‚É‚ ‚é‚·‚×‚Ä‚Ìƒƒ^ƒf[ƒ^€–Ú‚Ì—ñ‹“q‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+
+[”õl]
+æ“¾‚³‚ê‚é—ñ‹“q‚ÍAŠK‘w“à‚ÌŒ»İ‚ÌƒŒƒxƒ‹‚É‚ ‚éƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚¨‚æ‚Ñ€–Ú‚ÌƒNƒGƒŠ•¶š—ñ‚Ì‚İ‚ğŠÜ‚ŞB
 
 
 %index
 IWICMetadataQueryWriter_SetMetadataByName
 “Á’è‚ÌêŠ‚Éƒƒ^ƒf[ƒ^€–Ú‚ğİ’è‚·‚éB
+%group
+COM misc / IWICMetadataQueryWriter
 %prm
 this, wzName, pvarValue
 this : [comobj] IWICMetadataQueryWriter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18874,6 +24493,8 @@ Metadata Query Language Overview
 %index
 IWICMetadataQueryWriter_RemoveMetadataByName
 ƒƒ^ƒf[ƒ^ƒNƒGƒŠ®‚ğ—p‚¢‚Ä“Á’è‚ÌêŠ‚©‚çƒƒ^ƒf[ƒ^€–Ú‚ğíœ‚·‚éB
+%group
+COM misc / IWICMetadataQueryWriter
 %prm
 this, wzName
 this : [comobj] IWICMetadataQueryWriter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18893,6 +24514,8 @@ Metadata Query Language Overview
 %index
 IWICPalette_InitializePredefined
 WICBitmapPaletteType ‚Åw’è‚³‚ê‚½–‘O’è‹`ƒpƒŒƒbƒg‚Ì 1 ‚Â‚ÉƒpƒŒƒbƒg‚ğ‰Šú‰»‚µAƒIƒvƒVƒ‡ƒ“‚Å“§–¾‚ÈF‚ğ’Ç‰Á‚·‚éB
+%group
+COM misc / IWICPalette
 %prm
 this, ePaletteType, fAddTransparentColor
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18913,6 +24536,8 @@ WICBitmapPaletteType ‚Åw’è‚³‚ê‚½–‘O’è‹`ƒpƒŒƒbƒg‚Ì 1 ‚Â‚ÉƒpƒŒƒbƒg‚ğ‰Šú‰»‚µAƒI
 %index
 IWICPalette_InitializeCustom
 ’ñ‹Ÿ‚³‚ê‚½ƒJƒXƒ^ƒ€ƒJƒ‰[ƒGƒ“ƒgƒŠ‚ÅƒpƒŒƒbƒg‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICPalette
 %prm
 this, pColors, cCount
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18933,6 +24558,8 @@ cCount : [int] Œ^: UINT pColors “à‚ÌF‚Ì”B
 %index
 IWICPalette_InitializeFromBitmap
 QÆƒrƒbƒgƒ}ƒbƒv‚ÉŠî‚Ã‚¢‚ÄŒvZ‚³‚ê‚½Å“K‰»‚³‚ê‚½’l‚ğg—p‚µ‚ÄƒpƒŒƒbƒg‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICPalette
 %prm
 this, pISurface, cCount, fAddTransparentColor
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18955,6 +24582,8 @@ TRUE ‚Éİ’è‚·‚é‚ÆAÅ“K‰»‚³‚ê‚½F‚ª 1 ‚Â­‚È‚­ŒvZ‚³‚êAcolorCount ‚ªíŒ¸‚³‚êAŠ
 %index
 IWICPalette_InitializeFromPalette
 w’è‚³‚ê‚½ƒpƒŒƒbƒg‚ÉŠî‚Ã‚¢‚ÄƒpƒŒƒbƒg‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICPalette
 %prm
 this, pIPalette
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18969,6 +24598,8 @@ pIPalette : [comobj] Œ^: IWICPalette* ƒ\[ƒXƒpƒŒƒbƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 IWICPalette_GetType
 ƒpƒŒƒbƒg‚ğ‹Lq‚·‚é WICBitmapPaletteType ‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICPalette
 %prm
 this, pePaletteType
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -18987,6 +24618,8 @@ WICBitmapPaletteCustom ‚ÍAInitializeCustom ‚Æ InitializeFromBitmap
 %index
 IWICPalette_GetColorCount
 ƒJƒ‰[ƒe[ƒuƒ‹“à‚ÌF‚Ì”‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICPalette
 %prm
 this, pcCount
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -19001,6 +24634,8 @@ pcCount : [int] Œ^: UINT* ƒJƒ‰[ƒe[ƒuƒ‹“à‚ÌF‚Ì”‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %index
 IWICPalette_GetColors
 ’ñ‹Ÿ‚³‚ê‚½ƒJƒ‰[”z—ñ‚ğ“à•”ƒJƒ‰[ƒe[ƒuƒ‹‚ÌF‚Å–„‚ß‚éBƒJƒ‰[”z—ñ‚Í GetColorCount ‚©‚ç‚Ì–ß‚èŒ‹‰Ê‚É]‚Á‚ÄƒTƒCƒY‚ğŒˆ‚ß‚é‚×‚«‚Å‚ ‚éB
+%group
+COM misc / IWICPalette
 %prm
 this, cCount, pColors, pcActualColors
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -19018,6 +24653,8 @@ pcActualColors : [int] Œ^: UINT* ƒpƒŒƒbƒg‚ÌF‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚ÌƒTƒCƒY
 %index
 IWICPalette_IsBlackWhite
 ƒpƒŒƒbƒg‚ª”’•‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ‹Lq‚·‚é’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICPalette
 %prm
 this, pfIsBlackWhite
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -19036,6 +24673,8 @@ pfIsBlackWhite : [var] Œ^: BOOL* ƒpƒŒƒbƒg‚ª”’•‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒu[ƒ‹’l‚ğó‚
 %index
 IWICPalette_IsGrayscale
 ƒpƒŒƒbƒg‚ªƒOƒŒ[ƒXƒP[ƒ‹‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ‹Lq‚·‚é’l‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICPalette
 %prm
 this, pfIsGrayscale
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -19053,6 +24692,8 @@ pfIsGrayscale : [var] Œ^: BOOL* ƒpƒŒƒbƒg‚ªƒOƒŒ[ƒXƒP[ƒ‹‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒu[
 %index
 IWICPalette_HasAlpha
 ƒpƒŒƒbƒg‚É•s“§–¾‚Å‚È‚¢ƒGƒ“ƒgƒŠ (ƒAƒ‹ƒtƒ@‚ª 1 –¢–‚ÌƒGƒ“ƒgƒŠ) ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·B
+%group
+COM misc / IWICPalette
 %prm
 this, pfHasAlpha
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -19072,130 +24713,367 @@ pfHasAlpha : [var] Œ^: BOOL* ƒpƒŒƒbƒg‚É“§–¾‚ÈF‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡‚Í TRUEA‚»‚¤‚Å
 
 %index
 IWICStream_Read
-IWICStream::Read (vtable slot 3)
+Œ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½”‚ÌƒoƒCƒg‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚çƒƒ‚ƒŠ‚Ö“Ç‚İæ‚éB
+%group
+COM misc / IWICStream
 %prm
 this, pv, cb, pcbRead
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pv : [intptr] 
-cb : [int] 
-pcbRead : [var] 
+pv : [intptr] ƒXƒgƒŠ[ƒ€ƒf[ƒ^‚Ì“Ç‚İ‚İæ‚Æ‚È‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cb : [int] ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚ç“Ç‚İæ‚éƒf[ƒ^‚ÌƒoƒCƒg”B
+pcbRead : [var] ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚çÀÛ‚É“Ç‚İæ‚ç‚ê‚½ƒoƒCƒg”‚ğó‚¯æ‚é ULONG •Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B’ˆÓ “Ç‚İæ‚ç‚ê‚½ƒoƒCƒg”‚Í 0 ‚É‚È‚é‚±‚Æ‚à‚ ‚éB
 %inst
+Œ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½”‚ÌƒoƒCƒg‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚çƒƒ‚ƒŠ‚Ö“Ç‚İæ‚éB
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB | –ß‚èƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK |
+—v‹‚³‚ê‚½ƒf[ƒ^‚ª‚·‚×‚ÄƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚ç³í‚É“Ç‚İæ‚ç‚ê‚½B*cb* ‚Å—v‹‚µ‚½ƒoƒCƒg”‚Æ *pcbRead*
+‚Å•Ô‚³‚ê‚½ƒoƒCƒg”‚ª“¯‚¶‚Å‚ ‚éB| |S_FALSE | *pcbRead* ‚Å•Ô‚³‚ê‚½’l‚ª *cb*
+‚Å—v‹‚µ‚½ƒoƒCƒg”‚æ‚è­‚È‚¢B‚±‚ê‚ÍƒXƒgƒŠ[ƒ€‚Ì––”ö‚É’B‚µ‚½‚±‚Æ‚ğ¦‚·B“Ç‚İæ‚ç‚ê‚½ƒoƒCƒg”‚Í *pv*
+ƒoƒbƒtƒ@‚Ì‚¤‚¿‚Ç‚ê‚¾‚¯‚ª–„‚ß‚ç‚ê‚½‚©‚ğ¦‚·B| |E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ:
+“Ç‚İæ‚é‚×‚«ƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p•s‰Â‚Å‚ ‚éB| |STG_E_ACCESSDENIED |
+ŒÄ‚Ño‚µ‘¤‚ª‚±‚ÌƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğ“Ç‚İæ‚é‚Ì‚É•K—v‚ÈŒ ŒÀ‚ğ‚Á‚Ä‚¢‚È‚¢B| |STG_E_INVALIDPOINTER |
+ƒ|ƒCƒ“ƒ^’l‚Ì 1 ‚Â‚ª–³Œø‚Å‚ ‚éB| |STG_E_REVERTED | ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[“à‚Å‚»‚ÌãˆÊ‚Ì revert
+‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
+
+[”õl]
+‚±‚Ìƒƒ\ƒbƒh‚Í‚±‚ÌƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚çƒƒ‚ƒŠ‚ÖƒoƒCƒg‚ğ“Ç‚İæ‚éBƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Í STGM_READ
+ƒ‚[ƒh‚ÅŠJ‚©‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒƒ\ƒbƒh‚ÍÀÛ‚É“Ç‚İæ‚Á‚½ƒoƒCƒg”‚¾‚¯ƒV[ƒNƒ|ƒCƒ“ƒ^‚ği‚ß‚éBÀÛ‚É“Ç‚İæ‚ç‚ê‚½ƒoƒCƒg”‚Í
+pcbRead ƒpƒ‰ƒ[ƒ^‚Å‚à•Ô‚³‚ê‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ
+ƒGƒ‰[‚ª”­¶‚µ‚½‚è“Ç‚İæ‚è‘€ì’†‚ÉƒXƒgƒŠ[ƒ€‚Ì––”ö‚É’B‚µ‚½‚è‚µ‚½ê‡AÀÛ‚É“Ç‚İæ‚ç‚ê‚éƒoƒCƒg”‚Í—v‹‚µ‚½ƒoƒCƒg”‚æ‚è­‚È‚­‚È‚é‚±‚Æ‚ª‚ ‚éB•Ô‚³‚ê‚éƒoƒCƒg”‚Íí‚É—v‹‚µ‚½ƒoƒCƒg”‚Æ”äŠr‚·‚×‚«‚Å‚ ‚éB•Ô‚³‚ê‚éƒoƒCƒg”‚ª—v‹‚æ‚è­‚È‚¢ê‡A’Êí‚Í
+Read
+ƒƒ\ƒbƒh‚ªƒXƒgƒŠ[ƒ€‚Ì––”ö‚ğ’´‚¦‚Ä“Ç‚İæ‚ë‚¤‚Æ‚µ‚½‚±‚Æ‚ğˆÓ–¡‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒXƒgƒŠ[ƒ€I’[‚Å‚Ì“Ç‚İæ‚è‚É‘Î‚·‚éƒGƒ‰[–ß‚è’l‚Æ
+S_OK –ß‚è’l‚Ì—¼•û‚ğˆµ‚¤‚×‚«‚Å‚ ‚éB
 
 
 %index
 IWICStream_Write
-IWICStream::Write (vtable slot 4)
+Œ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½”‚ÌƒoƒCƒg‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‘‚«‚ŞB
+%group
+COM misc / IWICStream
 %prm
 this, pv, cb, pcbWritten
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pv : [intptr] 
-cb : [int] 
-pcbWritten : [var] 
+pv : [intptr] ƒXƒgƒŠ[ƒ€‚É‘‚«‚Şƒf[ƒ^‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bcb ‚ª 0 ‚Å‚ ‚Á‚Ä‚à‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í—LŒø‚Èƒ|ƒCƒ“ƒ^‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+cb : [int] ƒXƒgƒŠ[ƒ€‚É‘‚«‚à‚¤‚Æ‚·‚éƒf[ƒ^‚ÌƒoƒCƒg”B‚±‚Ì’l‚Í 0 ‚Å‚à‚æ‚¢B
+pcbWritten : [var] ‚±‚Ìƒƒ\ƒbƒh‚ªAƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÖÀÛ‚É‘‚«‚ñ‚¾ƒoƒCƒg”‚ğ‘‚«‚Ş ULONG •Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µ‘¤‚Í‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ NULL ‚Éİ’è‚Å‚«A‚»‚Ìê‡‚±‚Ìƒƒ\ƒbƒh‚ÍÀÛ‚É‘‚«‚Ü‚ê‚½ƒoƒCƒg”‚ğ’ñ‹Ÿ‚µ‚È‚¢B
 %inst
+Œ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½”‚ÌƒoƒCƒg‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‘‚«‚ŞB
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB | –ß‚èƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK |
+ƒf[ƒ^‚ªƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö³í‚É‘‚«‚Ü‚ê‚½B| |E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ:
+‘‚«‚Ş‚×‚«ƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p•s‰Â‚Å‚ ‚éB| |STG_E_MEDIUMFULL |
+ƒXƒgƒŒ[ƒWƒfƒoƒCƒX‚Éc‚è—e—Ê‚ª‚È‚¢‚½‚ß‘‚«‚İ‘€ì‚É¸”s‚µ‚½B| |STG_E_ACCESSDENIED |
+ŒÄ‚Ño‚µ‘¤‚ª‚±‚ÌƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‘‚«‚Ş‚Ì‚É•K—v‚ÈŒ ŒÀ‚ğ‚Á‚Ä‚¢‚È‚¢B| |STG_E_CANTSAVE |
+•s“KØ‚ÈƒAƒNƒZƒX‚â‹ó‚«—e—Ê•s‘«ˆÈŠO‚Ì——R‚Åƒf[ƒ^‚ğ‘‚«‚ß‚È‚¢B| |STG_E_INVALIDPOINTER | ƒ|ƒCƒ“ƒ^’l‚Ì 1
+‚Â‚ª–³Œø‚Å‚ ‚éBcb ‚ª 0 ‚Å‚à *pv* ƒpƒ‰ƒ[ƒ^‚É‚Í—LŒø‚Èƒ|ƒCƒ“ƒ^‚ğŠÜ‚ß‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B| |STG_E_REVERTED |
+ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[“à‚Å‚»‚ÌãˆÊ‚Ì revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B| |STG_E_WRITEFAULT |
+ƒfƒBƒXƒNƒGƒ‰[‚É‚æ‚è‘‚«‚İ‘€ì‚É¸”s‚µ‚½BƒVƒ“ƒvƒ‹ƒ‚[ƒh (STGM_SIMPLE ƒtƒ‰ƒO‚ğg—p)
+‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€‚Ö‘‚«‚à‚¤‚Æ‚µ‚½ê‡‚É‚à‚±‚Ì’l‚ª•Ô‚³‚ê‚éB|
+
+[”õl]
+ISequentialStream::Write
+‚Íw’è‚³‚ê‚½ƒf[ƒ^‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‘‚«‚ŞBƒV[ƒNƒ|ƒCƒ“ƒ^‚ÍÀÛ‚É‘‚«‚Ü‚ê‚½ƒoƒCƒg”‚¾‚¯i‚ß‚ç‚ê‚éBÀÛ‚É‘‚«‚Ü‚ê‚½ƒoƒCƒg”‚Í
+pcbWritten ƒpƒ‰ƒ[ƒ^‚Å•Ô‚³‚ê‚éBƒoƒCƒg”‚ª 0
+‚Ìê‡A‘‚«‚İ‘€ì‚Í‰½‚ÌŒø‰Ê‚à‚½‚È‚¢BƒV[ƒNƒ|ƒCƒ“ƒ^‚ªŒ»İƒXƒgƒŠ[ƒ€‚Ì––”ö‚ğ’´‚¦‚Ä‚¨‚èAƒoƒCƒg”‚ª 0
+‚Å‚È‚¢ê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍƒXƒgƒŠ[ƒ€‚ÌƒTƒCƒY‚ğƒV[ƒNƒ|ƒCƒ“ƒ^‚Ü‚ÅŠg‘å‚µAƒV[ƒNƒ|ƒCƒ“ƒ^‚ÌˆÊ’u‚©‚çw’è‚³‚ê‚½ƒoƒCƒg‚ğ‘‚«‚ŞBƒXƒgƒŠ[ƒ€‚É‘‚«‚Ü‚ê‚½–„‚ß‘ƒoƒCƒg‚Í“Á’è‚Ì’l‚Å‰Šú‰»‚³‚ê‚È‚¢B‚±‚ê‚Í
+MS-DOS FAT ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Å‚Ìƒtƒ@ƒCƒ‹––”ö‚Ì“®ì‚Æ“¯‚¶‚Å‚ ‚éBƒoƒCƒg”‚ª 0
+‚Å‚©‚ÂƒV[ƒNƒ|ƒCƒ“ƒ^‚ªƒXƒgƒŠ[ƒ€––”ö‚ğ’´‚¦‚Ä‚¢‚éê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍƒXƒgƒŠ[ƒ€‚ğƒV[ƒNƒ|ƒCƒ“ƒ^‚Ü‚ÅŠg‘å‚·‚é‚½‚ß‚Ì–„‚ß‘ƒoƒCƒg‚ğì¬‚µ‚È‚¢B‚±‚Ìê‡AƒXƒgƒŠ[ƒ€‚ÌƒTƒCƒY‚ğŠg‘å‚µ‚Ä–„‚ß‘ƒoƒCƒg‚ğ‘‚«‚Ş‚É‚Í
+IStream::SetSize ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒGƒ‰[‚ª”­¶‚µ‚Ä‚à pcbWritten
+ƒpƒ‰ƒ[ƒ^‚ª’l‚ğ‚Â‚±‚Æ‚ª‚ ‚éBCOM
+’ñ‹Ÿ‚ÌÀ‘•‚Å‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÍƒXƒp[ƒX‚Å‚Í‚È‚­A‚·‚×‚Ä‚Ì–„‚ß‘ƒoƒCƒg‚ÍÅI“I‚ÉƒfƒBƒXƒNã‚ÉŠ„‚è“–‚Ä‚ç‚êƒXƒgƒŠ[ƒ€‚É•R•t‚¯‚ç‚ê‚éB
 
 
 %index
 IWICStream_Seek
-IWICStream::Seek (vtable slot 5)
+ƒV[ƒNƒ|ƒCƒ“ƒ^‚ğV‚µ‚¢ˆÊ’u‚É•ÏX‚·‚éBV‚µ‚¢ˆÊ’u‚ÍAƒXƒgƒŠ[ƒ€‚Ìæ“ªAƒXƒgƒŠ[ƒ€‚Ì––”öA‚Ü‚½‚ÍŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚ç‚Ì‘Š‘ÎˆÊ’u‚Å‚ ‚éB
+%group
+COM misc / IWICStream
 %prm
 this, dlibMove, dwOrigin, plibNewPosition
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dlibMove : [int64] 
-dwOrigin : [int] 
-plibNewPosition : [var] 
+dlibMove : [int64] dwOrigin ƒpƒ‰ƒ[ƒ^‚Å¦‚³‚ê‚éˆÊ’u‚É‰ÁZ‚³‚ê‚é•ÏˆÊBdwOrigin ‚ª STREAM_SEEK_SET ‚Ìê‡A‚±‚ê‚Í•„†•t‚«’l‚Å‚Í‚È‚­•„†‚È‚µ’l‚Æ‚µ‚Ä‰ğß‚³‚ê‚éB
+dwOrigin : [int] dlibMove ‚Åw’è‚³‚ê‚½•ÏˆÊ‚Ì‹N“_B‹N“_‚ÍAƒtƒ@ƒCƒ‹‚Ìæ“ª (STREAM_SEEK_SET)AŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^ (STREAM_SEEK_CUR)A‚Ü‚½‚Íƒtƒ@ƒCƒ‹‚Ì––”ö (STREAM_SEEK_END) ‚Ì‚¢‚¸‚ê‚©‚É‚Å‚«‚éB’l‚ÌÚ×‚É‚Â‚¢‚Ä‚Í STREAM_SEEK —ñ‹“‚ğQÆB
+plibNewPosition : [var] ‚±‚Ìƒƒ\ƒbƒh‚ªAƒXƒgƒŠ[ƒ€‚Ìæ“ª‚©‚ç‚ÌV‚µ‚¢ƒV[ƒNƒ|ƒCƒ“ƒ^‚Ì’l‚ğ‘‚«‚ŞˆÊ’u‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ NULL ‚Éİ’è‚Å‚«‚éB‚»‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍV‚µ‚¢ƒV[ƒNƒ|ƒCƒ“ƒ^‚ğ’ñ‹Ÿ‚µ‚È‚¢B
 %inst
+ƒV[ƒNƒ|ƒCƒ“ƒ^‚ğV‚µ‚¢ˆÊ’u‚É•ÏX‚·‚éBV‚µ‚¢ˆÊ’u‚ÍAƒXƒgƒŠ[ƒ€‚Ìæ“ªAƒXƒgƒŠ[ƒ€‚Ì––”öA‚Ü‚½‚ÍŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚ç‚Ì‘Š‘ÎˆÊ’u‚Å‚ ‚éB
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | ƒV[ƒNƒ|ƒCƒ“ƒ^‚ª³í‚É’²®‚³‚ê‚½B|
+|E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ: ƒXƒgƒŠ[ƒ€ƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B |
+|STG_E_INVALIDPOINTER | *plibNewPosition*
+‚ª“Ç‚İæ‚ç‚ê‚È‚¢‚½‚ßA*plibNewPosition* ‚ª–³Œø‚Èƒƒ‚ƒŠ‚ğw‚µ‚Ä‚¢‚é‚±‚Æ‚ğ¦‚·B|
+|STG_E_INVALIDFUNCTION | *dwOrigin* ƒpƒ‰ƒ[ƒ^‚É–³Œø‚È’l‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©A*dlibMove*
+ƒpƒ‰ƒ[ƒ^‚É•s³‚ÈƒIƒtƒZƒbƒg’l‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éB‚½‚Æ‚¦‚ÎAƒV[ƒNƒ|ƒCƒ“ƒ^‚ÌŒ‹‰Ê‚ª•‰‚ÌƒIƒtƒZƒbƒg’l‚Å‚ ‚éB| |STG_E_REVERTED
+| ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
+
+[”õl]
+IStream::Seek
+‚ÍƒV[ƒNƒ|ƒCƒ“ƒ^‚ğ•ÏX‚µAƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg“à‚ÌˆÙ‚È‚éˆÊ’u‚ÅŒã‘±‚Ì“Ç‚İ‘‚«‘€ì‚ğÀs‚Å‚«‚é‚æ‚¤‚É‚·‚éBƒXƒgƒŠ[ƒ€‚Ìæ“ª‚æ‚è‘O‚ÉƒV[ƒN‚·‚é‚±‚Æ‚ÍƒGƒ‰[‚Å‚ ‚éB‚½‚¾‚µAƒXƒgƒŠ[ƒ€‚Ì––”ö‚ğ’´‚¦‚ÄƒV[ƒN‚·‚é‚±‚Æ‚ÍƒGƒ‰[‚Å‚Í‚È‚¢BƒXƒgƒŠ[ƒ€‚Ì––”ö‚ğ’´‚¦‚ÄƒV[ƒN‚·‚é‚±‚Æ‚ÍAŒã‘±‚Ì‘‚«‚İ‘€ì‚É—L—p‚Å‚ ‚éB‘‚«‚İ‚ªŠ®—¹‚·‚é’¼‘O‚ÉƒXƒgƒŠ[ƒ€‚ÌƒoƒCƒg”ÍˆÍ‚ªV‚µ‚¢ƒV[ƒNˆÊ’u‚Ü‚ÅŠg’£‚³‚ê‚é‚©‚ç‚Å‚ ‚éBdwOrigin
+ƒpƒ‰ƒ[ƒ^‚ğ STREAM_SEEK_CUR ‚ÉAdlibMove ƒpƒ‰ƒ[ƒ^‚ğ 0
+‚Éİ’è‚µ‚Ä‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅAƒV[ƒNƒ|ƒCƒ“ƒ^‚ğ•ÏX‚¹‚¸‚ÉƒV[ƒNƒ|ƒCƒ“ƒ^‚ÌŒ»İ‚Ì’l‚ğæ“¾‚·‚é‚±‚Æ‚à‚Å‚«‚éBŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚Í
+plibNewPosition ƒpƒ‰ƒ[ƒ^‚Å•Ô‚³‚ê‚éB
 
 
 %index
 IWICStream_SetSize
-IWICStream::SetSize (vtable slot 6)
+ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒY‚ğ•ÏX‚·‚éB
+%group
+COM misc / IWICStream
 %prm
 this, libNewSize
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-libNewSize : [int64] 
+libNewSize : [int64] ƒXƒgƒŠ[ƒ€‚ÌV‚µ‚¢ƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚éB
 %inst
+ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒY‚ğ•ÏX‚·‚éB
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒY‚ª³í‚É•ÏX‚³‚ê‚½B|
+|E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ: ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B|
+|STG_E_MEDIUMFULL | ƒXƒgƒŒ[ƒWƒfƒoƒCƒX‚É‹ó‚«—e—Ê‚ª‚È‚¢‚½‚ßAƒXƒgƒŠ[ƒ€ƒTƒCƒY‚ª•ÏX‚³‚ê‚È‚¢B|
+|STG_E_INVALIDFUNCTION | *libNewSize*
+ƒpƒ‰ƒ[ƒ^‚Ì’l‚ªÀ‘•‚É‚æ‚Á‚ÄƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B‚·‚×‚Ä‚ÌƒXƒgƒŠ[ƒ€‚ª 232
+ƒoƒCƒg‚ğ’´‚¦‚éƒTƒCƒY‚ğƒTƒ|[ƒg‚·‚é‚í‚¯‚Å‚Í‚È‚¢BƒXƒgƒŠ[ƒ€‚ª 232 ƒoƒCƒg‚ğ’´‚¦‚éƒTƒCƒY‚ğƒTƒ|[ƒg‚µ‚È‚¢ê‡A*libNewSize*
+‚ÌãˆÊ DWORD ƒf[ƒ^Œ^‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B0 ‚Å‚È‚¢ê‡AÀ‘•‚Í STG_E_INVALIDFUNCTION
+‚ğ•Ô‚·‰Â”\«‚ª‚ ‚éBˆê”Ê‚ÉAIStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒx[ƒX‚ÌÀ‘•‚Í 232
+ƒoƒCƒg‚ğ’´‚¦‚éƒXƒgƒŠ[ƒ€‚ğƒTƒ|[ƒg‚µ‚È‚¢B| |STG_E_REVERTED | ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì revert
+‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
+
+[”õl]
+IStream::SetSize
+‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒY‚ğ•ÏX‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚ÄƒXƒgƒŠ[ƒ€—p‚Ì—Ìˆæ‚ğ–‘O‚ÉŠm•Û‚·‚éBlibNewSize
+ƒpƒ‰ƒ[ƒ^‚ªŒ»İ‚ÌƒXƒgƒŠ[ƒ€ƒTƒCƒY‚æ‚è‚à‘å‚«‚¢ê‡AƒXƒgƒŠ[ƒ€‚Íw’è‚³‚ê‚½ƒTƒCƒY‚ÉŠg’£‚³‚êAŠÔ‚Ì—Ìˆæ‚Í–¢’è‹`‚Ì’l‚ÌƒoƒCƒg‚Å–„‚ß‚ç‚ê‚éB‚±‚Ì‘€ì‚ÍAƒV[ƒNƒ|ƒCƒ“ƒ^‚ªŒ»İ‚ÌƒXƒgƒŠ[ƒ€‚Ì––”ö‚ğ’´‚¦‚Ä‚¢‚éê‡‚Ì
+ISequentialStream::Write ƒƒ\ƒbƒh‚É—‚Ä‚¢‚éBlibNewSize
+ƒpƒ‰ƒ[ƒ^‚ªŒ»İ‚ÌƒXƒgƒŠ[ƒ€‚æ‚è‚à¬‚³‚¢ê‡AƒXƒgƒŠ[ƒ€‚Íw’è‚³‚ê‚½ƒTƒCƒY‚ÉØ‚è‹l‚ß‚ç‚ê‚éBƒV[ƒNƒ|ƒCƒ“ƒ^‚ÍƒXƒgƒŠ[ƒ€ƒTƒCƒY‚Ì•ÏX‚Ì‰e‹¿‚ğó‚¯‚È‚¢BIStream::SetSize
+‚ÌŒÄ‚Ño‚µ‚ÍA˜A‘±‚µ‚½‘å‚«‚È—Ìˆæ‚ğæ“¾‚·‚éŒø‰Ê“I‚È•û–@‚Å‚ ‚éB
 
 
 %index
 IWICStream_CopyTo
-IWICStream::CopyTo (vtable slot 7)
+ƒXƒgƒŠ[ƒ€‚ÌŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚ç•Ê‚ÌƒXƒgƒŠ[ƒ€‚ÌŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ÖAw’è‚³‚ê‚½ƒoƒCƒg”‚ğƒRƒs[‚·‚éB
+%group
+COM misc / IWICStream
 %prm
 this, pstm, cb, pcbRead, pcbWritten
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pstm : [comobj] 
-cb : [int64] 
-pcbRead : [var] 
-pcbWritten : [var] 
+pstm : [comobj] ˆ¶æƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^Bpstm ‚ªw‚·ƒXƒgƒŠ[ƒ€‚ÍAV‚µ‚¢ƒXƒgƒŠ[ƒ€‚Å‚àƒ\[ƒXƒXƒgƒŠ[ƒ€‚ÌƒNƒ[ƒ“‚Å‚à‚æ‚¢B
+cb : [int64] ƒ\[ƒXƒXƒgƒŠ[ƒ€‚©‚çƒRƒs[‚·‚éƒoƒCƒg”B
+pcbRead : [var] ‚±‚Ìƒƒ\ƒbƒh‚ªƒ\[ƒX‚©‚çÀÛ‚É“Ç‚İæ‚Á‚½ƒoƒCƒg”‚ğ‘‚«‚ŞˆÊ’u‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ NULL ‚Éİ’è‚Å‚«‚éB‚»‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍÀÛ‚É“Ç‚İæ‚Á‚½ƒoƒCƒg”‚ğ’ñ‹Ÿ‚µ‚È‚¢B
+pcbWritten : [var] ‚±‚Ìƒƒ\ƒbƒh‚ªˆ¶æ‚ÉÀÛ‚É‘‚«‚ñ‚¾ƒoƒCƒg”‚ğ‘‚«‚ŞˆÊ’u‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ NULL ‚Éİ’è‚Å‚«‚éB‚»‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍÀÛ‚É‘‚«‚ñ‚¾ƒoƒCƒg”‚ğ’ñ‹Ÿ‚µ‚È‚¢B
 %inst
+ƒXƒgƒŠ[ƒ€‚ÌŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚ç•Ê‚ÌƒXƒgƒŠ[ƒ€‚ÌŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ÖAw’è‚³‚ê‚½ƒoƒCƒg”‚ğƒRƒs[‚·‚éB
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ª³í‚ÉƒRƒs[‚³‚ê‚½B|
+|E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ: ƒRƒs[‘ÎÛ‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B |
+|STG_E_INVALIDPOINTER | ƒ|ƒCƒ“ƒ^ƒpƒ‰ƒ[ƒ^‚Ì 1 ‚Â‚Ì’l‚ª–³Œø‚Å‚ ‚éB| |STG_E_MEDIUMFULL |
+ƒXƒgƒŒ[ƒWƒfƒoƒCƒX‚É‹ó‚«—e—Ê‚ª‚È‚¢‚½‚ßAƒXƒgƒŠ[ƒ€‚ªƒRƒs[‚³‚ê‚È‚¢B| |STG_E_REVERTED | ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì
+revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
+
+[”õl]
+CopyTo ƒƒ\ƒbƒh‚ÍAw’è‚³‚ê‚½ƒoƒCƒg‚ğ 1
+‚Â‚ÌƒXƒgƒŠ[ƒ€‚©‚ç•Ê‚ÌƒXƒgƒŠ[ƒ€‚ÉƒRƒs[‚·‚éBƒXƒgƒŠ[ƒ€‚ğ©•ª©g‚ÉƒRƒs[‚·‚é‚Ì‚É‚àg—p‚Å‚«‚éBŠeƒXƒgƒŠ[ƒ€ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ÍA“Ç‚İ‘‚«‚³‚ê‚½ƒoƒCƒg”‚¾‚¯’²®‚³‚ê‚éB‚±‚Ìƒƒ\ƒbƒh‚ÍAISequentialStream::Read
+‚ğg—p‚µ‚Ä cb ƒoƒCƒg‚ğƒƒ‚ƒŠ‚É“Ç‚İ‚İA‘¦À‚É ISequentialStream::Write
+‚ğg—p‚µ‚Äˆ¶æƒXƒgƒŠ[ƒ€‚É‘‚«‚Ş‚Ì‚Æ“™‰¿‚Å‚ ‚é‚ªAIStream::CopyTo
+‚Ì•û‚ªŒø—¦“I‚Å‚ ‚éBˆ¶æƒXƒgƒŠ[ƒ€‚ÍAIStream::Clone
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Äì¬‚µ‚½ƒ\[ƒXƒXƒgƒŠ[ƒ€‚ÌƒNƒ[ƒ“‚Å‚à‚æ‚¢BIStream::CopyTo
+‚ªƒGƒ‰[‚ğ•Ô‚µ‚½ê‡Aƒ\[ƒX‚Ü‚½‚Íˆ¶æ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ª—LŒø‚Å‚ ‚é‚Æ‰¼’è‚µ‚Ä‚Í‚È‚ç‚È‚¢B‚³‚ç‚ÉApcbRead ‚Æ pcbWritten
+‚Ì’l‚Í•Ô‚³‚ê‚Ä‚àˆÓ–¡‚ğ‚½‚È‚¢BIStream::CopyTo
+‚ª¬Œ÷‚µ‚½ê‡AÀÛ‚É“Ç‚İ‘‚«‚³‚ê‚½ƒoƒCƒg”‚Í“¯‚¶‚Å‚ ‚éBŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çƒ\[ƒX‚Ìc‚è‚ğƒRƒs[‚·‚é‚É‚ÍAcb ƒpƒ‰ƒ[ƒ^‚ÉÅ‘å‚Ì
+large integer ’l‚ğw’è‚·‚éBƒV[ƒNƒ|ƒCƒ“ƒ^‚ªƒXƒgƒŠ[ƒ€‚Ìæ“ª‚É‚ ‚éê‡A‚±‚Ì‘€ì‚ÍƒXƒgƒŠ[ƒ€‘S‘Ì‚ğƒRƒs[‚·‚éB
 
 
 %index
 IWICStream_Commit
-IWICStream::Commit (vtable slot 8)
+Commit ƒƒ\ƒbƒh‚ÍAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚é•ÏX‚ªeƒXƒgƒŒ[ƒW‚É”½‰f‚³‚ê‚é‚±‚Æ‚ğ•ÛØ‚·‚éB
+%group
+COM misc / IWICStream
 %prm
 this, grfCommitFlags
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-grfCommitFlags : [int] 
+grfCommitFlags : [int] ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ì•ÏX‚ªƒRƒ~ƒbƒg‚³‚ê‚é•û–@‚ğ§Œä‚·‚éB‚±‚ê‚ç‚Ì’l‚Ì’è‹`‚É‚Â‚¢‚Ä‚Í STGC —ñ‹“‚ğQÆB
 %inst
+Commit ƒƒ\ƒbƒh‚ÍAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚é•ÏX‚ªeƒXƒgƒŒ[ƒW‚É”½‰f‚³‚ê‚é‚±‚Æ‚ğ•ÛØ‚·‚éB
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK |
+ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ì•ÏX‚ªeƒŒƒxƒ‹‚É³í‚ÉƒRƒ~ƒbƒg‚³‚ê‚½B| |E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ:
+ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B | |STG_E_MEDIUMFULL |
+ƒXƒgƒŒ[ƒWƒfƒoƒCƒX‚Ì‹ó‚«—e—Ê•s‘«‚Ì‚½‚ßƒRƒ~ƒbƒg‘€ì‚ª¸”s‚µ‚½B| |STG_E_REVERTED | ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì
+revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
+
+[”õl]
+Commit
+ƒƒ\ƒbƒh‚ÍAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚é•ÏX‚ªeƒXƒgƒŒ[ƒW‚É”½‰f‚³‚ê‚é‚±‚Æ‚ğ•ÛØ‚·‚éBƒXƒgƒŠ[ƒ€‚ªŠJ‚©‚ê‚Ä‚©‚çA‚Ü‚½‚ÍÅŒã‚ÉƒRƒ~ƒbƒg‚³‚ê‚Ä‚©‚çs‚í‚ê‚½•ÏX‚ªeƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É”½‰f‚³‚ê‚éBe‚ªƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚ÅŠJ‚©‚ê‚Ä‚¢‚éê‡Ae‚ÍŒã‚Å
+revert
+‚·‚é‰Â”\«‚ª‚ ‚èA‚±‚ÌƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‚Ì•ÏX‚ªƒ[ƒ‹ƒoƒbƒN‚³‚ê‚éB•¡‡ƒtƒ@ƒCƒ‹À‘•‚Å‚Íƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚Å‚ÌƒXƒgƒŠ[ƒ€‚ÌŠJ•ú‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢‚½‚ßA‚±‚Ìƒƒ\ƒbƒh‚Íƒƒ‚ƒŠƒoƒbƒtƒ@‚ğƒtƒ‰ƒbƒVƒ…‚·‚éˆÈŠO‚É‚Ù‚Æ‚ñ‚ÇŒø‰Ê‚ª‚È‚¢BÚ×‚Í
+IStream - Compound File Implementation
+‚ğQÆBƒXƒgƒŠ[ƒ€‚ª’¼Úƒ‚[ƒh‚ÅŠJ‚©‚ê‚Ä‚¢‚éê‡A‚±‚Ìƒƒ\ƒbƒh‚Íƒƒ‚ƒŠƒoƒbƒtƒ@‚ªŠî‘b‚Æ‚È‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Éƒtƒ‰ƒbƒVƒ…‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ•ÛØ‚·‚éB‚±‚ê‚Í]—ˆ‚Ìƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ìƒtƒ‰ƒbƒVƒ…‚É‚æ‚­—‚Ä‚¢‚éBIStream::Commit
+ƒƒ\ƒbƒh‚ÍAIStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌÀ‘•‚ªŠî‘b‚Æ‚È‚éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ API
+‚Ìƒ‰ƒbƒp‚Å‚ ‚é’¼Úƒ‚[ƒh‚ÌƒXƒgƒŠ[ƒ€‚É‘Î‚µ‚Ä—L—p‚Å‚ ‚éB‚±‚Ìê‡AIStream::Commit
+‚Íƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ìƒtƒ‰ƒbƒVƒ…ŒÄ‚Ño‚µ‚ÉÚ‘±‚³‚ê‚éB
 
 
 %index
 IWICStream_Revert
-IWICStream::Revert (vtable slot 9)
+Revert ƒƒ\ƒbƒh‚ÍAÅŒã‚Ì IStream::Commit ŒÄ‚Ño‚µˆÈ~‚Éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“•t‚«ƒXƒgƒŠ[ƒ€‚É‘Î‚µ‚Äs‚í‚ê‚½‚·‚×‚Ä‚Ì•ÏX‚ğ”jŠü‚·‚éB’¼Úƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€‚ÆAIStream::Revert ‚Ì COM •¡‡ƒtƒ@ƒCƒ‹À‘•‚ğg—p‚·‚éƒXƒgƒŠ[ƒ€‚Å‚ÍA‚±‚Ìƒƒ\ƒbƒh‚É‚ÍŒø‰Ê‚ª‚È‚¢B
+%group
+COM misc / IWICStream
 %prm
 this
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
+Revert ƒƒ\ƒbƒh‚ÍAÅŒã‚Ì IStream::Commit
+ŒÄ‚Ño‚µˆÈ~‚Éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“•t‚«ƒXƒgƒŠ[ƒ€‚É‘Î‚µ‚Äs‚í‚ê‚½‚·‚×‚Ä‚Ì•ÏX‚ğ”jŠü‚·‚éB’¼Úƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€‚ÆAIStream::Revert
+‚Ì COM •¡‡ƒtƒ@ƒCƒ‹À‘•‚ğg—p‚·‚éƒXƒgƒŠ[ƒ€‚Å‚ÍA‚±‚Ìƒƒ\ƒbƒh‚É‚ÍŒø‰Ê‚ª‚È‚¢B
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | ƒXƒgƒŠ[ƒ€‚ªˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚É³í‚É–ß‚³‚ê‚½B|
+|E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ: ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B |
+
+[”õl]
+Revert ƒƒ\ƒbƒh‚ÍAÅŒã‚ÌƒRƒ~ƒbƒg‘€ìˆÈ~‚Éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“•t‚«ƒXƒgƒŠ[ƒ€‚É‘Î‚µ‚Äs‚í‚ê‚½•ÏX‚ğ”jŠü‚·‚éB
 
 
 %index
 IWICStream_LockRegion
-IWICStream::LockRegion (vtable slot 10)
+LockRegion ƒƒ\ƒbƒh‚ÍƒXƒgƒŠ[ƒ€“à‚Ìw’è‚³‚ê‚½ƒoƒCƒg”ÍˆÍ‚Ö‚ÌƒAƒNƒZƒX‚ğ§ŒÀ‚·‚éB
+%group
+COM misc / IWICStream
 %prm
 this, libOffset, cb, dwLockType
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-libOffset : [int64] 
-cb : [int64] 
-dwLockType : [int] 
+libOffset : [int64] ”ÍˆÍ‚Ìæ“ª‚ÌƒoƒCƒgƒIƒtƒZƒbƒg‚ğw’è‚·‚é®”B
+cb : [int64] §ŒÀ‚·‚é”ÍˆÍ‚Ì’·‚³ (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚é®”B
+dwLockType : [int] ”ÍˆÍ‚Ö‚ÌƒAƒNƒZƒX‚É‘Î‚µ‚Ä—v‹‚³‚ê‚é§ŒÀ‚ğw’è‚·‚éB
 %inst
+LockRegion ƒƒ\ƒbƒh‚ÍƒXƒgƒŠ[ƒ€“à‚Ìw’è‚³‚ê‚½ƒoƒCƒg”ÍˆÍ‚Ö‚ÌƒAƒNƒZƒX‚ğ§ŒÀ‚·‚éB
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | w’è‚³‚ê‚½ƒoƒCƒg”ÍˆÍ‚ªƒƒbƒN‚³‚ê‚½B|
+|E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ: ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B |
+|STG_E_INVALIDFUNCTION | ƒƒbƒN‚ª‚Ü‚Á‚½‚­ƒTƒ|[ƒg‚³‚ê‚È‚¢‚©A—v‹‚³‚ê‚½“Á’è‚Ìƒ^ƒCƒv‚ÌƒƒbƒN‚ªƒTƒ|[ƒg‚³‚ê‚È‚¢B|
+|STG_E_LOCKVIOLATION | —v‹‚³‚ê‚½ƒƒbƒN‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚ªAŠù‘¶‚ÌƒƒbƒN‚Ì‚½‚ß‹–‰Â‚Å‚«‚È‚¢B|
+|STG_E_REVERTED | ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
+
+[”õl]
+
+ƒXƒgƒŠ[ƒ€‚ÌƒoƒCƒg”ÍˆÍ‚ÍŠg’£‚Å‚«‚éBƒXƒgƒŠ[ƒ€‚ÌŠg’£”ÍˆÍ‚ğƒƒbƒN‚·‚é‚±‚Æ‚ÍAÀÛ‚É‚ÍƒXƒgƒŠ[ƒ€‚Ìˆê•”‚Å‚ ‚éƒf[ƒ^‚ğ•ÏX‚¹‚¸‚ÉAƒXƒgƒŠ[ƒ€‚ÌˆÙ‚È‚éƒCƒ“ƒXƒ^ƒ“ƒXŠÔ‚Ì’ÊM•û–@‚Æ‚µ‚Ä—L—p‚Å‚ ‚éB3
+‚Â‚Ìƒ^ƒCƒv‚ÌƒƒbƒN‚ªƒTƒ|[ƒg‚³‚ê‚é: ‘¼‚Ìƒ‰ƒCƒ^‚ğœŠO‚·‚éƒƒbƒNA‘¼‚ÌƒŠ[ƒ_‚Ü‚½‚Íƒ‰ƒCƒ^‚ğœŠO‚·‚éƒƒbƒNAw’è‚³‚ê‚½”ÍˆÍ‚É‘Î‚·‚éƒƒbƒN‚ğ
+1 ‚Â‚Ì—v‹Ò‚Ì‚İ‚ªæ“¾‚Å‚«‚éƒƒbƒNB‚±‚ê‚Í’ÊíA‘¼‚Ì 2 ‚Â‚ÌƒƒbƒNƒ^ƒCƒv‚Ì 1
+‚Â‚ÌƒGƒCƒŠƒAƒX‚Å‚ ‚éBw’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€ƒCƒ“ƒXƒ^ƒ“ƒX‚ÍAÅ‰‚Ì 2
+‚Â‚Ìƒ^ƒCƒv‚Ì‚¢‚¸‚ê‚©A‚Ü‚½‚Í—¼•û‚ğƒTƒ|[ƒg‚·‚éê‡‚ª‚ ‚éBƒƒbƒNƒ^ƒCƒv‚Í LOCKTYPE —ñ‹“‚Ì’l‚ğg—p‚µ‚Ä dwLockType
+‚Åw’è‚·‚éBIStream::LockRegion ‚ÅƒƒbƒN‚³‚ê‚½—Ìˆæ‚ÍAŒã‚Å libOffsetAcbAdwLockType
+ƒpƒ‰ƒ[ƒ^‚É‚Ü‚Á‚½‚­“¯‚¶’l‚ğw’è‚µ‚Ä IStream::UnlockRegion
+‚ğŒÄ‚Ño‚µ‚Ä–¾¦“I‚ÉƒƒbƒN‰ğœ‚·‚é•K—v‚ª‚ ‚éBƒXƒgƒŠ[ƒ€‚ª‰ğ•ú‚³‚ê‚é‘O‚É—Ìˆæ‚ğƒƒbƒN‰ğœ‚·‚é•K—v‚ª‚ ‚éB—×Ú‚·‚é 2
+‚Â‚Ì—Ìˆæ‚ğ•ÊX‚ÉƒƒbƒN‚µ‚ÄA1 ‰ñ‚ÌƒƒbƒN‰ğœŒÄ‚Ño‚µ‚ÅƒƒbƒN‰ğœ‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ
+ƒTƒ|[ƒg‚³‚ê‚éƒƒbƒN‚Ìƒ^ƒCƒv‚ÍƒIƒvƒVƒ‡ƒ“‚ÅAIStream ‚ÌˆÙ‚È‚éÀ‘•‚ÅˆÙ‚È‚éê‡‚ª‚ ‚é‚½‚ßASTG_E_INVALIDFUNCTION
+ƒGƒ‰[‚É‘Îˆ‚·‚éƒR[ƒh‚ğ’ñ‹Ÿ‚·‚é•K—v‚ª‚ ‚éBLockRegion
+ƒƒ\ƒbƒh‚Í•¡‡ƒtƒ@ƒCƒ‹À‘•‚É‚ÍŒø‰Ê‚ª‚È‚¢BÀ‘•‚ª”ÍˆÍƒƒbƒN‚ğƒTƒ|[ƒg‚µ‚È‚¢‚©‚ç‚Å‚ ‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ
+‚±‚Ìƒƒ\ƒbƒh‚ÌƒTƒ|[ƒg‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÌÀ‘•‚É‘Î‚µ‚ÄƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBŠî‘b‚Æ‚È‚éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚É‚æ‚Á‚ÄƒTƒ|[ƒg‚³‚ê‚È‚¢‰Â”\«‚ª‚ ‚é‚©‚ç‚Å‚ ‚éBƒTƒ|[ƒg‚³‚ê‚éƒƒbƒN‚Ìƒ^ƒCƒv‚àƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éB—v‹‚³‚ê‚½ƒ^ƒCƒv‚ÌƒƒbƒN‚ªƒTƒ|[ƒg‚³‚ê‚È‚¢ê‡ASTG_E_INVALIDFUNCTION
+ƒGƒ‰[‚ª•Ô‚³‚ê‚éB
 
 
 %index
 IWICStream_UnlockRegion
-IWICStream::UnlockRegion (vtable slot 11)
+UnlockRegion ƒƒ\ƒbƒh‚ÍAIStream::LockRegion ‚ÅˆÈ‘O‚É§ŒÀ‚³‚ê‚½ƒoƒCƒg”ÍˆÍ‚ÌƒAƒNƒZƒX§ŒÀ‚ğíœ‚·‚éB
+%group
+COM misc / IWICStream
 %prm
 this, libOffset, cb, dwLockType
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-libOffset : [int64] 
-cb : [int64] 
-dwLockType : [int] 
+libOffset : [int64] ”ÍˆÍ‚Ìæ“ª‚ÌƒoƒCƒgƒIƒtƒZƒbƒg‚ğw’è‚·‚éB
+cb : [int64] §ŒÀ‚·‚é”ÍˆÍ‚Ì’·‚³ (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚éB
+dwLockType : [int] ”ÍˆÍ‚ÉˆÈ‘O‚Éİ’è‚³‚ê‚½ƒAƒNƒZƒX§ŒÀ‚ğw’è‚·‚éB
 %inst
+UnlockRegion ƒƒ\ƒbƒh‚ÍAIStream::LockRegion ‚ÅˆÈ‘O‚É§ŒÀ‚³‚ê‚½ƒoƒCƒg”ÍˆÍ‚ÌƒAƒNƒZƒX§ŒÀ‚ğíœ‚·‚éB
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | ƒoƒCƒg”ÍˆÍ‚ªƒƒbƒN‰ğœ‚³‚ê‚½B|
+|E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ: ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B|
+|STG_E_INVALIDFUNCTION | ƒƒbƒN‚ª‚Ü‚Á‚½‚­ƒTƒ|[ƒg‚³‚ê‚È‚¢‚©A—v‹‚³‚ê‚½“Á’è‚Ìƒ^ƒCƒv‚ÌƒƒbƒN‚ªƒTƒ|[ƒg‚³‚ê‚È‚¢B|
+|STG_E_LOCKVIOLATION | —v‹‚³‚ê‚½ƒƒbƒN‰ğœ‘€ì‚ğ‹–‰Â‚Å‚«‚È‚¢B| |STG_E_REVERTED |
+ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
+
+[”õl]
+IStream::UnlockRegion ‚ÍAIStream::LockRegion
+ƒƒ\ƒbƒh‚ÅˆÈ‘O‚ÉƒƒbƒN‚³‚ê‚½—Ìˆæ‚ğƒƒbƒN‰ğœ‚·‚éBƒƒbƒN‚³‚ê‚½—Ìˆæ‚ÍAŒã‚Å libOffsetAcbAdwLockType
+ƒpƒ‰ƒ[ƒ^‚É‚Ü‚Á‚½‚­“¯‚¶’l‚ğw’è‚µ‚Ä IStream::UnlockRegion
+‚ğŒÄ‚Ño‚µ‚Ä–¾¦“I‚ÉƒƒbƒN‰ğœ‚·‚é•K—v‚ª‚ ‚éBƒXƒgƒŠ[ƒ€‚ª‰ğ•ú‚³‚ê‚é‘O‚É—Ìˆæ‚ğƒƒbƒN‰ğœ‚·‚é•K—v‚ª‚ ‚éB—×Ú‚·‚é 2
+‚Â‚Ì—Ìˆæ‚ğ•ÊX‚ÉƒƒbƒN‚µ‚ÄA1 ‰ñ‚ÌƒƒbƒN‰ğœŒÄ‚Ño‚µ‚ÅƒƒbƒN‰ğœ‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
 
 
 %index
 IWICStream_Stat
-IWICStream::Stat (vtable slot 12)
+Stat ƒƒ\ƒbƒh‚ÍA‚±‚ÌƒXƒgƒŠ[ƒ€‚Ì STATSTG \‘¢‘Ì‚ğæ“¾‚·‚éB
+%group
+COM misc / IWICStream
 %prm
 this, pstatstg, grfStatFlag
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pstatstg : [var] 
-grfStatFlag : [int] 
+pstatstg : [var] ‚±‚Ìƒƒ\ƒbƒh‚ª‚±‚ÌƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éî•ñ‚ğ”z’u‚·‚é STATSTG \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+grfStatFlag : [int] ‚±‚Ìƒƒ\ƒbƒh‚ª STATSTG \‘¢‘Ì‚Ìƒƒ“ƒo‚Ìˆê•”‚ğ•Ô‚³‚È‚¢‚æ‚¤‚Éw’è‚µAƒƒ‚ƒŠŠm•Û‘€ì‚ğß–ñ‚·‚éB’l‚Í STATFLAG —ñ‹“‚©‚çæ“¾‚³‚ê‚éB
 %inst
+Stat ƒƒ\ƒbƒh‚ÍA‚±‚ÌƒXƒgƒŠ[ƒ€‚Ì STATSTG \‘¢‘Ì‚ğæ“¾‚·‚éB
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | STATSTG
+\‘¢‘Ì‚ªw’è‚³‚ê‚½ˆÊ’u‚É³í‚É•Ô‚³‚ê‚½B| |E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ:
+ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B | |STG_E_ACCESSDENIED |
+ŒÄ‚Ño‚µ‘¤‚É‚±‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ì“Œvî•ñ‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚Ì\•ª‚ÈŒ ŒÀ‚ª‚È‚¢B|
+|STG_E_INSUFFICIENTMEMORY | ƒƒ‚ƒŠ•s‘«‚Ì‚½‚ß STATSTG \‘¢‘Ì‚ª•Ô‚³‚ê‚È‚©‚Á‚½B|
+|STG_E_INVALIDFLAG | *grfStateFlag* ƒpƒ‰ƒ[ƒ^‚Ì’l‚ª—LŒø‚Å‚È‚¢B|
+|STG_E_INVALIDPOINTER | *pStatStg* ƒ|ƒCƒ“ƒ^‚ª—LŒø‚Å‚È‚¢B| |STG_E_REVERTED |
+ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
+
+[”õl]
+IStream::Stat ‚ÍA‚±‚ÌŠJ‚¢‚Ä‚¢‚éƒXƒgƒŠ[ƒ€‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş STATSTG
+\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB‚±‚ÌƒXƒgƒŠ[ƒ€‚ª\‘¢‰»ƒXƒgƒŒ[ƒW“à‚É‚ ‚èAIStorage::EnumElements
+‚ªŒÄ‚Ño‚³‚ê‚é‚ÆAIEnumSTATSTG ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ‚Â—ñ‹“ƒIƒuƒWƒFƒNƒg‚ªì¬‚³‚êA‚»‚ê‚¼‚ê‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ STATSTG
+\‘¢‘Ì‚ğ’Ê‚¶‚ÄƒXƒgƒŒ[ƒW‚ÆƒXƒgƒŠ[ƒ€‚ğ—ñ‹“‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 
 
 %index
 IWICStream_Clone
-IWICStream::Clone (vtable slot 13)
+Clone ƒƒ\ƒbƒh‚ÍAŒ³‚ÌƒXƒgƒŠ[ƒ€‚Æ“¯‚¶ƒoƒCƒg‚ğQÆ‚·‚é“Æ©‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ğ‚ÂV‚µ‚¢ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+%group
+COM misc / IWICStream
 %prm
 this, ppstm
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppstm : [comobj] 
+ppstm : [comobj] ¬Œ÷‚µ‚½ê‡AV‚µ‚¢ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ì IStream ƒ|ƒCƒ“ƒ^‚ÌˆÊ’u‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒGƒ‰[‚ª”­¶‚µ‚½ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚È‚éB
 %inst
+Clone ƒƒ\ƒbƒh‚ÍAŒ³‚ÌƒXƒgƒŠ[ƒ€‚Æ“¯‚¶ƒoƒCƒg‚ğQÆ‚·‚é“Æ©‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ğ‚ÂV‚µ‚¢ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+
+[–ß‚è’l]
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | ƒXƒgƒŠ[ƒ€‚ª³í‚ÉƒNƒ[ƒ“‚³‚ê‚½B|
+|E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ: ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B |
+|STG_E_INSUFFICIENTMEMORY | ƒƒ‚ƒŠ•s‘«‚Ì‚½‚ßƒXƒgƒŠ[ƒ€‚ªƒNƒ[ƒ“‚³‚ê‚È‚©‚Á‚½B|
+|STG_E_INVALIDPOINTER | ppStm ƒ|ƒCƒ“ƒ^‚ª—LŒø‚Å‚È‚¢B| |STG_E_REVERTED |
+ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
+
+[”õl]
+Clone
+ƒƒ\ƒbƒh‚ÍA“¯‚¶ƒoƒCƒg‚ÉƒAƒNƒZƒX‚·‚é‚ª•Ê‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ğg—p‚·‚éV‚µ‚¢ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBV‚µ‚¢ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Íƒ\[ƒXƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Æ“¯‚¶ƒf[ƒ^‚ğQÆ‚·‚éBˆê•û‚ÌƒIƒuƒWƒFƒNƒg‚É‘‚«‚Ü‚ê‚½•ÏX‚ÍA‚à‚¤ˆê•û‚É‚à‚½‚¾‚¿‚É”½‰f‚³‚ê‚éB”ÍˆÍƒƒbƒN‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒgŠÔ‚Å‹¤—L‚³‚ê‚éBƒNƒ[ƒ“‚³‚ê‚½ƒXƒgƒŠ[ƒ€ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚Ì‰Šúİ’è‚ÍAƒNƒ[ƒ“‘€ì‚ÌŒ³‚ÌƒXƒgƒŠ[ƒ€‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ÌŒ»İ‚Ìİ’è‚Æ“¯‚¶‚Å‚ ‚éB
 
 
 %index
 IWICStream_InitializeFromIStream
 •Ê‚ÌƒXƒgƒŠ[ƒ€‚©‚çƒXƒgƒŠ[ƒ€‚ğ‰Šú‰»‚·‚éBƒAƒNƒZƒXŒ ‚ÍŒ³‚ÌƒXƒgƒŠ[ƒ€‚©‚çŒp³‚³‚ê‚éB
+%group
+COM misc / IWICStream
 %prm
 this, pIStream
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -19210,6 +25088,8 @@ pIStream : [comobj] Œ^: IStream* ‰Šú‰»‚Ég—p‚·‚éƒXƒgƒŠ[ƒ€B
 %index
 IWICStream_InitializeFromFilename
 “Á’è‚Ìƒtƒ@ƒCƒ‹‚©‚çƒXƒgƒŠ[ƒ€‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICStream
 %prm
 this, wzFileName, dwDesiredAccess
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -19230,6 +25110,8 @@ IWICBitmapDecoder ‚ğ¶¬‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB
 %index
 IWICStream_InitializeFromMemory
 ƒƒ‚ƒŠƒuƒƒbƒN‚ğƒXƒgƒŠ[ƒ€‚Æ‚µ‚Äˆµ‚¤‚æ‚¤‚ÉƒXƒgƒŠ[ƒ€‚ğ‰Šú‰»‚·‚éBƒXƒgƒŠ[ƒ€‚Íƒoƒbƒtƒ@ƒTƒCƒY‚ğ’´‚¦‚ÄŠg’£‚Å‚«‚È‚¢B
+%group
+COM misc / IWICStream
 %prm
 this, pbBuffer, cbBufferSize
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
@@ -19251,6 +25133,8 @@ cbBufferSize : [int] Œ^: DWORD ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
 %index
 IWICStream_InitializeFromIStreamRegion
 •Ê‚ÌƒXƒgƒŠ[ƒ€‚ÌƒTƒuƒXƒgƒŠ[ƒ€‚Æ‚µ‚ÄƒXƒgƒŠ[ƒ€‚ğ‰Šú‰»‚·‚éB
+%group
+COM misc / IWICStream
 %prm
 this, pIStream, ulOffset, ulMaxSize
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
